@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}How It Works - VRAM Sherpa{% endblock %}
+
+{% block content %}
+<section class="panel prose">
+  <h1>How VRAM Sherpa estimates fit (Policy v0.1)</h1>
+  <p>VRAM Sherpa estimates whether a model variant can fit on your available VRAM for local inference. It is a planning estimate, not a benchmark.</p>
+
+  <h2>Inputs</h2>
+  <ul>
+    <li><code>available_vram_gb</code> from GPU selection or manual VRAM input</li>
+    <li><code>context_tokens</code> from presets (2048 default, 4096, 8192)</li>
+    <li>Variant and model metadata: <code>params_b</code>, <code>bits_effective</code>, <code>kv_gb_per_1k_ctx</code></li>
+  </ul>
+
+  <h2>Formula</h2>
+  <p><code>weights_gb = params_b * bits_effective / 8 * 1.10</code></p>
+  <p><code>kv_cache_gb = kv_gb_per_1k_ctx * (context_tokens / 1000)</code></p>
+  <p><code>runtime_overhead_gb = 1.0 + 0.05 * params_b</code></p>
+  <p><code>required_vram_gb = weights_gb + kv_cache_gb + runtime_overhead_gb</code></p>
+
+  <h2>Reserve buffer</h2>
+  <p><code>reserve_gb = max(0.75, 0.10 * available_vram_gb)</code></p>
+
+  <h2>Classification</h2>
+  <ul>
+    <li><strong>Fits</strong>: <code>required_vram_gb &lt;= available_vram_gb - reserve_gb</code></li>
+    <li><strong>Tight</strong>: <code>available_vram_gb - reserve_gb &lt; required_vram_gb &lt;= available_vram_gb</code></li>
+    <li><strong>Won't fit</strong>: <code>required_vram_gb &gt; available_vram_gb</code></li>
+  </ul>
+
+  <h2>Limitations</h2>
+  <p>Real outcomes vary by runtime, driver stack, memory fragmentation, and CPU/GPU offload behavior. This tool is not a benchmark and does not guarantee performance.</p>
+</section>
+{% endblock %}

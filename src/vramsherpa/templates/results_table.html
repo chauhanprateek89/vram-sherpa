@@ -1,0 +1,36 @@
+{% if results %}
+  <table>
+    <thead>
+      <tr>
+        <th>Model</th>
+        <th>Family</th>
+        <th>Params (B)</th>
+        <th>Quant</th>
+        <th>Bits</th>
+        <th>Required VRAM (GB)</th>
+        <th>Available VRAM (GB)</th>
+        <th>Margin (GB)</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in results %}
+        <tr>
+          <td><a href="/models/{{ row.model_id }}?context_tokens={{ selected_context }}{% if selected_gpu_id %}&gpu_id={{ selected_gpu_id }}{% elif manual_vram is not none %}&vram_gb={{ manual_vram }}{% endif %}">{{ row.model_name }}{% if row.recommended %} *{% endif %}</a></td>
+          <td>{{ row.family }}</td>
+          <td>{{ '%.1f'|format(row.params_b) }}</td>
+          <td>{{ row.quant_label }} ({{ row.quant_bucket }})</td>
+          <td>{{ '%.1f'|format(row.bits_effective) }}</td>
+          <td>{{ '%.2f'|format(row.required_vram_gb) }}</td>
+          <td>{{ '%.2f'|format(row.available_vram_gb) }}</td>
+          <td>{{ '%.2f'|format(row.margin_gb) }}</td>
+          <td>
+            <span class="badge badge-{{ row.classification|lower|replace("'", "")|replace(" ", "-") }}">{{ row.classification }}</span>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p>No model variants match this filter set.</p>
+{% endif %}
