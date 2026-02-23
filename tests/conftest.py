@@ -3,7 +3,6 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
 from vramsherpa import database
@@ -23,33 +22,17 @@ def test_database_url(tmp_path: Path) -> str:
 
 
 @pytest.fixture()
-def app(test_database_url: str, data_dir: Path):
+def app(test_database_url: str):
     settings = Settings(
         database_url=test_database_url,
         app_env="test",
         allowed_hosts=("testserver", "localhost", "127.0.0.1"),
     )
-    app = create_app(settings)
-
-    engine = database.get_engine()
-    database.Base.metadata.drop_all(bind=engine)
-    database.Base.metadata.create_all(bind=engine)
-    assert database.SessionLocal is not None
-    with database.SessionLocal() as session:
-        seed_catalog(session, data_dir=data_dir)
-
-    return app
+    return create_app(settings)
 
 
 @pytest.fixture()
-def client(app):
-    with TestClient(app) as test_client:
-        yield test_client
-
-
-@pytest.fixture()
-def db_session(test_database_url: str) -> Session:
-    database.configure_engine(test_database_url)
+def db_session(app) -> Session:
     engine = database.get_engine()
     database.Base.metadata.drop_all(bind=engine)
     database.Base.metadata.create_all(bind=engine)
