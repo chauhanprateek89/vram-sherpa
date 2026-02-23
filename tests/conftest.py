@@ -4,7 +4,6 @@ import os
 from pathlib import Path
 
 import pytest
-from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
 from vramsherpa import database
@@ -38,11 +37,3 @@ def seeded_session(db_session: Session) -> Session:
     data_dir = Path(__file__).resolve().parents[1] / "data"
     seed_catalog(db_session, data_dir=data_dir)
     return db_session
-
-
-@pytest.fixture()
-def client(seeded_session: Session) -> TestClient:
-    from vramsherpa.main import app
-
-    with TestClient(app) as test_client:
-        yield test_client

@@ -10,6 +10,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends build-essential
 COPY pyproject.toml README.md ./
 COPY src ./src
 COPY data ./data
+COPY tests ./tests
 
 RUN pip install --upgrade pip && pip install .
 
