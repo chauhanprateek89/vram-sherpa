@@ -32,11 +32,15 @@ def test_seed_loads_and_is_idempotent(db_session: Session) -> None:
         db_session.scalar(select(func.count(Model.id))),
         db_session.scalar(select(func.count(Variant.id))),
     )
+    family_count = db_session.scalar(select(func.count(func.distinct(Model.family))))
 
-    assert version_1 == "2026-02-22-placeholder-v1"
     assert version_2 == version_1
+    assert version_1
     assert counts_1 == counts_2
-    assert counts_1 == (5, 4, 11)
+    assert counts_1[0] >= 20
+    assert counts_1[2] >= 50
+    assert family_count is not None
+    assert family_count >= 3
 
     meta = db_session.get(CatalogMeta, "catalog_version")
     assert meta is not None

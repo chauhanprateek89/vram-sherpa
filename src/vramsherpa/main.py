@@ -10,40 +10,19 @@ from fastapi.templating import Jinja2Templates
 from sqlalchemy import Select, distinct, select
 from sqlalchemy.orm import Session
 
-from vramsherpa.database import create_db_and_tables, get_session
+from vramsherpa.config import Settings, get_settings
+from vramsherpa.database import configure_engine, create_db_and_tables, get_session
 from vramsherpa.estimation import FitBadge, estimate_variant
 from vramsherpa.models import GPU, CatalogMeta, Model, Variant
 
 CONTEXT_OPTIONS = (2048, 4096, 8192)
 PACKAGE_DIR = Path(__file__).resolve().parent
 
-app = FastAPI(title="VRAM Sherpa")
-app.mount("/static", StaticFiles(directory=str(PACKAGE_DIR / "static")), name="static")
-templates = Jinja2Templates(directory=str(PACKAGE_DIR / "templates"))
-
-
-@app.on_event("startup")
-def on_startup() -> None:
-    create_db_and_tables()
-
-
-@app.middleware("http")
-async def host_guard(request: Request, call_next):
-    from vramsherpa.config import get_settings
-
-    settings = get_settings()
-    allowed_hosts = settings.allowed_hosts
-    if "*" not in allowed_hosts:
-        host = request.headers.get("host", "").split(":", 1)[0]
-        if host and host not in allowed_hosts:
-            return JSONResponse({"detail": "Host not allowed"}, status_code=400)
-    return await call_next(request)
-
 
 @dataclass
 class ResultRow:
-    variant_id: int
-    model_id: int
+    variant_id: str
+    model_id: str
     model_name: str
     family: str
     params_b: float
@@ -80,9 +59,9 @@ def _load_gpus(session: Session) -> list[GPU]:
 
 def _resolve_available_vram(
     session: Session,
-    gpu_id: int | None,
+    gpu_id: str | None,
     vram_gb: float | None,
-) -> tuple[float, int | None, list[GPU]]:
+) -> tuple[float, str | None, list[GPU]]:
     gpus = _load_gpus(session)
     if vram_gb is not None:
         return float(vram_gb), None, gpus
@@ -185,163 +164,194 @@ def _base_context(request: Request, session: Session) -> dict:
     }
 
 
-@app.get("/", response_class=HTMLResponse)
-def home(
-    request: Request,
-    session: Session = Depends(get_session),
-) -> HTMLResponse:
-    families: list[str] = []
-    quant_buckets: list[str] = []
-    available_vram_gb, selected_gpu_id, gpus = _resolve_available_vram(
-        session, gpu_id=None, vram_gb=None
-    )
-    results = _build_results(
-        session,
-        available_vram_gb=available_vram_gb,
-        context_tokens=2048,
-        families=families,
-        quant_buckets=quant_buckets,
-        min_params_b=None,
-        max_params_b=None,
-        recommended_only=False,
-    )
-    context = _base_context(request, session)
-    context.update(
-        {
-            "gpus": gpus,
-            "results": results,
-            "families": _all_families(session),
-            "quant_options": _all_quant_buckets(session),
-            "selected_gpu_id": selected_gpu_id,
-            "manual_vram": None,
-            "selected_context": 2048,
-            "selected_families": families,
-            "selected_quant_buckets": quant_buckets,
-            "min_params_b": None,
-            "max_params_b": None,
-            "recommended_only": False,
-        }
-    )
-    return templates.TemplateResponse("index.html", context)
+def create_app(settings: Settings | None = None) -> FastAPI:
+    resolved_settings = settings or get_settings()
+    database_url = resolved_settings.database_url
+    if not database_url:
+        if resolved_settings.app_env != "test":
+            msg = "DATABASE_URL must be set when APP_ENV is not 'test'."
+            raise RuntimeError(msg)
+        msg = "DATABASE_URL must be provided when creating the test app."
+        raise RuntimeError(msg)
 
+    configure_engine(database_url)
 
-@app.get("/results", response_class=HTMLResponse)
-def results(
-    request: Request,
-    gpu_id: int | None = Query(default=None),
-    vram_gb: float | None = Query(default=None, gt=0),
-    context_tokens: int = Query(default=2048),
-    family: list[str] = Query(default=[]),
-    quant_bucket: list[str] = Query(default=[]),
-    min_params_b: float | None = Query(default=None, gt=0),
-    max_params_b: float | None = Query(default=None, gt=0),
-    recommended_only: bool = Query(default=False),
-    session: Session = Depends(get_session),
-) -> HTMLResponse:
-    if context_tokens not in CONTEXT_OPTIONS:
-        context_tokens = 2048
+    app = FastAPI(title="VRAM Sherpa")
+    app.state.settings = resolved_settings
+    app.mount("/static", StaticFiles(directory=str(PACKAGE_DIR / "static")), name="static")
+    templates = Jinja2Templates(directory=str(PACKAGE_DIR / "templates"))
 
-    available_vram_gb, selected_gpu_id, gpus = _resolve_available_vram(
-        session, gpu_id=gpu_id, vram_gb=vram_gb
-    )
-    results_rows = _build_results(
-        session,
-        available_vram_gb=available_vram_gb,
-        context_tokens=context_tokens,
-        families=family,
-        quant_buckets=quant_bucket,
-        min_params_b=min_params_b,
-        max_params_b=max_params_b,
-        recommended_only=recommended_only,
-    )
+    @app.on_event("startup")
+    def on_startup() -> None:
+        create_db_and_tables()
 
-    context = _base_context(request, session)
-    context.update(
-        {
-            "gpus": gpus,
-            "results": results_rows,
-            "families": _all_families(session),
-            "quant_options": _all_quant_buckets(session),
-            "selected_gpu_id": selected_gpu_id,
-            "manual_vram": vram_gb,
-            "selected_context": context_tokens,
-            "selected_families": family,
-            "selected_quant_buckets": quant_bucket,
-            "min_params_b": min_params_b,
-            "max_params_b": max_params_b,
-            "recommended_only": recommended_only,
-        }
-    )
+    @app.middleware("http")
+    async def host_guard(request: Request, call_next):
+        app_settings: Settings = request.app.state.settings
+        allowed_hosts = app_settings.allowed_hosts
+        if "*" not in allowed_hosts:
+            host = request.headers.get("host", "").split(":", 1)[0]
+            if host and host not in allowed_hosts:
+                return JSONResponse({"detail": "Host not allowed"}, status_code=400)
+        return await call_next(request)
 
-    if request.headers.get("HX-Request") == "true":
-        return templates.TemplateResponse("results_table.html", context)
-    return templates.TemplateResponse("index.html", context)
-
-
-@app.get("/models/{model_id}", response_class=HTMLResponse)
-def model_detail(
-    request: Request,
-    model_id: int,
-    gpu_id: int | None = Query(default=None),
-    vram_gb: float | None = Query(default=None, gt=0),
-    context_tokens: int = Query(default=2048),
-    session: Session = Depends(get_session),
-) -> HTMLResponse:
-    model = session.get(Model, model_id)
-    if model is None:
-        raise HTTPException(status_code=404, detail="Model not found")
-
-    if context_tokens not in CONTEXT_OPTIONS:
-        context_tokens = 2048
-
-    available_vram_gb, selected_gpu_id, gpus = _resolve_available_vram(
-        session, gpu_id=gpu_id, vram_gb=vram_gb
-    )
-
-    variant_rows: list[dict] = []
-    for variant in sorted(model.variants, key=lambda item: (item.quant_bucket, item.quant_label)):
-        estimate = estimate_variant(
-            params_b=float(model.params_b),
-            bits_effective=float(variant.bits_effective),
-            kv_gb_per_1k_ctx=float(model.kv_gb_per_1k_ctx),
-            context_tokens=context_tokens,
-            available_vram_gb=available_vram_gb,
+    @app.get("/", response_class=HTMLResponse)
+    def home(
+        request: Request,
+        session: Session = Depends(get_session),
+    ) -> HTMLResponse:
+        families: list[str] = []
+        quant_buckets: list[str] = []
+        available_vram_gb, selected_gpu_id, gpus = _resolve_available_vram(
+            session, gpu_id=None, vram_gb=None
         )
-        variant_rows.append(
+        results = _build_results(
+            session,
+            available_vram_gb=available_vram_gb,
+            context_tokens=2048,
+            families=families,
+            quant_buckets=quant_buckets,
+            min_params_b=None,
+            max_params_b=None,
+            recommended_only=False,
+        )
+        context = _base_context(request, session)
+        context.update(
             {
-                "id": variant.id,
-                "quant_bucket": variant.quant_bucket,
-                "quant_label": variant.quant_label,
-                "bits_effective": float(variant.bits_effective),
-                "required_vram_gb": estimate.required_vram_gb,
-                "available_vram_gb": estimate.available_vram_gb,
-                "margin_gb": estimate.margin_gb,
-                "classification": estimate.classification.value,
-                "recommended": bool(variant.recommended),
-                "notes": variant.notes,
-                "sources": variant.sources,
+                "gpus": gpus,
+                "results": results,
+                "families": _all_families(session),
+                "quant_options": _all_quant_buckets(session),
+                "selected_gpu_id": selected_gpu_id,
+                "manual_vram": None,
+                "selected_context": 2048,
+                "selected_families": families,
+                "selected_quant_buckets": quant_buckets,
+                "min_params_b": None,
+                "max_params_b": None,
+                "recommended_only": False,
+            }
+        )
+        return templates.TemplateResponse("index.html", context)
+
+    @app.get("/results", response_class=HTMLResponse)
+    def results(
+        request: Request,
+        gpu_id: str | None = Query(default=None),
+        vram_gb: float | None = Query(default=None, gt=0),
+        context_tokens: int = Query(default=2048),
+        family: list[str] = Query(default=[]),
+        quant_bucket: list[str] = Query(default=[]),
+        min_params_b: float | None = Query(default=None, gt=0),
+        max_params_b: float | None = Query(default=None, gt=0),
+        recommended_only: bool = Query(default=False),
+        session: Session = Depends(get_session),
+    ) -> HTMLResponse:
+        if context_tokens not in CONTEXT_OPTIONS:
+            context_tokens = 2048
+
+        available_vram_gb, selected_gpu_id, gpus = _resolve_available_vram(
+            session, gpu_id=gpu_id, vram_gb=vram_gb
+        )
+        results_rows = _build_results(
+            session,
+            available_vram_gb=available_vram_gb,
+            context_tokens=context_tokens,
+            families=family,
+            quant_buckets=quant_bucket,
+            min_params_b=min_params_b,
+            max_params_b=max_params_b,
+            recommended_only=recommended_only,
+        )
+
+        context = _base_context(request, session)
+        context.update(
+            {
+                "gpus": gpus,
+                "results": results_rows,
+                "families": _all_families(session),
+                "quant_options": _all_quant_buckets(session),
+                "selected_gpu_id": selected_gpu_id,
+                "manual_vram": vram_gb,
+                "selected_context": context_tokens,
+                "selected_families": family,
+                "selected_quant_buckets": quant_bucket,
+                "min_params_b": min_params_b,
+                "max_params_b": max_params_b,
+                "recommended_only": recommended_only,
             }
         )
 
-    context = _base_context(request, session)
-    context.update(
-        {
-            "model": model,
-            "variants": variant_rows,
-            "gpus": gpus,
-            "selected_gpu_id": selected_gpu_id,
-            "manual_vram": vram_gb,
-            "selected_context": context_tokens,
-        }
-    )
-    return templates.TemplateResponse("model_detail.html", context)
+        if request.headers.get("HX-Request") == "true":
+            return templates.TemplateResponse("results_table.html", context)
+        return templates.TemplateResponse("index.html", context)
 
+    @app.get("/models/{model_id}", response_class=HTMLResponse)
+    def model_detail(
+        request: Request,
+        model_id: str,
+        gpu_id: str | None = Query(default=None),
+        vram_gb: float | None = Query(default=None, gt=0),
+        context_tokens: int = Query(default=2048),
+        session: Session = Depends(get_session),
+    ) -> HTMLResponse:
+        model = session.get(Model, model_id)
+        if model is None:
+            raise HTTPException(status_code=404, detail="Model not found")
 
-@app.get("/how-it-works", response_class=HTMLResponse)
-def how_it_works(request: Request, session: Session = Depends(get_session)) -> HTMLResponse:
-    return templates.TemplateResponse("how_it_works.html", _base_context(request, session))
+        if context_tokens not in CONTEXT_OPTIONS:
+            context_tokens = 2048
 
+        available_vram_gb, selected_gpu_id, gpus = _resolve_available_vram(
+            session, gpu_id=gpu_id, vram_gb=vram_gb
+        )
 
-@app.get("/healthz")
-def healthz() -> dict[str, str]:
-    return {"status": "ok"}
+        variant_rows: list[dict] = []
+        for variant in sorted(
+            model.variants, key=lambda item: (item.quant_bucket, item.quant_label)
+        ):
+            estimate = estimate_variant(
+                params_b=float(model.params_b),
+                bits_effective=float(variant.bits_effective),
+                kv_gb_per_1k_ctx=float(model.kv_gb_per_1k_ctx),
+                context_tokens=context_tokens,
+                available_vram_gb=available_vram_gb,
+            )
+            variant_rows.append(
+                {
+                    "id": variant.id,
+                    "quant_bucket": variant.quant_bucket,
+                    "quant_label": variant.quant_label,
+                    "bits_effective": float(variant.bits_effective),
+                    "required_vram_gb": estimate.required_vram_gb,
+                    "available_vram_gb": estimate.available_vram_gb,
+                    "margin_gb": estimate.margin_gb,
+                    "classification": estimate.classification.value,
+                    "recommended": bool(variant.recommended),
+                    "notes": variant.notes,
+                    "sources": variant.sources,
+                }
+            )
+
+        context = _base_context(request, session)
+        context.update(
+            {
+                "model": model,
+                "variants": variant_rows,
+                "gpus": gpus,
+                "selected_gpu_id": selected_gpu_id,
+                "manual_vram": vram_gb,
+                "selected_context": context_tokens,
+            }
+        )
+        return templates.TemplateResponse("model_detail.html", context)
+
+    @app.get("/how-it-works", response_class=HTMLResponse)
+    def how_it_works(request: Request, session: Session = Depends(get_session)) -> HTMLResponse:
+        return templates.TemplateResponse("how_it_works.html", _base_context(request, session))
+
+    @app.get("/healthz")
+    def healthz() -> dict[str, str]:
+        return {"status": "ok"}
+
+    return app

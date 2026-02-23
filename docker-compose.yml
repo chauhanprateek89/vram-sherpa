@@ -19,7 +19,7 @@ services:
       DATABASE_URL: postgresql+psycopg://vramsherpa:vramsherpa@db:5432/vramsherpa
       APP_ENV: dev
       ALLOWED_HOSTS: localhost,127.0.0.1,web,testserver
-    command: sh -c "python -m vramsherpa.seed && uvicorn vramsherpa.main:app --host 0.0.0.0 --port 8000"
+    command: sh -c "python -m vramsherpa.seed && uvicorn vramsherpa.main:create_app --factory --host 0.0.0.0 --port 8000"
     depends_on:
       db:
         condition: service_healthy

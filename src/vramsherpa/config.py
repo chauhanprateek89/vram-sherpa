@@ -6,7 +6,7 @@ from dataclasses import dataclass
 
 @dataclass(frozen=True)
 class Settings:
-    database_url: str
+    database_url: str | None
     app_env: str
     allowed_hosts: tuple[str, ...]
 
@@ -19,7 +19,7 @@ def _parse_allowed_hosts(raw: str | None) -> tuple[str, ...]:
 
 def get_settings() -> Settings:
     return Settings(
-        database_url=os.getenv("DATABASE_URL", "sqlite+pysqlite:///./vramsherpa.db"),
+        database_url=os.getenv("DATABASE_URL"),
         app_env=os.getenv("APP_ENV", "dev"),
         allowed_hosts=_parse_allowed_hosts(os.getenv("ALLOWED_HOSTS")),
     )
