@@ -1,0 +1,8 @@
+name: vram-sherpa
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - pip
+  - pip:
+      - -e ".[dev]"

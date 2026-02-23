@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}VRAM Sherpa{% endblock %}
+
+{% block content %}
+<section class="panel">
+  <h1>Estimate local LLM VRAM fit</h1>
+  <form class="filters" method="get" action="/results" hx-get="/results" hx-target="#results" hx-push-url="true">
+    <div class="row">
+      <label for="gpu_id">GPU</label>
+      <select id="gpu_id" name="gpu_id">
+        <option value="">Manual VRAM</option>
+        {% for gpu in gpus %}
+          <option value="{{ gpu.id }}" {% if selected_gpu_id == gpu.id %}selected{% endif %}>{{ gpu.vendor }} {{ gpu.name }} ({{ '%.1f'|format(gpu.vram_gb) }} GB)</option>
+        {% endfor %}
+      </select>
+
+      <label for="vram_gb">Manual VRAM (GB)</label>
+      <input id="vram_gb" type="number" min="1" step="0.1" name="vram_gb" value="{{ manual_vram if manual_vram is not none else '' }}" />
+
+      <label for="context_tokens">Context</label>
+      <select id="context_tokens" name="context_tokens">
+        {% for value in context_options %}
+          <option value="{{ value }}" {% if selected_context == value %}selected{% endif %}>{{ value }} tokens</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="row">
+      <label for="family">Family</label>
+      <select id="family" name="family" multiple>
+        {% for fam in families %}
+          <option value="{{ fam }}" {% if fam in selected_families %}selected{% endif %}>{{ fam }}</option>
+        {% endfor %}
+      </select>
+
+      <label for="quant_bucket">Quant bucket</label>
+      <select id="quant_bucket" name="quant_bucket" multiple>
+        {% for quant in quant_options %}
+          <option value="{{ quant }}" {% if quant in selected_quant_buckets %}selected{% endif %}>{{ quant }}</option>
+        {% endfor %}
+      </select>
+
+      <label for="min_params_b">Min params (B)</label>
+      <input id="min_params_b" type="number" min="0" step="0.1" name="min_params_b" value="{{ min_params_b if min_params_b is not none else '' }}" />
+
+      <label for="max_params_b">Max params (B)</label>
+      <input id="max_params_b" type="number" min="0" step="0.1" name="max_params_b" value="{{ max_params_b if max_params_b is not none else '' }}" />
+
+      <label class="checkbox"><input type="checkbox" name="recommended_only" value="true" {% if recommended_only %}checked{% endif %} /> Recommended only</label>
+    </div>
+
+    <button type="submit">Show results</button>
+  </form>
+</section>
+
+<section id="results" class="panel">
+  {% include "results_table.html" %}
+</section>
+{% endblock %}

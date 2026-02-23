@@ -1,0 +1,236 @@
+{
+  "catalog_version": "2026-02-22",
+  "items": [
+    {
+      "id": "gpu_nvidia_rtx_4090_24gb",
+      "vendor": "NVIDIA",
+      "name": "GeForce RTX 4090",
+      "vram_gb": 24,
+      "notes": "Desktop (Ada Lovelace).",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4090/"
+      ]
+    },
+    {
+      "id": "gpu_nvidia_rtx_4080_super_16gb",
+      "vendor": "NVIDIA",
+      "name": "GeForce RTX 4080 SUPER",
+      "vram_gb": 16,
+      "notes": "Desktop (Ada Lovelace).",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4080-family/"
+      ]
+    },
+    {
+      "id": "gpu_nvidia_rtx_4070_ti_super_16gb",
+      "vendor": "NVIDIA",
+      "name": "GeForce RTX 4070 Ti SUPER",
+      "vram_gb": 16,
+      "notes": "Desktop (Ada Lovelace).",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4070-family/"
+      ]
+    },
+    {
+      "id": "gpu_nvidia_rtx_4070_super_12gb",
+      "vendor": "NVIDIA",
+      "name": "GeForce RTX 4070 SUPER",
+      "vram_gb": 12,
+      "notes": "Desktop (Ada Lovelace).",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4070-family/"
+      ]
+    },
+    {
+      "id": "gpu_nvidia_rtx_4070_12gb",
+      "vendor": "NVIDIA",
+      "name": "GeForce RTX 4070",
+      "vram_gb": 12,
+      "notes": "Desktop (Ada Lovelace). Some AIBs use GDDR6X; spec page lists standard memory config 12GB.",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4070-family/"
+      ]
+    },
+    {
+      "id": "gpu_nvidia_rtx_4060_ti_16gb",
+      "vendor": "NVIDIA",
+      "name": "GeForce RTX 4060 Ti (16GB)",
+      "vram_gb": 16,
+      "notes": "Desktop (Ada Lovelace).",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4060-4060ti/"
+      ]
+    },
+    {
+      "id": "gpu_nvidia_rtx_4060_ti_8gb",
+      "vendor": "NVIDIA",
+      "name": "GeForce RTX 4060 Ti (8GB)",
+      "vram_gb": 8,
+      "notes": "Desktop (Ada Lovelace).",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4060-4060ti/"
+      ]
+    },
+    {
+      "id": "gpu_nvidia_rtx_4060_8gb",
+      "vendor": "NVIDIA",
+      "name": "GeForce RTX 4060",
+      "vram_gb": 8,
+      "notes": "Desktop (Ada Lovelace).",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4060-4060ti/"
+      ]
+    },
+    {
+      "id": "gpu_nvidia_rtx_4090_laptop_16gb",
+      "vendor": "NVIDIA",
+      "name": "GeForce RTX 4090 Laptop GPU",
+      "vram_gb": 16,
+      "notes": "Laptop GPU (Ada Lovelace).",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/laptops/40-series/"
+      ]
+    },
+    {
+      "id": "gpu_nvidia_rtx_4080_laptop_12gb",
+      "vendor": "NVIDIA",
+      "name": "GeForce RTX 4080 Laptop GPU",
+      "vram_gb": 12,
+      "notes": "Laptop GPU (Ada Lovelace).",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/laptops/40-series/"
+      ]
+    },
+    {
+      "id": "gpu_nvidia_rtx_4070_laptop_8gb",
+      "vendor": "NVIDIA",
+      "name": "GeForce RTX 4070 Laptop GPU",
+      "vram_gb": 8,
+      "notes": "Laptop GPU (Ada Lovelace).",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/laptops/40-series/"
+      ]
+    },
+    {
+      "id": "gpu_nvidia_rtx_4060_laptop_8gb",
+      "vendor": "NVIDIA",
+      "name": "GeForce RTX 4060 Laptop GPU",
+      "vram_gb": 8,
+      "notes": "Laptop GPU (Ada Lovelace).",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/laptops/40-series/"
+      ]
+    },
+    {
+      "id": "gpu_nvidia_rtx_4050_laptop_6gb",
+      "vendor": "NVIDIA",
+      "name": "GeForce RTX 4050 Laptop GPU",
+      "vram_gb": 6,
+      "notes": "Laptop GPU (Ada Lovelace).",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/laptops/40-series/"
+      ]
+    },
+    {
+      "id": "gpu_amd_rx_7900_xtx_24gb",
+      "vendor": "AMD",
+      "name": "Radeon RX 7900 XTX",
+      "vram_gb": 24,
+      "notes": "Desktop (RDNA 3).",
+      "sources": [
+        "https://www.amd.com/en/products/graphics/desktops/radeon/7000-series/amd-radeon-rx-7900xtx.html"
+      ]
+    },
+    {
+      "id": "gpu_amd_rx_7900_xt_20gb",
+      "vendor": "AMD",
+      "name": "Radeon RX 7900 XT",
+      "vram_gb": 20,
+      "notes": "Desktop (RDNA 3).",
+      "sources": [
+        "https://www.amd.com/en/products/graphics/desktops/radeon/7000-series/amd-radeon-rx-7900xt.html"
+      ]
+    },
+    {
+      "id": "gpu_amd_rx_7800_xt_16gb",
+      "vendor": "AMD",
+      "name": "Radeon RX 7800 XT",
+      "vram_gb": 16,
+      "notes": "Desktop (RDNA 3).",
+      "sources": [
+        "https://www.amd.com/en/products/graphics/desktops/radeon/7000-series/amd-radeon-rx-7800-xt.html"
+      ]
+    },
+    {
+      "id": "gpu_amd_rx_7700_xt_12gb",
+      "vendor": "AMD",
+      "name": "Radeon RX 7700 XT",
+      "vram_gb": 12,
+      "notes": "Desktop (RDNA 3).",
+      "sources": [
+        "https://www.amd.com/en/products/graphics/desktops/radeon/7000-series/amd-radeon-rx-7700-xt.html"
+      ]
+    },
+    {
+      "id": "gpu_amd_rx_7600_xt_16gb",
+      "vendor": "AMD",
+      "name": "Radeon RX 7600 XT",
+      "vram_gb": 16,
+      "notes": "Desktop (RDNA 3).",
+      "sources": [
+        "https://www.amd.com/en/products/graphics/desktops/radeon/7000-series/amd-radeon-rx-7600-xt.html"
+      ]
+    },
+    {
+      "id": "gpu_amd_rx_7600_8gb",
+      "vendor": "AMD",
+      "name": "Radeon RX 7600",
+      "vram_gb": 8,
+      "notes": "Desktop (RDNA 3).",
+      "sources": [
+        "https://www.amd.com/en/products/graphics/desktops/radeon/7000-series/amd-radeon-rx-7600.html"
+      ]
+    },
+    {
+      "id": "gpu_amd_rx_6800_xt_16gb",
+      "vendor": "AMD",
+      "name": "Radeon RX 6800 XT",
+      "vram_gb": 16,
+      "notes": "Desktop (RDNA 2).",
+      "sources": [
+        "https://www.amd.com/en/products/graphics/desktops/radeon/6000-series/amd-radeon-rx-6800-xt.html"
+      ]
+    },
+    {
+      "id": "gpu_amd_rx_6700_xt_12gb",
+      "vendor": "AMD",
+      "name": "Radeon RX 6700 XT",
+      "vram_gb": 12,
+      "notes": "Desktop (RDNA 2).",
+      "sources": [
+        "https://www.amd.com/en/products/graphics/desktops/radeon/6000-series/amd-radeon-rx-6700-xt.html"
+      ]
+    },
+    {
+      "id": "gpu_amd_rx_7900m_laptop_16gb",
+      "vendor": "AMD",
+      "name": "Radeon RX 7900M",
+      "vram_gb": 16,
+      "notes": "Laptop GPU (RDNA 3).",
+      "sources": [
+        "https://www.amd.com/en/support/downloads/drivers.html/graphics/radeon-rx/radeon-rx-7000-series/amd-radeon-rx-7900m.html",
+        "https://www.amd.com/en/newsroom/press-releases/2023-10-19-amd-introduces-fastest-amd-radeon-laptop-graphics-.html"
+      ]
+    },
+    {
+      "id": "gpu_amd_rx_7800m_laptop_12gb",
+      "vendor": "AMD",
+      "name": "Radeon RX 7800M",
+      "vram_gb": 12,
+      "notes": "Laptop GPU (RDNA 3).",
+      "sources": [
+        "https://www.amd.com/en/products/graphics/laptops/radeon/7000-series/amd-radeon-rx-7800m.html"
+      ]
+    }
+  ]
+}
