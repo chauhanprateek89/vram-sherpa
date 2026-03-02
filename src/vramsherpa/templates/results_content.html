@@ -1,0 +1,102 @@
+<section class="summary-banner" id="summary-banner">
+  <h2>Summary for this query</h2>
+  <div class="summary-grid">
+    <div class="summary-stat">
+      <strong>{{ summary_counts["Fits"] }}</strong>
+      <span>Fits</span>
+    </div>
+    <div class="summary-stat">
+      <strong>{{ summary_counts["Tight"] }}</strong>
+      <span>Tight</span>
+    </div>
+    <div class="summary-stat">
+      <strong>{{ summary_counts["Won't fit"] }}</strong>
+      <span>Won't fit</span>
+    </div>
+  </div>
+</section>
+
+{% if top_picks %}
+  <section class="panel top-picks">
+    <h2>Top Picks for you</h2>
+    <div class="top-pick-grid">
+      {% for pick in top_picks %}
+        <article class="top-pick-card">
+          <p class="eyebrow">{{ pick.title }}</p>
+          <h3>
+            <a href="/models/{{ pick.row.model_id }}?{{ hardware_query_string }}">{{ pick.row.model_name }}</a>
+          </h3>
+          <p>{{ '%.1f'|format(pick.row.params_b) }}B · {{ pick.row.quant_label }}</p>
+          <p class="muted">{{ pick.description }}</p>
+        </article>
+      {% endfor %}
+    </div>
+  </section>
+{% endif %}
+
+{% if active_filter_chips %}
+  <section class="active-filters">
+    <span>Active filters:</span>
+    {% for chip in active_filter_chips %}
+      <a class="chip chip-active" href="{{ chip.remove_url }}">
+        {{ chip.label }} ×
+      </a>
+    {% endfor %}
+  </section>
+{% endif %}
+
+{% if results %}
+  <section class="results-cards">
+    {% for row in results %}
+      <article class="panel result-card">
+        <div class="result-head">
+          <h3>
+            <a href="/models/{{ row.model_id }}?{{ hardware_query_string }}">{{ row.model_name }}</a>
+          </h3>
+          <p class="muted">{{ row.family }} · {{ '%.1f'|format(row.params_b) }}B params</p>
+        </div>
+
+        <div class="result-badges">
+          <span class="badge badge-quant">{{ row.quant_bucket }}</span>
+          <span class="badge badge-{{ row.classification_slug }}">{{ row.classification }}</span>
+          {% if row.recommended %}
+            <span class="badge badge-recommended">Recommended</span>
+          {% endif %}
+        </div>
+
+        <dl class="numbers-grid">
+          <div>
+            <dt>Required VRAM</dt>
+            <dd>{{ '%.2f'|format(row.required_vram_gb) }} GB</dd>
+          </div>
+          <div>
+            <dt>Available VRAM</dt>
+            <dd>{{ '%.2f'|format(row.available_vram_gb) }} GB</dd>
+          </div>
+          <div>
+            <dt>Margin</dt>
+            <dd>{{ '%.2f'|format(row.margin_gb) }} GB</dd>
+          </div>
+        </dl>
+
+        <details class="why-panel">
+          <summary
+            hx-get="/results/why/{{ row.variant_id }}?{{ hardware_query_string }}"
+            hx-target="#why-{{ row.variant_id }}"
+            hx-swap="innerHTML"
+            hx-trigger="click once"
+          >
+            Why?
+          </summary>
+          <div id="why-{{ row.variant_id }}" class="why-content">
+            <p class="muted">Open to load breakdown.</p>
+          </div>
+        </details>
+      </article>
+    {% endfor %}
+  </section>
+{% else %}
+  <section class="panel">
+    <p>No model variants match this filter set.</p>
+  </section>
+{% endif %}

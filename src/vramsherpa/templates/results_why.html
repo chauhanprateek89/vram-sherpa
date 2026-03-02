@@ -1,0 +1,9 @@
+<div class="why-breakdown">
+  <p><strong>{{ variant.quant_label }} on {{ model.name }}</strong></p>
+  <ul>
+    <li>weights_gb: {{ '%.2f'|format(breakdown.weights_gb) }}</li>
+    <li>kv_cache_gb: {{ '%.2f'|format(breakdown.kv_cache_gb) }}</li>
+    <li>runtime_overhead_gb: {{ '%.2f'|format(breakdown.runtime_overhead_gb) }}</li>
+    <li>reserve_gb: {{ '%.2f'|format(breakdown.reserve_gb) }}</li>
+  </ul>
+</div>
