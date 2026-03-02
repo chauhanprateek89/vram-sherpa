@@ -1,5 +1,6 @@
 <section class="summary-banner" id="summary-banner">
   <h2>Summary for this query</h2>
+  <p class="summary-note">Showing only Fits and Tight models in the list below.</p>
   <div class="summary-grid">
     <div class="summary-stat">
       <strong>{{ summary_counts["Fits"] }}</strong>
@@ -97,6 +98,9 @@
   </section>
 {% else %}
   <section class="panel">
-    <p>No model variants match this filter set.</p>
+    <p>No fitting variants match this filter set.</p>
+    {% if summary_counts["Won't fit"] > 0 %}
+      <p class="muted">There are {{ summary_counts["Won't fit"] }} variants in Won't fit, hidden by default.</p>
+    {% endif %}
   </section>
 {% endif %}

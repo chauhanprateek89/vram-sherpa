@@ -1,6 +1,10 @@
 function applyTheme(theme) {
   document.documentElement.dataset.theme = theme;
-  localStorage.setItem("vramsherpa-theme", theme);
+  try {
+    localStorage.setItem("vramsherpa-theme", theme);
+  } catch (err) {
+    // Ignore storage errors in restricted browser contexts.
+  }
   var toggle = document.getElementById("theme-toggle");
   if (toggle) {
     toggle.textContent = theme === "dark" ? "Light mode" : "Dark mode";
@@ -51,15 +55,24 @@ function initGpuInputs() {
   var gpuSearch = document.getElementById("gpu_search");
   var gpuIdInput = document.getElementById("gpu_id");
   var vramInput = document.getElementById("vram_gb");
+  var clearButton = document.getElementById("clear-gpu");
   if (!gpuSearch || !gpuIdInput) {
     return;
   }
 
   function syncGpuSelection() {
     var match = findGpuOptionByValue(gpuSearch.value);
-    gpuIdInput.value = match ? match.getAttribute("data-gpu-id") || "" : "";
+    if (match) {
+      gpuIdInput.value = match.getAttribute("data-gpu-id") || "";
+      if (vramInput) {
+        vramInput.value = "";
+      }
+      return;
+    }
+    gpuIdInput.value = "";
   }
 
+  gpuSearch.addEventListener("input", syncGpuSelection);
   gpuSearch.addEventListener("change", syncGpuSelection);
   gpuSearch.addEventListener("blur", syncGpuSelection);
   syncGpuSelection();
@@ -69,6 +82,14 @@ function initGpuInputs() {
       if (vramInput.value) {
         gpuIdInput.value = "";
       }
+    });
+  }
+
+  if (clearButton) {
+    clearButton.addEventListener("click", function () {
+      gpuSearch.value = "";
+      gpuIdInput.value = "";
+      gpuSearch.focus();
     });
   }
 }

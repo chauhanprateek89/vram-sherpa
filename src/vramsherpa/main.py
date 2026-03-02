@@ -17,7 +17,7 @@ from vramsherpa.estimation import FitBadge, estimate_breakdown, estimate_variant
 from vramsherpa.models import GPU, CatalogMeta, Model, Variant
 
 CONTEXT_OPTIONS = (2048, 4096, 8192)
-ASSET_VERSION = "20260303a"
+ASSET_VERSION = "20260303b"
 PACKAGE_DIR = Path(__file__).resolve().parent
 templates = Jinja2Templates(directory=str(PACKAGE_DIR / "templates"))
 
@@ -107,14 +107,11 @@ def _resolve_available_vram(
     if vram_gb is not None:
         return float(vram_gb), None, gpus
 
-    selected_gpu = None
     if gpu_id is not None:
         selected_gpu = session.get(GPU, gpu_id)
-    if selected_gpu is None and gpus:
-        selected_gpu = gpus[0]
-    if selected_gpu is None:
-        return 8.0, None, gpus
-    return float(selected_gpu.vram_gb), selected_gpu.id, gpus
+        if selected_gpu is not None:
+            return float(selected_gpu.vram_gb), selected_gpu.id, gpus
+    return 8.0, None, gpus
 
 
 def _variant_query(
@@ -425,6 +422,9 @@ def _results_context(
     max_params_b: float | None,
     recommended_only: bool,
 ) -> dict:
+    visible_results = [
+        row for row in results_rows if row.classification != FitBadge.WONT_FIT.value
+    ]
     hardware_items = _query_items(
         selected_gpu_id=selected_gpu_id,
         manual_vram=manual_vram,
@@ -439,7 +439,7 @@ def _results_context(
     context.update(
         {
             "gpus": gpus,
-            "results": results_rows,
+            "results": visible_results,
             "families": _all_families(session),
             "quant_options": _all_quant_buckets(session),
             "selected_gpu_id": selected_gpu_id,
@@ -452,7 +452,7 @@ def _results_context(
             "max_params_b": max_params_b,
             "recommended_only": recommended_only,
             "summary_counts": _summary_counts(results_rows),
-            "top_picks": _top_picks(results_rows),
+            "top_picks": _top_picks(visible_results),
             "active_filter_chips": _active_filter_chips(
                 selected_gpu_id=selected_gpu_id,
                 manual_vram=manual_vram,
@@ -476,6 +476,7 @@ def _base_context(request: Request, session: Session) -> dict:
         "context_options": CONTEXT_OPTIONS,
         "catalog_version": _catalog_version(session),
         "asset_version": ASSET_VERSION,
+        "current_path": request.url.path,
     }
 
 

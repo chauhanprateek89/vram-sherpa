@@ -37,6 +37,7 @@ where = ["src"]
 vramsherpa = [
   "templates/*.html",
   "static/css/*.css",
+  "static/js/*.js",
 ]
 
 [tool.ruff]
