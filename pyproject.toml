@@ -43,6 +43,7 @@ vramsherpa = [
 [tool.ruff]
 line-length = 100
 src = ["src", "tests"]
+extend-exclude = ["build"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP"]

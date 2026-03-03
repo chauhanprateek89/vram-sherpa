@@ -484,9 +484,7 @@ def _summary_counts(rows: list[ResultRow]) -> dict[str, int]:
 def _top_picks(rows: list[ResultRow]) -> list[TopPick]:
     fits = [row for row in rows if row.classification == FitBadge.FITS.value]
     viable = [
-        row
-        for row in rows
-        if row.classification in (FitBadge.FITS.value, FitBadge.TIGHT.value)
+        row for row in rows if row.classification in (FitBadge.FITS.value, FitBadge.TIGHT.value)
     ]
     if not fits or len(viable) < 3:
         return []
@@ -565,9 +563,7 @@ def _results_context(
     min_params_b_input: str | None = None,
     max_params_b_input: str | None = None,
 ) -> dict:
-    visible_results = [
-        row for row in results_rows if row.classification != FitBadge.WONT_FIT.value
-    ]
+    visible_results = [row for row in results_rows if row.classification != FitBadge.WONT_FIT.value]
     hardware_items = _query_items(
         selected_gpu_id=selected_gpu_id,
         gpu_search=gpu_search,
