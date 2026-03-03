@@ -18,7 +18,7 @@ from vramsherpa.estimation import FitBadge, estimate_breakdown, estimate_variant
 from vramsherpa.models import GPU, CatalogMeta, Model, Variant
 
 CONTEXT_OPTIONS = (2048, 4096, 8192)
-ASSET_VERSION = "20260303c"
+ASSET_VERSION = "20260303d"
 PACKAGE_DIR = Path(__file__).resolve().parent
 templates = Jinja2Templates(directory=str(PACKAGE_DIR / "templates"))
 
@@ -274,6 +274,24 @@ def _selected_gpu_label(gpus: list[GPU], selected_gpu_id: str | None) -> str:
         if gpu.id == selected_gpu_id:
             return _gpu_option_label(gpu)
     return ""
+
+
+def _context_label(context_tokens: int) -> str:
+    labels = {2048: "2k", 4096: "4k", 8192: "8k"}
+    return labels.get(context_tokens, str(context_tokens))
+
+
+def _selected_hardware_label(
+    *,
+    selected_gpu_label: str,
+    manual_vram: float | None,
+    available_vram_gb: float,
+) -> str:
+    if selected_gpu_label:
+        return selected_gpu_label
+    if manual_vram is not None:
+        return f"Manual VRAM ({manual_vram:g} GB)"
+    return f"Assumed VRAM ({available_vram_gb:g} GB)"
 
 
 def _gpu_option_label(gpu: GPU) -> str:
@@ -546,6 +564,7 @@ def _results_context(
     request: Request,
     session: Session,
     *,
+    available_vram_gb: float,
     gpus: list[GPU],
     results_rows: list[ResultRow],
     selected_gpu_id: str | None,
@@ -564,6 +583,7 @@ def _results_context(
     max_params_b_input: str | None = None,
 ) -> dict:
     visible_results = [row for row in results_rows if row.classification != FitBadge.WONT_FIT.value]
+    selected_gpu_label = _selected_gpu_label(gpus, selected_gpu_id)
     hardware_items = _query_items(
         selected_gpu_id=selected_gpu_id,
         gpu_search=gpu_search,
@@ -583,8 +603,8 @@ def _results_context(
             "families": _all_families(session),
             "quant_options": _all_quant_buckets(session),
             "selected_gpu_id": selected_gpu_id,
-            "selected_gpu_label": _selected_gpu_label(gpus, selected_gpu_id),
-            "gpu_search_text": _selected_gpu_label(gpus, selected_gpu_id) or (gpu_search or ""),
+            "selected_gpu_label": selected_gpu_label,
+            "gpu_search_text": selected_gpu_label or (gpu_search or ""),
             "manual_vram": manual_vram,
             "manual_vram_input": (
                 manual_vram_input
@@ -610,6 +630,12 @@ def _results_context(
             "form_errors": form_errors or [],
             "gpu_search_feedback": gpu_search_feedback,
             "summary_counts": _summary_counts(results_rows),
+            "selected_hardware_label": _selected_hardware_label(
+                selected_gpu_label=selected_gpu_label,
+                manual_vram=manual_vram,
+                available_vram_gb=available_vram_gb,
+            ),
+            "selected_context_label": _context_label(selected_context),
             "top_picks": _top_picks(visible_results),
             "active_filter_chips": _active_filter_chips(
                 selected_gpu_id=selected_gpu_id,
@@ -639,56 +665,20 @@ def _base_context(request: Request, session: Session) -> dict:
     }
 
 
-def home(
+def _results_page_context(
     request: Request,
-    session: Session = Depends(get_session),
-) -> HTMLResponse:
-    families: list[str] = []
-    quant_buckets: list[str] = []
-    available_vram_gb, selected_gpu_id, gpus, _ = _resolve_available_vram(
-        session, gpu_id=None, vram_gb=None, gpu_search=None
-    )
-    results = _build_results(
-        session,
-        available_vram_gb=available_vram_gb,
-        context_tokens=2048,
-        families=families,
-        quant_buckets=quant_buckets,
-        min_params_b=None,
-        max_params_b=None,
-        recommended_only=False,
-    )
-    context = _results_context(
-        request,
-        session,
-        gpus=gpus,
-        results_rows=results,
-        selected_gpu_id=selected_gpu_id,
-        gpu_search=None,
-        manual_vram=None,
-        selected_context=2048,
-        selected_families=families,
-        selected_quant_buckets=quant_buckets,
-        min_params_b=None,
-        max_params_b=None,
-        recommended_only=False,
-    )
-    return templates.TemplateResponse(request, "index.html", context)
-
-
-def results(
-    request: Request,
-    gpu_id: str | None = Query(default=None),
-    gpu_search: str | None = Query(default=None),
-    vram_gb: str | None = Query(default=None),
-    context_tokens: int = Query(default=2048),
-    family: list[str] = Query(default=[]),
-    quant_bucket: list[str] = Query(default=[]),
-    min_params_b: str | None = Query(default=None),
-    max_params_b: str | None = Query(default=None),
-    recommended_only: bool = Query(default=False),
-    session: Session = Depends(get_session),
-) -> HTMLResponse:
+    session: Session,
+    *,
+    gpu_id: str | None,
+    gpu_search: str | None,
+    vram_gb: str | None,
+    context_tokens: int,
+    family: list[str],
+    quant_bucket: list[str],
+    min_params_b: str | None,
+    max_params_b: str | None,
+    recommended_only: bool,
+) -> dict:
     form_errors: list[str] = []
     parsed_vram_result = _safe_parse_optional_float(
         vram_gb, field_name="vram_gb", min_value=0.000001
@@ -739,10 +729,10 @@ def results(
         max_params_b=parsed_max_params_b,
         recommended_only=recommended_only,
     )
-
-    context = _results_context(
+    return _results_context(
         request,
         session,
+        available_vram_gb=available_vram_gb,
         gpus=gpus,
         results_rows=results_rows,
         selected_gpu_id=selected_gpu_id,
@@ -761,9 +751,162 @@ def results(
         max_params_b_input=max_params_b if isinstance(max_params_b, str) else None,
     )
 
+
+def home(
+    request: Request,
+    session: Session = Depends(get_session),
+) -> HTMLResponse:
+    families: list[str] = []
+    quant_buckets: list[str] = []
+    available_vram_gb, selected_gpu_id, gpus, _ = _resolve_available_vram(
+        session, gpu_id=None, vram_gb=None, gpu_search=None
+    )
+    results = _build_results(
+        session,
+        available_vram_gb=available_vram_gb,
+        context_tokens=2048,
+        families=families,
+        quant_buckets=quant_buckets,
+        min_params_b=None,
+        max_params_b=None,
+        recommended_only=False,
+    )
+    context = _results_context(
+        request,
+        session,
+        available_vram_gb=available_vram_gb,
+        gpus=gpus,
+        results_rows=results,
+        selected_gpu_id=selected_gpu_id,
+        gpu_search=None,
+        manual_vram=None,
+        selected_context=2048,
+        selected_families=families,
+        selected_quant_buckets=quant_buckets,
+        min_params_b=None,
+        max_params_b=None,
+        recommended_only=False,
+    )
+    return templates.TemplateResponse(request, "index.html", context)
+
+
+def results(
+    request: Request,
+    gpu_id: str | None = Query(default=None),
+    gpu_search: str | None = Query(default=None),
+    vram_gb: str | None = Query(default=None),
+    context_tokens: int = Query(default=2048),
+    family: list[str] = Query(default=[]),
+    quant_bucket: list[str] = Query(default=[]),
+    min_params_b: str | None = Query(default=None),
+    max_params_b: str | None = Query(default=None),
+    recommended_only: bool = Query(default=False),
+    session: Session = Depends(get_session),
+) -> HTMLResponse:
+    context = _results_page_context(
+        request,
+        session,
+        gpu_id=gpu_id,
+        gpu_search=gpu_search,
+        vram_gb=vram_gb,
+        context_tokens=context_tokens,
+        family=family,
+        quant_bucket=quant_bucket,
+        min_params_b=min_params_b,
+        max_params_b=max_params_b,
+        recommended_only=recommended_only,
+    )
+
     if request.headers.get("HX-Request") == "true":
         return templates.TemplateResponse(request, "results_content.html", context)
     return templates.TemplateResponse(request, "index.html", context)
+
+
+def results_partial_content(
+    request: Request,
+    gpu_id: str | None = Query(default=None),
+    gpu_search: str | None = Query(default=None),
+    vram_gb: str | None = Query(default=None),
+    context_tokens: int = Query(default=2048),
+    family: list[str] = Query(default=[]),
+    quant_bucket: list[str] = Query(default=[]),
+    min_params_b: str | None = Query(default=None),
+    max_params_b: str | None = Query(default=None),
+    recommended_only: bool = Query(default=False),
+    session: Session = Depends(get_session),
+) -> HTMLResponse:
+    context = _results_page_context(
+        request,
+        session,
+        gpu_id=gpu_id,
+        gpu_search=gpu_search,
+        vram_gb=vram_gb,
+        context_tokens=context_tokens,
+        family=family,
+        quant_bucket=quant_bucket,
+        min_params_b=min_params_b,
+        max_params_b=max_params_b,
+        recommended_only=recommended_only,
+    )
+    return templates.TemplateResponse(request, "results_content.html", context)
+
+
+def results_partial_summary(
+    request: Request,
+    gpu_id: str | None = Query(default=None),
+    gpu_search: str | None = Query(default=None),
+    vram_gb: str | None = Query(default=None),
+    context_tokens: int = Query(default=2048),
+    family: list[str] = Query(default=[]),
+    quant_bucket: list[str] = Query(default=[]),
+    min_params_b: str | None = Query(default=None),
+    max_params_b: str | None = Query(default=None),
+    recommended_only: bool = Query(default=False),
+    session: Session = Depends(get_session),
+) -> HTMLResponse:
+    context = _results_page_context(
+        request,
+        session,
+        gpu_id=gpu_id,
+        gpu_search=gpu_search,
+        vram_gb=vram_gb,
+        context_tokens=context_tokens,
+        family=family,
+        quant_bucket=quant_bucket,
+        min_params_b=min_params_b,
+        max_params_b=max_params_b,
+        recommended_only=recommended_only,
+    )
+    return templates.TemplateResponse(request, "results_summary.html", context)
+
+
+def results_partial_list(
+    request: Request,
+    gpu_id: str | None = Query(default=None),
+    gpu_search: str | None = Query(default=None),
+    vram_gb: str | None = Query(default=None),
+    context_tokens: int = Query(default=2048),
+    family: list[str] = Query(default=[]),
+    quant_bucket: list[str] = Query(default=[]),
+    min_params_b: str | None = Query(default=None),
+    max_params_b: str | None = Query(default=None),
+    recommended_only: bool = Query(default=False),
+    session: Session = Depends(get_session),
+) -> HTMLResponse:
+    context = _results_page_context(
+        request,
+        session,
+        gpu_id=gpu_id,
+        gpu_search=gpu_search,
+        vram_gb=vram_gb,
+        context_tokens=context_tokens,
+        family=family,
+        quant_bucket=quant_bucket,
+        min_params_b=min_params_b,
+        max_params_b=max_params_b,
+        recommended_only=recommended_only,
+    )
+    return templates.TemplateResponse(request, "results_list.html", context)
 
 
 def variant_breakdown(
@@ -904,6 +1047,24 @@ def create_app(settings: Settings | None = None, *, database_url: str | None = N
     app.middleware("http")(host_guard)
     app.add_api_route("/", home, methods=["GET"], response_class=HTMLResponse)
     app.add_api_route("/results", results, methods=["GET"], response_class=HTMLResponse)
+    app.add_api_route(
+        "/results/partials/content",
+        results_partial_content,
+        methods=["GET"],
+        response_class=HTMLResponse,
+    )
+    app.add_api_route(
+        "/results/partials/summary",
+        results_partial_summary,
+        methods=["GET"],
+        response_class=HTMLResponse,
+    )
+    app.add_api_route(
+        "/results/partials/list",
+        results_partial_list,
+        methods=["GET"],
+        response_class=HTMLResponse,
+    )
     app.add_api_route(
         "/results/why/{variant_id}",
         variant_breakdown,

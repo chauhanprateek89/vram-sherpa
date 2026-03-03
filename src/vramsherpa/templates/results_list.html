@@ -1,0 +1,63 @@
+<section class="results-header">
+  <h2>Results</h2>
+  <p class="muted">Showing {{ results|length }} model variants that fit or are tight.</p>
+</section>
+
+{% if results %}
+  <section class="results-cards" id="results-cards">
+    {% for row in results %}
+      <article class="panel result-card">
+        <div class="result-head">
+          <h3>
+            <a href="/models/{{ row.model_id }}?{{ hardware_query_string }}">{{ row.model_name }}</a>
+          </h3>
+          <p class="muted">{{ row.family }} · {{ '%.1f'|format(row.params_b) }}B params</p>
+        </div>
+
+        <div class="result-badges">
+          <span class="badge badge-quant">{{ row.quant_bucket }}</span>
+          <span class="badge badge-{{ row.classification_slug }}">{{ row.classification }}</span>
+          {% if row.recommended %}
+            <span class="badge badge-recommended">Recommended</span>
+          {% endif %}
+        </div>
+
+        <dl class="numbers-grid">
+          <div>
+            <dt>Required VRAM</dt>
+            <dd>{{ '%.2f'|format(row.required_vram_gb) }} GB</dd>
+          </div>
+          <div>
+            <dt>Available VRAM</dt>
+            <dd>{{ '%.2f'|format(row.available_vram_gb) }} GB</dd>
+          </div>
+          <div>
+            <dt>Margin</dt>
+            <dd>{{ '%.2f'|format(row.margin_gb) }} GB</dd>
+          </div>
+        </dl>
+
+        <details class="why-panel">
+          <summary
+            hx-get="/results/why/{{ row.variant_id }}?{{ hardware_query_string }}"
+            hx-target="#why-{{ row.variant_id }}"
+            hx-swap="innerHTML"
+            hx-trigger="click once"
+          >
+            Why?
+          </summary>
+          <div id="why-{{ row.variant_id }}" class="why-content">
+            <p class="muted">Open to load breakdown.</p>
+          </div>
+        </details>
+      </article>
+    {% endfor %}
+  </section>
+{% else %}
+  <section class="panel">
+    <p>No fitting variants match this filter set.</p>
+    {% if summary_counts["Won't fit"] > 0 %}
+      <p class="muted">There are {{ summary_counts["Won't fit"] }} variants in Won't fit, hidden by default.</p>
+    {% endif %}
+  </section>
+{% endif %}

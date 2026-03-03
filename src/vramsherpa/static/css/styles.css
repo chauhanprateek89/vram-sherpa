@@ -277,6 +277,10 @@ select[multiple] {
   gap: 0.5rem;
 }
 
+.hero-context {
+  margin-top: 1rem;
+}
+
 .chip {
   display: inline-flex;
   width: auto !important;
@@ -484,6 +488,15 @@ select[multiple] {
   margin: 0.35rem 0 0;
   font-size: 0.86rem;
   color: var(--muted);
+}
+
+.summary-selection {
+  margin: 0.45rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  color: var(--muted);
+  font-size: 0.9rem;
 }
 
 .summary-grid {

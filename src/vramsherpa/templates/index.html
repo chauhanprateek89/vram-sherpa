@@ -8,9 +8,10 @@
   class="search-form"
   method="get"
   action="/results"
-  hx-get="/results"
+  hx-get="/results/partials/content"
   hx-target="#results-shell"
   hx-push-url="true"
+  hx-trigger="submit, change from:.js-auto-filter, keyup changed delay:350ms from:.js-auto-filter-text"
 >
   <section class="panel hero-panel">
     <h1>Find models that fit your VRAM</h1>
@@ -82,9 +83,27 @@
       {% endfor %}
     </div>
 
+    <fieldset class="context-buttons hero-context">
+      <legend>Context length</legend>
+      {% for value in context_options %}
+        <label class="context-pill">
+          <input
+            class="js-auto-filter"
+            type="radio"
+            name="context_tokens"
+            value="{{ value }}"
+            {% if selected_context == value %}checked{% endif %}
+          />
+          <span>
+            {% if value == 2048 %}2k{% elif value == 4096 %}4k{% elif value == 8192 %}8k{% else %}{{ value }}{% endif %}
+          </span>
+        </label>
+      {% endfor %}
+    </fieldset>
+
     <div class="hero-actions">
-      <button type="submit" class="btn-primary">Show results</button>
-      <a href="/how-it-works">How this works</a>
+      <button type="submit" class="btn-primary">Check compatibility</button>
+      <a href="/how-it-works">How it works</a>
     </div>
   </section>
 
@@ -98,7 +117,7 @@
             <div class="checklist">
               {% for fam in families %}
                 <label class="choice">
-                  <input type="checkbox" name="family" value="{{ fam }}" {% if fam in selected_families %}checked{% endif %} />
+                  <input class="js-auto-filter" type="checkbox" name="family" value="{{ fam }}" {% if fam in selected_families %}checked{% endif %} />
                   <span>{{ fam }}</span>
                 </label>
               {% endfor %}
@@ -110,7 +129,7 @@
             <div class="checklist">
               {% for quant in quant_options %}
                 <label class="choice">
-                  <input type="checkbox" name="quant_bucket" value="{{ quant }}" {% if quant in selected_quant_buckets %}checked{% endif %} />
+                  <input class="js-auto-filter" type="checkbox" name="quant_bucket" value="{{ quant }}" {% if quant in selected_quant_buckets %}checked{% endif %} />
                   <span>{{ quant }}</span>
                 </label>
               {% endfor %}
@@ -120,34 +139,19 @@
           <label for="min_params_b" title="Show only models with parameter count greater than or equal to this value.">
             Min params (B)
           </label>
-          <input id="min_params_b" type="number" min="0" step="0.1" name="min_params_b" value="{{ min_params_b_input }}" />
+          <input id="min_params_b" class="js-auto-filter-text" type="number" min="0" step="0.1" name="min_params_b" value="{{ min_params_b_input }}" />
           <p class="field-help">Lower bound on model size in billions of parameters.</p>
 
           <label for="max_params_b" title="Show only models with parameter count less than or equal to this value.">
             Max params (B)
           </label>
-          <input id="max_params_b" type="number" min="0" step="0.1" name="max_params_b" value="{{ max_params_b_input }}" />
+          <input id="max_params_b" class="js-auto-filter-text" type="number" min="0" step="0.1" name="max_params_b" value="{{ max_params_b_input }}" />
           <p class="field-help">Upper bound on model size in billions of parameters.</p>
 
           <label class="checkbox">
-            <input type="checkbox" name="recommended_only" value="true" {% if recommended_only %}checked{% endif %} />
+            <input class="js-auto-filter" type="checkbox" name="recommended_only" value="true" {% if recommended_only %}checked{% endif %} />
             Recommended only
           </label>
-
-          <details class="advanced-disclosure">
-            <summary>Advanced</summary>
-            <fieldset class="context-buttons">
-              <legend>Context length</legend>
-              {% for value in context_options %}
-                <label class="context-pill">
-                  <input type="radio" name="context_tokens" value="{{ value }}" {% if selected_context == value %}checked{% endif %} />
-                  <span>
-                    {% if value == 2048 %}2k{% elif value == 4096 %}4k{% elif value == 8192 %}8k{% else %}{{ value }}{% endif %}
-                  </span>
-                </label>
-              {% endfor %}
-            </fieldset>
-          </details>
         </div>
       </details>
       <button type="submit" class="btn-secondary">Apply filters</button>

@@ -14,6 +14,9 @@ from vramsherpa.main import (
     how_it_works,
     model_detail,
     results,
+    results_partial_content,
+    results_partial_list,
+    results_partial_summary,
     variant_breakdown,
 )
 
@@ -65,7 +68,9 @@ def test_results_with_manual_vram_returns_200_and_rows(app, seeded_session: Sess
     assert response.status_code == 200
     response_text = _response_text(response)
     assert 'id="summary-banner"' in response_text
-    assert 'class="panel result-card"' in response_text
+    assert "result-card" in response_text
+    assert "Hardware:" in response_text
+    assert "Context:" in response_text
 
 
 def test_results_accepts_blank_numeric_query_values(app, seeded_session: Session) -> None:
@@ -225,6 +230,53 @@ def test_results_filters_change_output_deterministically(app, seeded_session: Se
 
     assert "Qwen2.5 14B Instruct" in qwen_text
     assert "Llama 3.1 8B Instruct" not in qwen_text
+
+
+def test_results_partials_return_summary_and_results_sections(
+    app, seeded_session: Session
+) -> None:
+    summary_response = results_partial_summary(
+        _request(app, "/results/partials/summary", hx=True),
+        vram_gb="16",
+        context_tokens=4096,
+        family=[],
+        quant_bucket=[],
+        min_params_b=None,
+        max_params_b=None,
+        recommended_only=False,
+        session=seeded_session,
+    )
+    list_response = results_partial_list(
+        _request(app, "/results/partials/list", hx=True),
+        vram_gb="16",
+        context_tokens=4096,
+        family=[],
+        quant_bucket=[],
+        min_params_b=None,
+        max_params_b=None,
+        recommended_only=False,
+        session=seeded_session,
+    )
+    content_response = results_partial_content(
+        _request(app, "/results/partials/content", hx=True),
+        vram_gb="16",
+        context_tokens=4096,
+        family=[],
+        quant_bucket=[],
+        min_params_b=None,
+        max_params_b=None,
+        recommended_only=False,
+        session=seeded_session,
+    )
+
+    assert summary_response.status_code == 200
+    assert list_response.status_code == 200
+    assert content_response.status_code == 200
+    assert 'id="summary-banner"' in _response_text(summary_response)
+    assert 'id="results-cards"' in _response_text(list_response)
+    content_text = _response_text(content_response)
+    assert 'id="results-summary-shell"' in content_text
+    assert 'id="results-list-shell"' in content_text
 
 
 def test_model_detail_returns_200(app, seeded_session: Session) -> None:
