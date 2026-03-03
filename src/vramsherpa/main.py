@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 from pathlib import Path
 from urllib.parse import urlencode
@@ -17,7 +18,7 @@ from vramsherpa.estimation import FitBadge, estimate_breakdown, estimate_variant
 from vramsherpa.models import GPU, CatalogMeta, Model, Variant
 
 CONTEXT_OPTIONS = (2048, 4096, 8192)
-ASSET_VERSION = "20260303b"
+ASSET_VERSION = "20260303c"
 PACKAGE_DIR = Path(__file__).resolve().parent
 templates = Jinja2Templates(directory=str(PACKAGE_DIR / "templates"))
 
@@ -63,6 +64,12 @@ class ExampleChip:
     vram_gb: float | None
 
 
+@dataclass
+class ParsedFloatResult:
+    value: float | None
+    error: str | None
+
+
 def on_startup() -> None:
     create_db_and_tables()
 
@@ -102,16 +109,82 @@ def _resolve_available_vram(
     session: Session,
     gpu_id: str | None,
     vram_gb: float | None,
-) -> tuple[float, str | None, list[GPU]]:
+    gpu_search: str | None = None,
+    prefer_gpu_id_when_both: bool = False,
+) -> tuple[float, str | None, list[GPU], str | None]:
     gpus = _load_gpus(session)
-    if vram_gb is not None:
-        return float(vram_gb), None, gpus
 
-    if gpu_id is not None:
-        selected_gpu = session.get(GPU, gpu_id)
-        if selected_gpu is not None:
-            return float(selected_gpu.vram_gb), selected_gpu.id, gpus
-    return 8.0, None, gpus
+    normalized_gpu_id = gpu_id.strip() if isinstance(gpu_id, str) and gpu_id.strip() else None
+    normalized_gpu_search = (
+        gpu_search.strip() if isinstance(gpu_search, str) and gpu_search.strip() else None
+    )
+    selected_gpu = session.get(GPU, normalized_gpu_id) if normalized_gpu_id else None
+    if selected_gpu is not None and prefer_gpu_id_when_both:
+        return float(selected_gpu.vram_gb), selected_gpu.id, gpus, None
+
+    if vram_gb is not None:
+        return float(vram_gb), None, gpus, None
+
+    if selected_gpu is not None:
+        return float(selected_gpu.vram_gb), selected_gpu.id, gpus, None
+
+    if normalized_gpu_search:
+        needle = _normalize_for_match(normalized_gpu_search)
+        exact_matches = [
+            gpu
+            for gpu in gpus
+            if needle
+            in {
+                _normalize_for_match(_gpu_option_label(gpu)),
+                _normalize_for_match(f"{gpu.vendor} {gpu.name}"),
+                _normalize_for_match(gpu.name),
+            }
+        ]
+        if len(exact_matches) == 1:
+            matched_gpu = exact_matches[0]
+            return float(matched_gpu.vram_gb), matched_gpu.id, gpus, None
+
+        partial_matches = [
+            gpu
+            for gpu in gpus
+            if needle in _normalize_for_match(_gpu_option_label(gpu))
+            or needle in _normalize_for_match(f"{gpu.vendor} {gpu.name}")
+            or needle in _normalize_for_match(gpu.name)
+        ]
+        if len(partial_matches) == 1:
+            matched_gpu = partial_matches[0]
+            return float(matched_gpu.vram_gb), matched_gpu.id, gpus, None
+
+        if len(partial_matches) > 1:
+            suggestions = ", ".join(_gpu_option_label(gpu) for gpu in partial_matches[:3])
+            return (
+                8.0,
+                None,
+                gpus,
+                f'GPU search "{normalized_gpu_search}" matched multiple entries ({suggestions}). '
+                "Select an exact GPU from the list or enter VRAM manually.",
+            )
+        hinted_vram = _extract_vram_hint(normalized_gpu_search)
+        if hinted_vram is not None:
+            return (
+                hinted_vram,
+                None,
+                gpus,
+                (
+                    f'GPU "{normalized_gpu_search}" was not found. '
+                    f"Using {hinted_vram:g} GB inferred from your input."
+                ),
+            )
+        return (
+            8.0,
+            None,
+            gpus,
+            (
+                f'GPU "{normalized_gpu_search}" was not found. '
+                "Select a listed GPU or enter VRAM manually."
+            ),
+        )
+    return 8.0, None, gpus, None
 
 
 def _variant_query(
@@ -207,9 +280,65 @@ def _gpu_option_label(gpu: GPU) -> str:
     return f"{gpu.vendor} {gpu.name} ({gpu.vram_gb:.1f} GB)"
 
 
+def _normalize_for_match(value: str) -> str:
+    return " ".join(value.lower().split())
+
+
+def _extract_vram_hint(value: str) -> float | None:
+    match = re.search(r"(\d+(?:\.\d+)?)\s*gb\b", value.lower())
+    if match is None:
+        return None
+    parsed = float(match.group(1))
+    if parsed <= 0:
+        return None
+    return parsed
+
+
+def _parse_optional_float(
+    raw_value: str | float | int | None,
+    *,
+    field_name: str,
+    min_value: float | None = None,
+) -> float | None:
+    if raw_value is None:
+        return None
+
+    if isinstance(raw_value, (int, float)):
+        parsed = float(raw_value)
+    else:
+        value = raw_value.strip()
+        if value == "":
+            return None
+        try:
+            parsed = float(value)
+        except ValueError as exc:
+            raise HTTPException(status_code=422, detail=f"Invalid value for {field_name}.") from exc
+
+    if min_value is not None and parsed < min_value:
+        raise HTTPException(
+            status_code=422,
+            detail=f"{field_name} must be greater than or equal to {min_value}.",
+        )
+    return parsed
+
+
+def _safe_parse_optional_float(
+    raw_value: str | float | int | None,
+    *,
+    field_name: str,
+    min_value: float | None = None,
+) -> ParsedFloatResult:
+    try:
+        parsed = _parse_optional_float(raw_value, field_name=field_name, min_value=min_value)
+    except HTTPException as exc:
+        return ParsedFloatResult(value=None, error=str(exc.detail))
+    return ParsedFloatResult(value=parsed, error=None)
+
+
 def _query_items(
     *,
     selected_gpu_id: str | None,
+    gpu_search: str | None,
     manual_vram: float | None,
     selected_context: int,
     selected_families: list[str],
@@ -221,6 +350,8 @@ def _query_items(
     items: list[tuple[str, str]] = [("context_tokens", str(selected_context))]
     if selected_gpu_id:
         items.append(("gpu_id", selected_gpu_id))
+    elif gpu_search:
+        items.append(("gpu_search", gpu_search))
     if manual_vram is not None:
         items.append(("vram_gb", f"{manual_vram:g}"))
     for family in selected_families:
@@ -244,6 +375,7 @@ def _results_url(items: list[tuple[str, str]]) -> str:
 def _active_filter_chips(
     *,
     selected_gpu_id: str | None,
+    gpu_search: str | None,
     manual_vram: float | None,
     selected_context: int,
     selected_families: list[str],
@@ -258,6 +390,7 @@ def _active_filter_chips(
         updated_families = selected_families[:index] + selected_families[index + 1 :]
         items = _query_items(
             selected_gpu_id=selected_gpu_id,
+            gpu_search=gpu_search,
             manual_vram=manual_vram,
             selected_context=selected_context,
             selected_families=updated_families,
@@ -272,6 +405,7 @@ def _active_filter_chips(
         updated_quant = selected_quant_buckets[:index] + selected_quant_buckets[index + 1 :]
         items = _query_items(
             selected_gpu_id=selected_gpu_id,
+            gpu_search=gpu_search,
             manual_vram=manual_vram,
             selected_context=selected_context,
             selected_families=selected_families,
@@ -285,6 +419,7 @@ def _active_filter_chips(
     if min_params_b is not None:
         items = _query_items(
             selected_gpu_id=selected_gpu_id,
+            gpu_search=gpu_search,
             manual_vram=manual_vram,
             selected_context=selected_context,
             selected_families=selected_families,
@@ -303,6 +438,7 @@ def _active_filter_chips(
     if max_params_b is not None:
         items = _query_items(
             selected_gpu_id=selected_gpu_id,
+            gpu_search=gpu_search,
             manual_vram=manual_vram,
             selected_context=selected_context,
             selected_families=selected_families,
@@ -321,6 +457,7 @@ def _active_filter_chips(
     if recommended_only:
         items = _query_items(
             selected_gpu_id=selected_gpu_id,
+            gpu_search=gpu_search,
             manual_vram=manual_vram,
             selected_context=selected_context,
             selected_families=selected_families,
@@ -414,6 +551,7 @@ def _results_context(
     gpus: list[GPU],
     results_rows: list[ResultRow],
     selected_gpu_id: str | None,
+    gpu_search: str | None,
     manual_vram: float | None,
     selected_context: int,
     selected_families: list[str],
@@ -421,12 +559,18 @@ def _results_context(
     min_params_b: float | None,
     max_params_b: float | None,
     recommended_only: bool,
+    form_errors: list[str] | None = None,
+    gpu_search_feedback: str | None = None,
+    manual_vram_input: str | None = None,
+    min_params_b_input: str | None = None,
+    max_params_b_input: str | None = None,
 ) -> dict:
     visible_results = [
         row for row in results_rows if row.classification != FitBadge.WONT_FIT.value
     ]
     hardware_items = _query_items(
         selected_gpu_id=selected_gpu_id,
+        gpu_search=gpu_search,
         manual_vram=manual_vram,
         selected_context=selected_context,
         selected_families=[],
@@ -444,17 +588,36 @@ def _results_context(
             "quant_options": _all_quant_buckets(session),
             "selected_gpu_id": selected_gpu_id,
             "selected_gpu_label": _selected_gpu_label(gpus, selected_gpu_id),
+            "gpu_search_text": _selected_gpu_label(gpus, selected_gpu_id) or (gpu_search or ""),
             "manual_vram": manual_vram,
+            "manual_vram_input": (
+                manual_vram_input
+                if manual_vram_input is not None
+                else (f"{manual_vram:g}" if manual_vram is not None else "")
+            ),
             "selected_context": selected_context,
             "selected_families": selected_families,
             "selected_quant_buckets": selected_quant_buckets,
             "min_params_b": min_params_b,
             "max_params_b": max_params_b,
+            "min_params_b_input": (
+                min_params_b_input
+                if min_params_b_input is not None
+                else (f"{min_params_b:g}" if min_params_b is not None else "")
+            ),
+            "max_params_b_input": (
+                max_params_b_input
+                if max_params_b_input is not None
+                else (f"{max_params_b:g}" if max_params_b is not None else "")
+            ),
             "recommended_only": recommended_only,
+            "form_errors": form_errors or [],
+            "gpu_search_feedback": gpu_search_feedback,
             "summary_counts": _summary_counts(results_rows),
             "top_picks": _top_picks(visible_results),
             "active_filter_chips": _active_filter_chips(
                 selected_gpu_id=selected_gpu_id,
+                gpu_search=gpu_search,
                 manual_vram=manual_vram,
                 selected_context=selected_context,
                 selected_families=selected_families,
@@ -486,8 +649,8 @@ def home(
 ) -> HTMLResponse:
     families: list[str] = []
     quant_buckets: list[str] = []
-    available_vram_gb, selected_gpu_id, gpus = _resolve_available_vram(
-        session, gpu_id=None, vram_gb=None
+    available_vram_gb, selected_gpu_id, gpus, _ = _resolve_available_vram(
+        session, gpu_id=None, vram_gb=None, gpu_search=None
     )
     results = _build_results(
         session,
@@ -505,6 +668,7 @@ def home(
         gpus=gpus,
         results_rows=results,
         selected_gpu_id=selected_gpu_id,
+        gpu_search=None,
         manual_vram=None,
         selected_context=2048,
         selected_families=families,
@@ -519,20 +683,55 @@ def home(
 def results(
     request: Request,
     gpu_id: str | None = Query(default=None),
-    vram_gb: float | None = Query(default=None, gt=0),
+    gpu_search: str | None = Query(default=None),
+    vram_gb: str | None = Query(default=None),
     context_tokens: int = Query(default=2048),
     family: list[str] = Query(default=[]),
     quant_bucket: list[str] = Query(default=[]),
-    min_params_b: float | None = Query(default=None, gt=0),
-    max_params_b: float | None = Query(default=None, gt=0),
+    min_params_b: str | None = Query(default=None),
+    max_params_b: str | None = Query(default=None),
     recommended_only: bool = Query(default=False),
     session: Session = Depends(get_session),
 ) -> HTMLResponse:
+    form_errors: list[str] = []
+    parsed_vram_result = _safe_parse_optional_float(
+        vram_gb, field_name="vram_gb", min_value=0.000001
+    )
+    parsed_min_params_result = _safe_parse_optional_float(
+        min_params_b, field_name="min_params_b", min_value=0
+    )
+    parsed_max_params_result = _safe_parse_optional_float(
+        max_params_b, field_name="max_params_b", min_value=0
+    )
+
+    if parsed_vram_result.error is not None:
+        form_errors.append(parsed_vram_result.error)
+    if parsed_min_params_result.error is not None:
+        form_errors.append(parsed_min_params_result.error)
+    if parsed_max_params_result.error is not None:
+        form_errors.append(parsed_max_params_result.error)
+
+    parsed_vram_gb = parsed_vram_result.value
+    parsed_min_params_b = parsed_min_params_result.value
+    parsed_max_params_b = parsed_max_params_result.value
+
+    if (
+        parsed_min_params_b is not None
+        and parsed_max_params_b is not None
+        and parsed_min_params_b > parsed_max_params_b
+    ):
+        form_errors.append("min_params_b must be less than or equal to max_params_b.")
+        parsed_min_params_b = None
+        parsed_max_params_b = None
+
     if context_tokens not in CONTEXT_OPTIONS:
         context_tokens = 2048
 
-    available_vram_gb, selected_gpu_id, gpus = _resolve_available_vram(
-        session, gpu_id=gpu_id, vram_gb=vram_gb
+    available_vram_gb, selected_gpu_id, gpus, gpu_search_feedback = _resolve_available_vram(
+        session,
+        gpu_id=gpu_id,
+        vram_gb=parsed_vram_gb,
+        gpu_search=gpu_search,
     )
     results_rows = _build_results(
         session,
@@ -540,8 +739,8 @@ def results(
         context_tokens=context_tokens,
         families=family,
         quant_buckets=quant_bucket,
-        min_params_b=min_params_b,
-        max_params_b=max_params_b,
+        min_params_b=parsed_min_params_b,
+        max_params_b=parsed_max_params_b,
         recommended_only=recommended_only,
     )
 
@@ -551,13 +750,19 @@ def results(
         gpus=gpus,
         results_rows=results_rows,
         selected_gpu_id=selected_gpu_id,
-        manual_vram=vram_gb,
+        gpu_search=gpu_search,
+        manual_vram=parsed_vram_gb,
         selected_context=context_tokens,
         selected_families=family,
         selected_quant_buckets=quant_bucket,
-        min_params_b=min_params_b,
-        max_params_b=max_params_b,
+        min_params_b=parsed_min_params_b,
+        max_params_b=parsed_max_params_b,
         recommended_only=recommended_only,
+        form_errors=form_errors,
+        gpu_search_feedback=gpu_search_feedback,
+        manual_vram_input=vram_gb if isinstance(vram_gb, str) else None,
+        min_params_b_input=min_params_b if isinstance(min_params_b, str) else None,
+        max_params_b_input=max_params_b if isinstance(max_params_b, str) else None,
     )
 
     if request.headers.get("HX-Request") == "true":
@@ -569,7 +774,7 @@ def variant_breakdown(
     request: Request,
     variant_id: str,
     gpu_id: str | None = Query(default=None),
-    vram_gb: float | None = Query(default=None, gt=0),
+    vram_gb: str | None = Query(default=None),
     context_tokens: int = Query(default=2048),
     session: Session = Depends(get_session),
 ) -> HTMLResponse:
@@ -580,7 +785,12 @@ def variant_breakdown(
     if context_tokens not in CONTEXT_OPTIONS:
         context_tokens = 2048
 
-    available_vram_gb, _, _ = _resolve_available_vram(session, gpu_id=gpu_id, vram_gb=vram_gb)
+    parsed_vram_gb = _parse_optional_float(vram_gb, field_name="vram_gb", min_value=0.000001)
+    available_vram_gb, _, _, _ = _resolve_available_vram(
+        session,
+        gpu_id=gpu_id,
+        vram_gb=parsed_vram_gb,
+    )
     model = variant.model
     breakdown = estimate_breakdown(
         params_b=float(model.params_b),
@@ -604,7 +814,7 @@ def model_detail(
     request: Request,
     model_id: str,
     gpu_id: str | None = Query(default=None),
-    vram_gb: float | None = Query(default=None, gt=0),
+    vram_gb: str | None = Query(default=None),
     context_tokens: int = Query(default=2048),
     session: Session = Depends(get_session),
 ) -> HTMLResponse:
@@ -615,8 +825,19 @@ def model_detail(
     if context_tokens not in CONTEXT_OPTIONS:
         context_tokens = 2048
 
-    available_vram_gb, selected_gpu_id, gpus = _resolve_available_vram(
-        session, gpu_id=gpu_id, vram_gb=vram_gb
+    form_errors: list[str] = []
+    parsed_vram_result = _safe_parse_optional_float(
+        vram_gb, field_name="vram_gb", min_value=0.000001
+    )
+    if parsed_vram_result.error is not None:
+        form_errors.append(parsed_vram_result.error)
+    parsed_vram_gb = parsed_vram_result.value
+
+    available_vram_gb, selected_gpu_id, gpus, _ = _resolve_available_vram(
+        session,
+        gpu_id=gpu_id,
+        vram_gb=parsed_vram_gb,
+        prefer_gpu_id_when_both=True,
     )
 
     variant_rows: list[dict] = []
@@ -651,8 +872,10 @@ def model_detail(
             "variants": variant_rows,
             "gpus": gpus,
             "selected_gpu_id": selected_gpu_id,
-            "manual_vram": vram_gb,
+            "manual_vram": parsed_vram_gb,
+            "manual_vram_input": vram_gb if isinstance(vram_gb, str) else "",
             "selected_context": context_tokens,
+            "form_errors": form_errors,
         }
     )
     return templates.TemplateResponse(request, "model_detail.html", context)

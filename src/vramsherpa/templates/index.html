@@ -15,6 +15,16 @@
   <section class="panel hero-panel">
     <h1>Find models that fit your VRAM</h1>
     <p class="hero-copy">Choose either your exact GPU or enter available VRAM directly.</p>
+    {% if form_errors %}
+      <div class="form-alert" role="alert" aria-live="polite">
+        <p>Please fix the following input issues:</p>
+        <ul>
+          {% for error in form_errors %}
+            <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
 
     <div class="hero-paths">
       <div class="input-path">
@@ -24,15 +34,19 @@
         <div class="gpu-input-row">
           <input
             id="gpu_search"
+            name="gpu_search"
             list="gpu-options"
             type="text"
-            value="{{ selected_gpu_label }}"
+            value="{{ gpu_search_text }}"
             placeholder="Start typing a GPU name (or leave blank)"
             autocomplete="off"
           />
           <button id="clear-gpu" type="button" class="btn-clear">Clear</button>
         </div>
         <p class="field-help">If your GPU is not listed, leave this blank and enter VRAM instead.</p>
+        {% if gpu_search_feedback %}
+          <p class="field-warning">{{ gpu_search_feedback }}</p>
+        {% endif %}
         <datalist id="gpu-options">
           {% for gpu in gpus %}
             <option data-gpu-id="{{ gpu.id }}" data-vram-gb="{{ '%.1f'|format(gpu.vram_gb) }}" value="{{ gpu.vendor }} {{ gpu.name }} ({{ '%.1f'|format(gpu.vram_gb) }} GB)"></option>
@@ -49,7 +63,7 @@
           min="1"
           step="0.1"
           name="vram_gb"
-          value="{{ manual_vram if manual_vram is not none else '' }}"
+          value="{{ manual_vram_input }}"
           placeholder="e.g. 8"
         />
       </div>
@@ -79,36 +93,40 @@
       <details class="filters-disclosure" open>
         <summary>Filters</summary>
         <div class="filter-fields">
-          <label for="family">Family</label>
-          <div class="checklist" id="family">
-            {% for fam in families %}
-              <label class="choice">
-                <input type="checkbox" name="family" value="{{ fam }}" {% if fam in selected_families %}checked{% endif %} />
-                <span>{{ fam }}</span>
-              </label>
-            {% endfor %}
-          </div>
+          <fieldset class="filter-group">
+            <legend>Family</legend>
+            <div class="checklist">
+              {% for fam in families %}
+                <label class="choice">
+                  <input type="checkbox" name="family" value="{{ fam }}" {% if fam in selected_families %}checked{% endif %} />
+                  <span>{{ fam }}</span>
+                </label>
+              {% endfor %}
+            </div>
+          </fieldset>
 
-          <label for="quant_bucket">Quant bucket</label>
-          <div class="checklist" id="quant_bucket">
-            {% for quant in quant_options %}
-              <label class="choice">
-                <input type="checkbox" name="quant_bucket" value="{{ quant }}" {% if quant in selected_quant_buckets %}checked{% endif %} />
-                <span>{{ quant }}</span>
-              </label>
-            {% endfor %}
-          </div>
+          <fieldset class="filter-group">
+            <legend>Quant bucket</legend>
+            <div class="checklist">
+              {% for quant in quant_options %}
+                <label class="choice">
+                  <input type="checkbox" name="quant_bucket" value="{{ quant }}" {% if quant in selected_quant_buckets %}checked{% endif %} />
+                  <span>{{ quant }}</span>
+                </label>
+              {% endfor %}
+            </div>
+          </fieldset>
 
           <label for="min_params_b" title="Show only models with parameter count greater than or equal to this value.">
             Min params (B)
           </label>
-          <input id="min_params_b" type="number" min="0" step="0.1" name="min_params_b" value="{{ min_params_b if min_params_b is not none else '' }}" />
+          <input id="min_params_b" type="number" min="0" step="0.1" name="min_params_b" value="{{ min_params_b_input }}" />
           <p class="field-help">Lower bound on model size in billions of parameters.</p>
 
           <label for="max_params_b" title="Show only models with parameter count less than or equal to this value.">
             Max params (B)
           </label>
-          <input id="max_params_b" type="number" min="0" step="0.1" name="max_params_b" value="{{ max_params_b if max_params_b is not none else '' }}" />
+          <input id="max_params_b" type="number" min="0" step="0.1" name="max_params_b" value="{{ max_params_b_input }}" />
           <p class="field-help">Upper bound on model size in billions of parameters.</p>
 
           <label class="checkbox">

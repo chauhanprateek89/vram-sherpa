@@ -28,10 +28,15 @@
           <a
             class="nav-link {% if current_path == '/' or current_path == '/results' or current_path.startswith('/models/') %}is-active{% endif %}"
             href="/"
+            {% if current_path == '/' or current_path == '/results' or current_path.startswith('/models/') %}aria-current="page"{% endif %}
           >
             Estimator
           </a>
-          <a class="nav-link {% if current_path == '/how-it-works' %}is-active{% endif %}" href="/how-it-works">
+          <a
+            class="nav-link {% if current_path == '/how-it-works' %}is-active{% endif %}"
+            href="/how-it-works"
+            {% if current_path == '/how-it-works' %}aria-current="page"{% endif %}
+          >
             How it works
           </a>
         </nav>

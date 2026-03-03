@@ -8,6 +8,7 @@ function applyTheme(theme) {
   var toggle = document.getElementById("theme-toggle");
   if (toggle) {
     toggle.textContent = theme === "dark" ? "Light mode" : "Dark mode";
+    toggle.setAttribute("aria-pressed", theme === "dark" ? "true" : "false");
   }
 }
 
@@ -19,10 +20,14 @@ function initThemeToggle() {
 
   var current = document.documentElement.dataset.theme || "";
   if (!current) {
-    current = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    current =
+      window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light";
     applyTheme(current);
   } else {
     toggle.textContent = current === "dark" ? "Light mode" : "Dark mode";
+    toggle.setAttribute("aria-pressed", current === "dark" ? "true" : "false");
   }
 
   toggle.addEventListener("click", function () {
@@ -129,8 +134,30 @@ function initExampleChips() {
   });
 }
 
+function initModelDetailInputs() {
+  var gpuSelect = document.getElementById("gpu_id");
+  var vramInput = document.getElementById("vram_gb");
+  var form = gpuSelect ? gpuSelect.closest("form") : null;
+  if (!gpuSelect || !vramInput || !form || !form.action.match(/\\/models\\//)) {
+    return;
+  }
+
+  gpuSelect.addEventListener("change", function () {
+    if (gpuSelect.value) {
+      vramInput.value = "";
+    }
+  });
+
+  vramInput.addEventListener("input", function () {
+    if (vramInput.value) {
+      gpuSelect.value = "";
+    }
+  });
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   initThemeToggle();
   initGpuInputs();
   initExampleChips();
+  initModelDetailInputs();
 });
