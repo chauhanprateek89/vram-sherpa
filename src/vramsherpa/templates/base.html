@@ -4,17 +4,45 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{% block title %}VRAM Sherpa{% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('static', path='css/styles.css') }}" />
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem("vramsherpa-theme");
+          if (saved) {
+            document.documentElement.dataset.theme = saved;
+          }
+        } catch (err) {
+          // Ignore storage errors and fall back to default theme.
+        }
+      })();
+    </script>
+    <link rel="stylesheet" href="{{ url_for('static', path='css/styles.css') }}?v={{ asset_version }}" />
     <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+    <script src="{{ url_for('static', path='js/app.js') }}?v={{ asset_version }}" defer></script>
   </head>
   <body>
     <header class="topbar">
       <div class="container">
         <a class="brand" href="/">VRAM Sherpa</a>
         <nav>
-          <a href="/">Estimator</a>
-          <a href="/how-it-works">How it works</a>
+          <a
+            class="nav-link {% if current_path == '/' or current_path == '/results' or current_path.startswith('/models/') %}is-active{% endif %}"
+            href="/"
+            {% if current_path == '/' or current_path == '/results' or current_path.startswith('/models/') %}aria-current="page"{% endif %}
+          >
+            Estimator
+          </a>
+          <a
+            class="nav-link {% if current_path == '/how-it-works' %}is-active{% endif %}"
+            href="/how-it-works"
+            {% if current_path == '/how-it-works' %}aria-current="page"{% endif %}
+          >
+            How it works
+          </a>
         </nav>
+        <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle color theme">
+          Theme
+        </button>
       </div>
     </header>
 

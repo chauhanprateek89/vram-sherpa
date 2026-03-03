@@ -17,6 +17,16 @@
 </section>
 
 <section class="panel">
+  {% if form_errors %}
+    <div class="form-alert" role="alert" aria-live="polite">
+      <p>Please fix the following input issues:</p>
+      <ul>
+        {% for error in form_errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
   <form class="filters" method="get" action="/models/{{ model.id }}">
     <label for="gpu_id">GPU</label>
     <select id="gpu_id" name="gpu_id">
@@ -27,7 +37,8 @@
     </select>
 
     <label for="vram_gb">Manual VRAM (GB)</label>
-    <input id="vram_gb" type="number" min="1" step="0.1" name="vram_gb" value="{{ manual_vram if manual_vram is not none else '' }}" />
+    <input id="vram_gb" type="number" min="1" step="0.1" name="vram_gb" value="{{ manual_vram_input }}" />
+    <p class="field-help">Choosing a GPU and entering VRAM together will prioritize the selected GPU.</p>
 
     <label for="context_tokens">Context</label>
     <select id="context_tokens" name="context_tokens">
@@ -41,34 +52,36 @@
 </section>
 
 <section class="panel">
-  <table>
-    <thead>
-      <tr>
-        <th>Variant</th>
-        <th>Bits</th>
-        <th>Required VRAM (GB)</th>
-        <th>Available VRAM (GB)</th>
-        <th>Margin (GB)</th>
-        <th>Status</th>
-        <th>Provenance</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for row in variants %}
+  <div class="table-scroll">
+    <table>
+      <thead>
         <tr>
-          <td>{{ row.quant_label }} ({{ row.quant_bucket }}){% if row.recommended %} *{% endif %}</td>
-          <td>{{ '%.1f'|format(row.bits_effective) }}</td>
-          <td>{{ '%.2f'|format(row.required_vram_gb) }}</td>
-          <td>{{ '%.2f'|format(row.available_vram_gb) }}</td>
-          <td>{{ '%.2f'|format(row.margin_gb) }}</td>
-          <td><span class="badge badge-{{ row.classification|lower|replace("'", "")|replace(" ", "-") }}">{{ row.classification }}</span></td>
-          <td>
-            {% if row.notes %}<div>{{ row.notes }}</div>{% endif %}
-            {% if row.sources %}<div>{{ row.sources }}</div>{% endif %}
-          </td>
+          <th>Variant</th>
+          <th>Bits</th>
+          <th>Required VRAM (GB)</th>
+          <th>Available VRAM (GB)</th>
+          <th>Margin (GB)</th>
+          <th>Status</th>
+          <th>Provenance</th>
         </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        {% for row in variants %}
+          <tr>
+            <td>{{ row.quant_label }} ({{ row.quant_bucket }}){% if row.recommended %} *{% endif %}</td>
+            <td>{{ '%.1f'|format(row.bits_effective) }}</td>
+            <td>{{ '%.2f'|format(row.required_vram_gb) }}</td>
+            <td>{{ '%.2f'|format(row.available_vram_gb) }}</td>
+            <td>{{ '%.2f'|format(row.margin_gb) }}</td>
+            <td><span class="badge badge-{{ row.classification|lower|replace("'", "")|replace(" ", "-") }}">{{ row.classification }}</span></td>
+            <td>
+              {% if row.notes %}<div>{{ row.notes }}</div>{% endif %}
+              {% if row.sources %}<div>{{ row.sources }}</div>{% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </section>
 {% endblock %}
