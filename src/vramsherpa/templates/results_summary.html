@@ -21,7 +21,12 @@
     <span><strong>Hardware:</strong> {{ selected_hardware_label }}</span>
     <span><strong>Context:</strong> {{ selected_context_label }}</span>
   </p>
-  <p class="summary-note">Showing only Fits and Tight models in the list below.</p>
+  <p
+    class="summary-note"
+    title="Fits leaves reserve headroom. Tight can run, but is close to your VRAM limit."
+  >
+    Showing only Fits and Tight models in the list below.
+  </p>
   <div class="summary-grid">
     <div class="summary-stat">
       <strong>{{ summary_counts["Fits"] }}</strong>

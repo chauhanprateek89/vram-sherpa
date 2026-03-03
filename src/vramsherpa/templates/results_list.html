@@ -15,8 +15,18 @@
         </div>
 
         <div class="result-badges">
-          <span class="badge badge-quant">{{ row.quant_bucket }}</span>
-          <span class="badge badge-{{ row.classification_slug }}">{{ row.classification }}</span>
+          <span
+            class="badge badge-quant"
+            title="Quantization level. Lower levels like Q4 usually reduce VRAM usage."
+          >
+            {{ row.quant_bucket }}
+          </span>
+          <span
+            class="badge badge-{{ row.classification_slug }}"
+            title="{% if row.classification == 'Fits' %}Fits: includes reserve headroom.{% elif row.classification == 'Tight' %}Tight: usable but close to the VRAM limit.{% else %}Won't fit: exceeds available VRAM.{% endif %}"
+          >
+            {{ row.classification }}
+          </span>
           {% if row.recommended %}
             <span class="badge badge-recommended">Recommended</span>
           {% endif %}
@@ -37,6 +47,27 @@
           </div>
         </dl>
 
+        <div class="vram-gauge" id="vram-gauge-{{ row.variant_id }}">
+          <div
+            class="vram-gauge-track"
+            role="img"
+            aria-label="Required {{ '%.2f'|format(row.required_vram_gb) }} GB of {{ '%.2f'|format(row.available_vram_gb) }} GB available with {{ '%.2f'|format(row.reserve_gb) }} GB reserve"
+          >
+            <span
+              class="vram-gauge-required vram-gauge-required-{{ row.classification_slug }}"
+              style="width: {{ '%.1f'|format(row.required_gauge_percent) }}%;"
+            ></span>
+            <span
+              class="vram-gauge-reserve"
+              style="left: {{ '%.1f'|format(row.fit_limit_gauge_percent) }}%; width: {{ '%.1f'|format(row.reserve_gauge_percent) }}%;"
+            ></span>
+          </div>
+          <div class="vram-gauge-meta">
+            <span>Required {{ '%.2f'|format(row.required_vram_gb) }} / {{ '%.2f'|format(row.available_vram_gb) }} GB</span>
+            <span>Reserve {{ '%.2f'|format(row.reserve_gb) }} GB</span>
+          </div>
+        </div>
+
         <details class="why-panel">
           <summary
             hx-get="/results/why/{{ row.variant_id }}?{{ hardware_query_string }}"
@@ -54,8 +85,21 @@
     {% endfor %}
   </section>
 {% else %}
-  <section class="panel">
-    <p>No fitting variants match this filter set.</p>
+  <section class="panel empty-state-callout">
+    <p>No models currently fit this setup.</p>
+    <p class="muted">Try one of these next steps:</p>
+    <div class="empty-state-actions">
+      {% if empty_state_q4_url %}
+        <a class="chip chip-active" href="{{ empty_state_q4_url }}">Try Q4</a>
+      {% else %}
+        <span class="chip">Try Q4</span>
+      {% endif %}
+      {% if empty_state_lower_context_url %}
+        <a class="chip chip-active" href="{{ empty_state_lower_context_url }}">Lower context</a>
+      {% else %}
+        <span class="chip">Lower context</span>
+      {% endif %}
+    </div>
     {% if summary_counts["Won't fit"] > 0 %}
       <p class="muted">There are {{ summary_counts["Won't fit"] }} variants in Won't fit, hidden by default.</p>
     {% endif %}

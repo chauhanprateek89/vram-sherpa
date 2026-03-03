@@ -667,6 +667,55 @@ select[multiple] {
   font-weight: 700;
 }
 
+.vram-gauge {
+  margin-top: 0.75rem;
+}
+
+.vram-gauge-track {
+  position: relative;
+  border-radius: 999px;
+  height: 0.72rem;
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--panel-alt) 80%, var(--line));
+  overflow: hidden;
+}
+
+.vram-gauge-required {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: color-mix(in srgb, var(--badge-fits-bg) 88%, var(--brand));
+}
+
+.vram-gauge-required-tight {
+  background: color-mix(in srgb, var(--badge-tight-bg) 88%, #f9be2d);
+}
+
+.vram-gauge-required-wont-fit {
+  background: color-mix(in srgb, var(--badge-wont-fit-bg) 88%, #e05050);
+}
+
+.vram-gauge-reserve {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      color-mix(in srgb, var(--badge-tight-bg) 80%, var(--panel)) 0 6px,
+      color-mix(in srgb, var(--badge-tight-bg) 40%, var(--panel)) 6px 12px
+    );
+  border-left: 1px solid color-mix(in srgb, var(--badge-tight-text) 50%, var(--line));
+}
+
+.vram-gauge-meta {
+  margin-top: 0.38rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.79rem;
+  color: var(--muted);
+}
+
 .why-panel {
   margin-top: 0.85rem;
   border: 1px solid var(--line);
@@ -696,6 +745,17 @@ select[multiple] {
   padding-left: 1.2rem;
 }
 
+.empty-state-callout p {
+  margin: 0;
+}
+
+.empty-state-actions {
+  margin-top: 0.7rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -717,6 +777,26 @@ td {
   border-top: 1px solid var(--line);
   padding: 0.8rem 0;
   color: var(--muted);
+}
+
+.footer .container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.3rem;
+  font-size: 0.86rem;
+}
+
+.sources-block p {
+  margin: 0;
+}
+
+.sources-list {
+  margin: 0.45rem 0 0;
+  padding-left: 1.2rem;
+}
+
+.sources-list li + li {
+  margin-top: 0.28rem;
 }
 
 .results-header {

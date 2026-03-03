@@ -11,8 +11,21 @@
     {% if model.license %}| License: <strong>{{ model.license }}</strong>{% endif %}
   </p>
   <p>KV cache estimate per 1k context: {{ '%.3f'|format(model.kv_gb_per_1k_ctx) }} GB</p>
-  {% if model.sources %}
-    <p>Sources: {{ model.sources }}</p>
+  {% if model_source_items %}
+    <div class="sources-block">
+      <p><strong>Sources</strong></p>
+      <ul class="sources-list">
+        {% for source in model_source_items %}
+          <li>
+            {% if source.url %}
+              <a href="{{ source.url }}" target="_blank" rel="noopener noreferrer">{{ source.label }}</a>
+            {% else %}
+              {{ source.label }}
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
   {% endif %}
 </section>
 
@@ -76,7 +89,21 @@
             <td><span class="badge badge-{{ row.classification|lower|replace("'", "")|replace(" ", "-") }}">{{ row.classification }}</span></td>
             <td>
               {% if row.notes %}<div>{{ row.notes }}</div>{% endif %}
-              {% if row.sources %}<div>{{ row.sources }}</div>{% endif %}
+              {% if row.source_items %}
+                <ul class="sources-list">
+                  {% for source in row.source_items %}
+                    <li>
+                      {% if source.url %}
+                        <a href="{{ source.url }}" target="_blank" rel="noopener noreferrer">{{ source.label }}</a>
+                      {% else %}
+                        {{ source.label }}
+                      {% endif %}
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% elif row.sources %}
+                <div>{{ row.sources }}</div>
+              {% endif %}
             </td>
           </tr>
         {% endfor %}

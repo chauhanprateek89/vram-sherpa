@@ -2,6 +2,14 @@
 
 MVP web app to estimate local LLM variant VRAM feasibility using a transparent estimation policy.
 
+## Trust layer (UI)
+
+The app footer exposes:
+
+- `catalog_version` (seed/catalog metadata)
+- estimation policy version (`v0.1`)
+- `last updated` (same value as `catalog_version`)
+
 ## Python version policy
 
 This project supports Python `>=3.12,<3.14`.
