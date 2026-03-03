@@ -54,6 +54,52 @@ Outside Docker (with `DATABASE_URL` set as needed):
 python -m vramsherpa.seed
 ```
 
+## Catalog refresh tooling (offline/build-time)
+
+Curated catalog inputs live in:
+
+- `tools/catalog_sources.yaml`
+
+Generate seed files from curated sources:
+
+```bash
+python tools/ingest_catalog.py --config tools/catalog_sources.yaml --output-dir data
+```
+
+Optional Hugging Face metadata enrichment (for configured model repos):
+
+```bash
+python tools/ingest_catalog.py --config tools/catalog_sources.yaml --output-dir data --with-hf-metadata
+```
+
+Validate generated catalog files:
+
+```bash
+python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml
+```
+
+The ingest script always writes:
+
+- `data/seed_gpus.json`
+- `data/seed_models.json`
+- `data/seed_variants.json`
+
+Each file follows:
+
+```json
+{ "catalog_version": "YYYY-MM-DD", "items": [ ... ] }
+```
+
+## Scheduled catalog PR workflow
+
+GitHub Actions workflow: `.github/workflows/catalog-refresh.yml`
+
+- Triggers weekly (Sunday UTC) and manual dispatch.
+- Runs ingest + validation before opening a PR.
+- Opens a PR only when `data/seed_*.json` files changed.
+- PR title format: `Catalog refresh YYYY-MM-DD`.
+- PR body includes refreshed counts for GPUs/models/variants.
+
 ## Run with Docker Compose
 
 ```bash

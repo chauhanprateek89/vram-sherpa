@@ -1,0 +1,1019 @@
+catalog:
+  quant_bucket_bits_effective:
+    Q4: 4.5
+    Q5: 5.5
+    Q8: 8.5
+    FP16: 16.0
+  huggingface:
+    enabled: false
+    timeout_seconds: 8
+    retries: 2
+    user_agent: VRAMSherpaCatalogBot/1.0
+gpus:
+- id: gpu_nvidia_rtx_4090_24gb
+  vendor: NVIDIA
+  name: GeForce RTX 4090
+  vram_gb: 24
+  notes: Desktop (Ada Lovelace).
+  sources:
+  - https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4090/
+- id: gpu_nvidia_rtx_4080_super_16gb
+  vendor: NVIDIA
+  name: GeForce RTX 4080 SUPER
+  vram_gb: 16
+  notes: Desktop (Ada Lovelace).
+  sources:
+  - https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4080-family/
+- id: gpu_nvidia_rtx_4070_ti_super_16gb
+  vendor: NVIDIA
+  name: GeForce RTX 4070 Ti SUPER
+  vram_gb: 16
+  notes: Desktop (Ada Lovelace).
+  sources:
+  - https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4070-family/
+- id: gpu_nvidia_rtx_4070_super_12gb
+  vendor: NVIDIA
+  name: GeForce RTX 4070 SUPER
+  vram_gb: 12
+  notes: Desktop (Ada Lovelace).
+  sources:
+  - https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4070-family/
+- id: gpu_nvidia_rtx_4070_12gb
+  vendor: NVIDIA
+  name: GeForce RTX 4070
+  vram_gb: 12
+  notes: Desktop (Ada Lovelace). Some AIBs use GDDR6X; spec page lists standard memory
+    config 12GB.
+  sources:
+  - https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4070-family/
+- id: gpu_nvidia_rtx_4060_ti_16gb
+  vendor: NVIDIA
+  name: GeForce RTX 4060 Ti (16GB)
+  vram_gb: 16
+  notes: Desktop (Ada Lovelace).
+  sources:
+  - https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4060-4060ti/
+- id: gpu_nvidia_rtx_4060_ti_8gb
+  vendor: NVIDIA
+  name: GeForce RTX 4060 Ti (8GB)
+  vram_gb: 8
+  notes: Desktop (Ada Lovelace).
+  sources:
+  - https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4060-4060ti/
+- id: gpu_nvidia_rtx_4060_8gb
+  vendor: NVIDIA
+  name: GeForce RTX 4060
+  vram_gb: 8
+  notes: Desktop (Ada Lovelace).
+  sources:
+  - https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4060-4060ti/
+- id: gpu_nvidia_rtx_4090_laptop_16gb
+  vendor: NVIDIA
+  name: GeForce RTX 4090 Laptop GPU
+  vram_gb: 16
+  notes: Laptop GPU (Ada Lovelace).
+  sources:
+  - https://www.nvidia.com/en-us/geforce/laptops/40-series/
+- id: gpu_nvidia_rtx_4080_laptop_12gb
+  vendor: NVIDIA
+  name: GeForce RTX 4080 Laptop GPU
+  vram_gb: 12
+  notes: Laptop GPU (Ada Lovelace).
+  sources:
+  - https://www.nvidia.com/en-us/geforce/laptops/40-series/
+- id: gpu_nvidia_rtx_4070_laptop_8gb
+  vendor: NVIDIA
+  name: GeForce RTX 4070 Laptop GPU
+  vram_gb: 8
+  notes: Laptop GPU (Ada Lovelace).
+  sources:
+  - https://www.nvidia.com/en-us/geforce/laptops/40-series/
+- id: gpu_nvidia_rtx_4060_laptop_8gb
+  vendor: NVIDIA
+  name: GeForce RTX 4060 Laptop GPU
+  vram_gb: 8
+  notes: Laptop GPU (Ada Lovelace).
+  sources:
+  - https://www.nvidia.com/en-us/geforce/laptops/40-series/
+- id: gpu_nvidia_rtx_4050_laptop_6gb
+  vendor: NVIDIA
+  name: GeForce RTX 4050 Laptop GPU
+  vram_gb: 6
+  notes: Laptop GPU (Ada Lovelace).
+  sources:
+  - https://www.nvidia.com/en-us/geforce/laptops/40-series/
+- id: gpu_amd_rx_7900_xtx_24gb
+  vendor: AMD
+  name: Radeon RX 7900 XTX
+  vram_gb: 24
+  notes: Desktop (RDNA 3).
+  sources:
+  - https://www.amd.com/en/products/graphics/desktops/radeon/7000-series/amd-radeon-rx-7900xtx.html
+- id: gpu_amd_rx_7900_xt_20gb
+  vendor: AMD
+  name: Radeon RX 7900 XT
+  vram_gb: 20
+  notes: Desktop (RDNA 3).
+  sources:
+  - https://www.amd.com/en/products/graphics/desktops/radeon/7000-series/amd-radeon-rx-7900xt.html
+- id: gpu_amd_rx_7800_xt_16gb
+  vendor: AMD
+  name: Radeon RX 7800 XT
+  vram_gb: 16
+  notes: Desktop (RDNA 3).
+  sources:
+  - https://www.amd.com/en/products/graphics/desktops/radeon/7000-series/amd-radeon-rx-7800-xt.html
+- id: gpu_amd_rx_7700_xt_12gb
+  vendor: AMD
+  name: Radeon RX 7700 XT
+  vram_gb: 12
+  notes: Desktop (RDNA 3).
+  sources:
+  - https://www.amd.com/en/products/graphics/desktops/radeon/7000-series/amd-radeon-rx-7700-xt.html
+- id: gpu_amd_rx_7600_xt_16gb
+  vendor: AMD
+  name: Radeon RX 7600 XT
+  vram_gb: 16
+  notes: Desktop (RDNA 3).
+  sources:
+  - https://www.amd.com/en/products/graphics/desktops/radeon/7000-series/amd-radeon-rx-7600-xt.html
+- id: gpu_amd_rx_7600_8gb
+  vendor: AMD
+  name: Radeon RX 7600
+  vram_gb: 8
+  notes: Desktop (RDNA 3).
+  sources:
+  - https://www.amd.com/en/products/graphics/desktops/radeon/7000-series/amd-radeon-rx-7600.html
+- id: gpu_amd_rx_6800_xt_16gb
+  vendor: AMD
+  name: Radeon RX 6800 XT
+  vram_gb: 16
+  notes: Desktop (RDNA 2).
+  sources:
+  - https://www.amd.com/en/products/graphics/desktops/radeon/6000-series/amd-radeon-rx-6800-xt.html
+- id: gpu_amd_rx_6700_xt_12gb
+  vendor: AMD
+  name: Radeon RX 6700 XT
+  vram_gb: 12
+  notes: Desktop (RDNA 2).
+  sources:
+  - https://www.amd.com/en/products/graphics/desktops/radeon/6000-series/amd-radeon-rx-6700-xt.html
+- id: gpu_amd_rx_7900m_laptop_16gb
+  vendor: AMD
+  name: Radeon RX 7900M
+  vram_gb: 16
+  notes: Laptop GPU (RDNA 3).
+  sources:
+  - https://www.amd.com/en/support/downloads/drivers.html/graphics/radeon-rx/radeon-rx-7000-series/amd-radeon-rx-7900m.html
+  - https://www.amd.com/en/newsroom/press-releases/2023-10-19-amd-introduces-fastest-amd-radeon-laptop-graphics-.html
+- id: gpu_amd_rx_7800m_laptop_12gb
+  vendor: AMD
+  name: Radeon RX 7800M
+  vram_gb: 12
+  notes: Laptop GPU (RDNA 3).
+  sources:
+  - https://www.amd.com/en/products/graphics/laptops/radeon/7000-series/amd-radeon-rx-7800m.html
+- id: gpu_nvidia_rtx_3090_24gb
+  vendor: NVIDIA
+  name: GeForce RTX 3090
+  vram_gb: 24
+  notes: Desktop (Ampere).
+  sources:
+  - https://www.nvidia.com/en-us/geforce/graphics-cards/30-series/rtx-3090-3090ti/
+- id: gpu_nvidia_rtx_3080_10gb
+  vendor: NVIDIA
+  name: GeForce RTX 3080
+  vram_gb: 10
+  notes: Desktop (Ampere, 10GB variant).
+  sources:
+  - https://www.nvidia.com/en-us/geforce/graphics-cards/30-series/rtx-3080-3080ti/
+- id: gpu_nvidia_rtx_3070_8gb
+  vendor: NVIDIA
+  name: GeForce RTX 3070
+  vram_gb: 8
+  notes: Desktop (Ampere).
+  sources:
+  - https://www.nvidia.com/en-us/geforce/graphics-cards/30-series/rtx-3070/
+- id: gpu_nvidia_rtx_3060_12gb
+  vendor: NVIDIA
+  name: GeForce RTX 3060
+  vram_gb: 12
+  notes: Desktop (Ampere, 12GB variant).
+  sources:
+  - https://www.nvidia.com/en-us/geforce/graphics-cards/30-series/rtx-3060-3060ti/
+- id: gpu_nvidia_rtx_2080_ti_11gb
+  vendor: NVIDIA
+  name: GeForce RTX 2080 Ti
+  vram_gb: 11
+  notes: Desktop (Turing).
+  sources:
+  - https://www.nvidia.com/en-us/geforce/graphics-cards/rtx-2080-ti/
+- id: gpu_nvidia_gtx_1080_ti_11gb
+  vendor: NVIDIA
+  name: GeForce GTX 1080 Ti
+  vram_gb: 11
+  notes: Desktop (Pascal).
+  sources:
+  - https://www.nvidia.com/en-us/geforce/products/10series/geforce-gtx-1080-ti/
+- id: gpu_amd_rx_6950_xt_16gb
+  vendor: AMD
+  name: Radeon RX 6950 XT
+  vram_gb: 16
+  notes: Desktop (RDNA 2).
+  sources:
+  - https://www.amd.com/en/products/graphics/desktops/radeon/6000-series/amd-radeon-rx-6950-xt.html
+- id: gpu_amd_rx_6900_xt_16gb
+  vendor: AMD
+  name: Radeon RX 6900 XT
+  vram_gb: 16
+  notes: Desktop (RDNA 2).
+  sources:
+  - https://www.amd.com/en/products/graphics/desktops/radeon/6000-series/amd-radeon-rx-6900-xt.html
+- id: gpu_amd_rx_6800_16gb
+  vendor: AMD
+  name: Radeon RX 6800
+  vram_gb: 16
+  notes: Desktop (RDNA 2).
+  sources:
+  - https://www.amd.com/en/products/graphics/desktops/radeon/6000-series/amd-radeon-rx-6800.html
+- id: gpu_amd_rx_5700_xt_8gb
+  vendor: AMD
+  name: Radeon RX 5700 XT
+  vram_gb: 8
+  notes: Desktop (RDNA 1).
+  sources:
+  - https://www.amd.com/en/products/graphics/desktops/radeon/5000-series/amd-radeon-rx-5700-xt.html
+- id: gpu_intel_arc_a770_16gb
+  vendor: Intel
+  name: Arc A770
+  vram_gb: 16
+  notes: Desktop (Alchemist).
+  sources:
+  - https://www.intel.com/content/www/us/en/products/sku/227958/intel-arc-a770-graphics/specifications.html
+- id: gpu_intel_arc_a750_8gb
+  vendor: Intel
+  name: Arc A750
+  vram_gb: 8
+  notes: Desktop (Alchemist).
+  sources:
+  - https://www.intel.com/content/www/us/en/products/sku/227959/intel-arc-a750-graphics/specifications.html
+models:
+- id: model_llama_31_8b_instruct
+  name: Llama 3.1 8B Instruct
+  family: llama
+  params_b: 8.0
+  model_type: instruct
+  license: Llama 3.1 Community License
+  kv_gb_per_1k_ctx: 0.48
+  notes: 'kv_gb_per_1k_ctx is a VRAM Sherpa MVP heuristic: round(0.06 * params_b,
+    2).'
+  sources:
+  - https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct
+  - https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct/blob/main/LICENSE
+  - 'heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)'
+  hf_repo: meta-llama/Llama-3.1-8B-Instruct
+- id: model_llama_31_8b_base
+  name: Llama 3.1 8B
+  family: llama
+  params_b: 8.0
+  model_type: base
+  license: Llama 3.1 Community License
+  kv_gb_per_1k_ctx: 0.48
+  notes: 'Pretrained/base variant. kv_gb_per_1k_ctx is a VRAM Sherpa MVP heuristic:
+    round(0.06 * params_b, 2).'
+  sources:
+  - https://huggingface.co/meta-llama/Llama-3.1-8B
+  - https://huggingface.co/meta-llama/Llama-3.1-8B/blob/main/LICENSE
+  - https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct
+  - 'heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)'
+  hf_repo: meta-llama/Llama-3.1-8B
+- id: model_llama_31_70b_instruct
+  name: Llama 3.1 70B Instruct
+  family: llama
+  params_b: 71.0
+  model_type: instruct
+  license: Llama 3.1 Community License
+  kv_gb_per_1k_ctx: 4.26
+  notes: 'Hugging Face model page reports model size as 71B params. kv_gb_per_1k_ctx
+    is a VRAM Sherpa MVP heuristic: round(0.06 * params_b, 2).'
+  sources:
+  - https://huggingface.co/meta-llama/Llama-3.1-70B-Instruct
+  - https://huggingface.co/meta-llama/Llama-3.1-70B-Instruct/blob/main/LICENSE
+  - 'heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)'
+  hf_repo: null
+- id: model_mistral_7b_instruct_v03
+  name: Mistral 7B Instruct v0.3
+  family: mistral
+  params_b: 7.0
+  model_type: instruct
+  license: apache-2.0
+  kv_gb_per_1k_ctx: 0.42
+  notes: 'Instruction-tuned variant. kv_gb_per_1k_ctx is a VRAM Sherpa MVP heuristic:
+    round(0.06 * params_b, 2).'
+  sources:
+  - https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3
+  - 'heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)'
+  hf_repo: mistralai/Mistral-7B-Instruct-v0.3
+- id: model_mistral_7b_base_v03
+  name: Mistral 7B v0.3
+  family: mistral
+  params_b: 7.0
+  model_type: base
+  license: apache-2.0
+  kv_gb_per_1k_ctx: 0.42
+  notes: 'Base/pretrained variant. kv_gb_per_1k_ctx is a VRAM Sherpa MVP heuristic:
+    round(0.06 * params_b, 2).'
+  sources:
+  - https://huggingface.co/mistralai/Mistral-7B-v0.3
+  - 'heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)'
+  hf_repo: mistralai/Mistral-7B-v0.3
+- id: model_mistral_nemo_12b_instruct_2407
+  name: Mistral NeMo 12B Instruct (2407)
+  family: mistral
+  params_b: 12.0
+  model_type: instruct
+  license: apache-2.0
+  kv_gb_per_1k_ctx: 0.72
+  notes: 'Open-weight 12B collaboration between Mistral and NVIDIA. kv_gb_per_1k_ctx
+    is a VRAM Sherpa MVP heuristic: round(0.06 * params_b, 2).'
+  sources:
+  - https://huggingface.co/mistralai/Mistral-Nemo-Instruct-2407
+  - https://mistral.ai/news/mistral-nemo
+  - https://huggingface.co/nvidia/Mistral-NeMo-12B-Instruct
+  - 'heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)'
+  hf_repo: null
+- id: model_qwen25_3b_instruct
+  name: Qwen2.5 3B Instruct
+  family: qwen
+  params_b: 3.09
+  model_type: instruct
+  license: qwen-research
+  kv_gb_per_1k_ctx: 0.19
+  notes: 'Qwen2.5 3B is under Qwen Research License on Hugging Face at time of writing.
+    kv_gb_per_1k_ctx is a VRAM Sherpa MVP heuristic: round(0.06 * params_b, 2).'
+  sources:
+  - https://huggingface.co/Qwen/Qwen2.5-3B-Instruct
+  - https://huggingface.co/Qwen/Qwen2.5-3B-Instruct/tree/main
+  - https://qwen.ai/blog?from=research.research-list&id=6da44b4d3b48c53f5719bab9cc18b732a7065647
+  - 'heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)'
+  hf_repo: Qwen/Qwen2.5-3B-Instruct
+- id: model_qwen25_7b_instruct
+  name: Qwen2.5 7B Instruct
+  family: qwen
+  params_b: 7.61
+  model_type: instruct
+  license: apache-2.0
+  kv_gb_per_1k_ctx: 0.46
+  notes: 'kv_gb_per_1k_ctx is a VRAM Sherpa MVP heuristic: round(0.06 * params_b,
+    2).'
+  sources:
+  - https://huggingface.co/Qwen/Qwen2.5-7B-Instruct
+  - https://huggingface.co/Qwen/Qwen2.5-7B-Instruct/blob/main/LICENSE
+  - 'heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)'
+  hf_repo: Qwen/Qwen2.5-7B-Instruct
+- id: model_qwen25_14b_instruct
+  name: Qwen2.5 14B Instruct
+  family: qwen
+  params_b: 14.7
+  model_type: instruct
+  license: apache-2.0
+  kv_gb_per_1k_ctx: 0.88
+  notes: 'kv_gb_per_1k_ctx is a VRAM Sherpa MVP heuristic: round(0.06 * params_b,
+    2).'
+  sources:
+  - https://huggingface.co/Qwen/Qwen2.5-14B-Instruct
+  - https://huggingface.co/Qwen/Qwen2.5-14B-Instruct/blob/main/LICENSE
+  - 'heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)'
+  hf_repo: Qwen/Qwen2.5-14B-Instruct
+- id: model_gemma2_9b_it
+  name: Gemma 2 9B IT
+  family: gemma
+  params_b: 9.0
+  model_type: instruct
+  license: gemma
+  kv_gb_per_1k_ctx: 0.54
+  notes: 'Gemma models require accepting Google''s usage license to access weights
+    on Hugging Face/Kaggle. kv_gb_per_1k_ctx is a VRAM Sherpa MVP heuristic: round(0.06
+    * params_b, 2).'
+  sources:
+  - https://huggingface.co/google/gemma-2-9b-it
+  - https://huggingface.co/blog/gemma2
+  - https://www.kaggle.com/models/google/gemma-2/license/consent
+  - 'heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)'
+  hf_repo: null
+- id: model_gemma2_9b_base
+  name: Gemma 2 9B
+  family: gemma
+  params_b: 9.0
+  model_type: base
+  license: gemma
+  kv_gb_per_1k_ctx: 0.54
+  notes: 'Base/pretrained variant. Gemma models require accepting Google''s usage
+    license. kv_gb_per_1k_ctx is a VRAM Sherpa MVP heuristic: round(0.06 * params_b,
+    2).'
+  sources:
+  - https://huggingface.co/google/gemma-2-9b
+  - https://huggingface.co/blog/gemma2
+  - https://www.kaggle.com/models/google/gemma-2/license/consent
+  - 'heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)'
+  hf_repo: null
+- id: model_phi35_mini_instruct
+  name: Phi-3.5 Mini Instruct
+  family: phi
+  params_b: 3.8
+  model_type: instruct
+  license: mit
+  kv_gb_per_1k_ctx: 0.23
+  notes: 'kv_gb_per_1k_ctx is a VRAM Sherpa MVP heuristic: round(0.06 * params_b,
+    2).'
+  sources:
+  - https://huggingface.co/microsoft/Phi-3.5-mini-instruct
+  - https://huggingface.co/microsoft/Phi-3.5-mini-instruct/blob/main/LICENSE
+  - 'heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)'
+  hf_repo: microsoft/Phi-3.5-mini-instruct
+- id: model_yi15_9b_chat
+  name: Yi-1.5 9B Chat
+  family: yi
+  params_b: 9.0
+  model_type: instruct
+  license: apache-2.0
+  kv_gb_per_1k_ctx: 0.54
+  notes: 'Chat-tuned variant. kv_gb_per_1k_ctx is a VRAM Sherpa MVP heuristic: round(0.06
+    * params_b, 2).'
+  sources:
+  - https://huggingface.co/01-ai/Yi-1.5-9B-Chat
+  - 'heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)'
+  hf_repo: null
+variants:
+- id: variant_model_llama_31_8b_instruct_q4
+  model_id: model_llama_31_8b_instruct
+  quant_bucket: Q4
+  quant_label: Q4
+  bits_effective: 4.5
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: true
+- id: variant_model_llama_31_8b_instruct_q5
+  model_id: model_llama_31_8b_instruct
+  quant_bucket: Q5
+  quant_label: Q5
+  bits_effective: 5.5
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: false
+- id: variant_model_llama_31_8b_instruct_q8
+  model_id: model_llama_31_8b_instruct
+  quant_bucket: Q8
+  quant_label: Q8
+  bits_effective: 8.5
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: false
+- id: variant_model_llama_31_8b_instruct_fp16
+  model_id: model_llama_31_8b_instruct
+  quant_bucket: FP16
+  quant_label: FP16
+  bits_effective: 16
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: false
+- id: variant_model_llama_31_8b_base_q4
+  model_id: model_llama_31_8b_base
+  quant_bucket: Q4
+  quant_label: Q4
+  bits_effective: 4.5
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: false
+- id: variant_model_llama_31_8b_base_q5
+  model_id: model_llama_31_8b_base
+  quant_bucket: Q5
+  quant_label: Q5
+  bits_effective: 5.5
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: false
+- id: variant_model_llama_31_8b_base_q8
+  model_id: model_llama_31_8b_base
+  quant_bucket: Q8
+  quant_label: Q8
+  bits_effective: 8.5
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: false
+- id: variant_model_llama_31_8b_base_fp16
+  model_id: model_llama_31_8b_base
+  quant_bucket: FP16
+  quant_label: FP16
+  bits_effective: 16
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: false
+- id: variant_model_llama_31_70b_instruct_q4
+  model_id: model_llama_31_70b_instruct
+  quant_bucket: Q4
+  quant_label: Q4
+  bits_effective: 4.5
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: true
+- id: variant_model_llama_31_70b_instruct_q5
+  model_id: model_llama_31_70b_instruct
+  quant_bucket: Q5
+  quant_label: Q5
+  bits_effective: 5.5
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: false
+- id: variant_model_llama_31_70b_instruct_q8
+  model_id: model_llama_31_70b_instruct
+  quant_bucket: Q8
+  quant_label: Q8
+  bits_effective: 8.5
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: false
+- id: variant_model_llama_31_70b_instruct_fp16
+  model_id: model_llama_31_70b_instruct
+  quant_bucket: FP16
+  quant_label: FP16
+  bits_effective: 16
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: false
+- id: variant_model_mistral_7b_instruct_v03_q4
+  model_id: model_mistral_7b_instruct_v03
+  quant_bucket: Q4
+  quant_label: Q4
+  bits_effective: 4.5
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: true
+- id: variant_model_mistral_7b_instruct_v03_q5
+  model_id: model_mistral_7b_instruct_v03
+  quant_bucket: Q5
+  quant_label: Q5
+  bits_effective: 5.5
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: false
+- id: variant_model_mistral_7b_instruct_v03_q8
+  model_id: model_mistral_7b_instruct_v03
+  quant_bucket: Q8
+  quant_label: Q8
+  bits_effective: 8.5
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: false
+- id: variant_model_mistral_7b_instruct_v03_fp16
+  model_id: model_mistral_7b_instruct_v03
+  quant_bucket: FP16
+  quant_label: FP16
+  bits_effective: 16
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: false
+- id: variant_model_mistral_7b_base_v03_q4
+  model_id: model_mistral_7b_base_v03
+  quant_bucket: Q4
+  quant_label: Q4
+  bits_effective: 4.5
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: false
+- id: variant_model_mistral_7b_base_v03_q5
+  model_id: model_mistral_7b_base_v03
+  quant_bucket: Q5
+  quant_label: Q5
+  bits_effective: 5.5
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: false
+- id: variant_model_mistral_7b_base_v03_q8
+  model_id: model_mistral_7b_base_v03
+  quant_bucket: Q8
+  quant_label: Q8
+  bits_effective: 8.5
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: false
+- id: variant_model_mistral_7b_base_v03_fp16
+  model_id: model_mistral_7b_base_v03
+  quant_bucket: FP16
+  quant_label: FP16
+  bits_effective: 16
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: false
+- id: variant_model_mistral_nemo_12b_instruct_2407_q4
+  model_id: model_mistral_nemo_12b_instruct_2407
+  quant_bucket: Q4
+  quant_label: Q4
+  bits_effective: 4.5
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: true
+- id: variant_model_mistral_nemo_12b_instruct_2407_q5
+  model_id: model_mistral_nemo_12b_instruct_2407
+  quant_bucket: Q5
+  quant_label: Q5
+  bits_effective: 5.5
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: false
+- id: variant_model_mistral_nemo_12b_instruct_2407_q8
+  model_id: model_mistral_nemo_12b_instruct_2407
+  quant_bucket: Q8
+  quant_label: Q8
+  bits_effective: 8.5
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: false
+- id: variant_model_mistral_nemo_12b_instruct_2407_fp16
+  model_id: model_mistral_nemo_12b_instruct_2407
+  quant_bucket: FP16
+  quant_label: FP16
+  bits_effective: 16
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: false
+- id: variant_model_qwen25_3b_instruct_q4
+  model_id: model_qwen25_3b_instruct
+  quant_bucket: Q4
+  quant_label: Q4
+  bits_effective: 4.5
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: true
+- id: variant_model_qwen25_3b_instruct_q5
+  model_id: model_qwen25_3b_instruct
+  quant_bucket: Q5
+  quant_label: Q5
+  bits_effective: 5.5
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: false
+- id: variant_model_qwen25_3b_instruct_q8
+  model_id: model_qwen25_3b_instruct
+  quant_bucket: Q8
+  quant_label: Q8
+  bits_effective: 8.5
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: false
+- id: variant_model_qwen25_3b_instruct_fp16
+  model_id: model_qwen25_3b_instruct
+  quant_bucket: FP16
+  quant_label: FP16
+  bits_effective: 16
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: false
+- id: variant_model_qwen25_7b_instruct_q4
+  model_id: model_qwen25_7b_instruct
+  quant_bucket: Q4
+  quant_label: Q4
+  bits_effective: 4.5
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: true
+- id: variant_model_qwen25_7b_instruct_q5
+  model_id: model_qwen25_7b_instruct
+  quant_bucket: Q5
+  quant_label: Q5
+  bits_effective: 5.5
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: false
+- id: variant_model_qwen25_7b_instruct_q8
+  model_id: model_qwen25_7b_instruct
+  quant_bucket: Q8
+  quant_label: Q8
+  bits_effective: 8.5
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: false
+- id: variant_model_qwen25_7b_instruct_fp16
+  model_id: model_qwen25_7b_instruct
+  quant_bucket: FP16
+  quant_label: FP16
+  bits_effective: 16
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: false
+- id: variant_model_qwen25_14b_instruct_q4
+  model_id: model_qwen25_14b_instruct
+  quant_bucket: Q4
+  quant_label: Q4
+  bits_effective: 4.5
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: true
+- id: variant_model_qwen25_14b_instruct_q5
+  model_id: model_qwen25_14b_instruct
+  quant_bucket: Q5
+  quant_label: Q5
+  bits_effective: 5.5
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: false
+- id: variant_model_qwen25_14b_instruct_q8
+  model_id: model_qwen25_14b_instruct
+  quant_bucket: Q8
+  quant_label: Q8
+  bits_effective: 8.5
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: false
+- id: variant_model_qwen25_14b_instruct_fp16
+  model_id: model_qwen25_14b_instruct
+  quant_bucket: FP16
+  quant_label: FP16
+  bits_effective: 16
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: false
+- id: variant_model_gemma2_9b_it_q4
+  model_id: model_gemma2_9b_it
+  quant_bucket: Q4
+  quant_label: Q4
+  bits_effective: 4.5
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: false
+- id: variant_model_gemma2_9b_it_q5
+  model_id: model_gemma2_9b_it
+  quant_bucket: Q5
+  quant_label: Q5
+  bits_effective: 5.5
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: false
+- id: variant_model_gemma2_9b_it_q8
+  model_id: model_gemma2_9b_it
+  quant_bucket: Q8
+  quant_label: Q8
+  bits_effective: 8.5
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: false
+- id: variant_model_gemma2_9b_it_fp16
+  model_id: model_gemma2_9b_it
+  quant_bucket: FP16
+  quant_label: FP16
+  bits_effective: 16
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: false
+- id: variant_model_gemma2_9b_base_q4
+  model_id: model_gemma2_9b_base
+  quant_bucket: Q4
+  quant_label: Q4
+  bits_effective: 4.5
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: false
+- id: variant_model_gemma2_9b_base_q5
+  model_id: model_gemma2_9b_base
+  quant_bucket: Q5
+  quant_label: Q5
+  bits_effective: 5.5
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: false
+- id: variant_model_gemma2_9b_base_q8
+  model_id: model_gemma2_9b_base
+  quant_bucket: Q8
+  quant_label: Q8
+  bits_effective: 8.5
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: false
+- id: variant_model_gemma2_9b_base_fp16
+  model_id: model_gemma2_9b_base
+  quant_bucket: FP16
+  quant_label: FP16
+  bits_effective: 16
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: false
+- id: variant_model_phi35_mini_instruct_q4
+  model_id: model_phi35_mini_instruct
+  quant_bucket: Q4
+  quant_label: Q4
+  bits_effective: 4.5
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: true
+- id: variant_model_phi35_mini_instruct_q5
+  model_id: model_phi35_mini_instruct
+  quant_bucket: Q5
+  quant_label: Q5
+  bits_effective: 5.5
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: false
+- id: variant_model_phi35_mini_instruct_q8
+  model_id: model_phi35_mini_instruct
+  quant_bucket: Q8
+  quant_label: Q8
+  bits_effective: 8.5
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: false
+- id: variant_model_phi35_mini_instruct_fp16
+  model_id: model_phi35_mini_instruct
+  quant_bucket: FP16
+  quant_label: FP16
+  bits_effective: 16
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: false
+- id: variant_model_yi15_9b_chat_q4
+  model_id: model_yi15_9b_chat
+  quant_bucket: Q4
+  quant_label: Q4
+  bits_effective: 4.5
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: true
+- id: variant_model_yi15_9b_chat_q5
+  model_id: model_yi15_9b_chat
+  quant_bucket: Q5
+  quant_label: Q5
+  bits_effective: 5.5
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: false
+- id: variant_model_yi15_9b_chat_q8
+  model_id: model_yi15_9b_chat
+  quant_bucket: Q8
+  quant_label: Q8
+  bits_effective: 8.5
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: false
+- id: variant_model_yi15_9b_chat_fp16
+  model_id: model_yi15_9b_chat
+  quant_bucket: FP16
+  quant_label: FP16
+  bits_effective: 16
+  notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
+    not an exact on-disk format.
+  sources:
+  - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
+  - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+  recommended: false
