@@ -10,7 +10,11 @@ from typing import Any
 from urllib import error, parse, request
 
 import yaml
-from validate_catalog import validate_catalog_files
+
+try:
+    from .validate_catalog import validate_catalog_files
+except ImportError:
+    from validate_catalog import validate_catalog_files
 
 DEFAULT_CONFIG_PATH = Path("tools/catalog_sources.yaml")
 DEFAULT_OUTPUT_DIR = Path("data")
