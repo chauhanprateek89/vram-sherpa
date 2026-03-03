@@ -87,31 +87,56 @@ def _expect_sources_list(item: dict[str, Any], label: str, errors: list[str]) ->
             errors.append(f"{label}: sources[{src_idx}] must be a non-empty string")
 
 
+def _normalize_quant_bits(raw_map: Any) -> dict[str, float]:
+    if not isinstance(raw_map, dict):
+        raise ValueError("catalog.quant_bucket_bits_effective must be a mapping")
+
+    out: dict[str, float] = {}
+    for key, value in raw_map.items():
+        if not isinstance(key, str):
+            raise ValueError("catalog.quant_bucket_bits_effective keys must be strings")
+        if isinstance(value, bool) or not isinstance(value, (int, float)):
+            raise ValueError(f"catalog.quant_bucket_bits_effective[{key!r}] must be a number")
+        out[key] = float(value)
+
+    expected_keys = set(DEFAULT_QUANT_BITS)
+    missing = sorted(expected_keys - set(out))
+    unexpected = sorted(set(out) - expected_keys)
+    if missing or unexpected:
+        raise ValueError(
+            "catalog.quant_bucket_bits_effective must contain exactly "
+            f"{list(DEFAULT_QUANT_BITS)}; missing={missing}, unexpected={unexpected}"
+        )
+
+    for bucket, expected in DEFAULT_QUANT_BITS.items():
+        actual = out[bucket]
+        if abs(actual - expected) > 1e-9:
+            raise ValueError(
+                "catalog.quant_bucket_bits_effective values must match required bits: "
+                f"{bucket}={expected} (got {actual})"
+            )
+
+    return {bucket: out[bucket] for bucket in DEFAULT_QUANT_BITS}
+
+
 def _load_expected_quant_bits(config_path: Path | None) -> dict[str, float]:
     if config_path is None or not config_path.exists():
         return dict(DEFAULT_QUANT_BITS)
 
     payload = yaml.safe_load(config_path.read_text(encoding="utf-8"))
     if not isinstance(payload, dict):
-        return dict(DEFAULT_QUANT_BITS)
+        raise ValueError(f"{config_path}: top-level YAML must be a mapping")
 
     catalog = payload.get("catalog")
-    if not isinstance(catalog, dict):
+    if catalog is None:
         return dict(DEFAULT_QUANT_BITS)
+    if not isinstance(catalog, dict):
+        raise ValueError(f"{config_path}: catalog must be an object")
 
     raw_map = catalog.get("quant_bucket_bits_effective")
-    if not isinstance(raw_map, dict):
+    if raw_map is None:
         return dict(DEFAULT_QUANT_BITS)
-
-    out: dict[str, float] = {}
-    for key, value in raw_map.items():
-        if not isinstance(key, str):
-            continue
-        if isinstance(value, bool) or not isinstance(value, (int, float)):
-            continue
-        out[key] = float(value)
-
-    return out or dict(DEFAULT_QUANT_BITS)
+    return _normalize_quant_bits(raw_map)
 
 
 def validate_catalog_files(

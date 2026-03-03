@@ -1,9 +1,10 @@
 {
-  "catalog_version": "2026-02-22",
+  "catalog_version": "2026-03-03",
   "items": [
     {
       "id": "model_llama_31_8b_instruct",
       "name": "Llama 3.1 8B Instruct",
+      "canonical_identifier": "meta-llama/Llama-3.1-8B-Instruct",
       "family": "llama",
       "params_b": 8.0,
       "model_type": "instruct",
@@ -19,6 +20,7 @@
     {
       "id": "model_llama_31_8b_base",
       "name": "Llama 3.1 8B",
+      "canonical_identifier": "meta-llama/Llama-3.1-8B",
       "family": "llama",
       "params_b": 8.0,
       "model_type": "base",
@@ -35,6 +37,7 @@
     {
       "id": "model_llama_31_70b_instruct",
       "name": "Llama 3.1 70B Instruct",
+      "canonical_identifier": "model_llama_31_70b_instruct",
       "family": "llama",
       "params_b": 71.0,
       "model_type": "instruct",
@@ -50,6 +53,7 @@
     {
       "id": "model_mistral_7b_instruct_v03",
       "name": "Mistral 7B Instruct v0.3",
+      "canonical_identifier": "mistralai/Mistral-7B-Instruct-v0.3",
       "family": "mistral",
       "params_b": 7.0,
       "model_type": "instruct",
@@ -64,6 +68,7 @@
     {
       "id": "model_mistral_7b_base_v03",
       "name": "Mistral 7B v0.3",
+      "canonical_identifier": "mistralai/Mistral-7B-v0.3",
       "family": "mistral",
       "params_b": 7.0,
       "model_type": "base",
@@ -78,6 +83,7 @@
     {
       "id": "model_mistral_nemo_12b_instruct_2407",
       "name": "Mistral NeMo 12B Instruct (2407)",
+      "canonical_identifier": "model_mistral_nemo_12b_instruct_2407",
       "family": "mistral",
       "params_b": 12.0,
       "model_type": "instruct",
@@ -94,6 +100,7 @@
     {
       "id": "model_qwen25_3b_instruct",
       "name": "Qwen2.5 3B Instruct",
+      "canonical_identifier": "Qwen/Qwen2.5-3B-Instruct",
       "family": "qwen",
       "params_b": 3.09,
       "model_type": "instruct",
@@ -110,6 +117,7 @@
     {
       "id": "model_qwen25_7b_instruct",
       "name": "Qwen2.5 7B Instruct",
+      "canonical_identifier": "Qwen/Qwen2.5-7B-Instruct",
       "family": "qwen",
       "params_b": 7.61,
       "model_type": "instruct",
@@ -125,6 +133,7 @@
     {
       "id": "model_qwen25_14b_instruct",
       "name": "Qwen2.5 14B Instruct",
+      "canonical_identifier": "Qwen/Qwen2.5-14B-Instruct",
       "family": "qwen",
       "params_b": 14.7,
       "model_type": "instruct",
@@ -140,6 +149,7 @@
     {
       "id": "model_gemma2_9b_it",
       "name": "Gemma 2 9B IT",
+      "canonical_identifier": "model_gemma2_9b_it",
       "family": "gemma",
       "params_b": 9.0,
       "model_type": "instruct",
@@ -156,6 +166,7 @@
     {
       "id": "model_gemma2_9b_base",
       "name": "Gemma 2 9B",
+      "canonical_identifier": "model_gemma2_9b_base",
       "family": "gemma",
       "params_b": 9.0,
       "model_type": "base",
@@ -172,6 +183,7 @@
     {
       "id": "model_phi35_mini_instruct",
       "name": "Phi-3.5 Mini Instruct",
+      "canonical_identifier": "microsoft/Phi-3.5-mini-instruct",
       "family": "phi",
       "params_b": 3.8,
       "model_type": "instruct",
@@ -187,6 +199,7 @@
     {
       "id": "model_yi15_9b_chat",
       "name": "Yi-1.5 9B Chat",
+      "canonical_identifier": "model_yi15_9b_chat",
       "family": "yi",
       "params_b": 9.0,
       "model_type": "instruct",

@@ -60,6 +60,17 @@ Curated catalog inputs live in:
 
 - `tools/catalog_sources.yaml`
 
+The tooling requires `pyyaml` in addition to project deps:
+
+```bash
+pip install -e ".[dev]" pyyaml
+```
+
+`tools/catalog_sources.yaml` defines:
+
+- Curated `gpus` and `models` entries.
+- `catalog.variant_generation` rules that always emit `Q4`, `Q5`, `Q8`, and `FP16` variants.
+
 Generate seed files from curated sources:
 
 ```bash
