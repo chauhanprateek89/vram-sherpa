@@ -1171,10 +1171,7 @@ def healthz(session: Session = Depends(get_session)) -> JSONResponse:
         )
 
     catalog_seeded = (
-        catalog_version != "unseeded"
-        and gpu_count > 0
-        and model_count > 0
-        and variant_count > 0
+        catalog_version != "unseeded" and gpu_count > 0 and model_count > 0 and variant_count > 0
     )
 
     status_code = 200 if catalog_seeded else 503
