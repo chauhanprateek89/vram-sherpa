@@ -1,0 +1,68 @@
+{% if form_errors %}
+  <section class="form-alert" role="alert" aria-live="polite">
+    <p>Please fix the following input issues:</p>
+    <ul>
+      {% for error in form_errors %}
+        <li>{{ error }}</li>
+      {% endfor %}
+    </ul>
+  </section>
+{% endif %}
+
+{% if gpu_search_feedback %}
+  <section class="form-alert" role="status" aria-live="polite">
+    <p>{{ gpu_search_feedback }}</p>
+  </section>
+{% endif %}
+
+<section class="summary-banner" id="summary-banner">
+  <h2>Summary for this query</h2>
+  <p class="summary-selection">
+    <span><strong>Hardware:</strong> {{ selected_hardware_label }}</span>
+    <span><strong>Context:</strong> {{ selected_context_label }}</span>
+  </p>
+  <p class="summary-note">Showing only Fits and Tight models in the list below.</p>
+  <div class="summary-grid">
+    <div class="summary-stat">
+      <strong>{{ summary_counts["Fits"] }}</strong>
+      <span>Fits</span>
+    </div>
+    <div class="summary-stat">
+      <strong>{{ summary_counts["Tight"] }}</strong>
+      <span>Tight</span>
+    </div>
+    <div class="summary-stat">
+      <strong>{{ summary_counts["Won't fit"] }}</strong>
+      <span>Won't fit</span>
+    </div>
+  </div>
+</section>
+
+{% if top_picks %}
+  <section class="panel top-picks">
+    <h2>Top Picks for you</h2>
+    <div class="top-pick-grid">
+      {% for pick in top_picks %}
+        <article class="top-pick-card">
+          <p class="eyebrow">{{ pick.title }}</p>
+          <h3>
+            <a href="/models/{{ pick.row.model_id }}?{{ hardware_query_string }}">{{ pick.row.model_name }}</a>
+          </h3>
+          <p>{{ '%.1f'|format(pick.row.params_b) }}B · {{ pick.row.quant_label }}</p>
+          <p class="muted">{{ pick.description }}</p>
+        </article>
+      {% endfor %}
+    </div>
+  </section>
+{% endif %}
+
+{% if active_filter_chips %}
+  <section class="active-filters">
+    <span>Active filters:</span>
+    {% for chip in active_filter_chips %}
+      <a class="chip chip-active" href="{{ chip.remove_url }}">
+        {{ chip.label }} ×
+      </a>
+    {% endfor %}
+  </section>
+{% endif %}
