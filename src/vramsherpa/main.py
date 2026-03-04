@@ -885,17 +885,17 @@ def healthz() -> dict[str, str]:
     return {"status": "ok"}
 
 
-def create_app(settings: Settings | None = None) -> FastAPI:
+def create_app(settings: Settings | None = None, *, database_url: str | None = None) -> FastAPI:
     resolved_settings = settings or get_settings()
-    database_url = resolved_settings.database_url
-    if not database_url:
+    resolved_database_url = database_url or resolved_settings.database_url
+    if not resolved_database_url:
         if resolved_settings.app_env != "test":
             msg = "DATABASE_URL must be set when APP_ENV is not 'test'."
             raise RuntimeError(msg)
-        msg = "DATABASE_URL must be provided when creating the test app."
+        msg = "DATABASE_URL must be provided when APP_ENV is 'test'."
         raise RuntimeError(msg)
 
-    configure_engine(database_url)
+    configure_engine(resolved_database_url)
 
     app = FastAPI(title="VRAM Sherpa")
     app.state.settings = resolved_settings

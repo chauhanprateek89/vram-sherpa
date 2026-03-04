@@ -2,10 +2,20 @@ from __future__ import annotations
 
 import re
 
+import pytest
 from sqlalchemy.orm import Session
 from starlette.requests import Request
 
-from vramsherpa.main import healthz, home, how_it_works, model_detail, results, variant_breakdown
+from vramsherpa.config import Settings
+from vramsherpa.main import (
+    create_app,
+    healthz,
+    home,
+    how_it_works,
+    model_detail,
+    results,
+    variant_breakdown,
+)
 
 
 def _request(app, path: str, *, hx: bool = False) -> Request:
@@ -281,3 +291,37 @@ def test_how_it_works_returns_200(app, seeded_session: Session) -> None:
 
 def test_healthz_returns_json() -> None:
     assert healthz() == {"status": "ok"}
+
+
+def test_create_app_requires_database_url_outside_test_env() -> None:
+    with pytest.raises(RuntimeError, match="APP_ENV is not 'test'"):
+        create_app(
+            Settings(
+                database_url=None,
+                app_env="dev",
+                allowed_hosts=("testserver",),
+            )
+        )
+
+
+def test_create_app_requires_database_url_for_test_env_when_not_explicit() -> None:
+    with pytest.raises(RuntimeError, match="APP_ENV is 'test'"):
+        create_app(
+            Settings(
+                database_url=None,
+                app_env="test",
+                allowed_hosts=("testserver",),
+            )
+        )
+
+
+def test_create_app_accepts_explicit_database_url_for_test_env() -> None:
+    app = create_app(
+        Settings(
+            database_url=None,
+            app_env="test",
+            allowed_hosts=("testserver",),
+        ),
+        database_url="sqlite+pysqlite:///:memory:",
+    )
+    assert app.title == "VRAM Sherpa"

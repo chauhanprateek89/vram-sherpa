@@ -9,7 +9,7 @@ from vramsherpa.database import Base
 class GPU(Base):
     __tablename__ = "gpus"
 
-    id: Mapped[str] = mapped_column(String(120), primary_key=True)
+    id: Mapped[str] = mapped_column(Text, primary_key=True)
     vendor: Mapped[str] = mapped_column(String(100), nullable=False)
     name: Mapped[str] = mapped_column(String(200), nullable=False)
     vram_gb: Mapped[float] = mapped_column(Numeric(10, 2), nullable=False)
@@ -19,7 +19,7 @@ class GPU(Base):
 class Model(Base):
     __tablename__ = "models"
 
-    id: Mapped[str] = mapped_column(String(120), primary_key=True)
+    id: Mapped[str] = mapped_column(Text, primary_key=True)
     name: Mapped[str] = mapped_column(String(200), nullable=False)
     family: Mapped[str] = mapped_column(String(120), nullable=False)
     params_b: Mapped[float] = mapped_column(Numeric(10, 3), nullable=False)
@@ -36,9 +36,11 @@ class Model(Base):
 class Variant(Base):
     __tablename__ = "variants"
 
-    id: Mapped[str] = mapped_column(String(160), primary_key=True)
+    id: Mapped[str] = mapped_column(Text, primary_key=True)
     model_id: Mapped[str] = mapped_column(
-        ForeignKey("models.id", ondelete="CASCADE"), nullable=False
+        Text,
+        ForeignKey("models.id", ondelete="CASCADE"),
+        nullable=False,
     )
     quant_bucket: Mapped[str] = mapped_column(String(20), nullable=False)
     quant_label: Mapped[str] = mapped_column(String(100), nullable=False)

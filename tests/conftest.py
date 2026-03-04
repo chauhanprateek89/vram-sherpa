@@ -24,11 +24,11 @@ def test_database_url(tmp_path: Path) -> str:
 @pytest.fixture()
 def app(test_database_url: str):
     settings = Settings(
-        database_url=test_database_url,
+        database_url=None,
         app_env="test",
         allowed_hosts=("testserver", "localhost", "127.0.0.1"),
     )
-    return create_app(settings)
+    return create_app(settings, database_url=test_database_url)
 
 
 @pytest.fixture()
