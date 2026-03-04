@@ -30,7 +30,7 @@ pip install -e ".[dev]"
 
 - `DATABASE_URL`: Runtime database URL. Required when `APP_ENV` is not `test`.
 - `APP_ENV`: Optional app mode (`dev` by default).
-- `ALLOWED_HOSTS`: Optional comma-separated host allowlist.
+- `ALLOWED_HOSTS`: Optional comma-separated host allowlist. If omitted/blank, all hosts are allowed (`*`).
 
 Examples:
 
@@ -137,3 +137,8 @@ Services:
 - `db`: Postgres 16
 
 The web container seeds catalog data on startup and exposes a health endpoint at `/healthz`.
+
+`/healthz` is a readiness endpoint:
+
+- Returns `200` when DB is reachable and catalog data is seeded.
+- Returns `503` when DB is unavailable or catalog data has not been seeded yet.
