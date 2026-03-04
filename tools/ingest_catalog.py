@@ -473,9 +473,7 @@ def main() -> int:
     if not isinstance(catalog_config, dict):
         catalog_config = {}
 
-    normalized_quant_bits = _normalize_quant_bits(
-        catalog_config.get("quant_bucket_bits_effective")
-    )
+    normalized_quant_bits = _normalize_quant_bits(catalog_config.get("quant_bucket_bits_effective"))
 
     gpus = _build_gpus(config.get("gpus"))
     models = _build_models(config.get("models"))
