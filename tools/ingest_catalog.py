@@ -21,6 +21,12 @@ DEFAULT_OUTPUT_DIR = Path("data")
 DEFAULT_HF_TIMEOUT = 8
 DEFAULT_HF_RETRIES = 2
 DEFAULT_HF_USER_AGENT = "VRAMSherpaCatalogBot/1.0"
+REQUIRED_QUANT_BITS = {
+    "Q4": 4.5,
+    "Q5": 5.5,
+    "Q8": 8.5,
+    "FP16": 16.0,
+}
 
 
 def _slugify(value: str) -> str:
@@ -168,11 +174,15 @@ def _build_models(raw_items: Any) -> list[dict[str, Any]]:
         family = _require_string(raw.get("family"), "family", label)
         params_b = _require_number(raw.get("params_b"), "params_b", label)
         kv_gb_per_1k_ctx = _require_number(raw.get("kv_gb_per_1k_ctx"), "kv_gb_per_1k_ctx", label)
+        canonical_identifier = _to_optional_text(raw.get("canonical_identifier"))
+        if canonical_identifier is None:
+            canonical_identifier = _to_optional_text(raw.get("hf_repo")) or name
 
         items.append(
             {
                 "id": model_id,
                 "name": name,
+                "canonical_identifier": canonical_identifier,
                 "family": family,
                 "params_b": params_b,
                 "model_type": _to_optional_text(raw.get("model_type")),
@@ -188,56 +198,102 @@ def _build_models(raw_items: Any) -> list[dict[str, Any]]:
 
 
 def _build_variants(
-    raw_items: Any,
+    models: list[dict[str, Any]],
     *,
     quant_bits: dict[str, float],
+    raw_rules: Any,
 ) -> list[dict[str, Any]]:
-    if not isinstance(raw_items, list):
-        raise ValueError("config.variants must be a list")
+    if raw_rules is None:
+        raw_rules = {}
+    if not isinstance(raw_rules, dict):
+        raise ValueError("catalog.variant_generation must be an object")
 
-    items: list[dict[str, Any]] = []
-    allowed_quant = set(quant_bits)
+    raw_buckets = raw_rules.get("quant_buckets")
+    if raw_buckets is None:
+        raw_buckets = list(REQUIRED_QUANT_BITS)
+    if not isinstance(raw_buckets, list) or not raw_buckets:
+        raise ValueError("catalog.variant_generation.quant_buckets must be a non-empty list")
 
-    for idx, raw in enumerate(raw_items):
-        label = f"variants[{idx}]"
-        if not isinstance(raw, dict):
-            raise ValueError(f"{label}: item must be an object")
+    configured_buckets: list[str] = []
+    for idx, bucket in enumerate(raw_buckets):
+        label = f"catalog.variant_generation.quant_buckets[{idx}]"
+        configured_buckets.append(_require_string(bucket, "bucket", label))
 
-        model_id = _require_string(raw.get("model_id"), "model_id", label)
-        quant_bucket = _require_string(raw.get("quant_bucket"), "quant_bucket", label)
-        if quant_bucket not in allowed_quant:
-            raise ValueError(
-                f"{label}: quant_bucket={quant_bucket!r} not in {sorted(allowed_quant)}"
-            )
+    if len(set(configured_buckets)) != len(configured_buckets):
+        raise ValueError("catalog.variant_generation.quant_buckets contains duplicates")
 
-        variant_id = _to_optional_text(raw.get("id"))
-        if variant_id is None:
-            variant_id = f"variant_{_slugify(model_id)}_{quant_bucket.lower()}"
-
-        quant_label = _to_optional_text(raw.get("quant_label")) or quant_bucket
-        bits_effective = raw.get("bits_effective")
-        if bits_effective is None:
-            bits_effective = quant_bits[quant_bucket]
-        bits_effective = _require_number(bits_effective, "bits_effective", label)
-
-        recommended = raw.get("recommended", False)
-        if not isinstance(recommended, bool):
-            raise ValueError(f"{label}: recommended must be a boolean")
-
-        items.append(
-            {
-                "id": variant_id,
-                "model_id": model_id,
-                "quant_bucket": quant_bucket,
-                "quant_label": quant_label,
-                "bits_effective": bits_effective,
-                "recommended": recommended,
-                "notes": _to_optional_text(raw.get("notes")),
-                "sources": _to_sources_list(raw.get("sources")),
-            }
+    missing = sorted(set(REQUIRED_QUANT_BITS) - set(configured_buckets))
+    unexpected = sorted(set(configured_buckets) - set(REQUIRED_QUANT_BITS))
+    if missing or unexpected:
+        raise ValueError(
+            "catalog.variant_generation.quant_buckets must contain exactly "
+            f"{list(REQUIRED_QUANT_BITS)}; missing={missing}, unexpected={unexpected}"
         )
 
+    quant_buckets = [bucket for bucket in REQUIRED_QUANT_BITS if bucket in configured_buckets]
+    recommended_bucket = _to_optional_text(raw_rules.get("recommended_bucket")) or "Q4"
+    if recommended_bucket not in quant_buckets:
+        raise ValueError(
+            "catalog.variant_generation.recommended_bucket must be one of "
+            f"{quant_buckets} (got {recommended_bucket!r})"
+        )
+
+    notes = _to_optional_text(raw_rules.get("notes"))
+    sources = _to_sources_list(raw_rules.get("sources"))
+
+    items: list[dict[str, Any]] = []
+    for idx, model in enumerate(models):
+        model_label = f"models[{idx}]"
+        model_id = _require_string(model.get("id"), "id", model_label)
+        for quant_bucket in quant_buckets:
+            bits_effective = quant_bits[quant_bucket]
+            variant_id = f"variant_{_slugify(model_id)}_{quant_bucket.lower()}"
+            items.append(
+                {
+                    "id": variant_id,
+                    "model_id": model_id,
+                    "quant_bucket": quant_bucket,
+                    "quant_label": quant_bucket,
+                    "bits_effective": bits_effective,
+                    "recommended": quant_bucket == recommended_bucket,
+                    "notes": notes,
+                    "sources": list(sources),
+                }
+            )
+
     return items
+
+
+def _normalize_quant_bits(raw_quant_bits: Any) -> dict[str, float]:
+    if not isinstance(raw_quant_bits, dict):
+        raise ValueError("catalog.quant_bucket_bits_effective must be a mapping")
+
+    normalized_quant_bits: dict[str, float] = {}
+    for key, value in raw_quant_bits.items():
+        if not isinstance(key, str):
+            raise ValueError("catalog.quant_bucket_bits_effective keys must be strings")
+        normalized_quant_bits[key] = _require_number(
+            value, "quant_bucket_bits_effective", "catalog"
+        )
+
+    expected_keys = set(REQUIRED_QUANT_BITS)
+    missing = sorted(expected_keys - set(normalized_quant_bits))
+    unexpected = sorted(set(normalized_quant_bits) - expected_keys)
+    if missing or unexpected:
+        raise ValueError(
+            "catalog.quant_bucket_bits_effective must contain exactly "
+            f"{list(REQUIRED_QUANT_BITS)}; missing={missing}, unexpected={unexpected}"
+        )
+
+    for bucket, expected in REQUIRED_QUANT_BITS.items():
+        actual = normalized_quant_bits[bucket]
+        if abs(actual - expected) > 1e-9:
+            raise ValueError(
+                "catalog.quant_bucket_bits_effective values must match required bits: "
+                f"{bucket}={expected} (got {actual})"
+            )
+
+    return {bucket: normalized_quant_bits[bucket] for bucket in REQUIRED_QUANT_BITS}
 
 
 def _enrich_models_from_hf(
@@ -417,21 +473,15 @@ def main() -> int:
     if not isinstance(catalog_config, dict):
         catalog_config = {}
 
-    quant_bits = catalog_config.get("quant_bucket_bits_effective")
-    if not isinstance(quant_bits, dict):
-        raise ValueError("catalog.quant_bucket_bits_effective must be a mapping")
-
-    normalized_quant_bits: dict[str, float] = {}
-    for key, value in quant_bits.items():
-        if not isinstance(key, str):
-            raise ValueError("catalog.quant_bucket_bits_effective keys must be strings")
-        normalized_quant_bits[key] = _require_number(
-            value, "quant_bucket_bits_effective", "catalog"
-        )
+    normalized_quant_bits = _normalize_quant_bits(catalog_config.get("quant_bucket_bits_effective"))
 
     gpus = _build_gpus(config.get("gpus"))
     models = _build_models(config.get("models"))
-    variants = _build_variants(config.get("variants"), quant_bits=normalized_quant_bits)
+    variants = _build_variants(
+        models,
+        quant_bits=normalized_quant_bits,
+        raw_rules=catalog_config.get("variant_generation"),
+    )
 
     hf_config = catalog_config.get("huggingface")
     if not isinstance(hf_config, dict):

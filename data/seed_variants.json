@@ -1,5 +1,5 @@
 {
-  "catalog_version": "2026-02-22",
+  "catalog_version": "2026-03-03",
   "items": [
     {
       "id": "variant_model_llama_31_8b_instruct_q4",
@@ -59,7 +59,7 @@
       "quant_bucket": "Q4",
       "quant_label": "Q4",
       "bits_effective": 4.5,
-      "recommended": false,
+      "recommended": true,
       "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
       "sources": [
         "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
@@ -215,7 +215,7 @@
       "quant_bucket": "Q4",
       "quant_label": "Q4",
       "bits_effective": 4.5,
-      "recommended": false,
+      "recommended": true,
       "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
       "sources": [
         "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
@@ -475,7 +475,7 @@
       "quant_bucket": "Q4",
       "quant_label": "Q4",
       "bits_effective": 4.5,
-      "recommended": false,
+      "recommended": true,
       "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
       "sources": [
         "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
@@ -527,7 +527,7 @@
       "quant_bucket": "Q4",
       "quant_label": "Q4",
       "bits_effective": 4.5,
-      "recommended": false,
+      "recommended": true,
       "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
       "sources": [
         "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
