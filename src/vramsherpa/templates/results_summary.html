@@ -21,6 +21,11 @@
     <span><strong>Hardware:</strong> {{ selected_hardware_label }}</span>
     <span><strong>Context:</strong> {{ selected_context_label }}</span>
   </p>
+  {% if using_default_vram_assumption %}
+    <p class="summary-note">
+      No GPU or VRAM selected yet. Showing estimates with an assumed 8 GB baseline.
+    </p>
+  {% endif %}
   <p
     class="summary-note"
     title="Fits leaves reserve headroom. Tight can run, but is close to your VRAM limit."

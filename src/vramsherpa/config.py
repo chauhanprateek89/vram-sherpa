@@ -13,8 +13,9 @@ class Settings:
 
 def _parse_allowed_hosts(raw: str | None) -> tuple[str, ...]:
     if not raw:
-        return ("localhost", "127.0.0.1", "testserver")
-    return tuple(part.strip() for part in raw.split(",") if part.strip())
+        return ("*",)
+    values = tuple(part.strip() for part in raw.split(",") if part.strip())
+    return values or ("*",)
 
 
 def get_settings() -> Settings:

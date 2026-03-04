@@ -138,7 +138,7 @@ function initModelDetailInputs() {
   var gpuSelect = document.getElementById("gpu_id");
   var vramInput = document.getElementById("vram_gb");
   var form = gpuSelect ? gpuSelect.closest("form") : null;
-  if (!gpuSelect || !vramInput || !form || !form.action.match(/\\/models\\//)) {
+  if (!gpuSelect || !vramInput || !form || !form.action.match(/\/models\//)) {
     return;
   }
 

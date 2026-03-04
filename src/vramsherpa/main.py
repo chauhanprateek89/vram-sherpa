@@ -10,7 +10,8 @@ from fastapi import Depends, FastAPI, HTTPException, Query, Request
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from sqlalchemy import Select, distinct, select
+from sqlalchemy import Select, distinct, func, select
+from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
 from vramsherpa.config import Settings, get_settings
@@ -757,6 +758,11 @@ def _results_context(
                 manual_vram=manual_vram,
                 available_vram_gb=available_vram_gb,
             ),
+            "using_default_vram_assumption": (
+                selected_gpu_id is None
+                and manual_vram is None
+                and not (gpu_search and gpu_search.strip())
+            ),
             "selected_context_label": _context_label(selected_context),
             "top_picks": _top_picks(visible_results),
             "active_filter_chips": _active_filter_chips(
@@ -785,6 +791,7 @@ def _base_context(request: Request, session: Session) -> dict:
         "request": request,
         "context_options": CONTEXT_OPTIONS,
         "catalog_version": catalog_version,
+        "catalog_seeded": catalog_version != "unseeded",
         "catalog_last_updated": catalog_version,
         "estimation_policy_version": ESTIMATION_POLICY_VERSION,
         "asset_version": ASSET_VERSION,
@@ -834,8 +841,6 @@ def _results_page_context(
         and parsed_min_params_b > parsed_max_params_b
     ):
         form_errors.append("min_params_b must be less than or equal to max_params_b.")
-        parsed_min_params_b = None
-        parsed_max_params_b = None
 
     if context_tokens not in CONTEXT_OPTIONS:
         context_tokens = 2048
@@ -1153,8 +1158,44 @@ def how_it_works(request: Request, session: Session = Depends(get_session)) -> H
     return templates.TemplateResponse(request, "how_it_works.html", _base_context(request, session))
 
 
-def healthz() -> dict[str, str]:
-    return {"status": "ok"}
+def healthz(session: Session = Depends(get_session)) -> JSONResponse:
+    try:
+        catalog_version = _catalog_version(session)
+        gpu_count = int(session.scalar(select(func.count(GPU.id))) or 0)
+        model_count = int(session.scalar(select(func.count(Model.id))) or 0)
+        variant_count = int(session.scalar(select(func.count(Variant.id))) or 0)
+    except SQLAlchemyError as exc:
+        return JSONResponse(
+            status_code=503,
+            content={
+                "status": "error",
+                "ready": False,
+                "detail": "Database unavailable",
+                "error": str(exc),
+            },
+        )
+
+    catalog_seeded = (
+        catalog_version != "unseeded" and gpu_count > 0 and model_count > 0 and variant_count > 0
+    )
+
+    status_code = 200 if catalog_seeded else 503
+    status = "ok" if catalog_seeded else "degraded"
+    detail = "ready" if catalog_seeded else "Catalog is not seeded"
+    return JSONResponse(
+        status_code=status_code,
+        content={
+            "status": status,
+            "ready": catalog_seeded,
+            "detail": detail,
+            "catalog_version": catalog_version,
+            "counts": {
+                "gpus": gpu_count,
+                "models": model_count,
+                "variants": variant_count,
+            },
+        },
+    )
 
 
 def create_app(settings: Settings | None = None, *, database_url: str | None = None) -> FastAPI:

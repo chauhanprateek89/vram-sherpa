@@ -1,12 +1,15 @@
 from __future__ import annotations
 
 import re
+import shutil
+import subprocess
+from pathlib import Path
 
 import pytest
 from sqlalchemy.orm import Session
 from starlette.requests import Request
 
-from vramsherpa.config import Settings
+from vramsherpa.config import Settings, _parse_allowed_hosts
 from vramsherpa.main import (
     create_app,
     healthz,
@@ -54,6 +57,9 @@ def test_home_returns_200(app, seeded_session: Session) -> None:
     assert "VRAM Sherpa" in response_text
     assert "Catalog version:" in response_text
     assert "Estimation policy: v0.1" in response_text
+    assert "No GPU or VRAM selected yet. Showing estimates with an assumed 8 GB baseline." in response_text
+    assert '<noscript>' in response_text
+    assert '<button type="submit" class="btn-secondary">Apply filters</button>' in response_text
 
 
 def test_results_with_manual_vram_returns_200_and_rows(app, seeded_session: Session) -> None:
@@ -75,6 +81,7 @@ def test_results_with_manual_vram_returns_200_and_rows(app, seeded_session: Sess
     assert "Hardware:" in response_text
     assert "Context:" in response_text
     assert 'class="vram-gauge"' in response_text
+    assert "No GPU or VRAM selected yet. Showing estimates with an assumed 8 GB baseline." not in response_text
 
 
 def test_results_accepts_blank_numeric_query_values(app, seeded_session: Session) -> None:
@@ -113,6 +120,27 @@ def test_results_invalid_values_render_inline_errors(app, seeded_session: Sessio
     response_text = _response_text(response)
     assert "Invalid value for vram_gb." in response_text
     assert "min_params_b must be less than or equal to max_params_b." in response_text
+
+
+def test_results_invalid_range_returns_empty_state(app, seeded_session: Session) -> None:
+    response = results(
+        _request(app, "/results"),
+        gpu_id="",
+        gpu_search="",
+        vram_gb="16",
+        context_tokens=2048,
+        family=[],
+        quant_bucket=[],
+        min_params_b="20",
+        max_params_b="5",
+        recommended_only=False,
+        session=seeded_session,
+    )
+    assert response.status_code == 200
+    response_text = _response_text(response)
+    assert "min_params_b must be less than or equal to max_params_b." in response_text
+    assert "No models currently fit this setup." in response_text
+    assert "result-card" not in response_text
 
 
 def test_results_gpu_search_does_not_auto_pick_ambiguous_match(
@@ -346,8 +374,28 @@ def test_how_it_works_returns_200(app, seeded_session: Session) -> None:
     assert "not a benchmark" in _response_text(response)
 
 
-def test_healthz_returns_json() -> None:
-    assert healthz() == {"status": "ok"}
+def test_healthz_returns_ready_when_seeded(seeded_session: Session) -> None:
+    response = healthz(session=seeded_session)
+    assert response.status_code == 200
+    payload = response.body.decode("utf-8")
+    assert '"status":"ok"' in payload
+    assert '"ready":true' in payload
+
+
+def test_healthz_returns_503_when_catalog_unseeded(db_session: Session) -> None:
+    response = healthz(session=db_session)
+    assert response.status_code == 503
+    payload = response.body.decode("utf-8")
+    assert '"status":"degraded"' in payload
+    assert '"ready":false' in payload
+
+
+def test_home_unseeded_shows_catalog_not_initialized(app, db_session: Session) -> None:
+    response = home(_request(app, "/"), session=db_session)
+    assert response.status_code == 200
+    response_text = _response_text(response)
+    assert "Catalog is not initialized yet." in response_text
+    assert "No models currently fit this setup." not in response_text
 
 
 def test_create_app_requires_database_url_outside_test_env() -> None:
@@ -382,3 +430,26 @@ def test_create_app_accepts_explicit_database_url_for_test_env() -> None:
         database_url="sqlite+pysqlite:///:memory:",
     )
     assert app.title == "VRAM Sherpa"
+
+
+def test_parse_allowed_hosts_defaults_to_wildcard_when_unset() -> None:
+    assert _parse_allowed_hosts(None) == ("*",)
+
+
+def test_parse_allowed_hosts_defaults_to_wildcard_when_blank() -> None:
+    assert _parse_allowed_hosts(" , , ") == ("*",)
+
+
+def test_app_js_has_valid_syntax() -> None:
+    node = shutil.which("node")
+    if node is None:
+        pytest.skip("node is not available")
+
+    app_js = Path(__file__).resolve().parents[1] / "src" / "vramsherpa" / "static" / "js" / "app.js"
+    result = subprocess.run(
+        [node, "--check", str(app_js)],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    assert result.returncode == 0, result.stderr or result.stdout
