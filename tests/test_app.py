@@ -57,6 +57,9 @@ def test_home_returns_200(app, seeded_session: Session) -> None:
     assert "VRAM Sherpa" in response_text
     assert "Catalog version:" in response_text
     assert "Estimation policy: v0.1" in response_text
+    assert "No GPU or VRAM selected yet. Showing estimates with an assumed 8 GB baseline." in response_text
+    assert '<noscript>' in response_text
+    assert '<button type="submit" class="btn-secondary">Apply filters</button>' in response_text
 
 
 def test_results_with_manual_vram_returns_200_and_rows(app, seeded_session: Session) -> None:
@@ -78,6 +81,7 @@ def test_results_with_manual_vram_returns_200_and_rows(app, seeded_session: Sess
     assert "Hardware:" in response_text
     assert "Context:" in response_text
     assert 'class="vram-gauge"' in response_text
+    assert "No GPU or VRAM selected yet. Showing estimates with an assumed 8 GB baseline." not in response_text
 
 
 def test_results_accepts_blank_numeric_query_values(app, seeded_session: Session) -> None:

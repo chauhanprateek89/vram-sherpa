@@ -758,6 +758,11 @@ def _results_context(
                 manual_vram=manual_vram,
                 available_vram_gb=available_vram_gb,
             ),
+            "using_default_vram_assumption": (
+                selected_gpu_id is None
+                and manual_vram is None
+                and not (gpu_search and gpu_search.strip())
+            ),
             "selected_context_label": _context_label(selected_context),
             "top_picks": _top_picks(visible_results),
             "active_filter_chips": _active_filter_chips(
