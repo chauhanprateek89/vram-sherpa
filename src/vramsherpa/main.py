@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import re
 from dataclasses import dataclass
 from pathlib import Path
@@ -19,6 +20,7 @@ from vramsherpa.models import GPU, CatalogMeta, Model, Variant
 
 CONTEXT_OPTIONS = (2048, 4096, 8192)
 ASSET_VERSION = "20260303d"
+ESTIMATION_POLICY_VERSION = "v0.1"
 PACKAGE_DIR = Path(__file__).resolve().parent
 templates = Jinja2Templates(directory=str(PACKAGE_DIR / "templates"))
 
@@ -35,6 +37,7 @@ class ResultRow:
     bits_effective: float
     required_vram_gb: float
     available_vram_gb: float
+    reserve_gb: float
     margin_gb: float
     classification: str
     recommended: bool
@@ -42,6 +45,25 @@ class ResultRow:
     @property
     def classification_slug(self) -> str:
         return self.classification.lower().replace("'", "").replace(" ", "-")
+
+    @property
+    def required_gauge_percent(self) -> float:
+        if self.available_vram_gb <= 0:
+            return 0.0
+        return min(100.0, max(0.0, 100.0 * self.required_vram_gb / self.available_vram_gb))
+
+    @property
+    def reserve_gauge_percent(self) -> float:
+        if self.available_vram_gb <= 0:
+            return 0.0
+        return min(100.0, max(0.0, 100.0 * self.reserve_gb / self.available_vram_gb))
+
+    @property
+    def fit_limit_gauge_percent(self) -> float:
+        if self.available_vram_gb <= 0:
+            return 0.0
+        fit_limit_gb = max(0.0, self.available_vram_gb - self.reserve_gb)
+        return min(100.0, max(0.0, 100.0 * fit_limit_gb / self.available_vram_gb))
 
 
 @dataclass
@@ -248,6 +270,7 @@ def _build_results(
                 bits_effective=float(variant.bits_effective),
                 required_vram_gb=estimate.required_vram_gb,
                 available_vram_gb=estimate.available_vram_gb,
+                reserve_gb=estimate.reserve_gb,
                 margin_gb=estimate.margin_gb,
                 classification=estimate.classification.value,
                 recommended=bool(variant.recommended),
@@ -560,6 +583,94 @@ def _example_chips(gpus: list[GPU]) -> list[ExampleChip]:
     ]
 
 
+def _empty_state_suggestions(
+    *,
+    selected_gpu_id: str | None,
+    gpu_search: str | None,
+    manual_vram: float | None,
+    selected_context: int,
+    selected_families: list[str],
+    selected_quant_buckets: list[str],
+    min_params_b: float | None,
+    max_params_b: float | None,
+    recommended_only: bool,
+) -> dict[str, str | None]:
+    q4_url: str | None = None
+    if selected_quant_buckets != ["Q4"]:
+        q4_items = _query_items(
+            selected_gpu_id=selected_gpu_id,
+            gpu_search=gpu_search,
+            manual_vram=manual_vram,
+            selected_context=selected_context,
+            selected_families=selected_families,
+            selected_quant_buckets=["Q4"],
+            min_params_b=min_params_b,
+            max_params_b=max_params_b,
+            recommended_only=recommended_only,
+        )
+        q4_url = _results_url(q4_items)
+
+    lower_context_values = [value for value in CONTEXT_OPTIONS if value < selected_context]
+    lower_context_url: str | None = None
+    if lower_context_values:
+        lower_context = max(lower_context_values)
+        lower_context_items = _query_items(
+            selected_gpu_id=selected_gpu_id,
+            gpu_search=gpu_search,
+            manual_vram=manual_vram,
+            selected_context=lower_context,
+            selected_families=selected_families,
+            selected_quant_buckets=selected_quant_buckets,
+            min_params_b=min_params_b,
+            max_params_b=max_params_b,
+            recommended_only=recommended_only,
+        )
+        lower_context_url = _results_url(lower_context_items)
+
+    return {
+        "q4_url": q4_url,
+        "lower_context_url": lower_context_url,
+    }
+
+
+def _to_source_items(raw_value: str | None) -> list[dict[str, str | None]]:
+    if raw_value is None:
+        return []
+
+    value = raw_value.strip()
+    if not value:
+        return []
+
+    sources: list[str] = []
+    try:
+        parsed_value = json.loads(value)
+    except json.JSONDecodeError:
+        parsed_value = None
+
+    if isinstance(parsed_value, list):
+        sources = [str(item).strip() for item in parsed_value if str(item).strip()]
+    elif isinstance(parsed_value, str) and parsed_value.strip():
+        sources = [parsed_value.strip()]
+    else:
+        sources = [line.strip() for line in value.splitlines() if line.strip()]
+        if not sources:
+            sources = [value]
+
+    source_items: list[dict[str, str | None]] = []
+    seen: set[str] = set()
+    for source in sources:
+        if source in seen:
+            continue
+        seen.add(source)
+        source_items.append(
+            {
+                "label": source,
+                "url": source if re.match(r"^https?://", source) else None,
+            }
+        )
+    return source_items
+
+
 def _results_context(
     request: Request,
     session: Session,
@@ -584,6 +695,17 @@ def _results_context(
 ) -> dict:
     visible_results = [row for row in results_rows if row.classification != FitBadge.WONT_FIT.value]
     selected_gpu_label = _selected_gpu_label(gpus, selected_gpu_id)
+    empty_state_suggestions = _empty_state_suggestions(
+        selected_gpu_id=selected_gpu_id,
+        gpu_search=gpu_search,
+        manual_vram=manual_vram,
+        selected_context=selected_context,
+        selected_families=selected_families,
+        selected_quant_buckets=selected_quant_buckets,
+        min_params_b=min_params_b,
+        max_params_b=max_params_b,
+        recommended_only=recommended_only,
+    )
     hardware_items = _query_items(
         selected_gpu_id=selected_gpu_id,
         gpu_search=gpu_search,
@@ -650,16 +772,21 @@ def _results_context(
             ),
             "hardware_query_string": urlencode(hardware_items, doseq=True),
             "example_chips": _example_chips(gpus),
+            "empty_state_q4_url": empty_state_suggestions["q4_url"],
+            "empty_state_lower_context_url": empty_state_suggestions["lower_context_url"],
         }
     )
     return context
 
 
 def _base_context(request: Request, session: Session) -> dict:
+    catalog_version = _catalog_version(session)
     return {
         "request": request,
         "context_options": CONTEXT_OPTIONS,
-        "catalog_version": _catalog_version(session),
+        "catalog_version": catalog_version,
+        "catalog_last_updated": catalog_version,
+        "estimation_policy_version": ESTIMATION_POLICY_VERSION,
         "asset_version": ASSET_VERSION,
         "current_path": request.url.path,
     }
@@ -1001,6 +1128,7 @@ def model_detail(
                 "recommended": bool(variant.recommended),
                 "notes": variant.notes,
                 "sources": variant.sources,
+                "source_items": _to_source_items(variant.sources),
             }
         )
 
@@ -1015,6 +1143,7 @@ def model_detail(
             "manual_vram_input": vram_gb if isinstance(vram_gb, str) else "",
             "selected_context": context_tokens,
             "form_errors": form_errors,
+            "model_source_items": _to_source_items(model.sources),
         }
     )
     return templates.TemplateResponse(request, "model_detail.html", context)

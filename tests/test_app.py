@@ -50,7 +50,10 @@ def _response_text(response) -> str:
 def test_home_returns_200(app, seeded_session: Session) -> None:
     response = home(_request(app, "/"), session=seeded_session)
     assert response.status_code == 200
-    assert "VRAM Sherpa" in _response_text(response)
+    response_text = _response_text(response)
+    assert "VRAM Sherpa" in response_text
+    assert "Catalog version:" in response_text
+    assert "Estimation policy: v0.1" in response_text
 
 
 def test_results_with_manual_vram_returns_200_and_rows(app, seeded_session: Session) -> None:
@@ -71,6 +74,7 @@ def test_results_with_manual_vram_returns_200_and_rows(app, seeded_session: Sess
     assert "result-card" in response_text
     assert "Hardware:" in response_text
     assert "Context:" in response_text
+    assert 'class="vram-gauge"' in response_text
 
 
 def test_results_accepts_blank_numeric_query_values(app, seeded_session: Session) -> None:
@@ -193,6 +197,7 @@ def test_variant_breakdown_returns_html_partial(app, seeded_session: Session) ->
     assert "kv_cache_gb" in response_text
     assert "runtime_overhead_gb" in response_text
     assert "reserve_gb" in response_text
+    assert "required_vram_gb" in response_text
 
 
 def test_results_filters_change_output_deterministically(app, seeded_session: Session) -> None:

@@ -84,7 +84,9 @@
     </div>
 
     <fieldset class="context-buttons hero-context">
-      <legend>Context length</legend>
+      <legend title="Higher context keeps more tokens in memory, which increases VRAM usage.">
+        Context window
+      </legend>
       {% for value in context_options %}
         <label class="context-pill">
           <input
@@ -125,7 +127,9 @@
           </fieldset>
 
           <fieldset class="filter-group">
-            <legend>Quant bucket</legend>
+            <legend title="Quantization level. Lower precision (like Q4) usually uses less VRAM.">
+              Quantization
+            </legend>
             <div class="checklist">
               {% for quant in quant_options %}
                 <label class="choice">
