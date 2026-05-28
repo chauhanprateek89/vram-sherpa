@@ -21,6 +21,34 @@ catalog:
     sources:
     - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
     - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
+discovery:
+  enabled: true
+  min_downloads: 50000
+  max_models_per_org: 20
+  exclude_name_patterns:
+  - Guard      # safety classifiers, not generation models
+  - -AWQ       # pre-quantized; VRAM estimates assume standard weights
+  - -GPTQ      # pre-quantized
+  - -FP8       # pre-quantized
+  - .gguf      # pre-quantized
+  tracked_orgs:
+  - id: meta-llama
+    family: llama
+  - id: mistralai
+    family: mistral
+  - id: Qwen
+    family: qwen
+  - id: google
+    family: gemma
+    model_name_contains: gemma
+  - id: microsoft
+    family: phi
+    model_name_contains: phi
+  - id: 01-ai
+    family: yi
+  - id: deepseek-ai
+    family: deepseek
+    model_name_contains: deepseek
 gpus:
 - id: gpu_nvidia_rtx_4090_24gb
   vendor: NVIDIA
@@ -314,8 +342,8 @@ models:
   - https://huggingface.co/meta-llama/Llama-3.1-70B-Instruct
   - https://huggingface.co/meta-llama/Llama-3.1-70B-Instruct/blob/main/LICENSE
   - 'heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)'
-  hf_repo: null
-  canonical_identifier: model_llama_31_70b_instruct
+  hf_repo: meta-llama/Llama-3.1-70B-Instruct
+  canonical_identifier: meta-llama/Llama-3.1-70B-Instruct
 - id: model_mistral_7b_instruct_v03
   name: Mistral 7B Instruct v0.3
   family: mistral
@@ -421,8 +449,8 @@ models:
   - https://huggingface.co/blog/gemma2
   - https://www.kaggle.com/models/google/gemma-2/license/consent
   - 'heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)'
-  hf_repo: null
-  canonical_identifier: model_gemma2_9b_it
+  hf_repo: google/gemma-2-9b-it
+  canonical_identifier: google/gemma-2-9b-it
 - id: model_gemma2_9b_base
   name: Gemma 2 9B
   family: gemma
@@ -438,8 +466,8 @@ models:
   - https://huggingface.co/blog/gemma2
   - https://www.kaggle.com/models/google/gemma-2/license/consent
   - 'heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)'
-  hf_repo: null
-  canonical_identifier: model_gemma2_9b_base
+  hf_repo: google/gemma-2-9b
+  canonical_identifier: google/gemma-2-9b
 - id: model_phi35_mini_instruct
   name: Phi-3.5 Mini Instruct
   family: phi
@@ -455,6 +483,21 @@ models:
   - 'heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)'
   hf_repo: microsoft/Phi-3.5-mini-instruct
   canonical_identifier: microsoft/Phi-3.5-mini-instruct
+- id: model_phi4_instruct
+  name: Phi-4
+  family: phi
+  params_b: 14.0
+  model_type: instruct
+  license: mit
+  kv_gb_per_1k_ctx: 0.84
+  notes: '14B dense model from Microsoft. kv_gb_per_1k_ctx is a VRAM Sherpa heuristic:
+    round(0.06 * params_b, 2).'
+  sources:
+  - https://huggingface.co/microsoft/phi-4
+  - https://huggingface.co/microsoft/phi-4/blob/main/LICENSE
+  - 'heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)'
+  hf_repo: microsoft/phi-4
+  canonical_identifier: microsoft/phi-4
 - id: model_yi15_9b_chat
   name: Yi-1.5 9B Chat
   family: yi
@@ -467,5 +510,5 @@ models:
   sources:
   - https://huggingface.co/01-ai/Yi-1.5-9B-Chat
   - 'heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)'
-  hf_repo: null
-  canonical_identifier: model_yi15_9b_chat
+  hf_repo: 01-ai/Yi-1.5-9B-Chat
+  canonical_identifier: 01-ai/Yi-1.5-9B-Chat

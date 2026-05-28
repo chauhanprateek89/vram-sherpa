@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import json
 import re
+from collections.abc import AsyncGenerator
+from contextlib import asynccontextmanager
 from dataclasses import dataclass
 from pathlib import Path
 from urllib.parse import urlencode
@@ -93,8 +95,10 @@ class ParsedFloatResult:
     error: str | None
 
 
-def on_startup() -> None:
+@asynccontextmanager
+async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     create_db_and_tables()
+    yield
 
 
 async def host_guard(request: Request, call_next):
@@ -1210,10 +1214,9 @@ def create_app(settings: Settings | None = None, *, database_url: str | None = N
 
     configure_engine(resolved_database_url)
 
-    app = FastAPI(title="VRAM Sherpa")
+    app = FastAPI(title="VRAM Sherpa", lifespan=lifespan)
     app.state.settings = resolved_settings
     app.mount("/static", StaticFiles(directory=str(PACKAGE_DIR / "static")), name="static")
-    app.add_event_handler("startup", on_startup)
     app.middleware("http")(host_guard)
     app.add_api_route("/", home, methods=["GET"], response_class=HTMLResponse)
     app.add_api_route("/results", results, methods=["GET"], response_class=HTMLResponse)

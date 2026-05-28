@@ -43,7 +43,8 @@ jobs:
             --config tools/catalog_sources.yaml \
             --output-dir data \
             --summary-path /tmp/catalog-summary.json \
-            ${HF_ARGS}
+            ${HF_ARGS} 2>&1 | tee /tmp/ingest-output.txt
+          exit ${PIPESTATUS[0]}
 
       - name: Validate seed catalog
         run: python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml
@@ -57,10 +58,18 @@ jobs:
           from pathlib import Path
 
           summary = json.loads(Path('/tmp/catalog-summary.json').read_text(encoding='utf-8'))
+          ingest_log = Path('/tmp/ingest-output.txt').read_text(encoding='utf-8')
+
+          discovery_line = next(
+              (l for l in ingest_log.splitlines() if l.startswith('Discovery:')),
+              'Discovery: status unknown',
+          )
+
           print('body<<EOF')
           print(f"- GPUs: {summary['gpus']}")
           print(f"- Models: {summary['models']}")
           print(f"- Variants: {summary['variants']}")
+          print(f"- {discovery_line}")
           print('EOF')
           PY
 
