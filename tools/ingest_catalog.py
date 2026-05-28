@@ -21,6 +21,8 @@ DEFAULT_OUTPUT_DIR = Path("data")
 DEFAULT_HF_TIMEOUT = 8
 DEFAULT_HF_RETRIES = 2
 DEFAULT_HF_USER_AGENT = "VRAMSherpaCatalogBot/1.0"
+# Matches e.g. "8B", "70B", "3b", "72B" but not "v0.3" or "RGB"
+_PARAMS_B_RE = re.compile(r"(?<!\d)(\d+\.?\d*)[Bb](?!\w)")
 REQUIRED_QUANT_BITS = {
     "Q4": 4.5,
     "Q5": 5.5,
@@ -345,6 +347,207 @@ def _enrich_models_from_hf(
             sources.append(hf_page)
 
 
+def _extract_params_b(model_id: str) -> float | None:
+    """Extract parameter count in billions from a HuggingFace model ID string."""
+    name = model_id.split("/")[-1]
+    match = _PARAMS_B_RE.search(name)
+    if match:
+        value = float(match.group(1))
+        if 0.1 <= value <= 2000:
+            return value
+    return None
+
+
+def _detect_model_type(model_id: str) -> str:
+    name = model_id.lower()
+    if any(kw in name for kw in ("-instruct", "-chat", "-it-", "-it", "chat-hf")):
+        return "instruct"
+    return "base"
+
+
+def _fetch_hf_model_list(
+    org: str,
+    *,
+    timeout_seconds: int,
+    retries: int,
+    user_agent: str,
+    limit: int = 50,
+) -> list[dict[str, Any]] | None:
+    params = parse.urlencode(
+        {
+            "author": org,
+            "pipeline_tag": "text-generation",
+            "sort": "downloads",
+            "direction": "-1",
+            "limit": str(limit),
+        }
+    )
+    url = f"https://huggingface.co/api/models?{params}"
+
+    last_error: Exception | None = None
+    for attempt in range(retries + 1):
+        req = request.Request(
+            url,
+            headers={"User-Agent": user_agent, "Accept": "application/json"},
+            method="GET",
+        )
+        try:
+            with request.urlopen(req, timeout=timeout_seconds) as response:
+                payload = json.loads(response.read().decode("utf-8"))
+                if not isinstance(payload, list):
+                    raise ValueError(f"Unexpected HF list response for org {org!r}")
+                return payload
+        except error.HTTPError as exc:
+            last_error = exc
+            if 500 <= exc.code < 600 and attempt < retries:
+                time.sleep(2**attempt)
+                continue
+            break
+        except (error.URLError, TimeoutError, json.JSONDecodeError, ValueError) as exc:
+            last_error = exc
+            if attempt < retries:
+                time.sleep(2**attempt)
+                continue
+            break
+
+    print(f"Warning: HF model list fetch failed for org {org!r}: {last_error}")
+    return None
+
+
+def _load_known_hf_ids(output_dir: Path, yaml_models: list[dict[str, Any]]) -> set[str]:
+    """Collect all known HF repo identifiers to avoid re-discovering existing models."""
+    known: set[str] = set()
+
+    for model in yaml_models:
+        hf_repo = model.get("hf_repo")
+        if isinstance(hf_repo, str) and hf_repo:
+            known.add(hf_repo)
+        canonical = model.get("canonical_identifier")
+        if isinstance(canonical, str) and "/" in canonical:
+            known.add(canonical)
+
+    seed_path = output_dir / "seed_models.json"
+    if seed_path.exists():
+        try:
+            existing = json.loads(seed_path.read_text(encoding="utf-8"))
+            for item in existing.get("items", []):
+                canonical = item.get("canonical_identifier")
+                if isinstance(canonical, str) and "/" in canonical:
+                    known.add(canonical)
+        except (json.JSONDecodeError, OSError):
+            pass
+
+    return known
+
+
+def _discover_models_from_hf(
+    *,
+    tracked_orgs: list[dict[str, Any]],
+    known_hf_ids: set[str],
+    known_model_ids: set[str],
+    min_downloads: int,
+    max_per_org: int,
+    exclude_name_patterns: list[str],
+    timeout_seconds: int,
+    retries: int,
+    user_agent: str,
+) -> list[dict[str, Any]]:
+    """Query HuggingFace for new models from tracked orgs and return model dicts."""
+    discovered: list[dict[str, Any]] = []
+    exclude_lower = [p.lower() for p in exclude_name_patterns]
+
+    for org_config in tracked_orgs:
+        org_id = org_config.get("id")
+        if not isinstance(org_id, str) or not org_id:
+            continue
+
+        family = str(org_config.get("family") or org_id.lower())
+        name_filter = org_config.get("model_name_contains")
+        default_license = org_config.get("license")
+
+        model_list = _fetch_hf_model_list(
+            org_id,
+            timeout_seconds=timeout_seconds,
+            retries=retries,
+            user_agent=user_agent,
+        )
+        if model_list is None:
+            continue
+
+        count = 0
+        for hf_model in model_list:
+            if count >= max_per_org:
+                break
+
+            hf_id = hf_model.get("id", "")
+            if not hf_id or hf_id in known_hf_ids:
+                continue
+
+            model_name = hf_id.split("/")[-1]
+
+            if name_filter and name_filter.lower() not in model_name.lower():
+                continue
+
+            if any(pat in model_name.lower() for pat in exclude_lower):
+                continue
+
+            if hf_model.get("gated"):
+                continue
+
+            downloads = hf_model.get("downloads") or 0
+            if downloads < min_downloads:
+                continue
+
+            params_b = _extract_params_b(hf_id)
+            if params_b is None:
+                continue
+
+            model_type = _detect_model_type(hf_id)
+
+            license_val: str | None = None
+            card_data = hf_model.get("cardData")
+            if isinstance(card_data, dict):
+                raw_lic = card_data.get("license")
+                if isinstance(raw_lic, str) and raw_lic.strip():
+                    license_val = raw_lic.strip()
+            if not license_val:
+                license_val = _to_optional_text(default_license)
+
+            model_id = f"model_{_slugify(model_name)}"
+            if model_id in known_model_ids:
+                model_id = f"model_{_slugify(hf_id.replace('/', '_'))}"
+            if model_id in known_model_ids:
+                continue
+
+            kv_gb = round(0.06 * params_b, 2)
+            discovered.append(
+                {
+                    "id": model_id,
+                    "name": model_name,
+                    "canonical_identifier": hf_id,
+                    "family": family,
+                    "params_b": params_b,
+                    "model_type": model_type,
+                    "license": license_val,
+                    "kv_gb_per_1k_ctx": kv_gb,
+                    "notes": (
+                        f"Auto-discovered from HuggingFace ({downloads:,} downloads). "
+                        "kv_gb_per_1k_ctx heuristic: round(0.06 * params_b, 2)."
+                    ),
+                    "sources": [
+                        f"https://huggingface.co/{hf_id}",
+                        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)",
+                    ],
+                    "hf_repo": hf_id,
+                }
+            )
+            known_hf_ids.add(hf_id)
+            known_model_ids.add(model_id)
+            count += 1
+
+    return discovered
+
+
 def _write_seed_file(path: Path, *, catalog_version: str, items: list[dict[str, Any]]) -> None:
     payload = {
         "catalog_version": catalog_version,
@@ -482,6 +685,44 @@ def main() -> int:
         quant_bits=normalized_quant_bits,
         raw_rules=catalog_config.get("variant_generation"),
     )
+
+    discovery_config = config.get("discovery")
+    if isinstance(discovery_config, dict) and discovery_config.get("enabled"):
+        tracked_orgs = discovery_config.get("tracked_orgs") or []
+        min_downloads = int(discovery_config.get("min_downloads", 50000))
+        max_per_org = int(discovery_config.get("max_models_per_org", 20))
+        disc_timeout = int(discovery_config.get("timeout_seconds", args.hf_timeout_seconds))
+        disc_retries = int(discovery_config.get("retries", args.hf_retries))
+        disc_user_agent = str(discovery_config.get("user_agent") or args.hf_user_agent)
+        raw_exclude = discovery_config.get("exclude_name_patterns") or []
+        exclude_patterns = [str(p) for p in raw_exclude if p]
+
+        known_hf_ids = _load_known_hf_ids(args.output_dir, config.get("models") or [])
+        known_model_ids = {m["id"] for m in models}
+
+        new_models = _discover_models_from_hf(
+            tracked_orgs=tracked_orgs,
+            known_hf_ids=known_hf_ids,
+            known_model_ids=known_model_ids,
+            min_downloads=min_downloads,
+            max_per_org=max_per_org,
+            exclude_name_patterns=exclude_patterns,
+            timeout_seconds=disc_timeout,
+            retries=disc_retries,
+            user_agent=disc_user_agent,
+        )
+
+        if new_models:
+            new_variants = _build_variants(
+                new_models,
+                quant_bits=normalized_quant_bits,
+                raw_rules=catalog_config.get("variant_generation"),
+            )
+            models.extend(new_models)
+            variants.extend(new_variants)
+            print(f"Discovery: added {len(new_models)} new model(s) from HuggingFace.")
+        else:
+            print("Discovery: no new models found.")
 
     hf_config = catalog_config.get("huggingface")
     if not isinstance(hf_config, dict):
