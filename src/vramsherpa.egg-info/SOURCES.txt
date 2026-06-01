@@ -15,13 +15,17 @@ src/vramsherpa.egg-info/entry_points.txt
 src/vramsherpa.egg-info/requires.txt
 src/vramsherpa.egg-info/top_level.txt
 src/vramsherpa/static/css/styles.css
+src/vramsherpa/static/js/app.js
 src/vramsherpa/templates/base.html
 src/vramsherpa/templates/how_it_works.html
 src/vramsherpa/templates/index.html
 src/vramsherpa/templates/model_detail.html
 src/vramsherpa/templates/results_content.html
+src/vramsherpa/templates/results_list.html
+src/vramsherpa/templates/results_summary.html
 src/vramsherpa/templates/results_table.html
 src/vramsherpa/templates/results_why.html
 tests/test_app.py
 tests/test_estimation.py
+tests/test_ingest_catalog.py
 tests/test_seed.py
