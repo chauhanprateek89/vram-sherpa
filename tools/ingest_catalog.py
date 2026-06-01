@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import time
 from datetime import UTC, datetime
@@ -86,20 +87,21 @@ def _fetch_hf_model_metadata(
     timeout_seconds: int,
     retries: int,
     user_agent: str,
+    hf_token: str | None = None,
 ) -> dict[str, Any] | None:
     encoded = parse.quote(model_id, safe="")
     url = f"https://huggingface.co/api/models/{encoded}"
 
+    headers: dict[str, str] = {
+        "User-Agent": user_agent,
+        "Accept": "application/json",
+    }
+    if hf_token:
+        headers["Authorization"] = f"Bearer {hf_token}"
+
     last_error: Exception | None = None
     for attempt in range(retries + 1):
-        req = request.Request(
-            url,
-            headers={
-                "User-Agent": user_agent,
-                "Accept": "application/json",
-            },
-            method="GET",
-        )
+        req = request.Request(url, headers=headers, method="GET")
 
         try:
             with request.urlopen(req, timeout=timeout_seconds) as response:
@@ -305,6 +307,7 @@ def _enrich_models_from_hf(
     timeout_seconds: int,
     retries: int,
     user_agent: str,
+    hf_token: str | None = None,
     strict: bool,
 ) -> None:
     if not enabled:
@@ -321,6 +324,7 @@ def _enrich_models_from_hf(
                 timeout_seconds=timeout_seconds,
                 retries=retries,
                 user_agent=user_agent,
+                hf_token=hf_token,
             )
         except RuntimeError as exc:
             if strict:
@@ -371,6 +375,7 @@ def _fetch_hf_model_list(
     timeout_seconds: int,
     retries: int,
     user_agent: str,
+    hf_token: str | None = None,
     limit: int = 50,
 ) -> list[dict[str, Any]] | None:
     params = parse.urlencode(
@@ -384,13 +389,13 @@ def _fetch_hf_model_list(
     )
     url = f"https://huggingface.co/api/models?{params}"
 
+    headers: dict[str, str] = {"User-Agent": user_agent, "Accept": "application/json"}
+    if hf_token:
+        headers["Authorization"] = f"Bearer {hf_token}"
+
     last_error: Exception | None = None
     for attempt in range(retries + 1):
-        req = request.Request(
-            url,
-            headers={"User-Agent": user_agent, "Accept": "application/json"},
-            method="GET",
-        )
+        req = request.Request(url, headers=headers, method="GET")
         try:
             with request.urlopen(req, timeout=timeout_seconds) as response:
                 payload = json.loads(response.read().decode("utf-8"))
@@ -451,6 +456,7 @@ def _discover_models_from_hf(
     timeout_seconds: int,
     retries: int,
     user_agent: str,
+    hf_token: str | None = None,
 ) -> list[dict[str, Any]]:
     """Query HuggingFace for new models from tracked orgs and return model dicts."""
     discovered: list[dict[str, Any]] = []
@@ -470,6 +476,7 @@ def _discover_models_from_hf(
             timeout_seconds=timeout_seconds,
             retries=retries,
             user_agent=user_agent,
+            hf_token=hf_token,
         )
         if model_list is None:
             continue
@@ -658,6 +665,12 @@ def main() -> int:
         help="User-Agent header for Hugging Face API requests.",
     )
     parser.add_argument(
+        "--hf-token",
+        type=str,
+        default=None,
+        help="HuggingFace API token (Bearer). Can also be set via HF_TOKEN env var.",
+    )
+    parser.add_argument(
         "--strict-hf",
         action="store_true",
         help="Fail ingest if any Hugging Face metadata call fails.",
@@ -669,6 +682,8 @@ def main() -> int:
         help="Optional path to write summary JSON (counts).",
     )
     args = parser.parse_args()
+
+    hf_token: str | None = args.hf_token or os.environ.get("HF_TOKEN") or None
 
     config = _read_config(args.config)
 
@@ -710,6 +725,7 @@ def main() -> int:
             timeout_seconds=disc_timeout,
             retries=disc_retries,
             user_agent=disc_user_agent,
+            hf_token=hf_token,
         )
 
         if new_models:
@@ -739,6 +755,7 @@ def main() -> int:
         timeout_seconds=hf_timeout,
         retries=hf_retries,
         user_agent=hf_user_agent,
+        hf_token=hf_token,
         strict=args.strict_hf,
     )
 

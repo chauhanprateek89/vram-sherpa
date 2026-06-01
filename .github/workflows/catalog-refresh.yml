@@ -33,6 +33,8 @@ jobs:
 
       - name: Generate seed catalog
         shell: bash
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
           HF_ARGS=""
           if [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ github.event.inputs.include_hf_metadata || 'false' }}" == "true" ]]; then
