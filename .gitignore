@@ -9,5 +9,6 @@ __pycache__/
 *.pyo
 *.pyd
 *.db
+*.egg-info/
 tests/*
 tools/__pycache__
