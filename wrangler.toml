@@ -1,0 +1,14 @@
+name = "vram-sherpa"
+compatibility_date = "2025-06-01"
+
+# Cloudflare Workers Containers — runs the existing Docker image.
+# Environment variables (DATABASE_URL, APP_ENV, ALLOWED_HOSTS) must be
+# configured as secrets in the Cloudflare dashboard or via `wrangler secret`.
+
+[[containers]]
+class_name = "VramSherpaApp"
+image = "."
+max_instances = 1
+
+  [containers.http]
+  port = 8000
