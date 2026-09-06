@@ -1,5 +1,5 @@
 {
-  "catalog_version": "2026-03-03",
+  "catalog_version": "2026-09-06",
   "items": [
     {
       "id": "variant_model_llama_31_8b_instruct_q4",
@@ -626,6 +626,58 @@
       ]
     },
     {
+      "id": "variant_model_phi4_instruct_q4",
+      "model_id": "model_phi4_instruct",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_phi4_instruct_q5",
+      "model_id": "model_phi4_instruct",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_phi4_instruct_q8",
+      "model_id": "model_phi4_instruct",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_phi4_instruct_fp16",
+      "model_id": "model_phi4_instruct",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
       "id": "variant_model_yi15_9b_chat_q4",
       "model_id": "model_yi15_9b_chat",
       "quant_bucket": "Q4",
@@ -667,6 +719,2814 @@
     {
       "id": "variant_model_yi15_9b_chat_fp16",
       "model_id": "model_yi15_9b_chat",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_llama_3_2_1b_instruct_q4",
+      "model_id": "model_llama_3_2_1b_instruct",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_llama_3_2_1b_instruct_q5",
+      "model_id": "model_llama_3_2_1b_instruct",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_llama_3_2_1b_instruct_q8",
+      "model_id": "model_llama_3_2_1b_instruct",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_llama_3_2_1b_instruct_fp16",
+      "model_id": "model_llama_3_2_1b_instruct",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_llama_3_2_3b_instruct_q4",
+      "model_id": "model_llama_3_2_3b_instruct",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_llama_3_2_3b_instruct_q5",
+      "model_id": "model_llama_3_2_3b_instruct",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_llama_3_2_3b_instruct_q8",
+      "model_id": "model_llama_3_2_3b_instruct",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_llama_3_2_3b_instruct_fp16",
+      "model_id": "model_llama_3_2_3b_instruct",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_meta_llama_3_8b_instruct_q4",
+      "model_id": "model_meta_llama_3_8b_instruct",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_meta_llama_3_8b_instruct_q5",
+      "model_id": "model_meta_llama_3_8b_instruct",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_meta_llama_3_8b_instruct_q8",
+      "model_id": "model_meta_llama_3_8b_instruct",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_meta_llama_3_8b_instruct_fp16",
+      "model_id": "model_meta_llama_3_8b_instruct",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_llama_3_2_1b_q4",
+      "model_id": "model_llama_3_2_1b",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_llama_3_2_1b_q5",
+      "model_id": "model_llama_3_2_1b",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_llama_3_2_1b_q8",
+      "model_id": "model_llama_3_2_1b",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_llama_3_2_1b_fp16",
+      "model_id": "model_llama_3_2_1b",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_llama_3_3_70b_instruct_q4",
+      "model_id": "model_llama_3_3_70b_instruct",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_llama_3_3_70b_instruct_q5",
+      "model_id": "model_llama_3_3_70b_instruct",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_llama_3_3_70b_instruct_q8",
+      "model_id": "model_llama_3_3_70b_instruct",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_llama_3_3_70b_instruct_fp16",
+      "model_id": "model_llama_3_3_70b_instruct",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_llama_2_7b_hf_q4",
+      "model_id": "model_llama_2_7b_hf",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_llama_2_7b_hf_q5",
+      "model_id": "model_llama_2_7b_hf",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_llama_2_7b_hf_q8",
+      "model_id": "model_llama_2_7b_hf",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_llama_2_7b_hf_fp16",
+      "model_id": "model_llama_2_7b_hf",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_meta_llama_3_8b_q4",
+      "model_id": "model_meta_llama_3_8b",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_meta_llama_3_8b_q5",
+      "model_id": "model_meta_llama_3_8b",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_meta_llama_3_8b_q8",
+      "model_id": "model_meta_llama_3_8b",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_meta_llama_3_8b_fp16",
+      "model_id": "model_meta_llama_3_8b",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_llama_2_7b_chat_hf_q4",
+      "model_id": "model_llama_2_7b_chat_hf",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_llama_2_7b_chat_hf_q5",
+      "model_id": "model_llama_2_7b_chat_hf",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_llama_2_7b_chat_hf_q8",
+      "model_id": "model_llama_2_7b_chat_hf",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_llama_2_7b_chat_hf_fp16",
+      "model_id": "model_llama_2_7b_chat_hf",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_llama_3_2_3b_q4",
+      "model_id": "model_llama_3_2_3b",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_llama_3_2_3b_q5",
+      "model_id": "model_llama_3_2_3b",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_llama_3_2_3b_q8",
+      "model_id": "model_llama_3_2_3b",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_llama_3_2_3b_fp16",
+      "model_id": "model_llama_3_2_3b",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_llama_3_1_405b_q4",
+      "model_id": "model_llama_3_1_405b",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_llama_3_1_405b_q5",
+      "model_id": "model_llama_3_1_405b",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_llama_3_1_405b_q8",
+      "model_id": "model_llama_3_1_405b",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_llama_3_1_405b_fp16",
+      "model_id": "model_llama_3_1_405b",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_llama_2_13b_chat_hf_q4",
+      "model_id": "model_llama_2_13b_chat_hf",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_llama_2_13b_chat_hf_q5",
+      "model_id": "model_llama_2_13b_chat_hf",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_llama_2_13b_chat_hf_q8",
+      "model_id": "model_llama_2_13b_chat_hf",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_llama_2_13b_chat_hf_fp16",
+      "model_id": "model_llama_2_13b_chat_hf",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_meta_llama_3_70b_q4",
+      "model_id": "model_meta_llama_3_70b",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_meta_llama_3_70b_q5",
+      "model_id": "model_meta_llama_3_70b",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_meta_llama_3_70b_q8",
+      "model_id": "model_meta_llama_3_70b",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_meta_llama_3_70b_fp16",
+      "model_id": "model_meta_llama_3_70b",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_meta_llama_3_70b_instruct_q4",
+      "model_id": "model_meta_llama_3_70b_instruct",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_meta_llama_3_70b_instruct_q5",
+      "model_id": "model_meta_llama_3_70b_instruct",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_meta_llama_3_70b_instruct_q8",
+      "model_id": "model_meta_llama_3_70b_instruct",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_meta_llama_3_70b_instruct_fp16",
+      "model_id": "model_meta_llama_3_70b_instruct",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_mistral_7b_instruct_v0_2_q4",
+      "model_id": "model_mistral_7b_instruct_v0_2",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_mistral_7b_instruct_v0_2_q5",
+      "model_id": "model_mistral_7b_instruct_v0_2",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_mistral_7b_instruct_v0_2_q8",
+      "model_id": "model_mistral_7b_instruct_v0_2",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_mistral_7b_instruct_v0_2_fp16",
+      "model_id": "model_mistral_7b_instruct_v0_2",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_mistral_7b_v0_1_q4",
+      "model_id": "model_mistral_7b_v0_1",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_mistral_7b_v0_1_q5",
+      "model_id": "model_mistral_7b_v0_1",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_mistral_7b_v0_1_q8",
+      "model_id": "model_mistral_7b_v0_1",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_mistral_7b_v0_1_fp16",
+      "model_id": "model_mistral_7b_v0_1",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_mistral_7b_instruct_v0_1_q4",
+      "model_id": "model_mistral_7b_instruct_v0_1",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_mistral_7b_instruct_v0_1_q5",
+      "model_id": "model_mistral_7b_instruct_v0_1",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_mistral_7b_instruct_v0_1_q8",
+      "model_id": "model_mistral_7b_instruct_v0_1",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_mistral_7b_instruct_v0_1_fp16",
+      "model_id": "model_mistral_7b_instruct_v0_1",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen3_0_6b_q4",
+      "model_id": "model_qwen3_0_6b",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen3_0_6b_q5",
+      "model_id": "model_qwen3_0_6b",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen3_0_6b_q8",
+      "model_id": "model_qwen3_0_6b",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen3_0_6b_fp16",
+      "model_id": "model_qwen3_0_6b",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen3_8b_q4",
+      "model_id": "model_qwen3_8b",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen3_8b_q5",
+      "model_id": "model_qwen3_8b",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen3_8b_q8",
+      "model_id": "model_qwen3_8b",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen3_8b_fp16",
+      "model_id": "model_qwen3_8b",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen2_5_1_5b_instruct_q4",
+      "model_id": "model_qwen2_5_1_5b_instruct",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen2_5_1_5b_instruct_q5",
+      "model_id": "model_qwen2_5_1_5b_instruct",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen2_5_1_5b_instruct_q8",
+      "model_id": "model_qwen2_5_1_5b_instruct",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen2_5_1_5b_instruct_fp16",
+      "model_id": "model_qwen2_5_1_5b_instruct",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen3_4b_q4",
+      "model_id": "model_qwen3_4b",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen3_4b_q5",
+      "model_id": "model_qwen3_4b",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen3_4b_q8",
+      "model_id": "model_qwen3_4b",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen3_4b_fp16",
+      "model_id": "model_qwen3_4b",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen2_5_0_5b_instruct_q4",
+      "model_id": "model_qwen2_5_0_5b_instruct",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen2_5_0_5b_instruct_q5",
+      "model_id": "model_qwen2_5_0_5b_instruct",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen2_5_0_5b_instruct_q8",
+      "model_id": "model_qwen2_5_0_5b_instruct",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen2_5_0_5b_instruct_fp16",
+      "model_id": "model_qwen2_5_0_5b_instruct",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen3_32b_q4",
+      "model_id": "model_qwen3_32b",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen3_32b_q5",
+      "model_id": "model_qwen3_32b",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen3_32b_q8",
+      "model_id": "model_qwen3_32b",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen3_32b_fp16",
+      "model_id": "model_qwen3_32b",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen_72b_q4",
+      "model_id": "model_qwen_72b",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen_72b_q5",
+      "model_id": "model_qwen_72b",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen_72b_q8",
+      "model_id": "model_qwen_72b",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen_72b_fp16",
+      "model_id": "model_qwen_72b",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen3_4b_instruct_2507_q4",
+      "model_id": "model_qwen3_4b_instruct_2507",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen3_4b_instruct_2507_q5",
+      "model_id": "model_qwen3_4b_instruct_2507",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen3_4b_instruct_2507_q8",
+      "model_id": "model_qwen3_4b_instruct_2507",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen3_4b_instruct_2507_fp16",
+      "model_id": "model_qwen3_4b_instruct_2507",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen3_1_7b_q4",
+      "model_id": "model_qwen3_1_7b",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen3_1_7b_q5",
+      "model_id": "model_qwen3_1_7b",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen3_1_7b_q8",
+      "model_id": "model_qwen3_1_7b",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen3_1_7b_fp16",
+      "model_id": "model_qwen3_1_7b",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen2_5_coder_7b_instruct_q4",
+      "model_id": "model_qwen2_5_coder_7b_instruct",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen2_5_coder_7b_instruct_q5",
+      "model_id": "model_qwen2_5_coder_7b_instruct",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen2_5_coder_7b_instruct_q8",
+      "model_id": "model_qwen2_5_coder_7b_instruct",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen2_5_coder_7b_instruct_fp16",
+      "model_id": "model_qwen2_5_coder_7b_instruct",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen3_30b_a3b_q4",
+      "model_id": "model_qwen3_30b_a3b",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen3_30b_a3b_q5",
+      "model_id": "model_qwen3_30b_a3b",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen3_30b_a3b_q8",
+      "model_id": "model_qwen3_30b_a3b",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen3_30b_a3b_fp16",
+      "model_id": "model_qwen3_30b_a3b",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen2_5_32b_instruct_q4",
+      "model_id": "model_qwen2_5_32b_instruct",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen2_5_32b_instruct_q5",
+      "model_id": "model_qwen2_5_32b_instruct",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen2_5_32b_instruct_q8",
+      "model_id": "model_qwen2_5_32b_instruct",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen2_5_32b_instruct_fp16",
+      "model_id": "model_qwen2_5_32b_instruct",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen3_4b_base_q4",
+      "model_id": "model_qwen3_4b_base",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen3_4b_base_q5",
+      "model_id": "model_qwen3_4b_base",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen3_4b_base_q8",
+      "model_id": "model_qwen3_4b_base",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen3_4b_base_fp16",
+      "model_id": "model_qwen3_4b_base",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen2_5_coder_14b_instruct_q4",
+      "model_id": "model_qwen2_5_coder_14b_instruct",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen2_5_coder_14b_instruct_q5",
+      "model_id": "model_qwen2_5_coder_14b_instruct",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen2_5_coder_14b_instruct_q8",
+      "model_id": "model_qwen2_5_coder_14b_instruct",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen2_5_coder_14b_instruct_fp16",
+      "model_id": "model_qwen2_5_coder_14b_instruct",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen3_1_7b_base_q4",
+      "model_id": "model_qwen3_1_7b_base",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen3_1_7b_base_q5",
+      "model_id": "model_qwen3_1_7b_base",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen3_1_7b_base_q8",
+      "model_id": "model_qwen3_1_7b_base",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen3_1_7b_base_fp16",
+      "model_id": "model_qwen3_1_7b_base",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen3_14b_q4",
+      "model_id": "model_qwen3_14b",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen3_14b_q5",
+      "model_id": "model_qwen3_14b",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen3_14b_q8",
+      "model_id": "model_qwen3_14b",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen3_14b_fp16",
+      "model_id": "model_qwen3_14b",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen2_5_coder_32b_instruct_q4",
+      "model_id": "model_qwen2_5_coder_32b_instruct",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen2_5_coder_32b_instruct_q5",
+      "model_id": "model_qwen2_5_coder_32b_instruct",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen2_5_coder_32b_instruct_q8",
+      "model_id": "model_qwen2_5_coder_32b_instruct",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen2_5_coder_32b_instruct_fp16",
+      "model_id": "model_qwen2_5_coder_32b_instruct",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen2_5_0_5b_q4",
+      "model_id": "model_qwen2_5_0_5b",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen2_5_0_5b_q5",
+      "model_id": "model_qwen2_5_0_5b",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen2_5_0_5b_q8",
+      "model_id": "model_qwen2_5_0_5b",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen2_5_0_5b_fp16",
+      "model_id": "model_qwen2_5_0_5b",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen3_30b_a3b_instruct_2507_q4",
+      "model_id": "model_qwen3_30b_a3b_instruct_2507",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen3_30b_a3b_instruct_2507_q5",
+      "model_id": "model_qwen3_30b_a3b_instruct_2507",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen3_30b_a3b_instruct_2507_q8",
+      "model_id": "model_qwen3_30b_a3b_instruct_2507",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen3_30b_a3b_instruct_2507_fp16",
+      "model_id": "model_qwen3_30b_a3b_instruct_2507",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen2_5_1_5b_q4",
+      "model_id": "model_qwen2_5_1_5b",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen2_5_1_5b_q5",
+      "model_id": "model_qwen2_5_1_5b",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen2_5_1_5b_q8",
+      "model_id": "model_qwen2_5_1_5b",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_qwen2_5_1_5b_fp16",
+      "model_id": "model_qwen2_5_1_5b",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_gemma_3_1b_it_q4",
+      "model_id": "model_gemma_3_1b_it",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_gemma_3_1b_it_q5",
+      "model_id": "model_gemma_3_1b_it",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_gemma_3_1b_it_q8",
+      "model_id": "model_gemma_3_1b_it",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_gemma_3_1b_it_fp16",
+      "model_id": "model_gemma_3_1b_it",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_gemma_2_2b_it_q4",
+      "model_id": "model_gemma_2_2b_it",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_gemma_2_2b_it_q5",
+      "model_id": "model_gemma_2_2b_it",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_gemma_2_2b_it_q8",
+      "model_id": "model_gemma_2_2b_it",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_gemma_2_2b_it_fp16",
+      "model_id": "model_gemma_2_2b_it",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_gemma_2_2b_q4",
+      "model_id": "model_gemma_2_2b",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_gemma_2_2b_q5",
+      "model_id": "model_gemma_2_2b",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_gemma_2_2b_q8",
+      "model_id": "model_gemma_2_2b",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_gemma_2_2b_fp16",
+      "model_id": "model_gemma_2_2b",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_gemma_2b_q4",
+      "model_id": "model_gemma_2b",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_gemma_2b_q5",
+      "model_id": "model_gemma_2b",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_gemma_2b_q8",
+      "model_id": "model_gemma_2b",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_gemma_2b_fp16",
+      "model_id": "model_gemma_2b",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_gemma_1_1_2b_it_q4",
+      "model_id": "model_gemma_1_1_2b_it",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_gemma_1_1_2b_it_q5",
+      "model_id": "model_gemma_1_1_2b_it",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_gemma_1_1_2b_it_q8",
+      "model_id": "model_gemma_1_1_2b_it",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_gemma_1_1_2b_it_fp16",
+      "model_id": "model_gemma_1_1_2b_it",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_gemma_2b_it_q4",
+      "model_id": "model_gemma_2b_it",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_gemma_2b_it_q5",
+      "model_id": "model_gemma_2b_it",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_gemma_2b_it_q8",
+      "model_id": "model_gemma_2b_it",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_gemma_2b_it_fp16",
+      "model_id": "model_gemma_2b_it",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_t5gemma_2b_2b_ul2_it_q4",
+      "model_id": "model_t5gemma_2b_2b_ul2_it",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_t5gemma_2b_2b_ul2_it_q5",
+      "model_id": "model_t5gemma_2b_2b_ul2_it",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_t5gemma_2b_2b_ul2_it_q8",
+      "model_id": "model_t5gemma_2b_2b_ul2_it",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_t5gemma_2b_2b_ul2_it_fp16",
+      "model_id": "model_t5gemma_2b_2b_ul2_it",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_gemma_3_1b_pt_q4",
+      "model_id": "model_gemma_3_1b_pt",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_gemma_3_1b_pt_q5",
+      "model_id": "model_gemma_3_1b_pt",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_gemma_3_1b_pt_q8",
+      "model_id": "model_gemma_3_1b_pt",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_gemma_3_1b_pt_fp16",
+      "model_id": "model_gemma_3_1b_pt",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_deepseek_r1_0528_qwen3_8b_q4",
+      "model_id": "model_deepseek_r1_0528_qwen3_8b",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_deepseek_r1_0528_qwen3_8b_q5",
+      "model_id": "model_deepseek_r1_0528_qwen3_8b",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_deepseek_r1_0528_qwen3_8b_q8",
+      "model_id": "model_deepseek_r1_0528_qwen3_8b",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_deepseek_r1_0528_qwen3_8b_fp16",
+      "model_id": "model_deepseek_r1_0528_qwen3_8b",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_deepseek_coder_7b_instruct_v1_5_q4",
+      "model_id": "model_deepseek_coder_7b_instruct_v1_5",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_deepseek_coder_7b_instruct_v1_5_q5",
+      "model_id": "model_deepseek_coder_7b_instruct_v1_5",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_deepseek_coder_7b_instruct_v1_5_q8",
+      "model_id": "model_deepseek_coder_7b_instruct_v1_5",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_deepseek_coder_7b_instruct_v1_5_fp16",
+      "model_id": "model_deepseek_coder_7b_instruct_v1_5",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_deepseek_r1_distill_qwen_32b_q4",
+      "model_id": "model_deepseek_r1_distill_qwen_32b",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_deepseek_r1_distill_qwen_32b_q5",
+      "model_id": "model_deepseek_r1_distill_qwen_32b",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_deepseek_r1_distill_qwen_32b_q8",
+      "model_id": "model_deepseek_r1_distill_qwen_32b",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_deepseek_r1_distill_qwen_32b_fp16",
+      "model_id": "model_deepseek_r1_distill_qwen_32b",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_deepseek_r1_distill_qwen_1_5b_q4",
+      "model_id": "model_deepseek_r1_distill_qwen_1_5b",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_deepseek_r1_distill_qwen_1_5b_q5",
+      "model_id": "model_deepseek_r1_distill_qwen_1_5b",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_deepseek_r1_distill_qwen_1_5b_q8",
+      "model_id": "model_deepseek_r1_distill_qwen_1_5b",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_deepseek_r1_distill_qwen_1_5b_fp16",
+      "model_id": "model_deepseek_r1_distill_qwen_1_5b",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_deepseek_coder_6_7b_instruct_q4",
+      "model_id": "model_deepseek_coder_6_7b_instruct",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_deepseek_coder_6_7b_instruct_q5",
+      "model_id": "model_deepseek_coder_6_7b_instruct",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_deepseek_coder_6_7b_instruct_q8",
+      "model_id": "model_deepseek_coder_6_7b_instruct",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_deepseek_coder_6_7b_instruct_fp16",
+      "model_id": "model_deepseek_coder_6_7b_instruct",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_deepseek_r1_distill_llama_8b_q4",
+      "model_id": "model_deepseek_r1_distill_llama_8b",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_deepseek_r1_distill_llama_8b_q5",
+      "model_id": "model_deepseek_r1_distill_llama_8b",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_deepseek_r1_distill_llama_8b_q8",
+      "model_id": "model_deepseek_r1_distill_llama_8b",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_deepseek_r1_distill_llama_8b_fp16",
+      "model_id": "model_deepseek_r1_distill_llama_8b",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_deepseek_r1_distill_qwen_14b_q4",
+      "model_id": "model_deepseek_r1_distill_qwen_14b",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_deepseek_r1_distill_qwen_14b_q5",
+      "model_id": "model_deepseek_r1_distill_qwen_14b",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_deepseek_r1_distill_qwen_14b_q8",
+      "model_id": "model_deepseek_r1_distill_qwen_14b",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_deepseek_r1_distill_qwen_14b_fp16",
+      "model_id": "model_deepseek_r1_distill_qwen_14b",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_deepseek_r1_distill_qwen_7b_q4",
+      "model_id": "model_deepseek_r1_distill_qwen_7b",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_deepseek_r1_distill_qwen_7b_q5",
+      "model_id": "model_deepseek_r1_distill_qwen_7b",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_deepseek_r1_distill_qwen_7b_q8",
+      "model_id": "model_deepseek_r1_distill_qwen_7b",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_deepseek_r1_distill_qwen_7b_fp16",
+      "model_id": "model_deepseek_r1_distill_qwen_7b",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_deepseek_r1_distill_llama_70b_q4",
+      "model_id": "model_deepseek_r1_distill_llama_70b",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_deepseek_r1_distill_llama_70b_q5",
+      "model_id": "model_deepseek_r1_distill_llama_70b",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_deepseek_r1_distill_llama_70b_q8",
+      "model_id": "model_deepseek_r1_distill_llama_70b",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_deepseek_r1_distill_llama_70b_fp16",
+      "model_id": "model_deepseek_r1_distill_llama_70b",
+      "quant_bucket": "FP16",
+      "quant_label": "FP16",
+      "bits_effective": 16.0,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_deepseek_coder_6_7b_base_q4",
+      "model_id": "model_deepseek_coder_6_7b_base",
+      "quant_bucket": "Q4",
+      "quant_label": "Q4",
+      "bits_effective": 4.5,
+      "recommended": true,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_deepseek_coder_6_7b_base_q5",
+      "model_id": "model_deepseek_coder_6_7b_base",
+      "quant_bucket": "Q5",
+      "quant_label": "Q5",
+      "bits_effective": 5.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_deepseek_coder_6_7b_base_q8",
+      "model_id": "model_deepseek_coder_6_7b_base",
+      "quant_bucket": "Q8",
+      "quant_label": "Q8",
+      "bits_effective": 8.5,
+      "recommended": false,
+      "notes": "Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk format.",
+      "sources": [
+        "https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md",
+        "MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16"
+      ]
+    },
+    {
+      "id": "variant_model_deepseek_coder_6_7b_base_fp16",
+      "model_id": "model_deepseek_coder_6_7b_base",
       "quant_bucket": "FP16",
       "quant_label": "FP16",
       "bits_effective": 16.0,
