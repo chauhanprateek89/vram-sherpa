@@ -6,6 +6,7 @@ from unittest.mock import patch
 
 import pytest
 from ingest_catalog import (
+    _build_params_b_overrides,
     _detect_model_type,
     _discover_models_from_hf,
     _extract_params_b,
@@ -76,7 +77,7 @@ def test_detect_model_type(model_id: str, expected: str) -> None:
 _MOCK_ORG = [{"id": "testorg", "family": "testfam"}]
 
 
-def _hf_model(hf_id: str, downloads: int = 200_000, gated: bool = False) -> dict:
+def _hf_model(hf_id: str, downloads: int = 200_000, gated: bool | str = False) -> dict:
     return {
         "id": hf_id,
         "downloads": downloads,
@@ -135,11 +136,24 @@ def test_discover_skips_below_min_downloads() -> None:
     assert result == []
 
 
-def test_discover_skips_gated_models() -> None:
-    hf_response = [_hf_model("testorg/MyModel-7B", gated=True)]
+def test_discover_keeps_gated_models_and_flags_them() -> None:
+    """Gating blocks weight downloads, not sizing, so gated repos are kept and flagged."""
+    hf_response = [_hf_model("testorg/MyModel-7B", gated="manual")]
     with patch("ingest_catalog._fetch_hf_model_list", return_value=hf_response):
         result = _discover()
-    assert result == []
+
+    assert len(result) == 1
+    assert result[0]["gated"] is True
+    assert "license acceptance required" in result[0]["notes"]
+
+
+def test_discover_marks_ungated_models_as_not_gated() -> None:
+    hf_response = [_hf_model("testorg/MyModel-7B")]
+    with patch("ingest_catalog._fetch_hf_model_list", return_value=hf_response):
+        result = _discover()
+
+    assert result[0]["gated"] is False
+    assert "license acceptance required" not in result[0]["notes"]
 
 
 def test_discover_skips_unresolvable_params_b() -> None:
@@ -344,5 +358,61 @@ def test_load_discovered_models_skips_colliding_ids(tmp_path: Path) -> None:
     assert _load_discovered_models(tmp_path, curated_models=curated) == []
 
 
+def test_load_discovered_models_defaults_missing_gated(tmp_path: Path) -> None:
+    """A catalog written before `gated` existed must stay valid after an upgrade."""
+    _write_seed_models(
+        tmp_path,
+        [{"id": "model_old", "canonical_identifier": "myorg/Old-7B", "discovered": True}],
+    )
+
+    carried = _load_discovered_models(tmp_path, curated_models=[])
+
+    assert len(carried) == 1
+    assert carried[0]["gated"] is False
+
+
 def test_load_discovered_models_no_seed_file(tmp_path: Path) -> None:
     assert _load_discovered_models(tmp_path, curated_models=[]) == []
+
+
+# ── params_b overrides ────────────────────────────────────────────────────────
+
+
+def test_extract_params_b_uses_override_by_full_id() -> None:
+    assert _extract_params_b("microsoft/phi-4", {"microsoft/phi-4": 14.66}) == 14.66
+
+
+def test_extract_params_b_override_lookup_is_case_insensitive() -> None:
+    overrides = {"microsoft/phi-3.5-moe-instruct": 41.87}
+    assert _extract_params_b("microsoft/Phi-3.5-MoE-instruct", overrides) == 41.87
+
+
+def test_extract_params_b_override_takes_precedence_over_regex() -> None:
+    # Llama-2-7b-hf parses to 7.0, but an explicit override wins.
+    assert _extract_params_b("meta-llama/Llama-2-7b-hf", {"meta-llama/llama-2-7b-hf": 6.74}) == 6.74
+
+
+def test_extract_params_b_falls_back_to_regex_when_not_overridden() -> None:
+    assert _extract_params_b("Qwen/Qwen2.5-7B-Instruct", {"microsoft/phi-4": 14.66}) == 7.0
+
+
+def test_discover_uses_params_b_overrides() -> None:
+    hf_response = [_hf_model("testorg/SomeModel-mini")]
+    with patch("ingest_catalog._fetch_hf_model_list", return_value=hf_response):
+        result = _discover(params_b_overrides={"testorg/somemodel-mini": 3.82})
+
+    assert len(result) == 1
+    assert result[0]["params_b"] == 3.82
+    # kv heuristic must follow the overridden parameter count
+    assert result[0]["kv_gb_per_1k_ctx"] == round(0.06 * 3.82, 2)
+
+
+def test_build_params_b_overrides_normalizes_and_validates() -> None:
+    assert _build_params_b_overrides(None) == {}
+    assert _build_params_b_overrides({"MicroSoft/Phi-4": 14.66}) == {"microsoft/phi-4": 14.66}
+
+    with pytest.raises(ValueError, match="must be a mapping"):
+        _build_params_b_overrides([("microsoft/phi-4", 14.66)])
+
+    with pytest.raises(ValueError, match="params_b must be a number"):
+        _build_params_b_overrides({"microsoft/phi-4": "14.66"})
