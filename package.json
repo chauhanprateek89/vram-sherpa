@@ -2,15 +2,12 @@
   "name": "vram-sherpa-worker",
   "version": "0.1.0",
   "private": true,
-  "description": "Cloudflare Worker that fronts the VRAM Sherpa container image.",
+  "description": "Local tooling for the Cloudflare Worker. The Worker itself imports only built-in modules, so the build needs no npm install.",
   "type": "module",
   "scripts": {
     "deploy": "wrangler deploy",
     "dev": "wrangler dev",
     "check": "wrangler deploy --dry-run"
-  },
-  "dependencies": {
-    "@cloudflare/containers": "0.3.7"
   },
   "devDependencies": {
     "wrangler": "4.152.0"

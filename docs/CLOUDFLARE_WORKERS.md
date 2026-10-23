@@ -10,7 +10,7 @@ what the `Workers Builds: vram-sherpa` check on every pull request builds.
 | `wrangler.toml` | Worker + container config |
 | `worker/index.js` | Worker entrypoint; exports the `VramSherpaApp` container class |
 | `Dockerfile` | the container image, shared with the Docker Compose deploys |
-| `package.json` | pins `@cloudflare/containers` and `wrangler` |
+| `package.json` | pins `wrangler` for local checks only |
 
 A Container needs three things that must agree, or the build fails: a
 `[[containers]]` entry, a `[[durable_objects.bindings]]` entry, and a Durable
@@ -18,6 +18,20 @@ Object class of that name actually exported from the Worker. The config that was
 previously in the repo declared the first two but no Worker and no class, which
 is why the check failed on every branch — including the one that added
 `wrangler.toml`.
+
+## No npm dependency, on purpose
+
+`worker/index.js` imports only `cloudflare:workers`, a built-in module. The
+build environment detects this repo as a Python project (`pyproject.toml` and
+`.python-version`) and installs Python; it may not run `npm install`. An import
+of `@cloudflare/containers` then fails to bundle with
+`Could not resolve "@cloudflare/containers"`. A built-in module cannot fail that
+way, so the Worker builds whether or not Node dependencies are installed.
+
+The cost is that the `Container` helper's `sleepAfter` is unavailable, so the
+class schedules a Durable Object alarm and calls `container.destroy()` after 15
+idle minutes. Containers bill for runtime; without that it would run forever
+after the first request.
 
 ## Database
 
