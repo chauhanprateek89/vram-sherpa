@@ -1,9 +1,11 @@
 name: CI
 
 on:
-  push:
-    branches: ["main"]
   pull_request:
+  # Called by release.yml so main is gated on exactly these checks rather than a
+  # copy that can drift. Pushes to main are handled there, not here, to avoid
+  # running the whole suite twice per merge.
+  workflow_call:
 
 jobs:
   test:

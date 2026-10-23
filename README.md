@@ -26,6 +26,12 @@ conda activate vram-sherpa
 pip install -e ".[dev]"
 ```
 
+## Release and deployment
+
+Merges to `main` are built, smoke-tested, published to GHCR and released automatically;
+the homelab pulls them. See [docs/RELEASE_AND_DEPLOY.md](docs/RELEASE_AND_DEPLOY.md) for
+the versioning scheme, first-time server setup and rollback steps.
+
 ## Environment variables
 
 - `DATABASE_URL`: Runtime database URL. Required when `APP_ENV` is not `test`.
