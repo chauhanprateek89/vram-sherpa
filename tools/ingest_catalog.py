@@ -374,13 +374,20 @@ def _fetch_hf_model_list(
     limit: int = 50,
 ) -> list[dict[str, Any]] | None:
     params = parse.urlencode(
-        {
-            "author": org,
-            "pipeline_tag": "text-generation",
-            "sort": "downloads",
-            "direction": "-1",
-            "limit": str(limit),
-        }
+        [
+            ("author", org),
+            ("pipeline_tag", "text-generation"),
+            ("sort", "downloads"),
+            ("direction", "-1"),
+            ("limit", str(limit)),
+            # The default list response carries neither `gated` nor `cardData`, so
+            # without these expansions every repo looks ungated and unlicensed.
+            ("expand[]", "downloads"),
+            ("expand[]", "gated"),
+            ("expand[]", "cardData"),
+            ("expand[]", "tags"),
+            ("expand[]", "pipeline_tag"),
+        ]
     )
     url = f"https://huggingface.co/api/models?{params}"
 
@@ -438,6 +445,58 @@ def _load_known_hf_ids(output_dir: Path, yaml_models: list[dict[str, Any]]) -> s
             pass
 
     return known
+
+
+def _load_discovered_models(
+    output_dir: Path, *, curated_models: list[dict[str, Any]]
+) -> list[dict[str, Any]]:
+    """Read previously auto-discovered models back out of the generated seed file.
+
+    Discovered models are never written back to the curated YAML, so the seed file is
+    the only place they live. Reloading them here makes a refresh add to the catalog
+    instead of rebuilding it from the curated entries alone.
+    """
+    seed_path = output_dir / "seed_models.json"
+    if not seed_path.exists():
+        return []
+
+    try:
+        payload = json.loads(seed_path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return []
+    if not isinstance(payload, dict):
+        return []
+
+    curated_ids = {model["id"] for model in curated_models}
+    curated_identifiers = {
+        value
+        for model in curated_models
+        for value in (model.get("canonical_identifier"), model.get("hf_repo"))
+        if isinstance(value, str) and "/" in value
+    }
+
+    carried: list[dict[str, Any]] = []
+    seen_ids: set[str] = set()
+    for item in payload.get("items", []):
+        if not isinstance(item, dict) or not item.get("discovered"):
+            continue
+
+        model_id = item.get("id")
+        canonical = item.get("canonical_identifier")
+        if not isinstance(model_id, str) or not isinstance(canonical, str):
+            continue
+        # A model that has since been curated by hand is owned by the YAML entry.
+        if model_id in curated_ids or canonical in curated_identifiers or model_id in seen_ids:
+            continue
+
+        model = dict(item)
+        # hf_repo is stripped before the seed file is written; rebuild it so optional
+        # metadata enrichment still reaches carried-over entries.
+        model["hf_repo"] = canonical if "/" in canonical else None
+        carried.append(model)
+        seen_ids.add(model_id)
+
+    return carried
 
 
 def _discover_models_from_hf(
@@ -539,6 +598,7 @@ def _discover_models_from_hf(
                         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)",
                     ],
                     "hf_repo": hf_id,
+                    "discovered": True,
                 }
             )
             known_hf_ids.add(hf_id)
@@ -679,12 +739,13 @@ def main() -> int:
     normalized_quant_bits = _normalize_quant_bits(catalog_config.get("quant_bucket_bits_effective"))
 
     gpus = _build_gpus(config.get("gpus"))
-    models = _build_models(config.get("models"))
-    variants = _build_variants(
-        models,
-        quant_bits=normalized_quant_bits,
-        raw_rules=catalog_config.get("variant_generation"),
-    )
+    curated_models = _build_models(config.get("models"))
+
+    # Models found by earlier discovery runs exist only in the generated seed file.
+    # They are reloaded before discovery so a refresh extends the catalog rather than
+    # regenerating it from the curated entries and dropping every earlier find.
+    discovered_models = _load_discovered_models(args.output_dir, curated_models=curated_models)
+    carried_over = len(discovered_models)
 
     discovery_config = config.get("discovery")
     if isinstance(discovery_config, dict) and discovery_config.get("enabled"):
@@ -698,7 +759,8 @@ def main() -> int:
         exclude_patterns = [str(p) for p in raw_exclude if p]
 
         known_hf_ids = _load_known_hf_ids(args.output_dir, config.get("models") or [])
-        known_model_ids = {m["id"] for m in models}
+        known_model_ids = {model["id"] for model in curated_models}
+        known_model_ids.update(model["id"] for model in discovered_models)
 
         new_models = _discover_models_from_hf(
             tracked_orgs=tracked_orgs,
@@ -712,17 +774,23 @@ def main() -> int:
             user_agent=disc_user_agent,
         )
 
-        if new_models:
-            new_variants = _build_variants(
-                new_models,
-                quant_bits=normalized_quant_bits,
-                raw_rules=catalog_config.get("variant_generation"),
-            )
-            models.extend(new_models)
-            variants.extend(new_variants)
-            print(f"Discovery: added {len(new_models)} new model(s) from HuggingFace.")
-        else:
-            print("Discovery: no new models found.")
+        discovered_models.extend(new_models)
+
+        print(
+            f"Discovery: added {len(new_models)} new model(s) from HuggingFace, "
+            f"carried over {carried_over} from the previous catalog."
+        )
+
+    # Curated entries keep their YAML order; discovered ones are sorted so the weekly
+    # refresh diff shows real catalog changes instead of Hugging Face ranking noise.
+    discovered_models.sort(key=lambda model: model["id"])
+    models = curated_models + discovered_models
+
+    variants = _build_variants(
+        models,
+        quant_bits=normalized_quant_bits,
+        raw_rules=catalog_config.get("variant_generation"),
+    )
 
     hf_config = catalog_config.get("huggingface")
     if not isinstance(hf_config, dict):

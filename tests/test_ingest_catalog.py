@@ -9,6 +9,8 @@ from ingest_catalog import (
     _detect_model_type,
     _discover_models_from_hf,
     _extract_params_b,
+    _fetch_hf_model_list,
+    _load_discovered_models,
     _load_known_hf_ids,
 )
 
@@ -245,3 +247,102 @@ def test_load_known_hf_ids_from_existing_seed_file(tmp_path: Path) -> None:
 def test_load_known_hf_ids_no_seed_file(tmp_path: Path) -> None:
     known = _load_known_hf_ids(tmp_path, [])
     assert known == set()
+
+
+# ── _fetch_hf_model_list ──────────────────────────────────────────────────────
+
+
+def test_fetch_hf_model_list_requests_gated_and_card_data() -> None:
+    """The default list response omits `gated` and `cardData`, so they must be asked for."""
+
+    class _FakeResponse:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *exc_info) -> bool:
+            return False
+
+        def read(self) -> bytes:
+            return b"[]"
+
+    captured: list[str] = []
+
+    def _fake_urlopen(req, timeout):  # noqa: ARG001 - signature mirrors urlopen
+        captured.append(req.full_url)
+        return _FakeResponse()
+
+    with patch("ingest_catalog.request.urlopen", _fake_urlopen):
+        _fetch_hf_model_list("testorg", timeout_seconds=8, retries=0, user_agent="test")
+
+    assert len(captured) == 1
+    url = captured[0]
+    assert "expand%5B%5D=gated" in url
+    assert "expand%5B%5D=cardData" in url
+    assert "expand%5B%5D=downloads" in url
+
+
+def test_discover_marks_models_as_discovered() -> None:
+    hf_response = [_hf_model("testorg/MyModel-7B-Instruct")]
+    with patch("ingest_catalog._fetch_hf_model_list", return_value=hf_response):
+        result = _discover()
+    assert len(result) == 1
+    assert result[0]["discovered"] is True
+
+
+# ── _load_discovered_models ───────────────────────────────────────────────────
+
+
+def _write_seed_models(tmp_path: Path, items: list[dict]) -> None:
+    payload = {"catalog_version": "2026-01-01", "items": items}
+    (tmp_path / "seed_models.json").write_text(json.dumps(payload), encoding="utf-8")
+
+
+def test_load_discovered_models_carries_previous_finds(tmp_path: Path) -> None:
+    _write_seed_models(
+        tmp_path,
+        [
+            {"id": "model_curated", "canonical_identifier": "myorg/Curated-7B"},
+            {"id": "model_found", "canonical_identifier": "myorg/Found-7B", "discovered": True},
+        ],
+    )
+
+    carried = _load_discovered_models(tmp_path, curated_models=[])
+
+    assert [model["id"] for model in carried] == ["model_found"]
+    # hf_repo is stripped before writing, so it has to be rebuilt for enrichment.
+    assert carried[0]["hf_repo"] == "myorg/Found-7B"
+
+
+def test_load_discovered_models_skips_entries_now_curated(tmp_path: Path) -> None:
+    _write_seed_models(
+        tmp_path,
+        [
+            {"id": "model_found", "canonical_identifier": "myorg/Found-7B", "discovered": True},
+            {"id": "model_other", "canonical_identifier": "myorg/Other-7B", "discovered": True},
+        ],
+    )
+    curated = [
+        {
+            "id": "model_hand_written",
+            "canonical_identifier": "myorg/Found-7B",
+            "hf_repo": "myorg/Found-7B",
+        }
+    ]
+
+    carried = _load_discovered_models(tmp_path, curated_models=curated)
+
+    assert [model["id"] for model in carried] == ["model_other"]
+
+
+def test_load_discovered_models_skips_colliding_ids(tmp_path: Path) -> None:
+    _write_seed_models(
+        tmp_path,
+        [{"id": "model_dupe", "canonical_identifier": "myorg/Dupe-7B", "discovered": True}],
+    )
+    curated = [{"id": "model_dupe", "canonical_identifier": "internal_dupe"}]
+
+    assert _load_discovered_models(tmp_path, curated_models=curated) == []
+
+
+def test_load_discovered_models_no_seed_file(tmp_path: Path) -> None:
+    assert _load_discovered_models(tmp_path, curated_models=[]) == []
