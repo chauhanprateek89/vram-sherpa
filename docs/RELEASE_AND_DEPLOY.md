@@ -100,6 +100,9 @@ Remove the `IMAGE_TAG` line and restart watchtower to resume tracking releases.
   carrying `com.centurylinklabs.watchtower.enable=true`. Only `web` has it. `ollama` and
   `db` are never auto-updated — an unattended Postgres major bump would be worse than a
   stale one.
+- **Watchtower image.** The deploy uses `nickfedor/watchtower`, a maintained fork.
+  `containrrr/watchtower` has been unmaintained since 2023 and negotiates Docker API
+  1.25, which Docker 25+ rejects (minimum 1.44), so it crash-loops on a modern host.
 - **Watchtower holds the Docker socket**, which is effectively root on the host. That is
   the cost of pull-based deploys without inbound access; `--label-enable` is what keeps
   its blast radius to this stack.
