@@ -1,0 +1,170 @@
+name: Release
+
+# Continuous deployment: every merge to main that passes CI is built, published to
+# GHCR and released. The homelab pulls it; nothing here connects to the server.
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+# Never let two releases race for the same tag or :latest.
+concurrency:
+  group: release-main
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  verify:
+    uses: ./.github/workflows/ci.yml
+
+  release:
+    needs: verify
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Derive version
+        id: version
+        shell: bash
+        run: |
+          # Commit count on main is monotonic and survives workflow re-creation,
+          # unlike github.run_number. Minor line is owned by pyproject.
+          base="$(grep -m1 '^version = ' pyproject.toml | sed -E 's/.*"(.*)"/\1/' | cut -d. -f1,2)"
+          count="$(git rev-list --count HEAD)"
+          version="v${base}.${count}"
+          echo "version=${version}" >> "$GITHUB_OUTPUT"
+          echo "sha_tag=sha-$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
+          echo "Releasing ${version}"
+
+      - name: Fail if tag already exists
+        shell: bash
+        run: |
+          if git rev-parse "${{ steps.version.outputs.version }}" >/dev/null 2>&1; then
+            echo "::error::Tag ${{ steps.version.outputs.version }} already exists."
+            exit 1
+          fi
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Lowercase image name
+        id: image
+        shell: bash
+        run: echo "name=ghcr.io/$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_OUTPUT"
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ steps.image.outputs.name }}:${{ steps.version.outputs.version }}
+            ${{ steps.image.outputs.name }}:${{ steps.version.outputs.sha_tag }}
+            ${{ steps.image.outputs.name }}:latest
+          labels: |
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.version=${{ steps.version.outputs.version }}
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Smoke test the published image
+        shell: bash
+        run: |
+          # Catch a broken image before it is tagged as a release, not after the
+          # homelab has already pulled it.
+          # A user-defined network, not --link: --link is legacy and resolves
+          # inconsistently on newer daemons.
+          docker network create smoke-net
+          docker run -d --name smoke-db --network smoke-net --network-alias db \
+            -e POSTGRES_DB=vramsherpa -e POSTGRES_USER=vramsherpa \
+            -e POSTGRES_PASSWORD=vramsherpa postgres:16-alpine
+          for _ in $(seq 1 30); do
+            docker exec smoke-db pg_isready -U vramsherpa -d vramsherpa && break
+            sleep 2
+          done
+
+          docker run -d --name smoke-web --network smoke-net -p 8000:8000 \
+            -e DATABASE_URL="postgresql+psycopg://vramsherpa:vramsherpa@db:5432/vramsherpa" \
+            -e APP_ENV=prod -e ALLOWED_HOSTS=localhost,127.0.0.1 \
+            "${{ steps.image.outputs.name }}:${{ steps.version.outputs.version }}" \
+            sh -c "python -m vramsherpa.seed && exec uvicorn vramsherpa.main:create_app --factory --host 0.0.0.0 --port 8000 --proxy-headers --forwarded-allow-ips=*"
+
+          ok=0
+          for _ in $(seq 1 30); do
+            if curl -fsS -m 5 http://127.0.0.1:8000/healthz >/dev/null 2>&1; then ok=1; break; fi
+            sleep 2
+          done
+          if [ "$ok" -ne 1 ]; then
+            echo "::error::Published image failed its health check."
+            docker logs smoke-web || true
+            exit 1
+          fi
+
+          # The catalog must actually be seeded, not merely reachable.
+          docker logs smoke-web 2>&1 | grep -E "Seeded catalog_version=" \
+            || { echo "::error::Image started but seeded no catalog."; exit 1; }
+          curl -fsS -m 10 "http://127.0.0.1:8000/?vram_gb=24&context_tokens=4096" >/dev/null \
+            || { echo "::error::Results page did not render."; exit 1; }
+
+          # Behind HTTPS the app must emit https:// asset URLs. If it emits
+          # http:// the page still returns 200 but the browser blocks the CSS
+          # and JS as mixed content, so this is invisible to a status check.
+          assets="$(curl -fsS -m 10 -H 'X-Forwarded-Proto: https' http://127.0.0.1:8000/ \
+            | grep -oE '(href|src)="[^"]*static[^"]*"' || true)"
+          if printf '%s' "$assets" | grep -q 'http://'; then
+            echo "::error::Rendered http:// asset URLs behind https (mixed content)."
+            printf '%s\n' "$assets"
+            exit 1
+          fi
+
+          # APP_ENV=prod must reject an unknown Host; a 200 here means the guard
+          # is off and the image is not safe to put behind the tunnel.
+          code="$(curl -s -o /dev/null -w '%{http_code}' -m 5 -H 'Host: evil.example.com' http://127.0.0.1:8000/)"
+          if [ "$code" != "400" ]; then
+            echo "::error::Host guard did not reject an unknown Host (got ${code}, want 400)."
+            exit 1
+          fi
+          echo "Smoke test passed."
+
+      - name: Tag and publish release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          git tag "${{ steps.version.outputs.version }}"
+          git push origin "${{ steps.version.outputs.version }}"
+          gh release create "${{ steps.version.outputs.version }}" \
+            --title "${{ steps.version.outputs.version }}" \
+            --generate-notes \
+            --notes-start-tag "$(git describe --tags --abbrev=0 "${{ steps.version.outputs.version }}^" 2>/dev/null || echo '')" \
+            || gh release create "${{ steps.version.outputs.version }}" \
+                 --title "${{ steps.version.outputs.version }}" --generate-notes
+
+      - name: Summary
+        shell: bash
+        run: |
+          {
+            echo "### Released ${{ steps.version.outputs.version }}"
+            echo
+            echo "| | |"
+            echo "|---|---|"
+            echo "| Image | \`${{ steps.image.outputs.name }}:${{ steps.version.outputs.version }}\` |"
+            echo "| Digest tag | \`${{ steps.version.outputs.sha_tag }}\` |"
+            echo "| Commit | ${{ github.sha }} |"
+            echo
+            echo "The homelab watcher pulls \`:latest\` and redeploys within ~5 minutes."
+          } >> "$GITHUB_STEP_SUMMARY"

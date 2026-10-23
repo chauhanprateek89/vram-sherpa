@@ -1,0 +1,75 @@
+# Deployment stack for the homelab. Standalone on purpose: it never builds, it only
+# runs a published GHCR image, so `docker-compose.yml` (which builds from source)
+# cannot be pulled in by accident.
+#
+# Public exposure is handled by the cloudflared systemd service already running on
+# the host, which reaches web through 127.0.0.1:8000. Do NOT add the tunnel sidecar
+# from docker-compose.tunnel.yml here: it would register a second tunnel.
+#
+#   docker compose -f docker-compose.prod.yml up -d
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: vramsherpa
+      POSTGRES_USER: vramsherpa
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-vramsherpa}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U vramsherpa -d vramsherpa"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  web:
+    # IMAGE_TAG pins a rollback target; unset means track the latest release.
+    image: ghcr.io/chauhanprateek89/vram-sherpa:${IMAGE_TAG:-latest}
+    pull_policy: always
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    environment:
+      DATABASE_URL: postgresql+psycopg://vramsherpa:${POSTGRES_PASSWORD:-vramsherpa}@db:5432/vramsherpa
+      APP_ENV: ${APP_ENV:-prod}
+      ALLOWED_HOSTS: ${ALLOWED_HOSTS:-localhost,127.0.0.1,web}
+      PUBLIC_HOSTNAME: ${PUBLIC_HOSTNAME:-}
+    # --proxy-headers makes uvicorn honour X-Forwarded-Proto from the tunnel.
+    # Without it Starlette's url_for builds absolute http:// URLs for CSS and JS,
+    # which a browser on the https site blocks as mixed content: the page loads
+    # but is unstyled and inert. Only cloudflared reaches this port.
+    command: sh -c "python -m vramsherpa.seed && exec uvicorn vramsherpa.main:create_app --factory --host 0.0.0.0 --port 8000 --proxy-headers --forwarded-allow-ips=*"
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:8000:8000"
+    labels:
+      # Only containers carrying this label are auto-updated (see watchtower's
+      # --label-enable). db is deliberately excluded: a surprise Postgres major
+      # version bump would be far worse than a stale one.
+      com.centurylinklabs.watchtower.enable: "true"
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request;urllib.request.urlopen('http://localhost:8000/healthz')\""]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  watchtower:
+    image: containrrr/watchtower:latest
+    restart: unless-stopped
+    command: --label-enable --cleanup --rolling-restart --interval 300
+    environment:
+      TZ: ${TZ:-Europe/London}
+    volumes:
+      # Required for watchtower to pull images and recreate containers. This grants
+      # effective control of the Docker daemon, which is why --label-enable scopes
+      # it to this stack and keeps it away from ollama and anything else on the box.
+      - /var/run/docker.sock:/var/run/docker.sock
+
+volumes:
+  pgdata:
