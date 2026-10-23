@@ -38,7 +38,11 @@ services:
       APP_ENV: ${APP_ENV:-prod}
       ALLOWED_HOSTS: ${ALLOWED_HOSTS:-localhost,127.0.0.1,web}
       PUBLIC_HOSTNAME: ${PUBLIC_HOSTNAME:-}
-    command: sh -c "python -m vramsherpa.seed && uvicorn vramsherpa.main:create_app --factory --host 0.0.0.0 --port 8000"
+    # --proxy-headers makes uvicorn honour X-Forwarded-Proto from the tunnel.
+    # Without it Starlette's url_for builds absolute http:// URLs for CSS and JS,
+    # which a browser on the https site blocks as mixed content: the page loads
+    # but is unstyled and inert. Only cloudflared reaches this port.
+    command: sh -c "python -m vramsherpa.seed && exec uvicorn vramsherpa.main:create_app --factory --host 0.0.0.0 --port 8000 --proxy-headers --forwarded-allow-ips=*"
     depends_on:
       db:
         condition: service_healthy

@@ -101,7 +101,7 @@ jobs:
             -e DATABASE_URL="postgresql+psycopg://vramsherpa:vramsherpa@db:5432/vramsherpa" \
             -e APP_ENV=prod -e ALLOWED_HOSTS=localhost,127.0.0.1 \
             "${{ steps.image.outputs.name }}:${{ steps.version.outputs.version }}" \
-            sh -c "python -m vramsherpa.seed && uvicorn vramsherpa.main:create_app --factory --host 0.0.0.0 --port 8000"
+            sh -c "python -m vramsherpa.seed && exec uvicorn vramsherpa.main:create_app --factory --host 0.0.0.0 --port 8000 --proxy-headers --forwarded-allow-ips=*"
 
           ok=0
           for _ in $(seq 1 30); do
@@ -119,6 +119,17 @@ jobs:
             || { echo "::error::Image started but seeded no catalog."; exit 1; }
           curl -fsS -m 10 "http://127.0.0.1:8000/?vram_gb=24&context_tokens=4096" >/dev/null \
             || { echo "::error::Results page did not render."; exit 1; }
+
+          # Behind HTTPS the app must emit https:// asset URLs. If it emits
+          # http:// the page still returns 200 but the browser blocks the CSS
+          # and JS as mixed content, so this is invisible to a status check.
+          assets="$(curl -fsS -m 10 -H 'X-Forwarded-Proto: https' http://127.0.0.1:8000/ \
+            | grep -oE '(href|src)="[^"]*static[^"]*"' || true)"
+          if printf '%s' "$assets" | grep -q 'http://'; then
+            echo "::error::Rendered http:// asset URLs behind https (mixed content)."
+            printf '%s\n' "$assets"
+            exit 1
+          fi
 
           # APP_ENV=prod must reject an unknown Host; a 200 here means the guard
           # is off and the image is not safe to put behind the tunnel.

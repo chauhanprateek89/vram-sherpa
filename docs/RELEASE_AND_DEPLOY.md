@@ -103,6 +103,11 @@ Remove the `IMAGE_TAG` line and restart watchtower to resume tracking releases.
 - **Watchtower holds the Docker socket**, which is effectively root on the host. That is
   the cost of pull-based deploys without inbound access; `--label-enable` is what keeps
   its blast radius to this stack.
+- **HTTPS asset URLs.** The app runs behind the tunnel with `--proxy-headers`, so
+  uvicorn honours `X-Forwarded-Proto` and Starlette's `url_for` emits `https://`
+  CSS and JS URLs. Drop that flag and the page still returns 200 while the
+  browser blocks every asset as mixed content, leaving the site unstyled and
+  inert. The release smoke test asserts this, because a status check cannot see it.
 - **Schema changes.** `create_all` creates missing tables but never alters existing ones,
   so a release that adds a column fails to seed against an existing volume. See
   "Upgrading an existing database" in the README.
