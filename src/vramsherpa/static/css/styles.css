@@ -18,6 +18,8 @@
   --badge-wont-fit-text: #8f3131;
   --badge-quant-bg: #e9eef5;
   --badge-quant-text: #2a3d5f;
+  --badge-gated-bg: #ece8f7;
+  --badge-gated-text: #4a3b7a;
 }
 
 :root[data-theme="dark"] {
@@ -40,6 +42,8 @@
   --badge-wont-fit-text: #ff9ea7;
   --badge-quant-bg: #202d42;
   --badge-quant-text: #b9cdf0;
+  --badge-gated-bg: #2b2340;
+  --badge-gated-text: #cfbdf5;
 }
 
 * {
@@ -636,6 +640,16 @@ select[multiple] {
 .badge-quant {
   background: var(--badge-quant-bg);
   color: var(--badge-quant-text);
+}
+
+.badge-gated {
+  background: var(--badge-gated-bg);
+  color: var(--badge-gated-text);
+  font-weight: 600;
+}
+
+.badge-inline {
+  margin-left: 0.35rem;
 }
 
 .badge-recommended {

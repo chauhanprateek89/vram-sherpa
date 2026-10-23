@@ -27,10 +27,40 @@ discovery:
   max_models_per_org: 20
   exclude_name_patterns:
   - Guard      # safety classifiers, not generation models
+  - shield     # shieldgemma et al: safety classifiers, not generation models
   - -AWQ       # pre-quantized; VRAM estimates assume standard weights
   - -GPTQ      # pre-quantized
   - -FP8       # pre-quantized
   - .gguf      # pre-quantized
+  # Families sized by word rather than number ("mini", "MoE", "V3") carry no `NNB`
+  # token in the repo name, so discovery cannot infer params and would skip them.
+  # Values below are the `safetensors.total` parameter counts reported by the HF API.
+  params_b_overrides:
+    microsoft/phi-1_5: 1.42
+    microsoft/phi-2: 2.78
+    microsoft/phi-3-mini-4k-instruct: 3.82
+    microsoft/phi-3-mini-128k-instruct: 3.82
+    microsoft/phi-3.5-mini-instruct: 3.82
+    microsoft/phi-3.5-moe-instruct: 41.87
+    microsoft/phi-4: 14.66
+    microsoft/phi-4-mini-instruct: 3.84
+    google/gemma-3-270m: 0.27
+    google/gemma-3-270m-it: 0.27
+    qwen/qwen3-coder-next: 79.67
+    deepseek-ai/deepseek-coder-v2-lite-instruct: 15.71
+    deepseek-ai/deepseek-v2-lite: 15.71
+    deepseek-ai/deepseek-v2-lite-chat: 15.71
+    deepseek-ai/deepseek-r1: 684.49
+    deepseek-ai/deepseek-r1-0528: 684.53
+    deepseek-ai/deepseek-v3: 684.49
+    deepseek-ai/deepseek-v3-0324: 684.53
+    deepseek-ai/deepseek-v3.1: 684.53
+    deepseek-ai/deepseek-v3.2: 685.36
+    deepseek-ai/deepseek-v4-flash: 290.94
+    deepseek-ai/deepseek-v4-flash-0731: 304.18
+    deepseek-ai/deepseek-v4-flash-dspark: 165.27
+    deepseek-ai/deepseek-v4-pro: 1598.84
+    deepseek-ai/deepseek-v4-pro-0813: 1650.5
   tracked_orgs:
   - id: meta-llama
     family: llama
@@ -299,6 +329,7 @@ gpus:
   - https://www.intel.com/content/www/us/en/products/sku/227959/intel-arc-a750-graphics/specifications.html
 models:
 - id: model_llama_31_8b_instruct
+  gated: true
   name: Llama 3.1 8B Instruct
   family: llama
   params_b: 8.0
@@ -314,6 +345,7 @@ models:
   hf_repo: meta-llama/Llama-3.1-8B-Instruct
   canonical_identifier: meta-llama/Llama-3.1-8B-Instruct
 - id: model_llama_31_8b_base
+  gated: true
   name: Llama 3.1 8B
   family: llama
   params_b: 8.0
@@ -330,6 +362,7 @@ models:
   hf_repo: meta-llama/Llama-3.1-8B
   canonical_identifier: meta-llama/Llama-3.1-8B
 - id: model_llama_31_70b_instruct
+  gated: true
   name: Llama 3.1 70B Instruct
   family: llama
   params_b: 71.0
@@ -435,6 +468,7 @@ models:
   hf_repo: Qwen/Qwen2.5-14B-Instruct
   canonical_identifier: Qwen/Qwen2.5-14B-Instruct
 - id: model_gemma2_9b_it
+  gated: true
   name: Gemma 2 9B IT
   family: gemma
   params_b: 9.0
@@ -452,6 +486,7 @@ models:
   hf_repo: google/gemma-2-9b-it
   canonical_identifier: google/gemma-2-9b-it
 - id: model_gemma2_9b_base
+  gated: true
   name: Gemma 2 9B
   family: gemma
   params_b: 9.0

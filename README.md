@@ -68,6 +68,26 @@ Outside Docker (with `DATABASE_URL` set as needed):
 python -m vramsherpa.seed
 ```
 
+### Upgrading an existing database
+
+`create_db_and_tables()` uses SQLAlchemy `create_all`, which creates missing tables but never
+alters existing ones. When a release adds a column (for example `models.gated`), an existing
+volume keeps the old schema and seeding fails with `UndefinedColumn`.
+
+The database holds no user data (everything is rebuilt from `data/seed_*.json`), so the simplest
+fix is to recreate it:
+
+```bash
+docker compose down -v && docker compose up -d --build
+```
+
+To preserve the volume instead, add the column by hand before seeding:
+
+```bash
+docker compose exec db psql -U vramsherpa -d vramsherpa \
+  -c "ALTER TABLE models ADD COLUMN IF NOT EXISTS gated BOOLEAN NOT NULL DEFAULT FALSE;"
+```
+
 ## Catalog refresh tooling (offline/build-time)
 
 Curated catalog inputs live in:

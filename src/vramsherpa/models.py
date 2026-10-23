@@ -25,6 +25,7 @@ class Model(Base):
     params_b: Mapped[float] = mapped_column(Numeric(10, 3), nullable=False)
     model_type: Mapped[str | None] = mapped_column(String(50), nullable=True)
     license: Mapped[str | None] = mapped_column(String(120), nullable=True)
+    gated: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
     kv_gb_per_1k_ctx: Mapped[float] = mapped_column(Numeric(10, 4), nullable=False)
     sources: Mapped[str | None] = mapped_column(Text, nullable=True)
 

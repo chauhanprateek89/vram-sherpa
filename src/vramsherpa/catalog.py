@@ -60,6 +60,7 @@ def _upsert_model(session: Session, item: dict) -> None:
     model.params_b = float(item["params_b"])
     model.model_type = _as_optional_text(item.get("model_type"))
     model.license = _as_optional_text(item.get("license"))
+    model.gated = bool(item.get("gated", False))
     model.kv_gb_per_1k_ctx = float(item["kv_gb_per_1k_ctx"])
     model.sources = _as_optional_text(item.get("sources"))
     session.add(model)

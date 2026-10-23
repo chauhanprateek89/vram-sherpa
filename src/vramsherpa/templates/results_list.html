@@ -30,6 +30,14 @@
           {% if row.recommended %}
             <span class="badge badge-recommended">Recommended</span>
           {% endif %}
+          {% if row.gated %}
+            <span
+              class="badge badge-gated"
+              title="Gated repo: accept the model license on Hugging Face before downloading weights. VRAM estimates are unaffected."
+            >
+              Gated
+            </span>
+          {% endif %}
         </div>
 
         <dl class="numbers-grid">
