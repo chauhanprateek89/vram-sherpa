@@ -1,5 +1,5 @@
 {
-  "catalog_version": "2026-03-03",
+  "catalog_version": "2026-10-23",
   "items": [
     {
       "id": "model_llama_31_8b_instruct",
@@ -37,7 +37,7 @@
     {
       "id": "model_llama_31_70b_instruct",
       "name": "Llama 3.1 70B Instruct",
-      "canonical_identifier": "model_llama_31_70b_instruct",
+      "canonical_identifier": "meta-llama/Llama-3.1-70B-Instruct",
       "family": "llama",
       "params_b": 71.0,
       "model_type": "instruct",
@@ -149,7 +149,7 @@
     {
       "id": "model_gemma2_9b_it",
       "name": "Gemma 2 9B IT",
-      "canonical_identifier": "model_gemma2_9b_it",
+      "canonical_identifier": "google/gemma-2-9b-it",
       "family": "gemma",
       "params_b": 9.0,
       "model_type": "instruct",
@@ -166,7 +166,7 @@
     {
       "id": "model_gemma2_9b_base",
       "name": "Gemma 2 9B",
-      "canonical_identifier": "model_gemma2_9b_base",
+      "canonical_identifier": "google/gemma-2-9b",
       "family": "gemma",
       "params_b": 9.0,
       "model_type": "base",
@@ -197,9 +197,25 @@
       ]
     },
     {
+      "id": "model_phi4_instruct",
+      "name": "Phi-4",
+      "canonical_identifier": "microsoft/phi-4",
+      "family": "phi",
+      "params_b": 14.0,
+      "model_type": "instruct",
+      "license": "mit",
+      "kv_gb_per_1k_ctx": 0.84,
+      "notes": "14B dense model from Microsoft. kv_gb_per_1k_ctx is a VRAM Sherpa heuristic: round(0.06 * params_b, 2).",
+      "sources": [
+        "https://huggingface.co/microsoft/phi-4",
+        "https://huggingface.co/microsoft/phi-4/blob/main/LICENSE",
+        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
+      ]
+    },
+    {
       "id": "model_yi15_9b_chat",
       "name": "Yi-1.5 9B Chat",
-      "canonical_identifier": "model_yi15_9b_chat",
+      "canonical_identifier": "01-ai/Yi-1.5-9B-Chat",
       "family": "yi",
       "params_b": 9.0,
       "model_type": "instruct",
@@ -210,6 +226,662 @@
         "https://huggingface.co/01-ai/Yi-1.5-9B-Chat",
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ]
+    },
+    {
+      "id": "model_deepseek_coder_6_7b_base",
+      "name": "deepseek-coder-6.7b-base",
+      "canonical_identifier": "deepseek-ai/deepseek-coder-6.7b-base",
+      "family": "deepseek",
+      "params_b": 6.7,
+      "model_type": "base",
+      "license": "other",
+      "kv_gb_per_1k_ctx": 0.4,
+      "notes": "Auto-discovered from HuggingFace (112,561 downloads). kv_gb_per_1k_ctx heuristic: round(0.06 * params_b, 2).",
+      "sources": [
+        "https://huggingface.co/deepseek-ai/deepseek-coder-6.7b-base",
+        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
+      ],
+      "discovered": true
+    },
+    {
+      "id": "model_deepseek_coder_7b_instruct_v1_5",
+      "name": "deepseek-coder-7b-instruct-v1.5",
+      "canonical_identifier": "deepseek-ai/deepseek-coder-7b-instruct-v1.5",
+      "family": "deepseek",
+      "params_b": 7.0,
+      "model_type": "instruct",
+      "license": "other",
+      "kv_gb_per_1k_ctx": 0.42,
+      "notes": "Auto-discovered from HuggingFace (421,299 downloads). kv_gb_per_1k_ctx heuristic: round(0.06 * params_b, 2).",
+      "sources": [
+        "https://huggingface.co/deepseek-ai/deepseek-coder-7b-instruct-v1.5",
+        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
+      ],
+      "discovered": true
+    },
+    {
+      "id": "model_deepseek_r1_0528_qwen3_8b",
+      "name": "DeepSeek-R1-0528-Qwen3-8B",
+      "canonical_identifier": "deepseek-ai/DeepSeek-R1-0528-Qwen3-8B",
+      "family": "deepseek",
+      "params_b": 8.0,
+      "model_type": "base",
+      "license": "mit",
+      "kv_gb_per_1k_ctx": 0.48,
+      "notes": "Auto-discovered from HuggingFace (362,624 downloads). kv_gb_per_1k_ctx heuristic: round(0.06 * params_b, 2).",
+      "sources": [
+        "https://huggingface.co/deepseek-ai/DeepSeek-R1-0528-Qwen3-8B",
+        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
+      ],
+      "discovered": true
+    },
+    {
+      "id": "model_deepseek_r1_distill_llama_8b",
+      "name": "DeepSeek-R1-Distill-Llama-8B",
+      "canonical_identifier": "deepseek-ai/DeepSeek-R1-Distill-Llama-8B",
+      "family": "deepseek",
+      "params_b": 8.0,
+      "model_type": "base",
+      "license": "mit",
+      "kv_gb_per_1k_ctx": 0.48,
+      "notes": "Auto-discovered from HuggingFace (116,039 downloads). kv_gb_per_1k_ctx heuristic: round(0.06 * params_b, 2).",
+      "sources": [
+        "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-8B",
+        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
+      ],
+      "discovered": true
+    },
+    {
+      "id": "model_deepseek_r1_distill_qwen_14b",
+      "name": "DeepSeek-R1-Distill-Qwen-14B",
+      "canonical_identifier": "deepseek-ai/DeepSeek-R1-Distill-Qwen-14B",
+      "family": "deepseek",
+      "params_b": 14.0,
+      "model_type": "base",
+      "license": "mit",
+      "kv_gb_per_1k_ctx": 0.84,
+      "notes": "Auto-discovered from HuggingFace (305,865 downloads). kv_gb_per_1k_ctx heuristic: round(0.06 * params_b, 2).",
+      "sources": [
+        "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B",
+        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
+      ],
+      "discovered": true
+    },
+    {
+      "id": "model_deepseek_r1_distill_qwen_1_5b",
+      "name": "DeepSeek-R1-Distill-Qwen-1.5B",
+      "canonical_identifier": "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B",
+      "family": "deepseek",
+      "params_b": 1.5,
+      "model_type": "base",
+      "license": "mit",
+      "kv_gb_per_1k_ctx": 0.09,
+      "notes": "Auto-discovered from HuggingFace (1,293,555 downloads). kv_gb_per_1k_ctx heuristic: round(0.06 * params_b, 2).",
+      "sources": [
+        "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B",
+        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
+      ],
+      "discovered": true
+    },
+    {
+      "id": "model_deepseek_r1_distill_qwen_32b",
+      "name": "DeepSeek-R1-Distill-Qwen-32B",
+      "canonical_identifier": "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B",
+      "family": "deepseek",
+      "params_b": 32.0,
+      "model_type": "base",
+      "license": "mit",
+      "kv_gb_per_1k_ctx": 1.92,
+      "notes": "Auto-discovered from HuggingFace (346,616 downloads). kv_gb_per_1k_ctx heuristic: round(0.06 * params_b, 2).",
+      "sources": [
+        "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B",
+        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
+      ],
+      "discovered": true
+    },
+    {
+      "id": "model_deepseek_r1_distill_qwen_7b",
+      "name": "DeepSeek-R1-Distill-Qwen-7B",
+      "canonical_identifier": "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B",
+      "family": "deepseek",
+      "params_b": 7.0,
+      "model_type": "base",
+      "license": "mit",
+      "kv_gb_per_1k_ctx": 0.42,
+      "notes": "Auto-discovered from HuggingFace (305,510 downloads). kv_gb_per_1k_ctx heuristic: round(0.06 * params_b, 2).",
+      "sources": [
+        "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B",
+        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
+      ],
+      "discovered": true
+    },
+    {
+      "id": "model_mistral_7b_instruct_v0_1",
+      "name": "Mistral-7B-Instruct-v0.1",
+      "canonical_identifier": "mistralai/Mistral-7B-Instruct-v0.1",
+      "family": "mistral",
+      "params_b": 7.0,
+      "model_type": "instruct",
+      "license": "apache-2.0",
+      "kv_gb_per_1k_ctx": 0.42,
+      "notes": "Auto-discovered from HuggingFace (116,355 downloads). kv_gb_per_1k_ctx heuristic: round(0.06 * params_b, 2).",
+      "sources": [
+        "https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.1",
+        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
+      ],
+      "discovered": true
+    },
+    {
+      "id": "model_mistral_7b_instruct_v0_2",
+      "name": "Mistral-7B-Instruct-v0.2",
+      "canonical_identifier": "mistralai/Mistral-7B-Instruct-v0.2",
+      "family": "mistral",
+      "params_b": 7.0,
+      "model_type": "instruct",
+      "license": "apache-2.0",
+      "kv_gb_per_1k_ctx": 0.42,
+      "notes": "Auto-discovered from HuggingFace (1,746,964 downloads). kv_gb_per_1k_ctx heuristic: round(0.06 * params_b, 2).",
+      "sources": [
+        "https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.2",
+        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
+      ],
+      "discovered": true
+    },
+    {
+      "id": "model_mistral_7b_v0_1",
+      "name": "Mistral-7B-v0.1",
+      "canonical_identifier": "mistralai/Mistral-7B-v0.1",
+      "family": "mistral",
+      "params_b": 7.0,
+      "model_type": "base",
+      "license": "apache-2.0",
+      "kv_gb_per_1k_ctx": 0.42,
+      "notes": "Auto-discovered from HuggingFace (311,349 downloads). kv_gb_per_1k_ctx heuristic: round(0.06 * params_b, 2).",
+      "sources": [
+        "https://huggingface.co/mistralai/Mistral-7B-v0.1",
+        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
+      ],
+      "discovered": true
+    },
+    {
+      "id": "model_qwen2_5_0_5b",
+      "name": "Qwen2.5-0.5B",
+      "canonical_identifier": "Qwen/Qwen2.5-0.5B",
+      "family": "qwen",
+      "params_b": 0.5,
+      "model_type": "base",
+      "license": "apache-2.0",
+      "kv_gb_per_1k_ctx": 0.03,
+      "notes": "Auto-discovered from HuggingFace (1,200,212 downloads). kv_gb_per_1k_ctx heuristic: round(0.06 * params_b, 2).",
+      "sources": [
+        "https://huggingface.co/Qwen/Qwen2.5-0.5B",
+        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
+      ],
+      "discovered": true
+    },
+    {
+      "id": "model_qwen2_5_0_5b_instruct",
+      "name": "Qwen2.5-0.5B-Instruct",
+      "canonical_identifier": "Qwen/Qwen2.5-0.5B-Instruct",
+      "family": "qwen",
+      "params_b": 0.5,
+      "model_type": "instruct",
+      "license": "apache-2.0",
+      "kv_gb_per_1k_ctx": 0.03,
+      "notes": "Auto-discovered from HuggingFace (5,295,916 downloads). kv_gb_per_1k_ctx heuristic: round(0.06 * params_b, 2).",
+      "sources": [
+        "https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct",
+        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
+      ],
+      "discovered": true
+    },
+    {
+      "id": "model_qwen2_5_1_5b",
+      "name": "Qwen2.5-1.5B",
+      "canonical_identifier": "Qwen/Qwen2.5-1.5B",
+      "family": "qwen",
+      "params_b": 1.5,
+      "model_type": "base",
+      "license": "apache-2.0",
+      "kv_gb_per_1k_ctx": 0.09,
+      "notes": "Auto-discovered from HuggingFace (645,914 downloads). kv_gb_per_1k_ctx heuristic: round(0.06 * params_b, 2).",
+      "sources": [
+        "https://huggingface.co/Qwen/Qwen2.5-1.5B",
+        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
+      ],
+      "discovered": true
+    },
+    {
+      "id": "model_qwen2_5_1_5b_instruct",
+      "name": "Qwen2.5-1.5B-Instruct",
+      "canonical_identifier": "Qwen/Qwen2.5-1.5B-Instruct",
+      "family": "qwen",
+      "params_b": 1.5,
+      "model_type": "instruct",
+      "license": "apache-2.0",
+      "kv_gb_per_1k_ctx": 0.09,
+      "notes": "Auto-discovered from HuggingFace (4,779,599 downloads). kv_gb_per_1k_ctx heuristic: round(0.06 * params_b, 2).",
+      "sources": [
+        "https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct",
+        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
+      ],
+      "discovered": true
+    },
+    {
+      "id": "model_qwen2_5_32b_instruct",
+      "name": "Qwen2.5-32B-Instruct",
+      "canonical_identifier": "Qwen/Qwen2.5-32B-Instruct",
+      "family": "qwen",
+      "params_b": 32.0,
+      "model_type": "instruct",
+      "license": "apache-2.0",
+      "kv_gb_per_1k_ctx": 1.92,
+      "notes": "Auto-discovered from HuggingFace (1,257,902 downloads). kv_gb_per_1k_ctx heuristic: round(0.06 * params_b, 2).",
+      "sources": [
+        "https://huggingface.co/Qwen/Qwen2.5-32B-Instruct",
+        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
+      ],
+      "discovered": true
+    },
+    {
+      "id": "model_qwen2_5_7b",
+      "name": "Qwen2.5-7B",
+      "canonical_identifier": "Qwen/Qwen2.5-7B",
+      "family": "qwen",
+      "params_b": 7.0,
+      "model_type": "base",
+      "license": "apache-2.0",
+      "kv_gb_per_1k_ctx": 0.42,
+      "notes": "Auto-discovered from HuggingFace (578,628 downloads). kv_gb_per_1k_ctx heuristic: round(0.06 * params_b, 2).",
+      "sources": [
+        "https://huggingface.co/Qwen/Qwen2.5-7B",
+        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
+      ],
+      "discovered": true
+    },
+    {
+      "id": "model_qwen2_5_coder_14b_instruct",
+      "name": "Qwen2.5-Coder-14B-Instruct",
+      "canonical_identifier": "Qwen/Qwen2.5-Coder-14B-Instruct",
+      "family": "qwen",
+      "params_b": 14.0,
+      "model_type": "instruct",
+      "license": "apache-2.0",
+      "kv_gb_per_1k_ctx": 0.84,
+      "notes": "Auto-discovered from HuggingFace (1,674,534 downloads). kv_gb_per_1k_ctx heuristic: round(0.06 * params_b, 2).",
+      "sources": [
+        "https://huggingface.co/Qwen/Qwen2.5-Coder-14B-Instruct",
+        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
+      ],
+      "discovered": true
+    },
+    {
+      "id": "model_qwen2_5_coder_1_5b",
+      "name": "Qwen2.5-Coder-1.5B",
+      "canonical_identifier": "Qwen/Qwen2.5-Coder-1.5B",
+      "family": "qwen",
+      "params_b": 1.5,
+      "model_type": "base",
+      "license": "apache-2.0",
+      "kv_gb_per_1k_ctx": 0.09,
+      "notes": "Auto-discovered from HuggingFace (376,484 downloads). kv_gb_per_1k_ctx heuristic: round(0.06 * params_b, 2).",
+      "sources": [
+        "https://huggingface.co/Qwen/Qwen2.5-Coder-1.5B",
+        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
+      ],
+      "discovered": true
+    },
+    {
+      "id": "model_qwen2_5_coder_1_5b_instruct",
+      "name": "Qwen2.5-Coder-1.5B-Instruct",
+      "canonical_identifier": "Qwen/Qwen2.5-Coder-1.5B-Instruct",
+      "family": "qwen",
+      "params_b": 1.5,
+      "model_type": "instruct",
+      "license": "apache-2.0",
+      "kv_gb_per_1k_ctx": 0.09,
+      "notes": "Auto-discovered from HuggingFace (404,230 downloads). kv_gb_per_1k_ctx heuristic: round(0.06 * params_b, 2).",
+      "sources": [
+        "https://huggingface.co/Qwen/Qwen2.5-Coder-1.5B-Instruct",
+        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
+      ],
+      "discovered": true
+    },
+    {
+      "id": "model_qwen2_5_coder_32b_instruct",
+      "name": "Qwen2.5-Coder-32B-Instruct",
+      "canonical_identifier": "Qwen/Qwen2.5-Coder-32B-Instruct",
+      "family": "qwen",
+      "params_b": 32.0,
+      "model_type": "instruct",
+      "license": "apache-2.0",
+      "kv_gb_per_1k_ctx": 1.92,
+      "notes": "Auto-discovered from HuggingFace (545,627 downloads). kv_gb_per_1k_ctx heuristic: round(0.06 * params_b, 2).",
+      "sources": [
+        "https://huggingface.co/Qwen/Qwen2.5-Coder-32B-Instruct",
+        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
+      ],
+      "discovered": true
+    },
+    {
+      "id": "model_qwen2_5_coder_3b_instruct",
+      "name": "Qwen2.5-Coder-3B-Instruct",
+      "canonical_identifier": "Qwen/Qwen2.5-Coder-3B-Instruct",
+      "family": "qwen",
+      "params_b": 3.0,
+      "model_type": "instruct",
+      "license": "other",
+      "kv_gb_per_1k_ctx": 0.18,
+      "notes": "Auto-discovered from HuggingFace (438,796 downloads). kv_gb_per_1k_ctx heuristic: round(0.06 * params_b, 2).",
+      "sources": [
+        "https://huggingface.co/Qwen/Qwen2.5-Coder-3B-Instruct",
+        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
+      ],
+      "discovered": true
+    },
+    {
+      "id": "model_qwen2_5_coder_7b_instruct",
+      "name": "Qwen2.5-Coder-7B-Instruct",
+      "canonical_identifier": "Qwen/Qwen2.5-Coder-7B-Instruct",
+      "family": "qwen",
+      "params_b": 7.0,
+      "model_type": "instruct",
+      "license": "apache-2.0",
+      "kv_gb_per_1k_ctx": 0.42,
+      "notes": "Auto-discovered from HuggingFace (1,469,810 downloads). kv_gb_per_1k_ctx heuristic: round(0.06 * params_b, 2).",
+      "sources": [
+        "https://huggingface.co/Qwen/Qwen2.5-Coder-7B-Instruct",
+        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
+      ],
+      "discovered": true
+    },
+    {
+      "id": "model_qwen3_0_6b",
+      "name": "Qwen3-0.6B",
+      "canonical_identifier": "Qwen/Qwen3-0.6B",
+      "family": "qwen",
+      "params_b": 0.6,
+      "model_type": "base",
+      "license": "apache-2.0",
+      "kv_gb_per_1k_ctx": 0.04,
+      "notes": "Auto-discovered from HuggingFace (25,158,033 downloads). kv_gb_per_1k_ctx heuristic: round(0.06 * params_b, 2).",
+      "sources": [
+        "https://huggingface.co/Qwen/Qwen3-0.6B",
+        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
+      ],
+      "discovered": true
+    },
+    {
+      "id": "model_qwen3_0_6b_base",
+      "name": "Qwen3-0.6B-Base",
+      "canonical_identifier": "Qwen/Qwen3-0.6B-Base",
+      "family": "qwen",
+      "params_b": 0.6,
+      "model_type": "base",
+      "license": "apache-2.0",
+      "kv_gb_per_1k_ctx": 0.04,
+      "notes": "Auto-discovered from HuggingFace (634,380 downloads). kv_gb_per_1k_ctx heuristic: round(0.06 * params_b, 2).",
+      "sources": [
+        "https://huggingface.co/Qwen/Qwen3-0.6B-Base",
+        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
+      ],
+      "discovered": true
+    },
+    {
+      "id": "model_qwen3_14b",
+      "name": "Qwen3-14B",
+      "canonical_identifier": "Qwen/Qwen3-14B",
+      "family": "qwen",
+      "params_b": 14.0,
+      "model_type": "base",
+      "license": "apache-2.0",
+      "kv_gb_per_1k_ctx": 0.84,
+      "notes": "Auto-discovered from HuggingFace (9,401,416 downloads). kv_gb_per_1k_ctx heuristic: round(0.06 * params_b, 2).",
+      "sources": [
+        "https://huggingface.co/Qwen/Qwen3-14B",
+        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
+      ],
+      "discovered": true
+    },
+    {
+      "id": "model_qwen3_1_7b",
+      "name": "Qwen3-1.7B",
+      "canonical_identifier": "Qwen/Qwen3-1.7B",
+      "family": "qwen",
+      "params_b": 1.7,
+      "model_type": "base",
+      "license": "apache-2.0",
+      "kv_gb_per_1k_ctx": 0.1,
+      "notes": "Auto-discovered from HuggingFace (4,136,449 downloads). kv_gb_per_1k_ctx heuristic: round(0.06 * params_b, 2).",
+      "sources": [
+        "https://huggingface.co/Qwen/Qwen3-1.7B",
+        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
+      ],
+      "discovered": true
+    },
+    {
+      "id": "model_qwen3_1_7b_base",
+      "name": "Qwen3-1.7B-Base",
+      "canonical_identifier": "Qwen/Qwen3-1.7B-Base",
+      "family": "qwen",
+      "params_b": 1.7,
+      "model_type": "base",
+      "license": "apache-2.0",
+      "kv_gb_per_1k_ctx": 0.1,
+      "notes": "Auto-discovered from HuggingFace (557,298 downloads). kv_gb_per_1k_ctx heuristic: round(0.06 * params_b, 2).",
+      "sources": [
+        "https://huggingface.co/Qwen/Qwen3-1.7B-Base",
+        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
+      ],
+      "discovered": true
+    },
+    {
+      "id": "model_qwen3_235b_a22b",
+      "name": "Qwen3-235B-A22B",
+      "canonical_identifier": "Qwen/Qwen3-235B-A22B",
+      "family": "qwen",
+      "params_b": 235.0,
+      "model_type": "base",
+      "license": "apache-2.0",
+      "kv_gb_per_1k_ctx": 14.1,
+      "notes": "Auto-discovered from HuggingFace (406,348 downloads). kv_gb_per_1k_ctx heuristic: round(0.06 * params_b, 2).",
+      "sources": [
+        "https://huggingface.co/Qwen/Qwen3-235B-A22B",
+        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
+      ],
+      "discovered": true
+    },
+    {
+      "id": "model_qwen3_30b_a3b",
+      "name": "Qwen3-30B-A3B",
+      "canonical_identifier": "Qwen/Qwen3-30B-A3B",
+      "family": "qwen",
+      "params_b": 30.0,
+      "model_type": "base",
+      "license": "apache-2.0",
+      "kv_gb_per_1k_ctx": 1.8,
+      "notes": "Auto-discovered from HuggingFace (1,010,878 downloads). kv_gb_per_1k_ctx heuristic: round(0.06 * params_b, 2).",
+      "sources": [
+        "https://huggingface.co/Qwen/Qwen3-30B-A3B",
+        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
+      ],
+      "discovered": true
+    },
+    {
+      "id": "model_qwen3_30b_a3b_instruct_2507",
+      "name": "Qwen3-30B-A3B-Instruct-2507",
+      "canonical_identifier": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+      "family": "qwen",
+      "params_b": 30.0,
+      "model_type": "instruct",
+      "license": "apache-2.0",
+      "kv_gb_per_1k_ctx": 1.8,
+      "notes": "Auto-discovered from HuggingFace (1,073,700 downloads). kv_gb_per_1k_ctx heuristic: round(0.06 * params_b, 2).",
+      "sources": [
+        "https://huggingface.co/Qwen/Qwen3-30B-A3B-Instruct-2507",
+        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
+      ],
+      "discovered": true
+    },
+    {
+      "id": "model_qwen3_32b",
+      "name": "Qwen3-32B",
+      "canonical_identifier": "Qwen/Qwen3-32B",
+      "family": "qwen",
+      "params_b": 32.0,
+      "model_type": "base",
+      "license": "apache-2.0",
+      "kv_gb_per_1k_ctx": 1.92,
+      "notes": "Auto-discovered from HuggingFace (2,750,187 downloads). kv_gb_per_1k_ctx heuristic: round(0.06 * params_b, 2).",
+      "sources": [
+        "https://huggingface.co/Qwen/Qwen3-32B",
+        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
+      ],
+      "discovered": true
+    },
+    {
+      "id": "model_qwen3_4b",
+      "name": "Qwen3-4B",
+      "canonical_identifier": "Qwen/Qwen3-4B",
+      "family": "qwen",
+      "params_b": 4.0,
+      "model_type": "base",
+      "license": "apache-2.0",
+      "kv_gb_per_1k_ctx": 0.24,
+      "notes": "Auto-discovered from HuggingFace (11,396,683 downloads). kv_gb_per_1k_ctx heuristic: round(0.06 * params_b, 2).",
+      "sources": [
+        "https://huggingface.co/Qwen/Qwen3-4B",
+        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
+      ],
+      "discovered": true
+    },
+    {
+      "id": "model_qwen3_4b_base",
+      "name": "Qwen3-4B-Base",
+      "canonical_identifier": "Qwen/Qwen3-4B-Base",
+      "family": "qwen",
+      "params_b": 4.0,
+      "model_type": "base",
+      "license": "apache-2.0",
+      "kv_gb_per_1k_ctx": 0.24,
+      "notes": "Auto-discovered from HuggingFace (578,148 downloads). kv_gb_per_1k_ctx heuristic: round(0.06 * params_b, 2).",
+      "sources": [
+        "https://huggingface.co/Qwen/Qwen3-4B-Base",
+        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
+      ],
+      "discovered": true
+    },
+    {
+      "id": "model_qwen3_4b_gguf",
+      "name": "Qwen3-4B-GGUF",
+      "canonical_identifier": "Qwen/Qwen3-4B-GGUF",
+      "family": "qwen",
+      "params_b": 4.0,
+      "model_type": "base",
+      "license": "apache-2.0",
+      "kv_gb_per_1k_ctx": 0.24,
+      "notes": "Auto-discovered from HuggingFace (584,708 downloads). kv_gb_per_1k_ctx heuristic: round(0.06 * params_b, 2).",
+      "sources": [
+        "https://huggingface.co/Qwen/Qwen3-4B-GGUF",
+        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
+      ],
+      "discovered": true
+    },
+    {
+      "id": "model_qwen3_4b_instruct_2507",
+      "name": "Qwen3-4B-Instruct-2507",
+      "canonical_identifier": "Qwen/Qwen3-4B-Instruct-2507",
+      "family": "qwen",
+      "params_b": 4.0,
+      "model_type": "instruct",
+      "license": "apache-2.0",
+      "kv_gb_per_1k_ctx": 0.24,
+      "notes": "Auto-discovered from HuggingFace (2,593,779 downloads). kv_gb_per_1k_ctx heuristic: round(0.06 * params_b, 2).",
+      "sources": [
+        "https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507",
+        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
+      ],
+      "discovered": true
+    },
+    {
+      "id": "model_qwen3_4b_thinking_2507",
+      "name": "Qwen3-4B-Thinking-2507",
+      "canonical_identifier": "Qwen/Qwen3-4B-Thinking-2507",
+      "family": "qwen",
+      "params_b": 4.0,
+      "model_type": "base",
+      "license": "apache-2.0",
+      "kv_gb_per_1k_ctx": 0.24,
+      "notes": "Auto-discovered from HuggingFace (620,866 downloads). kv_gb_per_1k_ctx heuristic: round(0.06 * params_b, 2).",
+      "sources": [
+        "https://huggingface.co/Qwen/Qwen3-4B-Thinking-2507",
+        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
+      ],
+      "discovered": true
+    },
+    {
+      "id": "model_qwen3_8b",
+      "name": "Qwen3-8B",
+      "canonical_identifier": "Qwen/Qwen3-8B",
+      "family": "qwen",
+      "params_b": 8.0,
+      "model_type": "base",
+      "license": "apache-2.0",
+      "kv_gb_per_1k_ctx": 0.48,
+      "notes": "Auto-discovered from HuggingFace (8,080,572 downloads). kv_gb_per_1k_ctx heuristic: round(0.06 * params_b, 2).",
+      "sources": [
+        "https://huggingface.co/Qwen/Qwen3-8B",
+        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
+      ],
+      "discovered": true
+    },
+    {
+      "id": "model_qwen3_8b_base",
+      "name": "Qwen3-8B-Base",
+      "canonical_identifier": "Qwen/Qwen3-8B-Base",
+      "family": "qwen",
+      "params_b": 8.0,
+      "model_type": "base",
+      "license": "apache-2.0",
+      "kv_gb_per_1k_ctx": 0.48,
+      "notes": "Auto-discovered from HuggingFace (717,739 downloads). kv_gb_per_1k_ctx heuristic: round(0.06 * params_b, 2).",
+      "sources": [
+        "https://huggingface.co/Qwen/Qwen3-8B-Base",
+        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
+      ],
+      "discovered": true
+    },
+    {
+      "id": "model_qwen3_8b_gguf",
+      "name": "Qwen3-8B-GGUF",
+      "canonical_identifier": "Qwen/Qwen3-8B-GGUF",
+      "family": "qwen",
+      "params_b": 8.0,
+      "model_type": "base",
+      "license": "apache-2.0",
+      "kv_gb_per_1k_ctx": 0.48,
+      "notes": "Auto-discovered from HuggingFace (569,472 downloads). kv_gb_per_1k_ctx heuristic: round(0.06 * params_b, 2).",
+      "sources": [
+        "https://huggingface.co/Qwen/Qwen3-8B-GGUF",
+        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
+      ],
+      "discovered": true
+    },
+    {
+      "id": "model_qwen3_coder_30b_a3b_instruct",
+      "name": "Qwen3-Coder-30B-A3B-Instruct",
+      "canonical_identifier": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+      "family": "qwen",
+      "params_b": 30.0,
+      "model_type": "instruct",
+      "license": "apache-2.0",
+      "kv_gb_per_1k_ctx": 1.8,
+      "notes": "Auto-discovered from HuggingFace (629,386 downloads). kv_gb_per_1k_ctx heuristic: round(0.06 * params_b, 2).",
+      "sources": [
+        "https://huggingface.co/Qwen/Qwen3-Coder-30B-A3B-Instruct",
+        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
+      ],
+      "discovered": true
     }
   ]
 }

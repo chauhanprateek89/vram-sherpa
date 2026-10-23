@@ -27,6 +27,7 @@ discovery:
   max_models_per_org: 20
   exclude_name_patterns:
   - Guard      # safety classifiers, not generation models
+  - shield     # shieldgemma et al: safety classifiers, not generation models
   - -AWQ       # pre-quantized; VRAM estimates assume standard weights
   - -GPTQ      # pre-quantized
   - -FP8       # pre-quantized
