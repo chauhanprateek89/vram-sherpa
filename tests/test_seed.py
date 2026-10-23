@@ -110,3 +110,64 @@ def test_seed_normalizes_list_and_string_text_fields(db_session: Session, tmp_pa
     assert model.sources == json.dumps(["source-a", "source-b"])
     assert variant.notes == "already text"
     assert variant.sources == json.dumps(["variant-source"])
+
+
+def test_seed_round_trips_gated_flag(seeded_session: Session) -> None:
+    """Gated repos are catalogued and flagged, not excluded."""
+    gated = seeded_session.scalars(select(Model).where(Model.gated.is_(True))).all()
+    ungated = seeded_session.scalars(select(Model).where(Model.gated.is_(False))).all()
+
+    assert gated, "expected at least one gated model in the catalog"
+    assert ungated, "expected at least one ungated model in the catalog"
+
+    llama = seeded_session.get(Model, "model_llama_31_8b_instruct")
+    assert llama is not None
+    assert llama.gated is True
+
+    qwen = seeded_session.get(Model, "model_qwen25_7b_instruct")
+    assert qwen is not None
+    assert qwen.gated is False
+
+
+def test_seed_defaults_gated_to_false_when_absent(db_session: Session, tmp_path: Path) -> None:
+    payloads = {
+        "seed_gpus.json": {
+            "catalog_version": "2026-03-03",
+            "items": [{"id": "gpu_x", "vendor": "V", "name": "G", "vram_gb": 8, "sources": []}],
+        },
+        "seed_models.json": {
+            "catalog_version": "2026-03-03",
+            "items": [
+                {
+                    "id": "model_x",
+                    "name": "M",
+                    "family": "fam",
+                    "params_b": 7.0,
+                    "kv_gb_per_1k_ctx": 0.42,
+                    "sources": [],
+                }
+            ],
+        },
+        "seed_variants.json": {
+            "catalog_version": "2026-03-03",
+            "items": [
+                {
+                    "id": "variant_x",
+                    "model_id": "model_x",
+                    "quant_bucket": "Q4",
+                    "quant_label": "Q4",
+                    "bits_effective": 4.5,
+                    "recommended": True,
+                    "sources": [],
+                }
+            ],
+        },
+    }
+    for name, payload in payloads.items():
+        (tmp_path / name).write_text(json.dumps(payload), encoding="utf-8")
+
+    seed_catalog(db_session, data_dir=tmp_path)
+
+    model = db_session.get(Model, "model_x")
+    assert model is not None
+    assert model.gated is False

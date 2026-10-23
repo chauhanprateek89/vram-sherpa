@@ -44,6 +44,7 @@ class ResultRow:
     margin_gb: float
     classification: str
     recommended: bool
+    gated: bool = False
 
     @property
     def classification_slug(self) -> str:
@@ -279,6 +280,7 @@ def _build_results(
                 margin_gb=estimate.margin_gb,
                 classification=estimate.classification.value,
                 recommended=bool(variant.recommended),
+                gated=bool(model.gated),
             )
         )
 

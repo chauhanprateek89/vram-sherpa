@@ -457,3 +457,29 @@ def test_app_js_has_valid_syntax() -> None:
         text=True,
     )
     assert result.returncode == 0, result.stderr or result.stdout
+
+
+def test_model_detail_flags_gated_model(app, seeded_session: Session) -> None:
+    response = model_detail(
+        _request(app, "/models/model_llama_31_8b_instruct"),
+        model_id="model_llama_31_8b_instruct",
+        vram_gb=16,
+        context_tokens=2048,
+        session=seeded_session,
+    )
+    text = _response_text(response)
+    assert "badge-gated" in text
+    assert "Weights are gated on Hugging Face" in text
+
+
+def test_model_detail_omits_gated_notice_for_open_model(app, seeded_session: Session) -> None:
+    response = model_detail(
+        _request(app, "/models/model_qwen25_7b_instruct"),
+        model_id="model_qwen25_7b_instruct",
+        vram_gb=16,
+        context_tokens=2048,
+        session=seeded_session,
+    )
+    text = _response_text(response)
+    assert "badge-gated" not in text
+    assert "Weights are gated on Hugging Face" not in text

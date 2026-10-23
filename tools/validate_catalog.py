@@ -202,6 +202,8 @@ def validate_catalog_files(
             errors.append(f"{label}: missing required field license")
         if "model_type" not in model:
             errors.append(f"{label}: missing required field model_type")
+        if not isinstance(model.get("gated"), bool):
+            errors.append(f"{label}: gated must be a boolean")
 
     allowed_quant_buckets = set(expected_quant_bits)
 
