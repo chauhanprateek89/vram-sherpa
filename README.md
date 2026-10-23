@@ -26,6 +26,12 @@ conda activate vram-sherpa
 pip install -e ".[dev]"
 ```
 
+## Cloudflare Workers
+
+The same image also runs as a Cloudflare Container behind a Worker; this is what the
+`Workers Builds` check on each pull request builds. See
+[docs/CLOUDFLARE_WORKERS.md](docs/CLOUDFLARE_WORKERS.md).
+
 ## Environment variables
 
 - `DATABASE_URL`: Runtime database URL. Required when `APP_ENV` is not `test`.

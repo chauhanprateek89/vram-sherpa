@@ -11,3 +11,7 @@ __pycache__/
 *.db
 tests/*
 tools/__pycache__
+
+# Worker tooling
+node_modules/
+.wrangler/

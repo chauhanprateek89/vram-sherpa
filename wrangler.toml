@@ -1,0 +1,25 @@
+name = "vram-sherpa"
+main = "worker/index.js"
+compatibility_date = "2026-10-01"
+
+# Must match the hostname this Worker is served on. config.py appends it to the
+# allowed-host list, and APP_ENV=prod rejects every other Host with 400.
+[vars]
+PUBLIC_HOSTNAME = ""
+
+[[containers]]
+class_name = "VramSherpaApp"
+image = "./Dockerfile"
+max_instances = 1
+# basic = 1/4 vCPU, 1 GiB memory, 4 GB disk. The image is ~800 MB and an image
+# may not exceed the instance's disk, so `lite` (2 GB disk, 256 MiB memory) is
+# too small for Python + FastAPI here.
+instance_type = "basic"
+
+[[durable_objects.bindings]]
+name = "VRAM_SHERPA"
+class_name = "VramSherpaApp"
+
+[exports.VramSherpaApp]
+type = "durable-object"
+storage = "sqlite"
