@@ -60,7 +60,11 @@ services:
       retries: 10
 
   watchtower:
-    image: containrrr/watchtower:latest
+    # nicholas-fedor's maintained fork, not containrrr/watchtower. The original
+    # is unmaintained since 2023 and negotiates Docker API 1.25, which Docker 25+
+    # refuses (minimum 1.44), so it crash-loops with "client version 1.25 is too
+    # old". Pinned rather than :latest so the updater itself cannot change under us.
+    image: nickfedor/watchtower:1.23.2
     restart: unless-stopped
     command: --label-enable --cleanup --rolling-restart --interval 300
     environment:
