@@ -16,6 +16,16 @@
         }
       })();
     </script>
+    <meta
+      name="description"
+      content="Estimate whether a local LLM fits in your GPU's VRAM, with a transparent breakdown of weights, KV cache and runtime overhead."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+    />
     <link rel="stylesheet" href="{{ url_for('static', path='css/styles.css') }}?v={{ asset_version }}" />
     <script src="https://unpkg.com/htmx.org@1.9.12"></script>
     <script src="{{ url_for('static', path='js/app.js') }}?v={{ asset_version }}" defer></script>

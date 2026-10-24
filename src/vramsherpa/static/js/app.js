@@ -161,3 +161,21 @@ document.addEventListener("DOMContentLoaded", function () {
   initExampleChips();
   initModelDetailInputs();
 });
+
+// Quantisation selector on a model card. Every variant is already in the DOM, so
+// switching is a visibility change rather than a round trip.
+document.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-quant-btn]");
+  if (!button) return;
+
+  const card = button.closest("[data-model-card]");
+  if (!card) return;
+
+  const variantId = button.dataset.variant;
+  card.querySelectorAll("[data-quant-btn]").forEach((other) => {
+    other.setAttribute("aria-pressed", String(other === button));
+  });
+  card.querySelectorAll("[data-variant-pane]").forEach((pane) => {
+    pane.hidden = pane.dataset.variantPane !== variantId;
+  });
+});
