@@ -6,7 +6,10 @@
   --panel-alt: #f8faf7;
   --text: #0f1722;
   --muted: #4d596a;
-  --line: #d2d9df;
+  /* Raised from #d2d9df (1.43:1) — WCAG wants 3:1 for UI boundaries, and the old
+     hairlines made every panel read as one undifferentiated surface. */
+  --line: #b9c4cc;
+  --line-strong: #8e9ba6;
   --brand: #0f6a4c;
   --brand-strong: #094d37;
   --focus: #167c5b;
@@ -20,6 +23,44 @@
   --badge-quant-text: #2a3d5f;
   --badge-gated-bg: #ece8f7;
   --badge-gated-text: #4a3b7a;
+  --fit-bar: #1b8f62;
+  --tight-bar: #c98a06;
+  --wont-fit-bar: #c4453c;
+  --reserve-ink: #9aa7b4;
+  --sans: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+/* The toggle is not the only way people ask for dark: most arrive with an OS
+   preference and no data-theme attribute set at all. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #10161e;
+    --bg-strong: #0b1118;
+    --panel: #171f2a;
+    --panel-alt: #111923;
+    --text: #e6edf5;
+    --muted: #98a8bc;
+    --line: #3a4756;
+    --line-strong: #566475;
+    --brand: #2fc084;
+    --brand-strong: #20a26f;
+    --focus: #3dd89a;
+    --badge-fits-bg: #123529;
+    --badge-fits-text: #92f5cb;
+    --badge-tight-bg: #44350b;
+    --badge-tight-text: #ffd56f;
+    --badge-wont-fit-bg: #4d1f24;
+    --badge-wont-fit-text: #ff9ea7;
+    --badge-quant-bg: #202d42;
+    --badge-quant-text: #b9cdf0;
+    --badge-gated-bg: #2b2340;
+    --badge-gated-text: #cfbdf5;
+    --fit-bar: #2fc084;
+    --tight-bar: #e0a416;
+    --wont-fit-bar: #e0635a;
+  }
 }
 
 :root[data-theme="dark"] {
@@ -30,7 +71,8 @@
   --panel-alt: #111923;
   --text: #e6edf5;
   --muted: #98a8bc;
-  --line: #2d3746;
+  --line: #3a4756;
+  --line-strong: #566475;
   --brand: #2fc084;
   --brand-strong: #20a26f;
   --focus: #3dd89a;
@@ -44,6 +86,10 @@
   --badge-quant-text: #b9cdf0;
   --badge-gated-bg: #2b2340;
   --badge-gated-text: #cfbdf5;
+  --fit-bar: #2fc084;
+  --tight-bar: #e0a416;
+  --wont-fit-bar: #e0635a;
+  --reserve-ink: #6b7887;
 }
 
 * {
@@ -54,7 +100,7 @@ html,
 body {
   width: 100%;
   margin: 0;
-  font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+  font-family: var(--sans);
   line-height: 1.45;
   background:
     radial-gradient(90rem 45rem at 8% -10%, var(--bg-strong), transparent 45%),
@@ -730,19 +776,46 @@ select[multiple] {
   color: var(--muted);
 }
 
+/* Inside a model card this is a secondary affordance, not a section header:
+   as a filled full-width bar it outweighed the gauge it explains. */
 .why-panel {
-  margin-top: 0.85rem;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  overflow: hidden;
-  background: var(--panel-alt);
+  margin-top: 0.55rem;
 }
 
-.why-panel summary {
+.why-panel > summary {
   cursor: pointer;
-  padding: 0.62rem 0.75rem;
-  font-weight: 600;
-  background: color-mix(in srgb, var(--panel) 70%, var(--line));
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--brand);
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  min-height: 28px;
+}
+
+.why-panel > summary::-webkit-details-marker {
+  display: none;
+}
+
+.why-panel > summary::before {
+  content: "\25B8";
+  font-size: 0.7rem;
+}
+
+.why-panel[open] > summary::before {
+  content: "\25BE";
+}
+
+.why-panel > summary:hover {
+  color: var(--brand-strong);
+  text-decoration: underline;
+}
+
+.why-panel > summary:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 3px;
 }
 
 .why-content {
@@ -908,5 +981,253 @@ td {
   *::after {
     transition: none !important;
     animation: none !important;
+  }
+}
+
+/* ── Results: one card per model ──────────────────────────────────────────────
+   Quantisation is a control inside the card rather than four separate rows, and
+   the fit gauge is the card's primary element. Required / available / margin were
+   three equal tiles per card; "available" is a property of the query, not of any
+   result, so it is stated once above the list and only the gauge caption remains. */
+
+.model-list {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.model-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.9rem 1rem;
+  display: grid;
+  gap: 0.7rem;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 300px);
+  align-items: start;
+}
+
+@media (max-width: 720px) {
+  .model-card {
+    grid-template-columns: 1fr;
+  }
+}
+
+.model-id {
+  min-width: 0;
+}
+
+.model-id h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+}
+
+.model-id h3 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.model-id h3 a:hover {
+  color: var(--brand-strong);
+  text-decoration: underline;
+}
+
+.model-meta {
+  margin: 0.2rem 0 0;
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+.model-meta .sep {
+  opacity: 0.5;
+  padding: 0 0.35rem;
+}
+
+.num {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  border: 1px solid var(--line-strong);
+  color: var(--muted);
+  margin-left: 0.4rem;
+  vertical-align: 1px;
+}
+
+.quants {
+  display: flex;
+  gap: 2px;
+  margin-top: 0.6rem;
+  background: var(--panel-alt);
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 2px;
+  width: max-content;
+  max-width: 100%;
+}
+
+.quants button {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--muted);
+  background: none;
+  border: 0;
+  border-radius: 5px;
+  padding: 0.42rem 0.6rem;
+  cursor: pointer;
+  min-height: 32px;
+  min-width: 44px;
+}
+
+.quants button:hover {
+  color: var(--text);
+}
+
+.quants button[aria-pressed="true"] {
+  background: var(--panel);
+  color: var(--text);
+  font-weight: 600;
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--text) 18%, transparent);
+}
+
+.quants button[data-oversize="true"] {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+.quants button:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 1px;
+}
+
+.fit-pane {
+  min-width: 0;
+}
+
+.fit-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.32rem;
+}
+
+/* Shape differs with colour, so the three states stay distinguishable in
+   greyscale and for red-green colour blindness. */
+.state {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.32rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  padding: 0.15rem 0.45rem;
+  border-radius: 5px;
+}
+
+.state::before {
+  content: "";
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.state-fits {
+  background: var(--badge-fits-bg);
+  color: var(--badge-fits-text);
+}
+
+.state-tight {
+  background: var(--badge-tight-bg);
+  color: var(--badge-tight-text);
+}
+
+.state-tight::before {
+  border-radius: 1px;
+}
+
+.state-wont-fit {
+  background: var(--badge-wont-fit-bg);
+  color: var(--badge-wont-fit-text);
+}
+
+.state-wont-fit::before {
+  background: none;
+  box-shadow: inset 0 0 0 2px currentColor;
+}
+
+.headroom {
+  font-size: 0.84rem;
+  color: var(--muted);
+}
+
+.headroom b {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.track {
+  position: relative;
+  height: 26px;
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--panel-alt);
+  border: 1px solid var(--line);
+}
+
+.bar {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: 5px 0 0 5px;
+  transition: width 180ms ease;
+}
+
+.bar-fits {
+  background: var(--fit-bar);
+}
+
+.bar-tight {
+  background: var(--tight-bar);
+}
+
+.bar-wont-fit {
+  background: var(--wont-fit-bar);
+  border-radius: 5px;
+}
+
+.resv {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(135deg, var(--reserve-ink) 0 3px, transparent 3px 7px);
+  opacity: 0.55;
+  border-left: 1px dashed var(--line-strong);
+}
+
+.scale {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.74rem;
+  color: var(--muted);
+  margin-top: 0.3rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bar {
+    transition: none;
   }
 }

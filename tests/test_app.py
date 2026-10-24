@@ -80,10 +80,12 @@ def test_results_with_manual_vram_returns_200_and_rows(app, seeded_session: Sess
     assert response.status_code == 200
     response_text = _response_text(response)
     assert 'id="summary-banner"' in response_text
-    assert "result-card" in response_text
+    assert "model-card" in response_text
     assert "Hardware:" in response_text
     assert "Context:" in response_text
-    assert 'class="vram-gauge"' in response_text
+    # The gauge is now the card's primary element rather than a strip beneath it.
+    assert 'class="track"' in response_text
+    assert "data-quant-btn" in response_text
     assert (
         "No GPU or VRAM selected yet. Showing estimates with an assumed 8 GB baseline."
         not in response_text
@@ -146,7 +148,7 @@ def test_results_invalid_range_returns_empty_state(app, seeded_session: Session)
     response_text = _response_text(response)
     assert "min_params_b must be less than or equal to max_params_b." in response_text
     assert "No models currently fit this setup." in response_text
-    assert "result-card" not in response_text
+    assert "model-card" not in response_text
 
 
 def test_results_gpu_search_does_not_auto_pick_ambiguous_match(
@@ -213,7 +215,9 @@ def test_results_gpu_search_uses_vram_hint_from_text(app, seeded_session: Sessio
     assert response.status_code == 200
     response_text = _response_text(response)
     assert "Using 12 GB inferred from your input." in response_text
-    assert ">12.00 GB<" in response_text
+    # Available VRAM is a property of the query, so it is no longer repeated on
+    # every card; it now appears once per gauge as the track's upper bound.
+    assert "12.0 GB</span>" in response_text
 
 
 def test_variant_breakdown_returns_html_partial(app, seeded_session: Session) -> None:

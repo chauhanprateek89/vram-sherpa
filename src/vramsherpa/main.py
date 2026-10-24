@@ -22,7 +22,7 @@ from vramsherpa.estimation import FitBadge, estimate_breakdown, estimate_variant
 from vramsherpa.models import GPU, CatalogMeta, Model, Variant
 
 CONTEXT_OPTIONS = (2048, 4096, 8192)
-ASSET_VERSION = "20260303d"
+ASSET_VERSION = "20261024a"
 ESTIMATION_POLICY_VERSION = "v0.1"
 PACKAGE_DIR = Path(__file__).resolve().parent
 templates = Jinja2Templates(directory=str(PACKAGE_DIR / "templates"))
@@ -110,6 +110,78 @@ async def host_guard(request: Request, call_next):
         if host and host not in allowed_hosts:
             return JSONResponse({"detail": "Host not allowed"}, status_code=400)
     return await call_next(request)
+
+
+QUANT_ORDER = {"Q4": 0, "Q5": 1, "Q8": 2, "FP16": 3}
+
+
+@dataclass
+class ModelCard:
+    """One model with all of its quantisation variants.
+
+    The results view shows a card per model rather than per variant: quantisation
+    is a property of a choice, not four separate choices. Every variant travels to
+    the template so the selector switches without a round trip.
+    """
+
+    model_id: str
+    model_name: str
+    family: str
+    params_b: float
+    gated: bool
+    variants: list[ResultRow]
+    default_variant_id: str
+
+    @property
+    def default_variant(self) -> ResultRow:
+        for row in self.variants:
+            if row.variant_id == self.default_variant_id:
+                return row
+        return self.variants[0]
+
+
+def _group_results_by_model(rows: list[ResultRow]) -> list[ModelCard]:
+    """Collapse variant rows into one card per model.
+
+    A model appears when at least one of its variants fits or is tight. The card
+    opens on the recommended bucket when that one is usable, because opening on the
+    highest precision that fits makes every gauge look full and hides the headroom.
+    """
+    grouped: dict[str, list[ResultRow]] = {}
+    for row in rows:
+        grouped.setdefault(row.model_id, []).append(row)
+
+    cards: list[ModelCard] = []
+    for model_id, variants in grouped.items():
+        variants.sort(key=lambda row: QUANT_ORDER.get(row.quant_bucket, 99))
+        usable = [row for row in variants if row.classification != FitBadge.WONT_FIT.value]
+        if not usable:
+            continue
+
+        recommended = next((row for row in usable if row.recommended), None)
+        default = recommended or usable[0]
+        first = variants[0]
+        cards.append(
+            ModelCard(
+                model_id=model_id,
+                model_name=first.model_name,
+                family=first.family,
+                params_b=first.params_b,
+                gated=first.gated,
+                variants=variants,
+                default_variant_id=default.variant_id,
+            )
+        )
+
+    rank = {FitBadge.FITS.value: 0, FitBadge.TIGHT.value: 1, FitBadge.WONT_FIT.value: 2}
+    cards.sort(
+        key=lambda card: (
+            rank[card.default_variant.classification],
+            -card.params_b,
+            card.model_name,
+        )
+    )
+    return cards
 
 
 def _catalog_version(session: Session) -> str:
@@ -520,6 +592,36 @@ def _active_filter_chips(
 
 
 def _summary_counts(rows: list[ResultRow]) -> dict[str, int]:
+    """Count models, not variants.
+
+    The list below these tiles shows one card per model, so counting every
+    quantisation here reported 267 against a list of 71 and read as a bug.
+
+    Each model counts under the variant its card actually opens on. Counting by a
+    model's *best* variant instead left "Tight" permanently at zero, since a model
+    is only tight then when even Q4 is tight.
+    """
+    grouped: dict[str, list[ResultRow]] = {}
+    for row in rows:
+        grouped.setdefault(row.model_id, []).append(row)
+
+    outcomes: list[str] = []
+    for variants in grouped.values():
+        variants.sort(key=lambda row: QUANT_ORDER.get(row.quant_bucket, 99))
+        usable = [row for row in variants if row.classification != FitBadge.WONT_FIT.value]
+        if not usable:
+            outcomes.append(FitBadge.WONT_FIT.value)
+            continue
+        shown = next((row for row in usable if row.recommended), usable[0])
+        outcomes.append(shown.classification)
+    return {
+        FitBadge.FITS.value: sum(1 for value in outcomes if value == FitBadge.FITS.value),
+        FitBadge.TIGHT.value: sum(1 for value in outcomes if value == FitBadge.TIGHT.value),
+        FitBadge.WONT_FIT.value: sum(1 for value in outcomes if value == FitBadge.WONT_FIT.value),
+    }
+
+
+def _summary_counts_by_variant(rows: list[ResultRow]) -> dict[str, int]:
     return {
         FitBadge.FITS.value: sum(1 for row in rows if row.classification == FitBadge.FITS.value),
         FitBadge.TIGHT.value: sum(1 for row in rows if row.classification == FitBadge.TIGHT.value),
@@ -729,6 +831,7 @@ def _results_context(
         {
             "gpus": gpus,
             "results": visible_results,
+            "model_cards": _group_results_by_model(results_rows),
             "families": _all_families(session),
             "quant_options": _all_quant_buckets(session),
             "selected_gpu_id": selected_gpu_id,
