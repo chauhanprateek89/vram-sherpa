@@ -1,0 +1,26 @@
+{
+  "name": "vram-sherpa",
+  "mainBranch": "main",
+  "git": {
+    "remote": "https",
+    "httpsUrl": "https://github.com/chauhanprateek89/vram-sherpa.git",
+    "note": "origin (SSH) fails on a passphrase-protected key; use git -c credential.helper='!gh auth git-credential' <fetch|push> <httpsUrl> <ref>"
+  },
+  "commands": {
+    "start": ".sdlc/init.sh",
+    "stop": "docker compose -f docker-compose.yml down",
+    "test": "pytest",
+    "lint": "ruff check . && ruff format --check . && python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml",
+    "format": "ruff format . && ruff check --fix ."
+  },
+  "urls": {
+    "local": "http://localhost:8000",
+    "live": "",
+    "health": "http://localhost:8000/healthz"
+  },
+  "release": {
+    "workflow": ".github/workflows/release.yml",
+    "deployLagMinutes": 5,
+    "versionMarker": "GET / HTML: styles.css?v=<ASSET_VERSION in src/vramsherpa/main.py> (hand-bumped, not per release); /healthz catalog_version tracks catalog only"
+  }
+}
