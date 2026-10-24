@@ -14,6 +14,8 @@ EARS forms: `THE SYSTEM SHALL …` (always) · `WHEN <trigger>, THE SYSTEM SHALL
 
 Recorded at onboarding from `main` at 96572b1 (2026-10-25). Seeded catalog at that commit: version `2026-10-23`, 35 GPUs, 95 models (81 auto-discovered, 24 gated), 380 variants, 7 families. Paths are relative to the repo root; `main.py` means `src/vramsherpa/main.py`.
 
+R-067 to R-079 (UI/UX overhaul, Full track) were added on 2026-10-25 from the user's intake answers. Their open questions are at the end of this file.
+
 ## Hardware and context input
 
 ### R-001 GPU search field
@@ -600,6 +602,226 @@ Status: as-built · Track: onboard · UI: no · Source: `docker-compose.yml`; `R
 - WHEN a developer runs `docker compose up --build`, THE SYSTEM SHALL start Postgres 16 with a named volume and a web container built from source that seeds and serves on port 8000.
 - THE SYSTEM SHALL start the web container only after the database health check (`pg_isready`) passes.
 
+## UI/UX overhaul
+
+Added 2026-10-25 for the Full-track UI/UX overhaul (branch `sdlc/full-ui-overhaul`). These requirements come from the user's intake answers, recorded in `docs/decisions.md` (Intake rows). The user named three problems: "Looks generic/dated", "Too dense" and "Bad on mobile". The user did not pick "Hard to use", so the flows stay as they are (R-078). Tokens per second was dropped ("Drop it") and is out of scope.
+
+Terms used below:
+
+- *Phone width*: a 390 × 844 CSS px viewport. *Desktop width*: a 1280 × 800 CSS px viewport. The widths still need confirming (Q-5).
+- *Reference query*: `/results?vram_gb=24&context_tokens=4096`.
+- *Result headline*: the statement of how many models fit or are tight (R-014), together with the hardware and context it applies to (R-022).
+- Numbers marked *(proposed)* are targets the user confirms or changes at Gate 1 (Q-4).
+
+Requirements R-001 to R-066 stay in force unless a requirement in this section changes them. The overhaul changes how screens look and how they are laid out, not what the app computes, accepts or links to.
+
+### R-067 Screens and states in scope
+
+Status: planned · Track: full · UI: yes · Source: intake 2026-10-25 (`docs/decisions.md`); `templates/base.html`, `index.html`, `results_summary.html`, `results_list.html`, `results_why.html`, `model_detail.html`, `how_it_works.html`
+
+Asked: "UI/UX overhaul". Screens: "Whole app, incl. mobile" (offered as "every page, with the 390 px phone layout treated as a first-class design") and "How it works" (offered as "the /how-it-works explainer page").
+
+- THE SYSTEM SHALL render these screens in the visual direction approved at Gate 2:
+  - the header and footer on every page;
+  - `/` and `/results`: the input form, filters, error and GPU-search messages, summary, Top Picks, active filter chips, result count, model cards with quantisation switcher and fit gauge, empty state and unseeded state;
+  - the "How this is estimated" breakdown loaded from `/results/why/<variant_id>`;
+  - `/models/<model_id>`;
+  - `/how-it-works`.
+- WHEN QA opens any state below at phone width and at desktop width, in the light and the dark theme, THE SYSTEM SHALL match the mockup approved at Gate 2 for that state (constitution rule 10). The states are:
+  1. `/` with no input, showing the assumed 8 GB note (R-005);
+  2. a GPU selected;
+  3. manual VRAM entered;
+  4. ambiguous GPU search feedback (R-003, search text `RTX`);
+  5. GPU not found, with a GB hint (`RTX 3060 12GB`);
+  6. inline input errors (R-008, `vram_gb=abc`);
+  7. active filter chips (R-031);
+  8. Top Picks shown, and Top Picks hidden (R-024);
+  9. a card whose open variant is `Tight`, with a struck-through `Won't fit` quantisation and a `Gated` tag;
+  10. the breakdown before it loads, while it loads, and once it has loaded;
+  11. the empty state, with `Try Q4` and `Lower context` both as links and both as inert text (R-025);
+  12. the unseeded catalog (R-026);
+  13. model detail for a gated model and for an ungated one, with and without sources, and with an inline VRAM error (R-033 to R-036);
+  14. `/how-it-works`.
+
+### R-068 One visual identity, applied everywhere
+
+Status: planned · Track: full · UI: yes · Source: intake 2026-10-25; `styles.css` (`.state` on cards, `.badge` on model detail; `.tag` vs `.badge-gated`), `model_detail.html` (unstyled `Recompute` button)
+
+Asked: "Looks generic/dated" (offered as "no visual identity; it should look like a product someone designed"). Visual direction: "Designer proposes 2-3".
+
+- Process at Gate 2 (not system behaviour): the designer presents 2 or 3 distinct visual directions, each mocked up for at least the results page with cards, at phone width and at desktop width. The user picks one, and every state in R-067 is then mocked up in that direction.
+- THE SYSTEM SHALL render every screen in R-067 in the single direction picked at Gate 2, and SHALL NOT leave any screen in its pre-overhaul styling.
+- WHEN QA compares the same kind of element on two screens, THE SYSTEM SHALL render both with equal computed font family, font size, font weight, text colour, background, border and corner radius. This covers:
+  - primary buttons (`Check compatibility`, `Recompute`);
+  - secondary buttons (`Clear`, `Apply filters`);
+  - text, number and select fields;
+  - chips;
+  - disclosure controls;
+  - links in body text;
+  - classification labels.
+- WHEN a variant is `Fits`, `Tight` or `Won't fit`, THE SYSTEM SHALL give its classification label the same visual treatment on a results card and on the model detail page. Today the two pages style it differently.
+- WHEN a model is gated, THE SYSTEM SHALL give its gated marker the same visual treatment on a results card and on the model detail page. Today the two pages style it differently.
+- THE SYSTEM SHALL NOT show any button, text field, number field, select, checkbox or radio on a screen in R-067 in the browser's default appearance. Each SHALL match the approved mockup.
+
+### R-069 The answer leads the results
+
+Status: planned · Track: full · UI: yes · Source: intake 2026-10-25; `index.html` (filters `<details open>` between the form and the results), `results_summary.html`, `results_list.html` (count sentence after Top Picks and filter chips)
+
+Asked: "Too dense" (offered as "too much information at once; the answer gets lost").
+
+- THE SYSTEM SHALL place the result headline first in the results area, before Top Picks, active filter chips and the cards. Today the hardware and the counts sit at the top, but the "N models fit or are tight" sentence comes after Top Picks and the filter chips. Where Top Picks go is Q-1.
+- WHEN the reference query loads at phone width, THE SYSTEM SHALL place the result headline, and the first card's model name, verdict and margin, within the first 1688 CSS px of the page, which is two phone screens *(proposed)*.
+- WHEN the reference query loads at desktop width, THE SYSTEM SHALL place the result headline, and the first card's model name, verdict and margin, within the first 800 CSS px of the page, so they are visible without scrolling *(proposed)*.
+- WHILE at phone width, THE SYSTEM SHALL show the filters collapsed on first load, behind one control that states how many filter values are active (for example `Filters (2)`). This choice is open as Q-3.
+- WHEN the user activates that control, THE SYSTEM SHALL show every filter control of R-027 to R-030, with or without JavaScript.
+- THE SYSTEM SHALL render each fit pane's verdict and margin at a font size no smaller than any other text in that pane.
+- THE SYSTEM SHALL NOT add any figure or text to a model card beyond what R-015 to R-021 specify.
+- THE SYSTEM SHALL keep the summary's hardware label, context, default 8 GB note, `Fits`, `Tight` and `Won't fit` counts and GPU feedback (R-005, R-022, R-023), the active filter chips (R-031) and Top Picks (R-024), with the values, links and selection rules those requirements state.
+
+### R-070 Phone layout on every page
+
+Status: planned · Track: full · UI: yes · Source: intake 2026-10-25; `styles.css` (breakpoints at 980, 780 and 720 px; `min-width: 44px` on quantisation buttons); `data/seed_models.json`, `data/seed_gpus.json` (longest names)
+
+Asked: "Bad on mobile" (offered as "the layout breaks or is cramped on a phone"). Also "Whole app, incl. mobile" (offered as "the 390 px phone layout treated as a first-class design").
+
+- WHEN any screen in R-067 is shown at phone width, THE SYSTEM SHALL NOT scroll horizontally: `document.documentElement.scrollWidth` SHALL equal 390. This SHALL hold:
+  - in both themes;
+  - with the breakdown open;
+  - for cards showing the longest catalog names, `Mistral NeMo 12B Instruct (2407)` and `DeepSeek-Coder-V2-Lite-Instruct`;
+  - with the longest GPU label, `NVIDIA GeForce RTX 4090 Laptop GPU (16.0 GB)`, in the GPU field and in the summary.
+- THE SYSTEM SHALL NOT clip, overlap, or cut off with an ellipsis any text at phone width. Model names, GPU labels, source URLs and formulas SHALL wrap inside their container.
+- THE SYSTEM SHALL give each of these a tap target of at least 44 × 44 CSS px at phone width, with no two targets overlapping *(proposed)*:
+  - buttons, chips and quantisation buttons;
+  - context presets;
+  - checkboxes and radios, together with their labels;
+  - header links and the theme toggle;
+  - disclosure controls.
+
+  Links inside running text are exempt.
+- THE SYSTEM SHALL render every text field, number field and select at a font size of at least 16 CSS px at phone width, so focusing one does not zoom the page in iOS Safari.
+- THE SYSTEM SHALL render no visible text smaller than 12 CSS px at any width *(proposed)*.
+- WHEN a user on a phone focuses `Available VRAM (GB)`, `Min params (B)`, `Max params (B)` or `Manual VRAM (GB)`, THE SYSTEM SHALL bring up a numeric keyboard.
+- WHILE at phone width, THE SYSTEM SHALL keep `Estimator`, `How it works` and the theme toggle reachable from the header with at most one tap before each.
+
+### R-071 Input form on `/` and `/results`
+
+Status: planned · Track: full · UI: yes · Source: intake 2026-10-25; `index.html` (form errors and `gpu_search_feedback` rendered in the form), `results_summary.html` (the same messages rendered again above the summary), `index.html` `hx-target="#results-shell"` (the form is not re-rendered on in-place refresh)
+
+Asked: "Too dense"; "Bad on mobile"; "Looks generic/dated".
+
+- WHEN `/` loads at phone width or at desktop width, THE SYSTEM SHALL show `Search GPU`, `Available VRAM (GB)`, the three context presets and `Check compatibility` without scrolling *(proposed)*.
+- THE SYSTEM SHALL keep both input paths, GPU search (R-001, R-003) and manual VRAM (R-002), the example chips (R-007) and the context presets (R-006), with the behaviour those requirements state.
+- WHEN a full page load carries input errors (R-008), THE SYSTEM SHALL show the error list once, in an element with `role="alert"`. Today `/results?vram_gb=abc` shows it twice, once in the form and once above the summary.
+- WHEN a full page load carries GPU search feedback (R-003), THE SYSTEM SHALL show the message once, in an element with `role="status"`. Today it appears both under the field and above the summary.
+- WHEN results refresh in place, THE SYSTEM SHALL show only the error and feedback messages that belong to the current query. For example, after loading `/results?vram_gb=abc`, typing `24` and pressing `Check compatibility`, no error remains visible.
+
+### R-072 Model cards, quantisation switcher and fit gauge
+
+Status: planned · Track: full · UI: yes · Source: intake 2026-10-25; `results_list.html`, `styles.css` (`.state::before` marker shapes, hatched reserve band, `[data-oversize]` strike-through); PR #19
+
+Asked: "Too dense"; "Bad on mobile"; "Looks generic/dated".
+
+- THE SYSTEM SHALL keep each card's content, default quantisation, switcher behaviour, gauge geometry, captions and ordering as R-015 to R-019 and R-021 state, including the gauge's `role="img"` label and its server-rendered widths.
+- WHILE at phone width, THE SYSTEM SHALL show all four quantisation buttons of a card on a single row.
+- THE SYSTEM SHALL tell `Fits`, `Tight` and `Won't fit` apart by their text label plus one cue that is not colour (for example a shape or pattern), in both themes.
+- THE SYSTEM SHALL keep the gauge's reserve band visible and distinct from the filled bar in both themes.
+- THE SYSTEM SHALL keep a `Won't fit` quantisation button distinguishable from the pressed and unpressed buttons without relying on colour.
+
+### R-073 "How this is estimated" breakdown
+
+Status: planned · Track: full · UI: yes · Source: intake 2026-10-25; `results_why.html`, `results_list.html` (`why-panel`, placeholder `Open to load the breakdown.`)
+
+Asked: "Whole app, incl. mobile"; "Too dense"; "Looks generic/dated".
+
+- THE SYSTEM SHALL keep the breakdown collapsed until the user opens it, fetch it once, and show `<quant label> on <model name>` with the weights, KV cache, runtime overhead, reserve and required VRAM, each to 2 decimals, computed as R-020 states.
+- THE SYSTEM SHALL show a required VRAM in the breakdown equal to the `GB needed` caption of the same pane.
+- WHILE the breakdown is loading, THE SYSTEM SHALL show a loading indication that is visibly different from the loaded breakdown.
+- WHEN the breakdown is open at phone width, THE SYSTEM SHALL show all five values within the card's width, without horizontal scrolling.
+
+### R-074 Model detail page
+
+Status: planned · Track: full · UI: yes · Source: intake 2026-10-25; `model_detail.html` (seven-column table in `.table-scroll`; plain `<button>` `Recompute`)
+
+Asked: "Whole app, incl. mobile"; "Too dense"; "Bad on mobile".
+
+- THE SYSTEM SHALL keep the model facts, KV cache estimate, sources, gated notice, recompute form and variant list with the content and behaviour of R-033 to R-036.
+- THE SYSTEM SHALL show for every variant its label and bucket, the recommended marker, bits, required VRAM, available VRAM, margin to 2 decimals, and its classification label (R-034, constitution rule 16).
+- WHEN the page is shown at phone width, THE SYSTEM SHALL show each variant's label, required VRAM, available VRAM, margin and classification without any horizontal scrolling, whether of the page or of a region inside it.
+- WHEN `/models/model_qwen25_7b_instruct?vram_gb=24&context_tokens=4096` loads at phone width, THE SYSTEM SHALL place the model name and the first variant's classification within the first 1688 CSS px of the page *(proposed)*.
+- THE SYSTEM SHALL place each variant's provenance (notes and sources) after that variant's figures and classification.
+
+### R-075 How it works page
+
+Status: planned · Track: full · UI: yes · Source: intake 2026-10-25; `how_it_works.html` (policy version typed into the heading), `main.py` (`ESTIMATION_POLICY_VERSION = "v0.1"`); constitution rule 16
+
+Asked: "How it works" (offered as "the /how-it-works explainer page"). Also "Looks generic/dated" and "Too dense".
+
+- THE SYSTEM SHALL keep on `/how-it-works`:
+  - the inputs;
+  - the four formulas of R-009;
+  - the reserve formula of R-010;
+  - the three classification rules of R-011;
+  - the limitations statement of R-037.
+
+  The constants SHALL stay the same (1.10, 1.0, 0.05, 0.75 and 0.10), and so SHALL the meaning of each formula and rule.
+- THE SYSTEM SHALL state on `/how-it-works` an estimation policy version equal to the footer's `Estimation policy` value, which is `v0.1` today.
+- THE SYSTEM SHALL NOT change `src/vramsherpa/estimation.py` or `ESTIMATION_POLICY_VERSION` as part of this overhaul (constitution rule 16; Q-6 asks how the rule applies here).
+- WHEN the page is shown at phone width, THE SYSTEM SHALL show every formula and classification rule in full, wrapping where needed, without horizontal scrolling.
+- THE SYSTEM SHALL give the page one `h1` and one `h2` per section: inputs, formula, reserve buffer, classification and limitations.
+
+### R-076 Header and footer
+
+Status: planned · Track: full · UI: yes · Source: intake 2026-10-25; `base.html`
+
+Asked: "Whole app, incl. mobile"; "Looks generic/dated".
+
+- THE SYSTEM SHALL keep the header's `VRAM Sherpa` link and its `Estimator` and `How it works` links with `aria-current` (R-039), and the theme toggle with its labels, saved choice and pre-paint behaviour (R-040).
+- THE SYSTEM SHALL keep the footer's `Catalog version`, `Estimation policy` and `Last updated` values on every page (R-038).
+- WHEN a page is shown at phone width, THE SYSTEM SHALL show all three footer values in full, with none overlapping another.
+- THE SYSTEM SHALL render the header and footer identically on every screen in R-067.
+
+### R-077 Accessibility through the redesign
+
+Status: planned · Track: full · UI: yes · Source: intake 2026-10-25; `styles.css` (`:focus-visible` rules, `prefers-reduced-motion` blocks); R-008, R-016, R-018, R-022, R-039, R-040; PR #19 (contrast measurements)
+
+Asked: "UI/UX overhaul".
+
+- THE SYSTEM SHALL give text a contrast ratio of at least 4.5:1 against its background, in both themes. Large text (at least 24 px, or at least 18.66 px bold) SHALL have at least 3:1.
+- THE SYSTEM SHALL give these a contrast ratio of at least 3:1 against adjacent colours, in both themes *(proposed; today's borders measure 2.2:1 per PR #19)*: field borders, button outlines, the gauge bar, the reserve band and the classification markers.
+- WHEN an interactive element receives keyboard focus, THE SYSTEM SHALL show a visible focus indicator on it, in both themes.
+- WHILE the visitor's system requests reduced motion, THE SYSTEM SHALL NOT animate transitions.
+- THE SYSTEM SHALL keep every control operable by keyboard alone, in the order the controls appear on screen.
+- THE SYSTEM SHALL keep the ARIA roles and states the existing requirements specify:
+  - `aria-pressed` on quantisation buttons (R-016) and on the theme toggle (R-040);
+  - `role="img"` and its label on the gauge (R-018);
+  - `role="alert"` on input errors (R-008);
+  - `role="status"` on GPU feedback (R-022);
+  - `aria-current="page"` in the navigation (R-039).
+
+### R-078 Behaviour the overhaul keeps
+
+Status: planned · Track: full · UI: yes · Source: intake 2026-10-25 (the user did not pick "Hard to use"); constitution rules 11 and 16; R-001 to R-066
+
+Asked: "UI/UX overhaul". The user did not name the flow as a problem.
+
+- WHEN either query below loads after the overhaul, THE SYSTEM SHALL show the same models in the same order as `main` at f2ad2d8, with the same verdicts and the same required VRAM, available VRAM and margin figures:
+  - the reference query;
+  - `/results?vram_gb=12&context_tokens=8192&family=qwen&quant_bucket=Q4`.
+- THE SYSTEM SHALL keep every route, query parameter and fragment of R-013, R-032 and R-042, so a URL that worked before the overhaul shows the same results after it.
+- THE SYSTEM SHALL keep the inputs, filters and live refresh (R-001 to R-008, R-027 to R-032) and the model detail form (R-035), with the same controls, fields and steps (Q-8).
+- THE SYSTEM SHALL show the required VRAM, the available VRAM and the margin with every verdict (constitution rule 16).
+- THE SYSTEM SHALL keep the exact wording R-001 to R-066 specify (labels, headings and messages), except where this section says otherwise (Q-2).
+- WHILE JavaScript is disabled, THE SYSTEM SHALL still submit the form and render results, cards and gauges, and show `Apply filters` (R-013, R-018, R-032).
+- WHILE JavaScript is disabled, THE SYSTEM SHALL let the user open any section the redesign collapses.
+
+### R-079 New styles reach returning visitors
+
+Status: planned · Track: full · UI: no · Source: constitution rule 21; R-041; `main.py` (`ASSET_VERSION = "20261024a"`)
+
+Asked: "UI/UX overhaul".
+
+- WHEN the overhaul ships, THE SYSTEM SHALL request its CSS and JS with an asset version other than `20261024a`.
+
 ## Notes
 
 - Not recorded as requirements: branch `feat/tokens-per-second` (ee788b3) is unmerged work in progress. PR #19 lists three deliberately deferred items: Top Picks copy, raw Hugging Face names on discovered models, and tokens per second.
@@ -628,3 +850,21 @@ Other docs against the code:
 | `docs/RELEASE_AND_DEPLOY.md`: the smoke test checks that "the results page renders". | It requests `/?vram_gb=24&context_tokens=4096`. `/` ignores query parameters, so the test renders the home page at the 8 GB default and never calls `/results` (`release.yml`; `main.py` `home`). |
 | `docs/constitution.md` rule 9: HTML responses send a `Cache-Control` header. | No route or middleware sets `Cache-Control` (no match in `src/`). Only the CSS and JS URLs carry a version query (R-041). |
 | `docs/constitution.md` rule 3: app ports bind to `127.0.0.1`. | Production complies (`127.0.0.1:8000`). The local `docker-compose.yml` publishes `8000:8000` on all interfaces. |
+
+## Open questions
+
+These are for the user to answer at Gate 1, for the UI/UX overhaul (R-067 to R-079). Each lists the options the user can choose from. Where a requirement already uses one option, it is marked *(proposed)*.
+
+| # | Question | Options | Affects |
+| --- | --- | --- | --- |
+| Q-1 | Where do Top Picks go relative to the model cards? | (a) Keep them above the cards, after the result headline. (b) Move them below the cards. (c) Fold them into a collapsed section. (d) The designer shows options at Gate 2. | R-069 |
+| Q-2 | How much may the designer change wording and cut repeated information? Today R-001 to R-066 fix many exact strings, and some facts appear twice: the `Fits`/`Tight` counts and the "N models fit or are tight" sentence; the "How it works" link in both the form and the header; `Showing only Fits and Tight models…`. | (a) Keep every string and every element; change layout and styling only. (b) May reword headings, help text, notes and the breakdown's `weights_gb`-style labels, and may merge repeated facts. May not change error messages, verdict labels or any figure. The user approves the new wording in the Gate 2 mockups. (c) May change any wording, and remove anything not protected by R-078 or rule 16. | R-078; R-005, R-014, R-020, R-022, R-037 |
+| Q-3 | Should the filters start collapsed on a phone? | (a) Collapsed, behind a control showing the active count, as R-069 proposes. (b) Open, as today. (c) The designer decides at Gate 2. | R-069 |
+| Q-4 | Do you accept the proposed target values? These are: result headline and first card within 1688 px at phone width and within 800 px at desktop width (R-069); model detail's first verdict within 1688 px (R-074); the form visible without scrolling on `/` (R-071); 44 × 44 px tap targets and 12 px minimum text (R-070); 3:1 contrast for borders and gauge parts (R-077). | (a) Accept them all. (b) Change the specific values you name. (c) Drop the numeric targets and judge only against the approved mockups. | R-069, R-070, R-071, R-074, R-077 |
+| Q-5 | Which widths must the designer mock up and QA check? | (a) 390 px and 1280 px only, as proposed. (b) Also 768 px (tablet). (c) Also 320 px (small phone). | R-067, R-070 |
+| Q-6 | What should `/how-it-works` become? Constitution rule 16 says `estimation.py`, `/how-it-works` and `ESTIMATION_POLICY_VERSION` change together, so the page changing alone needs a ruling. | Content: (a) restyle only, with the same content; (b) restyle, plus a plain-language explanation of each term and a worked example using numbers the app already produces (8B, Q4, 2048 tokens gives 6.72 GB), with the formulas unchanged; (c) the designer proposes at Gate 2. Rule 16: (i) a page change that leaves the formulas, constants and rules unchanged keeps policy `v0.1`; (ii) any change to the page bumps the policy version. | R-075; rule 16 |
+| Q-7 | Should the identity include a logo mark and a favicon? Today there is a text wordmark and no favicon. | (a) Wordmark only, as today. (b) Each direction includes a logo mark and a favicon. (c) A favicon only. | R-068 |
+| Q-8 | You did not pick "Hard to use", so do the controls stay as they are? | (a) Keep every control and restyle only: the native GPU suggestion list on `/`, the GPU dropdown on model detail (with its opposite precedence, Notes quirk c), and the three context presets. (b) As (a), but the designer may replace the native GPU suggestion list if it works badly on phones. (c) Also make the model detail form match the home form. | R-078; R-001, R-035 |
+| Q-9 | Constitution rule 9 (HTML sends `Cache-Control`) is broken today. A full redesign is the release where stale HTML matters most, because old HTML can load against new CSS. | (a) Add a `UI: no` requirement to this change: HTML responses send `Cache-Control`. (b) Fix it first, on the Quick track. (c) Leave it for later. | R-079; rule 9 |
+| Q-10 | Are these known quirks in scope? (i) The empty state says "variants" but counts models. (ii) Top Picks descriptions describe the ranking algorithm, not the benefit. (iii) Discovered models show raw Hugging Face repo names. (iv) Card links and the breakdown ignore an unmatched GPU search's GB hint and compute for 8 GB. | (a) All out of scope. (b) Wording fixes (i) and (ii) in scope. (c) All four in scope. | R-025, R-024, R-069 |
+| Q-11 | At Gate 2, should each direction be mocked up in both themes? | (a) Both light and dark for each direction. (b) Light only for each direction; the chosen direction gets dark mockups afterwards. | R-067, R-068 |
