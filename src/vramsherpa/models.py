@@ -13,6 +13,7 @@ class GPU(Base):
     vendor: Mapped[str] = mapped_column(String(100), nullable=False)
     name: Mapped[str] = mapped_column(String(200), nullable=False)
     vram_gb: Mapped[float] = mapped_column(Numeric(10, 2), nullable=False)
+    bandwidth_gb_s: Mapped[float | None] = mapped_column(Numeric(10, 1), nullable=True)
     notes: Mapped[str | None] = mapped_column(Text, nullable=True)
 
 
@@ -26,6 +27,7 @@ class Model(Base):
     model_type: Mapped[str | None] = mapped_column(String(50), nullable=True)
     license: Mapped[str | None] = mapped_column(String(120), nullable=True)
     gated: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
+    active_params_b: Mapped[float | None] = mapped_column(Numeric(10, 3), nullable=True)
     kv_gb_per_1k_ctx: Mapped[float] = mapped_column(Numeric(10, 4), nullable=False)
     sources: Mapped[str | None] = mapped_column(Text, nullable=True)
 

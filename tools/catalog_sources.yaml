@@ -16,8 +16,8 @@ catalog:
     - Q8
     - FP16
     recommended_bucket: Q4
-    notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy,
-      not an exact on-disk format.
+    notes: Quant bucket for VRAM Sherpa MVP sizing. Treat as an effective-bits proxy, not an exact on-disk
+      format.
     sources:
     - https://github.com/ggerganov/llama.cpp/blob/master/docs/quantization.md
     - 'MVP spec: bits_effective for buckets Q4=4.5, Q5=5.5, Q8=8.5, FP16=16'
@@ -26,15 +26,12 @@ discovery:
   min_downloads: 50000
   max_models_per_org: 20
   exclude_name_patterns:
-  - Guard      # safety classifiers, not generation models
-  - shield     # shieldgemma et al: safety classifiers, not generation models
-  - -AWQ       # pre-quantized; VRAM estimates assume standard weights
-  - -GPTQ      # pre-quantized
-  - -FP8       # pre-quantized
-  - .gguf      # pre-quantized
-  # Families sized by word rather than number ("mini", "MoE", "V3") carry no `NNB`
-  # token in the repo name, so discovery cannot infer params and would skip them.
-  # Values below are the `safetensors.total` parameter counts reported by the HF API.
+  - Guard
+  - shield
+  - -AWQ
+  - -GPTQ
+  - -FP8
+  - .gguf
   params_b_overrides:
     microsoft/phi-1_5: 1.42
     microsoft/phi-2: 2.78
@@ -79,6 +76,17 @@ discovery:
   - id: deepseek-ai
     family: deepseek
     model_name_contains: deepseek
+  active_params_b_overrides:
+    microsoft/phi-3.5-moe-instruct: 6.6
+    deepseek-ai/deepseek-v2-lite: 2.4
+    deepseek-ai/deepseek-v2-lite-chat: 2.4
+    deepseek-ai/deepseek-coder-v2-lite-instruct: 2.4
+    deepseek-ai/deepseek-v3: 37.0
+    deepseek-ai/deepseek-v3-0324: 37.0
+    deepseek-ai/deepseek-v3.1: 37.0
+    deepseek-ai/deepseek-v3.2: 37.0
+    deepseek-ai/deepseek-r1: 37.0
+    deepseek-ai/deepseek-r1-0528: 37.0
 gpus:
 - id: gpu_nvidia_rtx_4090_24gb
   vendor: NVIDIA
@@ -87,6 +95,8 @@ gpus:
   notes: Desktop (Ada Lovelace).
   sources:
   - https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4090/
+  bus_width_bit: 384
+  memory_clock_gbps: 21.0
 - id: gpu_nvidia_rtx_4080_super_16gb
   vendor: NVIDIA
   name: GeForce RTX 4080 SUPER
@@ -94,6 +104,8 @@ gpus:
   notes: Desktop (Ada Lovelace).
   sources:
   - https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4080-family/
+  bus_width_bit: 256
+  memory_clock_gbps: 23.0
 - id: gpu_nvidia_rtx_4070_ti_super_16gb
   vendor: NVIDIA
   name: GeForce RTX 4070 Ti SUPER
@@ -101,6 +113,8 @@ gpus:
   notes: Desktop (Ada Lovelace).
   sources:
   - https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4070-family/
+  bus_width_bit: 256
+  memory_clock_gbps: 21.0
 - id: gpu_nvidia_rtx_4070_super_12gb
   vendor: NVIDIA
   name: GeForce RTX 4070 SUPER
@@ -108,14 +122,17 @@ gpus:
   notes: Desktop (Ada Lovelace).
   sources:
   - https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4070-family/
+  bus_width_bit: 192
+  memory_clock_gbps: 21.0
 - id: gpu_nvidia_rtx_4070_12gb
   vendor: NVIDIA
   name: GeForce RTX 4070
   vram_gb: 12
-  notes: Desktop (Ada Lovelace). Some AIBs use GDDR6X; spec page lists standard memory
-    config 12GB.
+  notes: Desktop (Ada Lovelace). Some AIBs use GDDR6X; spec page lists standard memory config 12GB.
   sources:
   - https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4070-family/
+  bus_width_bit: 192
+  memory_clock_gbps: 21.0
 - id: gpu_nvidia_rtx_4060_ti_16gb
   vendor: NVIDIA
   name: GeForce RTX 4060 Ti (16GB)
@@ -123,6 +140,8 @@ gpus:
   notes: Desktop (Ada Lovelace).
   sources:
   - https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4060-4060ti/
+  bus_width_bit: 128
+  memory_clock_gbps: 18.0
 - id: gpu_nvidia_rtx_4060_ti_8gb
   vendor: NVIDIA
   name: GeForce RTX 4060 Ti (8GB)
@@ -130,6 +149,8 @@ gpus:
   notes: Desktop (Ada Lovelace).
   sources:
   - https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4060-4060ti/
+  bus_width_bit: 128
+  memory_clock_gbps: 18.0
 - id: gpu_nvidia_rtx_4060_8gb
   vendor: NVIDIA
   name: GeForce RTX 4060
@@ -137,6 +158,8 @@ gpus:
   notes: Desktop (Ada Lovelace).
   sources:
   - https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4060-4060ti/
+  bus_width_bit: 128
+  memory_clock_gbps: 17.0
 - id: gpu_nvidia_rtx_4090_laptop_16gb
   vendor: NVIDIA
   name: GeForce RTX 4090 Laptop GPU
@@ -144,6 +167,8 @@ gpus:
   notes: Laptop GPU (Ada Lovelace).
   sources:
   - https://www.nvidia.com/en-us/geforce/laptops/40-series/
+  bus_width_bit: 256
+  memory_clock_gbps: 18.0
 - id: gpu_nvidia_rtx_4080_laptop_12gb
   vendor: NVIDIA
   name: GeForce RTX 4080 Laptop GPU
@@ -151,6 +176,8 @@ gpus:
   notes: Laptop GPU (Ada Lovelace).
   sources:
   - https://www.nvidia.com/en-us/geforce/laptops/40-series/
+  bus_width_bit: 192
+  memory_clock_gbps: 18.0
 - id: gpu_nvidia_rtx_4070_laptop_8gb
   vendor: NVIDIA
   name: GeForce RTX 4070 Laptop GPU
@@ -158,6 +185,8 @@ gpus:
   notes: Laptop GPU (Ada Lovelace).
   sources:
   - https://www.nvidia.com/en-us/geforce/laptops/40-series/
+  bus_width_bit: 128
+  memory_clock_gbps: 16.0
 - id: gpu_nvidia_rtx_4060_laptop_8gb
   vendor: NVIDIA
   name: GeForce RTX 4060 Laptop GPU
@@ -165,6 +194,8 @@ gpus:
   notes: Laptop GPU (Ada Lovelace).
   sources:
   - https://www.nvidia.com/en-us/geforce/laptops/40-series/
+  bus_width_bit: 128
+  memory_clock_gbps: 16.0
 - id: gpu_nvidia_rtx_4050_laptop_6gb
   vendor: NVIDIA
   name: GeForce RTX 4050 Laptop GPU
@@ -172,6 +203,8 @@ gpus:
   notes: Laptop GPU (Ada Lovelace).
   sources:
   - https://www.nvidia.com/en-us/geforce/laptops/40-series/
+  bus_width_bit: 96
+  memory_clock_gbps: 16.0
 - id: gpu_amd_rx_7900_xtx_24gb
   vendor: AMD
   name: Radeon RX 7900 XTX
@@ -179,6 +212,8 @@ gpus:
   notes: Desktop (RDNA 3).
   sources:
   - https://www.amd.com/en/products/graphics/desktops/radeon/7000-series/amd-radeon-rx-7900xtx.html
+  bus_width_bit: 384
+  memory_clock_gbps: 20.0
 - id: gpu_amd_rx_7900_xt_20gb
   vendor: AMD
   name: Radeon RX 7900 XT
@@ -186,6 +221,8 @@ gpus:
   notes: Desktop (RDNA 3).
   sources:
   - https://www.amd.com/en/products/graphics/desktops/radeon/7000-series/amd-radeon-rx-7900xt.html
+  bus_width_bit: 320
+  memory_clock_gbps: 20.0
 - id: gpu_amd_rx_7800_xt_16gb
   vendor: AMD
   name: Radeon RX 7800 XT
@@ -193,6 +230,8 @@ gpus:
   notes: Desktop (RDNA 3).
   sources:
   - https://www.amd.com/en/products/graphics/desktops/radeon/7000-series/amd-radeon-rx-7800-xt.html
+  bus_width_bit: 256
+  memory_clock_gbps: 19.5
 - id: gpu_amd_rx_7700_xt_12gb
   vendor: AMD
   name: Radeon RX 7700 XT
@@ -200,6 +239,8 @@ gpus:
   notes: Desktop (RDNA 3).
   sources:
   - https://www.amd.com/en/products/graphics/desktops/radeon/7000-series/amd-radeon-rx-7700-xt.html
+  bus_width_bit: 192
+  memory_clock_gbps: 18.0
 - id: gpu_amd_rx_7600_xt_16gb
   vendor: AMD
   name: Radeon RX 7600 XT
@@ -207,6 +248,8 @@ gpus:
   notes: Desktop (RDNA 3).
   sources:
   - https://www.amd.com/en/products/graphics/desktops/radeon/7000-series/amd-radeon-rx-7600-xt.html
+  bus_width_bit: 128
+  memory_clock_gbps: 18.0
 - id: gpu_amd_rx_7600_8gb
   vendor: AMD
   name: Radeon RX 7600
@@ -214,6 +257,8 @@ gpus:
   notes: Desktop (RDNA 3).
   sources:
   - https://www.amd.com/en/products/graphics/desktops/radeon/7000-series/amd-radeon-rx-7600.html
+  bus_width_bit: 128
+  memory_clock_gbps: 18.0
 - id: gpu_amd_rx_6800_xt_16gb
   vendor: AMD
   name: Radeon RX 6800 XT
@@ -221,6 +266,8 @@ gpus:
   notes: Desktop (RDNA 2).
   sources:
   - https://www.amd.com/en/products/graphics/desktops/radeon/6000-series/amd-radeon-rx-6800-xt.html
+  bus_width_bit: 256
+  memory_clock_gbps: 16.0
 - id: gpu_amd_rx_6700_xt_12gb
   vendor: AMD
   name: Radeon RX 6700 XT
@@ -228,6 +275,8 @@ gpus:
   notes: Desktop (RDNA 2).
   sources:
   - https://www.amd.com/en/products/graphics/desktops/radeon/6000-series/amd-radeon-rx-6700-xt.html
+  bus_width_bit: 192
+  memory_clock_gbps: 16.0
 - id: gpu_amd_rx_7900m_laptop_16gb
   vendor: AMD
   name: Radeon RX 7900M
@@ -236,6 +285,8 @@ gpus:
   sources:
   - https://www.amd.com/en/support/downloads/drivers.html/graphics/radeon-rx/radeon-rx-7000-series/amd-radeon-rx-7900m.html
   - https://www.amd.com/en/newsroom/press-releases/2023-10-19-amd-introduces-fastest-amd-radeon-laptop-graphics-.html
+  bus_width_bit: 256
+  memory_clock_gbps: 18.0
 - id: gpu_amd_rx_7800m_laptop_12gb
   vendor: AMD
   name: Radeon RX 7800M
@@ -243,6 +294,8 @@ gpus:
   notes: Laptop GPU (RDNA 3).
   sources:
   - https://www.amd.com/en/products/graphics/laptops/radeon/7000-series/amd-radeon-rx-7800m.html
+  bus_width_bit: 192
+  memory_clock_gbps: 18.0
 - id: gpu_nvidia_rtx_3090_24gb
   vendor: NVIDIA
   name: GeForce RTX 3090
@@ -250,6 +303,8 @@ gpus:
   notes: Desktop (Ampere).
   sources:
   - https://www.nvidia.com/en-us/geforce/graphics-cards/30-series/rtx-3090-3090ti/
+  bus_width_bit: 384
+  memory_clock_gbps: 19.5
 - id: gpu_nvidia_rtx_3080_10gb
   vendor: NVIDIA
   name: GeForce RTX 3080
@@ -257,6 +312,8 @@ gpus:
   notes: Desktop (Ampere, 10GB variant).
   sources:
   - https://www.nvidia.com/en-us/geforce/graphics-cards/30-series/rtx-3080-3080ti/
+  bus_width_bit: 320
+  memory_clock_gbps: 19.0
 - id: gpu_nvidia_rtx_3070_8gb
   vendor: NVIDIA
   name: GeForce RTX 3070
@@ -264,6 +321,8 @@ gpus:
   notes: Desktop (Ampere).
   sources:
   - https://www.nvidia.com/en-us/geforce/graphics-cards/30-series/rtx-3070/
+  bus_width_bit: 256
+  memory_clock_gbps: 14.0
 - id: gpu_nvidia_rtx_3060_12gb
   vendor: NVIDIA
   name: GeForce RTX 3060
@@ -271,6 +330,8 @@ gpus:
   notes: Desktop (Ampere, 12GB variant).
   sources:
   - https://www.nvidia.com/en-us/geforce/graphics-cards/30-series/rtx-3060-3060ti/
+  bus_width_bit: 192
+  memory_clock_gbps: 15.0
 - id: gpu_nvidia_rtx_2080_ti_11gb
   vendor: NVIDIA
   name: GeForce RTX 2080 Ti
@@ -278,6 +339,8 @@ gpus:
   notes: Desktop (Turing).
   sources:
   - https://www.nvidia.com/en-us/geforce/graphics-cards/rtx-2080-ti/
+  bus_width_bit: 352
+  memory_clock_gbps: 14.0
 - id: gpu_nvidia_gtx_1080_ti_11gb
   vendor: NVIDIA
   name: GeForce GTX 1080 Ti
@@ -285,6 +348,8 @@ gpus:
   notes: Desktop (Pascal).
   sources:
   - https://www.nvidia.com/en-us/geforce/products/10series/geforce-gtx-1080-ti/
+  bus_width_bit: 352
+  memory_clock_gbps: 11.0
 - id: gpu_amd_rx_6950_xt_16gb
   vendor: AMD
   name: Radeon RX 6950 XT
@@ -292,6 +357,8 @@ gpus:
   notes: Desktop (RDNA 2).
   sources:
   - https://www.amd.com/en/products/graphics/desktops/radeon/6000-series/amd-radeon-rx-6950-xt.html
+  bus_width_bit: 256
+  memory_clock_gbps: 18.0
 - id: gpu_amd_rx_6900_xt_16gb
   vendor: AMD
   name: Radeon RX 6900 XT
@@ -299,6 +366,8 @@ gpus:
   notes: Desktop (RDNA 2).
   sources:
   - https://www.amd.com/en/products/graphics/desktops/radeon/6000-series/amd-radeon-rx-6900-xt.html
+  bus_width_bit: 256
+  memory_clock_gbps: 16.0
 - id: gpu_amd_rx_6800_16gb
   vendor: AMD
   name: Radeon RX 6800
@@ -306,6 +375,8 @@ gpus:
   notes: Desktop (RDNA 2).
   sources:
   - https://www.amd.com/en/products/graphics/desktops/radeon/6000-series/amd-radeon-rx-6800.html
+  bus_width_bit: 256
+  memory_clock_gbps: 16.0
 - id: gpu_amd_rx_5700_xt_8gb
   vendor: AMD
   name: Radeon RX 5700 XT
@@ -313,6 +384,8 @@ gpus:
   notes: Desktop (RDNA 1).
   sources:
   - https://www.amd.com/en/products/graphics/desktops/radeon/5000-series/amd-radeon-rx-5700-xt.html
+  bus_width_bit: 256
+  memory_clock_gbps: 14.0
 - id: gpu_intel_arc_a770_16gb
   vendor: Intel
   name: Arc A770
@@ -320,6 +393,8 @@ gpus:
   notes: Desktop (Alchemist).
   sources:
   - https://www.intel.com/content/www/us/en/products/sku/227958/intel-arc-a770-graphics/specifications.html
+  bus_width_bit: 256
+  memory_clock_gbps: 17.5
 - id: gpu_intel_arc_a750_8gb
   vendor: Intel
   name: Arc A750
@@ -327,6 +402,8 @@ gpus:
   notes: Desktop (Alchemist).
   sources:
   - https://www.intel.com/content/www/us/en/products/sku/227959/intel-arc-a750-graphics/specifications.html
+  bus_width_bit: 256
+  memory_clock_gbps: 16.0
 models:
 - id: model_llama_31_8b_instruct
   gated: true
@@ -336,8 +413,7 @@ models:
   model_type: instruct
   license: Llama 3.1 Community License
   kv_gb_per_1k_ctx: 0.48
-  notes: 'kv_gb_per_1k_ctx is a VRAM Sherpa MVP heuristic: round(0.06 * params_b,
-    2).'
+  notes: 'kv_gb_per_1k_ctx is a VRAM Sherpa MVP heuristic: round(0.06 * params_b, 2).'
   sources:
   - https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct
   - https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct/blob/main/LICENSE
@@ -352,8 +428,8 @@ models:
   model_type: base
   license: Llama 3.1 Community License
   kv_gb_per_1k_ctx: 0.48
-  notes: 'Pretrained/base variant. kv_gb_per_1k_ctx is a VRAM Sherpa MVP heuristic:
-    round(0.06 * params_b, 2).'
+  notes: 'Pretrained/base variant. kv_gb_per_1k_ctx is a VRAM Sherpa MVP heuristic: round(0.06 * params_b,
+    2).'
   sources:
   - https://huggingface.co/meta-llama/Llama-3.1-8B
   - https://huggingface.co/meta-llama/Llama-3.1-8B/blob/main/LICENSE
@@ -369,8 +445,8 @@ models:
   model_type: instruct
   license: Llama 3.1 Community License
   kv_gb_per_1k_ctx: 4.26
-  notes: 'Hugging Face model page reports model size as 71B params. kv_gb_per_1k_ctx
-    is a VRAM Sherpa MVP heuristic: round(0.06 * params_b, 2).'
+  notes: 'Hugging Face model page reports model size as 71B params. kv_gb_per_1k_ctx is a VRAM Sherpa
+    MVP heuristic: round(0.06 * params_b, 2).'
   sources:
   - https://huggingface.co/meta-llama/Llama-3.1-70B-Instruct
   - https://huggingface.co/meta-llama/Llama-3.1-70B-Instruct/blob/main/LICENSE
@@ -384,8 +460,8 @@ models:
   model_type: instruct
   license: apache-2.0
   kv_gb_per_1k_ctx: 0.42
-  notes: 'Instruction-tuned variant. kv_gb_per_1k_ctx is a VRAM Sherpa MVP heuristic:
-    round(0.06 * params_b, 2).'
+  notes: 'Instruction-tuned variant. kv_gb_per_1k_ctx is a VRAM Sherpa MVP heuristic: round(0.06 * params_b,
+    2).'
   sources:
   - https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3
   - 'heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)'
@@ -398,8 +474,8 @@ models:
   model_type: base
   license: apache-2.0
   kv_gb_per_1k_ctx: 0.42
-  notes: 'Base/pretrained variant. kv_gb_per_1k_ctx is a VRAM Sherpa MVP heuristic:
-    round(0.06 * params_b, 2).'
+  notes: 'Base/pretrained variant. kv_gb_per_1k_ctx is a VRAM Sherpa MVP heuristic: round(0.06 * params_b,
+    2).'
   sources:
   - https://huggingface.co/mistralai/Mistral-7B-v0.3
   - 'heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)'
@@ -412,8 +488,8 @@ models:
   model_type: instruct
   license: apache-2.0
   kv_gb_per_1k_ctx: 0.72
-  notes: 'Open-weight 12B collaboration between Mistral and NVIDIA. kv_gb_per_1k_ctx
-    is a VRAM Sherpa MVP heuristic: round(0.06 * params_b, 2).'
+  notes: 'Open-weight 12B collaboration between Mistral and NVIDIA. kv_gb_per_1k_ctx is a VRAM Sherpa
+    MVP heuristic: round(0.06 * params_b, 2).'
   sources:
   - https://huggingface.co/mistralai/Mistral-Nemo-Instruct-2407
   - https://mistral.ai/news/mistral-nemo
@@ -428,8 +504,8 @@ models:
   model_type: instruct
   license: qwen-research
   kv_gb_per_1k_ctx: 0.19
-  notes: 'Qwen2.5 3B is under Qwen Research License on Hugging Face at time of writing.
-    kv_gb_per_1k_ctx is a VRAM Sherpa MVP heuristic: round(0.06 * params_b, 2).'
+  notes: 'Qwen2.5 3B is under Qwen Research License on Hugging Face at time of writing. kv_gb_per_1k_ctx
+    is a VRAM Sherpa MVP heuristic: round(0.06 * params_b, 2).'
   sources:
   - https://huggingface.co/Qwen/Qwen2.5-3B-Instruct
   - https://huggingface.co/Qwen/Qwen2.5-3B-Instruct/tree/main
@@ -444,8 +520,7 @@ models:
   model_type: instruct
   license: apache-2.0
   kv_gb_per_1k_ctx: 0.46
-  notes: 'kv_gb_per_1k_ctx is a VRAM Sherpa MVP heuristic: round(0.06 * params_b,
-    2).'
+  notes: 'kv_gb_per_1k_ctx is a VRAM Sherpa MVP heuristic: round(0.06 * params_b, 2).'
   sources:
   - https://huggingface.co/Qwen/Qwen2.5-7B-Instruct
   - https://huggingface.co/Qwen/Qwen2.5-7B-Instruct/blob/main/LICENSE
@@ -459,8 +534,7 @@ models:
   model_type: instruct
   license: apache-2.0
   kv_gb_per_1k_ctx: 0.88
-  notes: 'kv_gb_per_1k_ctx is a VRAM Sherpa MVP heuristic: round(0.06 * params_b,
-    2).'
+  notes: 'kv_gb_per_1k_ctx is a VRAM Sherpa MVP heuristic: round(0.06 * params_b, 2).'
   sources:
   - https://huggingface.co/Qwen/Qwen2.5-14B-Instruct
   - https://huggingface.co/Qwen/Qwen2.5-14B-Instruct/blob/main/LICENSE
@@ -475,9 +549,8 @@ models:
   model_type: instruct
   license: gemma
   kv_gb_per_1k_ctx: 0.54
-  notes: 'Gemma models require accepting Google''s usage license to access weights
-    on Hugging Face/Kaggle. kv_gb_per_1k_ctx is a VRAM Sherpa MVP heuristic: round(0.06
-    * params_b, 2).'
+  notes: 'Gemma models require accepting Google''s usage license to access weights on Hugging Face/Kaggle.
+    kv_gb_per_1k_ctx is a VRAM Sherpa MVP heuristic: round(0.06 * params_b, 2).'
   sources:
   - https://huggingface.co/google/gemma-2-9b-it
   - https://huggingface.co/blog/gemma2
@@ -493,9 +566,8 @@ models:
   model_type: base
   license: gemma
   kv_gb_per_1k_ctx: 0.54
-  notes: 'Base/pretrained variant. Gemma models require accepting Google''s usage
-    license. kv_gb_per_1k_ctx is a VRAM Sherpa MVP heuristic: round(0.06 * params_b,
-    2).'
+  notes: 'Base/pretrained variant. Gemma models require accepting Google''s usage license. kv_gb_per_1k_ctx
+    is a VRAM Sherpa MVP heuristic: round(0.06 * params_b, 2).'
   sources:
   - https://huggingface.co/google/gemma-2-9b
   - https://huggingface.co/blog/gemma2
@@ -510,8 +582,7 @@ models:
   model_type: instruct
   license: mit
   kv_gb_per_1k_ctx: 0.23
-  notes: 'kv_gb_per_1k_ctx is a VRAM Sherpa MVP heuristic: round(0.06 * params_b,
-    2).'
+  notes: 'kv_gb_per_1k_ctx is a VRAM Sherpa MVP heuristic: round(0.06 * params_b, 2).'
   sources:
   - https://huggingface.co/microsoft/Phi-3.5-mini-instruct
   - https://huggingface.co/microsoft/Phi-3.5-mini-instruct/blob/main/LICENSE
@@ -525,8 +596,8 @@ models:
   model_type: instruct
   license: mit
   kv_gb_per_1k_ctx: 0.84
-  notes: '14B dense model from Microsoft. kv_gb_per_1k_ctx is a VRAM Sherpa heuristic:
-    round(0.06 * params_b, 2).'
+  notes: '14B dense model from Microsoft. kv_gb_per_1k_ctx is a VRAM Sherpa heuristic: round(0.06 * params_b,
+    2).'
   sources:
   - https://huggingface.co/microsoft/phi-4
   - https://huggingface.co/microsoft/phi-4/blob/main/LICENSE
@@ -540,8 +611,8 @@ models:
   model_type: instruct
   license: apache-2.0
   kv_gb_per_1k_ctx: 0.54
-  notes: 'Chat-tuned variant. kv_gb_per_1k_ctx is a VRAM Sherpa MVP heuristic: round(0.06
-    * params_b, 2).'
+  notes: 'Chat-tuned variant. kv_gb_per_1k_ctx is a VRAM Sherpa MVP heuristic: round(0.06 * params_b,
+    2).'
   sources:
   - https://huggingface.co/01-ai/Yi-1.5-9B-Chat
   - 'heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)'

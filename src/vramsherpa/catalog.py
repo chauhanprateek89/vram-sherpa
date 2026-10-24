@@ -46,6 +46,8 @@ def _upsert_gpu(session: Session, item: dict) -> None:
     gpu.vendor = str(item["vendor"])
     gpu.name = str(item["name"])
     gpu.vram_gb = float(item["vram_gb"])
+    bandwidth = item.get("bandwidth_gb_s")
+    gpu.bandwidth_gb_s = float(bandwidth) if bandwidth is not None else None
     gpu.notes = _as_optional_text(item.get("notes"))
     session.add(gpu)
 
@@ -61,6 +63,8 @@ def _upsert_model(session: Session, item: dict) -> None:
     model.model_type = _as_optional_text(item.get("model_type"))
     model.license = _as_optional_text(item.get("license"))
     model.gated = bool(item.get("gated", False))
+    active = item.get("active_params_b")
+    model.active_params_b = float(active) if active is not None else None
     model.kv_gb_per_1k_ctx = float(item["kv_gb_per_1k_ctx"])
     model.sources = _as_optional_text(item.get("sources"))
     session.add(model)

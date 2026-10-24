@@ -104,3 +104,69 @@ def estimate_breakdown(
         reserve_gb=reserve,
         classification=classification,
     )
+
+
+# Fraction of theoretical peak bandwidth a real inference runtime achieves while
+# streaming weights. Measured results for llama.cpp and vLLM on consumer cards
+# cluster in the 0.6-0.8 band; 0.7 is the middle of it. This single factor carries
+# most of the uncertainty in the estimate, which is why the result is reported as
+# a range rather than one number.
+DECODE_BANDWIDTH_EFFICIENCY = 0.70
+DECODE_EFFICIENCY_RANGE = (0.60, 0.80)
+
+
+@dataclass(frozen=True)
+class DecodeSpeed:
+    """A decode-speed range in tokens per second.
+
+    Only the generation phase. Prompt processing is compute-bound rather than
+    memory-bound and is not modelled here.
+    """
+
+    low_tps: float
+    high_tps: float
+    mid_tps: float
+    read_gb_per_token: float
+    bandwidth_gb_s: float
+    is_mixture_of_experts: bool
+
+
+def estimate_decode_speed(
+    *,
+    params_b: float,
+    bits_effective: float,
+    bandwidth_gb_s: float | None,
+    active_params_b: float | None = None,
+) -> DecodeSpeed | None:
+    """Estimate single-stream decode speed from memory bandwidth.
+
+    Generating one token reads every active weight exactly once, so throughput is
+    bounded by bandwidth divided by the bytes read per token.
+
+    This is a first-order bound and tends to read optimistic, because it counts only
+    weight traffic. Real runtimes also read the KV cache each step, and a bucket like
+    Q4_K_M averages nearer 4.85 bits than the 4.5 the catalogue models. Treat the
+    range as "this order of magnitude", not a benchmark; the efficiency factor wants
+    calibrating against measured runs. A mixture-of-experts
+    model keeps all experts resident but reads only the routed ones, so it decodes
+    at the speed its *active* parameter count implies.
+
+    Returns None when the GPU's bandwidth is unknown, rather than guessing.
+    """
+    if bandwidth_gb_s is None or bandwidth_gb_s <= 0:
+        return None
+
+    read_params_b = active_params_b if active_params_b and active_params_b > 0 else params_b
+    read_gb_per_token = read_params_b * bits_effective / 8
+    if read_gb_per_token <= 0:
+        return None
+
+    low, high = DECODE_EFFICIENCY_RANGE
+    return DecodeSpeed(
+        low_tps=bandwidth_gb_s * low / read_gb_per_token,
+        high_tps=bandwidth_gb_s * high / read_gb_per_token,
+        mid_tps=bandwidth_gb_s * DECODE_BANDWIDTH_EFFICIENCY / read_gb_per_token,
+        read_gb_per_token=read_gb_per_token,
+        bandwidth_gb_s=bandwidth_gb_s,
+        is_mixture_of_experts=bool(active_params_b and active_params_b < params_b),
+    )
