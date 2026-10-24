@@ -1,11 +1,14 @@
 {
-  "catalog_version": "2026-10-23",
+  "catalog_version": "2026-10-24",
   "items": [
     {
       "id": "gpu_nvidia_rtx_4090_24gb",
       "vendor": "NVIDIA",
       "name": "GeForce RTX 4090",
       "vram_gb": 24.0,
+      "bus_width_bit": 384.0,
+      "memory_clock_gbps": 21.0,
+      "bandwidth_gb_s": 1008.0,
       "notes": "Desktop (Ada Lovelace).",
       "sources": [
         "https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4090/"
@@ -16,6 +19,9 @@
       "vendor": "NVIDIA",
       "name": "GeForce RTX 4080 SUPER",
       "vram_gb": 16.0,
+      "bus_width_bit": 256.0,
+      "memory_clock_gbps": 23.0,
+      "bandwidth_gb_s": 736.0,
       "notes": "Desktop (Ada Lovelace).",
       "sources": [
         "https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4080-family/"
@@ -26,6 +32,9 @@
       "vendor": "NVIDIA",
       "name": "GeForce RTX 4070 Ti SUPER",
       "vram_gb": 16.0,
+      "bus_width_bit": 256.0,
+      "memory_clock_gbps": 21.0,
+      "bandwidth_gb_s": 672.0,
       "notes": "Desktop (Ada Lovelace).",
       "sources": [
         "https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4070-family/"
@@ -36,6 +45,9 @@
       "vendor": "NVIDIA",
       "name": "GeForce RTX 4070 SUPER",
       "vram_gb": 12.0,
+      "bus_width_bit": 192.0,
+      "memory_clock_gbps": 21.0,
+      "bandwidth_gb_s": 504.0,
       "notes": "Desktop (Ada Lovelace).",
       "sources": [
         "https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4070-family/"
@@ -46,6 +58,9 @@
       "vendor": "NVIDIA",
       "name": "GeForce RTX 4070",
       "vram_gb": 12.0,
+      "bus_width_bit": 192.0,
+      "memory_clock_gbps": 21.0,
+      "bandwidth_gb_s": 504.0,
       "notes": "Desktop (Ada Lovelace). Some AIBs use GDDR6X; spec page lists standard memory config 12GB.",
       "sources": [
         "https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4070-family/"
@@ -56,6 +71,9 @@
       "vendor": "NVIDIA",
       "name": "GeForce RTX 4060 Ti (16GB)",
       "vram_gb": 16.0,
+      "bus_width_bit": 128.0,
+      "memory_clock_gbps": 18.0,
+      "bandwidth_gb_s": 288.0,
       "notes": "Desktop (Ada Lovelace).",
       "sources": [
         "https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4060-4060ti/"
@@ -66,6 +84,9 @@
       "vendor": "NVIDIA",
       "name": "GeForce RTX 4060 Ti (8GB)",
       "vram_gb": 8.0,
+      "bus_width_bit": 128.0,
+      "memory_clock_gbps": 18.0,
+      "bandwidth_gb_s": 288.0,
       "notes": "Desktop (Ada Lovelace).",
       "sources": [
         "https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4060-4060ti/"
@@ -76,6 +97,9 @@
       "vendor": "NVIDIA",
       "name": "GeForce RTX 4060",
       "vram_gb": 8.0,
+      "bus_width_bit": 128.0,
+      "memory_clock_gbps": 17.0,
+      "bandwidth_gb_s": 272.0,
       "notes": "Desktop (Ada Lovelace).",
       "sources": [
         "https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4060-4060ti/"
@@ -86,6 +110,9 @@
       "vendor": "NVIDIA",
       "name": "GeForce RTX 4090 Laptop GPU",
       "vram_gb": 16.0,
+      "bus_width_bit": 256.0,
+      "memory_clock_gbps": 18.0,
+      "bandwidth_gb_s": 576.0,
       "notes": "Laptop GPU (Ada Lovelace).",
       "sources": [
         "https://www.nvidia.com/en-us/geforce/laptops/40-series/"
@@ -96,6 +123,9 @@
       "vendor": "NVIDIA",
       "name": "GeForce RTX 4080 Laptop GPU",
       "vram_gb": 12.0,
+      "bus_width_bit": 192.0,
+      "memory_clock_gbps": 18.0,
+      "bandwidth_gb_s": 432.0,
       "notes": "Laptop GPU (Ada Lovelace).",
       "sources": [
         "https://www.nvidia.com/en-us/geforce/laptops/40-series/"
@@ -106,6 +136,9 @@
       "vendor": "NVIDIA",
       "name": "GeForce RTX 4070 Laptop GPU",
       "vram_gb": 8.0,
+      "bus_width_bit": 128.0,
+      "memory_clock_gbps": 16.0,
+      "bandwidth_gb_s": 256.0,
       "notes": "Laptop GPU (Ada Lovelace).",
       "sources": [
         "https://www.nvidia.com/en-us/geforce/laptops/40-series/"
@@ -116,6 +149,9 @@
       "vendor": "NVIDIA",
       "name": "GeForce RTX 4060 Laptop GPU",
       "vram_gb": 8.0,
+      "bus_width_bit": 128.0,
+      "memory_clock_gbps": 16.0,
+      "bandwidth_gb_s": 256.0,
       "notes": "Laptop GPU (Ada Lovelace).",
       "sources": [
         "https://www.nvidia.com/en-us/geforce/laptops/40-series/"
@@ -126,6 +162,9 @@
       "vendor": "NVIDIA",
       "name": "GeForce RTX 4050 Laptop GPU",
       "vram_gb": 6.0,
+      "bus_width_bit": 96.0,
+      "memory_clock_gbps": 16.0,
+      "bandwidth_gb_s": 192.0,
       "notes": "Laptop GPU (Ada Lovelace).",
       "sources": [
         "https://www.nvidia.com/en-us/geforce/laptops/40-series/"
@@ -136,6 +175,9 @@
       "vendor": "AMD",
       "name": "Radeon RX 7900 XTX",
       "vram_gb": 24.0,
+      "bus_width_bit": 384.0,
+      "memory_clock_gbps": 20.0,
+      "bandwidth_gb_s": 960.0,
       "notes": "Desktop (RDNA 3).",
       "sources": [
         "https://www.amd.com/en/products/graphics/desktops/radeon/7000-series/amd-radeon-rx-7900xtx.html"
@@ -146,6 +188,9 @@
       "vendor": "AMD",
       "name": "Radeon RX 7900 XT",
       "vram_gb": 20.0,
+      "bus_width_bit": 320.0,
+      "memory_clock_gbps": 20.0,
+      "bandwidth_gb_s": 800.0,
       "notes": "Desktop (RDNA 3).",
       "sources": [
         "https://www.amd.com/en/products/graphics/desktops/radeon/7000-series/amd-radeon-rx-7900xt.html"
@@ -156,6 +201,9 @@
       "vendor": "AMD",
       "name": "Radeon RX 7800 XT",
       "vram_gb": 16.0,
+      "bus_width_bit": 256.0,
+      "memory_clock_gbps": 19.5,
+      "bandwidth_gb_s": 624.0,
       "notes": "Desktop (RDNA 3).",
       "sources": [
         "https://www.amd.com/en/products/graphics/desktops/radeon/7000-series/amd-radeon-rx-7800-xt.html"
@@ -166,6 +214,9 @@
       "vendor": "AMD",
       "name": "Radeon RX 7700 XT",
       "vram_gb": 12.0,
+      "bus_width_bit": 192.0,
+      "memory_clock_gbps": 18.0,
+      "bandwidth_gb_s": 432.0,
       "notes": "Desktop (RDNA 3).",
       "sources": [
         "https://www.amd.com/en/products/graphics/desktops/radeon/7000-series/amd-radeon-rx-7700-xt.html"
@@ -176,6 +227,9 @@
       "vendor": "AMD",
       "name": "Radeon RX 7600 XT",
       "vram_gb": 16.0,
+      "bus_width_bit": 128.0,
+      "memory_clock_gbps": 18.0,
+      "bandwidth_gb_s": 288.0,
       "notes": "Desktop (RDNA 3).",
       "sources": [
         "https://www.amd.com/en/products/graphics/desktops/radeon/7000-series/amd-radeon-rx-7600-xt.html"
@@ -186,6 +240,9 @@
       "vendor": "AMD",
       "name": "Radeon RX 7600",
       "vram_gb": 8.0,
+      "bus_width_bit": 128.0,
+      "memory_clock_gbps": 18.0,
+      "bandwidth_gb_s": 288.0,
       "notes": "Desktop (RDNA 3).",
       "sources": [
         "https://www.amd.com/en/products/graphics/desktops/radeon/7000-series/amd-radeon-rx-7600.html"
@@ -196,6 +253,9 @@
       "vendor": "AMD",
       "name": "Radeon RX 6800 XT",
       "vram_gb": 16.0,
+      "bus_width_bit": 256.0,
+      "memory_clock_gbps": 16.0,
+      "bandwidth_gb_s": 512.0,
       "notes": "Desktop (RDNA 2).",
       "sources": [
         "https://www.amd.com/en/products/graphics/desktops/radeon/6000-series/amd-radeon-rx-6800-xt.html"
@@ -206,6 +266,9 @@
       "vendor": "AMD",
       "name": "Radeon RX 6700 XT",
       "vram_gb": 12.0,
+      "bus_width_bit": 192.0,
+      "memory_clock_gbps": 16.0,
+      "bandwidth_gb_s": 384.0,
       "notes": "Desktop (RDNA 2).",
       "sources": [
         "https://www.amd.com/en/products/graphics/desktops/radeon/6000-series/amd-radeon-rx-6700-xt.html"
@@ -216,6 +279,9 @@
       "vendor": "AMD",
       "name": "Radeon RX 7900M",
       "vram_gb": 16.0,
+      "bus_width_bit": 256.0,
+      "memory_clock_gbps": 18.0,
+      "bandwidth_gb_s": 576.0,
       "notes": "Laptop GPU (RDNA 3).",
       "sources": [
         "https://www.amd.com/en/support/downloads/drivers.html/graphics/radeon-rx/radeon-rx-7000-series/amd-radeon-rx-7900m.html",
@@ -227,6 +293,9 @@
       "vendor": "AMD",
       "name": "Radeon RX 7800M",
       "vram_gb": 12.0,
+      "bus_width_bit": 192.0,
+      "memory_clock_gbps": 18.0,
+      "bandwidth_gb_s": 432.0,
       "notes": "Laptop GPU (RDNA 3).",
       "sources": [
         "https://www.amd.com/en/products/graphics/laptops/radeon/7000-series/amd-radeon-rx-7800m.html"
@@ -237,6 +306,9 @@
       "vendor": "NVIDIA",
       "name": "GeForce RTX 3090",
       "vram_gb": 24.0,
+      "bus_width_bit": 384.0,
+      "memory_clock_gbps": 19.5,
+      "bandwidth_gb_s": 936.0,
       "notes": "Desktop (Ampere).",
       "sources": [
         "https://www.nvidia.com/en-us/geforce/graphics-cards/30-series/rtx-3090-3090ti/"
@@ -247,6 +319,9 @@
       "vendor": "NVIDIA",
       "name": "GeForce RTX 3080",
       "vram_gb": 10.0,
+      "bus_width_bit": 320.0,
+      "memory_clock_gbps": 19.0,
+      "bandwidth_gb_s": 760.0,
       "notes": "Desktop (Ampere, 10GB variant).",
       "sources": [
         "https://www.nvidia.com/en-us/geforce/graphics-cards/30-series/rtx-3080-3080ti/"
@@ -257,6 +332,9 @@
       "vendor": "NVIDIA",
       "name": "GeForce RTX 3070",
       "vram_gb": 8.0,
+      "bus_width_bit": 256.0,
+      "memory_clock_gbps": 14.0,
+      "bandwidth_gb_s": 448.0,
       "notes": "Desktop (Ampere).",
       "sources": [
         "https://www.nvidia.com/en-us/geforce/graphics-cards/30-series/rtx-3070/"
@@ -267,6 +345,9 @@
       "vendor": "NVIDIA",
       "name": "GeForce RTX 3060",
       "vram_gb": 12.0,
+      "bus_width_bit": 192.0,
+      "memory_clock_gbps": 15.0,
+      "bandwidth_gb_s": 360.0,
       "notes": "Desktop (Ampere, 12GB variant).",
       "sources": [
         "https://www.nvidia.com/en-us/geforce/graphics-cards/30-series/rtx-3060-3060ti/"
@@ -277,6 +358,9 @@
       "vendor": "NVIDIA",
       "name": "GeForce RTX 2080 Ti",
       "vram_gb": 11.0,
+      "bus_width_bit": 352.0,
+      "memory_clock_gbps": 14.0,
+      "bandwidth_gb_s": 616.0,
       "notes": "Desktop (Turing).",
       "sources": [
         "https://www.nvidia.com/en-us/geforce/graphics-cards/rtx-2080-ti/"
@@ -287,6 +371,9 @@
       "vendor": "NVIDIA",
       "name": "GeForce GTX 1080 Ti",
       "vram_gb": 11.0,
+      "bus_width_bit": 352.0,
+      "memory_clock_gbps": 11.0,
+      "bandwidth_gb_s": 484.0,
       "notes": "Desktop (Pascal).",
       "sources": [
         "https://www.nvidia.com/en-us/geforce/products/10series/geforce-gtx-1080-ti/"
@@ -297,6 +384,9 @@
       "vendor": "AMD",
       "name": "Radeon RX 6950 XT",
       "vram_gb": 16.0,
+      "bus_width_bit": 256.0,
+      "memory_clock_gbps": 18.0,
+      "bandwidth_gb_s": 576.0,
       "notes": "Desktop (RDNA 2).",
       "sources": [
         "https://www.amd.com/en/products/graphics/desktops/radeon/6000-series/amd-radeon-rx-6950-xt.html"
@@ -307,6 +397,9 @@
       "vendor": "AMD",
       "name": "Radeon RX 6900 XT",
       "vram_gb": 16.0,
+      "bus_width_bit": 256.0,
+      "memory_clock_gbps": 16.0,
+      "bandwidth_gb_s": 512.0,
       "notes": "Desktop (RDNA 2).",
       "sources": [
         "https://www.amd.com/en/products/graphics/desktops/radeon/6000-series/amd-radeon-rx-6900-xt.html"
@@ -317,6 +410,9 @@
       "vendor": "AMD",
       "name": "Radeon RX 6800",
       "vram_gb": 16.0,
+      "bus_width_bit": 256.0,
+      "memory_clock_gbps": 16.0,
+      "bandwidth_gb_s": 512.0,
       "notes": "Desktop (RDNA 2).",
       "sources": [
         "https://www.amd.com/en/products/graphics/desktops/radeon/6000-series/amd-radeon-rx-6800.html"
@@ -327,6 +423,9 @@
       "vendor": "AMD",
       "name": "Radeon RX 5700 XT",
       "vram_gb": 8.0,
+      "bus_width_bit": 256.0,
+      "memory_clock_gbps": 14.0,
+      "bandwidth_gb_s": 448.0,
       "notes": "Desktop (RDNA 1).",
       "sources": [
         "https://www.amd.com/en/products/graphics/desktops/radeon/5000-series/amd-radeon-rx-5700-xt.html"
@@ -337,6 +436,9 @@
       "vendor": "Intel",
       "name": "Arc A770",
       "vram_gb": 16.0,
+      "bus_width_bit": 256.0,
+      "memory_clock_gbps": 17.5,
+      "bandwidth_gb_s": 560.0,
       "notes": "Desktop (Alchemist).",
       "sources": [
         "https://www.intel.com/content/www/us/en/products/sku/227958/intel-arc-a770-graphics/specifications.html"
@@ -347,6 +449,9 @@
       "vendor": "Intel",
       "name": "Arc A750",
       "vram_gb": 8.0,
+      "bus_width_bit": 256.0,
+      "memory_clock_gbps": 16.0,
+      "bandwidth_gb_s": 512.0,
       "notes": "Desktop (Alchemist).",
       "sources": [
         "https://www.intel.com/content/www/us/en/products/sku/227959/intel-arc-a750-graphics/specifications.html"

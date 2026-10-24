@@ -68,6 +68,16 @@
                 <span>{{ '%.1f'|format(variant.available_vram_gb) }} GB</span>
               </div>
 
+              {% if variant.decode_low_tps %}
+                <p class="speed">
+                  <span class="speed-value num">~{{ '%.0f'|format(variant.decode_low_tps) }}&ndash;{{ '%.0f'|format(variant.decode_high_tps) }}</span>
+                  <span class="speed-unit">tokens/sec</span>
+                  {% if variant.decode_is_moe %}
+                    <span class="speed-note" title="Mixture of experts: all experts stay in VRAM, but only the routed ones are read per token, so it decodes faster than its total size suggests.">MoE</span>
+                  {% endif %}
+                </p>
+              {% endif %}
+
               <details class="why-panel">
                 <summary
                   hx-get="/results/why/{{ variant.variant_id }}?{{ hardware_query_string }}"

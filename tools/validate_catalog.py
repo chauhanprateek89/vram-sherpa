@@ -181,6 +181,7 @@ def validate_catalog_files(
         _expect_non_empty_string(gpu, "vendor", label, errors)
         _expect_non_empty_string(gpu, "name", label, errors)
         _expect_number(gpu, "vram_gb", label, errors)
+        _expect_number(gpu, "bandwidth_gb_s", label, errors)
         _expect_sources_list(gpu, label, errors)
 
     model_ids: set[str] = set()

@@ -1,5 +1,5 @@
 {
-  "catalog_version": "2026-10-23",
+  "catalog_version": "2026-10-24",
   "items": [
     {
       "id": "model_llama_31_8b_instruct",
@@ -10,6 +10,7 @@
       "model_type": "instruct",
       "license": "Llama 3.1 Community License",
       "kv_gb_per_1k_ctx": 0.48,
+      "active_params_b": null,
       "notes": "kv_gb_per_1k_ctx is a VRAM Sherpa MVP heuristic: round(0.06 * params_b, 2).",
       "sources": [
         "https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct",
@@ -27,6 +28,7 @@
       "model_type": "base",
       "license": "Llama 3.1 Community License",
       "kv_gb_per_1k_ctx": 0.48,
+      "active_params_b": null,
       "notes": "Pretrained/base variant. kv_gb_per_1k_ctx is a VRAM Sherpa MVP heuristic: round(0.06 * params_b, 2).",
       "sources": [
         "https://huggingface.co/meta-llama/Llama-3.1-8B",
@@ -45,6 +47,7 @@
       "model_type": "instruct",
       "license": "Llama 3.1 Community License",
       "kv_gb_per_1k_ctx": 4.26,
+      "active_params_b": null,
       "notes": "Hugging Face model page reports model size as 71B params. kv_gb_per_1k_ctx is a VRAM Sherpa MVP heuristic: round(0.06 * params_b, 2).",
       "sources": [
         "https://huggingface.co/meta-llama/Llama-3.1-70B-Instruct",
@@ -62,6 +65,7 @@
       "model_type": "instruct",
       "license": "apache-2.0",
       "kv_gb_per_1k_ctx": 0.42,
+      "active_params_b": null,
       "notes": "Instruction-tuned variant. kv_gb_per_1k_ctx is a VRAM Sherpa MVP heuristic: round(0.06 * params_b, 2).",
       "sources": [
         "https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3",
@@ -78,6 +82,7 @@
       "model_type": "base",
       "license": "apache-2.0",
       "kv_gb_per_1k_ctx": 0.42,
+      "active_params_b": null,
       "notes": "Base/pretrained variant. kv_gb_per_1k_ctx is a VRAM Sherpa MVP heuristic: round(0.06 * params_b, 2).",
       "sources": [
         "https://huggingface.co/mistralai/Mistral-7B-v0.3",
@@ -94,6 +99,7 @@
       "model_type": "instruct",
       "license": "apache-2.0",
       "kv_gb_per_1k_ctx": 0.72,
+      "active_params_b": null,
       "notes": "Open-weight 12B collaboration between Mistral and NVIDIA. kv_gb_per_1k_ctx is a VRAM Sherpa MVP heuristic: round(0.06 * params_b, 2).",
       "sources": [
         "https://huggingface.co/mistralai/Mistral-Nemo-Instruct-2407",
@@ -112,6 +118,7 @@
       "model_type": "instruct",
       "license": "qwen-research",
       "kv_gb_per_1k_ctx": 0.19,
+      "active_params_b": null,
       "notes": "Qwen2.5 3B is under Qwen Research License on Hugging Face at time of writing. kv_gb_per_1k_ctx is a VRAM Sherpa MVP heuristic: round(0.06 * params_b, 2).",
       "sources": [
         "https://huggingface.co/Qwen/Qwen2.5-3B-Instruct",
@@ -130,6 +137,7 @@
       "model_type": "instruct",
       "license": "apache-2.0",
       "kv_gb_per_1k_ctx": 0.46,
+      "active_params_b": null,
       "notes": "kv_gb_per_1k_ctx is a VRAM Sherpa MVP heuristic: round(0.06 * params_b, 2).",
       "sources": [
         "https://huggingface.co/Qwen/Qwen2.5-7B-Instruct",
@@ -147,6 +155,7 @@
       "model_type": "instruct",
       "license": "apache-2.0",
       "kv_gb_per_1k_ctx": 0.88,
+      "active_params_b": null,
       "notes": "kv_gb_per_1k_ctx is a VRAM Sherpa MVP heuristic: round(0.06 * params_b, 2).",
       "sources": [
         "https://huggingface.co/Qwen/Qwen2.5-14B-Instruct",
@@ -164,6 +173,7 @@
       "model_type": "instruct",
       "license": "gemma",
       "kv_gb_per_1k_ctx": 0.54,
+      "active_params_b": null,
       "notes": "Gemma models require accepting Google's usage license to access weights on Hugging Face/Kaggle. kv_gb_per_1k_ctx is a VRAM Sherpa MVP heuristic: round(0.06 * params_b, 2).",
       "sources": [
         "https://huggingface.co/google/gemma-2-9b-it",
@@ -182,6 +192,7 @@
       "model_type": "base",
       "license": "gemma",
       "kv_gb_per_1k_ctx": 0.54,
+      "active_params_b": null,
       "notes": "Base/pretrained variant. Gemma models require accepting Google's usage license. kv_gb_per_1k_ctx is a VRAM Sherpa MVP heuristic: round(0.06 * params_b, 2).",
       "sources": [
         "https://huggingface.co/google/gemma-2-9b",
@@ -200,6 +211,7 @@
       "model_type": "instruct",
       "license": "mit",
       "kv_gb_per_1k_ctx": 0.23,
+      "active_params_b": null,
       "notes": "kv_gb_per_1k_ctx is a VRAM Sherpa MVP heuristic: round(0.06 * params_b, 2).",
       "sources": [
         "https://huggingface.co/microsoft/Phi-3.5-mini-instruct",
@@ -217,6 +229,7 @@
       "model_type": "instruct",
       "license": "mit",
       "kv_gb_per_1k_ctx": 0.84,
+      "active_params_b": null,
       "notes": "14B dense model from Microsoft. kv_gb_per_1k_ctx is a VRAM Sherpa heuristic: round(0.06 * params_b, 2).",
       "sources": [
         "https://huggingface.co/microsoft/phi-4",
@@ -234,6 +247,7 @@
       "model_type": "instruct",
       "license": "apache-2.0",
       "kv_gb_per_1k_ctx": 0.54,
+      "active_params_b": null,
       "notes": "Chat-tuned variant. kv_gb_per_1k_ctx is a VRAM Sherpa MVP heuristic: round(0.06 * params_b, 2).",
       "sources": [
         "https://huggingface.co/01-ai/Yi-1.5-9B-Chat",
@@ -256,7 +270,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "gated": true,
-      "discovered": true
+      "discovered": true,
+      "active_params_b": null
     },
     {
       "id": "model_deepseek_coder_6_7b_base",
@@ -273,7 +288,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "discovered": true,
-      "gated": false
+      "gated": false,
+      "active_params_b": null
     },
     {
       "id": "model_deepseek_coder_7b_instruct_v1_5",
@@ -290,7 +306,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "discovered": true,
-      "gated": false
+      "gated": false,
+      "active_params_b": null
     },
     {
       "id": "model_deepseek_coder_v2_lite_instruct",
@@ -307,7 +324,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "gated": false,
-      "discovered": true
+      "discovered": true,
+      "active_params_b": 2.4
     },
     {
       "id": "model_deepseek_r1",
@@ -324,7 +342,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "gated": false,
-      "discovered": true
+      "discovered": true,
+      "active_params_b": 37.0
     },
     {
       "id": "model_deepseek_r1_0528",
@@ -341,7 +360,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "gated": false,
-      "discovered": true
+      "discovered": true,
+      "active_params_b": 37.0
     },
     {
       "id": "model_deepseek_r1_0528_qwen3_8b",
@@ -358,7 +378,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "discovered": true,
-      "gated": false
+      "gated": false,
+      "active_params_b": null
     },
     {
       "id": "model_deepseek_r1_distill_llama_8b",
@@ -375,7 +396,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "discovered": true,
-      "gated": false
+      "gated": false,
+      "active_params_b": null
     },
     {
       "id": "model_deepseek_r1_distill_qwen_14b",
@@ -392,7 +414,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "discovered": true,
-      "gated": false
+      "gated": false,
+      "active_params_b": null
     },
     {
       "id": "model_deepseek_r1_distill_qwen_1_5b",
@@ -409,7 +432,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "discovered": true,
-      "gated": false
+      "gated": false,
+      "active_params_b": null
     },
     {
       "id": "model_deepseek_r1_distill_qwen_32b",
@@ -426,7 +450,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "discovered": true,
-      "gated": false
+      "gated": false,
+      "active_params_b": null
     },
     {
       "id": "model_deepseek_r1_distill_qwen_7b",
@@ -443,7 +468,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "discovered": true,
-      "gated": false
+      "gated": false,
+      "active_params_b": null
     },
     {
       "id": "model_deepseek_v2_lite",
@@ -460,7 +486,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "gated": false,
-      "discovered": true
+      "discovered": true,
+      "active_params_b": 2.4
     },
     {
       "id": "model_deepseek_v2_lite_chat",
@@ -477,7 +504,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "gated": false,
-      "discovered": true
+      "discovered": true,
+      "active_params_b": 2.4
     },
     {
       "id": "model_deepseek_v3",
@@ -494,7 +522,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "gated": false,
-      "discovered": true
+      "discovered": true,
+      "active_params_b": 37.0
     },
     {
       "id": "model_deepseek_v3_0324",
@@ -511,7 +540,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "gated": false,
-      "discovered": true
+      "discovered": true,
+      "active_params_b": 37.0
     },
     {
       "id": "model_deepseek_v3_1",
@@ -528,7 +558,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "gated": false,
-      "discovered": true
+      "discovered": true,
+      "active_params_b": 37.0
     },
     {
       "id": "model_deepseek_v3_2",
@@ -545,7 +576,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "gated": false,
-      "discovered": true
+      "discovered": true,
+      "active_params_b": 37.0
     },
     {
       "id": "model_deepseek_v4_flash",
@@ -562,7 +594,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "gated": false,
-      "discovered": true
+      "discovered": true,
+      "active_params_b": null
     },
     {
       "id": "model_deepseek_v4_flash_0731",
@@ -579,7 +612,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "gated": false,
-      "discovered": true
+      "discovered": true,
+      "active_params_b": null
     },
     {
       "id": "model_deepseek_v4_flash_dspark",
@@ -596,7 +630,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "gated": false,
-      "discovered": true
+      "discovered": true,
+      "active_params_b": null
     },
     {
       "id": "model_deepseek_v4_pro",
@@ -613,7 +648,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "gated": false,
-      "discovered": true
+      "discovered": true,
+      "active_params_b": null
     },
     {
       "id": "model_deepseek_v4_pro_0813",
@@ -630,7 +666,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "gated": false,
-      "discovered": true
+      "discovered": true,
+      "active_params_b": null
     },
     {
       "id": "model_gemma_2_2b",
@@ -647,7 +684,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "gated": true,
-      "discovered": true
+      "discovered": true,
+      "active_params_b": null
     },
     {
       "id": "model_gemma_2_2b_it",
@@ -664,7 +702,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "gated": true,
-      "discovered": true
+      "discovered": true,
+      "active_params_b": null
     },
     {
       "id": "model_gemma_2b",
@@ -681,7 +720,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "gated": true,
-      "discovered": true
+      "discovered": true,
+      "active_params_b": null
     },
     {
       "id": "model_gemma_3_1b_it",
@@ -698,7 +738,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "gated": true,
-      "discovered": true
+      "discovered": true,
+      "active_params_b": null
     },
     {
       "id": "model_gemma_3_270m",
@@ -715,7 +756,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "gated": true,
-      "discovered": true
+      "discovered": true,
+      "active_params_b": null
     },
     {
       "id": "model_gemma_3_270m_it",
@@ -732,7 +774,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "gated": true,
-      "discovered": true
+      "discovered": true,
+      "active_params_b": null
     },
     {
       "id": "model_llama_2_13b_chat_hf",
@@ -749,7 +792,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "gated": true,
-      "discovered": true
+      "discovered": true,
+      "active_params_b": null
     },
     {
       "id": "model_llama_2_7b_chat_hf",
@@ -766,7 +810,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "gated": true,
-      "discovered": true
+      "discovered": true,
+      "active_params_b": null
     },
     {
       "id": "model_llama_2_7b_hf",
@@ -783,7 +828,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "gated": true,
-      "discovered": true
+      "discovered": true,
+      "active_params_b": null
     },
     {
       "id": "model_llama_3_2_1b",
@@ -800,7 +846,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "gated": true,
-      "discovered": true
+      "discovered": true,
+      "active_params_b": null
     },
     {
       "id": "model_llama_3_2_1b_instruct",
@@ -817,7 +864,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "gated": true,
-      "discovered": true
+      "discovered": true,
+      "active_params_b": null
     },
     {
       "id": "model_llama_3_2_3b",
@@ -834,7 +882,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "gated": true,
-      "discovered": true
+      "discovered": true,
+      "active_params_b": null
     },
     {
       "id": "model_llama_3_2_3b_instruct",
@@ -851,7 +900,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "gated": true,
-      "discovered": true
+      "discovered": true,
+      "active_params_b": null
     },
     {
       "id": "model_llama_3_3_70b_instruct",
@@ -868,7 +918,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "gated": true,
-      "discovered": true
+      "discovered": true,
+      "active_params_b": null
     },
     {
       "id": "model_meta_llama_3_70b",
@@ -885,7 +936,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "gated": true,
-      "discovered": true
+      "discovered": true,
+      "active_params_b": null
     },
     {
       "id": "model_meta_llama_3_8b",
@@ -902,7 +954,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "gated": true,
-      "discovered": true
+      "discovered": true,
+      "active_params_b": null
     },
     {
       "id": "model_meta_llama_3_8b_instruct",
@@ -919,7 +972,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "gated": true,
-      "discovered": true
+      "discovered": true,
+      "active_params_b": null
     },
     {
       "id": "model_mistral_7b_instruct_v0_1",
@@ -936,7 +990,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "discovered": true,
-      "gated": false
+      "gated": false,
+      "active_params_b": null
     },
     {
       "id": "model_mistral_7b_instruct_v0_2",
@@ -953,7 +1008,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "discovered": true,
-      "gated": false
+      "gated": false,
+      "active_params_b": null
     },
     {
       "id": "model_mistral_7b_v0_1",
@@ -970,7 +1026,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "discovered": true,
-      "gated": false
+      "gated": false,
+      "active_params_b": null
     },
     {
       "id": "model_phi_1_5",
@@ -987,7 +1044,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "gated": false,
-      "discovered": true
+      "discovered": true,
+      "active_params_b": null
     },
     {
       "id": "model_phi_2",
@@ -1004,7 +1062,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "gated": false,
-      "discovered": true
+      "discovered": true,
+      "active_params_b": null
     },
     {
       "id": "model_phi_3_5_moe_instruct",
@@ -1021,7 +1080,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "gated": false,
-      "discovered": true
+      "discovered": true,
+      "active_params_b": 6.6
     },
     {
       "id": "model_phi_3_mini_128k_instruct",
@@ -1038,7 +1098,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "gated": false,
-      "discovered": true
+      "discovered": true,
+      "active_params_b": null
     },
     {
       "id": "model_phi_3_mini_4k_instruct",
@@ -1055,7 +1116,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "gated": false,
-      "discovered": true
+      "discovered": true,
+      "active_params_b": null
     },
     {
       "id": "model_phi_4_mini_instruct",
@@ -1072,7 +1134,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "gated": false,
-      "discovered": true
+      "discovered": true,
+      "active_params_b": null
     },
     {
       "id": "model_qwen2_5_0_5b",
@@ -1089,7 +1152,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "discovered": true,
-      "gated": false
+      "gated": false,
+      "active_params_b": null
     },
     {
       "id": "model_qwen2_5_0_5b_instruct",
@@ -1106,7 +1170,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "discovered": true,
-      "gated": false
+      "gated": false,
+      "active_params_b": null
     },
     {
       "id": "model_qwen2_5_1_5b",
@@ -1123,7 +1188,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "discovered": true,
-      "gated": false
+      "gated": false,
+      "active_params_b": null
     },
     {
       "id": "model_qwen2_5_1_5b_instruct",
@@ -1140,7 +1206,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "discovered": true,
-      "gated": false
+      "gated": false,
+      "active_params_b": null
     },
     {
       "id": "model_qwen2_5_32b_instruct",
@@ -1157,7 +1224,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "discovered": true,
-      "gated": false
+      "gated": false,
+      "active_params_b": null
     },
     {
       "id": "model_qwen2_5_7b",
@@ -1174,7 +1242,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "discovered": true,
-      "gated": false
+      "gated": false,
+      "active_params_b": null
     },
     {
       "id": "model_qwen2_5_coder_14b_instruct",
@@ -1191,7 +1260,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "discovered": true,
-      "gated": false
+      "gated": false,
+      "active_params_b": null
     },
     {
       "id": "model_qwen2_5_coder_1_5b",
@@ -1208,7 +1278,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "discovered": true,
-      "gated": false
+      "gated": false,
+      "active_params_b": null
     },
     {
       "id": "model_qwen2_5_coder_1_5b_instruct",
@@ -1225,7 +1296,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "discovered": true,
-      "gated": false
+      "gated": false,
+      "active_params_b": null
     },
     {
       "id": "model_qwen2_5_coder_32b_instruct",
@@ -1242,7 +1314,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "discovered": true,
-      "gated": false
+      "gated": false,
+      "active_params_b": null
     },
     {
       "id": "model_qwen2_5_coder_3b_instruct",
@@ -1259,7 +1332,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "discovered": true,
-      "gated": false
+      "gated": false,
+      "active_params_b": null
     },
     {
       "id": "model_qwen2_5_coder_7b_instruct",
@@ -1276,7 +1350,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "discovered": true,
-      "gated": false
+      "gated": false,
+      "active_params_b": null
     },
     {
       "id": "model_qwen3_0_6b",
@@ -1293,7 +1368,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "discovered": true,
-      "gated": false
+      "gated": false,
+      "active_params_b": null
     },
     {
       "id": "model_qwen3_0_6b_base",
@@ -1310,7 +1386,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "discovered": true,
-      "gated": false
+      "gated": false,
+      "active_params_b": null
     },
     {
       "id": "model_qwen3_14b",
@@ -1327,7 +1404,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "discovered": true,
-      "gated": false
+      "gated": false,
+      "active_params_b": null
     },
     {
       "id": "model_qwen3_1_7b",
@@ -1344,7 +1422,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "discovered": true,
-      "gated": false
+      "gated": false,
+      "active_params_b": null
     },
     {
       "id": "model_qwen3_1_7b_base",
@@ -1361,7 +1440,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "discovered": true,
-      "gated": false
+      "gated": false,
+      "active_params_b": null
     },
     {
       "id": "model_qwen3_235b_a22b",
@@ -1378,7 +1458,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "discovered": true,
-      "gated": false
+      "gated": false,
+      "active_params_b": null
     },
     {
       "id": "model_qwen3_30b_a3b",
@@ -1395,7 +1476,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "discovered": true,
-      "gated": false
+      "gated": false,
+      "active_params_b": null
     },
     {
       "id": "model_qwen3_30b_a3b_instruct_2507",
@@ -1412,7 +1494,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "discovered": true,
-      "gated": false
+      "gated": false,
+      "active_params_b": null
     },
     {
       "id": "model_qwen3_32b",
@@ -1429,7 +1512,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "discovered": true,
-      "gated": false
+      "gated": false,
+      "active_params_b": null
     },
     {
       "id": "model_qwen3_4b",
@@ -1446,7 +1530,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "discovered": true,
-      "gated": false
+      "gated": false,
+      "active_params_b": null
     },
     {
       "id": "model_qwen3_4b_base",
@@ -1463,7 +1548,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "discovered": true,
-      "gated": false
+      "gated": false,
+      "active_params_b": null
     },
     {
       "id": "model_qwen3_4b_gguf",
@@ -1480,7 +1566,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "discovered": true,
-      "gated": false
+      "gated": false,
+      "active_params_b": null
     },
     {
       "id": "model_qwen3_4b_instruct_2507",
@@ -1497,7 +1584,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "discovered": true,
-      "gated": false
+      "gated": false,
+      "active_params_b": null
     },
     {
       "id": "model_qwen3_4b_thinking_2507",
@@ -1514,7 +1602,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "discovered": true,
-      "gated": false
+      "gated": false,
+      "active_params_b": null
     },
     {
       "id": "model_qwen3_8b",
@@ -1531,7 +1620,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "discovered": true,
-      "gated": false
+      "gated": false,
+      "active_params_b": null
     },
     {
       "id": "model_qwen3_8b_base",
@@ -1548,7 +1638,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "discovered": true,
-      "gated": false
+      "gated": false,
+      "active_params_b": null
     },
     {
       "id": "model_qwen3_8b_gguf",
@@ -1565,7 +1656,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "discovered": true,
-      "gated": false
+      "gated": false,
+      "active_params_b": null
     },
     {
       "id": "model_qwen3_coder_30b_a3b_instruct",
@@ -1582,7 +1674,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "discovered": true,
-      "gated": false
+      "gated": false,
+      "active_params_b": null
     },
     {
       "id": "model_qwen3_coder_next",
@@ -1599,7 +1692,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "gated": false,
-      "discovered": true
+      "discovered": true,
+      "active_params_b": null
     },
     {
       "id": "model_t5gemma_2b_2b_ul2_it",
@@ -1616,7 +1710,8 @@
         "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
       ],
       "gated": true,
-      "discovered": true
+      "discovered": true,
+      "active_params_b": null
     }
   ]
 }

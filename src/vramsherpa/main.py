@@ -18,7 +18,12 @@ from sqlalchemy.orm import Session
 
 from vramsherpa.config import Settings, get_settings
 from vramsherpa.database import configure_engine, create_db_and_tables, get_session
-from vramsherpa.estimation import FitBadge, estimate_breakdown, estimate_variant
+from vramsherpa.estimation import (
+    FitBadge,
+    estimate_breakdown,
+    estimate_decode_speed,
+    estimate_variant,
+)
 from vramsherpa.models import GPU, CatalogMeta, Model, Variant
 
 CONTEXT_OPTIONS = (2048, 4096, 8192)
@@ -45,6 +50,11 @@ class ResultRow:
     classification: str
     recommended: bool
     gated: bool = False
+    # None whenever the GPU is unknown (manual VRAM entry) or its bandwidth is
+    # missing: an unknown speed is left blank rather than guessed.
+    decode_low_tps: float | None = None
+    decode_high_tps: float | None = None
+    decode_is_moe: bool = False
 
     @property
     def classification_slug(self) -> str:
@@ -309,6 +319,20 @@ def _variant_query(
     return stmt
 
 
+def _selected_gpu_bandwidth(gpus: list[GPU], selected_gpu_id: str | None) -> float | None:
+    """Memory bandwidth of the chosen GPU, or None when VRAM was typed by hand.
+
+    Speed depends on the card, not just its capacity, so a manual VRAM figure
+    cannot support an estimate.
+    """
+    if not selected_gpu_id:
+        return None
+    for gpu in gpus:
+        if gpu.id == selected_gpu_id:
+            return float(gpu.bandwidth_gb_s) if gpu.bandwidth_gb_s is not None else None
+    return None
+
+
 def _build_results(
     session: Session,
     *,
@@ -319,6 +343,7 @@ def _build_results(
     min_params_b: float | None,
     max_params_b: float | None,
     recommended_only: bool,
+    bandwidth_gb_s: float | None = None,
 ) -> list[ResultRow]:
     rows: list[ResultRow] = []
     stmt = _variant_query(
@@ -329,6 +354,12 @@ def _build_results(
         recommended_only=recommended_only,
     )
     for variant, model in session.execute(stmt).all():
+        speed = estimate_decode_speed(
+            params_b=float(model.params_b),
+            bits_effective=float(variant.bits_effective),
+            bandwidth_gb_s=bandwidth_gb_s,
+            active_params_b=float(model.active_params_b) if model.active_params_b else None,
+        )
         estimate = estimate_variant(
             params_b=float(model.params_b),
             bits_effective=float(variant.bits_effective),
@@ -353,6 +384,9 @@ def _build_results(
                 classification=estimate.classification.value,
                 recommended=bool(variant.recommended),
                 gated=bool(model.gated),
+                decode_low_tps=speed.low_tps if speed else None,
+                decode_high_tps=speed.high_tps if speed else None,
+                decode_is_moe=speed.is_mixture_of_experts if speed else False,
             )
         )
 
@@ -969,6 +1003,7 @@ def _results_page_context(
         min_params_b=parsed_min_params_b,
         max_params_b=parsed_max_params_b,
         recommended_only=recommended_only,
+        bandwidth_gb_s=_selected_gpu_bandwidth(gpus, selected_gpu_id),
     )
     return _results_context(
         request,
