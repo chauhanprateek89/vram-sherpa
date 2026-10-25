@@ -91,7 +91,7 @@
         "T-002"
       ],
       "notes": "UI: no. No file under `src/vramsherpa/static/` changes, so `ASSET_VERSION` is not bumped (rule 21). Starlette's `RedirectResponse` defaults to 307: pass 302 explicitly, and if a test shows any re-encoding of the query, set `Location` on a plain `Response`. Reuse T-002's helper.",
-      "review": "pending",
+      "review": "passed",
       "passes": false
     },
     {

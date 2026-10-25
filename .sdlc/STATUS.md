@@ -16,7 +16,7 @@
 
 Build T-001..T-021 in order (features.json), one builder then one reviewer per task, run by the orchestrator by hand because the sdlc:build workflow runner is not available in this session (same loop: fix after a failed review, rebuild on opus after two, stop after three or on a blocked task). Then QA (sdlc:qa per requirement), Release PR (squash-merge), Gate 3.
 
-Build progress: T-001 passed; T-002 passed
+Build progress: T-001 passed; T-002 passed; T-003 passed
 
 Follow-ups found at onboarding (not part of this track): host guard ignores APP_ENV/PUBLIC_HOSTNAME that docs/RELEASE_AND_DEPLOY.md tells the server to set (tunnel requests would get 400); release.yml pushes :latest before the smoke test; smoke test never hits /results; no Cache-Control on HTML (rule 9); local docker-compose.yml binds 8000 on all interfaces (rule 3).
 
@@ -48,3 +48,4 @@ Follow-ups found at onboarding (not part of this track): host guard ignores APP_
 | 2026-10-25 | Plan | sdlc:architect (inherit) | 21 tasks (T-001..T-021; 6 opus, 15 sonnet); ADR-0005/0006 accepted; found hx-push-url inheritance bug on the breakdown (fixed in T-002) |
 | 2026-10-25 | Build | sdlc:builder (opus), sdlc:reviewer (inherit) | T-001 passed: commit 7a13856, passed first review |
 | 2026-10-25 | Build | sdlc:builder (opus), sdlc:reviewer (inherit) | T-002 passed: commit 39aa734, passed first review; nit: .results-layout CSS now unused, T-010/T-011 to delete |
+| 2026-10-25 | Build | sdlc:builder (opus), sdlc:reviewer (inherit) | T-003 passed: commit 337cd0a, passed first review; nit: RedirectResponse percent-encodes raw | ^ { } in Location (same meaning) |
