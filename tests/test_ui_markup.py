@@ -1,4 +1,4 @@
-"""T-010 and T-011: the page shell on every page, and the form tile on `/` and `/results`."""
+"""T-010 to T-012: the page shell, the form tile on `/` and `/results`, and its filters."""
 
 from __future__ import annotations
 
@@ -359,11 +359,161 @@ def test_context_presets_are_a_segmented_control_of_auto_filter_radios(client: T
     assert not [n for n in form.walk() if "context-pill" in n.classes()]
 
 
-@pytest.mark.parametrize("url", ["/", "/results?vram_gb=24&context_tokens=4096"])
-def test_the_filters_stay_inside_the_form_for_t012(client: TestClient, url: str) -> None:
+FILTERED = "/results?vram_gb=24&context_tokens=4096&family=qwen&quant_bucket=Q4"
+APP_JS = ROOT / "src" / "vramsherpa" / "static" / "js" / "app.js"
+
+
+def _filters(url: str, client: TestClient) -> tuple[_Node, _Node]:
     form = _form(url, client)
-    names = {n.attrs.get("name") for n in form.walk() if n.tag == "input"}
-    assert {"family", "quant_bucket", "min_params_b", "max_params_b", "recommended_only"} <= names
+    found = [n for n in form.walk() if n.tag == "details" and "filters" in n.classes()]
+    assert len(found) == 1
+    return form, found[0]
+
+
+@pytest.mark.parametrize("url", ["/", "/results?vram_gb=24&context_tokens=4096", FILTERED])
+def test_filters_are_a_closed_disclosure_at_the_foot_of_the_form(
+    client: TestClient, url: str
+) -> None:
+    form, filters = _filters(url, client)
+    assert "open" not in filters.attrs, "closed at every width (ADR-0006 point 4, Gate 2)"
+    assert filters.parent is form
+    assert form.children[-1] is filters, "the foot of the form tile"
+    assert [c.tag for c in filters.children if c.tag == "summary"] == ["summary"]
+    assert next(c for c in form.children if c.tag == "button").all_text() == "Check compatibility"
+    names = {n.attrs.get("name") for n in filters.walk() if n.tag == "input"}
+    assert names == {"family", "quant_bucket", "min_params_b", "max_params_b", "recommended_only"}
+
+
+@pytest.mark.parametrize(
+    ("url", "expected"),
+    [
+        ("/", 0),
+        ("/results?vram_gb=24&context_tokens=4096", 0),
+        (FILTERED, 2),
+        (FILTERED + "&min_params_b=3&max_params_b=14&recommended_only=true", 5),
+        ("/results?vram_gb=24&family=qwen&family=llama&min_params_b=abc", 2),
+    ],
+)
+def test_summary_counts_the_active_filter_chips(
+    client: TestClient, url: str, expected: int
+) -> None:
+    html = client.get(url).text
+    assert f"<span>Filters (<span data-fcount>{expected}</span>)</span>" in html
+    root = _tree(html)
+    chips = [n for n in root.walk() if "chip-active" in n.classes()]
+    assert len(chips) == expected
+
+
+def test_filters_summary_has_the_funnel_icon_and_the_count(client: TestClient) -> None:
+    _, filters = _filters(FILTERED, client)
+    summary = next(c for c in filters.children if c.tag == "summary")
+    assert any(n.tag == "svg" and n.attrs.get("aria-hidden") == "true" for n in summary.walk())
+    # The nested count span makes the tree helper put the count after the closing bracket.
+    assert summary.all_text().replace(" ", "") == "Filters()2"
+
+
+@pytest.mark.parametrize("url", ["/", FILTERED])
+def test_filters_keep_every_control_label_and_title(client: TestClient, url: str) -> None:
+    form, filters = _filters(url, client)
+    legends = {n.all_text(): n for n in filters.walk() if n.tag == "legend"}
+    assert set(legends) == {"Family", "Quantization"}
+    assert legends["Quantization"].attrs["title"] == (
+        "Quantization level. Lower precision (like Q4) usually uses less VRAM."
+    )
+    labels = {
+        n.attrs.get("for"): n for n in filters.walk() if n.tag == "label" and n.attrs.get("for")
+    }
+    assert labels["min_params_b"].all_text() == "Min params (B)"
+    assert labels["min_params_b"].attrs["title"] == (
+        "Show only models with parameter count greater than or equal to this value."
+    )
+    assert labels["max_params_b"].all_text() == "Max params (B)"
+    assert labels["max_params_b"].attrs["title"] == (
+        "Show only models with parameter count less than or equal to this value."
+    )
+    checks = [n for n in filters.walk() if n.tag == "input" and n.attrs.get("type") == "checkbox"]
+    solo = next(c for c in checks if c.attrs["name"] == "recommended_only")
+    assert solo.parent.all_text() == "Recommended only"
+    assert "choice" in solo.parent.classes()
+    fams = [c.attrs["value"] for c in checks if c.attrs["name"] == "family"]
+    quants = [c.attrs["value"] for c in checks if c.attrs["name"] == "quant_bucket"]
+    assert fams == sorted(fams) and "qwen" in fams
+    assert quants == ["FP16", "Q4", "Q5", "Q8"]
+
+
+def test_checked_filters_are_checked_in_the_markup(client: TestClient) -> None:
+    _, filters = _filters(FILTERED, client)
+    checked = [
+        (n.attrs["name"], n.attrs["value"])
+        for n in filters.walk()
+        if n.tag == "input" and "checked" in n.attrs
+    ]
+    assert checked == [("family", "qwen"), ("quant_bucket", "Q4")]
+
+
+@pytest.mark.parametrize("url", ["/", FILTERED])
+def test_param_bounds_are_decimal_number_fields_that_still_auto_refresh(
+    client: TestClient, url: str
+) -> None:
+    form, _ = _filters(url, client)
+    for name in ("min_params_b", "max_params_b"):
+        field = _by_id(form, name)
+        assert field.attrs["name"] == name
+        assert field.attrs["type"] == "number"
+        assert field.attrs["inputmode"] == "decimal"
+        assert field.attrs["min"] == "0"
+        assert field.attrs["step"] == "0.1"
+        assert "js-auto-filter-text" in field.classes()
+    boxes = [n for n in form.walk() if n.attrs.get("type") == "checkbox"]
+    assert boxes and all("js-auto-filter" in n.classes() for n in boxes)
+
+
+def test_apply_filters_button_sits_in_a_noscript_inside_the_disclosure(
+    client: TestClient,
+) -> None:
+    _, filters = _filters("/", client)
+    noscripts = [n for n in filters.walk() if n.tag == "noscript"]
+    assert len(noscripts) == 1
+    assert 'type="submit" class="btn-secondary">Apply filters</button>' in client.get("/").text
+
+
+def test_filters_have_no_legacy_sidebar_markup(client: TestClient) -> None:
+    html = client.get(FILTERED).text
+    for gone in ("filters-sidebar", "filters-disclosure", "field-help", 'class="checkbox"'):
+        assert gone not in html, gone
+
+
+def test_no_script_opens_the_filters() -> None:
+    js = APP_JS.read_text(encoding="utf-8")
+    assert "filters" in js  # the count listener is there
+    assert not re.search(r"\.open\s*=(?!=)", js), "a script must not set details.open"
+    assert 'setAttribute("open"' not in js and "setAttribute('open'" not in js
+    assert "data-open-wide" not in (TEMPLATES / "index.html").read_text(encoding="utf-8")
+
+
+def test_filter_count_listener_is_delegated_on_document() -> None:
+    js = APP_JS.read_text(encoding="utf-8")
+    assert 'document.addEventListener("input", updateFilterCount)' in js
+    assert 'document.addEventListener("change", updateFilterCount)' in js
+    assert "[data-fcount]" in js
+    assert "input[type=checkbox]:checked" in js
+    assert "input[type=number]" in js
+
+
+def test_filter_checkboxes_have_a_44px_target_at_phone_width() -> None:
+    css = _css()
+    assert "min-height: var(--tap)" in _rules(css, ".choice")[0]
+    assert "--tap: 44px" in css
+    box = _rules(css, ".choice input")[0]
+    assert "width: 22px" in box and "height: 22px" in box
+    assert "min-height: 52px" in _rules(css, ".filters > summary")[0]
+    assert "display: none" in _rules(css, ".filters > summary::-webkit-details-marker")[0]
+
+
+def test_legacy_filter_rules_are_gone() -> None:
+    css = _css()
+    for gone in (".filters-sidebar", ".filters-disclosure", ".filter-group legend", ".checkbox"):
+        assert gone not in css, gone
 
 
 def test_main_is_the_bento_layout_on_the_home_page(client: TestClient) -> None:

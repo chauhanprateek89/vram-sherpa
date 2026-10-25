@@ -207,9 +207,53 @@ function initSegThumbs() {
   document.body.addEventListener("htmx:historyRestore", placeAllThumbs);
 }
 
+// Filters (N): N counts checked family, quantisation and Recommended only boxes plus each
+// non-empty, valid size bound, the same things the server turns into active filter chips.
+// Nothing here opens or closes the disclosure (ADR-0006 point 4); the listener is on document so
+// it survives any swap.
+function isValidSizeBound(input) {
+  if (input.value.trim() === "") {
+    return false;
+  }
+  var value = Number(input.value);
+  var min = input.min === "" ? -Infinity : Number(input.min);
+  return Number.isFinite(value) && value >= min;
+}
+
+function countActiveFilters(scope) {
+  var count = 0;
+  scope.querySelectorAll("input[type=checkbox]:checked").forEach(function () {
+    count += 1;
+  });
+  scope.querySelectorAll("input[type=number]").forEach(function (input) {
+    if (isValidSizeBound(input)) {
+      count += 1;
+    }
+  });
+  return count;
+}
+
+function updateFilterCount() {
+  document.querySelectorAll("details.filters").forEach(function (details) {
+    var count = String(countActiveFilters(details));
+    details.querySelectorAll("[data-fcount]").forEach(function (target) {
+      target.textContent = count;
+    });
+  });
+}
+
+function initFilterCount() {
+  document.addEventListener("input", updateFilterCount);
+  document.addEventListener("change", updateFilterCount);
+  window.addEventListener("pageshow", updateFilterCount);
+  document.body.addEventListener("htmx:historyRestore", updateFilterCount);
+  updateFilterCount();
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   initThemeToggle();
   initSegThumbs();
+  initFilterCount();
   initGpuInputs();
   initExampleChips();
   initModelDetailInputs();

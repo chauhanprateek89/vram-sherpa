@@ -390,19 +390,6 @@ select[multiple] {
   padding-left: 1.2rem;
 }
 
-.filters-sidebar {
-  height: fit-content;
-  position: sticky;
-  top: 5.2rem;
-  display: grid;
-  gap: 0.8rem;
-}
-
-.filters-disclosure summary {
-  cursor: pointer;
-  font-weight: 700;
-}
-
 .advanced-disclosure {
   margin-top: 0.4rem;
 }
@@ -411,57 +398,6 @@ select[multiple] {
   cursor: pointer;
   font-weight: 600;
   color: var(--muted);
-}
-
-.filter-fields {
-  display: grid;
-  gap: 0.7rem;
-  margin-top: 0.7rem;
-}
-
-.filter-group {
-  border: 0;
-  padding: 0;
-  margin: 0;
-}
-
-.filter-group legend {
-  font-size: 0.9rem;
-  color: var(--muted);
-  margin-bottom: 0.35rem;
-}
-
-.checklist {
-  display: grid;
-  gap: 0.45rem;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  padding: 0.55rem;
-  background: var(--panel-alt);
-}
-
-.choice {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin: 0;
-}
-
-.choice input {
-  width: auto;
-  margin: 0;
-}
-
-.checkbox {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-top: 0.3rem;
-}
-
-.checkbox input {
-  width: auto;
-  margin: 0;
 }
 
 .results-main {
@@ -842,10 +778,6 @@ td {
 }
 
 @media (max-width: 980px) {
-  .filters-sidebar {
-    position: static;
-  }
-
   .top-pick-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -860,14 +792,6 @@ td {
   .top-pick-grid {
     grid-template-columns: 1fr;
   }
-
-  .filters-disclosure[open] summary {
-    margin-bottom: 0.5rem;
-  }
-
-  .filters-disclosure:not([open]) .filter-fields {
-    display: none;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -880,8 +804,8 @@ td {
 }
 
 /* ── Form tile (T-011): the bento grid, the form and the segmented control ──
-   Copied from docs/design/build/components.css. Legacy rules below still style the filters (T-012)
-   and the results (T-013 to T-015); the ones this tile replaced are gone. */
+   Copied from docs/design/build/components.css. Legacy rules below still style the results
+   (T-013 to T-015); the ones this tile replaced are gone. */
 
 /* ===== layout: the bento grid ===== */
 .bento { display: grid; gap: var(--gap); grid-template-columns: minmax(0, 1fr); align-items: start; }
@@ -919,7 +843,6 @@ h1.title { font-size: var(--fs-h1); line-height: 1.1; letter-spacing: -.025em; f
 .btn-secondary:active { transform: scale(.97); }
 .htmx-request .btn-primary { cursor: progress; background: linear-gradient(100deg, var(--btn) 30%, color-mix(in srgb, var(--btn) 60%, #fff) 50%, var(--btn) 70%); background-size: 300% 100%; animation: shimmer 1s linear infinite; }
 .form-pane .btn-primary { margin-top: 2px; }
-.form-pane .filters-sidebar { position: static; }
 @keyframes shimmer { from { background-position: 120% 0; } to { background-position: -120% 0; } }
 
 /* segmented control (context presets) */
@@ -935,6 +858,31 @@ h1.title { font-size: var(--fs-h1); line-height: 1.1; letter-spacing: -.025em; f
 @media (prefers-reduced-motion: reduce) {
   .has-thumb .thumb { transition: none; }
 }
+
+/* ===== filters (T-012): a disclosure at the foot of the form tile, closed at every width ===== */
+.filters { border-radius: 22px; padding: 0 6px; }
+.filters > summary { list-style: none; display: flex; align-items: center; gap: 10px; min-height: 52px; padding: 0 14px; cursor: pointer; font-weight: 560; font-size: var(--fs-body); }
+.filters > summary::-webkit-details-marker { display: none; }
+.filters > summary svg { color: var(--accent); flex: none; }
+.filters > summary::after { content: ""; width: 9px; height: 9px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg) translate(-2px, -2px); transition: transform var(--dur-2) var(--ease-out); flex: none; margin-top: -4px; margin-left: auto; }
+.filters[open] > summary::after { transform: rotate(225deg) translate(-2px, -2px); margin-top: 2px; }
+.filters > summary:hover { color: var(--accent); }
+.filter-fields { display: grid; gap: 18px; padding: 4px 14px 20px; }
+.filters > noscript { display: block; padding: 0 14px 20px; }
+.form-pane .filter-group { min-width: 0; }
+.filters legend, .filters .field label { display: block; font-size: var(--fs-caption); font-weight: 560; margin-bottom: 6px; letter-spacing: .01em; padding: 0; color: var(--ink); }
+.checklist { display: flex; flex-wrap: wrap; gap: 8px; }
+.choice { display: inline-flex; align-items: center; gap: 10px; min-height: var(--tap); padding: 0 14px 0 10px; border-radius: 14px; margin: 0; background: var(--seg); border: 1px solid var(--edge); color: var(--ink); font-weight: 500; font-size: var(--fs-small); cursor: pointer; transition: background var(--dur-1); }
+.choice:hover { background: var(--inset); }
+.choice input { appearance: none; -webkit-appearance: none; margin: 0; padding: 0; width: 22px; height: 22px; border-radius: 7px; border: 2px solid var(--line); background: var(--field); flex: none; display: grid; place-items: center; transition: background var(--dur-1), border-color var(--dur-1); }
+.choice input:checked { background: var(--pressed); border-color: var(--pressed); }
+.choice input:checked::after { content: ""; width: 10px; height: 5px; border-left: 2.5px solid var(--on-pressed); border-bottom: 2.5px solid var(--on-pressed); transform: rotate(-45deg) translate(1px, -1px); }
+.choice input:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.frange { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.frange .field { min-width: 0; }
+.choice-solo { grid-column: 1 / -1; justify-self: start; }
+@keyframes whyIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+details[open] > .filter-fields { animation: whyIn var(--dur-2) var(--ease-out); }
 
 /* ── Results: one card per model ──────────────────────────────────────────────
    Quantisation is a control inside the card rather than four separate rows, and
