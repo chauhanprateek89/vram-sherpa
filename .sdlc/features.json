@@ -61,7 +61,7 @@
         "T-001"
       ],
       "notes": "UI: no visual change intended; the move of `#results-shell` is structural and T-010/T-011 restyle the layout, so the old layout may sit differently until then. No file under `src/vramsherpa/static/` changes, so `ASSET_VERSION` is not bumped (rule 21). Use `request.url.query` (already percent-encoded), never `request.url` scheme or host. Real-browser Back/Forward/reload steps of R-081 are QA's (rule 10).",
-      "review": "pending",
+      "review": "passed",
       "passes": false
     },
     {
