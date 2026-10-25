@@ -290,7 +290,7 @@
         "T-008"
       ],
       "notes": "No `styles.css` change needed here; header sizing comes in T-010. Do not add Pillow or any export tool to `pyproject.toml`.",
-      "review": "pending",
+      "review": "passed",
       "passes": false
     },
     {
