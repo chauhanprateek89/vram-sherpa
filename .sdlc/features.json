@@ -380,7 +380,7 @@
         "T-010"
       ],
       "notes": "Filters (the `<details>` at the foot of this tile) are T-012; the answer tile is T-013.",
-      "review": "pending",
+      "review": "passed",
       "passes": false
     },
     {
