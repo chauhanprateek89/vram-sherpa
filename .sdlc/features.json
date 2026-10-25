@@ -209,7 +209,7 @@
         "T-006"
       ],
       "notes": "UI: no. No file under `src/vramsherpa/static/` changes, so `ASSET_VERSION` is not bumped (rule 21). Fetch the asset URLs without `X-Forwarded-Proto` (they render as `http://127.0.0.1:8000/static/...`). Use `curl -s -D - -o /dev/null` rather than `curl -I`, which sends HEAD. No paid service or new runner (rules 2 and 4).",
-      "review": "pending",
+      "review": "passed",
       "passes": false
     },
     {
