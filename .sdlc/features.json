@@ -25,7 +25,7 @@
       "model": "opus",
       "dependsOn": [],
       "notes": "UI: no. No file under `src/vramsherpa/static/` changes, so `ASSET_VERSION` is not bumped (rule 21). Use the same `app.middleware(\"http\")` style as `host_guard`. Do not touch the `/static` mount or the host guard logic.",
-      "review": "pending",
+      "review": "passed",
       "passes": false
     },
     {
