@@ -21,6 +21,11 @@
 | 2026-10-25 | 2 (round 1) | Fix the htmx history-miss bug (a back navigation replaces the page with the bare results fragment) in this change. |
 | 2026-10-25 | 2 (round 1) | Amend constitution rule 21: any change under `static/` (not only CSS and JS) bumps `ASSET_VERSION`. |
 | 2026-10-25 | 2 (round 1) | The /how-it-works worked example uses a real catalog 8B model, so the page agrees with that model's card (about 7.33 GB at Q4, 2048 tokens), replacing the 6.72 GB test inputs. |
+| 2026-10-25 | 2 (round 1 redo) | Direction: "D layout + E glass": D Bento's tile grid built from E Glass's frosted panes and type (Outfit). Every screen and state is mocked up in this hybrid for Gate 2. |
+| 2026-10-25 | 2 (round 1 redo) | Old saved or shared links to `/results/partials/content?…`, opened as a normal page, redirect to `/results?…`. |
+| 2026-10-25 | 2 (round 1 redo) | Not selected: re-wiring the theme toggle and GPU input after htmx restores a page from its cache. That stays a known issue, outside this change. |
+| 2026-10-25 | 2 (round 1 redo) | Q-12: if Llama 3.1 8B Instruct leaves the catalog, /how-it-works keeps the worked example from fixed inputs, unnamed ("an 8B model at Q4"). |
+| 2026-10-25 | 2 (round 1 redo) | Q-13 resolved by ADR-0008: reload and shared links show the full page, so R-081 covers reload and share as well as Back/Forward. |
 
 ## Made during work
 

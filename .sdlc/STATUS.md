@@ -3,18 +3,18 @@
 | | |
 | --- | --- |
 | Track | Full: UI/UX overhaul |
-| Stage | Gate 2 round 1 (redo) |
+| Stage | Mockups round 2 |
 | Branch | sdlc/full-ui-overhaul |
-| Gate waiting | Gate 2 round 1: pick a direction (D Bento, E Glass, F Spatial) at https://claude.ai/artifact/GpFFFNrx4duQTg63MYdQQQ; htmx follow-ons; Q-12 |
+| Gate waiting | none |
 | Updated | 2026-10-25 |
 
 ## Your actions
 
-- Pick a direction at https://claude.ai/artifact/GpFFFNrx4duQTg63MYdQQQ and answer the open points.
+- none
 
 ## Next step
 
-Wait for the pick. Then uiux round 2 (every R-067 screen and state in the chosen direction; fix mockup counts so the Tight count matches the cards per R-022) in parallel with product folding the htmx/Q-12 answers into R-075/R-081. Then Gate 2 proper (incl. Q-2 copy approval).
+Running in parallel: uiux round 2 (every R-067 screen and state in the D-layout + E-glass hybrid, copy table for Q-2 approval, republish the same artifact); product folds the round 1 redo answers into R-075/R-081 and closes Q-12/Q-13; architect adds the partial-link redirect to ADR-0008/HLD. Then Gate 2 proper.
 
 Follow-ups found at onboarding (not part of this track): host guard ignores APP_ENV/PUBLIC_HOSTNAME that docs/RELEASE_AND_DEPLOY.md tells the server to set (tunnel requests would get 400); release.yml pushes :latest before the smoke test; smoke test never hits /results; no Cache-Control on HTML (rule 9); local docker-compose.yml binds 8000 on all interfaces (rule 3).
 
@@ -37,3 +37,4 @@ Follow-ups found at onboarding (not part of this track): host guard ignores APP_
 | 2026-10-25 | Requirements | sdlc:product (inherit) | R-075 uses Llama 3.1 8B Instruct (7.33 GB); R-081 htmx history-miss added; open Q-12 (fallback if model leaves catalog), Q-13 (pushed partial URL breaks reload/share) |
 | 2026-10-25 | Design | sdlc:architect (inherit) | Rule 21 amended (all static/); ADR-0007 revised (real model + fallback); ADR-0008 htmx history fix (HX-Push-Url to /results, refreshOnHistoryMiss, full page on history restore) also fixes reload/share; open: old partial links, dead controls after Back, Q-12 |
 | 2026-10-25 | Mockups r1b | sdlc:uiux (inherit) | 3 new directions D Bento, E Glass, F Spatial with spec sheets and live states; artifact v2 at same URL; A-C archived in docs/design/rejected-r1/ |
+| 2026-10-25 | Gate 2 r1 redo | user | Direction: D layout + E glass; redirect old partial links; controls-after-Back not selected; Q-12 keep unnamed |
