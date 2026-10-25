@@ -522,6 +522,24 @@ def _results_url(items: list[tuple[str, str]]) -> str:
     return f"/results?{encoded}" if encoded else "/results"
 
 
+def _results_page_url(raw_query: str) -> str:
+    """Full-page URL for a request's raw query string, passed through byte for byte.
+
+    `raw_query` is `request.url.query`: still percent-encoded, repeated parameters in
+    order. The result is a path with no scheme or host, so it cannot point off-site.
+    Used for the partial's `HX-Push-Url` and for the old-link redirect (ADR-0008).
+    """
+    return f"/results?{raw_query}" if raw_query else "/results"
+
+
+def _is_htmx_fragment_request(request: Request) -> bool:
+    """True for an htmx swap; False for a page load or htmx's history-restore fetch."""
+    return (
+        request.headers.get("HX-Request") == "true"
+        and request.headers.get("HX-History-Restore-Request") != "true"
+    )
+
+
 def _active_filter_chips(
     *,
     selected_gpu_id: str | None,
@@ -1088,7 +1106,8 @@ def results(
         recommended_only=recommended_only,
     )
 
-    if request.headers.get("HX-Request") == "true":
+    # A history-restore fetch swaps the response into <body>, so it needs the full page.
+    if _is_htmx_fragment_request(request):
         return templates.TemplateResponse(request, "results_content.html", context)
     return templates.TemplateResponse(request, "index.html", context)
 
@@ -1119,7 +1138,14 @@ def results_partial_content(
         max_params_b=max_params_b,
         recommended_only=recommended_only,
     )
-    return templates.TemplateResponse(request, "results_content.html", context)
+    # Overrides the form's hx-push-url="true", so history and the address bar name
+    # the full page rather than this fragment (ADR-0008 fix 1).
+    return templates.TemplateResponse(
+        request,
+        "results_content.html",
+        context,
+        headers={"HX-Push-Url": _results_page_url(request.url.query)},
+    )
 
 
 def results_partial_summary(

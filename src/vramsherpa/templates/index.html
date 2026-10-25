@@ -109,65 +109,64 @@
     </div>
   </section>
 
-  <section class="results-layout">
-    <aside class="panel filters-sidebar">
-      <details class="filters-disclosure" open>
-        <summary>Filters</summary>
-        <div class="filter-fields">
-          <fieldset class="filter-group">
-            <legend>Family</legend>
-            <div class="checklist">
-              {% for fam in families %}
-                <label class="choice">
-                  <input class="js-auto-filter" type="checkbox" name="family" value="{{ fam }}" {% if fam in selected_families %}checked{% endif %} />
-                  <span>{{ fam }}</span>
-                </label>
-              {% endfor %}
-            </div>
-          </fieldset>
+  <aside class="panel filters-sidebar">
+    <details class="filters-disclosure" open>
+      <summary>Filters</summary>
+      <div class="filter-fields">
+        <fieldset class="filter-group">
+          <legend>Family</legend>
+          <div class="checklist">
+            {% for fam in families %}
+              <label class="choice">
+                <input class="js-auto-filter" type="checkbox" name="family" value="{{ fam }}" {% if fam in selected_families %}checked{% endif %} />
+                <span>{{ fam }}</span>
+              </label>
+            {% endfor %}
+          </div>
+        </fieldset>
 
-          <fieldset class="filter-group">
-            <legend title="Quantization level. Lower precision (like Q4) usually uses less VRAM.">
-              Quantization
-            </legend>
-            <div class="checklist">
-              {% for quant in quant_options %}
-                <label class="choice">
-                  <input class="js-auto-filter" type="checkbox" name="quant_bucket" value="{{ quant }}" {% if quant in selected_quant_buckets %}checked{% endif %} />
-                  <span>{{ quant }}</span>
-                </label>
-              {% endfor %}
-            </div>
-          </fieldset>
+        <fieldset class="filter-group">
+          <legend title="Quantization level. Lower precision (like Q4) usually uses less VRAM.">
+            Quantization
+          </legend>
+          <div class="checklist">
+            {% for quant in quant_options %}
+              <label class="choice">
+                <input class="js-auto-filter" type="checkbox" name="quant_bucket" value="{{ quant }}" {% if quant in selected_quant_buckets %}checked{% endif %} />
+                <span>{{ quant }}</span>
+              </label>
+            {% endfor %}
+          </div>
+        </fieldset>
 
-          <label for="min_params_b" title="Show only models with parameter count greater than or equal to this value.">
-            Min params (B)
-          </label>
-          <input id="min_params_b" class="js-auto-filter-text" type="number" min="0" step="0.1" name="min_params_b" value="{{ min_params_b_input }}" />
-          <p class="field-help">Lower bound on model size in billions of parameters.</p>
+        <label for="min_params_b" title="Show only models with parameter count greater than or equal to this value.">
+          Min params (B)
+        </label>
+        <input id="min_params_b" class="js-auto-filter-text" type="number" min="0" step="0.1" name="min_params_b" value="{{ min_params_b_input }}" />
+        <p class="field-help">Lower bound on model size in billions of parameters.</p>
 
-          <label for="max_params_b" title="Show only models with parameter count less than or equal to this value.">
-            Max params (B)
-          </label>
-          <input id="max_params_b" class="js-auto-filter-text" type="number" min="0" step="0.1" name="max_params_b" value="{{ max_params_b_input }}" />
-          <p class="field-help">Upper bound on model size in billions of parameters.</p>
+        <label for="max_params_b" title="Show only models with parameter count less than or equal to this value.">
+          Max params (B)
+        </label>
+        <input id="max_params_b" class="js-auto-filter-text" type="number" min="0" step="0.1" name="max_params_b" value="{{ max_params_b_input }}" />
+        <p class="field-help">Upper bound on model size in billions of parameters.</p>
 
-          <label class="checkbox">
-            <input class="js-auto-filter" type="checkbox" name="recommended_only" value="true" {% if recommended_only %}checked{% endif %} />
-            Recommended only
-          </label>
-        </div>
-      </details>
-      <noscript>
-        <button type="submit" class="btn-secondary">Apply filters</button>
-      </noscript>
-    </aside>
-
-    <section class="results-main">
-      <div id="results-shell">
-        {% include "results_content.html" %}
+        <label class="checkbox">
+          <input class="js-auto-filter" type="checkbox" name="recommended_only" value="true" {% if recommended_only %}checked{% endif %} />
+          Recommended only
+        </label>
       </div>
-    </section>
-  </section>
+    </details>
+    <noscript>
+      <button type="submit" class="btn-secondary">Apply filters</button>
+    </noscript>
+  </aside>
 </form>
+
+{# Outside the form, so breakdown triggers do not inherit hx-push-url (ADR-0006 point 9). #}
+<section class="results-main">
+  <div id="results-shell">
+    {% include "results_content.html" %}
+  </div>
+</section>
 {% endblock %}
