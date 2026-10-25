@@ -155,8 +155,61 @@ function initModelDetailInputs() {
   });
 }
 
+// Sliding thumb behind the context presets. Progressive: without this the checked label paints
+// its own fill (styles.css), and with it the thumb is placed from the checked label's box.
+function placeThumb(group) {
+  var checked = group.querySelector("input:checked");
+  var label = checked ? checked.closest("label") : null;
+  if (!label) {
+    return;
+  }
+  group.style.setProperty("--x", label.offsetLeft + "px");
+  group.style.setProperty("--y", label.offsetTop + "px");
+  group.style.setProperty("--w", label.offsetWidth + "px");
+  group.style.setProperty("--h", label.offsetHeight + "px");
+}
+
+function placeAllThumbs() {
+  document.querySelectorAll("[data-thumb]").forEach(placeThumb);
+}
+
+function initSegThumbs() {
+  var groups = document.querySelectorAll("[data-thumb]");
+  if (!groups.length) {
+    return;
+  }
+  groups.forEach(function (group) {
+    if (group.classList.contains("has-thumb")) {
+      return;
+    }
+    var thumb = document.createElement("span");
+    thumb.className = "thumb";
+    thumb.setAttribute("aria-hidden", "true");
+    group.prepend(thumb);
+    group.classList.add("has-thumb");
+    placeThumb(group);
+  });
+  // A web font changes label widths, a resize changes the layout, and a swap or a restored
+  // history page can change which radio is checked.
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(placeAllThumbs);
+  }
+  window.addEventListener("resize", placeAllThumbs);
+  window.addEventListener("load", placeAllThumbs);
+  window.addEventListener("pageshow", placeAllThumbs);
+  document.addEventListener("change", function (event) {
+    var group = event.target.closest ? event.target.closest("[data-thumb]") : null;
+    if (group) {
+      placeThumb(group);
+    }
+  });
+  document.body.addEventListener("htmx:afterSettle", placeAllThumbs);
+  document.body.addEventListener("htmx:historyRestore", placeAllThumbs);
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   initThemeToggle();
+  initSegThumbs();
   initGpuInputs();
   initExampleChips();
   initModelDetailInputs();

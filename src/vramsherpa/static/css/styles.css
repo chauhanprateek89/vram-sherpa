@@ -315,66 +315,6 @@ a:hover {
   box-shadow: 0 10px 20px color-mix(in srgb, var(--text) 4%, transparent);
 }
 
-.search-form {
-  display: grid;
-  gap: 1rem;
-  min-width: 0;
-}
-
-.hero-panel h1 {
-  margin: 0 0 0.4rem;
-  font-size: clamp(1.6rem, 2.2vw, 2.1rem);
-}
-
-.hero-copy {
-  margin: 0;
-  color: var(--muted);
-  max-width: 52ch;
-}
-
-.hero-panel {
-  background:
-    linear-gradient(
-      140deg,
-      color-mix(in srgb, var(--brand) 9%, var(--panel-solid)) 0%,
-      var(--panel-solid) 42%
-    );
-}
-
-.hero-paths {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-.input-path {
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  padding: 0.9rem;
-  background: var(--panel-alt);
-}
-
-.input-path h2 {
-  font-size: 1rem;
-  margin: 0 0 0.65rem;
-}
-
-.gpu-input-row {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-}
-
-.gpu-input-row input {
-  flex: 1;
-}
-
-.btn-clear {
-  width: auto !important;
-  min-width: 4.5rem;
-}
-
 label {
   display: block;
   font-size: 0.9rem;
@@ -407,67 +347,6 @@ select[multiple] {
   min-height: 6rem;
 }
 
-.context-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.5rem;
-  margin: 1rem 0 0;
-  padding: 0;
-  border: 0;
-}
-
-.context-buttons legend {
-  width: 100%;
-  font-size: 0.95rem;
-  color: var(--muted);
-  margin-bottom: 0.45rem;
-}
-
-.context-buttons .context-pill {
-  position: relative;
-  display: inline-flex;
-  margin: 0;
-  width: auto;
-  align-items: center;
-  cursor: pointer;
-}
-
-.context-buttons .context-pill input {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.context-buttons .context-pill span {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 3rem;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  padding: 0.42rem 0.8rem;
-  font-weight: 600;
-  background: var(--panel-solid);
-}
-
-.context-buttons .context-pill input:checked + span {
-  background: var(--brand);
-  border-color: var(--brand);
-  color: var(--on-btn);
-}
-
-.example-chips {
-  margin-top: 0.9rem;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.hero-context {
-  margin-top: 1rem;
-}
-
 .chip {
   display: inline-flex;
   width: auto !important;
@@ -482,44 +361,15 @@ select[multiple] {
   padding: 0.38rem 0.72rem;
 }
 
-.chip-example {
-  cursor: pointer;
-  transition: transform 120ms ease, border-color 120ms ease, background-color 120ms ease;
-}
-
-.chip-example:hover {
-  transform: translateY(-1px);
-  border-color: color-mix(in srgb, var(--brand) 45%, var(--line));
-  background: color-mix(in srgb, var(--brand) 10%, var(--panel-alt));
-}
-
 .chip-active {
   background: color-mix(in srgb, var(--brand) 12%, var(--panel-solid));
   border-color: color-mix(in srgb, var(--brand) 45%, var(--line));
-}
-
-.hero-actions {
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
-  margin-top: 1rem;
-}
-
-.hero-actions a {
-  font-weight: 600;
 }
 
 .field-help {
   margin: 0.35rem 0 0;
   color: var(--muted);
   font-size: 0.82rem;
-}
-
-.field-warning {
-  margin: 0.4rem 0 0;
-  color: var(--badge-tight-text);
-  font-size: 0.84rem;
-  font-weight: 600;
 }
 
 .form-alert {
@@ -538,28 +388,6 @@ select[multiple] {
 .form-alert ul {
   margin: 0.45rem 0 0;
   padding-left: 1.2rem;
-}
-
-.btn-primary,
-.btn-secondary {
-  width: auto;
-  min-width: 10rem;
-  color: var(--on-btn);
-  border: 1px solid var(--brand);
-  background: var(--brand);
-  font-weight: 600;
-  cursor: pointer;
-  transition: transform 120ms ease, filter 120ms ease, background-color 120ms ease;
-}
-
-.btn-primary:hover,
-.btn-secondary:hover {
-  transform: translateY(-1px);
-  filter: brightness(0.97);
-}
-
-.btn-secondary {
-  background: color-mix(in srgb, var(--brand) 85%, var(--on-btn));
 }
 
 .filters-sidebar {
@@ -1024,27 +852,9 @@ td {
 }
 
 @media (max-width: 780px) {
-  .hero-paths {
-    grid-template-columns: 1fr;
-  }
-
-  .gpu-input-row {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
   .summary-grid,
   .numbers-grid {
     grid-template-columns: 1fr;
-  }
-
-  .hero-actions {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .hero-actions .btn-primary {
-    width: 100%;
   }
 
   .top-pick-grid {
@@ -1067,6 +877,63 @@ td {
     transition: none !important;
     animation: none !important;
   }
+}
+
+/* ── Form tile (T-011): the bento grid, the form and the segmented control ──
+   Copied from docs/design/build/components.css. Legacy rules below still style the filters (T-012)
+   and the results (T-013 to T-015); the ones this tile replaced are gone. */
+
+/* ===== layout: the bento grid ===== */
+.bento { display: grid; gap: var(--gap); grid-template-columns: minmax(0, 1fr); align-items: start; }
+#results-shell { display: contents; }
+@media (min-width: 900px) {
+  .bento { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
+  .form-pane { grid-column: 1; grid-row: 1; }
+  /* Until the answer tile lands (T-013) the unmigrated results share the right-hand column. */
+  .bento > .results-main { grid-column: 2; grid-row: 1; }
+}
+
+/* ===== form ===== */
+.form-pane { padding: var(--pad-pane); display: flex; flex-direction: column; gap: 14px; }
+.form-pane h1, .form-pane fieldset { margin: 0; padding: 0; }
+.form-pane fieldset { border: 0; min-width: 0; }
+h1.title { font-size: var(--fs-h1); line-height: 1.1; letter-spacing: -.025em; font-weight: 500; }
+.hint { color: var(--muted); font-size: var(--fs-small); margin: -6px 0 0; }
+.f-gpu label, .f-vram label, .f-ctx legend { display: block; font-size: var(--fs-caption); font-weight: 560; margin-bottom: 6px; letter-spacing: .01em; padding: 0; color: var(--ink); }
+.form-pane input[type=text], .form-pane input[type=number] { width: 100%; min-height: 52px; padding: 0 16px; border-radius: var(--r-in); border: 1.5px solid var(--line); background: var(--field); box-shadow: var(--sh-in); font-size: 16px; font-weight: 450; transition: border-color var(--dur-1), box-shadow var(--dur-2); }
+.form-pane input::placeholder { color: var(--muted); opacity: 1; }
+.form-pane input:focus-visible, .form-pane button:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.field-row { display: flex; gap: 8px; }
+.field-row .combo { flex: 1; min-width: 0; }
+.btn-clear, .chips .chip { width: auto; min-height: var(--tap); padding: 0 16px; border-radius: var(--r-pill); border: 1.5px solid var(--line); background: var(--seg); color: var(--ink); font-weight: 520; font-size: var(--fs-small); transition: background var(--dur-1), transform var(--dur-1) var(--ease-out); }
+.btn-clear { border-radius: var(--r-in); min-width: 76px; }
+.btn-clear:hover, .chips .chip:hover { background: var(--inset); }
+.btn-clear:active, .chips .chip:active { transform: scale(.95); }
+.f-pair { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: end; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.btn-primary { width: auto; min-height: 54px; padding: 0 24px; border: 0; border-radius: var(--r-in); color: var(--on-btn); font-weight: 560; font-size: var(--fs-lead); background: linear-gradient(180deg, color-mix(in srgb, var(--btn) 86%, #fff), var(--btn)); box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 10px 24px -10px color-mix(in srgb, var(--btn) 70%, transparent); transition: transform var(--dur-1) var(--ease-out), box-shadow var(--dur-2) var(--ease-out), filter var(--dur-1); }
+.btn-primary:hover { transform: translateY(-1px); box-shadow: inset 0 1px 0 rgba(255,255,255,.4), 0 18px 32px -10px color-mix(in srgb, var(--btn) 80%, transparent); filter: saturate(1.1); }
+.btn-primary:active { transform: scale(.975); box-shadow: inset 0 2px 6px rgba(0,0,0,.25); transition-duration: 60ms; }
+.btn-secondary { width: auto; min-height: 48px; padding: 0 20px; border-radius: var(--r-in); border: 1.5px solid var(--line); background: var(--seg); color: var(--ink); font-weight: 560; transition: background var(--dur-1), transform var(--dur-1) var(--ease-out); }
+.btn-secondary:hover { background: var(--inset); }
+.btn-secondary:active { transform: scale(.97); }
+.htmx-request .btn-primary { cursor: progress; background: linear-gradient(100deg, var(--btn) 30%, color-mix(in srgb, var(--btn) 60%, #fff) 50%, var(--btn) 70%); background-size: 300% 100%; animation: shimmer 1s linear infinite; }
+.form-pane .btn-primary { margin-top: 2px; }
+.form-pane .filters-sidebar { position: static; }
+@keyframes shimmer { from { background-position: 120% 0; } to { background-position: -120% 0; } }
+
+/* segmented control (context presets) */
+.seg { --x: 0px; --y: 0px; --w: 0px; --h: 0px; position: relative; display: inline-grid; grid-auto-flow: column; grid-auto-columns: 1fr; padding: 3px; border-radius: var(--r-pill); background: var(--seg); box-shadow: var(--sh-in); border: 1px solid var(--edge); }
+.seg label { margin: 0; position: relative; z-index: 1; }
+.seg input { position: absolute; opacity: 0; inset: 0; width: 100%; height: 100%; margin: 0; padding: 0; cursor: pointer; }
+.seg span { display: flex; align-items: center; justify-content: center; min-height: 46px; min-width: 46px; padding: 0 12px; border-radius: var(--r-pill); font-weight: 560; font-size: var(--fs-small); color: var(--ink); border: 0; background: transparent; position: relative; z-index: 1; transition: color var(--dur-2); }
+.seg label:has(input:focus-visible) { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: var(--r-pill); }
+/* Without JavaScript the checked label paints its own fill. */
+.seg label:has(input:checked) span { color: var(--on-pressed); background: var(--pressed); }
+.has-thumb .thumb { position: absolute; z-index: 0; left: 0; top: 0; width: var(--w); height: var(--h); transform: translate(var(--x), var(--y)); background: var(--pressed); border-radius: var(--r-pill); box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 6px 14px -4px color-mix(in srgb, var(--pressed) 60%, transparent); transition: transform var(--dur-3) var(--ease-spring), width var(--dur-3) var(--ease-spring); }
+.has-thumb label:has(input:checked) span { background: transparent; }
+@media (prefers-reduced-motion: reduce) {
+  .has-thumb .thumb { transition: none; }
 }
 
 /* ── Results: one card per model ──────────────────────────────────────────────
