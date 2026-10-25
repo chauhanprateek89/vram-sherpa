@@ -1,95 +1,236 @@
-:root {
-  color-scheme: light;
-  --bg: #f4f7f2;
-  --bg-strong: #e7efe1;
-  --panel: #ffffff;
-  --panel-alt: #f8faf7;
-  --text: #0f1722;
-  --muted: #4d596a;
-  /* Raised from #d2d9df (1.43:1) — WCAG wants 3:1 for UI boundaries, and the old
-     hairlines made every panel read as one undifferentiated surface. */
-  --line: #b9c4cc;
-  --line-strong: #8e9ba6;
-  --brand: #0f6a4c;
-  --brand-strong: #094d37;
-  --focus: #167c5b;
-  --badge-fits-bg: #d8f2e7;
-  --badge-fits-text: #0f5f42;
-  --badge-tight-bg: #fff1cf;
-  --badge-tight-text: #845f00;
-  --badge-wont-fit-bg: #ffe1de;
-  --badge-wont-fit-text: #8f3131;
-  --badge-quant-bg: #e9eef5;
-  --badge-quant-text: #2a3d5f;
-  --badge-gated-bg: #ece8f7;
-  --badge-gated-text: #4a3b7a;
-  --fit-bar: #1b8f62;
-  --tight-bar: #c98a06;
-  --wont-fit-bar: #c4453c;
-  --reserve-ink: #9aa7b4;
-  --sans: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
-  --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+/* VRAM Sherpa: final design tokens ("D layout + E glass").
+   Every visual value in static/css/styles.css comes from a custom property below
+   (ADR-0001). Components use semantic tokens only. Two ways to select the dark theme, as R-040 needs:
+   the saved choice (:root[data-theme]) and, with no saved choice, prefers-color-scheme.
+   Font: Outfit (SIL OFL 1.1), one self-hosted variable woff2 (ADR-0002). The file name carries a version because
+   url() inside a stylesheet gets no ?v=; base.html preloads the same URL.
+   Breakpoints (custom properties cannot be used in media queries): 900px is the wide layout. */
+
+@font-face {
+  font-family: "Outfit";
+  src: url("../fonts/outfit-v1-latin-wght.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
 }
 
-/* The toggle is not the only way people ask for dark: most arrive with an OS
-   preference and no data-theme attribute set at all. */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    color-scheme: dark;
-    --bg: #10161e;
-    --bg-strong: #0b1118;
-    --panel: #171f2a;
-    --panel-alt: #111923;
-    --text: #e6edf5;
-    --muted: #98a8bc;
-    --line: #3a4756;
-    --line-strong: #566475;
-    --brand: #2fc084;
-    --brand-strong: #20a26f;
-    --focus: #3dd89a;
-    --badge-fits-bg: #123529;
-    --badge-fits-text: #92f5cb;
-    --badge-tight-bg: #44350b;
-    --badge-tight-text: #ffd56f;
-    --badge-wont-fit-bg: #4d1f24;
-    --badge-wont-fit-text: #ff9ea7;
-    --badge-quant-bg: #202d42;
-    --badge-quant-text: #b9cdf0;
-    --badge-gated-bg: #2b2340;
-    --badge-gated-text: #cfbdf5;
-    --fit-bar: #2fc084;
-    --tight-bar: #e0a416;
-    --wont-fit-bar: #e0635a;
+/* ---- scales that do not change with the theme ---- */
+:root {
+  --font: "Outfit", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* type scale (px). 14 is the smallest text anywhere (R-070 asks for 12). Fields are 16 so iOS does not zoom. */
+  --fs-caption: 14px;
+  --fs-small: 15px;
+  --fs-body: 16px;
+  --fs-lead: 17px;
+  --fs-h3: 22px;
+  --fs-h1: 29px;
+  --fs-stat: 32px;
+  --fs-display: 38px;
+  --lh-body: 1.5;
+
+  /* spacing scale */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-7: 32px;
+  --sp-8: 48px;
+  --gap: 12px;            /* gap between tiles */
+  --pad-pane: 22px;       /* padding inside a pane */
+  --pad-tile: 18px;       /* padding inside an inset tile */
+
+  /* radii */
+  --r-pane: 30px;
+  --r-tile: 24px;
+  --r-in: 16px;
+  --r-sm: 10px;
+  --r-pill: 999px;
+
+  /* glass: phone first, wide screens add blur radius */
+  --blur: 16px;
+  --sat: 170%;
+
+  /* motion */
+  --dur-1: 120ms;
+  --dur-2: 220ms;
+  --dur-3: 360ms;
+  --dur-fill: 640ms;
+  --ease-out: cubic-bezier(.22, 1, .36, 1);
+  --ease-spring: cubic-bezier(.34, 1.32, .5, 1);
+
+  /* touch target */
+  --tap: 44px;
+}
+@media (min-width: 900px) {
+  :root {
+    --blur: 24px;
+    --fs-display: 48px;
+    --gap: 14px;
+    --pad-pane: 24px;
+    --pad-tile: 20px;
   }
 }
 
+/* ---- light ---- */
+:root,
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #DCE4FF;
+  --backdrop-worst: #7385F0;
+  --panel: rgba(255, 255, 255, 0.74);
+  --panel-solid: #F7F6FF;
+  --inset: rgba(255, 255, 255, 0.62);
+  --ink: #14112B;
+  --muted: #46426A;
+  --line: #645F96;
+  --accent: #5B21C9;
+  --on-accent: #FFFFFF;
+  --btn: #4A17B8;
+  --on-btn: #FFFFFF;
+  --focus: #4A17B8;
+  --field: #FFFFFF;
+  --fits-fg: #07623A;   --fits-bg: #D3F6E4;  --fits-bar: #0A8A55;
+  --tight-fg: #74400A;  --tight-bg: #FFE9C2; --tight-bar: #B06A00;
+  --wont-fg: #9E1033;   --wont-bg: #FFDDE5;  --wont-bar: #C21E45;
+  --gate-fg: #4B1D8A;   --gate-bg: #EBDDFF;
+  --info-fg: #2B1E78;   --info-bg: #E4E2FF;
+  --track: rgba(255, 255, 255, 0.78);
+  --resv: #4A4580;
+  --mesh1: #7385F0; --mesh2: #C38AF2; --mesh3: #7FD3E6; --mesh4: #FFB3C8;
+  --edge: rgba(255, 255, 255, .55);
+  --rim-a: rgba(255, 255, 255, .95);
+  --rim-b: rgba(255, 255, 255, .35);
+  --sh-1: 0 1px 1px rgba(40, 30, 110, .06), 0 10px 28px -10px rgba(60, 40, 160, .20), 0 44px 80px -34px rgba(60, 40, 160, .34);
+  --sh-2: inset 0 1px 0 rgba(255, 255, 255, .85), 0 2px 8px -2px rgba(60, 40, 160, .16);
+  --sh-2h: inset 0 1px 0 rgba(255, 255, 255, .9), 0 14px 30px -12px rgba(60, 40, 160, .34);
+  --sh-3: 0 2px 6px rgba(40, 20, 120, .10), 0 24px 64px -12px rgba(40, 20, 120, .46);
+  --sh-in: inset 0 1px 2px rgba(40, 30, 110, .14);
+  --sheen: rgba(255, 255, 255, .80);
+  --hair: rgba(40, 30, 110, .12);
+  --pressed: #4A17B8;
+  --on-pressed: #FFFFFF;
+  --sk-a: rgba(40, 30, 110, .10);
+  --sk-b: rgba(255, 255, 255, .7);
+  --seg: rgba(255, 255, 255, .6);
+  --pill-icon-cut: #FFFFFF;   /* the colour cut out of a verdict icon */
+}
+
+/* ---- dark, no saved choice ---- */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #0A0B1F;
+    --backdrop-worst: #2AB4D4;
+    --panel: rgba(11, 13, 44, 0.82);
+    --panel-solid: #14163A;
+    --inset: rgba(255, 255, 255, 0.07);
+    --ink: #F3F1FF;
+    --muted: #C9C6EA;
+    --line: #8E8BC4;
+    --accent: #D2C2FF;
+    --on-accent: #10082B;
+    --btn: #B79CFF;
+    --on-btn: #12082E;
+    --focus: #CDB9FF;
+    --field: #0A0C26;
+    --fits-fg: #6EF0AE;   --fits-bg: #0B3023;  --fits-bar: #34D399;
+    --tight-fg: #FFCB6B;  --tight-bg: #3A2A08; --tight-bar: #F5B03A;
+    --wont-fg: #FFA0B6;   --wont-bg: #43152A;  --wont-bar: #FF6B8D;
+    --gate-fg: #E1D2FF;   --gate-bg: #33206A;
+    --info-fg: #DAD6FF;   --info-bg: #26235E;
+    --track: rgba(5, 6, 26, 0.55);
+    --resv: #C5C2EB;
+    --mesh1: #5B3FD9; --mesh2: #B02BC9; --mesh3: #2AB4D4; --mesh4: #3B2FC9;
+    --edge: rgba(255, 255, 255, .12);
+    --rim-a: rgba(255, 255, 255, .45);
+    --rim-b: rgba(255, 255, 255, .10);
+    --sh-1: 0 1px 1px rgba(0, 0, 0, .4), 0 12px 32px -10px rgba(0, 0, 0, .55), 0 46px 90px -34px rgba(0, 0, 0, .75);
+    --sh-2: inset 0 1px 0 rgba(255, 255, 255, .10), 0 2px 8px -2px rgba(0, 0, 0, .45);
+    --sh-2h: inset 0 1px 0 rgba(255, 255, 255, .14), 0 16px 34px -12px rgba(0, 0, 0, .7);
+    --sh-3: 0 2px 6px rgba(0, 0, 0, .4), 0 26px 70px -12px rgba(0, 0, 0, .8);
+    --sh-in: inset 0 1px 3px rgba(0, 0, 0, .55);
+    --sheen: rgba(255, 255, 255, .08);
+    --hair: rgba(255, 255, 255, .12);
+    --pressed: #D2C2FF;
+    --on-pressed: #10082B;
+    --sk-a: rgba(255, 255, 255, .08);
+    --sk-b: rgba(255, 255, 255, .18);
+    --seg: rgba(0, 0, 0, .30);
+    --pill-icon-cut: #0E1030;
+  }
+}
+
+/* ---- dark, saved choice ---- */
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --bg: #10161e;
-  --bg-strong: #0b1118;
-  --panel: #171f2a;
-  --panel-alt: #111923;
-  --text: #e6edf5;
-  --muted: #98a8bc;
-  --line: #3a4756;
-  --line-strong: #566475;
-  --brand: #2fc084;
-  --brand-strong: #20a26f;
-  --focus: #3dd89a;
-  --badge-fits-bg: #123529;
-  --badge-fits-text: #92f5cb;
-  --badge-tight-bg: #44350b;
-  --badge-tight-text: #ffd56f;
-  --badge-wont-fit-bg: #4d1f24;
-  --badge-wont-fit-text: #ff9ea7;
-  --badge-quant-bg: #202d42;
-  --badge-quant-text: #b9cdf0;
-  --badge-gated-bg: #2b2340;
-  --badge-gated-text: #cfbdf5;
-  --fit-bar: #2fc084;
-  --tight-bar: #e0a416;
-  --wont-fit-bar: #e0635a;
-  --reserve-ink: #6b7887;
+  --bg: #0A0B1F;
+  --backdrop-worst: #2AB4D4;
+  --panel: rgba(11, 13, 44, 0.82);
+  --panel-solid: #14163A;
+  --inset: rgba(255, 255, 255, 0.07);
+  --ink: #F3F1FF;
+  --muted: #C9C6EA;
+  --line: #8E8BC4;
+  --accent: #D2C2FF;
+  --on-accent: #10082B;
+  --btn: #B79CFF;
+  --on-btn: #12082E;
+  --focus: #CDB9FF;
+  --field: #0A0C26;
+  --fits-fg: #6EF0AE;   --fits-bg: #0B3023;  --fits-bar: #34D399;
+  --tight-fg: #FFCB6B;  --tight-bg: #3A2A08; --tight-bar: #F5B03A;
+  --wont-fg: #FFA0B6;   --wont-bg: #43152A;  --wont-bar: #FF6B8D;
+  --gate-fg: #E1D2FF;   --gate-bg: #33206A;
+  --info-fg: #DAD6FF;   --info-bg: #26235E;
+  --track: rgba(5, 6, 26, 0.55);
+  --resv: #C5C2EB;
+  --mesh1: #5B3FD9; --mesh2: #B02BC9; --mesh3: #2AB4D4; --mesh4: #3B2FC9;
+  --edge: rgba(255, 255, 255, .12);
+  --rim-a: rgba(255, 255, 255, .45);
+  --rim-b: rgba(255, 255, 255, .10);
+  --sh-1: 0 1px 1px rgba(0, 0, 0, .4), 0 12px 32px -10px rgba(0, 0, 0, .55), 0 46px 90px -34px rgba(0, 0, 0, .75);
+  --sh-2: inset 0 1px 0 rgba(255, 255, 255, .10), 0 2px 8px -2px rgba(0, 0, 0, .45);
+  --sh-2h: inset 0 1px 0 rgba(255, 255, 255, .14), 0 16px 34px -12px rgba(0, 0, 0, .7);
+  --sh-3: 0 2px 6px rgba(0, 0, 0, .4), 0 26px 70px -12px rgba(0, 0, 0, .8);
+  --sh-in: inset 0 1px 3px rgba(0, 0, 0, .55);
+  --sheen: rgba(255, 255, 255, .08);
+  --hair: rgba(255, 255, 255, .12);
+  --pressed: #D2C2FF;
+  --on-pressed: #10082B;
+  --sk-a: rgba(255, 255, 255, .08);
+  --sk-b: rgba(255, 255, 255, .18);
+  --seg: rgba(0, 0, 0, .30);
+  --pill-icon-cut: #0E1030;
+}
+
+/* ---- legacy names ----
+   Rules not yet migrated to the tokens above still use these names. Each is an alias of a token, declared
+   once on :root so it follows whichever theme is active. T-020 removes this block. */
+:root {
+  --bg-strong: var(--bg);
+  --panel-alt: var(--panel-solid);
+  --text: var(--ink);
+  --line-strong: var(--line);
+  --brand: var(--btn);
+  --brand-strong: var(--accent);
+  --badge-fits-bg: var(--fits-bg);
+  --badge-fits-text: var(--fits-fg);
+  --badge-tight-bg: var(--tight-bg);
+  --badge-tight-text: var(--tight-fg);
+  --badge-wont-fit-bg: var(--wont-bg);
+  --badge-wont-fit-text: var(--wont-fg);
+  --badge-quant-bg: var(--info-bg);
+  --badge-quant-text: var(--info-fg);
+  --badge-gated-bg: var(--gate-bg);
+  --badge-gated-text: var(--gate-fg);
+  --fit-bar: var(--fits-bar);
+  --wont-fit-bar: var(--wont-bar);
+  --reserve-ink: var(--resv);
+  --sans: var(--font);
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 }
 
 * {
@@ -124,7 +265,7 @@ a:hover {
 
 .topbar {
   border-bottom: 1px solid var(--line);
-  background: color-mix(in srgb, var(--panel) 94%, transparent);
+  background: color-mix(in srgb, var(--panel-solid) 94%, transparent);
   backdrop-filter: blur(6px);
   position: sticky;
   top: 0;
@@ -174,7 +315,7 @@ main {
 .panel {
   border: 1px solid var(--line);
   border-radius: 12px;
-  background: var(--panel);
+  background: var(--panel-solid);
   padding: 1rem;
   box-shadow: 0 10px 20px color-mix(in srgb, var(--text) 4%, transparent);
 }
@@ -200,8 +341,8 @@ main {
   background:
     linear-gradient(
       140deg,
-      color-mix(in srgb, var(--brand) 9%, var(--panel)) 0%,
-      var(--panel) 42%
+      color-mix(in srgb, var(--brand) 9%, var(--panel-solid)) 0%,
+      var(--panel-solid) 42%
     );
 }
 
@@ -253,7 +394,7 @@ button {
   padding: 0.55rem 0.65rem;
   border-radius: 8px;
   border: 1px solid color-mix(in srgb, var(--line) 80%, var(--text));
-  background: var(--panel);
+  background: var(--panel-solid);
   color: var(--text);
   font: inherit;
 }
@@ -311,13 +452,13 @@ select[multiple] {
   border-radius: 999px;
   padding: 0.42rem 0.8rem;
   font-weight: 600;
-  background: var(--panel);
+  background: var(--panel-solid);
 }
 
 .context-buttons .context-pill input:checked + span {
   background: var(--brand);
   border-color: var(--brand);
-  color: #fff;
+  color: var(--on-btn);
 }
 
 .example-chips {
@@ -357,7 +498,7 @@ select[multiple] {
 }
 
 .chip-active {
-  background: color-mix(in srgb, var(--brand) 12%, var(--panel));
+  background: color-mix(in srgb, var(--brand) 12%, var(--panel-solid));
   border-color: color-mix(in srgb, var(--brand) 45%, var(--line));
 }
 
@@ -388,7 +529,7 @@ select[multiple] {
 .form-alert {
   margin-top: 0.9rem;
   border: 1px solid var(--badge-tight-text);
-  background: color-mix(in srgb, var(--badge-tight-bg) 35%, var(--panel));
+  background: color-mix(in srgb, var(--badge-tight-bg) 35%, var(--panel-solid));
   border-radius: 10px;
   padding: 0.7rem 0.85rem;
 }
@@ -407,7 +548,7 @@ select[multiple] {
 .btn-secondary {
   width: auto;
   min-width: 10rem;
-  color: #fff;
+  color: var(--on-btn);
   border: 1px solid var(--brand);
   background: var(--brand);
   font-weight: 600;
@@ -422,7 +563,7 @@ select[multiple] {
 }
 
 .btn-secondary {
-  background: color-mix(in srgb, var(--brand) 85%, #fff);
+  background: color-mix(in srgb, var(--brand) 85%, var(--on-btn));
 }
 
 .theme-toggle {
@@ -523,8 +664,8 @@ select[multiple] {
   border-radius: 12px;
   background: linear-gradient(
     120deg,
-    color-mix(in srgb, var(--brand) 14%, var(--panel)),
-    var(--panel)
+    color-mix(in srgb, var(--brand) 14%, var(--panel-solid)),
+    var(--panel-solid)
   );
   padding: 1rem;
 }
@@ -559,7 +700,7 @@ select[multiple] {
 .summary-stat {
   border: 1px solid var(--line);
   border-radius: 10px;
-  background: var(--panel);
+  background: var(--panel-solid);
   padding: 0.7rem 0.85rem;
 }
 
@@ -633,7 +774,7 @@ select[multiple] {
 }
 
 .result-card {
-  background: var(--panel);
+  background: var(--panel-solid);
   transition: transform 140ms ease, box-shadow 140ms ease;
 }
 
@@ -699,7 +840,7 @@ select[multiple] {
 }
 
 .badge-recommended {
-  background: color-mix(in srgb, var(--brand) 20%, var(--panel));
+  background: color-mix(in srgb, var(--brand) 20%, var(--panel-solid));
   color: var(--brand-strong);
 }
 
@@ -761,8 +902,8 @@ select[multiple] {
   background:
     repeating-linear-gradient(
       -45deg,
-      color-mix(in srgb, var(--badge-tight-bg) 80%, var(--panel)) 0 6px,
-      color-mix(in srgb, var(--badge-tight-bg) 40%, var(--panel)) 6px 12px
+      color-mix(in srgb, var(--badge-tight-bg) 80%, var(--panel-solid)) 0 6px,
+      color-mix(in srgb, var(--badge-tight-bg) 40%, var(--panel-solid)) 6px 12px
     );
   border-left: 1px solid color-mix(in srgb, var(--badge-tight-text) 50%, var(--line));
 }
@@ -996,7 +1137,7 @@ td {
 }
 
 .model-card {
-  background: var(--panel);
+  background: var(--panel-solid);
   border: 1px solid var(--line);
   border-radius: 10px;
   padding: 0.9rem 1rem;
@@ -1093,7 +1234,7 @@ td {
 }
 
 .quants button[aria-pressed="true"] {
-  background: var(--panel);
+  background: var(--panel-solid);
   color: var(--text);
   font-weight: 600;
   box-shadow: 0 1px 2px color-mix(in srgb, var(--text) 18%, transparent);

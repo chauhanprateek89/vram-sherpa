@@ -20,11 +20,13 @@
       name="description"
       content="Estimate whether a local LLM fits in your GPU's VRAM, with a transparent breakdown of weights, KV cache and runtime overhead."
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    {# Same URL the @font-face in styles.css resolves to; it carries a version in its name, not ?v= (ADR-0002). #}
     <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="{{ url_for('static', path='fonts/outfit-v1-latin-wght.woff2') }}"
+      crossorigin
     />
     <link rel="stylesheet" href="{{ url_for('static', path='css/styles.css') }}?v={{ asset_version }}" />
     {# Read by htmx when it loads: a history-cache miss reloads the page (ADR-0008). #}
