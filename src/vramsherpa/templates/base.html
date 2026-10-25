@@ -38,41 +38,36 @@
     <script src="{{ url_for('static', path='js/app.js') }}?v={{ asset_version }}" defer></script>
   </head>
   <body>
-    <header class="topbar">
-      <div class="container">
+    <div class="backdrop" aria-hidden="true"></div>
+    <div class="page">
+      <header class="top pane">
         <a class="brand" href="/">{% include "logo_mark.html" %}<span class="brand-name">VRAM Sherpa</span></a>
-        <nav>
+        <nav aria-label="Main">
           <a
             class="nav-link {% if current_path == '/' or current_path == '/results' or current_path.startswith('/models/') %}is-active{% endif %}"
             href="/"
             {% if current_path == '/' or current_path == '/results' or current_path.startswith('/models/') %}aria-current="page"{% endif %}
-          >
-            Estimator
-          </a>
+          >Estimator</a>
           <a
             class="nav-link {% if current_path == '/how-it-works' %}is-active{% endif %}"
             href="/how-it-works"
             {% if current_path == '/how-it-works' %}aria-current="page"{% endif %}
-          >
-            How it works
-          </a>
+          >How it works</a>
         </nav>
-        <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle color theme">
-          Theme
-        </button>
-      </div>
-    </header>
+        {# app.js replaces the text and sets aria-pressed; the icon is a CSS mask keyed on aria-pressed. #}
+        <button id="theme-toggle" class="theme" type="button" aria-pressed="false" aria-label="Toggle color theme">Dark mode</button>
+      </header>
 
-    <main class="container">
-      {% block content %}{% endblock %}
-    </main>
+      {# Pages pick their layout: bento (home and results), detail, doc. #}
+      <main class="{% block main_class %}{% endblock %}">
+        {% block content %}{% endblock %}
+      </main>
 
-    <footer class="footer">
-      <div class="container">
+      <footer class="footer pane lite">
         <span>Catalog version: {{ catalog_version }}</span>
         <span>Estimation policy: {{ estimation_policy_version }}</span>
         <span>Last updated: {{ catalog_last_updated }}</span>
-      </div>
-    </footer>
+      </footer>
+    </div>
   </body>
 </html>

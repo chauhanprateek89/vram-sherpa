@@ -185,4 +185,5 @@ def test_no_route_was_added_and_favicon_ico_is_404(app: FastAPI, client: TestCli
 
 
 def test_asset_version_is_new_for_this_task() -> None:
-    assert main.ASSET_VERSION == "20261025b"
+    # Later tasks bump it again, so only the earlier values are ruled out (as in test_styles.py).
+    assert main.ASSET_VERSION not in {"20261024a", "20261025a", "20261025b"}
