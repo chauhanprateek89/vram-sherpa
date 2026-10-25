@@ -28,6 +28,9 @@
       href="{{ url_for('static', path='fonts/outfit-v1-latin-wght.woff2') }}"
       crossorigin
     />
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', path='img/favicon.svg') }}?v={{ asset_version }}" />
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', path='img/favicon-32.png') }}?v={{ asset_version }}" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', path='img/apple-touch-icon.png') }}?v={{ asset_version }}" />
     <link rel="stylesheet" href="{{ url_for('static', path='css/styles.css') }}?v={{ asset_version }}" />
     {# Read by htmx when it loads: a history-cache miss reloads the page (ADR-0008). #}
     <meta name="htmx-config" content='{"refreshOnHistoryMiss":true}' />
@@ -37,7 +40,7 @@
   <body>
     <header class="topbar">
       <div class="container">
-        <a class="brand" href="/">VRAM Sherpa</a>
+        <a class="brand" href="/">{% include "logo_mark.html" %}<span class="brand-name">VRAM Sherpa</span></a>
         <nav>
           <a
             class="nav-link {% if current_path == '/' or current_path == '/results' or current_path.startswith('/models/') %}is-active{% endif %}"
