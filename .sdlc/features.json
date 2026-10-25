@@ -334,7 +334,7 @@
         "T-009"
       ],
       "notes": "Page `<main>` classes (`bento`, `detail`, `doc`) via a template block. Old component rules for screens not yet migrated stay until their task.",
-      "review": "pending",
+      "review": "passed",
       "passes": false
     },
     {
