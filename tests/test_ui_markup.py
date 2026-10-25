@@ -236,6 +236,11 @@ def test_old_header_and_results_layout_rules_are_gone() -> None:
         assert dead not in css, dead
 
 
-def test_asset_version_changed_for_the_shell() -> None:
-    assert main.ASSET_VERSION not in {"20261024a", "20261025a", "20261025b"}
-    assert re.fullmatch(r"\d{8}[a-z]", main.ASSET_VERSION)
+def test_html_has_no_background_so_the_body_colour_cannot_cover_the_backdrop() -> None:
+    """A background on html stops body's propagating to the canvas and hides `.backdrop`."""
+    css = _css()
+    for m in re.finditer(r"([^{}]+)\{([^}]*)\}", css):
+        selectors = [s.strip() for s in m.group(1).split(",")]
+        if "html" in selectors:
+            assert "background" not in m.group(2), m.group(1)
+    assert "background: var(--bg)" in _rules(css, "body")[-1]

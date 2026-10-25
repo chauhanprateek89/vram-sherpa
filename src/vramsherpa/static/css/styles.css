@@ -246,12 +246,14 @@ body {
   margin: 0;
   font-family: var(--sans);
   line-height: 1.45;
-  background: var(--bg);
   color: var(--text);
 }
 
+/* The page colour lives on body only: a background on html stops body's from propagating
+   to the canvas, so it would paint over the fixed z-index:-1 .backdrop. */
 body {
   min-width: 320px;
+  background: var(--bg);
 }
 
 a {
