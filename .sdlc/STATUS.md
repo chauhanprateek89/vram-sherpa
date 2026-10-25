@@ -16,7 +16,7 @@
 
 Build T-001..T-021 in order (features.json), one builder then one reviewer per task, run by the orchestrator by hand because the sdlc:build workflow runner is not available in this session (same loop: fix after a failed review, rebuild on opus after two, stop after three or on a blocked task). Then QA (sdlc:qa per requirement), Release PR (squash-merge), Gate 3.
 
-Build progress: T-001 passed; T-002 passed; T-003 passed; T-004 passed; T-005 passed
+Build progress: T-001 passed; T-002 passed; T-003 passed; T-004 passed; T-005 passed; T-006 passed
 
 Follow-ups found at onboarding (not part of this track): host guard ignores APP_ENV/PUBLIC_HOSTNAME that docs/RELEASE_AND_DEPLOY.md tells the server to set (tunnel requests would get 400); release.yml pushes :latest before the smoke test; smoke test never hits /results; no Cache-Control on HTML (rule 9); local docker-compose.yml binds 8000 on all interfaces (rule 3).
 
@@ -51,3 +51,4 @@ Follow-ups found at onboarding (not part of this track): host guard ignores APP_
 | 2026-10-25 | Build | sdlc:builder (opus), sdlc:reviewer (inherit) | T-003 passed: commit 337cd0a, passed first review; nit: RedirectResponse percent-encodes raw | ^ { } in Location (same meaning) |
 | 2026-10-25 | Build | sdlc:builder (sonnet), sdlc:reviewer (inherit) | T-004 passed: commit d528cc6, passed first review; nit: gauge extractor takes first role=img in a pane (watch in T-015) |
 | 2026-10-25 | Build | sdlc:builder (sonnet), sdlc:reviewer (inherit) | T-005 passed: commit 55cb155, passed first review; nit: misnamed test_estimation_module_untouched_by_this_task |
+| 2026-10-25 | Build | sdlc:builder (opus), sdlc:reviewer (inherit) | T-006 passed: commit 398f4a9, passed first review; nit: HLD says 86 tests (now 166) |

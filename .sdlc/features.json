@@ -179,7 +179,7 @@
       "model": "opus",
       "dependsOn": [],
       "notes": "UI: no. No file under `src/vramsherpa/static/` changes, so `ASSET_VERSION` is not bumped (rule 21). Read `pyproject.toml` with `tomllib`. Lands before T-008 and T-009 add the first font and image files.",
-      "review": "pending",
+      "review": "passed",
       "passes": false
     },
     {
