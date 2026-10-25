@@ -1,4 +1,823 @@
 {
   "version": 1,
-  "tasks": []
+  "tasks": [
+    {
+      "id": "T-001",
+      "title": "Cache-Control middleware on every HTML response",
+      "requirements": [
+        "R-080"
+      ],
+      "track": "full",
+      "files": [
+        "src/vramsherpa/main.py",
+        "tests/test_cache_control.py"
+      ],
+      "acceptance": [
+        "WHEN a client requests any of the nine R-080 check URLs (URL 3 and URL 4 with `HX-Request: true`) with an allowed Host, THE SYSTEM SHALL answer HTTP 200 with a `Content-Type` starting `text/html` and exactly one `Cache-Control` header whose value contains `no-cache` (R-080, ADR-0004).",
+        "THE SYSTEM SHALL NOT send on those responses a `Cache-Control` value containing `immutable`, or a `max-age` or `s-maxage` above 0 (R-080).",
+        "WHEN a response is `text/html`, THE SYSTEM SHALL send a `Vary` header that names both `HX-Request` and `HX-History-Restore-Request`, appended to any `Vary` already present (ADR-0004 as amended by ADR-0008).",
+        "WHEN a client requests `/healthz`, `/static/css/styles.css`, an unknown path (404 JSON) or any path with `Host: evil.example.com` under a non-`*` allowlist (400 JSON), THE SYSTEM SHALL NOT add `Cache-Control` to that response, and the unknown Host SHALL still get HTTP 400 (rule 8, R-043).",
+        "IF a handler has already set `Cache-Control` on an HTML response, THEN THE SYSTEM SHALL keep that value unchanged (tested with a route added to the app inside the test only).",
+        "THE SYSTEM SHALL key the middleware on the response `Content-Type`, not on a list of paths, and register it in `create_app` beside `host_guard` (ADR-0004).",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": null,
+      "model": "opus",
+      "dependsOn": [],
+      "notes": "UI: no. No file under `src/vramsherpa/static/` changes, so `ASSET_VERSION` is not bumped (rule 21). Use the same `app.middleware(\"http\")` style as `host_guard`. Do not touch the `/static` mount or the host guard logic.",
+      "review": "pending",
+      "passes": false
+    },
+    {
+      "id": "T-002",
+      "title": "History entries name /results, a history miss reloads the page, and breakdowns push no URL",
+      "requirements": [
+        "R-081",
+        "R-032",
+        "R-078"
+      ],
+      "track": "full",
+      "files": [
+        "src/vramsherpa/main.py",
+        "src/vramsherpa/templates/base.html",
+        "src/vramsherpa/templates/index.html",
+        "tests/test_history.py"
+      ],
+      "acceptance": [
+        "WHEN `/results/partials/content?vram_gb=24&context_tokens=4096&family=a&family=b` is requested with `HX-Request: true`, THE SYSTEM SHALL answer 200 with the fragment and the header `HX-Push-Url: /results?vram_gb=24&context_tokens=4096&family=a&family=b`, the raw query passed through byte for byte with repeated parameters in order; with no query the header SHALL be `HX-Push-Url: /results` (R-081, ADR-0008 fix 1).",
+        "WHEN `/results?…` is requested with both `HX-Request: true` and `HX-History-Restore-Request: true`, THE SYSTEM SHALL return the full page (one header, one `#search-form`, one footer); WHEN it carries only `HX-Request: true`, THE SYSTEM SHALL still return the fragment (R-032, ADR-0008 fix 3).",
+        "THE SYSTEM SHALL render in the `<head>` of every full page `<meta name=\"htmx-config\" content='{\"refreshOnHistoryMiss\":true}'>` before the htmx `<script>` (ADR-0008 fix 2); a guard test asserts the tag and its position.",
+        "THE SYSTEM SHALL render `#results-shell` after the closing tag of `<form id=\"search-form\">`, not inside it, so no element with `hx-get=\"/results/why/…\"` has an ancestor carrying `hx-push-url`; opening a breakdown SHALL NOT change the address bar or push a history entry (ADR-0006 point 9, ADR-0008 revision of 2026-10-25 (Plan)).",
+        "THE SYSTEM SHALL keep the form's `hx-get`, `hx-target=\"#results-shell\"`, `hx-push-url=\"true\"` and `hx-trigger` values, the `<noscript>` `Apply filters` button inside the form, and every id `app.js` reads, unchanged (R-078, ADR-0006 point 1).",
+        "THE SYSTEM SHALL build the `/results?<query>` string in one helper that T-003 reuses for its `Location` (ADR-0008 fix 4).",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": [
+        "docs/design/mockups/final-results-manual-vram.html",
+        "docs/design/final/results-manual-vram-*.png"
+      ],
+      "model": "opus",
+      "dependsOn": [
+        "T-001"
+      ],
+      "notes": "UI: no visual change intended; the move of `#results-shell` is structural and T-010/T-011 restyle the layout, so the old layout may sit differently until then. No file under `src/vramsherpa/static/` changes, so `ASSET_VERSION` is not bumped (rule 21). Use `request.url.query` (already percent-encoded), never `request.url` scheme or host. Real-browser Back/Forward/reload steps of R-081 are QA's (rule 10).",
+      "review": "pending",
+      "passes": false
+    },
+    {
+      "id": "T-003",
+      "title": "Old /results/partials/content links redirect to /results with a 302",
+      "requirements": [
+        "R-081",
+        "R-078"
+      ],
+      "track": "full",
+      "files": [
+        "src/vramsherpa/main.py",
+        "tests/test_history.py"
+      ],
+      "acceptance": [
+        "WHEN `/results/partials/content?vram_gb=24&context_tokens=4096&family=a&family=b` is requested without `HX-Request: true` (header missing or `false`), THE SYSTEM SHALL answer `302` with an empty body, `Location: /results?vram_gb=24&context_tokens=4096&family=a&family=b` (byte for byte, repeated parameters in order), `Cache-Control: no-cache` and a `Vary` naming `HX-Request` and `HX-History-Restore-Request` (R-081, ADR-0008 fix 4). Tests use `follow_redirects=False`.",
+        "WHEN such a request has no query string, THE SYSTEM SHALL send `Location: /results` (R-081).",
+        "THE SYSTEM SHALL send the `Location` as a path with no scheme and no host, and SHALL NOT answer with 301 or 308 (R-081, rule 8).",
+        "THE SYSTEM SHALL make the check the first statement of `results_partial_content`, before any database query; a malformed value such as `context_tokens=abc` SHALL still get the same 422 JSON that `/results?context_tokens=abc` gets (ADR-0008 fix 4, decisions 2026-10-25 Design).",
+        "WHEN any of `/results/partials/content`, `/summary` or `/list` carries `HX-Request: true`, THE SYSTEM SHALL answer 200 with its fragment and no `Location`; and `/results/partials/summary` and `/list` SHALL NOT redirect with or without the header (R-081).",
+        "WHEN the allowlist is not `*` and `/results/partials/content?vram_gb=24` arrives without `HX-Request` and with an unknown `Host`, THE SYSTEM SHALL answer the 400 JSON with no `Location` (rule 8, ADR-0008).",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": null,
+      "model": "opus",
+      "dependsOn": [
+        "T-002"
+      ],
+      "notes": "UI: no. No file under `src/vramsherpa/static/` changes, so `ASSET_VERSION` is not bumped (rule 21). Starlette's `RedirectResponse` defaults to 307: pass 302 explicitly, and if a test shows any re-encoding of the query, set `Location` on a plain `Response`. Reuse T-002's helper.",
+      "review": "pending",
+      "passes": false
+    },
+    {
+      "id": "T-004",
+      "title": "Golden test: the R-078 reference queries show the same models, order and figures",
+      "requirements": [
+        "R-078",
+        "R-072"
+      ],
+      "track": "full",
+      "files": [
+        "tests/test_reference_queries.py",
+        "tests/fixtures/r078_reference.json"
+      ],
+      "acceptance": [
+        "WHEN `/results?vram_gb=24&context_tokens=4096` or `/results?vram_gb=12&context_tokens=8192&family=qwen&quant_bucket=Q4` renders, THE SYSTEM SHALL show the same models in the same order, with the same verdict, required VRAM, available VRAM and margin for every variant pane, as `main` at f2ad2d8 (R-078). The fixture is captured once from the current tree (whose `src/` equals f2ad2d8) and committed; the test never rewrites it.",
+        "THE SYSTEM SHALL extract those values only through hooks the overhaul keeps: `data-model-card`, `data-variant-pane`, the `/models/<id>` link, the gauge's `role=\"img\"` `aria-label` (R-018, kept by R-072), and the protected text (`Fits`, `Tight`, `Won't fit`, `<n> GB spare`, `<n> GB over`, `<n> GB needed`), with tags stripped, so the same extractor works before and after every template change.",
+        "THE SYSTEM SHALL also check, for both queries, that the rendered cards equal the `model_cards` the app computes for the same query (names, order, verdicts and figures), so the check still means something after a catalog refresh.",
+        "IF the seeded `catalog_version` differs from the fixture's (`2026-10-23`), THEN THE SYSTEM SHALL skip only the fixture comparison, with a reason naming the fixture, and still run the computed comparison.",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": null,
+      "model": "sonnet",
+      "dependsOn": [],
+      "notes": "UI: no. Test-only; no app code changes. Must land before T-008 so every UI task runs against it. No file under `src/vramsherpa/static/` changes, so `ASSET_VERSION` is not bumped (rule 21).",
+      "review": "pending",
+      "passes": false
+    },
+    {
+      "id": "T-005",
+      "title": "How it works: worked example computed from the catalog's Llama 3.1 8B Instruct Q4",
+      "requirements": [
+        "R-075",
+        "R-009",
+        "R-026",
+        "R-078"
+      ],
+      "track": "full",
+      "files": [
+        "src/vramsherpa/main.py",
+        "src/vramsherpa/templates/how_it_works.html",
+        "tests/test_how_it_works.py"
+      ],
+      "acceptance": [
+        "THE SYSTEM SHALL declare beside `ESTIMATION_POLICY_VERSION` the constants `WORKED_EXAMPLE_MODEL_ID = \"model_llama_31_8b_instruct\"`, `WORKED_EXAMPLE_QUANT_BUCKET = \"Q4\"`, `WORKED_EXAMPLE_CONTEXT_TOKENS = 2048` and `WORKED_EXAMPLE_FALLBACK` (params_b 8.0, bits_effective 4.5, kv_gb_per_1k_ctx 0.48) (ADR-0007 decision 1).",
+        "WHEN `/how-it-works` loads with the seeded catalog, THE SYSTEM SHALL show a worked example naming `Llama 3.1 8B Instruct` at Q4 with a 2048-token context, the inputs params_b 8, bits_effective 4.5, kv_gb_per_1k_ctx 0.48, context_tokens 2048, and the steps weights 4.95 GB, KV cache 0.98 GB, runtime overhead 1.40 GB, required VRAM 7.33 GB, each computed by `estimate_breakdown` from the model and its Q4 variant row (R-075, ADR-0007 decisions 2 and 3).",
+        "THE SYSTEM SHALL show a worked-example required VRAM equal to `estimate_variant(...).required_vram_gb` for that variant at 2048 tokens, the figure the card and model detail show (R-075).",
+        "IF the catalog has no `model_llama_31_8b_instruct`, it has no Q4 variant, or the catalog is unseeded, THEN THE SYSTEM SHALL answer `/how-it-works` with 200, keep every other section, and show the example labelled `an 8B model at Q4` from the fallback inputs with 4.95, 0.98, 1.40 and 7.33 GB, containing neither `Llama 3.1 8B Instruct` nor any other model name and no model link (R-075, Q-12). The fallback test keeps those four literals (rule 16 reminder).",
+        "THE SYSTEM SHALL keep a test that `model_llama_31_8b_instruct` is in `data/seed_models.json` without `discovered: true` and has a Q4 row in `data/seed_variants.json` (ADR-0007 decision 6).",
+        "THE SYSTEM SHALL render the example under `<h2>Worked example</h2>` with the copy-table wording (`docs/design/README.md`, How it works rows), including the link `See its model page` to `/models/model_llama_31_8b_instruct?context_tokens=2048` only when the model is named (R-075, R-078).",
+        "THE SYSTEM SHALL NOT change `src/vramsherpa/estimation.py` or `ESTIMATION_POLICY_VERSION` (`v0.1`) (R-075, rule 16 as read at Gate 1).",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": [
+        "docs/design/mockups/final-how-it-works.html",
+        "docs/design/final/how-it-works-*.png"
+      ],
+      "model": "sonnet",
+      "dependsOn": [
+        "T-003"
+      ],
+      "notes": "Content only; T-019 restyles the page and adds the plain-language terms. No file under `src/vramsherpa/static/` changes, so `ASSET_VERSION` is not bumped (rule 21). `estimate_breakdown` needs an available VRAM: pass a declared constant the template does not render (ADR-0007 decision 3). Depends on T-003 only to keep edits to `main.py` in sequence.",
+      "review": "pending",
+      "passes": false
+    },
+    {
+      "id": "T-006",
+      "title": "Package-data globs for fonts and images, with a guard test",
+      "requirements": [
+        "R-068",
+        "R-079"
+      ],
+      "track": "full",
+      "files": [
+        "pyproject.toml",
+        "tests/test_packaging.py"
+      ],
+      "acceptance": [
+        "THE SYSTEM SHALL list `static/fonts/*` and `static/img/*` under `[tool.setuptools.package-data] vramsherpa`, keeping the existing three globs (ADR-0002, ADR-0003).",
+        "THE SYSTEM SHALL have a pytest that fails if any file under `src/vramsherpa/static/` or `src/vramsherpa/templates/` is matched by no package-data glob, expanding each glob with setuptools' semantics (a `*` does not cross `/`), so a file the image would not ship fails CI (ADR-0002 consequences, HLD packaging trap).",
+        "THE SYSTEM SHALL prove the guard catches a miss, for example by running its matcher on a synthetic path such as `static/fonts/x.woff2` against the old glob list.",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": null,
+      "model": "opus",
+      "dependsOn": [],
+      "notes": "UI: no. No file under `src/vramsherpa/static/` changes, so `ASSET_VERSION` is not bumped (rule 21). Read `pyproject.toml` with `tomllib`. Lands before T-008 and T-009 add the first font and image files.",
+      "review": "pending",
+      "passes": false
+    },
+    {
+      "id": "T-007",
+      "title": "Release smoke test: Cache-Control on / and every /static/ URL on / returns 200",
+      "requirements": [
+        "R-062",
+        "R-080",
+        "R-068"
+      ],
+      "track": "full",
+      "files": [
+        ".github/workflows/release.yml"
+      ],
+      "acceptance": [
+        "WHEN the release smoke test runs, THE SYSTEM SHALL fail the release IF `GET http://127.0.0.1:8000/` carries no `Cache-Control` header containing `no-cache` or `no-store` (ADR-0004, R-080, rule 9).",
+        "WHEN the release smoke test runs, THE SYSTEM SHALL fail the release IF any `href` or `src` URL under `/static/` in the HTML of `GET /` does not return HTTP 200 (ADR-0002, ADR-0003); this catches a font or image missing from the non-editable install.",
+        "THE SYSTEM SHALL add these checks after the existing ones and SHALL NOT remove, reorder away or weaken any existing check: `/healthz`, the `Seeded catalog_version=` log line, the page render, https asset URLs behind `X-Forwarded-Proto: https`, and the 400 for an unknown Host (rule 18).",
+        "THE SYSTEM SHALL leave the smoke test's web command (`python -m vramsherpa.seed && exec uvicorn … --proxy-headers --forwarded-allow-ips=*`) byte for byte identical to `docker-compose.prod.yml` (rule 20).",
+        "THE SYSTEM SHALL keep `release.yml` valid YAML (checked with `python -c 'import yaml; yaml.safe_load(open(\".github/workflows/release.yml\"))'`, and `actionlint` if installed), and the new shell lines SHALL be exercised once against the local stack from `.sdlc/init.sh`, never against production.",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": null,
+      "model": "opus",
+      "dependsOn": [
+        "T-001",
+        "T-006"
+      ],
+      "notes": "UI: no. No file under `src/vramsherpa/static/` changes, so `ASSET_VERSION` is not bumped (rule 21). Fetch the asset URLs without `X-Forwarded-Proto` (they render as `http://127.0.0.1:8000/static/...`). Use `curl -s -D - -o /dev/null` rather than `curl -I`, which sends HEAD. No paid service or new runner (rules 2 and 4).",
+      "review": "pending",
+      "passes": false
+    },
+    {
+      "id": "T-008",
+      "title": "Design tokens and self-hosted Outfit font; Google Fonts removed",
+      "requirements": [
+        "R-068",
+        "R-077",
+        "R-079"
+      ],
+      "track": "full",
+      "files": [
+        "src/vramsherpa/static/css/styles.css",
+        "src/vramsherpa/static/fonts/outfit-v1-latin-wght.woff2",
+        "src/vramsherpa/static/fonts/LICENSE-outfit.txt",
+        "src/vramsherpa/templates/base.html",
+        "src/vramsherpa/main.py",
+        "tests/test_styles.py"
+      ],
+      "acceptance": [
+        "THE SYSTEM SHALL start `styles.css` with the token section of `docs/design/tokens.css` (scales, light tokens on `:root`, dark tokens under both `@media (prefers-color-scheme: dark) { :root:not([data-theme=\"light\"]) }` and `:root[data-theme=\"dark\"]`), with the `@font-face` `url()` pointing at `../fonts/outfit-v1-latin-wght.woff2` and `font-display: swap` (ADR-0001, ADR-0002).",
+        "THE SYSTEM SHALL ship `static/fonts/outfit-v1-latin-wght.woff2` (a byte copy of `docs/design/fonts/outfit-latin-wght-normal.woff2`, renamed with a version because `url()` gets no `?v=`) and `static/fonts/LICENSE-outfit.txt`; fonts total at most 4 files and 200 KB (ADR-0002).",
+        "THE SYSTEM SHALL NOT reference `fonts.googleapis.com` or `fonts.gstatic.com` in any page, and SHALL preload the font from `base.html` with `<link rel=\"preload\" as=\"font\" type=\"font/woff2\" crossorigin>` whose URL equals the one the `@font-face` resolves to, and that URL SHALL return 200 (ADR-0002).",
+        "THE SYSTEM SHALL have a pytest that fails if the two dark token blocks declare different properties or values (ADR-0001).",
+        "THE SYSTEM SHALL have a pytest that `ASSET_VERSION` is not `20261024a` (R-079).",
+        "THE SYSTEM SHALL keep every not-yet-migrated rule working: keep the old custom property names (for example as aliases of the new tokens) until T-020 removes them, so pages stay readable between tasks.",
+        "WHEN this task changes any file under `src/vramsherpa/static/`, THE SYSTEM SHALL bump `ASSET_VERSION` in `src/vramsherpa/main.py` to a value no earlier task used (date plus next letter, for example `20261025a`, then `20261025b`) (constitution rule 21, R-079).",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": [
+        "docs/design/mockups/final-spec.html",
+        "docs/design/mockups/final-home-default.html",
+        "docs/design/final/home-default-*.png"
+      ],
+      "model": "sonnet",
+      "dependsOn": [
+        "T-004",
+        "T-005",
+        "T-006"
+      ],
+      "notes": "Foundation of the `styles.css` chain: T-008 to T-021 all edit `styles.css` and/or `ASSET_VERSION` and run strictly one after another. Keep the pre-paint theme script (R-040).",
+      "review": "pending",
+      "passes": false
+    },
+    {
+      "id": "T-009",
+      "title": "Logo mark in the header and favicons under /static/img",
+      "requirements": [
+        "R-068",
+        "R-076",
+        "R-042"
+      ],
+      "track": "full",
+      "files": [
+        "src/vramsherpa/templates/logo_mark.html",
+        "src/vramsherpa/templates/base.html",
+        "src/vramsherpa/static/img/favicon.svg",
+        "src/vramsherpa/static/img/favicon-32.png",
+        "src/vramsherpa/static/img/apple-touch-icon.png",
+        "src/vramsherpa/main.py",
+        "tests/test_brand.py"
+      ],
+      "acceptance": [
+        "THE SYSTEM SHALL show the approved logo mark (`docs/design/marks/final-mark.svg`) as inline SVG from `templates/logo_mark.html`, inside the header's `VRAM Sherpa` link to `/`, with `aria-hidden=\"true\"` and `focusable=\"false\"`, coloured by `currentColor` or tokens (R-068, R-076, ADR-0003).",
+        "THE SYSTEM SHALL include in the `<head>` of every full page `<link rel=\"icon\" type=\"image/svg+xml\">` for `/static/img/favicon.svg`, a 32 px PNG icon `/static/img/favicon-32.png` and `<link rel=\"apple-touch-icon\">` for the 180 x 180 `/static/img/apple-touch-icon.png`, each with `?v={{ asset_version }}`, and each SHALL return 200 (R-068, ADR-0003).",
+        "THE SYSTEM SHALL ship `favicon.svg` from `docs/design/marks/final-favicon.svg`, and PNGs exported once from it on a developer machine; a test reads the PNG header bytes and checks 32 x 32 and 180 x 180 (no new dependency).",
+        "THE SYSTEM SHALL NOT add a route: the app's route paths SHALL equal the R-042 list, and `/favicon.ico` stays a 404 (R-042, ADR-0003).",
+        "WHEN this task changes any file under `src/vramsherpa/static/`, THE SYSTEM SHALL bump `ASSET_VERSION` in `src/vramsherpa/main.py` to a value no earlier task used (date plus next letter, for example `20261025a`, then `20261025b`) (constitution rule 21, R-079).",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": [
+        "docs/design/mockups/final-spec.html",
+        "docs/design/mockups/final-home-default.html",
+        "docs/design/final/home-default-*.png"
+      ],
+      "model": "sonnet",
+      "dependsOn": [
+        "T-008"
+      ],
+      "notes": "No `styles.css` change needed here; header sizing comes in T-010. Do not add Pillow or any export tool to `pyproject.toml`.",
+      "review": "pending",
+      "passes": false
+    },
+    {
+      "id": "T-010",
+      "title": "Page shell: backdrop, glass panes, header and footer on every page",
+      "requirements": [
+        "R-068",
+        "R-070",
+        "R-076",
+        "R-077",
+        "R-039",
+        "R-040"
+      ],
+      "track": "full",
+      "files": [
+        "src/vramsherpa/templates/base.html",
+        "src/vramsherpa/static/css/styles.css",
+        "src/vramsherpa/main.py",
+        "tests/test_ui_markup.py"
+      ],
+      "acceptance": [
+        "THE SYSTEM SHALL render on every page the approved shell: a fixed decorative `.backdrop` (`aria-hidden`), a `.page` wrapper, the header as a glass pane with the brand (mark plus `VRAM Sherpa`), `nav` with `Estimator` and `How it works` keeping today's `aria-current=\"page\"` rules, and the theme toggle `#theme-toggle` with its labels `Dark mode` and `Light mode` and `aria-pressed` (R-076, R-039, R-040).",
+        "THE SYSTEM SHALL render the footer's `Catalog version`, `Estimation policy` and `Last updated` values on every page, stacked and not overlapping at 390 px (R-076, R-038).",
+        "THE SYSTEM SHALL render the header and footer markup identically on `/`, `/results`, `/models/<id>` and `/how-it-works`, apart from `aria-current` and the active class (R-076); a pytest compares them.",
+        "THE SYSTEM SHALL style panes with the glass rules of `docs/design/build/components.css` and their solid fallbacks for no `backdrop-filter` and for `prefers-reduced-transparency: reduce`, within the glass budget (at most 3 blurred layers at phone width) (R-068, R-077, design README).",
+        "WHILE at phone width, THE SYSTEM SHALL keep `Estimator`, `How it works` and the theme toggle reachable with at most one tap each, as 44 x 44 px targets, with no horizontal scroll (R-070).",
+        "THE SYSTEM SHALL keep the theme toggle's icon as a CSS mask keyed on `aria-pressed`, so `app.js` keeps replacing the button text unchanged (design README build notes).",
+        "WHEN this task changes any file under `src/vramsherpa/static/`, THE SYSTEM SHALL bump `ASSET_VERSION` in `src/vramsherpa/main.py` to a value no earlier task used (date plus next letter, for example `20261025a`, then `20261025b`) (constitution rule 21, R-079).",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": [
+        "docs/design/mockups/final-home-default.html",
+        "docs/design/final/home-default-*.png",
+        "docs/design/mockups/final-how-it-works.html",
+        "docs/design/final/how-it-works-*.png",
+        "docs/design/mockups/final-detail-ungated.html",
+        "docs/design/final/detail-ungated-*.png"
+      ],
+      "model": "sonnet",
+      "dependsOn": [
+        "T-009"
+      ],
+      "notes": "Page `<main>` classes (`bento`, `detail`, `doc`) via a template block. Old component rules for screens not yet migrated stay until their task.",
+      "review": "pending",
+      "passes": false
+    },
+    {
+      "id": "T-011",
+      "title": "Form tile on / and /results",
+      "requirements": [
+        "R-071",
+        "R-070",
+        "R-068",
+        "R-077",
+        "R-078",
+        "R-006",
+        "R-007"
+      ],
+      "track": "full",
+      "files": [
+        "src/vramsherpa/templates/index.html",
+        "src/vramsherpa/static/css/styles.css",
+        "src/vramsherpa/static/js/app.js",
+        "src/vramsherpa/main.py",
+        "tests/test_ui_markup.py"
+      ],
+      "acceptance": [
+        "THE SYSTEM SHALL render the form tile as the approved mockups show, with the copy-table wording: title `Find models that fit your VRAM`, hint `Pick your GPU, or enter your VRAM if it isn't listed.`, no `I know my GPU` or `I know my VRAM` headings, no help line under the GPU field, placeholder `Start typing a GPU name`, and no `How it works` link inside the form (R-071, R-078, copy table).",
+        "THE SYSTEM SHALL keep `Search GPU`, `Clear`, `Available VRAM (GB)`, `Context window`, `2k`, `4k`, `8k`, the example chips `RTX 4060 8GB`, `8GB`, `24GB` and `Check compatibility` word for word, the ids `gpu_search`, `gpu_id`, `gpu-options`, `clear-gpu`, `vram_gb`, the `list=\"gpu-options\"` datalist, the `.chip-example` buttons with `data-gpu-id`/`data-vram-gb`, and the `js-auto-filter` radios (R-078, ADR-0005, ADR-0006 point 1). The mockup's `data-chip` attributes are not built.",
+        "THE SYSTEM SHALL wrap `#gpu_search` in a `.combo` element for T-021, and give `Available VRAM (GB)` `inputmode=\"decimal\"` while it stays `type=\"number\"` with its `min` and `step` (R-070, ADR-0006 point 6).",
+        "WHEN a full page load carries input errors or GPU search feedback, THE SYSTEM SHALL NOT render them inside the form, so `/results?vram_gb=abc` contains exactly one `role=\"alert\"` and `Invalid value for vram_gb.` once, and `/results?gpu_search=RTX` shows the R-003 message once in `role=\"status\"` (R-071).",
+        "WHEN `/` loads at 390 px or 1280 px, THE SYSTEM SHALL show `Search GPU`, `Available VRAM (GB)`, the three presets and `Check compatibility` without scrolling, with 16 px field text and 44 px targets at phone width (R-071, R-070).",
+        "THE SYSTEM SHALL draw the context presets as the segmented control, with the sliding thumb added by `app.js` as progressive enhancement (re-placed on change, resize, font load and `htmx:afterSettle`, with no transition under `prefers-reduced-motion`); without JavaScript the checked preset carries its own fill (R-068, R-077, R-078, design README).",
+        "WHEN this task changes any file under `src/vramsherpa/static/`, THE SYSTEM SHALL bump `ASSET_VERSION` in `src/vramsherpa/main.py` to a value no earlier task used (date plus next letter, for example `20261025a`, then `20261025b`) (constitution rule 21, R-079).",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": [
+        "docs/design/mockups/final-home-default.html",
+        "docs/design/final/home-default-*.png",
+        "docs/design/mockups/final-results-manual-vram.html",
+        "docs/design/final/results-manual-vram-*.png",
+        "docs/design/mockups/final-results-gpu.html",
+        "docs/design/final/results-gpu-*.png"
+      ],
+      "model": "sonnet",
+      "dependsOn": [
+        "T-010"
+      ],
+      "notes": "Filters (the `<details>` at the foot of this tile) are T-012; the answer tile is T-013.",
+      "review": "pending",
+      "passes": false
+    },
+    {
+      "id": "T-012",
+      "title": "Filters disclosure, closed at both widths, with Filters (N)",
+      "requirements": [
+        "R-069",
+        "R-031",
+        "R-027",
+        "R-028",
+        "R-029",
+        "R-030",
+        "R-070",
+        "R-078"
+      ],
+      "track": "full",
+      "files": [
+        "src/vramsherpa/templates/index.html",
+        "src/vramsherpa/static/css/styles.css",
+        "src/vramsherpa/static/js/app.js",
+        "src/vramsherpa/main.py",
+        "tests/test_ui_markup.py",
+        "tests/test_app.py"
+      ],
+      "acceptance": [
+        "THE SYSTEM SHALL render the filters inside `#search-form`, at the foot of the form tile, in a `<details>` with no `open` attribute at any width, whose `<summary>` reads `Filters (N)` with N the number of active filter chips (R-069, R-031, ADR-0006 point 4 as revised at Gate 2).",
+        "WHEN `/results?vram_gb=24&context_tokens=4096&family=qwen&quant_bucket=Q4` loads, THE SYSTEM SHALL show `Filters (2)`; WHEN no filter is active, `Filters (0)` (R-069, copy table).",
+        "THE SYSTEM SHALL NOT open the filters disclosure from any script, at any width (decisions 2026-10-25, Gate 2).",
+        "WHEN the user opens the disclosure, with or without JavaScript, THE SYSTEM SHALL show every filter control of R-027 to R-030 with their labels and titles word for word (`Family`, `Quantization`, `Min params (B)`, `Max params (B)`, `Recommended only`), and the `<noscript>` `Apply filters` submit button (R-069, R-078); the existing test keeps asserting that button.",
+        "WHEN a filter input changes, THE SYSTEM SHALL update N in place, counting checked family, quantisation and `Recommended only` boxes and each non-empty, valid `Min params (B)` and `Max params (B)` value, with the listener delegated on `document` (ADR-0006 point 4).",
+        "THE SYSTEM SHALL give `Min params (B)` and `Max params (B)` `inputmode=\"decimal\"`, keep their `js-auto-filter-text` class, names, `min` and `step`, and give checkboxes with their labels 44 x 44 px targets at phone width (R-070, R-078).",
+        "WHEN this task changes any file under `src/vramsherpa/static/`, THE SYSTEM SHALL bump `ASSET_VERSION` in `src/vramsherpa/main.py` to a value no earlier task used (date plus next letter, for example `20261025a`, then `20261025b`) (constitution rule 21, R-079).",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": [
+        "docs/design/mockups/final-results-chips.html",
+        "docs/design/final/results-chips-*.png",
+        "docs/design/mockups/final-results-filters-open.html",
+        "docs/design/final/results-filters-open-*.png"
+      ],
+      "model": "sonnet",
+      "dependsOn": [
+        "T-011"
+      ],
+      "notes": "N comes from `active_filter_chips|length` in the template; `main.py` changes only for `ASSET_VERSION`.",
+      "review": "pending",
+      "passes": false
+    },
+    {
+      "id": "T-013",
+      "title": "Answer tile: headline first, messages, counts and active filter chips",
+      "requirements": [
+        "R-069",
+        "R-071",
+        "R-005",
+        "R-014",
+        "R-022",
+        "R-023",
+        "R-031",
+        "R-077"
+      ],
+      "track": "full",
+      "files": [
+        "src/vramsherpa/templates/results_summary.html",
+        "src/vramsherpa/templates/results_list.html",
+        "src/vramsherpa/static/css/styles.css",
+        "src/vramsherpa/main.py",
+        "tests/test_ui_markup.py"
+      ],
+      "acceptance": [
+        "THE SYSTEM SHALL render `#summary-banner` as the answer tile and the first content of `#results-shell`, headed by `<h2>` `N models fit or are tight` (N = number of model cards; singular `1 model fit or are tight`), before Top Picks, the chips and the cards (R-069, copy table).",
+        "THE SYSTEM SHALL render inside the answer tile, under the headline: the `role=\"alert\"` list headed `Please fix the following input issues:`, the `role=\"status\"` GPU search feedback, the `Hardware:` and `Context:` line, the default 8 GB note when it applies, the `Fits`, `Tight` and `Won't fit` counts each with a non-colour shape cue, the note `Only Fits and Tight models are listed. Pick a quantisation on any card to see how it changes.` with the unchanged hover text (only the first sentence on the empty state), and `Active filters:` with the chips (R-069, R-071, R-022, R-023, R-031, copy table).",
+        "WHEN results refresh in place, THE SYSTEM SHALL show only the current query's messages: after `/results?vram_gb=abc`, a `HX-Request: true` request with `vram_gb=24` returns no `role=\"alert\"` (R-071).",
+        "THE SYSTEM SHALL remove the visible `Summary for this query` heading, the old `Results` header and its count sentence, and the old `Showing only Fits and Tight models in the list below.` note, and add a visually hidden `<h2>Results</h2>` above the cards; every value SHALL still appear at least once (R-069, copy table).",
+        "THE SYSTEM SHALL keep the ids `results-summary-shell`, `results-list-shell`, `summary-banner` and `results-cards`, and the three partial endpoints SHALL return their templates (R-078, ADR-0006 point 1).",
+        "WHEN the reference query loads at 1280 px, THE SYSTEM SHALL keep the headline and first card's name, verdict and margin within 800 px; states that show a message may end around 840 to 880 px (R-069, decisions 2026-10-25 Gate 2). QA measures in a real browser.",
+        "WHEN this task changes any file under `src/vramsherpa/static/`, THE SYSTEM SHALL bump `ASSET_VERSION` in `src/vramsherpa/main.py` to a value no earlier task used (date plus next letter, for example `20261025a`, then `20261025b`) (constitution rule 21, R-079).",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": [
+        "docs/design/mockups/final-results-manual-vram.html",
+        "docs/design/final/results-manual-vram-*.png",
+        "docs/design/mockups/final-results-gpu-ambiguous.html",
+        "docs/design/final/results-gpu-ambiguous-*.png",
+        "docs/design/mockups/final-results-gpu-notfound.html",
+        "docs/design/final/results-gpu-notfound-*.png",
+        "docs/design/mockups/final-results-errors.html",
+        "docs/design/final/results-errors-*.png",
+        "docs/design/mockups/final-results-chips.html",
+        "docs/design/final/results-chips-*.png",
+        "docs/design/mockups/final-home-default.html",
+        "docs/design/final/home-default-*.png"
+      ],
+      "model": "sonnet",
+      "dependsOn": [
+        "T-012"
+      ],
+      "notes": "The mockups put `no-picks` on `<main>`, which an in-place refresh does not re-render: key that layout on markup inside `#results-shell` or `:has()` (ADR-0006 point 9).",
+      "review": "pending",
+      "passes": false
+    },
+    {
+      "id": "T-014",
+      "title": "Top Picks tiles with the new descriptions",
+      "requirements": [
+        "R-069",
+        "R-024"
+      ],
+      "track": "full",
+      "files": [
+        "src/vramsherpa/templates/results_summary.html",
+        "src/vramsherpa/templates/results_top_picks.html",
+        "src/vramsherpa/static/css/styles.css",
+        "src/vramsherpa/main.py",
+        "tests/test_ui_markup.py"
+      ],
+      "acceptance": [
+        "THE SYSTEM SHALL render Top Picks after the answer tile as a `<details data-open-wide>` headed `Top Picks for you`, rendered without `open`, followed directly by an inline script that opens it when `matchMedia('(min-width: 900px)')` matches; without JavaScript it can still be opened (R-069, R-078, ADR-0006 point 2).",
+        "THE SYSTEM SHALL give the picks the descriptions `The strongest model that still leaves room to spare.` (`Best quality that fits`), `Nearly as capable, and comfortable to run.` (`Best balance`) and `The lightest model that still runs on your GPU.` (`Best small`); no description SHALL contain `ranked` or `ranking` (R-069, Q-10 (ii), copy table).",
+        "THE SYSTEM SHALL keep the R-024 selection rules, the pick titles, the `<n>B · Q4` line and the link to `/models/<id>?<hardware query>`, and hide the section when R-024 says so (`/results?vram_gb=2&context_tokens=4096`) (R-024, R-078).",
+        "WHEN this task changes any file under `src/vramsherpa/static/`, THE SYSTEM SHALL bump `ASSET_VERSION` in `src/vramsherpa/main.py` to a value no earlier task used (date plus next letter, for example `20261025a`, then `20261025b`) (constitution rule 21, R-079).",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": [
+        "docs/design/mockups/final-results-manual-vram.html",
+        "docs/design/final/results-manual-vram-*.png",
+        "docs/design/mockups/final-results-picks-hidden.html",
+        "docs/design/final/results-picks-hidden-*.png"
+      ],
+      "model": "sonnet",
+      "dependsOn": [
+        "T-013"
+      ],
+      "notes": "`main.py` changes `_top_picks` descriptions and `ASSET_VERSION` only.",
+      "review": "pending",
+      "passes": false
+    },
+    {
+      "id": "T-015",
+      "title": "Model cards, quantisation switcher and fit gauge, with shared verdict and gated macros",
+      "requirements": [
+        "R-072",
+        "R-068",
+        "R-070",
+        "R-015",
+        "R-016",
+        "R-017",
+        "R-018",
+        "R-019",
+        "R-021",
+        "R-077"
+      ],
+      "track": "full",
+      "files": [
+        "src/vramsherpa/templates/components.html",
+        "src/vramsherpa/templates/results_list.html",
+        "src/vramsherpa/static/css/styles.css",
+        "src/vramsherpa/static/js/app.js",
+        "src/vramsherpa/main.py",
+        "tests/test_ui_markup.py",
+        "tests/test_app.py"
+      ],
+      "acceptance": [
+        "THE SYSTEM SHALL render the verdict label and the gated marker through Jinja macros in a new `templates/components.html`, imported by `results_list.html` (and by `model_detail.html` in T-018), each with one component class (R-068, ADR-0001).",
+        "THE SYSTEM SHALL keep each card's content, default quantisation, switcher behaviour, gauge geometry and server-rendered widths, the gauge's `role=\"img\"` label, captions (`<n> GB needed`, `<n> GB`), ordering, `data-model-card`, `data-quant-btn`, `data-variant-pane`, `aria-pressed` and `data-oversize` (R-072, R-015 to R-019, R-021, R-077).",
+        "THE SYSTEM SHALL tell `Fits`, `Tight` and `Won't fit` apart by label plus a shape (circle tick, triangle bar, square cross), keep the reserve band distinct from the bar (dashed outline) and keep a `Won't fit` quantisation button distinguishable without colour (struck through) in both themes (R-072, R-077).",
+        "WHILE at phone width, THE SYSTEM SHALL show all four quantisation buttons on one row, wrap `Mistral NeMo 12B Instruct (2407)` and `DeepSeek-Coder-V2-Lite-Instruct` inside the card, and render the verdict and margin no smaller than any other text in the pane (R-072, R-070, R-069).",
+        "THE SYSTEM SHALL add no figure or text to a card beyond R-015 to R-021 (R-069), and T-004's golden test SHALL still pass unchanged.",
+        "THE SYSTEM SHALL add the sliding thumb to the quantisation switcher and any pane or gauge motion from the mockup only as progressive enhancement in `app.js`, delegated or re-initialised after `htmx:afterSettle`, and disabled under `prefers-reduced-motion` (R-077, design README).",
+        "WHEN this task changes any file under `src/vramsherpa/static/`, THE SYSTEM SHALL bump `ASSET_VERSION` in `src/vramsherpa/main.py` to a value no earlier task used (date plus next letter, for example `20261025a`, then `20261025b`) (constitution rule 21, R-079).",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": [
+        "docs/design/mockups/final-results-gpu.html",
+        "docs/design/final/results-gpu-*.png",
+        "docs/design/mockups/final-results-manual-vram.html",
+        "docs/design/final/results-manual-vram-*.png",
+        "docs/design/mockups/final-results-tight-gated.html",
+        "docs/design/final/results-tight-gated-*.png"
+      ],
+      "model": "sonnet",
+      "dependsOn": [
+        "T-014"
+      ],
+      "notes": "Existing assertions on old card markup in `tests/test_app.py` (for example `12.0 GB</span>`) may be updated to the new markup but must keep checking the same value.",
+      "review": "pending",
+      "passes": false
+    },
+    {
+      "id": "T-016",
+      "title": "How this is estimated: new labels, total before reserve, loading state",
+      "requirements": [
+        "R-073",
+        "R-020",
+        "R-070",
+        "R-077"
+      ],
+      "track": "full",
+      "files": [
+        "src/vramsherpa/templates/results_why.html",
+        "src/vramsherpa/templates/results_list.html",
+        "src/vramsherpa/static/css/styles.css",
+        "src/vramsherpa/main.py",
+        "tests/test_app.py",
+        "tests/test_ui_markup.py"
+      ],
+      "acceptance": [
+        "THE SYSTEM SHALL render the breakdown as a definition list under `<quant label> on <model name>` with rows `Model weights`, `Context memory (KV cache)`, `Runtime overhead`, `Total needed` (ruled off from the three it adds up) and `Safety reserve` last with the line `Kept free, not part of the total`, each figure to 2 decimals with `GB`, and the five figures unchanged (R-073, R-020, copy table).",
+        "THE SYSTEM SHALL show a `Total needed` equal to the `GB needed` caption of the same pane (R-073); a test compares them for one variant.",
+        "THE SYSTEM SHALL keep the breakdown collapsed until opened, fetched once (`hx-get` with `hx-trigger=\"click once\"`, `hx-target`, `hx-swap` unchanged), and keep `How this is estimated` and the placeholder `Open to load the breakdown.` word for word (R-073, R-078).",
+        "WHILE the request runs, THE SYSTEM SHALL show `Loading the breakdown` with five shimmering rows, visibly different from the loaded list, driven by htmx's `htmx-request` class with no new JavaScript, and still under `prefers-reduced-motion` (R-073, R-077, ADR-0006 point 8).",
+        "WHEN the breakdown is open at 390 px, THE SYSTEM SHALL show all five values within the card's width with no horizontal scroll (R-073, R-070).",
+        "THE SYSTEM SHALL update the existing raw-label assertions in `tests/test_app.py` (`weights_gb` and the others) to the new labels and keep asserting all five values (not a weakening: the wording changed at Gate 2).",
+        "WHEN this task changes any file under `src/vramsherpa/static/`, THE SYSTEM SHALL bump `ASSET_VERSION` in `src/vramsherpa/main.py` to a value no earlier task used (date plus next letter, for example `20261025a`, then `20261025b`) (constitution rule 21, R-079).",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": [
+        "docs/design/mockups/final-why-closed.html",
+        "docs/design/final/why-closed-*.png",
+        "docs/design/mockups/final-why-loading.html",
+        "docs/design/final/why-loading-*.png",
+        "docs/design/mockups/final-why-loaded.html",
+        "docs/design/final/why-loaded-*.png"
+      ],
+      "model": "sonnet",
+      "dependsOn": [
+        "T-015"
+      ],
+      "notes": "",
+      "review": "pending",
+      "passes": false
+    },
+    {
+      "id": "T-017",
+      "title": "Empty and unseeded states, with the models-not-variants wording",
+      "requirements": [
+        "R-069",
+        "R-025",
+        "R-026",
+        "R-023"
+      ],
+      "track": "full",
+      "files": [
+        "src/vramsherpa/templates/results_list.html",
+        "src/vramsherpa/static/css/styles.css",
+        "src/vramsherpa/main.py",
+        "tests/test_ui_markup.py"
+      ],
+      "acceptance": [
+        "WHEN the empty state shows with a `Won't fit` count above 1, THE SYSTEM SHALL say `There are <n> models in Won't fit, hidden by default.`, and for exactly 1 `There is 1 model in Won't fit, hidden by default.`; the sentence SHALL NOT contain `variants` (R-069, Q-10 (i), copy table).",
+        "THE SYSTEM SHALL keep `No models currently fit this setup.`, `Try one of these next steps:`, `Try Q4` and `Lower context` (each a link or inert text by the R-025 rules), `Catalog is not initialized yet.` and `Seed the catalog data, then refresh this page.` word for word (R-025, R-026, R-078).",
+        "THE SYSTEM SHALL style the empty and unseeded states as the approved mockups show, in the results pane, with link and inert next steps visibly different and inert ones not focusable (R-025, R-068, R-070).",
+        "WHEN this task changes any file under `src/vramsherpa/static/`, THE SYSTEM SHALL bump `ASSET_VERSION` in `src/vramsherpa/main.py` to a value no earlier task used (date plus next letter, for example `20261025a`, then `20261025b`) (constitution rule 21, R-079).",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": [
+        "docs/design/mockups/final-empty-links.html",
+        "docs/design/final/empty-links-*.png",
+        "docs/design/mockups/final-empty-inert.html",
+        "docs/design/final/empty-inert-*.png",
+        "docs/design/mockups/final-empty-mixed.html",
+        "docs/design/final/empty-mixed-*.png",
+        "docs/design/mockups/final-unseeded.html",
+        "docs/design/final/unseeded-*.png"
+      ],
+      "model": "sonnet",
+      "dependsOn": [
+        "T-016"
+      ],
+      "notes": "",
+      "review": "pending",
+      "passes": false
+    },
+    {
+      "id": "T-018",
+      "title": "Model detail page: fact tiles, recompute form, stacked variant rows at 390 px",
+      "requirements": [
+        "R-074",
+        "R-068",
+        "R-070",
+        "R-033",
+        "R-034",
+        "R-035",
+        "R-036",
+        "R-077"
+      ],
+      "track": "full",
+      "files": [
+        "src/vramsherpa/templates/model_detail.html",
+        "src/vramsherpa/static/css/styles.css",
+        "src/vramsherpa/main.py",
+        "tests/test_app.py",
+        "tests/test_ui_markup.py"
+      ],
+      "acceptance": [
+        "THE SYSTEM SHALL render the model facts as four labelled tiles (Family, Params, Type, License) with the same values, the `KV cache estimate per 1k context` line, `Sources`, the gated note, and visually hidden headings `Recompute for other hardware` and `Variants` (R-074, R-033, R-036, copy table).",
+        "THE SYSTEM SHALL render the verdict label and the gated marker with T-015's macros, so they look the same as on a card, keeping the word `gated` here and `Gated` on cards (R-068, R-021, R-036); the existing `badge-gated` assertions are updated to the macro's class and keep checking presence and absence.",
+        "THE SYSTEM SHALL keep the recompute form's GPU `<select>`, `Manual VRAM (GB)` (now with `inputmode=\"decimal\"`), context, `Recompute` as the primary button, and the R-035 precedence, restyled only (R-074, R-035, R-070).",
+        "THE SYSTEM SHALL keep the variant `<table>` with its seven column headings and sort at 1280 px, add `data-label` on every cell and explicit `role` `table`/`row`/`columnheader`/`cell`, remove `.table-scroll`, and at 390 px stack each row so label, required VRAM, available VRAM, margin and classification show with no horizontal scroll, provenance last (R-074, R-034, ADR-0006 point 7).",
+        "WHEN `/models/model_qwen25_7b_instruct?vram_gb=24&context_tokens=4096` loads at 390 px, THE SYSTEM SHALL place the model name and the first variant's classification within 1688 px (R-074; QA measures).",
+        "WHEN this task changes any file under `src/vramsherpa/static/`, THE SYSTEM SHALL bump `ASSET_VERSION` in `src/vramsherpa/main.py` to a value no earlier task used (date plus next letter, for example `20261025a`, then `20261025b`) (constitution rule 21, R-079).",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": [
+        "docs/design/mockups/final-detail-gated.html",
+        "docs/design/final/detail-gated-*.png",
+        "docs/design/mockups/final-detail-ungated.html",
+        "docs/design/final/detail-ungated-*.png",
+        "docs/design/mockups/final-detail-no-sources.html",
+        "docs/design/final/detail-no-sources-*.png",
+        "docs/design/mockups/final-detail-error.html",
+        "docs/design/final/detail-error-*.png"
+      ],
+      "model": "sonnet",
+      "dependsOn": [
+        "T-017"
+      ],
+      "notes": "Source URLs wrap (`overflow-wrap: anywhere`). The mockup `select` rule uses `text-overflow: ellipsis`; R-070 forbids cutting text with an ellipsis, so make sure the longest GPU label is not truncated at 390 px.",
+      "review": "pending",
+      "passes": false
+    },
+    {
+      "id": "T-019",
+      "title": "How it works page: tiles, plain-language terms and styled worked example",
+      "requirements": [
+        "R-075",
+        "R-037",
+        "R-068",
+        "R-070",
+        "R-077"
+      ],
+      "track": "full",
+      "files": [
+        "src/vramsherpa/templates/how_it_works.html",
+        "src/vramsherpa/static/css/styles.css",
+        "src/vramsherpa/main.py",
+        "tests/test_how_it_works.py"
+      ],
+      "acceptance": [
+        "THE SYSTEM SHALL render one `h1` (`How VRAM Sherpa estimates fit (Policy <version>)`, with the version from `estimation_policy_version`, equal to the footer's) and one `h2` per section: Inputs, Formula, Reserve buffer, Classification, Worked example, Limitations (R-075).",
+        "THE SYSTEM SHALL explain in plain language, with the copy-table wording, each of `params_b`, `bits_effective`, `kv_gb_per_1k_ctx`, `context_tokens`, `weights_gb`, `kv_cache_gb`, `runtime_overhead_gb`, `required_vram_gb`, `available_vram_gb` and `reserve_gb`, keeping the old source lines (R-075, copy table).",
+        "THE SYSTEM SHALL keep the four formulas, the reserve formula, the three classification rules, the intro sentence and the limitations statement word for word, with the constants 1.10, 1.0, 0.05, 0.75 and 0.10 (R-075, R-009 to R-011, R-037); a test asserts each formula string.",
+        "THE SYSTEM SHALL show the reserve examples `With 4 GB the reserve is 0.75 GB. With 16 GB it is 1.6 GB.` and the 10 GB gauge line, and the classification tiles with verdict labels drawn by T-015's macro (R-075, copy table).",
+        "THE SYSTEM SHALL keep T-005's worked example figures and fallback behaviour unchanged; T-005's tests SHALL still pass (R-075).",
+        "WHEN shown at 390 px, THE SYSTEM SHALL show every formula, rule and step in full, wrapping, with no horizontal scroll (R-075, R-070).",
+        "WHEN this task changes any file under `src/vramsherpa/static/`, THE SYSTEM SHALL bump `ASSET_VERSION` in `src/vramsherpa/main.py` to a value no earlier task used (date plus next letter, for example `20261025a`, then `20261025b`) (constitution rule 21, R-079).",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": [
+        "docs/design/mockups/final-how-it-works.html",
+        "docs/design/final/how-it-works-*.png"
+      ],
+      "model": "sonnet",
+      "dependsOn": [
+        "T-018"
+      ],
+      "notes": "The 10 GB gauge example uses figures from R-010/R-011; render its widths from those numbers, not from a guess.",
+      "review": "pending",
+      "passes": false
+    },
+    {
+      "id": "T-020",
+      "title": "Focus ring, reduced motion and transparency, and removal of the old stylesheet rules",
+      "requirements": [
+        "R-077",
+        "R-068",
+        "R-070"
+      ],
+      "track": "full",
+      "files": [
+        "src/vramsherpa/static/css/styles.css",
+        "src/vramsherpa/main.py",
+        "tests/test_styles.py"
+      ],
+      "acceptance": [
+        "WHEN any interactive element receives keyboard focus, THE SYSTEM SHALL show the approved focus ring in both themes (R-077, `final-focus-states`).",
+        "WHILE the system requests reduced motion, THE SYSTEM SHALL NOT animate transitions; WHILE it requests reduced transparency, panes SHALL be solid (R-077).",
+        "THE SYSTEM SHALL remove every pre-overhaul rule and old custom property alias no template uses any longer, leaving `styles.css` in ADR-0001's section order (tokens, reset and base, layout, components, page-specific rules, utilities) with at most two breakpoints noted beside the tokens (ADR-0001).",
+        "THE SYSTEM SHALL have pytests that no `font-size` in `styles.css` is below 12 px, that `white-space: nowrap` appears only on an allowlist in the test of short figure and tag selectors from `docs/design/build/components.css` (`.sr-only`, `.tag-gated`, `.why-list dd`, `.vtable td.fig`, `.vtable td.vl`, `.kv-list dd`, `.steps .out`) and never on names, labels, URLs or formulas, and that the two dark blocks still match (R-070, ADR-0001, ADR-0006 point 5).",
+        "THE SYSTEM SHALL render no button, field, select, checkbox or radio on a screen in R-067 in the browser's default appearance (R-068; QA checks).",
+        "WHEN this task changes any file under `src/vramsherpa/static/`, THE SYSTEM SHALL bump `ASSET_VERSION` in `src/vramsherpa/main.py` to a value no earlier task used (date plus next letter, for example `20261025a`, then `20261025b`) (constitution rule 21, R-079).",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": [
+        "docs/design/mockups/final-spec.html",
+        "docs/design/mockups/final-focus-states.html",
+        "docs/design/final/focus-states-*.png"
+      ],
+      "model": "sonnet",
+      "dependsOn": [
+        "T-019"
+      ],
+      "notes": "Remove a rule only after grepping the templates and `app.js` for its class.",
+      "review": "pending",
+      "passes": false
+    },
+    {
+      "id": "T-021",
+      "title": "Styled GPU suggestion list: vanilla ARIA combobox over the native datalist",
+      "requirements": [
+        "R-071",
+        "R-001",
+        "R-003",
+        "R-007",
+        "R-070",
+        "R-077",
+        "R-078"
+      ],
+      "track": "full",
+      "files": [
+        "src/vramsherpa/static/js/app.js",
+        "src/vramsherpa/static/css/styles.css",
+        "src/vramsherpa/templates/index.html",
+        "src/vramsherpa/main.py",
+        "tests/test_ui_markup.py"
+      ],
+      "acceptance": [
+        "WHERE JavaScript runs, THE SYSTEM SHALL replace the native suggestion list with the combobox of ADR-0005 at every width: remove the input's `list` attribute, set `role=\"combobox\"`, `aria-autocomplete=\"list\"`, `aria-expanded`, `aria-controls=\"gpu-listbox\"` and `aria-activedescendant`, and render `#gpu-listbox` (`role=\"listbox\"`, `aria-label=\"GPU suggestions\"`) with `role=\"option\"` items inside `.combo` (R-071, ADR-0005).",
+        "THE SYSTEM SHALL list the same GPUs, in the same order and with the same labels as R-001 (all 35 with an empty field), filtered by a case-insensitive substring match with whitespace collapsed (R-071, R-001, R-003).",
+        "WHEN the user picks a suggestion by tap, click, or arrow keys and Enter, THE SYSTEM SHALL write its exact label, set the hidden `gpu_id` and empty `Available VRAM (GB)` through the existing exact-match code, without submitting the form; Enter with no active option SHALL submit as today; Escape closes and keeps the text; Tab moves on (R-071, R-001, ADR-0005).",
+        "WHILE JavaScript is disabled or the script fails, THE SYSTEM SHALL keep the native datalist and accept free text resolved on submit as R-003 states; the server markup keeps `list=\"gpu-options\"` and all 35 options, which a pytest checks (R-071, R-078).",
+        "THE SYSTEM SHALL render options at least 44 px tall, wrap `NVIDIA GeForce RTX 4090 Laptop GPU (16.0 GB)` inside the option, use a solid background without blur below 900 px, and add no horizontal scroll at 390 px (R-070, design README).",
+        "THE SYSTEM SHALL keep `Clear`, the example chips and the manual VRAM field on their current code paths, and `node --check` on `app.js` SHALL pass (R-007, R-078).",
+        "WHEN this task changes any file under `src/vramsherpa/static/`, THE SYSTEM SHALL bump `ASSET_VERSION` in `src/vramsherpa/main.py` to a value no earlier task used (date plus next letter, for example `20261025a`, then `20261025b`) (constitution rule 21, R-079).",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": [
+        "docs/design/mockups/final-gpu-suggest.html",
+        "docs/design/final/gpu-suggest-*.png"
+      ],
+      "model": "sonnet",
+      "dependsOn": [
+        "T-020"
+      ],
+      "notes": "Choose on `pointerdown` with `preventDefault` so blur does not close the list first. Keyboard and screen-reader checks at 390 and 1280 px are QA's (rule 10, R-077). Known issue outside scope: after an htmx history cache hit the combobox listeners are lost (ADR-0008); free text still works.",
+      "review": "pending",
+      "passes": false
+    }
+  ]
 }

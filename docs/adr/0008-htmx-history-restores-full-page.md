@@ -2,6 +2,8 @@
 
 Date: 2026-10-25 · Status: proposed · Requirements: R-081, R-032, R-078, R-080 · Amends: ADR-0004 (`Vary` value)
 
+Revised 2026-10-25 (Plan): the breakdown `<summary hx-get="/results/why/…">` inherits the form's `hx-push-url="true"`, because htmx inherits that attribute from ancestors, so opening a breakdown pushes `/results/why/<id>?…` into history and the address bar. ADR-0006 point 9 moves `#results-shell` out of the form, which stops it with no `hx-*` change; a guard test keeps `#results-shell` outside `<form id="search-form">`.
+
 Revised 2026-10-25 (Gate 2 round 1 redo): added fix 4, which redirects old `/results/partials/content` links opened as a normal page (not `summary` or `list`, per R-081) to `/results?<same query>` (the user's decision in `docs/decisions.md`). Re-wiring scripts after a cache hit is recorded as out of scope, because the user did not select it.
 
 ## Context

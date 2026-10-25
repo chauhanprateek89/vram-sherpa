@@ -14,7 +14,7 @@ EARS forms: `THE SYSTEM SHALL …` (always) · `WHEN <trigger>, THE SYSTEM SHALL
 
 Recorded at onboarding from `main` at 96572b1 (2026-10-25). Seeded catalog at that commit: version `2026-10-23`, 35 GPUs, 95 models (81 auto-discovered, 24 gated), 380 variants, 7 families. Paths are relative to the repo root; `main.py` means `src/vramsherpa/main.py`.
 
-R-067 to R-079 (UI/UX overhaul, Full track) were added on 2026-10-25 from the user's intake answers. The user's Gate 1 answers to their open questions (Q-1 to Q-11) are folded into them, and R-080 was added from Q-9; see "Resolved at Gate 1" at the end of this file. At Gate 2 round 1 the R-075 worked example was changed to a catalog model and R-081 was added. The round 1 redo answers (direction "D layout + E glass", Q-12, Q-13 and the old-link redirect) are folded into R-067, R-068, R-075, R-081 and R-032; see "Open questions" and `docs/decisions.md` (rows dated 2026-10-25, Gate "2 (round 1 redo)").
+R-067 to R-079 (UI/UX overhaul, Full track) were added on 2026-10-25 from the user's intake answers. The user's Gate 1 answers to their open questions (Q-1 to Q-11) are folded into them, and R-080 was added from Q-9; see "Resolved at Gate 1" at the end of this file. At Gate 2 round 1 the R-075 worked example was changed to a catalog model and R-081 was added. The round 1 redo answers (direction "D layout + E glass", Q-12, Q-13 and the old-link redirect) are folded into R-067, R-068, R-075, R-081 and R-032; see "Open questions" and `docs/decisions.md` (rows dated 2026-10-25, Gate "2 (round 1 redo)"). The Gate 2 approval (the 24 approved screens and states, the copy table, filters closed at both widths, the 900 px allowance for message states and the styled GPU suggestion list) is folded into R-067, R-068, R-069, R-071 and R-078; see `docs/decisions.md` (rows dated 2026-10-25, Gate "2").
 
 ## Hardware and context input
 
@@ -611,7 +611,7 @@ Terms used below:
 - *Phone width*: a 390 × 844 CSS px viewport. *Desktop width*: a 1280 × 800 CSS px viewport. These are the only two widths the designer mocks up and QA checks (Gate 1, Q-5).
 - *Reference query*: `/results?vram_gb=24&context_tokens=4096`.
 - *Result headline*: the statement of how many models fit or are tight (R-014), together with the hardware and context it applies to (R-022).
-- *Rewordable text* (Gate 1, Q-2): headings, help text, notes and raw labels such as the breakdown's `weights_gb`. The designer may reword these and merge facts that appear twice; the new wording is approved in the Gate 2 mockups.
+- *Rewordable text* (Gate 1, Q-2): headings, help text, notes and raw labels such as the breakdown's `weights_gb`. The designer may reword these and merge facts that appear twice. The approved new wording is the copy table in `docs/design/README.md` (section "Copy table (Q-2): what changed"), approved at Gate 2 (R-078).
 - *Protected text* (Gate 1, Q-2): error messages, the verdict labels `Fits`, `Tight` and `Won't fit`, and every figure. These stay word for word and value for value.
 - The numeric targets in this section (pixel offsets, tap size, text size, contrast) were accepted at Gate 1 (Q-4).
 
@@ -619,9 +619,9 @@ Requirements R-001 to R-066 stay in force unless a requirement in this section c
 
 ### R-067 Screens and states in scope
 
-Status: planned · Track: full · UI: yes · Source: intake 2026-10-25 (`docs/decisions.md`); `templates/base.html`, `index.html`, `results_summary.html`, `results_list.html`, `results_why.html`, `model_detail.html`, `how_it_works.html`
+Status: planned · Track: full · UI: yes · Source: intake 2026-10-25 and Gate 2 approval (`docs/decisions.md`); `docs/design/README.md` ("Screens and states"); `docs/design/final/`, `docs/design/mockups/final-*.html`; `templates/base.html`, `index.html`, `results_summary.html`, `results_list.html`, `results_why.html`, `model_detail.html`, `how_it_works.html`
 
-Asked: "UI/UX overhaul". Screens: "Whole app, incl. mobile" (offered as "every page, with the 390 px phone layout treated as a first-class design") and "How it works" (offered as "the /how-it-works explainer page").
+Asked: "UI/UX overhaul". Screens: "Whole app, incl. mobile" (offered as "every page, with the 390 px phone layout treated as a first-class design") and "How it works" (offered as "the /how-it-works explainer page"). Gate 2: "Approved the design: all 24 screens and states in `docs/design/final/` and `docs/design/mockups/final-*.html`, the copy table in `docs/design/README.md`, and ADRs 0001-0008. These are QA's reference (rule 10)."
 
 - THE SYSTEM SHALL render these screens in the visual direction chosen at Gate 2, "D layout + E glass" (R-068):
   - the header and footer on every page;
@@ -629,7 +629,7 @@ Asked: "UI/UX overhaul". Screens: "Whole app, incl. mobile" (offered as "every p
   - the "How this is estimated" breakdown loaded from `/results/why/<variant_id>`;
   - `/models/<model_id>`;
   - `/how-it-works`.
-- WHEN QA opens any state below at phone width (390 px) and at desktop width (1280 px), in the light and the dark theme, THE SYSTEM SHALL match the round 2 mockup for that state in `docs/design/final/`, once the user has approved it at Gate 2 (constitution rule 10; Gate 1, Q-5 and Q-11; R-068). The states are:
+- WHEN QA opens any state below at phone width (390 px) and at desktop width (1280 px), in the light and the dark theme, THE SYSTEM SHALL match the approved mockup for that state (constitution rule 10; Gate 1, Q-5 and Q-11; Gate 2; R-068). The states are:
   1. `/` with no input, showing the assumed 8 GB note (R-005);
   2. a GPU selected;
   3. manual VRAM entered;
@@ -644,6 +644,37 @@ Asked: "UI/UX overhaul". Screens: "Whole app, incl. mobile" (offered as "every p
   12. the unseeded catalog (R-026);
   13. model detail for a gated model and for an ungated one, with and without sources, and with an inline VRAM error (R-033 to R-036);
   14. `/how-it-works`.
+- Approved reference (Gate 2, 2026-10-25): for each name `<name>` below, the live mockup `docs/design/mockups/final-<name>.html` (add `?theme=dark` for the dark theme) and its four renders `docs/design/final/<name>-<390 or 1280>-<light or dark>.png`, 96 renders in all. The query each was built from is in `docs/design/README.md` ("Screens and states"). These 24 are the complete list QA checks; no other mockup is approved.
+
+  | # | Approved mockup `<name>` | State | R-067 state |
+  | --- | --- | --- | --- |
+  | 1 | `home-default` | Home, no input | 1 |
+  | 2 | `results-gpu` | A GPU selected | 2 |
+  | 3 | `results-manual-vram` | Manual VRAM: the reference query | 3, 8 |
+  | 4 | `results-gpu-ambiguous` | Ambiguous GPU search | 4 |
+  | 5 | `results-gpu-notfound` | GPU not found, with a GB hint | 5 |
+  | 6 | `results-errors` | Inline input errors | 6 |
+  | 7 | `results-chips` | Active filter chips | 7 |
+  | 8 | `results-filters-open` | Filters open | 7 |
+  | 9 | `results-picks-hidden` | Top Picks hidden | 8 |
+  | 10 | `results-tight-gated` | A Tight card, struck-through quantisations, Gated | 9 |
+  | 11 | `gpu-suggest` | GPU suggestions (the styled list of R-071) | (R-071) |
+  | 12 | `why-closed` | Breakdown before it loads | 10 |
+  | 13 | `why-loading` | Breakdown loading | 10 |
+  | 14 | `why-loaded` | Breakdown loaded | 10 |
+  | 15 | `empty-links` | Empty state, both next steps are links | 11 |
+  | 16 | `empty-inert` | Empty state, both next steps are inert | 11 |
+  | 17 | `empty-mixed` | Empty state, one link and one inert | 11 |
+  | 18 | `unseeded` | Unseeded catalog | 12 |
+  | 19 | `detail-gated` | Gated model with sources | 13 |
+  | 20 | `detail-ungated` | Ungated model with sources | 13 |
+  | 21 | `detail-no-sources` | Model without sources | 13 |
+  | 22 | `detail-error` | Model detail with an inline VRAM error | 13 |
+  | 23 | `how-it-works` | How it works | 14 |
+  | 24 | `focus-states` | Focus ring on every control | (R-077) |
+
+- WHEN QA opens the state of any row above at phone width and at desktop width, in the light and the dark theme, THE SYSTEM SHALL match that row's approved mockup and renders.
+- `docs/design/mockups/final-spec.html` is the designer's spec sheet, a document and not a screen; it is not one of the 24.
 
 ### R-068 One visual identity, applied everywhere
 
@@ -655,7 +686,7 @@ Asked: "Looks generic/dated" (offered as "no visual identity; it should look lik
   - Round 1: the designer presents 2 or 3 distinct visual directions. Each is a board showing `/` and `/results` at phone width and at desktop width, in the light and the dark theme, and each includes a logo mark and a favicon (Q-7). The user picks one direction.
   - Round 2: every state in R-067 is mocked up in the chosen direction, at both widths and in both themes, and the user approves them.
 - Chosen direction (Gate 2 round 1 redo, 2026-10-25): **"D layout + E glass"**, that is D Bento's tile grid built from E Glass's frosted panes and E Glass's type, Outfit. The user rejected directions A, B and C, and then picked this hybrid of D and E from directions D, E and F.
-- Approved reference: once the user passes Gate 2, the round 2 mockups in `docs/design/final/` are the approved mockups that R-067 and every "approved mockup" in this section refer to. Until then no mockup is approved.
+- Approved reference: the user approved the round 2 mockups at Gate 2 (2026-10-25). The 24 approved mockups listed in R-067 (`docs/design/final/` plus `docs/design/mockups/final-*.html`) are what every "approved mockup" in this section refers to.
 - THE SYSTEM SHALL render every screen in R-067 in the direction "D layout + E glass", as the approved mockups in `docs/design/final/` show it, and SHALL NOT leave any screen in its pre-overhaul styling.
 - WHEN QA compares the same kind of element on two screens, THE SYSTEM SHALL render both with equal computed font family, font size, font weight, text colour, background, border and corner radius. This covers:
   - primary buttons (`Check compatibility`, `Recompute`);
@@ -673,24 +704,30 @@ Asked: "Looks generic/dated" (offered as "no visual identity; it should look lik
 
 ### R-069 The answer leads the results
 
-Status: planned · Track: full · UI: yes · Source: intake 2026-10-25; Gate 1 answers Q-1, Q-2, Q-3, Q-4 and Q-10 (`docs/decisions.md`); `index.html` (filters `<details open>` between the form and the results), `results_summary.html`, `results_list.html` (count sentence after Top Picks and filter chips; `There are <n> variants in Won't fit` line), `main.py` (`_top_picks` descriptions); PR #19 (Top Picks copy deferred)
+Status: planned · Track: full · UI: yes · Source: intake 2026-10-25; Gate 1 answers Q-1, Q-2, Q-3, Q-4 and Q-10, Gate 2 approval (`docs/decisions.md`); `docs/design/README.md` (R-069 measurements, "Where a requirement pushed back", "Decisions for you" item 3, copy table); ADR-0006; `index.html` (filters `<details open>` between the form and the results), `results_summary.html`, `results_list.html` (count sentence after Top Picks and filter chips; `There are <n> variants in Won't fit` line), `main.py` (`_top_picks` descriptions); PR #19 (Top Picks copy deferred)
 
-Asked: "Too dense" (offered as "too much information at once; the answer gets lost"). Gate 1: "the designer shows Top Picks placement options at Gate 2"; "filters start collapsed on a phone with an active-filter count"; "fix only the two copy quirks (empty state "variants" vs models, Top Picks copy)".
+Asked: "Too dense" (offered as "too much information at once; the answer gets lost"). Gate 1: "the designer shows Top Picks placement options at Gate 2"; "filters start collapsed on a phone with an active-filter count"; "fix only the two copy quirks (empty state "variants" vs models, Top Picks copy)". Gate 2: "Filters start closed at both widths (not opened on desktop by script). The 800 px desktop target (R-069) applies to the normal results view; states that show a message (ambiguous GPU, input errors) may end around 840-880 px." The Gate 2 dispatch set the ceiling for those states at 900 px, added the GPU-not-found state to them, and kept 1688 px at phone width for every state.
 
 - THE SYSTEM SHALL place the result headline first in the results area, before Top Picks, active filter chips and the cards. Today the hardware and the counts sit at the top, but the "N models fit or are tight" sentence comes after Top Picks and the filter chips.
 - Process at Gate 2 (not system behaviour): the designer shows options for where Top Picks sit relative to the cards, and the user picks one (Q-1).
 - THE SYSTEM SHALL place Top Picks where the mockup approved at Gate 2 places them (Q-1).
-- WHEN the reference query loads at phone width, THE SYSTEM SHALL place the result headline, and the first card's model name, verdict and margin, within the first 1688 CSS px of the page, which is two phone screens (Q-4).
-- WHEN the reference query loads at desktop width, THE SYSTEM SHALL place the result headline, and the first card's model name, verdict and margin, within the first 800 CSS px of the page, so they are visible without scrolling (Q-4).
-- WHILE at phone width, THE SYSTEM SHALL show the filters collapsed on first load, behind one control that states the number of active filter chips (R-031), for example `Filters (2)` for `/results?vram_gb=24&context_tokens=4096&family=qwen&quant_bucket=Q4` (Q-3).
-- WHEN no filter is active at phone width, THE SYSTEM SHALL show that control with a count of 0 or with no count, as the approved mockup shows.
-- WHILE at desktop width, THE SYSTEM SHALL show the filters as the approved mockup shows.
+- In the criteria below, a position "ends within N CSS px" when the bottom edge of the element's box is at most N CSS px from the top of the page, measured on first load with the filters closed.
+- WHEN the reference query loads at desktop width, THE SYSTEM SHALL end the result headline, and the first card's model name, verdict and margin, within the first 800 CSS px of the page, so they are visible without scrolling (Q-4).
+- WHEN any of these message states loads at desktop width, THE SYSTEM SHALL end the result headline, and the first card's model name, verdict and margin, within the first 900 CSS px of the page (Gate 2):
+  - ambiguous GPU search, `/results?gpu_search=RTX`;
+  - GPU not found, `/results?gpu_search=RTX%203060%2012GB` (search text `RTX 3060 12GB`);
+  - input errors, `/results?vram_gb=abc`.
+- WHEN any state of `/` or `/results` that shows at least one model card loads at phone width, including the reference query and the three message states above, THE SYSTEM SHALL end the result headline, and the first card's model name, verdict and margin, within the first 1688 CSS px of the page, which is two phone screens (Q-4; Gate 2).
+- WHEN `/` or `/results` loads at phone width or at desktop width, with or without JavaScript, THE SYSTEM SHALL show the filters closed, behind one disclosure control (Q-3; Gate 2).
+- THE SYSTEM SHALL NOT open the filters by script on page load at any width (Gate 2).
+- THE SYSTEM SHALL label that control `Filters (N)`, where N is the number of active filter chips (R-031): for example `Filters (2)` for `/results?vram_gb=24&context_tokens=4096&family=qwen&quant_bucket=Q4`.
+- WHEN no filter is active, THE SYSTEM SHALL label that control `Filters (0)`.
 - WHEN the user activates that control, THE SYSTEM SHALL show every filter control of R-027 to R-030, with or without JavaScript.
 - THE SYSTEM SHALL render each fit pane's verdict and margin at a font size no smaller than any other text in that pane.
 - THE SYSTEM SHALL NOT add any figure or text to a model card beyond what R-015 to R-021 specify.
 - THE SYSTEM SHALL keep the summary's hardware label, context, default 8 GB note, `Fits`, `Tight` and `Won't fit` counts and GPU feedback (R-005, R-022, R-023), the active filter chips (R-031) and Top Picks (R-024), with the values, links and selection rules those requirements state. Where facts appear twice today (for example the `Fits`/`Tight` counts and the "N models fit or are tight" sentence), the designer may merge them (Q-2), but each value SHALL still appear at least once.
-- WHEN the empty state shows and the `Won't fit` count is above 0, THE SYSTEM SHALL describe that count as models, not variants, because it counts models (R-023); the sentence SHALL NOT contain the word `variants`. Today it reads `There are <n> variants in Won't fit, hidden by default.` (Q-10 (i)). The new wording is the one approved in the Gate 2 mockups.
-- THE SYSTEM SHALL give each Top Pick a one-line description that says what the pick offers the user, not how the ranking works (Q-10 (ii)). No description SHALL contain `ranked` or `ranking`, and none SHALL equal today's `Highest-ranked variant that remains in the Fits band.`, `Next highest-ranked practical option by current ranking order.` or `Lowest-ranked viable option, usually the lightest footprint.` The new wording is the one approved in the Gate 2 mockups. The selection rules of R-024 stay.
+- WHEN the empty state shows and the `Won't fit` count is above 0, THE SYSTEM SHALL describe that count as models, not variants, because it counts models (R-023); the sentence SHALL NOT contain the word `variants`. Today it reads `There are <n> variants in Won't fit, hidden by default.` (Q-10 (i)). The approved wording (copy table) is `There are <n> models in Won't fit, hidden by default.`, and `There is 1 model in Won't fit, hidden by default.` when the count is 1.
+- THE SYSTEM SHALL give each Top Pick a one-line description that says what the pick offers the user, not how the ranking works (Q-10 (ii)). No description SHALL contain `ranked` or `ranking`, and none SHALL equal today's `Highest-ranked variant that remains in the Fits band.`, `Next highest-ranked practical option by current ranking order.` or `Lowest-ranked viable option, usually the lightest footprint.` The approved wording (copy table) is `The strongest model that still leaves room to spare.` for `Best quality that fits`, `Nearly as capable, and comfortable to run.` for `Best balance`, and `The lightest model that still runs on your GPU.` for `Best small`. The selection rules of R-024 stay.
 
 ### R-070 Phone layout on every page
 
@@ -719,17 +756,26 @@ Asked: "Bad on mobile" (offered as "the layout breaks or is cramped on a phone")
 
 ### R-071 Input form on `/` and `/results`
 
-Status: planned · Track: full · UI: yes · Source: intake 2026-10-25; `index.html` (form errors and `gpu_search_feedback` rendered in the form), `results_summary.html` (the same messages rendered again above the summary), `index.html` `hx-target="#results-shell"` (the form is not re-rendered on in-place refresh); Gate 1 answers Q-2, Q-4 and Q-8 (`docs/decisions.md`)
+Status: planned · Track: full · UI: yes · Source: intake 2026-10-25; `index.html` (form errors and `gpu_search_feedback` rendered in the form), `results_summary.html` (the same messages rendered again above the summary), `index.html` `hx-target="#results-shell"` (the form is not re-rendered on in-place refresh); Gate 1 answers Q-2, Q-4 and Q-8, Gate 2 approval (`docs/decisions.md`); ADR-0005 (`docs/adr/0005-gpu-suggestions-progressive-combobox.md`); approved mockup `gpu-suggest` (`docs/design/mockups/final-gpu-suggest.html`)
 
-Asked: "Too dense"; "Bad on mobile"; "Looks generic/dated". Gate 1: "restyle the controls only, but the native GPU suggestion list may be replaced if it works badly on phones".
+Asked: "Too dense"; "Bad on mobile"; "Looks generic/dated". Gate 1: "restyle the controls only, but the native GPU suggestion list may be replaced if it works badly on phones". Gate 2: "Build the styled GPU suggestion list (the `gpu-suggest` mockup): a small vanilla JS combobox over the native list at every width (ADR-0005), keeping R-001's behaviour and the no-JavaScript path."
 
 - WHEN `/` loads at phone width or at desktop width, THE SYSTEM SHALL show `Search GPU`, `Available VRAM (GB)`, the three context presets and `Check compatibility` without scrolling (Q-4).
 - THE SYSTEM SHALL keep both input paths, GPU search (R-001, R-003) and manual VRAM (R-002), the example chips (R-007) and the context presets (R-006), with the behaviour those requirements state.
-- THE SYSTEM SHALL show the input error messages of R-008 word for word (protected text, Q-2). The form's headings and help text may change only to the wording approved in the Gate 2 mockups.
-- Process at Gate 2 (not system behaviour): the native GPU suggestion list may be replaced only if the designer shows at Gate 2 that it works badly on phones and the user approves the replacement in the mockups (Q-8). Every other control is restyled only.
-- WHERE the native GPU suggestion list is replaced, THE SYSTEM SHALL list the same GPUs, in the same order and with the same labels, as R-001 states.
-- WHERE the native GPU suggestion list is replaced, WHEN the user picks a suggestion by tap, by click, or by arrow keys and Enter, THE SYSTEM SHALL set that GPU as the selected GPU and empty `Available VRAM (GB)`, as R-001 states.
-- WHERE the native GPU suggestion list is replaced, WHILE JavaScript is disabled, THE SYSTEM SHALL still accept free text in `Search GPU` and resolve it on submit as R-003 states.
+- THE SYSTEM SHALL show the input error messages of R-008 word for word (protected text, Q-2). The form's headings and help text may change only to the wording of the copy table (R-078).
+- Styled GPU suggestion list (Gate 2: chosen, not conditional). Every other control is restyled only (Q-8).
+- WHILE JavaScript is enabled, at phone width and at desktop width, THE SYSTEM SHALL show the `Search GPU` suggestions in a styled list under the field, as the approved mockup `gpu-suggest` shows, in place of the browser's native suggestion list.
+- WHILE the styled list is in use, THE SYSTEM SHALL NOT show the browser's native suggestion list for `Search GPU` at the same time.
+- WHEN `Search GPU` is empty and the styled list opens, THE SYSTEM SHALL list every catalog GPU, in the order and with the labels R-001 states (VRAM ascending, then name; `<vendor> <name> (<vram to 1 decimal> GB)`).
+- WHEN the user types into `Search GPU`, THE SYSTEM SHALL list only the GPUs whose label contains the typed text, compared case-insensitively with whitespace collapsed, in the order R-001 states. For example, typing `4060` lists `NVIDIA GeForce RTX 4060 (8.0 GB)`, `NVIDIA GeForce RTX 4060 Laptop GPU (8.0 GB)`, `NVIDIA GeForce RTX 4060 Ti (8GB) (8.0 GB)` and `NVIDIA GeForce RTX 4060 Ti (16GB) (16.0 GB)`, in that order, with catalog `2026-10-23`.
+- WHEN the user picks a suggestion by tap or click, THE SYSTEM SHALL put that suggestion's exact label in `Search GPU`, set that GPU as the selected GPU and empty `Available VRAM (GB)`, as R-001 states.
+- WHEN the user moves through the suggestions with the Up and Down arrow keys and presses Enter, THE SYSTEM SHALL put the highlighted suggestion's exact label in `Search GPU`, set that GPU as the selected GPU and empty `Available VRAM (GB)`, as R-001 states.
+- WHEN the user presses Escape while the styled list is open, THE SYSTEM SHALL close the list and keep the text in `Search GPU` unchanged.
+- THE SYSTEM SHALL keep R-001's other behaviour with the styled list in use: a selected GPU is cleared when the text stops matching a suggestion exactly, and `Clear` empties the field, clears the selected GPU and moves focus to the field.
+- THE SYSTEM SHALL give each suggestion in the styled list a tap target of at least 44 CSS px tall at phone width (R-070).
+- THE SYSTEM SHALL expose the styled list to assistive technology with `role="combobox"` and `aria-expanded` on `Search GPU`, `role="listbox"` on the list and `role="option"` on each suggestion, as the approved mockup `gpu-suggest` marks it up (R-077).
+- THE SYSTEM SHALL build the styled list in the site's own JavaScript, adding no third-party library, no new request and no new route (ADR-0005; R-042).
+- WHILE JavaScript is disabled, THE SYSTEM SHALL show `Search GPU` with the native suggestion list of R-001, accept free text, and resolve it on submit as R-003 states.
 - WHEN a full page load carries input errors (R-008), THE SYSTEM SHALL show the error list once, in an element with `role="alert"`. Today `/results?vram_gb=abc` shows it twice, once in the form and once above the summary.
 - WHEN a full page load carries GPU search feedback (R-003), THE SYSTEM SHALL show the message once, in an element with `role="status"`. Today it appears both under the field and above the summary.
 - WHEN results refresh in place, THE SYSTEM SHALL show only the error and feedback messages that belong to the current query. For example, after loading `/results?vram_gb=abc`, typing `24` and pressing `Check compatibility`, no error remains visible.
@@ -834,19 +880,23 @@ Asked: "UI/UX overhaul".
 
 ### R-078 Behaviour the overhaul keeps
 
-Status: planned · Track: full · UI: yes · Source: intake 2026-10-25 (the user did not pick "Hard to use"); Gate 1 answers Q-2 and Q-8 (`docs/decisions.md`); constitution rules 11 and 16; R-001 to R-066
+Status: planned · Track: full · UI: yes · Source: intake 2026-10-25 (the user did not pick "Hard to use"); Gate 1 answers Q-2 and Q-8, Gate 2 approval (`docs/decisions.md`); `docs/design/README.md` (section "Copy table (Q-2): what changed" and its list "Word for word (R-078)"); constitution rules 11 and 16; R-001 to R-066
 
-Asked: "UI/UX overhaul". The user did not name the flow as a problem. Gate 1: "headings, help text, notes and raw labels (such as `weights_gb`) may be reworded and repeats merged. Error messages, verdict labels and figures stay. New wording is approved in the Gate 2 mockups."; "restyle the controls only, but the native GPU suggestion list may be replaced if it works badly on phones".
+Asked: "UI/UX overhaul". The user did not name the flow as a problem. Gate 1: "headings, help text, notes and raw labels (such as `weights_gb`) may be reworded and repeats merged. Error messages, verdict labels and figures stay. New wording is approved in the Gate 2 mockups."; "restyle the controls only, but the native GPU suggestion list may be replaced if it works badly on phones". Gate 2: "Approved the design: all 24 screens and states …, the copy table in `docs/design/README.md`, and ADRs 0001-0008. These are QA's reference (rule 10)."; "Build the styled GPU suggestion list (the `gpu-suggest` mockup) …".
+
+*Copy table*: the table under "Copy table (Q-2): what changed" in `docs/design/README.md`, approved at Gate 2. Each row gives an Old string (what the app rendered before the overhaul), a New string and a Where column. It is the wording reference for this change.
 
 - WHEN either query below loads after the overhaul, THE SYSTEM SHALL show the same models in the same order as `main` at f2ad2d8, with the same verdicts and the same required VRAM, available VRAM and margin figures:
   - the reference query;
   - `/results?vram_gb=12&context_tokens=8192&family=qwen&quant_bucket=Q4`.
 - THE SYSTEM SHALL keep every route, query parameter and fragment of R-013, R-032 and R-042, so a URL that worked before the overhaul shows the same results after it. The one change is R-081: `/results/partials/content?<query>` opened as a normal page load redirects to `/results?<query>`, which shows the same results on the full page.
-- THE SYSTEM SHALL keep the inputs, filters and live refresh (R-001 to R-008, R-027 to R-032), the three context presets (R-006) and the model detail form with its GPU dropdown and hardware precedence (R-035), with the same controls, fields and steps; these are restyled only (Q-8). The one permitted replacement is the native GPU suggestion list on `/`, under the conditions in R-071.
+- THE SYSTEM SHALL keep the inputs, filters and live refresh (R-001 to R-008, R-027 to R-032), the three context presets (R-006) and the model detail form with its GPU dropdown and hardware precedence (R-035), with the same controls, fields and steps; these are restyled only (Q-8). The one replacement is the styled GPU suggestion list of R-071, built over the native list, which stays as the no-JavaScript path.
 - THE SYSTEM SHALL show the required VRAM, the available VRAM and the margin with every verdict (constitution rule 16).
 - THE SYSTEM SHALL keep protected text word for word: every error message R-001 to R-066 specify, the verdict labels `Fits`, `Tight` and `Won't fit`, and every figure (Q-2).
-- THE SYSTEM SHALL show rewordable text (headings, help text, notes and raw labels such as `weights_gb`) either as R-001 to R-066 specify or as the mockups approved at Gate 2 show; repeated facts may be merged, so long as each value still appears at least once (Q-2).
-- THE SYSTEM SHALL keep word for word any other wording R-001 to R-066 specify, such as field labels, button labels, link text and tags, except the two copy fixes in R-069.
+- WHERE a string appears in the copy table's Old column, THE SYSTEM SHALL show the row's New wording in the place its Where column names, or remove the string where the New column says `(removed …)` or `(merged …)`.
+- WHERE the copy table's New column adds a string that had no Old wording (for example `Loading the breakdown`, `Kept free, not part of the total` and the visually hidden headings `Recompute for other hardware` and `Variants`), THE SYSTEM SHALL show that string word for word in the place its Where column names.
+- THE SYSTEM SHALL keep word for word every string the app rendered before the overhaul that is not in the copy table's Old column, including every error message, GPU search message, verdict label, figure, field label, button label, link text and tag that R-001 to R-066 specify and that the list "Word for word (R-078)" in `docs/design/README.md` names.
+- Repeated facts may be merged as the copy table and the approved mockups (R-067) merge them, so long as each value still appears at least once (Q-2).
 - WHILE JavaScript is disabled, THE SYSTEM SHALL still submit the form and render results, cards and gauges, and show `Apply filters` (R-013, R-018, R-032).
 - WHILE JavaScript is disabled, THE SYSTEM SHALL let the user open any section the redesign collapses.
 
@@ -978,7 +1028,7 @@ The user answered Q-1 to Q-11 at Gate 1 on 2026-10-25. The answers are recorded 
 
 ## Open questions
 
-None open. Q-12 and Q-13 were raised while applying the Gate 2 round 1 decisions and closed by the user at Gate 2 round 1 redo (2026-10-25); the answers are in `docs/decisions.md` (rows dated 2026-10-25, Gate "2 (round 1 redo)"). Neither conflicts with `docs/constitution.md`.
+None open. Q-12 and Q-13 were raised while applying the Gate 2 round 1 decisions and closed by the user at Gate 2 round 1 redo (2026-10-25); the answers are in `docs/decisions.md` (rows dated 2026-10-25, Gate "2 (round 1 redo)"). Neither conflicts with `docs/constitution.md`. Applying the Gate 2 approval (R-067, R-068, R-069, R-071, R-078) raised no new question, and none of those changes conflicts with the constitution; the styled GPU suggestion list adds JavaScript under `static/`, so rule 21 applies through R-079.
 
 | # | Requirement | Question | Status and answer |
 | --- | --- | --- | --- |

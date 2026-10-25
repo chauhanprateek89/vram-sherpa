@@ -3,7 +3,7 @@
 | | |
 | --- | --- |
 | Track | Full: UI/UX overhaul |
-| Stage | Plan |
+| Stage | Build |
 | Branch | sdlc/full-ui-overhaul |
 | Gate waiting | none |
 | Updated | 2026-10-25 |
@@ -14,7 +14,9 @@
 
 ## Next step
 
-Running in parallel: product applies the Gate 2 answers to R-067/R-069/R-071; architect revises ADR-0005 (styled GPU list chosen) and ADR-0006 (filters closed at both widths), then writes the plan into .sdlc/features.json. Then Build (sdlc:build workflow). **The release PR must be squash-merged** (Gate 2 repo-weight decision).
+Build T-001..T-021 in order (features.json), one builder then one reviewer per task, run by the orchestrator by hand because the sdlc:build workflow runner is not available in this session (same loop: fix after a failed review, rebuild on opus after two, stop after three or on a blocked task). Then QA (sdlc:qa per requirement), Release PR (squash-merge), Gate 3.
+
+Build progress: none yet.
 
 Follow-ups found at onboarding (not part of this track): host guard ignores APP_ENV/PUBLIC_HOSTNAME that docs/RELEASE_AND_DEPLOY.md tells the server to set (tunnel requests would get 400); release.yml pushes :latest before the smoke test; smoke test never hits /results; no Cache-Control on HTML (rule 9); local docker-compose.yml binds 8000 on all interfaces (rule 3).
 
@@ -42,3 +44,5 @@ Follow-ups found at onboarding (not part of this track): host guard ignores APP_
 | 2026-10-25 | Design | sdlc:architect (inherit) | ADR-0008 revised: 302 redirect of non-htmx /results/partials/content loads, own Cache-Control/Vary, after host guard; HLD updated |
 | 2026-10-25 | Mockups r2 | sdlc:uiux (inherit) | 24 screens/states x 4 renders (96 PNGs, 36 MB) in D+E hybrid from real app data; spec sheet, copy table (83 rows); merged logo; 0 contrast failures; artifact republished |
 | 2026-10-25 | Gate 2 | user | Design approved; filters closed both widths + R-069 message-state allowance; styled GPU list; final-only PNGs, squash-merge |
+| 2026-10-25 | Requirements | sdlc:product (inherit) | Gate 2 answers applied: R-067 lists 24 approved states, R-069 filters closed + 900 px message-state ceiling, R-071 styled combobox chosen, R-078 copy table is the wording reference |
+| 2026-10-25 | Plan | sdlc:architect (inherit) | 21 tasks (T-001..T-021; 6 opus, 15 sonnet); ADR-0005/0006 accepted; found hx-push-url inheritance bug on the breakdown (fixed in T-002) |
