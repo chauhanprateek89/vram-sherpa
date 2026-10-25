@@ -112,6 +112,36 @@ async def host_guard(request: Request, call_next):
     return await call_next(request)
 
 
+HTML_VARY_HEADERS = ("HX-Request", "HX-History-Restore-Request")
+
+
+async def html_cache_control(request: Request, call_next):
+    """Make every HTML response revalidate, so a deploy shows on the next page load.
+
+    Keyed on the response content type rather than on paths, so a new HTML route is
+    covered without a list to keep in step. JSON and `/static` pass through untouched.
+    `/results` answers a full page or a fragment depending on the htmx headers, so
+    HTML responses also vary on both of them (ADR-0004, ADR-0008).
+    """
+    response = await call_next(request)
+    if not response.headers.get("content-type", "").lower().startswith("text/html"):
+        return response
+
+    if "cache-control" not in response.headers:
+        response.headers["Cache-Control"] = "no-cache"
+
+    vary = [
+        name.strip()
+        for value in response.headers.getlist("vary")
+        for name in value.split(",")
+        if name.strip()
+    ]
+    present = {name.lower() for name in vary}
+    vary.extend(name for name in HTML_VARY_HEADERS if name.lower() not in present)
+    response.headers["Vary"] = ", ".join(vary)
+    return response
+
+
 QUANT_ORDER = {"Q4": 0, "Q5": 1, "Q8": 2, "FP16": 3}
 
 
@@ -1322,6 +1352,8 @@ def create_app(settings: Settings | None = None, *, database_url: str | None = N
     app = FastAPI(title="VRAM Sherpa", lifespan=lifespan)
     app.state.settings = resolved_settings
     app.mount("/static", StaticFiles(directory=str(PACKAGE_DIR / "static")), name="static")
+    # Registered first so it sits inside host_guard: a rejected Host never reaches it.
+    app.middleware("http")(html_cache_control)
     app.middleware("http")(host_guard)
     app.add_api_route("/", home, methods=["GET"], response_class=HTMLResponse)
     app.add_api_route("/results", results, methods=["GET"], response_class=HTMLResponse)
