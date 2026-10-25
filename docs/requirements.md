@@ -14,7 +14,7 @@ EARS forms: `THE SYSTEM SHALL …` (always) · `WHEN <trigger>, THE SYSTEM SHALL
 
 Recorded at onboarding from `main` at 96572b1 (2026-10-25). Seeded catalog at that commit: version `2026-10-23`, 35 GPUs, 95 models (81 auto-discovered, 24 gated), 380 variants, 7 families. Paths are relative to the repo root; `main.py` means `src/vramsherpa/main.py`.
 
-R-067 to R-079 (UI/UX overhaul, Full track) were added on 2026-10-25 from the user's intake answers. The user's Gate 1 answers to their open questions (Q-1 to Q-11) are folded into them, and R-080 was added from Q-9; see "Resolved at Gate 1" at the end of this file. At Gate 2 round 1 the R-075 worked example was changed to a catalog model and R-081 was added; see "Open questions".
+R-067 to R-079 (UI/UX overhaul, Full track) were added on 2026-10-25 from the user's intake answers. The user's Gate 1 answers to their open questions (Q-1 to Q-11) are folded into them, and R-080 was added from Q-9; see "Resolved at Gate 1" at the end of this file. At Gate 2 round 1 the R-075 worked example was changed to a catalog model and R-081 was added. The round 1 redo answers (direction "D layout + E glass", Q-12, Q-13 and the old-link redirect) are folded into R-067, R-068, R-075, R-081 and R-032; see "Open questions" and `docs/decisions.md` (rows dated 2026-10-25, Gate "2 (round 1 redo)").
 
 ## Hardware and context input
 
@@ -288,9 +288,9 @@ Status: as-built · Track: onboard · UI: yes · Source: `index.html` (`hx-get`,
 
 - WHEN JavaScript is available and the user changes a context preset, a family or quantisation checkbox, or `Recommended only`, THE SYSTEM SHALL refresh the summary and results in place without a full page load.
 - WHEN the user types in `Min params (B)` or `Max params (B)`, THE SYSTEM SHALL refresh results 350 ms after the last keystroke.
-- WHEN results refresh in place, THE SYSTEM SHALL update the browser address to a URL that reproduces the same results when opened directly.
+- WHEN results refresh in place, THE SYSTEM SHALL update the browser address to `/results/partials/content?<query>`, the URL of the fragment request. Correction (Gate 2 round 1 redo, ADR-0008): onboarding recorded this as "a URL that reproduces the same results when opened directly", which the code does not do. Opening or reloading that address today shows the bare results fragment, without the header, the form, the footer or the stylesheet. R-081 plans the fix: the address becomes `/results?<query>`, and old addresses redirect there.
 - WHEN a request to `/results` carries `HX-Request: true`, THE SYSTEM SHALL return only the results fragment.
-- THE SYSTEM SHALL serve fragments at `/results/partials/content`, `/results/partials/summary` and `/results/partials/list`, accepting the same parameters as `/results`.
+- THE SYSTEM SHALL serve fragments at `/results/partials/content`, `/results/partials/summary` and `/results/partials/list`, accepting the same parameters as `/results`. Today this holds with or without `HX-Request: true`; R-081 plans a redirect for `/results/partials/content` when it is opened as a normal page load.
 - WHILE JavaScript is disabled, THE SYSTEM SHALL show an `Apply filters` button that submits the form.
 
 ## Model detail
@@ -615,7 +615,7 @@ Terms used below:
 - *Protected text* (Gate 1, Q-2): error messages, the verdict labels `Fits`, `Tight` and `Won't fit`, and every figure. These stay word for word and value for value.
 - The numeric targets in this section (pixel offsets, tap size, text size, contrast) were accepted at Gate 1 (Q-4).
 
-Requirements R-001 to R-066 stay in force unless a requirement in this section changes them. The overhaul changes how screens look and how they are laid out, not what the app computes, accepts or links to. The exceptions are the wording rules above, the two copy fixes in R-069, the `Cache-Control` header in R-080 and the history fix in R-081.
+Requirements R-001 to R-066 stay in force unless a requirement in this section changes them. The overhaul changes how screens look and how they are laid out, not what the app computes, accepts or links to. The exceptions are the wording rules above, the two copy fixes in R-069, the `Cache-Control` header in R-080 and the history, reload and old-link fix in R-081.
 
 ### R-067 Screens and states in scope
 
@@ -623,13 +623,13 @@ Status: planned · Track: full · UI: yes · Source: intake 2026-10-25 (`docs/de
 
 Asked: "UI/UX overhaul". Screens: "Whole app, incl. mobile" (offered as "every page, with the 390 px phone layout treated as a first-class design") and "How it works" (offered as "the /how-it-works explainer page").
 
-- THE SYSTEM SHALL render these screens in the visual direction approved at Gate 2:
+- THE SYSTEM SHALL render these screens in the visual direction chosen at Gate 2, "D layout + E glass" (R-068):
   - the header and footer on every page;
   - `/` and `/results`: the input form, filters, error and GPU-search messages, summary, Top Picks, active filter chips, result count, model cards with quantisation switcher and fit gauge, empty state and unseeded state;
   - the "How this is estimated" breakdown loaded from `/results/why/<variant_id>`;
   - `/models/<model_id>`;
   - `/how-it-works`.
-- WHEN QA opens any state below at phone width (390 px) and at desktop width (1280 px), in the light and the dark theme, THE SYSTEM SHALL match the mockup approved in round 2 of Gate 2 for that state (constitution rule 10; Gate 1, Q-5 and Q-11). The states are:
+- WHEN QA opens any state below at phone width (390 px) and at desktop width (1280 px), in the light and the dark theme, THE SYSTEM SHALL match the round 2 mockup for that state in `docs/design/final/`, once the user has approved it at Gate 2 (constitution rule 10; Gate 1, Q-5 and Q-11; R-068). The states are:
   1. `/` with no input, showing the assumed 8 GB note (R-005);
   2. a GPU selected;
   3. manual VRAM entered;
@@ -647,14 +647,16 @@ Asked: "UI/UX overhaul". Screens: "Whole app, incl. mobile" (offered as "every p
 
 ### R-068 One visual identity, applied everywhere
 
-Status: planned · Track: full · UI: yes · Source: intake 2026-10-25; Gate 1 answers Q-7 and Q-11 (`docs/decisions.md`); `styles.css` (`.state` on cards, `.badge` on model detail; `.tag` vs `.badge-gated`), `model_detail.html` (unstyled `Recompute` button), `base.html` (text wordmark only, no favicon)
+Status: planned · Track: full · UI: yes · Source: intake 2026-10-25; Gate 1 answers Q-7 and Q-11, Gate 2 round 1 and round 1 redo (`docs/decisions.md`); `docs/design/` (direction boards D, E and F; round 2 mockups in `docs/design/final/`); `styles.css` (`.state` on cards, `.badge` on model detail; `.tag` vs `.badge-gated`), `model_detail.html` (unstyled `Recompute` button), `base.html` (text wordmark only, no favicon)
 
-Asked: "Looks generic/dated" (offered as "no visual identity; it should look like a product someone designed"). Visual direction: "Designer proposes 2-3". Gate 1: "each direction includes a logo mark and favicon"; "Gate 2 runs in two rounds: 2-3 direction boards (home/results at 390 and 1280, both themes), then every screen and state for the chosen direction."
+Asked: "Looks generic/dated" (offered as "no visual identity; it should look like a product someone designed"). Visual direction: "Designer proposes 2-3". Gate 1: "each direction includes a logo mark and favicon"; "Gate 2 runs in two rounds: 2-3 direction boards (home/results at 390 and 1280, both themes), then every screen and state for the chosen direction." Gate 2 round 1 redo: "Direction: "D layout + E glass": D Bento's tile grid built from E Glass's frosted panes and type (Outfit). Every screen and state is mocked up in this hybrid for Gate 2."
 
 - Process at Gate 2 (not system behaviour), in two rounds (Q-11):
   - Round 1: the designer presents 2 or 3 distinct visual directions. Each is a board showing `/` and `/results` at phone width and at desktop width, in the light and the dark theme, and each includes a logo mark and a favicon (Q-7). The user picks one direction.
   - Round 2: every state in R-067 is mocked up in the chosen direction, at both widths and in both themes, and the user approves them.
-- THE SYSTEM SHALL render every screen in R-067 in the single direction picked at Gate 2, and SHALL NOT leave any screen in its pre-overhaul styling.
+- Chosen direction (Gate 2 round 1 redo, 2026-10-25): **"D layout + E glass"**, that is D Bento's tile grid built from E Glass's frosted panes and E Glass's type, Outfit. The user rejected directions A, B and C, and then picked this hybrid of D and E from directions D, E and F.
+- Approved reference: once the user passes Gate 2, the round 2 mockups in `docs/design/final/` are the approved mockups that R-067 and every "approved mockup" in this section refer to. Until then no mockup is approved.
+- THE SYSTEM SHALL render every screen in R-067 in the direction "D layout + E glass", as the approved mockups in `docs/design/final/` show it, and SHALL NOT leave any screen in its pre-overhaul styling.
 - WHEN QA compares the same kind of element on two screens, THE SYSTEM SHALL render both with equal computed font family, font size, font weight, text colour, background, border and corner radius. This covers:
   - primary buttons (`Check compatibility`, `Recompute`);
   - secondary buttons (`Clear`, `Apply filters`);
@@ -666,8 +668,8 @@ Asked: "Looks generic/dated" (offered as "no visual identity; it should look lik
 - WHEN a variant is `Fits`, `Tight` or `Won't fit`, THE SYSTEM SHALL give its classification label the same visual treatment on a results card and on the model detail page. Today the two pages style it differently.
 - WHEN a model is gated, THE SYSTEM SHALL give its gated marker the same visual treatment on a results card and on the model detail page. Today the two pages style it differently.
 - THE SYSTEM SHALL NOT show any button, text field, number field, select, checkbox or radio on a screen in R-067 in the browser's default appearance. Each SHALL match the approved mockup.
-- THE SYSTEM SHALL show the logo mark of the direction picked at Gate 2 in the header of every page, as the approved mockup places it (Q-7).
-- THE SYSTEM SHALL include in the `<head>` of every full HTML page a `<link rel="icon">` whose `href` is a file under `/static/` that returns HTTP 200, and that file SHALL be the favicon of the direction picked at Gate 2 (Q-7). Serving it from `/static/` keeps the route list of R-042 unchanged.
+- THE SYSTEM SHALL show the logo mark of the approved "D layout + E glass" mockups in the header of every page, as the approved mockup places it (Q-7).
+- THE SYSTEM SHALL include in the `<head>` of every full HTML page a `<link rel="icon">` whose `href` is a file under `/static/` that returns HTTP 200, and that file SHALL be the favicon of the approved "D layout + E glass" mockups (Q-7). Serving it from `/static/` keeps the route list of R-042 unchanged.
 
 ### R-069 The answer leads the results
 
@@ -770,9 +772,9 @@ Asked: "Whole app, incl. mobile"; "Too dense"; "Bad on mobile".
 
 ### R-075 How it works page
 
-Status: planned · Track: full · UI: yes · Source: intake 2026-10-25; Gate 1 answer Q-6 and Gate 2 round 1 (`docs/decisions.md`); `how_it_works.html` (policy version typed into the heading), `main.py` (`ESTIMATION_POLICY_VERSION = "v0.1"`); `src/vramsherpa/estimation.py` (`estimate_breakdown`); `data/seed_models.json` and `data/seed_variants.json` (catalog `2026-10-23`: `model_llama_31_8b_instruct`, params_b 8.0, kv_gb_per_1k_ctx 0.48, no `discovered` flag; `variant_model_llama_31_8b_instruct_q4`, bits_effective 4.5); `tools/catalog_sources.yaml` (the model is curated there); constitution rule 16
+Status: planned · Track: full · UI: yes · Source: intake 2026-10-25; Gate 1 answer Q-6, Gate 2 round 1 and round 1 redo (Q-12) (`docs/decisions.md`); `how_it_works.html` (policy version typed into the heading), `main.py` (`ESTIMATION_POLICY_VERSION = "v0.1"`); `src/vramsherpa/estimation.py` (`estimate_breakdown`); `data/seed_models.json` and `data/seed_variants.json` (catalog `2026-10-23`: `model_llama_31_8b_instruct`, params_b 8.0, kv_gb_per_1k_ctx 0.48, no `discovered` flag; `variant_model_llama_31_8b_instruct_q4`, bits_effective 4.5); `tools/catalog_sources.yaml` (the model is curated there); constitution rule 16
 
-Asked: "How it works" (offered as "the /how-it-works explainer page"). Also "Looks generic/dated" and "Too dense". Gate 1: "restyle it and add plain-language terms plus a worked example (8B at Q4, 2048 tokens = 6.72 GB). Formulas are unchanged, so `ESTIMATION_POLICY_VERSION` stays v0.1. Reading of rule 16: the three change together only when the estimate itself changes." Gate 2 round 1: "The /how-it-works worked example uses a real catalog 8B model, so the page agrees with that model's card (about 7.33 GB at Q4, 2048 tokens), replacing the 6.72 GB test inputs."
+Asked: "How it works" (offered as "the /how-it-works explainer page"). Also "Looks generic/dated" and "Too dense". Gate 1: "restyle it and add plain-language terms plus a worked example (8B at Q4, 2048 tokens = 6.72 GB). Formulas are unchanged, so `ESTIMATION_POLICY_VERSION` stays v0.1. Reading of rule 16: the three change together only when the estimate itself changes." Gate 2 round 1: "The /how-it-works worked example uses a real catalog 8B model, so the page agrees with that model's card (about 7.33 GB at Q4, 2048 tokens), replacing the 6.72 GB test inputs." Gate 2 round 1 redo (Q-12): "if Llama 3.1 8B Instruct leaves the catalog, /how-it-works keeps the worked example from fixed inputs, unnamed ("an 8B model at Q4")."
 
 The example model is Llama 3.1 8B Instruct (`model_llama_31_8b_instruct`). It is curated in `tools/catalog_sources.yaml`, not auto-discovered, so the weekly catalog refresh (R-054, R-059) does not add or remove it.
 
@@ -796,7 +798,7 @@ The example model is Llama 3.1 8B Instruct (`model_llama_31_8b_instruct`). It is
 - WHEN QA opens that card's "How this is estimated" breakdown for Q4 at 2048 tokens, THE SYSTEM SHALL show weights, KV cache, runtime overhead and required VRAM equal to the worked example's four steps (4.95, 0.98, 1.40 and 7.33 with catalog `2026-10-23`).
 - WHEN QA opens `/models/model_llama_31_8b_instruct?vram_gb=24&context_tokens=2048`, THE SYSTEM SHALL show for the Q4 variant a required VRAM equal to the worked example's required VRAM.
 - WHEN the seeded catalog gives that model or its Q4 variant a params_b, bits_effective or kv_gb_per_1k_ctx other than the values above, THE SYSTEM SHALL show the catalog's values in the worked example, with the figures `estimation.py` computes from them, so the example still equals the card.
-- IF the catalog has no model `model_llama_31_8b_instruct`, or that model has no Q4 variant (including when the catalog is unseeded, R-026), THEN THE SYSTEM SHALL answer `/how-it-works` with HTTP 200, show every other section of the page, and show the worked example with the inputs params_b = 8, bits_effective = 4.5, kv_gb_per_1k_ctx = 0.48 and context_tokens = 2048 and the four steps above (4.95, 0.98, 1.40 and 7.33 GB), labelled as an 8B model at Q4, without the text `Llama 3.1 8B Instruct`. See Q-12 under "Open questions".
+- IF the catalog has no model `model_llama_31_8b_instruct`, or that model has no Q4 variant (including when the catalog is unseeded, R-026), THEN THE SYSTEM SHALL answer `/how-it-works` with HTTP 200, show every other section of the page, and show the worked example with the inputs params_b = 8, bits_effective = 4.5, kv_gb_per_1k_ctx = 0.48 and context_tokens = 2048 and the four steps above (4.95, 0.98, 1.40 and 7.33 GB). The example SHALL be labelled as an 8B model at Q4 (the user's words: "an 8B model at Q4") and SHALL NOT contain the text `Llama 3.1 8B Instruct` or any other model name (Q-12, settled at Gate 2 round 1 redo).
 - WHEN the page is shown at phone width, THE SYSTEM SHALL show every formula, classification rule and worked-example step in full, wrapping where needed, without horizontal scrolling.
 - THE SYSTEM SHALL give the page one `h1` and one `h2` per section; the sections SHALL include inputs, formula, reserve buffer, classification, worked example and limitations.
 
@@ -839,7 +841,7 @@ Asked: "UI/UX overhaul". The user did not name the flow as a problem. Gate 1: "h
 - WHEN either query below loads after the overhaul, THE SYSTEM SHALL show the same models in the same order as `main` at f2ad2d8, with the same verdicts and the same required VRAM, available VRAM and margin figures:
   - the reference query;
   - `/results?vram_gb=12&context_tokens=8192&family=qwen&quant_bucket=Q4`.
-- THE SYSTEM SHALL keep every route, query parameter and fragment of R-013, R-032 and R-042, so a URL that worked before the overhaul shows the same results after it.
+- THE SYSTEM SHALL keep every route, query parameter and fragment of R-013, R-032 and R-042, so a URL that worked before the overhaul shows the same results after it. The one change is R-081: `/results/partials/content?<query>` opened as a normal page load redirects to `/results?<query>`, which shows the same results on the full page.
 - THE SYSTEM SHALL keep the inputs, filters and live refresh (R-001 to R-008, R-027 to R-032), the three context presets (R-006) and the model detail form with its GPU dropdown and hardware precedence (R-035), with the same controls, fields and steps; these are restyled only (Q-8). The one permitted replacement is the native GPU suggestion list on `/`, under the conditions in R-071.
 - THE SYSTEM SHALL show the required VRAM, the available VRAM and the margin with every verdict (constitution rule 16).
 - THE SYSTEM SHALL keep protected text word for word: every error message R-001 to R-066 specify, the verdict labels `Fits`, `Tight` and `Won't fit`, and every figure (Q-2).
@@ -867,14 +869,14 @@ Check URLs, each requested with `GET` against a running app (for example `http:/
 1. `/`
 2. `/results?vram_gb=24&context_tokens=4096`
 3. `/results?vram_gb=24&context_tokens=4096` with the request header `HX-Request: true`
-4. `/results/partials/content?vram_gb=24&context_tokens=4096`
+4. `/results/partials/content?vram_gb=24&context_tokens=4096` with the request header `HX-Request: true` (without it, R-081 answers with a redirect)
 5. `/results/partials/summary?vram_gb=24&context_tokens=4096`
 6. `/results/partials/list?vram_gb=24&context_tokens=4096`
 7. `/results/why/variant_model_qwen25_7b_instruct_q4?vram_gb=24&context_tokens=4096`
 8. `/models/model_qwen25_7b_instruct?vram_gb=24&context_tokens=4096`
 9. `/how-it-works`
 
-QA can read the headers with `curl -s -o /dev/null -D - '<base><url>'` (add `-H 'HX-Request: true'` for URL 3). The routes accept `GET` only, so use `-D -` rather than `curl -I`, which sends `HEAD`.
+QA can read the headers with `curl -s -o /dev/null -D - '<base><url>'` (add `-H 'HX-Request: true'` for URLs 3 and 4). The routes accept `GET` only, so use `-D -` rather than `curl -I`, which sends `HEAD`.
 
 - WHEN a client requests any check URL, THE SYSTEM SHALL answer HTTP 200 with a `Content-Type` that starts with `text/html` and exactly one `Cache-Control` header.
 - WHEN a client requests any check URL, THE SYSTEM SHALL send a `Cache-Control` value that contains the directive `no-cache` or the directive `no-store`, so the browser fetches or revalidates the HTML on every load and a deploy shows on the next page load (constitution rule 9).
@@ -882,19 +884,23 @@ QA can read the headers with `curl -s -o /dev/null -D - '<base><url>'` (add `-H 
 
 Out of scope: `/static/…` files, whose freshness comes from the asset version (R-041, R-079, constitution rule 21), and `/healthz` and the 400 and 404 responses, which are JSON.
 
-### R-081 Back and forward restore the full page
+### R-081 Back, forward, reload and shared links show the full page
 
-Status: planned · Track: full · UI: no · Source: Gate 2 round 1 (`docs/decisions.md`); `index.html` (`hx-get="/results/partials/content"` with `hx-push-url="true"`, so each in-place refresh pushes a fragment URL); `main.py` (`results_partial_content` always returns `results_content.html`; `results` returns it for any `HX-Request: true`); `base.html` (htmx 1.9.12, default history cache)
+Status: planned · Track: full · UI: no (no new screen or state: every page this requirement shows is the results state of R-067) · Source: Gate 2 round 1 and round 1 redo, Q-13 (`docs/decisions.md`); ADR-0008 (`docs/adr/0008-htmx-history-restores-full-page.md`); `index.html` (`hx-get="/results/partials/content"` with `hx-push-url="true"`, so each in-place refresh pushes a fragment URL); `main.py` (`results_partial_content` always returns `results_content.html`; `results` returns it for any `HX-Request: true`); `base.html` (htmx 1.9.12, default history cache)
 
-Asked: "Fix the htmx history-miss bug (a back navigation replaces the page with the bare results fragment) in this change."
+Asked: "Fix the htmx history-miss bug (a back navigation replaces the page with the bare results fragment) in this change." Gate 2 round 1 redo: "Q-13 resolved by ADR-0008: reload and shared links show the full page, so R-081 covers reload and share as well as Back/Forward."; "Old saved or shared links to `/results/partials/content?…`, opened as a normal page, redirect to `/results?…`."
 
-Today, when htmx has no cached copy of a history entry, it fetches that entry's URL and puts the response in place of the page. The response is the results fragment, so the header, the form and the footer disappear.
+Today, each in-place refresh puts `/results/partials/content?<query>` in the address bar and in the browser history (R-032). When htmx has no cached copy of a history entry, it fetches that URL and puts the response in place of the page. The response is the results fragment, so the header, the form and the footer disappear. Reloading the page or opening the copied address shows the same bare fragment, without the stylesheet.
 
 Test setup, in a real browser with JavaScript enabled, at desktop width and again at phone width:
 
 - *Steps A*: open `/results?vram_gb=24&context_tokens=4096`, select the `8k` preset (the results refresh in place), then select the `2k` preset.
-- *Forcing a history miss*: in the browser console run `localStorage.removeItem('htmx-history-cache')`. The last criterion forces misses without the console.
-- *Full page*: exactly one header with the `VRAM Sherpa` link, `Estimator`, `How it works` and the theme toggle; exactly one input form with `Search GPU`, `Available VRAM (GB)`, the context presets and `Check compatibility`; the filters; the summary and the model cards (or the empty state); and exactly one footer with `Catalog version`, `Estimation policy` and `Last updated`.
+- *Steps B*: open `/results?vram_gb=24&context_tokens=4096` and tick the `qwen` and `llama` family checkboxes (the results refresh in place after each).
+- *Forcing a history miss*: in the browser console run `localStorage.removeItem('htmx-history-cache')`. The 12-refresh criterion forces misses without the console.
+- *Full page*: exactly one header with the `VRAM Sherpa` link, `Estimator`, `How it works` and the theme toggle; exactly one input form with `Search GPU`, `Available VRAM (GB)`, the context presets and `Check compatibility`; the filters; the summary and the model cards (or the empty state); and exactly one footer with `Catalog version`, `Estimation policy` and `Last updated`; all styled by the site stylesheet.
+- *Old-form address*: `/results/partials/content?<query>`, the address an in-place refresh put in the address bar before this change, as found in old bookmarks, shared links and browser history.
+
+Back and forward:
 
 - WHEN the user completes Steps A, forces a history miss and presses Back, THE SYSTEM SHALL show the full page, not the results fragment alone.
 - WHEN the user presses Back after a history miss as above, THE SYSTEM SHALL show results and form state for that history entry: the `8k` preset selected and the summary's context stating `8k`, as `/results?vram_gb=24&context_tokens=8192` shows it when opened directly.
@@ -904,10 +910,29 @@ Test setup, in a real browser with JavaScript enabled, at desktop width and agai
 - WHEN the user presses Back or Forward without a history miss (the cache is left alone), THE SYSTEM SHALL show the full page for that history entry, as it does today.
 - WHEN the user makes 12 in-place refreshes from `/results?vram_gb=24&context_tokens=4096` (alternating the `2k` and `8k` presets) and then presses Back 12 times, THE SYSTEM SHALL show the full page after every press.
 
+Address bar, reload and shared links:
+
+- WHEN results refresh in place, THE SYSTEM SHALL put in the address bar an address whose path is `/results` and whose query string is the query string of that refresh's request. After Steps A the address SHALL have the path `/results` and carry `vram_gb=24` and `context_tokens=2048`.
+- WHEN the user completes Steps A and reloads the page, THE SYSTEM SHALL show the full page with the `2k` preset selected, the summary's context stating `2k`, and the same models in the same order with the same verdicts and figures as before the reload.
+- WHEN the user completes Steps B and reloads the page, THE SYSTEM SHALL show the full page with `qwen` and `llama` ticked and the same models in the same order with the same verdicts and figures as before the reload.
+- WHEN the user completes Steps B, copies the address from the address bar and opens it in a new private window (empty cache and storage), THE SYSTEM SHALL show the full page with `qwen` and `llama` ticked and the same models in the same order with the same verdicts and figures as the original tab.
+
+Old-form addresses:
+
+- WHEN a request to `/results/partials/content` does not carry `HX-Request: true` (a normal page load), THE SYSTEM SHALL answer with an HTTP redirect, status 302, 303 or 307, whose `Location` header is `/results?<query>`, where `<query>` is the request's query string unchanged, byte for byte, with repeated `family` and `quant_bucket` parameters kept in their order.
+- WHEN such a request has no query string, THE SYSTEM SHALL send `Location: /results`.
+- THE SYSTEM SHALL send that `Location` as a path with no scheme and no host, so behind the tunnel the browser stays on `https` (constitution rule 8, R-045).
+- THE SYSTEM SHALL NOT answer that redirect with status 301 or 308. Browsers cache permanent redirects, and a cached one would also catch the in-place refreshes, which still request `/results/partials/content` with the same queries.
+- WHEN a browser opens `/results/partials/content?vram_gb=24&context_tokens=4096&family=qwen&family=llama` as a normal page load, THE SYSTEM SHALL end at the address `/results?vram_gb=24&context_tokens=4096&family=qwen&family=llama` and show the full page with the same models in the same order, with the same verdicts and figures, as that `/results` address opened directly.
+- WHEN the user has opened an old-form address as above and then selects the `8k` preset, THE SYSTEM SHALL refresh the summary and results in place without a full page load, as R-032 states.
+- WHEN a request to `/results/partials/content`, `/results/partials/summary` or `/results/partials/list` carries `HX-Request: true`, THE SYSTEM SHALL answer it as it does today: HTTP 200 with the same fragment, and no redirect.
+- THE SYSTEM SHALL NOT redirect requests to `/results/partials/summary` or `/results/partials/list`, with or without `HX-Request: true`.
+
 ## Notes
 
 - Not recorded as requirements: branch `feat/tokens-per-second` (ee788b3) is unmerged work in progress. PR #19 lists three deliberately deferred items: Top Picks copy, raw Hugging Face names on discovered models, and tokens per second. At Gate 1 the Top Picks copy came into scope (R-069); the other two stay out (Q-10; tokens per second was dropped at intake).
 - Quirks seen in the code, recorded here only so they are not lost: (a) when the hardware comes from an unmatched GPU search with a GB hint (R-003), the card's model link and breakdown pass `gpu_search`, which `/models/…` and `/results/why/…` ignore, so they compute for 8 GB instead of the hinted value. (b) The empty-state sentence says "variants" but the number counts models (R-023, R-025). (c) Hardware precedence is opposite on the two pages: `vram_gb` wins on `/results` (R-004) and `gpu_id` wins on model detail (R-035). (d) `results_table.html` is not rendered by any route. At Gate 1 only (b) came into scope (R-069, Q-10); (a), (c) and (d) stay out.
+- Known issue, left out of this change by the user at Gate 2 round 1 redo (`docs/decisions.md`: "Not selected: re-wiring the theme toggle and GPU input after htmx restores a page from its cache. That stays a known issue, outside this change."): when Back or Forward restores a page from htmx's history cache (a cache hit, not the miss R-081 fixes), the theme toggle and the GPU input stop working on that page, because htmx swaps in the cached page without rerunning `app.js`'s setup. The quantisation switcher keeps working. ADR-0008 records the cause. No requirement covers it, and R-081's criteria do not test it.
 
 ## Contradictions resolved at Gate 0
 
@@ -944,7 +969,7 @@ The user answered Q-1 to Q-11 at Gate 1 on 2026-10-25. The answers are recorded 
 | Q-3 | Filters on a phone | Collapsed on first load, with an active-filter count. | R-069 |
 | Q-4 | Numeric targets | Accepted as proposed: 1688 px phone and 800 px desktop to the first card, 44 px taps, 12 px minimum text, 3:1 non-text contrast. | R-069, R-070, R-071, R-074, R-077 |
 | Q-5 | Widths | 390 px and 1280 px only. | Terms, R-067, R-070 |
-| Q-6 | /how-it-works and rule 16 | Restyle, add plain-language terms and a worked example (6.72 GB); formulas unchanged, policy stays v0.1; rule 16 applies only when the estimate changes. | R-075 |
+| Q-6 | /how-it-works and rule 16 | Restyle, add plain-language terms and a worked example (6.72 GB, replaced at Gate 2 round 1 by the catalog model's 7.33 GB); formulas unchanged, policy stays v0.1; rule 16 applies only when the estimate changes. | R-075 |
 | Q-7 | Logo and favicon | Each direction includes a logo mark and a favicon. | R-068, R-076 |
 | Q-8 | Controls | Restyle only; the native GPU suggestion list may be replaced if it works badly on phones. | R-071, R-074, R-078 |
 | Q-9 | Constitution rule 9 | Add a `UI: no` requirement for `Cache-Control` on HTML to this change. | R-080 |
@@ -953,9 +978,9 @@ The user answered Q-1 to Q-11 at Gate 1 on 2026-10-25. The answers are recorded 
 
 ## Open questions
 
-Raised while applying the Gate 2 round 1 decisions (2026-10-25). Neither conflicts with `docs/constitution.md`.
+None open. Q-12 and Q-13 were raised while applying the Gate 2 round 1 decisions and closed by the user at Gate 2 round 1 redo (2026-10-25); the answers are in `docs/decisions.md` (rows dated 2026-10-25, Gate "2 (round 1 redo)"). Neither conflicts with `docs/constitution.md`.
 
-| # | Requirement | Question | Written as, until answered |
+| # | Requirement | Question | Status and answer |
 | --- | --- | --- | --- |
-| Q-12 | R-075 | If `Llama 3.1 8B Instruct` or its Q4 variant ever leaves the catalog, should `/how-it-works` keep the worked example with the last known inputs (unnamed), or drop the worked example section? | Keep it with params_b 8, bits_effective 4.5, kv_gb_per_1k_ctx 0.48 and 2048 tokens (7.33 GB), labelled as an 8B model at Q4. |
-| Q-13 | R-081, R-032 | Each in-place refresh puts `/results/partials/content?…` in the address bar, so reloading the page or sharing that address also shows the bare results fragment. The decision names only back navigation. Should R-081 also cover reload and opening the pushed address directly (which R-032's "reproduces the same results when opened directly" would suggest)? | Back and forward only. |
+| Q-12 | R-075 | If `Llama 3.1 8B Instruct` or its Q4 variant ever leaves the catalog, should `/how-it-works` keep the worked example with the last known inputs (unnamed), or drop the worked example section? | Closed 2026-10-25. Keep it, unnamed ("an 8B model at Q4"), from the fixed inputs params_b 8, bits_effective 4.5, kv_gb_per_1k_ctx 0.48 and 2048 tokens (7.33 GB). Folded into R-075. See `docs/decisions.md`. |
+| Q-13 | R-081, R-032 | Each in-place refresh puts `/results/partials/content?…` in the address bar, so reloading the page or sharing that address also shows the bare results fragment. The decision names only back navigation. Should R-081 also cover reload and opening the pushed address directly (which R-032's "reproduces the same results when opened directly" would suggest)? | Closed 2026-10-25, resolved by ADR-0008. Yes: reload and shared links show the full page, and old `/results/partials/content?…` links opened as a normal page redirect to `/results?…`. Folded into R-081; R-032's as-built note corrected. See `docs/decisions.md`. |

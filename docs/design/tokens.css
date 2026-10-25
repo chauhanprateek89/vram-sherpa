@@ -1,0 +1,205 @@
+/* VRAM Sherpa: final design tokens ("D layout + E glass").
+   Every visual value in the mockups and, later, in static/css/styles.css comes from a custom property below
+   (ADR-0001). Components use semantic tokens only. Two ways to select the dark theme, as R-040 needs:
+   the saved choice (:root[data-theme]) and, with no saved choice, prefers-color-scheme.
+   Font: Outfit (SIL OFL 1.1), one self-hosted variable woff2 (ADR-0002). In the build the url() becomes ../fonts/. */
+
+@font-face {
+  font-family: "Outfit";
+  src: url("fonts/outfit-latin-wght-normal.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---- scales that do not change with the theme ---- */
+:root {
+  --font: "Outfit", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* type scale (px). 14 is the smallest text anywhere (R-070 asks for 12). Fields are 16 so iOS does not zoom. */
+  --fs-caption: 14px;
+  --fs-small: 15px;
+  --fs-body: 16px;
+  --fs-lead: 17px;
+  --fs-h3: 22px;
+  --fs-h1: 29px;
+  --fs-stat: 32px;
+  --fs-display: 38px;
+  --lh-body: 1.5;
+
+  /* spacing scale */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-7: 32px;
+  --sp-8: 48px;
+  --gap: 12px;            /* gap between tiles */
+  --pad-pane: 22px;       /* padding inside a pane */
+  --pad-tile: 18px;       /* padding inside an inset tile */
+
+  /* radii */
+  --r-pane: 30px;
+  --r-tile: 24px;
+  --r-in: 16px;
+  --r-sm: 10px;
+  --r-pill: 999px;
+
+  /* glass: phone first, wide screens add blur radius */
+  --blur: 16px;
+  --sat: 170%;
+
+  /* motion */
+  --dur-1: 120ms;
+  --dur-2: 220ms;
+  --dur-3: 360ms;
+  --dur-fill: 640ms;
+  --ease-out: cubic-bezier(.22, 1, .36, 1);
+  --ease-spring: cubic-bezier(.34, 1.32, .5, 1);
+
+  /* touch target */
+  --tap: 44px;
+}
+@media (min-width: 900px) {
+  :root {
+    --blur: 24px;
+    --fs-display: 48px;
+    --gap: 14px;
+    --pad-pane: 24px;
+    --pad-tile: 20px;
+  }
+}
+
+/* ---- light ---- */
+:root,
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #DCE4FF;
+  --backdrop-worst: #7385F0;
+  --panel: rgba(255, 255, 255, 0.74);
+  --panel-solid: #F7F6FF;
+  --inset: rgba(255, 255, 255, 0.62);
+  --ink: #14112B;
+  --muted: #46426A;
+  --line: #645F96;
+  --accent: #5B21C9;
+  --on-accent: #FFFFFF;
+  --btn: #4A17B8;
+  --on-btn: #FFFFFF;
+  --focus: #4A17B8;
+  --field: #FFFFFF;
+  --fits-fg: #07623A;   --fits-bg: #D3F6E4;  --fits-bar: #0A8A55;
+  --tight-fg: #74400A;  --tight-bg: #FFE9C2; --tight-bar: #B06A00;
+  --wont-fg: #9E1033;   --wont-bg: #FFDDE5;  --wont-bar: #C21E45;
+  --gate-fg: #4B1D8A;   --gate-bg: #EBDDFF;
+  --info-fg: #2B1E78;   --info-bg: #E4E2FF;
+  --track: rgba(255, 255, 255, 0.78);
+  --resv: #4A4580;
+  --mesh1: #7385F0; --mesh2: #C38AF2; --mesh3: #7FD3E6; --mesh4: #FFB3C8;
+  --edge: rgba(255, 255, 255, .55);
+  --rim-a: rgba(255, 255, 255, .95);
+  --rim-b: rgba(255, 255, 255, .35);
+  --sh-1: 0 1px 1px rgba(40, 30, 110, .06), 0 10px 28px -10px rgba(60, 40, 160, .20), 0 44px 80px -34px rgba(60, 40, 160, .34);
+  --sh-2: inset 0 1px 0 rgba(255, 255, 255, .85), 0 2px 8px -2px rgba(60, 40, 160, .16);
+  --sh-2h: inset 0 1px 0 rgba(255, 255, 255, .9), 0 14px 30px -12px rgba(60, 40, 160, .34);
+  --sh-3: 0 2px 6px rgba(40, 20, 120, .10), 0 24px 64px -12px rgba(40, 20, 120, .46);
+  --sh-in: inset 0 1px 2px rgba(40, 30, 110, .14);
+  --sheen: rgba(255, 255, 255, .80);
+  --hair: rgba(40, 30, 110, .12);
+  --pressed: #4A17B8;
+  --on-pressed: #FFFFFF;
+  --sk-a: rgba(40, 30, 110, .10);
+  --sk-b: rgba(255, 255, 255, .7);
+  --seg: rgba(255, 255, 255, .6);
+  --pill-icon-cut: #FFFFFF;   /* the colour cut out of a verdict icon */
+}
+
+/* ---- dark, no saved choice ---- */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #0A0B1F;
+    --backdrop-worst: #2AB4D4;
+    --panel: rgba(11, 13, 44, 0.82);
+    --panel-solid: #14163A;
+    --inset: rgba(255, 255, 255, 0.07);
+    --ink: #F3F1FF;
+    --muted: #C9C6EA;
+    --line: #8E8BC4;
+    --accent: #D2C2FF;
+    --on-accent: #10082B;
+    --btn: #B79CFF;
+    --on-btn: #12082E;
+    --focus: #CDB9FF;
+    --field: #0A0C26;
+    --fits-fg: #6EF0AE;   --fits-bg: #0B3023;  --fits-bar: #34D399;
+    --tight-fg: #FFCB6B;  --tight-bg: #3A2A08; --tight-bar: #F5B03A;
+    --wont-fg: #FFA0B6;   --wont-bg: #43152A;  --wont-bar: #FF6B8D;
+    --gate-fg: #E1D2FF;   --gate-bg: #33206A;
+    --info-fg: #DAD6FF;   --info-bg: #26235E;
+    --track: rgba(5, 6, 26, 0.55);
+    --resv: #C5C2EB;
+    --mesh1: #5B3FD9; --mesh2: #B02BC9; --mesh3: #2AB4D4; --mesh4: #3B2FC9;
+    --edge: rgba(255, 255, 255, .12);
+    --rim-a: rgba(255, 255, 255, .45);
+    --rim-b: rgba(255, 255, 255, .10);
+    --sh-1: 0 1px 1px rgba(0, 0, 0, .4), 0 12px 32px -10px rgba(0, 0, 0, .55), 0 46px 90px -34px rgba(0, 0, 0, .75);
+    --sh-2: inset 0 1px 0 rgba(255, 255, 255, .10), 0 2px 8px -2px rgba(0, 0, 0, .45);
+    --sh-2h: inset 0 1px 0 rgba(255, 255, 255, .14), 0 16px 34px -12px rgba(0, 0, 0, .7);
+    --sh-3: 0 2px 6px rgba(0, 0, 0, .4), 0 26px 70px -12px rgba(0, 0, 0, .8);
+    --sh-in: inset 0 1px 3px rgba(0, 0, 0, .55);
+    --sheen: rgba(255, 255, 255, .08);
+    --hair: rgba(255, 255, 255, .12);
+    --pressed: #D2C2FF;
+    --on-pressed: #10082B;
+    --sk-a: rgba(255, 255, 255, .08);
+    --sk-b: rgba(255, 255, 255, .18);
+    --seg: rgba(0, 0, 0, .30);
+    --pill-icon-cut: #0E1030;
+  }
+}
+
+/* ---- dark, saved choice ---- */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0A0B1F;
+  --backdrop-worst: #2AB4D4;
+  --panel: rgba(11, 13, 44, 0.82);
+  --panel-solid: #14163A;
+  --inset: rgba(255, 255, 255, 0.07);
+  --ink: #F3F1FF;
+  --muted: #C9C6EA;
+  --line: #8E8BC4;
+  --accent: #D2C2FF;
+  --on-accent: #10082B;
+  --btn: #B79CFF;
+  --on-btn: #12082E;
+  --focus: #CDB9FF;
+  --field: #0A0C26;
+  --fits-fg: #6EF0AE;   --fits-bg: #0B3023;  --fits-bar: #34D399;
+  --tight-fg: #FFCB6B;  --tight-bg: #3A2A08; --tight-bar: #F5B03A;
+  --wont-fg: #FFA0B6;   --wont-bg: #43152A;  --wont-bar: #FF6B8D;
+  --gate-fg: #E1D2FF;   --gate-bg: #33206A;
+  --info-fg: #DAD6FF;   --info-bg: #26235E;
+  --track: rgba(5, 6, 26, 0.55);
+  --resv: #C5C2EB;
+  --mesh1: #5B3FD9; --mesh2: #B02BC9; --mesh3: #2AB4D4; --mesh4: #3B2FC9;
+  --edge: rgba(255, 255, 255, .12);
+  --rim-a: rgba(255, 255, 255, .45);
+  --rim-b: rgba(255, 255, 255, .10);
+  --sh-1: 0 1px 1px rgba(0, 0, 0, .4), 0 12px 32px -10px rgba(0, 0, 0, .55), 0 46px 90px -34px rgba(0, 0, 0, .75);
+  --sh-2: inset 0 1px 0 rgba(255, 255, 255, .10), 0 2px 8px -2px rgba(0, 0, 0, .45);
+  --sh-2h: inset 0 1px 0 rgba(255, 255, 255, .14), 0 16px 34px -12px rgba(0, 0, 0, .7);
+  --sh-3: 0 2px 6px rgba(0, 0, 0, .4), 0 26px 70px -12px rgba(0, 0, 0, .8);
+  --sh-in: inset 0 1px 3px rgba(0, 0, 0, .55);
+  --sheen: rgba(255, 255, 255, .08);
+  --hair: rgba(255, 255, 255, .12);
+  --pressed: #D2C2FF;
+  --on-pressed: #10082B;
+  --sk-a: rgba(255, 255, 255, .08);
+  --sk-b: rgba(255, 255, 255, .18);
+  --seg: rgba(0, 0, 0, .30);
+  --pill-icon-cut: #0E1030;
+}

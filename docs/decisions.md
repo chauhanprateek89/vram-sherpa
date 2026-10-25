@@ -26,6 +26,10 @@
 | 2026-10-25 | 2 (round 1 redo) | Not selected: re-wiring the theme toggle and GPU input after htmx restores a page from its cache. That stays a known issue, outside this change. |
 | 2026-10-25 | 2 (round 1 redo) | Q-12: if Llama 3.1 8B Instruct leaves the catalog, /how-it-works keeps the worked example from fixed inputs, unnamed ("an 8B model at Q4"). |
 | 2026-10-25 | 2 (round 1 redo) | Q-13 resolved by ADR-0008: reload and shared links show the full page, so R-081 covers reload and share as well as Back/Forward. |
+| 2026-10-25 | 2 | Approved the design: all 24 screens and states in `docs/design/final/` and `docs/design/mockups/final-*.html`, the copy table in `docs/design/README.md`, and ADRs 0001-0008. These are QA's reference (rule 10). |
+| 2026-10-25 | 2 | Filters start closed at both widths (not opened on desktop by script). The 800 px desktop target (R-069) applies to the normal results view; states that show a message (ambiguous GPU, input errors) may end around 840-880 px. |
+| 2026-10-25 | 2 | Build the styled GPU suggestion list (the `gpu-suggest` mockup): a small vanilla JS combobox over the native list at every width (ADR-0005), keeping R-001's behaviour and the no-JavaScript path. |
+| 2026-10-25 | 2 | Repo weight: commit the final mockup HTML and PNGs only; the rejected rounds keep their HTML but lose their PNGs; the release PR is squash-merged so rejected binaries never reach main. |
 
 ## Made during work
 
@@ -38,3 +42,5 @@
 | 2026-10-25 | Requirements | R-080 accepts either `no-cache` or `no-store`, and never `immutable` or a positive `max-age`. | The user chose to fix rule 9 but didn't pick a header value. |
 | 2026-10-25 | Requirements | The logo mark goes in the header and the favicon under `/static/`, so the R-042 route list stays the same. | Q-7 didn't say where. |
 | 2026-10-25 | Requirements | The R-075 worked example keeps 6.72 GB and states its kv value (0.18) rather than naming a model. A real catalog 8B model (kv 0.48) gives 7.33 GB. To raise at Gate 2. | The 6.72 figure came from R-009's test values, not from the catalog. |
+| 2026-10-25 | Design | Old partial links are redirected with a 302 to a relative `/results?<raw query>`, after the host guard and before any database query. Only `/results/partials/content` is redirected; summary and list never were in the address bar. | Browsers cache 301/308, which would outlive a rollback; a relative path keeps https behind the tunnel (rule 8). |
+| 2026-10-25 | Design | A malformed old link (for example `context_tokens=abc`) still gets FastAPI's 422, as the same query on `/results` does. The partial ignores `HX-History-Restore-Request`; a guard test keeps the `refreshOnHistoryMiss` meta tag in place. | Same behaviour as `/results`; keeps R-081's rule that every htmx request gets the fragment. |
