@@ -27,5 +27,5 @@ The app loads no fonts from a third party. Each Gate 2 direction uses one of two
 - The uiux agent must pick freely licensed typefaces that are available as files (Google Fonts' catalogue is mostly OFL and can be downloaded and self-hosted). Commercial fonts are excluded by rule 2.
 - Font binaries are committed to a public repo, together with their licence file.
 - The package-data glob is a trap: if `static/fonts/*` is missing, local tests pass but the production image serves 404 for the fonts. The plan adds a pytest that every file under `static/` and `templates/` matches a package-data glob, and adds to the release smoke test a check that every `/static/` URL in the home page returns 200 (an addition rule 18 allows).
-- Rule 21 names only `static/css` and `static/js`. Versioned font file names cover the gap, but the user may want rule 21 to say "any file under `static/`" (Gate 2).
+- Rule 21 was amended at Gate 2 (2026-10-25): any change under `static/`, fonts included, bumps `ASSET_VERSION`. Font files keep their versioned names too, because `styles.css` loads them by a plain `url()` that `?v=ASSET_VERSION` does not reach.
 - HTMX 1.9.12 still loads from unpkg.com in the browser. Vendoring it is the same kind of decision but is not needed for the overhaul, so it is not taken here.

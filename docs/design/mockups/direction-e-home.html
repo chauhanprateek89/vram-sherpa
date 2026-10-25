@@ -1,0 +1,360 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>VRAM Sherpa direction E: Glass</title><script>try{var t=new URLSearchParams(location.search).get("theme");if(t)document.documentElement.dataset.theme=t;}catch(e){}</script><style>*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;color-scheme:light dark}
+:root[data-theme="light"]{color-scheme:light}:root[data-theme="dark"]{color-scheme:dark}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.5;min-width:320px;overflow-x:hidden}
+h1,h2,h3,p,ul,dl,dd,fieldset{margin:0;padding:0}
+fieldset{border:0;min-width:0}
+ul{list-style:none}
+svg{display:block;flex:none}
+button,input{font:inherit;color:inherit;letter-spacing:inherit}
+button{cursor:pointer}
+a{color:var(--accent)}
+[hidden]{display:none!important}
+.num{font-variant-numeric:tabular-nums}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:root{--dur-1:120ms;--dur-2:220ms;--dur-3:360ms;--dur-fill:640ms;--ease-out:cubic-bezier(.22,1,.36,1);--ease-spring:cubic-bezier(.34,1.32,.5,1);--ease-io:cubic-bezier(.4,0,.2,1)}
+@keyframes paneIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes whyIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+@keyframes shimmer{from{background-position:120% 0}to{background-position:-120% 0}}
+.fit-pane.is-entering{animation:paneIn var(--dur-2) var(--ease-out)}
+.htmx-added .bar{width:0!important;transition:none!important}
+.htmx-added .resv{opacity:0}
+.resv{transition:opacity var(--dur-3) var(--ease-out) calc(var(--dur-fill)*.6)}
+.bar{transition:width var(--dur-fill) var(--ease-out);transition-delay:calc(var(--i,0)*70ms)}
+details>summary{list-style:none}details>summary::-webkit-details-marker{display:none}
+details[open]>.why-content,details[open]>.filter-fields,details[open]>.pick-grid{animation:whyIn var(--dur-2) var(--ease-out)}
+.why-content.is-loaded .why-list{animation:whyIn var(--dur-2) var(--ease-out)}
+.sk-list{display:grid;gap:12px;padding:6px 0}
+.sk-list i{display:block;height:14px;border-radius:8px;background:linear-gradient(100deg,var(--sk-a) 30%,var(--sk-b) 50%,var(--sk-a) 70%);background-size:300% 100%;animation:shimmer 1.4s linear infinite}
+.sk-list i:nth-child(2){width:86%}.sk-list i:nth-child(3){width:72%}.sk-list i:nth-child(4){width:80%}.sk-list i:nth-child(5){width:64%}
+.why-title{font-size:15px;font-weight:600;margin:6px 0 10px}
+.why-list{display:grid;gap:0}
+.why-list>div{display:flex;justify-content:space-between;gap:16px;padding:10px 0;font-size:15px;border-top:1px solid var(--hair)}
+.why-list dt{color:var(--muted)}
+.why-list dd{font-weight:600;white-space:nowrap}
+.why-list .total{font-weight:700}.why-list .total dt{color:var(--ink)}
+.muted{color:var(--muted);font-size:15px}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}
+  .sk-list i{background:var(--sk-a)}
+}
+
+:root{--bg:#DCE4FF;--backdrop-worst:#7385F0;--panel:rgba(255,255,255,0.74);--panel-solid:#F7F6FF;--inset:rgba(255,255,255,0.62);--ink:#14112B;--muted:#46426A;--line:#645F96;--accent:#5B21C9;--on-accent:#FFFFFF;--btn:#4A17B8;--on-btn:#FFFFFF;--focus:#4A17B8;--field:#FFFFFF;--fits-fg:#07623A;--fits-bg:#D3F6E4;--fits-bar:#0A8A55;--tight-fg:#74400A;--tight-bg:#FFE9C2;--tight-bar:#B06A00;--wont-fg:#9E1033;--wont-bg:#FFDDE5;--wont-bar:#C21E45;--track:rgba(255,255,255,0.78);--resv:#4A4580;--mesh1:#7385F0;--mesh2:#C38AF2;--mesh3:#7FD3E6;--mesh4:#FFB3C8;--edge:rgba(255,255,255,.55);--rim-a:rgba(255,255,255,.95);--rim-b:rgba(255,255,255,.35);--sh-1:0 1px 1px rgba(40,30,110,.06),0 10px 28px -10px rgba(60,40,160,.20),0 44px 80px -34px rgba(60,40,160,.34);--sh-2:inset 0 1px 0 rgba(255,255,255,.85),0 2px 8px -2px rgba(60,40,160,.16);--sh-2h:inset 0 1px 0 rgba(255,255,255,.9),0 14px 30px -12px rgba(60,40,160,.34);--sh-3:0 2px 6px rgba(40,20,120,.10),0 24px 64px -12px rgba(40,20,120,.46);--sh-in:inset 0 1px 2px rgba(40,30,110,.14);--sheen:rgba(255,255,255,.80);--hair:rgba(40,30,110,.12);--pressed:#4A17B8;--on-pressed:#FFFFFF;--sk-a:rgba(40,30,110,.10);--sk-b:rgba(255,255,255,.7);--seg:rgba(255,255,255,.6);}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0A0B1F;--backdrop-worst:#2AB4D4;--panel:rgba(11,13,44,0.82);--panel-solid:#14163A;--inset:rgba(255,255,255,0.07);--ink:#F3F1FF;--muted:#C9C6EA;--line:#8E8BC4;--accent:#D2C2FF;--on-accent:#10082B;--btn:#B79CFF;--on-btn:#12082E;--focus:#CDB9FF;--field:#0A0C26;--fits-fg:#6EF0AE;--fits-bg:#0B3023;--fits-bar:#34D399;--tight-fg:#FFCB6B;--tight-bg:#3A2A08;--tight-bar:#F5B03A;--wont-fg:#FFA0B6;--wont-bg:#43152A;--wont-bar:#FF6B8D;--track:rgba(5,6,26,0.55);--resv:#C5C2EB;--mesh1:#5B3FD9;--mesh2:#B02BC9;--mesh3:#2AB4D4;--mesh4:#3B2FC9;--edge:rgba(255,255,255,.12);--rim-a:rgba(255,255,255,.45);--rim-b:rgba(255,255,255,.10);--sh-1:0 1px 1px rgba(0,0,0,.4),0 12px 32px -10px rgba(0,0,0,.55),0 46px 90px -34px rgba(0,0,0,.75);--sh-2:inset 0 1px 0 rgba(255,255,255,.10),0 2px 8px -2px rgba(0,0,0,.45);--sh-2h:inset 0 1px 0 rgba(255,255,255,.14),0 16px 34px -12px rgba(0,0,0,.7);--sh-3:0 2px 6px rgba(0,0,0,.4),0 26px 70px -12px rgba(0,0,0,.8);--sh-in:inset 0 1px 3px rgba(0,0,0,.55);--sheen:rgba(255,255,255,.08);--hair:rgba(255,255,255,.12);--pressed:#D2C2FF;--on-pressed:#10082B;--sk-a:rgba(255,255,255,.08);--sk-b:rgba(255,255,255,.18);--seg:rgba(0,0,0,.30);}}
+:root[data-theme="dark"]{--bg:#0A0B1F;--backdrop-worst:#2AB4D4;--panel:rgba(11,13,44,0.82);--panel-solid:#14163A;--inset:rgba(255,255,255,0.07);--ink:#F3F1FF;--muted:#C9C6EA;--line:#8E8BC4;--accent:#D2C2FF;--on-accent:#10082B;--btn:#B79CFF;--on-btn:#12082E;--focus:#CDB9FF;--field:#0A0C26;--fits-fg:#6EF0AE;--fits-bg:#0B3023;--fits-bar:#34D399;--tight-fg:#FFCB6B;--tight-bg:#3A2A08;--tight-bar:#F5B03A;--wont-fg:#FFA0B6;--wont-bg:#43152A;--wont-bar:#FF6B8D;--track:rgba(5,6,26,0.55);--resv:#C5C2EB;--mesh1:#5B3FD9;--mesh2:#B02BC9;--mesh3:#2AB4D4;--mesh4:#3B2FC9;--edge:rgba(255,255,255,.12);--rim-a:rgba(255,255,255,.45);--rim-b:rgba(255,255,255,.10);--sh-1:0 1px 1px rgba(0,0,0,.4),0 12px 32px -10px rgba(0,0,0,.55),0 46px 90px -34px rgba(0,0,0,.75);--sh-2:inset 0 1px 0 rgba(255,255,255,.10),0 2px 8px -2px rgba(0,0,0,.45);--sh-2h:inset 0 1px 0 rgba(255,255,255,.14),0 16px 34px -12px rgba(0,0,0,.7);--sh-3:0 2px 6px rgba(0,0,0,.4),0 26px 70px -12px rgba(0,0,0,.8);--sh-in:inset 0 1px 3px rgba(0,0,0,.55);--sheen:rgba(255,255,255,.08);--hair:rgba(255,255,255,.12);--pressed:#D2C2FF;--on-pressed:#10082B;--sk-a:rgba(255,255,255,.08);--sk-b:rgba(255,255,255,.18);--seg:rgba(0,0,0,.30);}
+:root[data-theme="light"]{--bg:#DCE4FF;--backdrop-worst:#7385F0;--panel:rgba(255,255,255,0.74);--panel-solid:#F7F6FF;--inset:rgba(255,255,255,0.62);--ink:#14112B;--muted:#46426A;--line:#645F96;--accent:#5B21C9;--on-accent:#FFFFFF;--btn:#4A17B8;--on-btn:#FFFFFF;--focus:#4A17B8;--field:#FFFFFF;--fits-fg:#07623A;--fits-bg:#D3F6E4;--fits-bar:#0A8A55;--tight-fg:#74400A;--tight-bg:#FFE9C2;--tight-bar:#B06A00;--wont-fg:#9E1033;--wont-bg:#FFDDE5;--wont-bar:#C21E45;--track:rgba(255,255,255,0.78);--resv:#4A4580;--mesh1:#7385F0;--mesh2:#C38AF2;--mesh3:#7FD3E6;--mesh4:#FFB3C8;--edge:rgba(255,255,255,.55);--rim-a:rgba(255,255,255,.95);--rim-b:rgba(255,255,255,.35);--sh-1:0 1px 1px rgba(40,30,110,.06),0 10px 28px -10px rgba(60,40,160,.20),0 44px 80px -34px rgba(60,40,160,.34);--sh-2:inset 0 1px 0 rgba(255,255,255,.85),0 2px 8px -2px rgba(60,40,160,.16);--sh-2h:inset 0 1px 0 rgba(255,255,255,.9),0 14px 30px -12px rgba(60,40,160,.34);--sh-3:0 2px 6px rgba(40,20,120,.10),0 24px 64px -12px rgba(40,20,120,.46);--sh-in:inset 0 1px 2px rgba(40,30,110,.14);--sheen:rgba(255,255,255,.80);--hair:rgba(40,30,110,.12);--pressed:#4A17B8;--on-pressed:#FFFFFF;--sk-a:rgba(40,30,110,.10);--sk-b:rgba(255,255,255,.7);--seg:rgba(255,255,255,.6);}
+@font-face{font-family:"Outfit";src:url("../fonts/outfit-latin-wght-normal.woff2") format("woff2");font-weight:100 900;font-style:normal;font-display:swap}
+:root{--font:"Outfit",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--blur:16px;--r-pane:30px;--r-in:16px}
+@media(min-width:900px){:root{--blur:24px}}
+
+
+/* E0: backdrop. One fixed layer of static gradients, never animated, no filter. Its extreme colours are the worst case for every contrast claim. */
+.backdrop{position:fixed;inset:0;z-index:-1;background:
+ radial-gradient(max(46vw,460px) max(46vw,460px) at 4% 2%,var(--mesh1),transparent 70%),
+ radial-gradient(max(44vw,440px) max(44vw,440px) at 96% 6%,var(--mesh2),transparent 70%),
+ radial-gradient(max(50vw,500px) max(50vw,500px) at 78% 104%,var(--mesh3),transparent 70%),
+ radial-gradient(max(44vw,440px) max(44vw,440px) at -4% 92%,var(--mesh4),transparent 70%),var(--bg)}
+.page{width:min(1240px,100% - 32px);margin-inline:auto;padding:12px 0 28px}
+@media(min-width:900px){.page{width:min(1240px,100% - 48px);padding-top:16px}}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:10px}
+/* E1: pane = the only blurred surface */
+.pane{position:relative;background:var(--panel);-webkit-backdrop-filter:blur(var(--blur)) saturate(170%);backdrop-filter:blur(var(--blur)) saturate(170%);border-radius:var(--r-pane);border:1px solid var(--edge);box-shadow:var(--sh-1);min-width:0}
+.pane::before{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;pointer-events:none;background:linear-gradient(155deg,var(--rim-a),var(--rim-b) 28%,transparent 55%,var(--rim-b));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+/* "lite" = same look, no blur (phone budget): alpha raised so it still reads as glass */
+.lite{background:color-mix(in srgb,var(--panel-solid) 86%,transparent);-webkit-backdrop-filter:none;backdrop-filter:none}
+@media(min-width:900px){.lite{background:var(--panel);-webkit-backdrop-filter:blur(var(--blur)) saturate(170%);backdrop-filter:blur(var(--blur)) saturate(170%)}}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.pane,.lite{background:var(--panel-solid)}}
+@media (prefers-reduced-transparency:reduce){.pane,.lite{background:var(--panel-solid)!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}.pane::before{display:none}}
+/* E2: inset = translucent card on a pane. No blur. */
+.inset{background:var(--inset);border:1px solid var(--edge);border-radius:24px;box-shadow:var(--sh-2)}
+/* header */
+.top{display:grid;grid-template-columns:1fr auto;grid-template-areas:"brand toggle" "nav nav";gap:8px 12px;align-items:center;padding:10px 10px 10px 18px;border-radius:28px;margin-bottom:12px}
+.brand{grid-area:brand;display:inline-flex;align-items:center;gap:10px;min-height:44px;color:var(--ink);text-decoration:none;font-weight:600;font-size:20px;letter-spacing:-.01em}
+.brand .mark{width:34px;height:34px}
+.top nav{grid-area:nav;display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.top nav a{display:flex;align-items:center;justify-content:center;min-height:44px;padding:0 18px;border-radius:999px;color:var(--ink);text-decoration:none;font-weight:500;border:1px solid transparent;transition:background var(--dur-2) var(--ease-out),border-color var(--dur-2)}
+.top nav a:hover{background:var(--seg)}
+.top nav a[aria-current]{background:var(--inset);border-color:var(--edge);box-shadow:var(--sh-2);font-weight:600}
+.theme{grid-area:toggle;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px 0 14px;border-radius:999px;border:1.5px solid var(--line);background:var(--seg);font-weight:500;transition:background var(--dur-1),transform var(--dur-1) var(--ease-out)}
+.theme:hover{background:var(--inset)}.theme:active{transform:scale(.96)}
+@media(min-width:900px){.top{grid-template-columns:auto 1fr auto;grid-template-areas:"brand nav toggle";position:sticky;top:12px;z-index:20;padding:8px 10px 8px 20px}.top nav{width:max-content;justify-self:center;display:flex}}
+/* layout */
+.stack{display:grid;gap:12px;grid-template-columns:minmax(0,1fr)}
+#results-shell{display:contents}
+@media(min-width:900px){
+ .stack{grid-template-columns:380px minmax(0,1fr);gap:18px;align-items:start}
+ .form-side{grid-column:1;grid-row:1/3;position:sticky;top:96px}
+ .answer{grid-column:2;grid-row:1}
+ .list-pane{grid-column:2;grid-row:2}
+}
+/* form */
+.form-side{padding:22px;display:flex;flex-direction:column;gap:14px}
+@media(min-width:900px){.form-side{padding:26px}}
+h1{font-size:29px;line-height:1.1;letter-spacing:-.025em;font-weight:500}
+.hint{color:var(--muted);font-size:15px;margin-top:-6px}
+label,legend{display:block;font-size:14px;font-weight:560;margin-bottom:6px;letter-spacing:.01em;padding:0}
+input[type=text],input[type=number]{width:100%;min-height:52px;padding:0 16px;border-radius:var(--r-in);border:1.5px solid var(--line);background:var(--field);box-shadow:var(--sh-in);font-size:16px;font-weight:450;transition:border-color var(--dur-1),box-shadow var(--dur-2)}
+input::placeholder{color:var(--muted);opacity:1}
+input[type=text]:focus,input[type=number]:focus{outline:3px solid var(--focus);outline-offset:2px}
+.field-row{display:flex;gap:8px}
+.btn-clear,.chip{min-height:44px;padding:0 16px;border-radius:999px;border:1.5px solid var(--line);background:var(--seg);font-weight:520;font-size:15px;transition:background var(--dur-1),transform var(--dur-1) var(--ease-out)}
+.btn-clear{border-radius:var(--r-in);min-width:76px}
+.btn-clear:hover,.chip:hover{background:var(--inset)}
+.btn-clear:active,.chip:active{transform:scale(.95)}
+.f-pair{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:end}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.btn-primary{min-height:54px;padding:0 24px;border:0;border-radius:var(--r-in);color:var(--on-btn);font-weight:560;font-size:17px;background:linear-gradient(180deg,color-mix(in srgb,var(--btn) 86%,#fff),var(--btn));box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 10px 24px -10px color-mix(in srgb,var(--btn) 70%,transparent);transition:transform var(--dur-1) var(--ease-out),box-shadow var(--dur-2) var(--ease-out),filter var(--dur-1)}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 18px 32px -10px color-mix(in srgb,var(--btn) 80%,transparent);filter:saturate(1.1)}
+.btn-primary:active{transform:scale(.975);box-shadow:inset 0 2px 6px rgba(0,0,0,.25);transition-duration:60ms}
+.htmx-request .btn-primary{cursor:progress;background:linear-gradient(100deg,var(--btn) 30%,color-mix(in srgb,var(--btn) 60%,#fff) 50%,var(--btn) 70%);background-size:300% 100%;animation:shimmer 1s linear infinite}
+.form-side .btn-primary{margin-top:auto}
+/* seg + thumb */
+.seg,.quants{position:relative;display:inline-grid;grid-auto-flow:column;grid-auto-columns:1fr;padding:3px;border-radius:999px;background:var(--seg);box-shadow:var(--sh-in);border:1px solid var(--edge)}
+.seg label{margin:0;position:relative;z-index:1}
+.seg input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer}
+.seg span,.quants button{display:flex;align-items:center;justify-content:center;min-height:46px;min-width:46px;padding:0 12px;border-radius:999px;font-weight:560;font-size:15px;color:var(--ink);border:0;background:transparent;position:relative;z-index:1;transition:color var(--dur-2)}
+.seg label:has(input:focus-visible){outline:3px solid var(--focus);outline-offset:2px;border-radius:999px}
+.quants button:focus-visible{outline:3px solid var(--focus);outline-offset:1px}
+.quants{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));width:100%}
+.quants button:hover:not([aria-pressed=true]){background:var(--hair)}
+.quants button:active{transform:scale(.95)}
+.quants button[aria-pressed=true],.seg label:has(input:checked) span{color:var(--on-pressed);background:var(--pressed)}
+.quants button[data-oversize]{text-decoration:line-through;text-decoration-thickness:2px}
+.has-thumb .thumb{position:absolute;z-index:0;left:0;top:0;width:var(--w);height:var(--h);transform:translate(var(--x),var(--y));background:var(--pressed);border-radius:999px;box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 6px 14px -4px color-mix(in srgb,var(--pressed) 60%,transparent);transition:transform var(--dur-3) var(--ease-spring),width var(--dur-3) var(--ease-spring)}
+.has-thumb button[aria-pressed=true],.has-thumb label:has(input:checked) span{background:transparent}
+/* answer */
+.answer{padding:24px;display:flex;flex-direction:column;gap:14px}
+@media(min-width:900px){.answer{padding:30px 32px}}
+.headline{font-size:36px;line-height:1.05;letter-spacing:-.03em;font-weight:350}
+@media(min-width:900px){.headline{font-size:54px}}
+.ctx-line{display:flex;flex-wrap:wrap;gap:4px 20px;color:var(--muted);font-size:15px}
+.ctx-line b{color:var(--ink);font-weight:560}
+.counts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.counts li{display:grid;grid-template-columns:auto 1fr;column-gap:8px;align-items:center;padding:10px 14px 12px;border-radius:22px;background:var(--inset);border:1px solid var(--edge);box-shadow:var(--sh-2);color:var(--c-fg)}
+.counts .c-fits{--c-fg:var(--fits-fg);--pill-bg:#fff}.counts .c-tight{--c-fg:var(--tight-fg);--pill-bg:#fff}.counts .c-wont{--c-fg:var(--wont-fg);--pill-bg:#fff}
+:root[data-theme="dark"] .counts li{--pill-bg:#0E1030}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .counts li{--pill-bg:#0E1030}}
+.counts b{font-size:32px;line-height:1;letter-spacing:-.03em;font-weight:500;color:var(--ink)}
+.counts span{grid-column:1/-1;font-size:15px;font-weight:560;margin-top:2px;color:var(--ink)}
+.note{color:var(--muted);font-size:15px}
+/* list pane */
+.list-pane{padding:12px;display:grid;gap:12px;grid-template-columns:minmax(0,1fr)}
+.model-list{display:contents}
+@media(min-width:900px){
+ .list-pane{padding:18px;gap:14px 18px;grid-template-columns:minmax(0,1fr) 318px;align-items:start}
+ .list-pane>.filters{grid-column:1/-1}
+ .list-pane .model-card{grid-column:1}
+ .list-pane .picks{grid-column:2;grid-row:2/span 3;position:sticky;top:96px}
+}
+.filters{border-radius:22px;padding:0 6px}
+.filters>summary{display:flex;align-items:center;gap:10px;min-height:52px;padding:0 14px;cursor:pointer;font-weight:560;font-size:16px}
+.filters>summary svg{color:var(--accent)}
+.filters>summary::after,.picks>summary::after,.why-panel>summary::before{content:"";width:9px;height:9px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg) translate(-2px,-2px);transition:transform var(--dur-2) var(--ease-out);flex:none;margin-top:-4px;margin-left:auto}
+.filters[open]>summary::after,.picks[open]>summary::after{transform:rotate(225deg) translate(-2px,-2px);margin-top:2px}
+.filter-fields{display:grid;gap:18px;padding:4px 14px 20px}
+@media(min-width:900px){.filter-fields{grid-template-columns:1.2fr 1fr 1fr;gap:28px;align-items:start}}
+.checklist{display:flex;flex-wrap:wrap;gap:8px}
+.choice{display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:0 14px 0 10px;border-radius:14px;margin:0;background:var(--seg);border:1px solid var(--edge);font-weight:500;font-size:15px;cursor:pointer;transition:background var(--dur-1)}
+.choice:hover{background:var(--inset)}
+.choice input{appearance:none;margin:0;width:22px;height:22px;border-radius:7px;border:2px solid var(--line);background:var(--field);flex:none;display:grid;place-items:center;transition:background var(--dur-1),border-color var(--dur-1)}
+.choice input:checked{background:var(--pressed);border-color:var(--pressed)}
+.choice input:checked::after{content:"";width:10px;height:5px;border-left:2.5px solid var(--on-pressed);border-bottom:2.5px solid var(--on-pressed);transform:rotate(-45deg) translate(1px,-1px)}
+.choice input:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.frange{display:grid;grid-template-columns:1fr 1fr;gap:12px}.choice-solo{grid-column:1/-1;justify-self:start}
+/* cards */
+.card-in{display:grid;gap:16px}
+.model-card{position:relative;padding:20px;transition:box-shadow var(--dur-2) var(--ease-out),border-color var(--dur-2)}
+@media(min-width:900px){.model-card{padding:24px}}
+.model-card::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(260px circle at var(--mx,50%) var(--my,0),var(--sheen),transparent 70%);opacity:0;transition:opacity var(--dur-2)}
+.model-card:hover{box-shadow:var(--sh-2h)}.model-card:hover::after{opacity:1}
+.model-id{display:grid;gap:10px}
+.model-card h3{font-size:22px;line-height:1.15;letter-spacing:-.015em;font-weight:560;overflow-wrap:anywhere}
+.model-card h3 a{display:inline-block;padding:10px 0;margin:-10px 0;color:var(--ink);text-decoration:none;background:linear-gradient(currentColor,currentColor) 0 100%/0 2px no-repeat;transition:background-size var(--dur-3) var(--ease-out)}
+.model-card h3 a:hover{background-size:100% 2px}
+.model-meta{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;font-size:14px;color:var(--muted)}
+.fam{padding:2px 11px;border-radius:99px;background:var(--seg);border:1px solid var(--edge);font-weight:500;color:var(--ink)}
+.fit-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.state{display:inline-flex;align-items:center;gap:8px;min-height:38px;padding:0 16px 0 11px;border-radius:999px;font-weight:600;font-size:17px;border:1px solid color-mix(in srgb,currentColor 25%,transparent)}
+.state-fits{background:var(--fits-bg);color:var(--fits-fg);--pill-bg:var(--fits-bg)}
+.state-tight{background:var(--tight-bg);color:var(--tight-fg);--pill-bg:var(--tight-bg)}
+.state-wont{background:var(--wont-bg);color:var(--wont-fg);--pill-bg:var(--wont-bg)}
+.headroom{font-size:17px}
+.headroom b{font-size:34px;line-height:1;letter-spacing:-.03em;font-weight:500;margin-right:2px}
+.track{position:relative;height:14px;border-radius:99px;background:var(--track);box-shadow:var(--sh-in)}
+.bar{position:absolute;left:0;top:0;bottom:0;border-radius:99px;box-shadow:0 0 16px color-mix(in srgb,var(--bar) 50%,transparent),inset 0 1px 0 rgba(255,255,255,.35)}
+.bar-fits{--bar:var(--fits-bar);background:var(--fits-bar)}.bar-tight{--bar:var(--tight-bar);background:var(--tight-bar)}.bar-wont{--bar:var(--wont-bar);background:var(--wont-bar)}
+.resv{position:absolute;top:-4px;bottom:-4px;border:2px dashed var(--resv);border-radius:99px;box-sizing:border-box}
+.scale{display:flex;justify-content:space-between;gap:12px;margin-top:10px;font-size:14px;color:var(--muted)}
+.why-panel{margin-top:12px;border-top:1px solid var(--hair)}
+.why-panel>summary{display:flex;align-items:center;gap:10px;min-height:48px;cursor:pointer;font-weight:520;font-size:15px}
+.why-panel>summary::before{transform:rotate(-45deg);margin:0}
+.why-panel[open]>summary::before{transform:rotate(45deg);margin-top:-4px}
+.why-panel>summary:hover{color:var(--accent)}
+/* picks */
+.picks{padding:0 6px;border-radius:24px}
+.picks>summary{display:flex;align-items:center;gap:10px;min-height:52px;padding:0 14px;cursor:pointer;font-weight:560;font-size:16px}
+.picks>summary .n{margin-left:auto;min-width:26px;padding:1px 8px;border-radius:99px;background:var(--seg);border:1px solid var(--edge);text-align:center;font-size:14px}
+.picks>summary::after{margin-left:12px}
+.pick-grid{display:grid;gap:10px;padding:4px 8px 12px}
+.pick{position:relative;padding:14px 16px;border-radius:20px;background:var(--inset);border:1px solid var(--edge);box-shadow:var(--sh-2);transition:transform var(--dur-2) var(--ease-out),box-shadow var(--dur-2) var(--ease-out)}
+.pick h3{font-size:17px;line-height:1.2;font-weight:560;margin:3px 0 2px}
+.pick h3 a{color:var(--ink);text-decoration:none}
+.pick h3 a::after{content:"";position:absolute;inset:0;border-radius:20px}
+.pick h3 a:focus-visible{outline:none}
+.pick:has(a:focus-visible){outline:3px solid var(--focus);outline-offset:2px}
+.pick-title{font-size:14px;font-weight:560;color:var(--accent)}
+.pick-meta{font-size:14px;color:var(--muted)}
+.pick-desc{font-size:14px;margin-top:6px;line-height:1.35}
+.pick:hover{transform:translateY(-2px);box-shadow:var(--sh-2h)}
+.pick:active{transform:scale(.98);box-shadow:var(--sh-in);transition-duration:70ms}
+.footer{display:flex;flex-wrap:wrap;gap:6px 24px;margin:12px auto 0;padding:12px 20px;color:var(--ink);font-size:14px;width:max-content;max-width:100%;border-radius:999px}
+@media(max-width:560px){.footer{flex-direction:column;width:100%;border-radius:24px}}
+</style></head><body><div class="backdrop" aria-hidden="true"></div><svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+<symbol id="i-fits" viewBox="0 0 20 20"><circle cx="10" cy="10" r="9" fill="currentColor"/><path d="M5.8 10.3l2.9 2.9 5.5-6" fill="none" stroke="var(--pill-bg,#fff)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="i-tight" viewBox="0 0 20 20"><path d="M10 1.8c.6 0 1.1.3 1.4.8l7 12.2c.6 1-.1 2.3-1.4 2.3H3c-1.3 0-2-1.3-1.4-2.3l7-12.2c.3-.5.8-.8 1.4-.8z" fill="currentColor"/><path d="M10 7.2v4.2" stroke="var(--pill-bg,#fff)" stroke-width="2.2" stroke-linecap="round"/><circle cx="10" cy="14.2" r="1.25" fill="var(--pill-bg,#fff)"/></symbol>
+<symbol id="i-wont" viewBox="0 0 20 20"><rect x="1.5" y="1.5" width="17" height="17" rx="5" fill="currentColor"/><path d="M6.9 6.9l6.2 6.2M13.1 6.9l-6.2 6.2" stroke="var(--pill-bg,#fff)" stroke-width="2.2" stroke-linecap="round"/></symbol>
+<symbol id="i-funnel" viewBox="0 0 20 20"><path d="M3 5h14M6 10h8M8.5 15h3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+<symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 1 1 9.5 4 6.5 6.5 0 0 0 20 14.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+<symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+</defs></svg>
+<div class="page">
+<header class="top pane"><a class="brand" href="#"><svg class="mark" viewBox="0 0 34 34" aria-hidden="true"><defs><linearGradient id="gm1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7C3AED"/><stop offset="1" stop-color="#4F46E5"/></linearGradient><linearGradient id="gm2" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#22D3EE"/><stop offset="1" stop-color="#2DD4BF"/></linearGradient><clipPath id="gmc"><rect x="3" y="3" width="21" height="21" rx="7"/></clipPath></defs><rect x="3" y="3" width="21" height="21" rx="7" fill="url(#gm1)"/><rect x="10" y="10" width="21" height="21" rx="7" fill="url(#gm2)" fill-opacity=".82"/><g clip-path="url(#gmc)"><rect x="10" y="10" width="21" height="21" rx="7" fill="#fff" fill-opacity=".55"/></g><rect x="10.6" y="10.6" width="19.8" height="19.8" rx="6.4" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="1.2"/></svg><span class="brand-name">VRAM Sherpa</span></a><nav aria-label="Main"><a href="#" aria-current="page">Estimator</a><a href="#">How it works</a></nav><button id="theme-toggle" class="theme" type="button" aria-pressed="false" aria-label="Toggle color theme"><svg class="tt-icon tt-moon" width="18" height="18" aria-hidden="true"><use href="#i-moon"/></svg><svg class="tt-icon tt-sun" width="18" height="18" aria-hidden="true" hidden><use href="#i-sun"/></svg><span class="tt-label">Dark mode</span></button></header>
+<main class="stack">
+<form id="search-form" class="pane form-side" method="get" action="/results">
+  <h1>Find models that fit your VRAM</h1>
+  <p class="hint">Pick your GPU or enter VRAM, then check.</p>
+  <div class="f-gpu"><label for="gpu_search">Search GPU</label><div class="field-row"><input id="gpu_search" name="gpu_search" type="text" placeholder="Type a GPU name" autocomplete="off"><button type="button" class="btn-clear">Clear</button></div></div>
+  <div class="f-pair"><div class="f-vram"><label for="vram_gb">Available VRAM (GB)</label><input id="vram_gb" name="vram_gb" type="number" inputmode="decimal" min="1" step="0.1" value="24" placeholder="e.g. 8"></div><fieldset class="f-ctx"><legend>Context window</legend><div class="seg" data-thumb role="radiogroup" aria-label="Context window"><label><input type="radio" name="context_tokens" value="2048"><span>2k</span></label><label><input type="radio" name="context_tokens" value="4096" checked><span>4k</span></label><label><input type="radio" name="context_tokens" value="8192"><span>8k</span></label></div></fieldset></div>
+  <div class="chips" role="group" aria-label="Examples"><button type="button" class="chip" data-chip="gpu">RTX 4060 8GB</button><button type="button" class="chip" data-chip="8">8GB</button><button type="button" class="chip" data-chip="24">24GB</button></div>
+  <button type="submit" class="btn-primary">Check compatibility</button>
+</form>
+<div id="results-shell">
+  <section class="pane lite answer" id="summary-banner" aria-labelledby="ans-h">
+    <h2 class="headline" id="ans-h">71 models fit or are tight</h2>
+    <p class="ctx-line"><span><b>Hardware:</b> Manual VRAM (24 GB)</span><span><b>Context:</b> 4k</span></p>
+    <ul class="counts"><li class="c-fits"><svg class="ico" width="18" height="18" aria-hidden="true"><use href="#i-fits"/></svg><b class="num">71</b><span>Fits</span></li><li class="c-tight"><svg class="ico" width="18" height="18" aria-hidden="true"><use href="#i-tight"/></svg><b class="num">0</b><span>Tight</span></li><li class="c-wont"><svg class="ico" width="18" height="18" aria-hidden="true"><use href="#i-wont"/></svg><b class="num">24</b><span>Won't fit</span></li></ul>
+    <p class="note">Only Fits and Tight models are listed.</p>
+  </section>
+  <section class="pane list-pane" id="results-cards" aria-label="Models">
+    <details class="filters inset"><summary><svg class="ico" width="18" height="18" aria-hidden="true"><use href="#i-funnel"/></svg><span>Filters (<span data-fcount>0</span>)</span></summary><div class="filter-fields"><fieldset class="fgroup"><legend>Family</legend><div class="checklist"><label class="choice"><input type="checkbox" name="family" value="deepseek" form="search-form"><span>deepseek</span></label><label class="choice"><input type="checkbox" name="family" value="gemma" form="search-form"><span>gemma</span></label><label class="choice"><input type="checkbox" name="family" value="llama" form="search-form"><span>llama</span></label><label class="choice"><input type="checkbox" name="family" value="mistral" form="search-form"><span>mistral</span></label><label class="choice"><input type="checkbox" name="family" value="phi" form="search-form"><span>phi</span></label><label class="choice"><input type="checkbox" name="family" value="qwen" form="search-form"><span>qwen</span></label><label class="choice"><input type="checkbox" name="family" value="yi" form="search-form"><span>yi</span></label></div></fieldset><fieldset class="fgroup"><legend>Quantization</legend><div class="checklist"><label class="choice"><input type="checkbox" name="quant_bucket" value="FP16" form="search-form"><span>FP16</span></label><label class="choice"><input type="checkbox" name="quant_bucket" value="Q4" form="search-form"><span>Q4</span></label><label class="choice"><input type="checkbox" name="quant_bucket" value="Q5" form="search-form"><span>Q5</span></label><label class="choice"><input type="checkbox" name="quant_bucket" value="Q8" form="search-form"><span>Q8</span></label></div></fieldset><div class="fgroup frange"><div class="field"><label for="bmin">Min params (B)</label><input id="bmin" name="min_params_b" type="number" inputmode="decimal" min="0" step="0.1" form="search-form"></div><div class="field"><label for="bmax">Max params (B)</label><input id="bmax" name="max_params_b" type="number" inputmode="decimal" min="0" step="0.1" form="search-form"></div><label class="choice choice-solo"><input type="checkbox" name="recommended_only" value="true" form="search-form"><span>Recommended only</span></label></div></div></details>
+    <div class="model-list"><article class="model-card inset" data-model-card data-sheen style="--i:0"><div class="card-in"><div class="model-id"><h3><a href="#">DeepSeek-Coder-V2-Lite-Instruct</a></h3><p class="model-meta"><span class="num">15.71B params</span><span class="fam">deepseek</span></p><div class="quants" data-thumb role="group" aria-label="Quantisation for DeepSeek-Coder-V2-Lite-Instruct"><button type="button" data-quant-btn data-variant="deepseek_coder_v2_lite_instruct_q4" aria-pressed="true">Q4</button><button type="button" data-quant-btn data-variant="deepseek_coder_v2_lite_instruct_q5" aria-pressed="false">Q5</button><button type="button" data-quant-btn data-variant="deepseek_coder_v2_lite_instruct_q8" aria-pressed="false">Q8</button><button type="button" data-quant-btn data-variant="deepseek_coder_v2_lite_instruct_fp16" aria-pressed="false" data-oversize="true" title="Does not fit in 24 GB">FP16</button></div></div><div class="fit-panes"><div class="fit-pane" data-variant-pane="deepseek_coder_v2_lite_instruct_q4"><div class="fit-top"><span class="state state-fits"><svg class="ico" width="18" height="18" aria-hidden="true"><use href="#i-fits"/></svg>Fits</span><span class="headroom"><b class="num">8.6 GB</b> spare</span></div><div class="track" role="img" aria-label="Needs 15.36 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"><span class="bar bar-fits" style="width:64.0%"></span><span class="resv" style="left:90.0%;width:10.0%"></span></div><div class="scale"><span class="num">15.36 GB needed</span><span class="num">24.0 GB</span></div><details class="why-panel"><summary>How this is estimated</summary><div class="why-content"><p class="muted">Open to load the breakdown.</p></div><template><p class="why-title">Q4 on DeepSeek-Coder-V2-Lite-Instruct</p><dl class="why-list"><div><dt>Model weights</dt><dd class="num">9.72 GB</dd></div><div><dt>Context memory (KV cache)</dt><dd class="num">3.85 GB</dd></div><div><dt>Runtime overhead</dt><dd class="num">1.79 GB</dd></div><div><dt>Safety reserve</dt><dd class="num">2.40 GB</dd></div><div class="total"><dt>Total needed</dt><dd class="num">15.36 GB</dd></div></dl></template></details></div><div class="fit-pane" data-variant-pane="deepseek_coder_v2_lite_instruct_q5" hidden><div class="fit-top"><span class="state state-fits"><svg class="ico" width="18" height="18" aria-hidden="true"><use href="#i-fits"/></svg>Fits</span><span class="headroom"><b class="num">6.5 GB</b> spare</span></div><div class="track" role="img" aria-label="Needs 17.52 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"><span class="bar bar-fits" style="width:73.0%"></span><span class="resv" style="left:90.0%;width:10.0%"></span></div><div class="scale"><span class="num">17.52 GB needed</span><span class="num">24.0 GB</span></div><details class="why-panel"><summary>How this is estimated</summary><div class="why-content"><p class="muted">Open to load the breakdown.</p></div><template><p class="why-title">Q5 on DeepSeek-Coder-V2-Lite-Instruct</p><dl class="why-list"><div><dt>Model weights</dt><dd class="num">11.88 GB</dd></div><div><dt>Context memory (KV cache)</dt><dd class="num">3.85 GB</dd></div><div><dt>Runtime overhead</dt><dd class="num">1.79 GB</dd></div><div><dt>Safety reserve</dt><dd class="num">2.40 GB</dd></div><div class="total"><dt>Total needed</dt><dd class="num">17.52 GB</dd></div></dl></template></details></div><div class="fit-pane" data-variant-pane="deepseek_coder_v2_lite_instruct_q8" hidden><div class="fit-top"><span class="state state-tight"><svg class="ico" width="18" height="18" aria-hidden="true"><use href="#i-tight"/></svg>Tight</span><span class="headroom"><b class="num">0.0 GB</b> spare</span></div><div class="track" role="img" aria-label="Needs 24.00 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"><span class="bar bar-tight" style="width:100.0%"></span><span class="resv" style="left:90.0%;width:10.0%"></span></div><div class="scale"><span class="num">24.00 GB needed</span><span class="num">24.0 GB</span></div><details class="why-panel"><summary>How this is estimated</summary><div class="why-content"><p class="muted">Open to load the breakdown.</p></div><template><p class="why-title">Q8 on DeepSeek-Coder-V2-Lite-Instruct</p><dl class="why-list"><div><dt>Model weights</dt><dd class="num">18.36 GB</dd></div><div><dt>Context memory (KV cache)</dt><dd class="num">3.85 GB</dd></div><div><dt>Runtime overhead</dt><dd class="num">1.79 GB</dd></div><div><dt>Safety reserve</dt><dd class="num">2.40 GB</dd></div><div class="total"><dt>Total needed</dt><dd class="num">24.00 GB</dd></div></dl></template></details></div><div class="fit-pane" data-variant-pane="deepseek_coder_v2_lite_instruct_fp16" hidden><div class="fit-top"><span class="state state-wont"><svg class="ico" width="18" height="18" aria-hidden="true"><use href="#i-wont"/></svg>Won't fit</span><span class="headroom"><b class="num">16.2 GB</b> over</span></div><div class="track" role="img" aria-label="Needs 40.20 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"><span class="bar bar-wont" style="width:100.0%"></span><span class="resv" style="left:90.0%;width:10.0%"></span></div><div class="scale"><span class="num">40.20 GB needed</span><span class="num">24.0 GB</span></div><details class="why-panel"><summary>How this is estimated</summary><div class="why-content"><p class="muted">Open to load the breakdown.</p></div><template><p class="why-title">FP16 on DeepSeek-Coder-V2-Lite-Instruct</p><dl class="why-list"><div><dt>Model weights</dt><dd class="num">34.56 GB</dd></div><div><dt>Context memory (KV cache)</dt><dd class="num">3.85 GB</dd></div><div><dt>Runtime overhead</dt><dd class="num">1.79 GB</dd></div><div><dt>Safety reserve</dt><dd class="num">2.40 GB</dd></div><div class="total"><dt>Total needed</dt><dd class="num">40.20 GB</dd></div></dl></template></details></div></div></div></article><details class="picks inset" data-open-wide><summary><span>Top picks for you</span><span class="n">3</span></summary><div class="pick-grid"><article class="pick" data-sheen><p class="pick-title">Best quality that fits</p><h3><a href="#">DeepSeek-Coder-V2-Lite-Instruct</a></h3><p class="pick-meta num">15.7B, Q4</p><p class="pick-desc">The strongest model that still leaves room to spare.</p></article><article class="pick" data-sheen><p class="pick-title">Best balance</p><h3><a href="#">DeepSeek-V2-Lite</a></h3><p class="pick-meta num">15.7B, Q4</p><p class="pick-desc">Nearly as capable, and comfortable to run.</p></article><article class="pick" data-sheen><p class="pick-title">Best small</p><h3><a href="#">Yi-1.5 9B Chat</a></h3><p class="pick-meta num">9.0B, FP16</p><p class="pick-desc">The lightest model that still runs on your GPU.</p></article></div></details><article class="model-card inset" data-model-card data-sheen style="--i:1"><div class="card-in"><div class="model-id"><h3><a href="#">DeepSeek-V2-Lite</a></h3><p class="model-meta"><span class="num">15.71B params</span><span class="fam">deepseek</span></p><div class="quants" data-thumb role="group" aria-label="Quantisation for DeepSeek-V2-Lite"><button type="button" data-quant-btn data-variant="deepseek_v2_lite_q4" aria-pressed="false">Q4</button><button type="button" data-quant-btn data-variant="deepseek_v2_lite_q5" aria-pressed="false">Q5</button><button type="button" data-quant-btn data-variant="deepseek_v2_lite_q8" aria-pressed="true">Q8</button><button type="button" data-quant-btn data-variant="deepseek_v2_lite_fp16" aria-pressed="false" data-oversize="true" title="Does not fit in 24 GB">FP16</button></div></div><div class="fit-panes"><div class="fit-pane" data-variant-pane="deepseek_v2_lite_q4" hidden><div class="fit-top"><span class="state state-fits"><svg class="ico" width="18" height="18" aria-hidden="true"><use href="#i-fits"/></svg>Fits</span><span class="headroom"><b class="num">8.6 GB</b> spare</span></div><div class="track" role="img" aria-label="Needs 15.36 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"><span class="bar bar-fits" style="width:64.0%"></span><span class="resv" style="left:90.0%;width:10.0%"></span></div><div class="scale"><span class="num">15.36 GB needed</span><span class="num">24.0 GB</span></div><details class="why-panel"><summary>How this is estimated</summary><div class="why-content"><p class="muted">Open to load the breakdown.</p></div><template><p class="why-title">Q4 on DeepSeek-V2-Lite</p><dl class="why-list"><div><dt>Model weights</dt><dd class="num">9.72 GB</dd></div><div><dt>Context memory (KV cache)</dt><dd class="num">3.85 GB</dd></div><div><dt>Runtime overhead</dt><dd class="num">1.79 GB</dd></div><div><dt>Safety reserve</dt><dd class="num">2.40 GB</dd></div><div class="total"><dt>Total needed</dt><dd class="num">15.36 GB</dd></div></dl></template></details></div><div class="fit-pane" data-variant-pane="deepseek_v2_lite_q5" hidden><div class="fit-top"><span class="state state-fits"><svg class="ico" width="18" height="18" aria-hidden="true"><use href="#i-fits"/></svg>Fits</span><span class="headroom"><b class="num">6.5 GB</b> spare</span></div><div class="track" role="img" aria-label="Needs 17.52 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"><span class="bar bar-fits" style="width:73.0%"></span><span class="resv" style="left:90.0%;width:10.0%"></span></div><div class="scale"><span class="num">17.52 GB needed</span><span class="num">24.0 GB</span></div><details class="why-panel"><summary>How this is estimated</summary><div class="why-content"><p class="muted">Open to load the breakdown.</p></div><template><p class="why-title">Q5 on DeepSeek-V2-Lite</p><dl class="why-list"><div><dt>Model weights</dt><dd class="num">11.88 GB</dd></div><div><dt>Context memory (KV cache)</dt><dd class="num">3.85 GB</dd></div><div><dt>Runtime overhead</dt><dd class="num">1.79 GB</dd></div><div><dt>Safety reserve</dt><dd class="num">2.40 GB</dd></div><div class="total"><dt>Total needed</dt><dd class="num">17.52 GB</dd></div></dl></template></details></div><div class="fit-pane" data-variant-pane="deepseek_v2_lite_q8"><div class="fit-top"><span class="state state-tight"><svg class="ico" width="18" height="18" aria-hidden="true"><use href="#i-tight"/></svg>Tight</span><span class="headroom"><b class="num">0.0 GB</b> spare</span></div><div class="track" role="img" aria-label="Needs 24.00 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"><span class="bar bar-tight" style="width:100.0%"></span><span class="resv" style="left:90.0%;width:10.0%"></span></div><div class="scale"><span class="num">24.00 GB needed</span><span class="num">24.0 GB</span></div><details class="why-panel"><summary>How this is estimated</summary><div class="why-content"><p class="muted">Open to load the breakdown.</p></div><template><p class="why-title">Q8 on DeepSeek-V2-Lite</p><dl class="why-list"><div><dt>Model weights</dt><dd class="num">18.36 GB</dd></div><div><dt>Context memory (KV cache)</dt><dd class="num">3.85 GB</dd></div><div><dt>Runtime overhead</dt><dd class="num">1.79 GB</dd></div><div><dt>Safety reserve</dt><dd class="num">2.40 GB</dd></div><div class="total"><dt>Total needed</dt><dd class="num">24.00 GB</dd></div></dl></template></details></div><div class="fit-pane" data-variant-pane="deepseek_v2_lite_fp16" hidden><div class="fit-top"><span class="state state-wont"><svg class="ico" width="18" height="18" aria-hidden="true"><use href="#i-wont"/></svg>Won't fit</span><span class="headroom"><b class="num">16.2 GB</b> over</span></div><div class="track" role="img" aria-label="Needs 40.20 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"><span class="bar bar-wont" style="width:100.0%"></span><span class="resv" style="left:90.0%;width:10.0%"></span></div><div class="scale"><span class="num">40.20 GB needed</span><span class="num">24.0 GB</span></div><details class="why-panel"><summary>How this is estimated</summary><div class="why-content"><p class="muted">Open to load the breakdown.</p></div><template><p class="why-title">FP16 on DeepSeek-V2-Lite</p><dl class="why-list"><div><dt>Model weights</dt><dd class="num">34.56 GB</dd></div><div><dt>Context memory (KV cache)</dt><dd class="num">3.85 GB</dd></div><div><dt>Runtime overhead</dt><dd class="num">1.79 GB</dd></div><div><dt>Safety reserve</dt><dd class="num">2.40 GB</dd></div><div class="total"><dt>Total needed</dt><dd class="num">40.20 GB</dd></div></dl></template></details></div></div></div></article><article class="model-card inset" data-model-card data-sheen style="--i:2"><div class="card-in"><div class="model-id"><h3><a href="#">DeepSeek-V2-Lite-Chat</a></h3><p class="model-meta"><span class="num">15.71B params</span><span class="fam">deepseek</span></p><div class="quants" data-thumb role="group" aria-label="Quantisation for DeepSeek-V2-Lite-Chat"><button type="button" data-quant-btn data-variant="deepseek_v2_lite_chat_q4" aria-pressed="true">Q4</button><button type="button" data-quant-btn data-variant="deepseek_v2_lite_chat_q5" aria-pressed="false">Q5</button><button type="button" data-quant-btn data-variant="deepseek_v2_lite_chat_q8" aria-pressed="false">Q8</button><button type="button" data-quant-btn data-variant="deepseek_v2_lite_chat_fp16" aria-pressed="false" data-oversize="true" title="Does not fit in 24 GB">FP16</button></div></div><div class="fit-panes"><div class="fit-pane" data-variant-pane="deepseek_v2_lite_chat_q4"><div class="fit-top"><span class="state state-fits"><svg class="ico" width="18" height="18" aria-hidden="true"><use href="#i-fits"/></svg>Fits</span><span class="headroom"><b class="num">8.6 GB</b> spare</span></div><div class="track" role="img" aria-label="Needs 15.36 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"><span class="bar bar-fits" style="width:64.0%"></span><span class="resv" style="left:90.0%;width:10.0%"></span></div><div class="scale"><span class="num">15.36 GB needed</span><span class="num">24.0 GB</span></div><details class="why-panel"><summary>How this is estimated</summary><div class="why-content"><p class="muted">Open to load the breakdown.</p></div><template><p class="why-title">Q4 on DeepSeek-V2-Lite-Chat</p><dl class="why-list"><div><dt>Model weights</dt><dd class="num">9.72 GB</dd></div><div><dt>Context memory (KV cache)</dt><dd class="num">3.85 GB</dd></div><div><dt>Runtime overhead</dt><dd class="num">1.79 GB</dd></div><div><dt>Safety reserve</dt><dd class="num">2.40 GB</dd></div><div class="total"><dt>Total needed</dt><dd class="num">15.36 GB</dd></div></dl></template></details></div><div class="fit-pane" data-variant-pane="deepseek_v2_lite_chat_q5" hidden><div class="fit-top"><span class="state state-fits"><svg class="ico" width="18" height="18" aria-hidden="true"><use href="#i-fits"/></svg>Fits</span><span class="headroom"><b class="num">6.5 GB</b> spare</span></div><div class="track" role="img" aria-label="Needs 17.52 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"><span class="bar bar-fits" style="width:73.0%"></span><span class="resv" style="left:90.0%;width:10.0%"></span></div><div class="scale"><span class="num">17.52 GB needed</span><span class="num">24.0 GB</span></div><details class="why-panel"><summary>How this is estimated</summary><div class="why-content"><p class="muted">Open to load the breakdown.</p></div><template><p class="why-title">Q5 on DeepSeek-V2-Lite-Chat</p><dl class="why-list"><div><dt>Model weights</dt><dd class="num">11.88 GB</dd></div><div><dt>Context memory (KV cache)</dt><dd class="num">3.85 GB</dd></div><div><dt>Runtime overhead</dt><dd class="num">1.79 GB</dd></div><div><dt>Safety reserve</dt><dd class="num">2.40 GB</dd></div><div class="total"><dt>Total needed</dt><dd class="num">17.52 GB</dd></div></dl></template></details></div><div class="fit-pane" data-variant-pane="deepseek_v2_lite_chat_q8" hidden><div class="fit-top"><span class="state state-tight"><svg class="ico" width="18" height="18" aria-hidden="true"><use href="#i-tight"/></svg>Tight</span><span class="headroom"><b class="num">0.0 GB</b> spare</span></div><div class="track" role="img" aria-label="Needs 24.00 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"><span class="bar bar-tight" style="width:100.0%"></span><span class="resv" style="left:90.0%;width:10.0%"></span></div><div class="scale"><span class="num">24.00 GB needed</span><span class="num">24.0 GB</span></div><details class="why-panel"><summary>How this is estimated</summary><div class="why-content"><p class="muted">Open to load the breakdown.</p></div><template><p class="why-title">Q8 on DeepSeek-V2-Lite-Chat</p><dl class="why-list"><div><dt>Model weights</dt><dd class="num">18.36 GB</dd></div><div><dt>Context memory (KV cache)</dt><dd class="num">3.85 GB</dd></div><div><dt>Runtime overhead</dt><dd class="num">1.79 GB</dd></div><div><dt>Safety reserve</dt><dd class="num">2.40 GB</dd></div><div class="total"><dt>Total needed</dt><dd class="num">24.00 GB</dd></div></dl></template></details></div><div class="fit-pane" data-variant-pane="deepseek_v2_lite_chat_fp16" hidden><div class="fit-top"><span class="state state-wont"><svg class="ico" width="18" height="18" aria-hidden="true"><use href="#i-wont"/></svg>Won't fit</span><span class="headroom"><b class="num">16.2 GB</b> over</span></div><div class="track" role="img" aria-label="Needs 40.20 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"><span class="bar bar-wont" style="width:100.0%"></span><span class="resv" style="left:90.0%;width:10.0%"></span></div><div class="scale"><span class="num">40.20 GB needed</span><span class="num">24.0 GB</span></div><details class="why-panel"><summary>How this is estimated</summary><div class="why-content"><p class="muted">Open to load the breakdown.</p></div><template><p class="why-title">FP16 on DeepSeek-V2-Lite-Chat</p><dl class="why-list"><div><dt>Model weights</dt><dd class="num">34.56 GB</dd></div><div><dt>Context memory (KV cache)</dt><dd class="num">3.85 GB</dd></div><div><dt>Runtime overhead</dt><dd class="num">1.79 GB</dd></div><div><dt>Safety reserve</dt><dd class="num">2.40 GB</dd></div><div class="total"><dt>Total needed</dt><dd class="num">40.20 GB</dd></div></dl></template></details></div></div></div></article></div>
+  </section>
+</div>
+</main>
+<footer class="footer pane lite"><span>Catalog version: 2026-10-23</span><span>Estimation policy: v0.1</span><span>Last updated: 2026-10-23</span></footer>
+</div>
+<script>/* Mockup behaviour. In the build this is vanilla JS in static/js/app.js; the HTMX classes (htmx-request, htmx-added) are the real ones. */
+(function () {
+  var root = document.documentElement;
+  var tt = document.getElementById('theme-toggle');
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function cur() { return root.dataset.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'); }
+  function sync() {
+    var d = cur() === 'dark';
+    tt.setAttribute('aria-pressed', d);
+    tt.querySelector('.tt-label').textContent = d ? 'Light mode' : 'Dark mode';
+    tt.querySelector('.tt-sun').hidden = !d; tt.querySelector('.tt-moon').hidden = d;
+    requestAnimationFrame(placeAll);
+  }
+  tt.addEventListener('click', function () { root.dataset.theme = cur() === 'dark' ? 'light' : 'dark'; sync(); });
+
+  /* sliding thumb for segmented controls (progressive: without JS the pressed button carries its own fill) */
+  function place(q) {
+    var b = q.querySelector('[aria-pressed="true"], label:has(input:checked)');
+    if (!b) return;
+    q.style.setProperty('--x', b.offsetLeft + 'px');
+    q.style.setProperty('--w', b.offsetWidth + 'px');
+    q.style.setProperty('--h', b.offsetHeight + 'px');
+    q.style.setProperty('--y', b.offsetTop + 'px');
+  }
+  function placeAll() { document.querySelectorAll('[data-thumb]').forEach(place); }
+  document.querySelectorAll('[data-thumb]').forEach(function (q) {
+    var t = document.createElement('span'); t.className = 'thumb'; t.setAttribute('aria-hidden', 'true'); q.prepend(t);
+    q.classList.add('has-thumb'); place(q);
+  });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeAll);
+  addEventListener('resize', placeAll); addEventListener('load', placeAll);
+  document.addEventListener('change', function (e) { var q = e.target.closest && e.target.closest('[data-thumb]'); if (q) place(q); });
+
+  /* gauge fill on swap: the same trick htmx uses (.htmx-added during swap, removed on settle) */
+  function refill(el) {
+    el.classList.add('htmx-added'); void el.offsetWidth;
+    requestAnimationFrame(function () { requestAnimationFrame(function () { el.classList.remove('htmx-added'); }); });
+  }
+
+  /* quantisation switcher: no network request */
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-quant-btn]'); if (!b) return;
+    var card = b.closest('[data-model-card]');
+    card.querySelectorAll('[data-quant-btn]').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+    card.querySelectorAll('.fit-pane').forEach(function (p) {
+      var on = p.dataset.variantPane === b.dataset.variant;
+      p.hidden = !on; p.classList.remove('is-entering');
+      if (on) { void p.offsetWidth; p.classList.add('is-entering'); refill(p); }
+    });
+    place(b.closest('[data-thumb]'));
+  });
+
+  /* simulated hx-get on "Check compatibility" */
+  var form = document.getElementById('search-form');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    form.classList.add('htmx-request');
+    var shell = document.getElementById('results-shell'); shell.setAttribute('aria-busy', 'true');
+    setTimeout(function () { form.classList.remove('htmx-request'); shell.removeAttribute('aria-busy'); refill(shell); }, reduce ? 0 : 520);
+  });
+
+  /* "How this is estimated": loads once, on first open (hx-trigger="toggle once") */
+  document.addEventListener('toggle', function (e) {
+    var d = e.target;
+    if (!d.matches || !d.matches('.why-panel') || !d.open || d.dataset.loaded) return;
+    d.dataset.loaded = '1';
+    var c = d.querySelector('.why-content');
+    c.setAttribute('aria-busy', 'true');
+    c.innerHTML = '<div class="sk-list" role="status" aria-label="Loading the breakdown"><i></i><i></i><i></i><i></i><i></i></div>';
+    setTimeout(function () { c.innerHTML = d.querySelector('template').innerHTML; c.removeAttribute('aria-busy'); c.classList.add('is-loaded'); }, reduce ? 0 : 950);
+  }, true);
+
+  /* filter count in the summary */
+  function fcount() {
+    var n = document.querySelectorAll('.filters input[type=checkbox]:checked').length;
+    document.querySelectorAll('.filters input[type=number]').forEach(function (i) { if (i.value !== '') n++; });
+    document.querySelectorAll('[data-fcount]').forEach(function (s) { s.textContent = n; });
+  }
+  document.addEventListener('input', fcount); document.addEventListener('change', fcount);
+  if (new URLSearchParams(location.search).get('filters') === 'open') document.querySelectorAll('.filters').forEach(function (d) { d.open = true; });
+
+  /* wide screens: Top Picks open by default */
+  if (innerWidth >= 900) document.querySelectorAll('details[data-open-wide]').forEach(function (d) { d.open = true; });
+
+  /* example chips and Clear */
+  var gpu = document.getElementById('gpu_search'), vram = document.getElementById('vram_gb');
+  document.querySelectorAll('[data-chip]').forEach(function (c) {
+    c.addEventListener('click', function () {
+      if (c.dataset.chip === 'gpu') { gpu.value = 'NVIDIA GeForce RTX 4060 (8.0 GB)'; vram.value = ''; }
+      else { vram.value = c.dataset.chip; gpu.value = ''; }
+    });
+  });
+  var clr = document.querySelector('.btn-clear'); if (clr) clr.addEventListener('click', function () { gpu.value = ''; gpu.focus(); });
+
+  /* pointer effects: desktop, fine pointer, motion allowed */
+  if (matchMedia('(hover: hover) and (pointer: fine)').matches && !reduce) {
+    document.querySelectorAll('[data-sheen]').forEach(function (el) {
+      el.addEventListener('pointermove', function (e) {
+        var r = el.getBoundingClientRect();
+        el.style.setProperty('--mx', (e.clientX - r.left) + 'px'); el.style.setProperty('--my', (e.clientY - r.top) + 'px');
+      });
+    });
+    document.querySelectorAll('[data-tilt]').forEach(function (el) {
+      var max = parseFloat(el.dataset.tilt) || 3;
+      el.addEventListener('pointermove', function (e) {
+        var r = el.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+        el.style.setProperty('--ry', (x * max * 2).toFixed(2) + 'deg'); el.style.setProperty('--rx', (-y * max * 2).toFixed(2) + 'deg');
+        el.style.setProperty('--gx', ((x + .5) * 100).toFixed(0) + '%'); el.style.setProperty('--gy', ((y + .5) * 100).toFixed(0) + '%');
+      });
+      el.addEventListener('pointerleave', function () { el.style.setProperty('--rx', '0deg'); el.style.setProperty('--ry', '0deg'); });
+    });
+  }
+  sync();
+})();
+</script></body></html>

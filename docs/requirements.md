@@ -14,7 +14,7 @@ EARS forms: `THE SYSTEM SHALL …` (always) · `WHEN <trigger>, THE SYSTEM SHALL
 
 Recorded at onboarding from `main` at 96572b1 (2026-10-25). Seeded catalog at that commit: version `2026-10-23`, 35 GPUs, 95 models (81 auto-discovered, 24 gated), 380 variants, 7 families. Paths are relative to the repo root; `main.py` means `src/vramsherpa/main.py`.
 
-R-067 to R-079 (UI/UX overhaul, Full track) were added on 2026-10-25 from the user's intake answers. The user's Gate 1 answers to their open questions (Q-1 to Q-11) are folded into them, and R-080 was added from Q-9; see "Resolved at Gate 1" at the end of this file.
+R-067 to R-079 (UI/UX overhaul, Full track) were added on 2026-10-25 from the user's intake answers. The user's Gate 1 answers to their open questions (Q-1 to Q-11) are folded into them, and R-080 was added from Q-9; see "Resolved at Gate 1" at the end of this file. At Gate 2 round 1 the R-075 worked example was changed to a catalog model and R-081 was added; see "Open questions".
 
 ## Hardware and context input
 
@@ -615,7 +615,7 @@ Terms used below:
 - *Protected text* (Gate 1, Q-2): error messages, the verdict labels `Fits`, `Tight` and `Won't fit`, and every figure. These stay word for word and value for value.
 - The numeric targets in this section (pixel offsets, tap size, text size, contrast) were accepted at Gate 1 (Q-4).
 
-Requirements R-001 to R-066 stay in force unless a requirement in this section changes them. The overhaul changes how screens look and how they are laid out, not what the app computes, accepts or links to. The exceptions are the wording rules above, the two copy fixes in R-069 and the `Cache-Control` header in R-080.
+Requirements R-001 to R-066 stay in force unless a requirement in this section changes them. The overhaul changes how screens look and how they are laid out, not what the app computes, accepts or links to. The exceptions are the wording rules above, the two copy fixes in R-069, the `Cache-Control` header in R-080 and the history fix in R-081.
 
 ### R-067 Screens and states in scope
 
@@ -770,9 +770,11 @@ Asked: "Whole app, incl. mobile"; "Too dense"; "Bad on mobile".
 
 ### R-075 How it works page
 
-Status: planned · Track: full · UI: yes · Source: intake 2026-10-25; Gate 1 answer Q-6 (`docs/decisions.md`); `how_it_works.html` (policy version typed into the heading), `main.py` (`ESTIMATION_POLICY_VERSION = "v0.1"`); R-009 (worked example values); constitution rule 16
+Status: planned · Track: full · UI: yes · Source: intake 2026-10-25; Gate 1 answer Q-6 and Gate 2 round 1 (`docs/decisions.md`); `how_it_works.html` (policy version typed into the heading), `main.py` (`ESTIMATION_POLICY_VERSION = "v0.1"`); `src/vramsherpa/estimation.py` (`estimate_breakdown`); `data/seed_models.json` and `data/seed_variants.json` (catalog `2026-10-23`: `model_llama_31_8b_instruct`, params_b 8.0, kv_gb_per_1k_ctx 0.48, no `discovered` flag; `variant_model_llama_31_8b_instruct_q4`, bits_effective 4.5); `tools/catalog_sources.yaml` (the model is curated there); constitution rule 16
 
-Asked: "How it works" (offered as "the /how-it-works explainer page"). Also "Looks generic/dated" and "Too dense". Gate 1: "restyle it and add plain-language terms plus a worked example (8B at Q4, 2048 tokens = 6.72 GB). Formulas are unchanged, so `ESTIMATION_POLICY_VERSION` stays v0.1. Reading of rule 16: the three change together only when the estimate itself changes."
+Asked: "How it works" (offered as "the /how-it-works explainer page"). Also "Looks generic/dated" and "Too dense". Gate 1: "restyle it and add plain-language terms plus a worked example (8B at Q4, 2048 tokens = 6.72 GB). Formulas are unchanged, so `ESTIMATION_POLICY_VERSION` stays v0.1. Reading of rule 16: the three change together only when the estimate itself changes." Gate 2 round 1: "The /how-it-works worked example uses a real catalog 8B model, so the page agrees with that model's card (about 7.33 GB at Q4, 2048 tokens), replacing the 6.72 GB test inputs."
+
+The example model is Llama 3.1 8B Instruct (`model_llama_31_8b_instruct`). It is curated in `tools/catalog_sources.yaml`, not auto-discovered, so the weekly catalog refresh (R-054, R-059) does not add or remove it.
 
 - THE SYSTEM SHALL keep on `/how-it-works`:
   - the inputs;
@@ -785,13 +787,16 @@ Asked: "How it works" (offered as "the /how-it-works explainer page"). Also "Loo
 - THE SYSTEM SHALL state on `/how-it-works` an estimation policy version equal to the footer's `Estimation policy` value, which is `v0.1` today.
 - THE SYSTEM SHALL NOT change `src/vramsherpa/estimation.py` or `ESTIMATION_POLICY_VERSION` as part of this overhaul. `ESTIMATION_POLICY_VERSION` stays `v0.1`. At Gate 1 the user read constitution rule 16 as: `estimation.py`, `/how-it-works` and the policy version change together only when the estimate itself changes, so restyling and explaining the page does not bump the version (Q-6).
 - THE SYSTEM SHALL explain on `/how-it-works`, in plain language, each term the formulas of R-009 and R-010 use: `params_b`, `bits_effective`, `kv_gb_per_1k_ctx`, `context_tokens`, `weights_gb`, `kv_cache_gb`, `runtime_overhead_gb`, `required_vram_gb`, `available_vram_gb` and `reserve_gb` (Q-6). The explanations are the wording approved in the Gate 2 mockups.
-- THE SYSTEM SHALL show on `/how-it-works` a worked example for an 8B model at Q4 with a 2048-token context, using params_b = 8, bits_effective = 4.5 and kv_gb_per_1k_ctx = 0.18 (the case R-009 tests), with these steps (Q-6):
-  - weights 4.95 GB (8 × 4.5 ÷ 8 × 1.10);
-  - KV cache 0.37 GB (0.18 × 2048 ÷ 1000);
-  - runtime overhead 1.40 GB (1.0 + 0.05 × 8);
-  - required VRAM 6.72 GB (4.95 + 0.37 + 1.40).
-
-  Note: no 8B model in catalog `2026-10-23` has kv_gb_per_1k_ctx = 0.18. Llama 3.1 8B Instruct has 0.48, which gives 7.33 GB at Q4 and 2048 tokens. The example therefore states its kv_gb_per_1k_ctx value rather than naming a catalog model.
+- THE SYSTEM SHALL show on `/how-it-works` a worked example that names the catalog model `Llama 3.1 8B Instruct` and uses its Q4 variant with a 2048-token context. It SHALL state the inputs params_b = 8, bits_effective = 4.5, kv_gb_per_1k_ctx = 0.48 and context_tokens = 2048, and these steps, each figure to 2 decimals as `estimation.py` computes it (Q-6; Gate 2 round 1):
+  - weights 4.95 GB (8 × 4.5 ÷ 8 × 1.10 = 4.95);
+  - KV cache 0.98 GB (0.48 × 2048 ÷ 1000 = 0.98304);
+  - runtime overhead 1.40 GB (1.0 + 0.05 × 8 = 1.40);
+  - required VRAM 7.33 GB (4.95 + 0.98304 + 1.40 = 7.33304).
+- WHEN QA opens `/results?vram_gb=24&context_tokens=2048&family=llama` and shows the Q4 variant on the `Llama 3.1 8B Instruct` card, THE SYSTEM SHALL show a `GB needed` caption equal to the worked example's required VRAM (`7.33 GB needed` with catalog `2026-10-23`).
+- WHEN QA opens that card's "How this is estimated" breakdown for Q4 at 2048 tokens, THE SYSTEM SHALL show weights, KV cache, runtime overhead and required VRAM equal to the worked example's four steps (4.95, 0.98, 1.40 and 7.33 with catalog `2026-10-23`).
+- WHEN QA opens `/models/model_llama_31_8b_instruct?vram_gb=24&context_tokens=2048`, THE SYSTEM SHALL show for the Q4 variant a required VRAM equal to the worked example's required VRAM.
+- WHEN the seeded catalog gives that model or its Q4 variant a params_b, bits_effective or kv_gb_per_1k_ctx other than the values above, THE SYSTEM SHALL show the catalog's values in the worked example, with the figures `estimation.py` computes from them, so the example still equals the card.
+- IF the catalog has no model `model_llama_31_8b_instruct`, or that model has no Q4 variant (including when the catalog is unseeded, R-026), THEN THE SYSTEM SHALL answer `/how-it-works` with HTTP 200, show every other section of the page, and show the worked example with the inputs params_b = 8, bits_effective = 4.5, kv_gb_per_1k_ctx = 0.48 and context_tokens = 2048 and the four steps above (4.95, 0.98, 1.40 and 7.33 GB), labelled as an 8B model at Q4, without the text `Llama 3.1 8B Instruct`. See Q-12 under "Open questions".
 - WHEN the page is shown at phone width, THE SYSTEM SHALL show every formula, classification rule and worked-example step in full, wrapping where needed, without horizontal scrolling.
 - THE SYSTEM SHALL give the page one `h1` and one `h2` per section; the sections SHALL include inputs, formula, reserve buffer, classification, worked example and limitations.
 
@@ -877,6 +882,28 @@ QA can read the headers with `curl -s -o /dev/null -D - '<base><url>'` (add `-H 
 
 Out of scope: `/static/…` files, whose freshness comes from the asset version (R-041, R-079, constitution rule 21), and `/healthz` and the 400 and 404 responses, which are JSON.
 
+### R-081 Back and forward restore the full page
+
+Status: planned · Track: full · UI: no · Source: Gate 2 round 1 (`docs/decisions.md`); `index.html` (`hx-get="/results/partials/content"` with `hx-push-url="true"`, so each in-place refresh pushes a fragment URL); `main.py` (`results_partial_content` always returns `results_content.html`; `results` returns it for any `HX-Request: true`); `base.html` (htmx 1.9.12, default history cache)
+
+Asked: "Fix the htmx history-miss bug (a back navigation replaces the page with the bare results fragment) in this change."
+
+Today, when htmx has no cached copy of a history entry, it fetches that entry's URL and puts the response in place of the page. The response is the results fragment, so the header, the form and the footer disappear.
+
+Test setup, in a real browser with JavaScript enabled, at desktop width and again at phone width:
+
+- *Steps A*: open `/results?vram_gb=24&context_tokens=4096`, select the `8k` preset (the results refresh in place), then select the `2k` preset.
+- *Forcing a history miss*: in the browser console run `localStorage.removeItem('htmx-history-cache')`. The last criterion forces misses without the console.
+- *Full page*: exactly one header with the `VRAM Sherpa` link, `Estimator`, `How it works` and the theme toggle; exactly one input form with `Search GPU`, `Available VRAM (GB)`, the context presets and `Check compatibility`; the filters; the summary and the model cards (or the empty state); and exactly one footer with `Catalog version`, `Estimation policy` and `Last updated`.
+
+- WHEN the user completes Steps A, forces a history miss and presses Back, THE SYSTEM SHALL show the full page, not the results fragment alone.
+- WHEN the user presses Back after a history miss as above, THE SYSTEM SHALL show results and form state for that history entry: the `8k` preset selected and the summary's context stating `8k`, as `/results?vram_gb=24&context_tokens=8192` shows it when opened directly.
+- WHEN the user then forces another history miss and presses Forward, THE SYSTEM SHALL show the full page with the `2k` preset selected and the summary's context stating `2k`.
+- WHEN the full page is restored after a history miss, THE SYSTEM SHALL NOT show a second header, form or footer nested inside the page.
+- WHEN the user changes a context preset on a page restored after a history miss, THE SYSTEM SHALL refresh the summary and results in place without a full page load, as R-032 states.
+- WHEN the user presses Back or Forward without a history miss (the cache is left alone), THE SYSTEM SHALL show the full page for that history entry, as it does today.
+- WHEN the user makes 12 in-place refreshes from `/results?vram_gb=24&context_tokens=4096` (alternating the `2k` and `8k` presets) and then presses Back 12 times, THE SYSTEM SHALL show the full page after every press.
+
 ## Notes
 
 - Not recorded as requirements: branch `feat/tokens-per-second` (ee788b3) is unmerged work in progress. PR #19 lists three deliberately deferred items: Top Picks copy, raw Hugging Face names on discovered models, and tokens per second. At Gate 1 the Top Picks copy came into scope (R-069); the other two stay out (Q-10; tokens per second was dropped at intake).
@@ -923,3 +950,12 @@ The user answered Q-1 to Q-11 at Gate 1 on 2026-10-25. The answers are recorded 
 | Q-9 | Constitution rule 9 | Add a `UI: no` requirement for `Cache-Control` on HTML to this change. | R-080 |
 | Q-10 | Known quirks | Only the two copy fixes: empty state "variants" vs models, and Top Picks copy. | R-069, Notes |
 | Q-11 | Gate 2 shape | Two rounds: 2-3 direction boards (home and results at 390 and 1280, both themes), then every screen and state in the chosen direction. | R-067, R-068 |
+
+## Open questions
+
+Raised while applying the Gate 2 round 1 decisions (2026-10-25). Neither conflicts with `docs/constitution.md`.
+
+| # | Requirement | Question | Written as, until answered |
+| --- | --- | --- | --- |
+| Q-12 | R-075 | If `Llama 3.1 8B Instruct` or its Q4 variant ever leaves the catalog, should `/how-it-works` keep the worked example with the last known inputs (unnamed), or drop the worked example section? | Keep it with params_b 8, bits_effective 4.5, kv_gb_per_1k_ctx 0.48 and 2048 tokens (7.33 GB), labelled as an 8B model at Q4. |
+| Q-13 | R-081, R-032 | Each in-place refresh puts `/results/partials/content?…` in the address bar, so reloading the page or sharing that address also shows the bare results fragment. The decision names only back navigation. Should R-081 also cover reload and opening the pushed address directly (which R-032's "reproduces the same results when opened directly" would suggest)? | Back and forward only. |

@@ -3,18 +3,18 @@
 | | |
 | --- | --- |
 | Track | Full: UI/UX overhaul |
-| Stage | Mockups round 1b (redo) |
+| Stage | Gate 2 round 1 (redo) |
 | Branch | sdlc/full-ui-overhaul |
-| Gate waiting | none |
+| Gate waiting | Gate 2 round 1: pick a direction (D Bento, E Glass, F Spatial) at https://claude.ai/artifact/GpFFFNrx4duQTg63MYdQQQ; htmx follow-ons; Q-12 |
 | Updated | 2026-10-25 |
 
 ## Your actions
 
-- none
+- Pick a direction at https://claude.ai/artifact/GpFFFNrx4duQTg63MYdQQQ and answer the open points.
 
 ## Next step
 
-Running in parallel: uiux makes 3 new modern directions (bento / glass / spatial; no skeuomorphism, instrument metaphors or flat design) with typography, depth, shadow and micro-interaction specs, republished to the same artifact; product updates R-075 (real catalog model) and adds the htmx history-miss requirement; architect amends rule 21, updates ADR 0007 and covers the htmx fix. Then Gate 2 round 1 again.
+Wait for the pick. Then uiux round 2 (every R-067 screen and state in the chosen direction; fix mockup counts so the Tight count matches the cards per R-022) in parallel with product folding the htmx/Q-12 answers into R-075/R-081. Then Gate 2 proper (incl. Q-2 copy approval).
 
 Follow-ups found at onboarding (not part of this track): host guard ignores APP_ENV/PUBLIC_HOSTNAME that docs/RELEASE_AND_DEPLOY.md tells the server to set (tunnel requests would get 400); release.yml pushes :latest before the smoke test; smoke test never hits /results; no Cache-Control on HTML (rule 9); local docker-compose.yml binds 8000 on all interfaces (rule 3).
 
@@ -34,3 +34,6 @@ Follow-ups found at onboarding (not part of this track): host guard ignores APP_
 | 2026-10-25 | Design | sdlc:architect (inherit) | HLD updated (proposed overhaul section, frozen interface); ADRs 0001-0007; open: htmx history-miss bug, rule 21 scope, worked-example figure |
 | 2026-10-25 | Mockups r1 | sdlc:uiux (inherit) | 3 direction boards (A Basecamp, B Altimeter, C Expedition), 4 renders each + brand sheets; artifact published; all pass R-069/R-070 first-card targets |
 | 2026-10-25 | Gate 2 r1 | user | All 3 directions rejected (wants modern bento/glass/spatial); htmx fix in scope; rule 21 covers all static/; worked example uses a real model |
+| 2026-10-25 | Requirements | sdlc:product (inherit) | R-075 uses Llama 3.1 8B Instruct (7.33 GB); R-081 htmx history-miss added; open Q-12 (fallback if model leaves catalog), Q-13 (pushed partial URL breaks reload/share) |
+| 2026-10-25 | Design | sdlc:architect (inherit) | Rule 21 amended (all static/); ADR-0007 revised (real model + fallback); ADR-0008 htmx history fix (HX-Push-Url to /results, refreshOnHistoryMiss, full page on history restore) also fixes reload/share; open: old partial links, dead controls after Back, Q-12 |
+| 2026-10-25 | Mockups r1b | sdlc:uiux (inherit) | 3 new directions D Bento, E Glass, F Spatial with spec sheets and live states; artifact v2 at same URL; A-C archived in docs/design/rejected-r1/ |

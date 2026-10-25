@@ -24,5 +24,5 @@ The header mark is an inline `<svg>` stored in a new `templates/logo_mark.html` 
 
 - The mark costs no request and cannot fall out of step with the theme.
 - Three binary or SVG files are committed. Changing the mark means re-exporting the PNGs by hand.
-- Rule 21 bumps `ASSET_VERSION` only for `static/css` and `static/js`. When a favicon changes on its own, the task must still bump `ASSET_VERSION`, or browsers keep the old icon. The guard test and smoke check from ADR-0002 also cover `static/img/`.
+- Rule 21, as amended at Gate 2 (2026-10-25), requires an `ASSET_VERSION` bump for any change under `static/`, so a favicon change on its own bumps it and browsers fetch the new icon. The guard test and smoke check from ADR-0002 also cover `static/img/`.
 - Each Gate 2 direction must supply the mark as one SVG that reads at 16 px (favicon) and at header size.

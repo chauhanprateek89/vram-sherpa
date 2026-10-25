@@ -29,4 +29,4 @@ Rules no plan, change or release may break. The architect checks each plan again
 18. A merge to main must pass `ci.yml` (ruff check, ruff format --check, catalog validation, pytest) and the release smoke test. Its checks may be added to but never removed or weakened: `/healthz`, the seed log line, the page render, https asset URLs and the 400 for an unknown Host.
 19. Tests run without a real database (a temporary SQLite file per test) and without network access.
 20. The production web command (seed, then `uvicorn … --proxy-headers --forwarded-allow-ips=*`) must stay identical in `docker-compose.prod.yml` and the smoke test in `release.yml`.
-21. Any change to `static/css` or `static/js` bumps `ASSET_VERSION` in `src/vramsherpa/main.py`. That version is the only cache-busting for assets.
+21. Any change under `src/vramsherpa/static/` (CSS, JS, fonts, images, favicons, or any other file there) bumps `ASSET_VERSION` in `src/vramsherpa/main.py`. That version is the only cache-busting for assets. (amended 2026-10-25, Gate 2)
