@@ -38,6 +38,8 @@ vramsherpa = [
   "templates/*.html",
   "static/css/*.css",
   "static/js/*.js",
+  "static/fonts/*",
+  "static/img/*",
 ]
 
 [tool.ruff]
