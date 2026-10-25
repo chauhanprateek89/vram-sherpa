@@ -8,8 +8,10 @@ from html.parser import HTMLParser
 import pytest
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
+from sqlalchemy import event
 from sqlalchemy.orm import Session
 
+from vramsherpa import database
 from vramsherpa.main import _results_page_url
 
 QUERY = "vram_gb=24&context_tokens=4096"
@@ -244,6 +246,180 @@ def test_breakdown_triggers_have_no_push_url_ancestor(client: TestClient) -> Non
         assert "hx-push-url" not in trigger.attrs
         pushing = [node.tag for node in trigger.ancestors() if "hx-push-url" in node.attrs]
         assert pushing == [], f"{trigger.attrs['hx-get']} inherits hx-push-url from {pushing}"
+
+
+# Fix 4: old /results/partials/content links opened as a page redirect to /results.
+
+OLD_LINK_QUERY = "vram_gb=24&context_tokens=4096&family=a&family=b"
+PAGE_LOAD_HEADERS = [
+    pytest.param({}, id="no-hx-request"),
+    pytest.param({"HX-Request": "false"}, id="hx-request-false"),
+]
+PARTIAL_PATHS = [
+    "/results/partials/content",
+    "/results/partials/summary",
+    "/results/partials/list",
+]
+# A marker each partial's fragment renders for the reference query.
+PARTIAL_MARKERS = {
+    "/results/partials/content": 'id="results-summary-shell"',
+    "/results/partials/summary": 'id="summary-banner"',
+    "/results/partials/list": 'class="results-header"',
+}
+
+
+def _vary_names(response) -> list[str]:
+    return [
+        name.strip().lower()
+        for value in response.headers.get_list("vary")
+        for name in value.split(",")
+        if name.strip()
+    ]
+
+
+def _assert_old_link_redirect(response, location: str) -> None:
+    assert response.status_code == 302
+    assert response.headers["location"] == location
+    assert response.content == b""
+    assert response.headers.get_list("cache-control") == ["no-cache"]
+    assert sorted(_vary_names(response)) == ["hx-history-restore-request", "hx-request"]
+
+
+@pytest.mark.parametrize("headers", PAGE_LOAD_HEADERS)
+def test_old_partial_link_redirects_to_results_with_query_byte_for_byte(
+    client: TestClient, headers: dict[str, str]
+) -> None:
+    response = client.get(
+        f"/results/partials/content?{OLD_LINK_QUERY}", headers=headers, follow_redirects=False
+    )
+
+    _assert_old_link_redirect(response, f"/results?{OLD_LINK_QUERY}")
+
+
+def test_old_partial_link_keeps_percent_encoding_in_location(client: TestClient) -> None:
+    query = (
+        "gpu_search=NVIDIA%20GeForce%20RTX%204090%20%2824.0%20GB%29"
+        "&context_tokens=2048&quant_bucket=Q8&quant_bucket=Q4&gpu_search=a%2Bb+c"
+    )
+    response = client.get(f"/results/partials/content?{query}", follow_redirects=False)
+
+    _assert_old_link_redirect(response, f"/results?{query}")
+
+
+@pytest.mark.parametrize("headers", PAGE_LOAD_HEADERS)
+def test_old_partial_link_without_query_redirects_to_bare_results(
+    client: TestClient, headers: dict[str, str]
+) -> None:
+    response = client.get("/results/partials/content", headers=headers, follow_redirects=False)
+
+    _assert_old_link_redirect(response, "/results")
+
+
+def test_old_partial_link_location_is_a_path_whatever_the_host_or_scheme(
+    client: TestClient,
+) -> None:
+    response = client.get(
+        f"https://localhost/results/partials/content?{QUERY}",
+        headers={"X-Forwarded-Proto": "https", "X-Forwarded-Host": "evil.example.com"},
+        follow_redirects=False,
+    )
+
+    assert response.status_code == 302
+    assert response.headers["location"] == f"/results?{QUERY}"
+
+
+def test_old_partial_link_redirect_lands_on_the_full_page(client: TestClient) -> None:
+    response = client.get(f"/results/partials/content?{QUERY}")
+
+    assert response.status_code == 200
+    assert [r.status_code for r in response.history] == [302]
+    assert str(response.url) == f"http://testserver/results?{QUERY}"
+    tree = _parse(response.text)
+    assert _count(tree, "header") == 1
+    assert len(_by_id(tree, "search-form")) == 1
+    assert _count(tree, "footer") == 1
+
+
+def test_old_partial_link_redirect_makes_no_database_query(client: TestClient) -> None:
+    statements: list[str] = []
+
+    def record(conn, cursor, statement, parameters, context, executemany) -> None:
+        statements.append(statement)
+
+    engine = database.get_engine()
+    event.listen(engine, "before_cursor_execute", record)
+    try:
+        response = client.get(f"/results/partials/content?{QUERY}", follow_redirects=False)
+    finally:
+        event.remove(engine, "before_cursor_execute", record)
+
+    assert response.status_code == 302
+    assert statements == []
+
+
+@pytest.mark.parametrize("headers", PAGE_LOAD_HEADERS)
+def test_old_partial_link_with_malformed_value_gets_the_same_422_as_results(
+    client: TestClient, headers: dict[str, str]
+) -> None:
+    expected = client.get("/results?context_tokens=abc", follow_redirects=False)
+    response = client.get(
+        "/results/partials/content?context_tokens=abc", headers=headers, follow_redirects=False
+    )
+
+    assert expected.status_code == 422
+    assert response.status_code == 422
+    assert response.headers["content-type"].startswith("application/json")
+    assert response.json() == expected.json()
+    assert "location" not in response.headers
+
+
+@pytest.mark.parametrize("path", PARTIAL_PATHS)
+def test_partials_with_hx_request_return_their_fragment_without_location(
+    client: TestClient, path: str
+) -> None:
+    response = client.get(f"{path}?{QUERY}", headers=HX, follow_redirects=False)
+
+    assert response.status_code == 200
+    assert "location" not in response.headers
+    assert PARTIAL_MARKERS[path] in response.text
+    assert 'id="search-form"' not in response.text
+
+
+@pytest.mark.parametrize("path", ["/results/partials/summary", "/results/partials/list"])
+@pytest.mark.parametrize("headers", PAGE_LOAD_HEADERS)
+def test_summary_and_list_partials_never_redirect(
+    client: TestClient, path: str, headers: dict[str, str]
+) -> None:
+    response = client.get(f"{path}?{QUERY}", headers=headers, follow_redirects=False)
+
+    assert response.status_code == 200
+    assert "location" not in response.headers
+    assert PARTIAL_MARKERS[path] in response.text
+
+
+def test_partial_content_restore_request_still_gets_the_fragment(client: TestClient) -> None:
+    response = client.get(
+        f"/results/partials/content?{QUERY}", headers=RESTORE, follow_redirects=False
+    )
+
+    assert response.status_code == 200
+    assert "location" not in response.headers
+    assert 'id="results-summary-shell"' in response.text
+
+
+def test_old_partial_link_with_unknown_host_is_rejected_before_redirect(
+    client: TestClient,
+) -> None:
+    response = client.get(
+        "/results/partials/content?vram_gb=24",
+        headers={"Host": "evil.example.com"},
+        follow_redirects=False,
+    )
+
+    assert response.status_code == 400
+    assert response.headers["content-type"].startswith("application/json")
+    assert response.json() == {"detail": "Host not allowed"}
+    assert "location" not in response.headers
 
 
 # R-078, ADR-0006 point 1: the frozen form interface.

@@ -9,7 +9,7 @@ from pathlib import Path
 from urllib.parse import urlencode
 
 from fastapi import Depends, FastAPI, HTTPException, Query, Request
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse, Response
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from sqlalchemy import Select, distinct, func, select
@@ -1124,7 +1124,18 @@ def results_partial_content(
     max_params_b: str | None = Query(default=None),
     recommended_only: bool = Query(default=False),
     session: Session = Depends(get_session),
-) -> HTMLResponse:
+) -> Response:
+    # Old links pushed by earlier releases, opened as a page: send them to the full page
+    # before any database work. Only an exact `HX-Request: true` gets the fragment, and
+    # FastAPI has already validated the query, so a bad value still gets the 422 (ADR-0008
+    # fix 4). The redirect has no HTML body, so it sets the headers the middleware would.
+    if request.headers.get("HX-Request") != "true":
+        return RedirectResponse(
+            _results_page_url(request.url.query),
+            status_code=302,
+            headers={"Cache-Control": "no-cache", "Vary": ", ".join(HTML_VARY_HEADERS)},
+        )
+
     context = _results_page_context(
         request,
         session,
