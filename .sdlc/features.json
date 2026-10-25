@@ -251,7 +251,7 @@
         "T-006"
       ],
       "notes": "Foundation of the `styles.css` chain: T-008 to T-021 all edit `styles.css` and/or `ASSET_VERSION` and run strictly one after another. Keep the pre-paint theme script (R-040).",
-      "review": "pending",
+      "review": "passed",
       "passes": false
     },
     {
