@@ -30,6 +30,29 @@
     <li><strong>Won't fit</strong>: <code>required_vram_gb &gt; available_vram_gb</code></li>
   </ul>
 
+  <h2>Worked example</h2>
+  {% set ex = worked_example %}
+  {% set b = ex.breakdown %}
+  {% if ex.model_name %}
+  <p>{{ ex.model_name }} at {{ ex.quant_bucket }}, with a {{ ex.context_tokens }}-token context. <a href="/models/{{ ex.model_id }}?context_tokens={{ ex.context_tokens }}">See its model page</a>.</p>
+  {% else %}
+  <p>An example for an {{ '%g'|format(ex.params_b) }}B model at {{ ex.quant_bucket }}, with a {{ ex.context_tokens }}-token context.</p>
+  {% endif %}
+  <h3>Inputs</h3>
+  <ul>
+    <li><code>params_b</code> {{ '%g'|format(ex.params_b) }}</li>
+    <li><code>bits_effective</code> {{ '%g'|format(ex.bits_effective) }}</li>
+    <li><code>kv_gb_per_1k_ctx</code> {{ '%g'|format(ex.kv_gb_per_1k_ctx) }}</li>
+    <li><code>context_tokens</code> {{ ex.context_tokens }}</li>
+  </ul>
+  <h3>Steps</h3>
+  <ol>
+    <li>Weights <strong>{{ '%.2f'|format(b.weights_gb) }} GB</strong> ({{ '%g'|format(ex.params_b) }} &times; {{ '%g'|format(ex.bits_effective) }} &divide; 8 &times; 1.10 = {{ '%.2f'|format(b.weights_gb) }})</li>
+    <li>KV cache <strong>{{ '%.2f'|format(b.kv_cache_gb) }} GB</strong> ({{ '%g'|format(ex.kv_gb_per_1k_ctx) }} &times; {{ ex.context_tokens }} &divide; 1000 = {{ '%g'|format(b.kv_cache_gb|round(5)) }})</li>
+    <li>Runtime overhead <strong>{{ '%.2f'|format(b.runtime_overhead_gb) }} GB</strong> (1.0 + 0.05 &times; {{ '%g'|format(ex.params_b) }} = {{ '%.2f'|format(b.runtime_overhead_gb) }})</li>
+    <li>Required VRAM <strong>{{ '%.2f'|format(b.required_vram_gb) }} GB</strong> ({{ '%.2f'|format(b.weights_gb) }} + {{ '%g'|format(b.kv_cache_gb|round(5)) }} + {{ '%.2f'|format(b.runtime_overhead_gb) }} = {{ '%g'|format(b.required_vram_gb|round(5)) }})</li>
+  </ol>
+
   <h2>Limitations</h2>
   <p>Real outcomes vary by runtime, driver stack, memory fragmentation, and CPU/GPU offload behavior. This tool is not a benchmark and does not guarantee performance.</p>
 </section>

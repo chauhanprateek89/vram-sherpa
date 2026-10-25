@@ -24,6 +24,14 @@ from vramsherpa.models import GPU, CatalogMeta, Model, Variant
 CONTEXT_OPTIONS = (2048, 4096, 8192)
 ASSET_VERSION = "20261024a"
 ESTIMATION_POLICY_VERSION = "v0.1"
+# The /how-it-works worked example (R-075, ADR-0007). The figures are computed by
+# estimate_breakdown at request time; none is typed into the template.
+WORKED_EXAMPLE_MODEL_ID = "model_llama_31_8b_instruct"
+WORKED_EXAMPLE_QUANT_BUCKET = "Q4"
+WORKED_EXAMPLE_CONTEXT_TOKENS = 2048
+WORKED_EXAMPLE_FALLBACK = {"params_b": 8.0, "bits_effective": 4.5, "kv_gb_per_1k_ctx": 0.48}
+# estimate_breakdown needs an available VRAM; the example never renders it or anything from it.
+_WORKED_EXAMPLE_AVAILABLE_VRAM_GB = 24.0
 PACKAGE_DIR = Path(__file__).resolve().parent
 templates = Jinja2Templates(directory=str(PACKAGE_DIR / "templates"))
 
@@ -1330,8 +1338,53 @@ def model_detail(
     return templates.TemplateResponse(request, "model_detail.html", context)
 
 
+def _worked_example(session: Session) -> dict:
+    """Build the /how-it-works worked example from the catalog row, or the fallback inputs."""
+    model = session.get(Model, WORKED_EXAMPLE_MODEL_ID)
+    variant = None
+    if model is not None:
+        q4_variants = sorted(
+            (v for v in model.variants if v.quant_bucket == WORKED_EXAMPLE_QUANT_BUCKET),
+            key=lambda v: v.id,
+        )
+        variant = q4_variants[0] if q4_variants else None
+
+    if model is not None and variant is not None:
+        model_id: str | None = model.id
+        model_name: str | None = model.name
+        params_b = float(model.params_b)
+        bits_effective = float(variant.bits_effective)
+        kv_gb_per_1k_ctx = float(model.kv_gb_per_1k_ctx)
+    else:
+        model_id = None
+        model_name = None
+        params_b = WORKED_EXAMPLE_FALLBACK["params_b"]
+        bits_effective = WORKED_EXAMPLE_FALLBACK["bits_effective"]
+        kv_gb_per_1k_ctx = WORKED_EXAMPLE_FALLBACK["kv_gb_per_1k_ctx"]
+
+    breakdown = estimate_breakdown(
+        params_b=params_b,
+        bits_effective=bits_effective,
+        kv_gb_per_1k_ctx=kv_gb_per_1k_ctx,
+        context_tokens=WORKED_EXAMPLE_CONTEXT_TOKENS,
+        available_vram_gb=_WORKED_EXAMPLE_AVAILABLE_VRAM_GB,
+    )
+    return {
+        "model_id": model_id,
+        "model_name": model_name,
+        "quant_bucket": WORKED_EXAMPLE_QUANT_BUCKET,
+        "params_b": params_b,
+        "bits_effective": bits_effective,
+        "kv_gb_per_1k_ctx": kv_gb_per_1k_ctx,
+        "context_tokens": WORKED_EXAMPLE_CONTEXT_TOKENS,
+        "breakdown": breakdown,
+    }
+
+
 def how_it_works(request: Request, session: Session = Depends(get_session)) -> HTMLResponse:
-    return templates.TemplateResponse(request, "how_it_works.html", _base_context(request, session))
+    context = _base_context(request, session)
+    context["worked_example"] = _worked_example(session)
+    return templates.TemplateResponse(request, "how_it_works.html", context)
 
 
 def healthz(session: Session = Depends(get_session)) -> JSONResponse:
