@@ -117,7 +117,7 @@
       "model": "sonnet",
       "dependsOn": [],
       "notes": "UI: no. Test-only; no app code changes. Must land before T-008 so every UI task runs against it. No file under `src/vramsherpa/static/` changes, so `ASSET_VERSION` is not bumped (rule 21).",
-      "review": "pending",
+      "review": "passed",
       "passes": false
     },
     {
