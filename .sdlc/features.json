@@ -515,7 +515,7 @@
         "T-013"
       ],
       "notes": "`main.py` changes `_top_picks` descriptions and `ASSET_VERSION` only.",
-      "review": "pending",
+      "review": "passed",
       "passes": false
     },
     {
