@@ -1,4 +1,4 @@
-"""T-010 to T-012: the page shell, the form tile on `/` and `/results`, and its filters."""
+"""T-010 to T-013: the page shell, the form tile, its filters and the answer tile."""
 
 from __future__ import annotations
 
@@ -400,7 +400,7 @@ def test_summary_counts_the_active_filter_chips(
     html = client.get(url).text
     assert f"<span>Filters (<span data-fcount>{expected}</span>)</span>" in html
     root = _tree(html)
-    chips = [n for n in root.walk() if "chip-active" in n.classes()]
+    chips = [n for n in root.walk() if "chip-link" in n.classes()]
     assert len(chips) == expected
 
 
@@ -601,5 +601,196 @@ def test_app_js_places_a_thumb_and_replaces_it_on_every_layout_change() -> None:
 
 def test_asset_version_is_a_date_and_letter_and_reaches_the_page(client: TestClient) -> None:
     assert re.fullmatch(r"\d{8}[a-z]", main.ASSET_VERSION)
-    assert main.ASSET_VERSION > "20261025d"
+    assert main.ASSET_VERSION > "20261025f"
     assert f"styles.css?v={main.ASSET_VERSION}" in client.get("/").text
+
+
+# ---- T-013: the answer tile ----
+
+REFERENCE = "/results?vram_gb=24&context_tokens=4096"
+HX = {"HX-Request": "true"}
+
+
+def _answer(html: str) -> _Node:
+    return next(n for n in _tree(html).walk() if n.attrs.get("id") == "summary-banner")
+
+
+def _shell_children(html: str) -> list[_Node]:
+    shell = next(n for n in _tree(html).walk() if n.attrs.get("id") == "results-shell")
+    out: list[_Node] = []
+    for wrapper in shell.children:
+        out.extend(wrapper.children)
+    return out
+
+
+def test_answer_tile_is_the_first_content_of_the_results_shell(client: TestClient) -> None:
+    html = client.get(REFERENCE).text
+    first = _shell_children(html)[0]
+    assert first.attrs["id"] == "summary-banner"
+    assert first.tag == "section" and {"answer", "pane"} <= set(first.classes())
+    assert first.attrs["aria-labelledby"] == "ans-h"
+    headline = first.children[0]
+    assert (headline.tag, headline.attrs["id"]) == ("h2", "ans-h")
+    assert headline.all_text() == "71 models fit or are tight"
+    # Top Picks and the cards come after the tile.
+    assert html.index('id="summary-banner"') < html.index("Top Picks for you")
+    assert html.index("Top Picks for you") < html.index('id="results-cards"')
+
+
+def test_headline_counts_model_cards_and_keeps_the_singular(client: TestClient) -> None:
+    one = _answer(client.get("/results?vram_gb=3&family=phi").text)
+    assert one.children[0].all_text() == "1 model fit or are tight"
+    none = _answer(client.get("/results?vram_gb=1&context_tokens=4096&quant_bucket=Q8").text)
+    assert none.children[0].all_text() == "0 models fit or are tight"
+
+
+def test_answer_tile_holds_the_context_line_counts_and_note(client: TestClient) -> None:
+    answer = _answer(client.get(REFERENCE).text)
+    ctx = next(n for n in answer.walk() if "ctx-line" in n.classes())
+    spans = [" ".join((b.all_text(), s.text.strip())) for s in ctx.children for b in s.children]
+    assert spans == ["Hardware: Manual VRAM (24 GB)", "Context: 4k"]
+    counts = next(n for n in answer.walk() if "counts" in n.classes())
+    items = [c for c in counts.children if c.tag == "li"]
+    labels = [next(n for n in li.children if n.tag == "span").all_text() for li in items]
+    assert labels == ["Fits", "Tight", "Won't fit"]
+    # Each count carries a distinct shape cue, not only a colour.
+    symbols = [next(n for n in li.walk() if n.tag == "use").attrs["href"] for li in items]
+    assert symbols == ["#i-fits", "#i-tight", "#i-wont"]
+    assert [next(n for n in li.children if n.tag == "b").all_text() for li in items][0] == "71"
+    note = next(n for n in answer.walk() if "note" in n.classes())
+    assert note.all_text() == (
+        "Only Fits and Tight models are listed. "
+        "Pick a quantisation on any card to see how it changes."
+    )
+    assert note.attrs["title"] == (
+        "Fits leaves reserve headroom. Tight can run, but is close to your VRAM limit."
+    )
+    assert "assumed 8 GB baseline" not in answer.all_text()
+
+
+def test_empty_state_note_keeps_only_the_first_sentence(client: TestClient) -> None:
+    answer = _answer(client.get("/results?vram_gb=1&context_tokens=4096&quant_bucket=Q8").text)
+    note = next(n for n in answer.walk() if "note" in n.classes())
+    assert note.all_text() == "Only Fits and Tight models are listed."
+    assert note.attrs["title"].startswith("Fits leaves reserve headroom.")
+
+
+def test_sprite_symbols_for_the_count_icons_are_in_the_page(client: TestClient) -> None:
+    html = client.get(REFERENCE).text
+    for symbol in ("i-fits", "i-tight", "i-wont", "i-info"):
+        assert f'<symbol id="{symbol}"' in html
+
+
+def test_default_8gb_note_sits_in_the_tile_under_the_context_line(client: TestClient) -> None:
+    answer = _answer(client.get("/").text)
+    notice = next(n for n in answer.walk() if "notice" in n.classes())
+    assert notice.all_text() == (
+        "No GPU or VRAM selected yet. Showing estimates with an assumed 8 GB baseline."
+    )
+    assert notice.attrs["role"] == "status"
+    kids = [c.classes()[0] if c.classes() else c.tag for c in answer.children]
+    assert kids.index("ctx-line") < kids.index("notice") < kids.index("counts")
+
+
+def test_messages_render_in_the_tile_between_the_context_line_and_the_counts(
+    client: TestClient,
+) -> None:
+    html = client.get("/results?vram_gb=abc").text
+    answer = _answer(html)
+    alert = next(n for n in answer.walk() if n.attrs.get("role") == "alert")
+    assert alert.all_text().startswith("Please fix the following input issues:")
+    assert [li.all_text() for li in alert.walk() if li.tag == "li"] == [
+        "Invalid value for vram_gb."
+    ]
+    kids = [c.classes()[0] if c.classes() else c.tag for c in answer.children]
+    assert kids.index("ctx-line") < kids.index("notice") < kids.index("counts")
+
+    html = client.get("/results?gpu_search=RTX").text
+    answer = _answer(html)
+    status = [n for n in answer.walk() if n.attrs.get("role") == "status"]
+    assert len(status) == 1 and "matched multiple entries" in status[0].all_text()
+    html = client.get("/results?gpu_search=RTX 3060 12GB").text
+    status = [n for n in _answer(html).walk() if n.attrs.get("role") == "status"]
+    assert len(status) == 1 and "was not found. Using 12 GB inferred" in status[0].all_text()
+
+
+def test_an_in_place_refresh_shows_only_the_current_querys_messages(client: TestClient) -> None:
+    bad = client.get("/results?vram_gb=abc", headers=HX).text
+    assert bad.count('role="alert"') == 1
+    good = client.get("/results?vram_gb=24", headers=HX).text
+    assert 'role="alert"' not in good
+    assert "Invalid value" not in good
+    partial = client.get("/results/partials/content?vram_gb=24", headers=HX).text
+    assert 'role="alert"' not in partial
+    # A refresh that fixes a GPU search also drops its message.
+    assert "matched multiple" not in client.get("/results?vram_gb=24&gpu_search=", headers=HX).text
+
+
+def test_active_filter_chips_are_links_inside_the_tile(client: TestClient) -> None:
+    answer = _answer(client.get(FILTERED).text)
+    block = next(n for n in answer.walk() if "active-filters" in n.classes())
+    assert block.children[0].all_text() == "Active filters:"
+    chips = [n for n in block.children if n.tag == "a"]
+    assert [c.all_text() for c in chips] == ["Family: qwen ×", "Quant: Q4 ×"]
+    assert all(c.attrs["href"].startswith("/results") for c in chips)
+    assert not [n for n in _answer(client.get(REFERENCE).text).walk() if n.tag == "a"]
+    assert "Active filters:" not in client.get(REFERENCE).text
+
+
+def test_old_headings_and_sentences_are_gone(client: TestClient) -> None:
+    for url in (REFERENCE, "/", "/results?vram_gb=1&context_tokens=4096&quant_bucket=Q8"):
+        html = client.get(url).text
+        assert "Summary for this query" not in html
+        assert "Showing only Fits and Tight models" not in html
+        assert "results-header" not in html
+        assert "fit or are tight." not in html
+
+
+def test_results_heading_is_visually_hidden_above_the_cards(client: TestClient) -> None:
+    html = client.get(REFERENCE).text
+    heading = next(n for n in _tree(html).walk() if n.tag == "h2" and n.all_text() == "Results")
+    assert heading.classes() == ["sr-only"]
+    assert html.index(">Results</h2>") < html.index('id="results-cards"')
+    assert "position: absolute" in _rules(_css(), ".sr-only")[0]
+    assert html.count(">Results</h2>") == 1
+
+
+def test_frozen_ids_and_partial_endpoints_still_render_their_templates(
+    client: TestClient,
+) -> None:
+    html = client.get(REFERENCE).text
+    for ident in (
+        "results-shell",
+        "results-summary-shell",
+        "results-list-shell",
+        "summary-banner",
+        "results-cards",
+    ):
+        assert html.count(f'id="{ident}"') == 1, ident
+    summary = client.get("/results/partials/summary?vram_gb=24").text
+    assert 'id="summary-banner"' in summary and 'id="results-cards"' not in summary
+    listing = client.get("/results/partials/list?vram_gb=24").text
+    assert 'id="results-cards"' in listing and 'id="summary-banner"' not in listing
+    content = client.get("/results/partials/content?vram_gb=24", headers=HX).text
+    assert 'id="results-summary-shell"' in content and 'id="results-list-shell"' in content
+
+
+def test_no_picks_layout_is_keyed_on_markup_inside_the_results_shell(client: TestClient) -> None:
+    with_picks = _answer(client.get(REFERENCE, headers=HX).text)
+    assert "no-picks" not in with_picks.classes()
+    without = _answer(client.get("/results?vram_gb=2&context_tokens=4096", headers=HX).text)
+    assert "no-picks" in without.classes()
+    assert client.get("/results?vram_gb=2&context_tokens=4096").text.count("no-picks") == 1
+    main_node = _one(_tree(client.get("/results?vram_gb=2").text), "main")
+    assert main_node.classes() == ["bento"]
+
+
+def test_answer_tile_css_matches_the_mockup_tokens() -> None:
+    css = _css()
+    assert "var(--fs-display)" in _rules(css, ".headline")[0]
+    assert "repeat(3, 1fr)" in _rules(css, ".counts")[0]
+    assert "var(--tap)" in _rules(css, ".chip-link")[0]
+    assert "var(--wont-bg)" in _rules(css, ".notice.is-alert")[0]
+    assert "grid-row: 1 / 3" in _rules(css, ".answer.no-picks")[0]
+    for gone in (".summary-banner", ".summary-grid", ".summary-stat", ".results-header"):
+        assert gone not in css, gone

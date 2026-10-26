@@ -264,7 +264,7 @@ PARTIAL_PATHS = [
 PARTIAL_MARKERS = {
     "/results/partials/content": 'id="results-summary-shell"',
     "/results/partials/summary": 'id="summary-banner"',
-    "/results/partials/list": 'class="results-header"',
+    "/results/partials/list": 'class="sr-only">Results<',
 }
 
 

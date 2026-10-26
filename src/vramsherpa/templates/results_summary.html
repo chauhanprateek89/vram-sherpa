@@ -1,51 +1,79 @@
-{% if form_errors %}
-  <section class="form-alert" role="alert" aria-live="polite">
-    <p>Please fix the following input issues:</p>
-    <ul>
-      {% for error in form_errors %}
-        <li>{{ error }}</li>
-      {% endfor %}
-    </ul>
-  </section>
-{% endif %}
-
-{% if gpu_search_feedback %}
-  <section class="form-alert" role="status" aria-live="polite">
-    <p>{{ gpu_search_feedback }}</p>
-  </section>
-{% endif %}
-
-<section class="summary-banner" id="summary-banner">
-  <h2>Summary for this query</h2>
-  <p class="summary-selection">
-    <span><strong>Hardware:</strong> {{ selected_hardware_label }}</span>
-    <span><strong>Context:</strong> {{ selected_context_label }}</span>
+{# The answer tile leads the results (R-069). Messages live here, not in the form, so an in-place
+   refresh replaces them and shows only the current query's (R-071, ADR-0006 points 2 and 3).
+   `no-picks` keys the layout on markup inside #results-shell, which a refresh re-renders (point 9). #}
+{% set model_count = model_cards|length %}
+<section
+  class="answer pane{% if not top_picks %} no-picks{% endif %}"
+  id="summary-banner"
+  aria-labelledby="ans-h"
+>
+  <h2 class="headline" id="ans-h">{{ model_count }} model{{ '' if model_count == 1 else 's' }} fit or are tight</h2>
+  <p class="ctx-line">
+    <span><b>Hardware:</b> {{ selected_hardware_label }}</span>
+    <span><b>Context:</b> {{ selected_context_label }}</span>
   </p>
-  {% if using_default_vram_assumption %}
-    <p class="summary-note">
-      No GPU or VRAM selected yet. Showing estimates with an assumed 8 GB baseline.
-    </p>
+
+  {% if form_errors %}
+    <div class="notice is-alert" role="alert">
+      <svg width="18" height="18" aria-hidden="true"><use href="#i-wont"/></svg>
+      <div>
+        <p><strong>Please fix the following input issues:</strong></p>
+        <ul>
+          {% for error in form_errors %}
+            <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
   {% endif %}
+
+  {% if gpu_search_feedback %}
+    <div class="notice" role="status">
+      <svg width="18" height="18" aria-hidden="true"><use href="#i-info"/></svg>
+      <p>{{ gpu_search_feedback }}</p>
+    </div>
+  {% endif %}
+
+  {% if using_default_vram_assumption %}
+    <div class="notice" role="status">
+      <svg width="18" height="18" aria-hidden="true"><use href="#i-info"/></svg>
+      <p>No GPU or VRAM selected yet. Showing estimates with an assumed 8 GB baseline.</p>
+    </div>
+  {% endif %}
+
+  <ul class="counts">
+    <li class="c-fits">
+      <svg width="18" height="18" aria-hidden="true"><use href="#i-fits"/></svg>
+      <b class="num">{{ summary_counts["Fits"] }}</b>
+      <span>Fits</span>
+    </li>
+    <li class="c-tight">
+      <svg width="18" height="18" aria-hidden="true"><use href="#i-tight"/></svg>
+      <b class="num">{{ summary_counts["Tight"] }}</b>
+      <span>Tight</span>
+    </li>
+    <li class="c-wont">
+      <svg width="18" height="18" aria-hidden="true"><use href="#i-wont"/></svg>
+      <b class="num">{{ summary_counts["Won't fit"] }}</b>
+      <span>Won't fit</span>
+    </li>
+  </ul>
+
   <p
-    class="summary-note"
+    class="note"
     title="Fits leaves reserve headroom. Tight can run, but is close to your VRAM limit."
   >
-    Showing only Fits and Tight models in the list below.
+    Only Fits and Tight models are listed.{% if model_cards %} Pick a quantisation on any card to see how it changes.{% endif %}
   </p>
-  <div class="summary-grid">
-    <div class="summary-stat">
-      <strong>{{ summary_counts["Fits"] }}</strong>
-      <span>Fits</span>
+
+  {% if active_filter_chips %}
+    <div class="active-filters">
+      <span>Active filters:</span>
+      {% for chip in active_filter_chips %}
+        <a class="chip-link" href="{{ chip.remove_url }}">{{ chip.label }} <i aria-hidden="true">&times;</i></a>
+      {% endfor %}
     </div>
-    <div class="summary-stat">
-      <strong>{{ summary_counts["Tight"] }}</strong>
-      <span>Tight</span>
-    </div>
-    <div class="summary-stat">
-      <strong>{{ summary_counts["Won't fit"] }}</strong>
-      <span>Won't fit</span>
-    </div>
-  </div>
+  {% endif %}
 </section>
 
 {% if top_picks %}
@@ -63,16 +91,5 @@
         </article>
       {% endfor %}
     </div>
-  </section>
-{% endif %}
-
-{% if active_filter_chips %}
-  <section class="active-filters">
-    <span>Active filters:</span>
-    {% for chip in active_filter_chips %}
-      <a class="chip chip-active" href="{{ chip.remove_url }}">
-        {{ chip.label }} ×
-      </a>
-    {% endfor %}
   </section>
 {% endif %}

@@ -1,10 +1,4 @@
-<section class="results-header">
-  <h2>Results</h2>
-  <p class="muted">
-    {{ model_cards|length }} model{{ '' if model_cards|length == 1 else 's' }} fit or are tight.
-    Pick a quantisation on any card to see how it changes.
-  </p>
-</section>
+<h2 class="sr-only">Results</h2>
 
 {% if model_cards %}
   <section class="model-list" id="results-cards">
