@@ -682,7 +682,6 @@ td {
   .bento { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); grid-template-rows: auto 1fr auto; }
   .form-pane { grid-column: 1; grid-row: 1 / 3; align-self: stretch; }
   .answer { grid-column: 2; grid-row: 1; }
-  /* The cards (T-015) keep their old look until that task lands. */
   .picks { grid-column: 2; grid-row: 2; align-self: stretch; }
   #results-list-shell { grid-column: 1 / -1; grid-row: 3; }
   /* Keyed on the answer tile, which a refresh re-renders (ADR-0006 point 9). */
@@ -785,253 +784,68 @@ details[open] > .filter-fields { animation: whyIn var(--dur-2) var(--ease-out); 
 .chip-link i { font-style: normal; font-size: 20px; line-height: 1; color: var(--muted); }
 .chip-link:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
 
-/* ── Results: one card per model ──────────────────────────────────────────────
-   Quantisation is a control inside the card rather than four separate rows, and
-   the fit gauge is the card's primary element. Required / available / margin were
-   three equal tiles per card; "available" is a property of the query, not of any
-   result, so it is stated once above the list and only the gauge caption remains. */
+/* ===== results pane and model cards (T-015), from docs/design/build/components.css ===== */
+.num { font-variant-numeric: tabular-nums; }
+.results { padding: 10px; }
+@media (min-width: 900px) { .results { padding: 12px; } }
+.card-grid { display: grid; gap: 10px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 900px) { .card-grid { gap: 14px; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; } }
+.model-card { --i: 0; --mx: 50%; --my: 0px; position: relative; padding: 18px; transition: box-shadow var(--dur-2) var(--ease-out), border-color var(--dur-2); }
+@media (min-width: 900px) { .model-card { padding: 18px 20px 10px; } .model-card h3 { font-size: 21px; } }
+.model-card::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 0), var(--sheen), transparent 70%); opacity: 0; transition: opacity var(--dur-2); }
+.model-card:hover { box-shadow: var(--sh-2h); } .model-card:hover::after { opacity: 1; }
+.card-in { display: grid; gap: 14px; }
+.card-head { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px 16px; align-items: start; }
+@media (min-width: 900px) { .card-head { grid-template-columns: minmax(0, 1fr) 216px; gap: 12px; } }
+.model-id { display: grid; gap: 6px; min-width: 0; }
+.model-card h3, .model-card p { margin: 0; }
+.model-card h3 { font-size: var(--fs-h3); line-height: 1.15; letter-spacing: -.015em; font-weight: 560; overflow-wrap: anywhere; }
+.model-card h3 a { display: inline-block; padding: 10px 0; margin: -10px 0; color: var(--ink); text-decoration: none; background: linear-gradient(currentColor, currentColor) 0 calc(100% - 10px) / 0 2px no-repeat; transition: background-size var(--dur-3) var(--ease-out); }
+.model-card h3 a:hover { background-size: 100% 2px; }
+.model-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; font-size: var(--fs-caption); color: var(--muted); }
+.fam { padding: 2px 11px; border-radius: 99px; background: var(--seg); border: 1px solid var(--edge); font-weight: 500; color: var(--ink); }
+/* One gated marker, from the tag_gated macro in components.html (R-068). */
+.tag-gated { display: inline-flex; align-items: center; gap: 5px; vertical-align: 3px; margin-left: 6px; padding: 2px 10px 2px 8px; border-radius: 99px; background: var(--gate-bg); color: var(--gate-fg); border: 1px solid color-mix(in srgb, currentColor 28%, transparent); font-size: var(--fs-caption); font-weight: 600; letter-spacing: 0; line-height: 1.4; white-space: nowrap; }
+.tag-gated svg { width: 12px; height: 12px; }
 
-.model-list {
-  display: grid;
-  gap: 0.7rem;
-}
+/* quantisation switcher: the same pill track as .seg, four equal columns on one row at any width */
+.quants { --x: 0px; --y: 0px; --w: 0px; --h: 0px; position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); width: 100%; padding: 3px; border-radius: var(--r-pill); background: var(--seg); box-shadow: var(--sh-in); border: 1px solid var(--edge); }
+.quants button { display: flex; align-items: center; justify-content: center; min-height: 46px; min-width: 46px; padding: 0 12px; border-radius: var(--r-pill); font-weight: 560; font-size: var(--fs-small); color: var(--ink); border: 0; background: transparent; position: relative; z-index: 1; transition: color var(--dur-2), transform var(--dur-1) var(--ease-out); }
+.quants button:focus-visible { outline: 3px solid var(--focus); outline-offset: 1px; }
+.quants button:hover:not([aria-pressed="true"]) { background: var(--hair); }
+.quants button:active { transform: scale(.95); }
+/* Without JavaScript the pressed button paints its own fill; with it the thumb does. */
+.quants button[aria-pressed="true"] { color: var(--on-pressed); background: var(--pressed); }
+.has-thumb.quants button[aria-pressed="true"] { background: transparent; }
+/* A Won't fit variant is struck through, which neither the pressed nor the idle button is. */
+.quants button[data-oversize] { text-decoration: line-through; text-decoration-thickness: 2px; color: var(--muted); }
+.quants button[data-oversize][aria-pressed="true"] { color: var(--on-pressed); }
 
-.model-card {
-  background: var(--panel-solid);
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  padding: 0.9rem 1rem;
-  display: grid;
-  gap: 0.7rem;
-  grid-template-columns: minmax(0, 1fr) minmax(220px, 300px);
-  align-items: start;
-}
+/* fit pane: verdict, margin and gauge */
+.fit-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+/* One verdict label, from the verdict macro in components.html (R-068). */
+.state { display: inline-flex; align-items: center; gap: 8px; min-height: 38px; padding: 0 16px 0 11px; border-radius: var(--r-pill); font-weight: 600; font-size: var(--fs-lead); border: 1px solid color-mix(in srgb, currentColor 25%, transparent); }
+.state-fits { background: var(--fits-bg); color: var(--fits-fg); --pill-bg: var(--fits-bg); }
+.state-tight { background: var(--tight-bg); color: var(--tight-fg); --pill-bg: var(--tight-bg); }
+.state-wont { background: var(--wont-bg); color: var(--wont-fg); --pill-bg: var(--wont-bg); }
+.headroom { font-size: var(--fs-lead); }
+.headroom b { font-size: 34px; line-height: 1; letter-spacing: -.03em; font-weight: 500; margin-right: 2px; }
+.track { position: relative; height: 14px; border-radius: 99px; background: var(--track); box-shadow: var(--sh-in); }
+.bar { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 99px; box-shadow: 0 0 16px color-mix(in srgb, var(--bar) 50%, transparent), inset 0 1px 0 rgba(255,255,255,.35); }
+.bar-fits { --bar: var(--fits-bar); background: var(--fits-bar); }
+.bar-tight { --bar: var(--tight-bar); background: var(--tight-bar); }
+.bar-wont { --bar: var(--wont-bar); background: var(--wont-bar); }
+/* The reserve is an outline, not a fill, so it never reads as part of the bar. */
+.resv { position: absolute; top: -4px; bottom: -4px; border: 2px dashed var(--resv); border-radius: 99px; box-sizing: border-box; }
+.scale { display: flex; justify-content: space-between; gap: 12px; margin-top: 10px; font-size: var(--fs-caption); color: var(--muted); }
 
-@media (max-width: 720px) {
-  .model-card {
-    grid-template-columns: 1fr;
-  }
-}
-
-.model-id {
-  min-width: 0;
-}
-
-.model-id h3 {
-  margin: 0;
-  font-size: 1.05rem;
-  letter-spacing: -0.01em;
-}
-
-.model-id h3 a {
-  color: inherit;
-  text-decoration: none;
-}
-
-.model-id h3 a:hover {
-  color: var(--brand-strong);
-  text-decoration: underline;
-}
-
-.model-meta {
-  margin: 0.2rem 0 0;
-  color: var(--muted);
-  font-size: 0.84rem;
-}
-
-.model-meta .sep {
-  opacity: 0.5;
-  padding: 0 0.35rem;
-}
-
-.num {
-  font-family: var(--mono);
-  font-variant-numeric: tabular-nums;
-}
-
-.tag {
-  display: inline-block;
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  padding: 0.1rem 0.4rem;
-  border-radius: 4px;
-  border: 1px solid var(--line-strong);
-  color: var(--muted);
-  margin-left: 0.4rem;
-  vertical-align: 1px;
-}
-
-.quants {
-  display: flex;
-  gap: 2px;
-  margin-top: 0.6rem;
-  background: var(--panel-alt);
-  border: 1px solid var(--line);
-  border-radius: 7px;
-  padding: 2px;
-  width: max-content;
-  max-width: 100%;
-}
-
-.quants button {
-  font-family: var(--mono);
-  font-size: 0.82rem;
-  font-weight: 500;
-  color: var(--muted);
-  background: none;
-  border: 0;
-  border-radius: 5px;
-  padding: 0.42rem 0.6rem;
-  cursor: pointer;
-  min-height: 32px;
-  min-width: 44px;
-}
-
-.quants button:hover {
-  color: var(--text);
-}
-
-.quants button[aria-pressed="true"] {
-  background: var(--panel-solid);
-  color: var(--text);
-  font-weight: 600;
-  box-shadow: 0 1px 2px color-mix(in srgb, var(--text) 18%, transparent);
-}
-
-.quants button[data-oversize="true"] {
-  text-decoration: line-through;
-  opacity: 0.6;
-}
-
-.quants button:focus-visible {
-  outline: 2px solid var(--focus);
-  outline-offset: 1px;
-}
-
-.fit-pane {
-  min-width: 0;
-}
-
-.fit-top {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 0.5rem;
-  margin-bottom: 0.32rem;
-}
-
-/* Shape differs with colour, so the three states stay distinguishable in
-   greyscale and for red-green colour blindness. */
-.state {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.32rem;
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-  padding: 0.15rem 0.45rem;
-  border-radius: 5px;
-}
-
-.state::before {
-  content: "";
-  width: 0.5rem;
-  height: 0.5rem;
-  border-radius: 50%;
-  background: currentColor;
-}
-
-.state-fits {
-  background: var(--badge-fits-bg);
-  color: var(--badge-fits-text);
-}
-
-.state-tight {
-  background: var(--badge-tight-bg);
-  color: var(--badge-tight-text);
-}
-
-.state-tight::before {
-  border-radius: 1px;
-}
-
-.state-wont-fit {
-  background: var(--badge-wont-fit-bg);
-  color: var(--badge-wont-fit-text);
-}
-
-.state-wont-fit::before {
-  background: none;
-  box-shadow: inset 0 0 0 2px currentColor;
-}
-
-.headroom {
-  font-size: 0.84rem;
-  color: var(--muted);
-}
-
-.headroom b {
-  color: var(--text);
-  font-weight: 600;
-}
-
-.track {
-  position: relative;
-  height: 26px;
-  border-radius: 6px;
-  overflow: hidden;
-  background: var(--panel-alt);
-  border: 1px solid var(--line);
-}
-
-.bar {
-  position: absolute;
-  inset: 0 auto 0 0;
-  border-radius: 5px 0 0 5px;
-  transition: width 180ms ease;
-}
-
-.bar-fits {
-  background: var(--fit-bar);
-}
-
-.bar-tight {
-  background: var(--tight-bar);
-}
-
-.bar-wont-fit {
-  background: var(--wont-fit-bar);
-  border-radius: 5px;
-}
-
-.resv {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  background: repeating-linear-gradient(135deg, var(--reserve-ink) 0 3px, transparent 3px 7px);
-  opacity: 0.55;
-  border-left: 1px dashed var(--line-strong);
-}
-
-.scale {
-  display: flex;
-  justify-content: space-between;
-  gap: 0.5rem;
-  font-family: var(--mono);
-  font-variant-numeric: tabular-nums;
-  font-size: 0.74rem;
-  color: var(--muted);
-  margin-top: 0.3rem;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .bar {
-    transition: none;
-  }
-}
+/* motion: the gauge fills in and a pane eases in on a swap (app.js adds .is-entering and .htmx-added) */
+@keyframes paneIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.fit-pane.is-entering { animation: paneIn var(--dur-2) var(--ease-out); }
+.htmx-added .bar { width: 0 !important; transition: none !important; }
+.htmx-added .resv { opacity: 0; }
+.resv { transition: opacity var(--dur-3) var(--ease-out) calc(var(--dur-fill) * .6); }
+.bar { transition: width var(--dur-fill) var(--ease-out); transition-delay: calc(var(--i, 0) * 70ms); }
 
 /* ===== Top Picks (T-014): a disclosure under the answer tile, three tiles from 900 px ===== */
 .picks { padding: 4px 10px 10px; }

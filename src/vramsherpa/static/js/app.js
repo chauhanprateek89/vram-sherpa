@@ -155,30 +155,40 @@ function initModelDetailInputs() {
   });
 }
 
-// Sliding thumb behind the context presets. Progressive: without this the checked label paints
-// its own fill (styles.css), and with it the thumb is placed from the checked label's box.
-function placeThumb(group) {
+// Sliding thumb behind the context presets and the quantisation buttons. Progressive: without
+// this the checked label or pressed button paints its own fill (styles.css), and with it the
+// thumb is placed from that element's box.
+function prefersReducedMotion() {
+  return !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+}
+
+function thumbTarget(group) {
   var checked = group.querySelector("input:checked");
-  var label = checked ? checked.closest("label") : null;
-  if (!label) {
+  if (checked) {
+    return checked.closest("label");
+  }
+  return group.querySelector('[aria-pressed="true"]');
+}
+
+function placeThumb(group) {
+  var target = thumbTarget(group);
+  if (!target) {
     return;
   }
-  group.style.setProperty("--x", label.offsetLeft + "px");
-  group.style.setProperty("--y", label.offsetTop + "px");
-  group.style.setProperty("--w", label.offsetWidth + "px");
-  group.style.setProperty("--h", label.offsetHeight + "px");
+  group.style.setProperty("--x", target.offsetLeft + "px");
+  group.style.setProperty("--y", target.offsetTop + "px");
+  group.style.setProperty("--w", target.offsetWidth + "px");
+  group.style.setProperty("--h", target.offsetHeight + "px");
 }
 
 function placeAllThumbs() {
   document.querySelectorAll("[data-thumb]").forEach(placeThumb);
 }
 
-function initSegThumbs() {
-  var groups = document.querySelectorAll("[data-thumb]");
-  if (!groups.length) {
-    return;
-  }
-  groups.forEach(function (group) {
+// Idempotent: adds a thumb to each [data-thumb] group that has none, so it can run again after
+// htmx swaps in new cards.
+function addThumbs() {
+  document.querySelectorAll("[data-thumb]").forEach(function (group) {
     if (group.classList.contains("has-thumb")) {
       return;
     }
@@ -189,8 +199,12 @@ function initSegThumbs() {
     group.classList.add("has-thumb");
     placeThumb(group);
   });
+}
+
+function initSegThumbs() {
+  addThumbs();
   // A web font changes label widths, a resize changes the layout, and a swap or a restored
-  // history page can change which radio is checked.
+  // history page can change which control is checked or pressed.
   if (document.fonts && document.fonts.ready) {
     document.fonts.ready.then(placeAllThumbs);
   }
@@ -203,8 +217,33 @@ function initSegThumbs() {
       placeThumb(group);
     }
   });
-  document.body.addEventListener("htmx:afterSettle", placeAllThumbs);
-  document.body.addEventListener("htmx:historyRestore", placeAllThumbs);
+  function refreshThumbs() {
+    addThumbs();
+    placeAllThumbs();
+  }
+  document.body.addEventListener("htmx:afterSettle", refreshThumbs);
+  document.body.addEventListener("htmx:historyRestore", refreshThumbs);
+}
+
+// Pointer sheen on cards and Top Picks: a soft highlight that follows a fine pointer. One
+// delegated listener, so it covers cards swapped in later.
+function initSheen() {
+  if (
+    prefersReducedMotion() ||
+    !window.matchMedia ||
+    !window.matchMedia("(hover: hover) and (pointer: fine)").matches
+  ) {
+    return;
+  }
+  document.addEventListener("pointermove", function (event) {
+    var el = event.target.closest ? event.target.closest("[data-sheen]") : null;
+    if (!el) {
+      return;
+    }
+    var rect = el.getBoundingClientRect();
+    el.style.setProperty("--mx", event.clientX - rect.left + "px");
+    el.style.setProperty("--my", event.clientY - rect.top + "px");
+  });
 }
 
 // Filters (N): N counts checked family, quantisation and Recommended only boxes plus each
@@ -253,6 +292,7 @@ function initFilterCount() {
 document.addEventListener("DOMContentLoaded", function () {
   initThemeToggle();
   initSegThumbs();
+  initSheen();
   initFilterCount();
   initGpuInputs();
   initExampleChips();
@@ -260,7 +300,18 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // Quantisation selector on a model card. Every variant is already in the DOM, so
-// switching is a visibility change rather than a round trip.
+// switching is a visibility change rather than a round trip. The pane ease-in and the gauge
+// refill are motion only, and are skipped under prefers-reduced-motion.
+function replayGauge(pane) {
+  pane.classList.add("htmx-added");
+  void pane.offsetWidth;
+  requestAnimationFrame(function () {
+    requestAnimationFrame(function () {
+      pane.classList.remove("htmx-added");
+    });
+  });
+}
+
 document.addEventListener("click", (event) => {
   const button = event.target.closest("[data-quant-btn]");
   if (!button) return;
@@ -269,10 +320,20 @@ document.addEventListener("click", (event) => {
   if (!card) return;
 
   const variantId = button.dataset.variant;
+  const animate = !prefersReducedMotion();
   card.querySelectorAll("[data-quant-btn]").forEach((other) => {
     other.setAttribute("aria-pressed", String(other === button));
   });
   card.querySelectorAll("[data-variant-pane]").forEach((pane) => {
-    pane.hidden = pane.dataset.variantPane !== variantId;
+    const show = pane.dataset.variantPane === variantId;
+    pane.hidden = !show;
+    pane.classList.remove("is-entering");
+    if (show && animate) {
+      void pane.offsetWidth;
+      pane.classList.add("is-entering");
+      replayGauge(pane);
+    }
   });
+  const group = button.closest("[data-thumb]");
+  if (group) placeThumb(group);
 });

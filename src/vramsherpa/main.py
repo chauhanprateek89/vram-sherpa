@@ -22,7 +22,7 @@ from vramsherpa.estimation import FitBadge, estimate_breakdown, estimate_variant
 from vramsherpa.models import GPU, CatalogMeta, Model, Variant
 
 CONTEXT_OPTIONS = (2048, 4096, 8192)
-ASSET_VERSION = "20261025h"
+ASSET_VERSION = "20261025i"
 ESTIMATION_POLICY_VERSION = "v0.1"
 # The /how-it-works worked example (R-075, ADR-0007). The figures are computed by
 # estimate_breakdown at request time; none is typed into the template.

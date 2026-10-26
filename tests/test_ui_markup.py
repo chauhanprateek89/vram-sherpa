@@ -881,3 +881,200 @@ def test_top_picks_css_matches_the_mockup_and_reuses_the_one_keyframes() -> None
     assert "min-height: 44px" in _rules(css, ".picks > summary")[0]
     for gone in (".top-picks", ".top-pick-grid", ".top-pick-card", ".eyebrow"):
         assert gone not in css, gone
+
+
+# ---- T-015: model cards, the quantisation switcher and the fit gauge ----
+
+GATED_QUERY = "/results?vram_gb=16&context_tokens=4096"
+COMPONENTS = TEMPLATES / "components.html"
+
+
+def _cards(html: str) -> list[_Node]:
+    return [n for n in _tree(html).walk() if "data-model-card" in n.attrs]
+
+
+def _render_macro(call: str, **context: str) -> str:
+    template = main.templates.env.from_string(
+        '{% from "components.html" import verdict, gated_tag %}' + call
+    )
+    return template.render(**context)
+
+
+def test_verdict_and_gated_marker_are_macros_imported_by_the_results_list() -> None:
+    components = COMPONENTS.read_text(encoding="utf-8")
+    assert "{% macro verdict(" in components and "{% macro gated_tag(" in components
+    listing = (TEMPLATES / "results_list.html").read_text(encoding="utf-8")
+    assert 'from "components.html" import' in listing
+    assert "verdict(" in listing and "gated_tag(" in listing
+    # The class names live in the macro file alone, so a page cannot restyle them on its own.
+    assert 'class="state' not in listing and 'class="tag-gated' not in listing
+
+
+@pytest.mark.parametrize(
+    ("label", "key"), [("Fits", "fits"), ("Tight", "tight"), ("Won't fit", "wont")]
+)
+def test_verdict_macro_pairs_the_label_with_one_shape(label: str, key: str) -> None:
+    node = _tree(_render_macro("{{ verdict(label) }}", label=label)).children[0]
+    assert node.classes() == ["state", f"state-{key}"]
+    icon = next(n for n in node.walk() if n.tag == "svg")
+    assert icon.attrs["aria-hidden"] == "true"
+    assert next(n for n in icon.walk() if n.tag == "use").attrs["href"] == f"#i-{key}"
+    assert node.all_text() == label
+
+
+def test_gated_macro_has_a_lock_icon_and_the_licence_tooltip() -> None:
+    node = _tree(_render_macro("{{ gated_tag() }}")).children[0]
+    assert node.classes() == ["tag-gated"]
+    assert node.attrs["title"] == (
+        "Accept the model licence on Hugging Face before downloading the weights."
+    )
+    assert next(n for n in node.walk() if n.tag == "use").attrs["href"] == "#i-lock"
+    assert node.all_text() == "Gated"
+
+
+def test_sprite_carries_every_icon_the_cards_use(client: TestClient) -> None:
+    html = client.get(GATED_QUERY).text
+    for symbol in ("i-fits", "i-tight", "i-wont", "i-lock"):
+        assert html.count(f'id="{symbol}"') == 1, symbol
+
+
+def test_cards_sit_in_one_glass_pane_as_a_grid_of_inset_cards(client: TestClient) -> None:
+    html = client.get(GATED_QUERY).text
+    section = next(n for n in _tree(html).walk() if n.attrs.get("id") == "results-cards")
+    assert section.tag == "section" and {"results", "pane", "lite"} <= set(section.classes())
+    grid = next(n for n in section.children if n.tag == "div")
+    assert grid.classes() == ["card-grid"]
+    cards = [n for n in grid.children if n.tag == "article"]
+    assert cards and all({"model-card", "inset"} <= set(c.classes()) for c in cards)
+    assert len(cards) == len(_cards(html))
+
+
+def test_every_pane_has_one_gauge_and_the_verdict_before_the_margin(client: TestClient) -> None:
+    html = client.get(GATED_QUERY).text
+    cards = _cards(html)
+    assert cards
+    for card in cards:
+        panes = [n for n in card.walk() if "data-variant-pane" in n.attrs]
+        assert len(panes) == 4
+        for pane in panes:
+            gauges = [n for n in pane.walk() if n.attrs.get("role") == "img"]
+            assert len(gauges) == 1
+            assert gauges[0].classes() == ["track"]
+            assert gauges[0].attrs["aria-label"].startswith("Needs ")
+            top = next(n for n in pane.walk() if "fit-top" in n.classes())
+            assert [c.classes()[0] for c in top.children] == ["state", "headroom"]
+            captions = next(n for n in pane.walk() if "scale" in n.classes())
+            assert [
+                c.all_text().endswith("GB") or "GB needed" in c.all_text()
+                for c in captions.children
+            ] == [True, True]
+            assert [
+                n for n in pane.walk() if n.tag == "svg" and n.attrs.get("aria-hidden") != "true"
+            ] == []
+
+
+def test_bar_class_follows_the_verdict(client: TestClient) -> None:
+    html = client.get(GATED_QUERY).text
+    seen = set()
+    for card in _cards(html):
+        for pane in (n for n in card.walk() if "data-variant-pane" in n.attrs):
+            state = next(n for n in pane.walk() if "state" in n.classes()).classes()[1]
+            bar = next(n for n in pane.walk() if "bar" in n.classes()).classes()[1]
+            assert bar == state.replace("state-", "bar-")
+            seen.add(state)
+    assert seen == {"state-fits", "state-tight", "state-wont"}
+
+
+def test_switcher_is_one_row_of_four_with_a_thumb_hook_and_struck_wont_fit(
+    client: TestClient,
+) -> None:
+    html = client.get(GATED_QUERY).text
+    for card in _cards(html):
+        group = next(n for n in card.walk() if "quants" in n.classes())
+        assert "data-thumb" in group.attrs and group.attrs["role"] == "group"
+        buttons = [n for n in group.children if n.tag == "button"]
+        assert [b.all_text() for b in buttons] == ["Q4", "Q5", "Q8", "FP16"]
+        assert [b.attrs["aria-pressed"] for b in buttons].count("true") == 1
+        panes = {
+            n.attrs["data-variant-pane"]: next(s for s in n.walk() if "state" in s.classes())
+            for n in card.walk()
+            if "data-variant-pane" in n.attrs
+        }
+        for button in buttons:
+            wont = "state-wont" in panes[button.attrs["data-variant"]].classes()
+            assert ("data-oversize" in button.attrs) == wont
+            if wont:
+                assert button.attrs["title"] == "Does not fit in 16 GB"
+
+
+def test_gated_models_carry_the_marker_inside_the_heading(client: TestClient) -> None:
+    html = client.get(GATED_QUERY).text
+    gated = [c for c in _cards(html) if any("tag-gated" in n.classes() for n in c.walk())]
+    assert gated
+    for card in gated:
+        heading = next(n for n in card.walk() if n.tag == "h3")
+        assert any("tag-gated" in n.classes() for n in heading.walk())
+
+
+def test_card_meta_keeps_params_and_family(client: TestClient) -> None:
+    html = client.get(GATED_QUERY).text
+    meta = next(n for n in _tree(html).walk() if "model-meta" in n.classes())
+    spans = [n for n in meta.children if n.tag == "span"]
+    assert re.fullmatch(r"\d+(\.\d+)?B params", spans[0].all_text())
+    assert spans[1].classes() == ["fam"] and spans[1].all_text()
+
+
+def test_card_css_shapes_reserve_and_strike_through() -> None:
+    css = _css()
+    assert "dashed" in _rules(css, ".resv")[0]
+    assert "background" not in _rules(css, ".resv")[0]
+    oversize = _rules(css, ".quants button[data-oversize]")[0]
+    assert "line-through" in oversize
+    quants = _rules(css, ".quants")[0]
+    assert "repeat(4, minmax(0, 1fr))" in quants and "width: 100%" in quants
+    assert any("overflow-wrap: anywhere" in r for r in _rules(css, ".model-card h3"))
+    for key in ("fits", "tight", "wont"):
+        assert f"--pill-bg: var(--{key}-bg)" in _rules(css, f".state-{key}")[0]
+        assert f"var(--{key}-bar)" in _rules(css, f".bar-{key}")[0]
+
+
+def test_verdict_and_margin_are_no_smaller_than_other_card_text() -> None:
+    css = _css()
+    assert "var(--fs-lead)" in _rules(css, ".state")[0]
+    assert "var(--fs-lead)" in _rules(css, ".headroom")[0]
+    assert "34px" in _rules(css, ".headroom b")[0]
+    # Everything else in a pane (captions, breakdown link) is the caption or small size.
+    assert "var(--fs-caption)" in _rules(css, ".scale")[0]
+
+
+def test_old_card_rules_are_gone() -> None:
+    css = _css()
+    for dead in (".model-list", ".state-wont-fit", ".bar-wont-fit", ".state::before", ".tag {"):
+        assert dead not in css, dead
+
+
+def test_app_js_thumbs_cover_the_switcher_and_run_after_swaps() -> None:
+    js = APP_JS.read_text(encoding="utf-8")
+    assert '[aria-pressed="true"]' in js
+    assert "function addThumbs" in js
+    assert 'addEventListener("htmx:afterSettle", refreshThumbs)' in js
+    assert 'addEventListener("htmx:historyRestore", refreshThumbs)' in js
+
+
+def test_app_js_motion_is_progressive_and_off_under_reduced_motion() -> None:
+    js = APP_JS.read_text(encoding="utf-8")
+    assert "prefers-reduced-motion: reduce" in js
+    assert "is-entering" in js and "htmx-added" in js
+    assert "!prefersReducedMotion()" in js
+    # The switcher still works with no motion: visibility and aria-pressed come first.
+    assert "pane.hidden = !show" in js
+    # Sheen follows a fine pointer through one delegated listener.
+    assert "(hover: hover) and (pointer: fine)" in js
+    assert 'document.addEventListener("pointermove"' in js
+    css = _css()
+    assert "transition: none !important" in css
+    assert "@keyframes paneIn" in css
+
+
+def test_asset_version_moved_on_for_the_card_restyle() -> None:
+    assert main.ASSET_VERSION > "20261025h"

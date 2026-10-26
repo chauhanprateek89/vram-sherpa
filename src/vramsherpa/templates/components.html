@@ -1,0 +1,14 @@
+{# Shared markup for elements that appear on more than one page (ADR-0001, R-068): the verdict
+   label and the gated marker. One macro and one class each, so results and model detail emit the
+   same HTML. The icons come from the sprite in base.html. #}
+
+{# classification is "Fits", "Tight" or "Won't fit". The shape (circle tick, triangle bar, square
+   cross) says it without colour, next to the label (R-072). #}
+{% macro verdict(classification) -%}
+  {%- set key = {"Fits": "fits", "Tight": "tight", "Won't fit": "wont"}[classification] -%}
+  <span class="state state-{{ key }}"><svg width="18" height="18" aria-hidden="true"><use href="#i-{{ key }}"/></svg>{{ classification }}</span>
+{%- endmacro %}
+
+{% macro gated_tag() -%}
+  <span class="tag-gated" title="Accept the model licence on Hugging Face before downloading the weights."><svg aria-hidden="true"><use href="#i-lock"/></svg>Gated</span>
+{%- endmacro %}
