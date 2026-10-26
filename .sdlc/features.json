@@ -479,7 +479,7 @@
         "T-012"
       ],
       "notes": "The mockups put `no-picks` on `<main>`, which an in-place refresh does not re-render: key that layout on markup inside `#results-shell` or `:has()` (ADR-0006 point 9).",
-      "review": "pending",
+      "review": "passed",
       "passes": false
     },
     {
