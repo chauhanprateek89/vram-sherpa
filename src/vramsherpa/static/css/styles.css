@@ -400,45 +400,6 @@ select[multiple] {
   color: var(--muted);
 }
 
-.top-picks {
-  margin-top: 1rem;
-}
-
-.top-picks h2 {
-  margin: 0 0 0.8rem;
-}
-
-.top-pick-grid {
-  display: grid;
-  gap: 0.7rem;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-.top-pick-card {
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  padding: 0.8rem;
-  background: var(--panel-alt);
-  height: 100%;
-}
-
-.eyebrow {
-  margin: 0 0 0.3rem;
-  color: var(--muted);
-  font-size: 0.8rem;
-  font-weight: 700;
-  text-transform: uppercase;
-}
-
-.top-pick-card h3 {
-  margin: 0;
-  font-size: 1rem;
-}
-
-.top-pick-card p {
-  margin: 0.35rem 0 0;
-}
-
 .results-cards {
   margin-top: 1rem;
   display: grid;
@@ -693,18 +654,8 @@ td {
   border-radius: 4px;
 }
 
-@media (max-width: 980px) {
-  .top-pick-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
 @media (max-width: 780px) {
   .numbers-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .top-pick-grid {
     grid-template-columns: 1fr;
   }
 }
@@ -731,8 +682,8 @@ td {
   .bento { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); grid-template-rows: auto 1fr auto; }
   .form-pane { grid-column: 1; grid-row: 1 / 3; align-self: stretch; }
   .answer { grid-column: 2; grid-row: 1; }
-  /* Top Picks (T-014) and the cards (T-015) keep their old look until those tasks land. */
-  .top-picks { grid-column: 2; grid-row: 2; align-self: stretch; margin-top: 0; }
+  /* The cards (T-015) keep their old look until that task lands. */
+  .picks { grid-column: 2; grid-row: 2; align-self: stretch; }
   #results-list-shell { grid-column: 1 / -1; grid-row: 3; }
   /* Keyed on the answer tile, which a refresh re-renders (ADR-0006 point 9). */
   .answer.no-picks { grid-row: 1 / 3; align-self: stretch; }
@@ -1081,3 +1032,26 @@ details[open] > .filter-fields { animation: whyIn var(--dur-2) var(--ease-out); 
     transition: none;
   }
 }
+
+/* ===== Top Picks (T-014): a disclosure under the answer tile, three tiles from 900 px ===== */
+.picks { padding: 4px 10px 10px; }
+.picks > summary { list-style: none; display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 14px 0 12px; cursor: pointer; font-weight: 560; font-size: var(--fs-body); }
+.picks > summary::-webkit-details-marker { display: none; }
+.picks > summary::after { content: ""; width: 9px; height: 9px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg) translate(-2px, -2px); transition: transform var(--dur-2) var(--ease-out); flex: none; margin-top: -4px; margin-left: auto; }
+.picks[open] > summary::after { transform: rotate(225deg) translate(-2px, -2px); margin-top: 2px; }
+.picks > summary:hover { color: var(--accent); }
+details[open] > .pick-grid { animation: whyIn var(--dur-2) var(--ease-out); }
+.pick-grid { display: grid; gap: 10px; padding: 4px 0 2px; }
+@media (min-width: 900px) { .pick-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.pick { position: relative; padding: 12px 14px 14px; border-radius: 20px; background: var(--inset); border: 1px solid var(--edge); box-shadow: var(--sh-2); transition: transform var(--dur-2) var(--ease-out), box-shadow var(--dur-2) var(--ease-out); }
+.pick h3 { font-size: var(--fs-lead); line-height: 1.2; font-weight: 560; margin: 3px 0 2px; overflow-wrap: anywhere; }
+.pick h3 a { color: var(--ink); text-decoration: none; }
+.pick h3 a::after { content: ""; position: absolute; inset: 0; border-radius: 20px; }
+.pick h3 a:focus-visible { outline: none; }
+.pick:has(a:focus-visible), .pick.is-focus { outline: 3px solid var(--focus); outline-offset: 2px; }
+.pick-title, .pick-meta { margin: 0; }
+.pick-title { font-size: var(--fs-caption); font-weight: 560; color: var(--accent); }
+.pick-meta { font-family: inherit; font-size: var(--fs-caption); color: var(--muted); }
+.pick-desc { font-size: var(--fs-caption); margin: 6px 0 0; line-height: 1.35; }
+.pick:hover { transform: translateY(-2px); box-shadow: var(--sh-2h); }
+.pick:active { transform: scale(.98); box-shadow: var(--sh-in); transition-duration: 70ms; }

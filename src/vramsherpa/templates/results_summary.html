@@ -76,20 +76,4 @@
   {% endif %}
 </section>
 
-{% if top_picks %}
-  <section class="panel top-picks">
-    <h2>Top Picks for you</h2>
-    <div class="top-pick-grid">
-      {% for pick in top_picks %}
-        <article class="top-pick-card">
-          <p class="eyebrow">{{ pick.title }}</p>
-          <h3>
-            <a href="/models/{{ pick.row.model_id }}?{{ hardware_query_string }}">{{ pick.row.model_name }}</a>
-          </h3>
-          <p>{{ '%.1f'|format(pick.row.params_b) }}B · {{ pick.row.quant_label }}</p>
-          <p class="muted">{{ pick.description }}</p>
-        </article>
-      {% endfor %}
-    </div>
-  </section>
-{% endif %}
+{% include "results_top_picks.html" %}

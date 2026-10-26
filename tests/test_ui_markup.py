@@ -794,3 +794,90 @@ def test_answer_tile_css_matches_the_mockup_tokens() -> None:
     assert "grid-row: 1 / 3" in _rules(css, ".answer.no-picks")[0]
     for gone in (".summary-banner", ".summary-grid", ".summary-stat", ".results-header"):
         assert gone not in css, gone
+
+
+# ---- T-014: Top Picks tiles ----
+
+
+def _picks(html: str) -> _Node:
+    found = [n for n in _tree(html).walk() if "picks" in n.classes()]
+    assert len(found) == 1
+    return found[0]
+
+
+def test_top_picks_is_a_closed_disclosure_after_the_tile_with_an_opening_script(
+    client: TestClient,
+) -> None:
+    html = client.get(REFERENCE).text
+    picks = _picks(html)
+    assert picks.tag == "details" and "open" not in picks.attrs
+    assert "data-open-wide" in picks.attrs
+    assert {"pane", "lite"} <= set(picks.classes())
+    summary = picks.children[0]
+    assert summary.tag == "summary" and summary.all_text() == "Top Picks for you"
+    # Shell order: answer tile, Top Picks, then the cards.
+    kids = _shell_children(html)
+    assert [k.attrs.get("id") or k.tag for k in kids[:3]] == ["summary-banner", "details", "script"]
+    assert (
+        html.index('id="summary-banner"') < html.index('class="picks') < html.index("results-cards")
+    )
+    # The script follows the details directly and opens it from 900 px.
+    after = html[html.index("</details>", html.index('class="picks')) :]
+    script = re.match(r"</details>\s*<script>(.*?)</script>", after, re.S)
+    assert script, "inline script must follow the details directly"
+    assert "matchMedia('(min-width: 900px)')" in script.group(1)
+    assert "data-open-wide" in script.group(1) and ".open = true" in script.group(1)
+
+
+def test_top_picks_script_also_ships_in_an_in_place_refresh(client: TestClient) -> None:
+    html = client.get(REFERENCE, headers=HX).text
+    assert html.count("data-open-wide") >= 2  # the attribute and the script that reads it
+    assert "(min-width: 900px)" in html
+
+
+def test_top_picks_tiles_carry_the_new_descriptions_and_no_ranking_words(
+    client: TestClient,
+) -> None:
+    picks = _picks(client.get(REFERENCE).text)
+    tiles = [n for n in picks.walk() if n.tag == "article"]
+    assert len(tiles) == 3 and all("pick" in t.classes() for t in tiles)
+
+    def part(tile: _Node, cls: str) -> _Node:
+        return next(n for n in tile.walk() if cls in n.classes())
+
+    assert [part(t, "pick-title").all_text() for t in tiles] == [
+        "Best quality that fits",
+        "Best balance",
+        "Best small",
+    ]
+    assert [part(t, "pick-desc").all_text() for t in tiles] == [
+        "The strongest model that still leaves room to spare.",
+        "Nearly as capable, and comfortable to run.",
+        "The lightest model that still runs on your GPU.",
+    ]
+    for tile in tiles:
+        assert re.fullmatch(r"\d+\.\dB · \w+", part(tile, "pick-meta").all_text())
+        link = next(n for n in tile.walk() if n.tag == "a")
+        assert link.attrs["href"].startswith("/models/model_")
+        assert "vram_gb=24" in link.attrs["href"] and "context_tokens=4096" in link.attrs["href"]
+    text = picks.all_text().lower()
+    assert "ranked" not in text and "ranking" not in text
+    source = (ROOT / "src/vramsherpa/main.py").read_text(encoding="utf-8")
+    assert "ranked" not in source.split("def _top_picks")[1].split("def _example_chips")[0]
+
+
+def test_top_picks_are_absent_when_r024_says_so(client: TestClient) -> None:
+    html = client.get("/results?vram_gb=2&context_tokens=4096").text
+    assert "Top Picks for you" not in html and "data-open-wide" not in html
+    assert 'class="picks' not in html
+
+
+def test_top_picks_css_matches_the_mockup_and_reuses_the_one_keyframes() -> None:
+    css = _css()
+    assert css.count("@keyframes whyIn") == 1
+    assert _rules(css, "details[open] > .pick-grid")[0].startswith(" animation: whyIn")
+    assert "repeat(3, minmax(0, 1fr))" in css
+    assert "var(--inset)" in _rules(css, ".pick")[0]
+    assert "min-height: 44px" in _rules(css, ".picks > summary")[0]
+    for gone in (".top-picks", ".top-pick-grid", ".top-pick-card", ".eyebrow"):
+        assert gone not in css, gone
