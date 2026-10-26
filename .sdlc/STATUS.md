@@ -14,9 +14,9 @@
 
 ## Next step
 
-Build T-001..T-021 in order (features.json), one builder then one reviewer per task, run by the orchestrator by hand because the sdlc:build workflow runner is not available in this session (same loop: fix after a failed review, rebuild on opus after two, stop after three or on a blocked task). Then QA (sdlc:qa per requirement), Release PR (squash-merge), Gate 3.
+Build T-001..T-021 in order (features.json), one builder then one reviewer per task, run by the orchestrator by hand because the sdlc:build workflow runner is not available in this session (same loop: fix after a failed review, rebuild on opus after two, stop after three or on a blocked task). Before QA: add a copy-table row in docs/design/README.md for the removed size-filter help lines (T-012). Run `docker compose -f docker-compose.yml down` so `.sdlc/init.sh` rebuilds from source (it exits early if an old stack is healthy). Then QA (sdlc:qa per requirement), Release PR (squash-merge), Gate 3.
 
-Build progress: T-001 passed; T-002 passed; T-003 passed; T-004 passed; T-005 passed; T-006 passed; T-007 passed; T-008 passed; T-009 passed; T-010 passed; T-011 passed
+Build progress: T-001 passed; T-002 passed; T-003 passed; T-004 passed; T-005 passed; T-006 passed; T-007 passed; T-008 passed; T-009 passed; T-010 passed; T-011 passed; T-012 passed
 
 Follow-ups found at onboarding (not part of this track): host guard ignores APP_ENV/PUBLIC_HOSTNAME that docs/RELEASE_AND_DEPLOY.md tells the server to set (tunnel requests would get 400); release.yml pushes :latest before the smoke test; smoke test never hits /results; no Cache-Control on HTML (rule 9); local docker-compose.yml binds 8000 on all interfaces (rule 3).
 
@@ -57,3 +57,4 @@ Follow-ups found at onboarding (not part of this track): host guard ignores APP_
 | 2026-10-25 | Build | sdlc:builder (sonnet), sdlc:reviewer (inherit) | T-009 passed: commit 8cc51b2, passed first review; test_brand.py pins ASSET_VERSION==20261025b (T-010 to loosen) |
 | 2026-10-25 | Build | sdlc:builder (sonnet), sdlc:reviewer (inherit) | T-010 passed: commits 6e0c84a+ae41cb2, passed review 2 (review 1 failed: html background hid the mesh backdrop) |
 | 2026-10-25 | Build | sdlc:builder (sonnet), sdlc:reviewer (inherit) | T-011 passed: commit 730bf20, passed first review; Q-1 carry: native datalist arrow clips placeholder at 390 (T-021/QA) |
+| 2026-10-25 | Build | sdlc:builder (sonnet), sdlc:reviewer (inherit) | T-012 passed: commit bcd013c, passed first review (resumed after rate limit); help lines removed per mockup, copy-table row owed |
