@@ -480,7 +480,7 @@
       ],
       "notes": "The mockups put `no-picks` on `<main>`, which an in-place refresh does not re-render: key that layout on markup inside `#results-shell` or `:has()` (ADR-0006 point 9).",
       "review": "passed",
-      "passes": false
+      "passes": true
     },
     {
       "id": "T-014",
@@ -516,7 +516,7 @@
       ],
       "notes": "`main.py` changes `_top_picks` descriptions and `ASSET_VERSION` only.",
       "review": "passed",
-      "passes": false
+      "passes": true
     },
     {
       "id": "T-015",
