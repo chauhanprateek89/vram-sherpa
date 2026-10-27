@@ -1225,3 +1225,110 @@ def test_breakdown_fragment_has_no_unstyled_wrapper(client: TestClient) -> None:
 
 def test_asset_version_moved_on_for_the_breakdown() -> None:
     assert main.ASSET_VERSION > "20261025l"
+
+
+# ---- empty and unseeded states (T-017) ----
+
+
+def _empty(html: str) -> _Node:
+    return next(n for n in _tree(html).walk() if "empty" in n.classes())
+
+
+def _render_list(**context: object) -> str:
+    base = {
+        "model_cards": [],
+        "catalog_seeded": True,
+        "empty_state_q4_url": None,
+        "empty_state_lower_context_url": None,
+        "summary_counts": {"Fits": 0, "Tight": 0, "Won't fit": 0},
+    }
+    return main.templates.env.get_template("results_list.html").render(**{**base, **context})
+
+
+def _wont_line(count: int) -> list[str]:
+    html = _render_list(summary_counts={"Fits": 0, "Tight": 0, "Won't fit": count})
+    return [
+        n.all_text() for n in _empty(html).walk() if n.tag == "p" and "Won't fit" in n.all_text()
+    ]
+
+
+def test_empty_state_counts_models_not_variants() -> None:
+    assert _wont_line(95) == ["There are 95 models in Won't fit, hidden by default."]
+    assert _wont_line(2) == ["There are 2 models in Won't fit, hidden by default."]
+    assert _wont_line(1) == ["There is 1 model in Won't fit, hidden by default."]
+    assert _wont_line(0) == []
+    for count in (0, 1, 2, 95):
+        html = _render_list(summary_counts={"Fits": 0, "Tight": 0, "Won't fit": count})
+        assert "variants" not in _empty(html).all_text()
+
+
+def test_empty_state_live_page_says_models(client: TestClient) -> None:
+    html = client.get("/results?vram_gb=1&context_tokens=4096&quant_bucket=Q8").text
+    empty = _empty(html)
+    paras = [n.all_text() for n in empty.children if n.tag == "p"]
+    assert paras[:2] == ["No models currently fit this setup.", "Try one of these next steps:"]
+    assert re.fullmatch(r"There are \d+ models in Won't fit, hidden by default\.", paras[2])
+    assert all("variants" not in p for p in paras)
+
+
+def test_empty_state_sits_in_the_results_pane_as_an_inset_sheet(client: TestClient) -> None:
+    html = client.get("/results?vram_gb=1&context_tokens=4096&quant_bucket=Q8").text
+    empty = _empty(html)
+    assert "inset" in empty.classes()
+    pane = empty.parent
+    assert pane is not None and pane.tag == "section"
+    assert {"results", "pane", "lite"} <= set(pane.classes())
+    assert pane.attrs["aria-label"] == "Models"
+    title = next(n for n in empty.children if "empty-title" in n.classes())
+    assert title.all_text() == "No models currently fit this setup."
+
+
+@pytest.mark.parametrize(
+    ("url", "kinds"),
+    [
+        ("/results?vram_gb=1&context_tokens=4096&quant_bucket=Q8", ("a", "a")),
+        ("/results?vram_gb=1&context_tokens=2048&quant_bucket=Q4", ("span", "span")),
+        ("/results?vram_gb=1&context_tokens=4096&quant_bucket=Q4", ("span", "a")),
+    ],
+)
+def test_empty_state_next_steps_are_links_or_inert_text(
+    client: TestClient, url: str, kinds: tuple[str, str]
+) -> None:
+    actions = next(n for n in _empty(client.get(url).text).walk() if "empty-actions" in n.classes())
+    chips = actions.children
+    assert [c.all_text() for c in chips] == ["Try Q4", "Lower context"]
+    assert tuple(c.tag for c in chips) == kinds
+    for chip in chips:
+        assert "action-chip" in chip.classes()
+        if chip.tag == "a":
+            assert chip.attrs["href"].startswith("/results?")
+        else:
+            # Inert text: no href, no tabindex, no role, so it is not focusable.
+            assert set(chip.attrs) == {"class"}
+
+
+def test_unseeded_state_is_a_status_in_the_results_pane(app, db_session: Session) -> None:
+    html = TestClient(app).get("/").text
+    empty = _empty(html)
+    status = next(n for n in empty.walk() if n.attrs.get("role") == "status")
+    assert [p.all_text() for p in status.children if p.tag == "p"] == [
+        "Catalog is not initialized yet.",
+        "Seed the catalog data, then refresh this page.",
+    ]
+    assert any(n.tag == "use" and n.attrs["href"] == "#i-info" for n in status.walk())
+    assert "No models currently fit this setup." not in html
+    assert "action-chip" not in html
+    assert empty.parent is not None and "results" in empty.parent.classes()
+
+
+def test_empty_state_styles_follow_the_mockup() -> None:
+    css = _css()
+    assert "padding: 28px 24px 30px" in _rules(css, ".empty")[0]
+    assert "font-size: 28px" in _rules(css, ".empty .empty-title")[0]
+    assert "var(--on-btn)" in _rules(css, "a.action-chip")[0]
+    assert "dashed" in _rules(css, "span.action-chip")[0]
+    assert "empty-state-callout" not in css and "empty-state-actions" not in css
+
+
+def test_asset_version_moved_on_for_the_empty_states() -> None:
+    assert main.ASSET_VERSION > "20261025m"

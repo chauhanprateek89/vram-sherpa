@@ -91,28 +91,37 @@
     </div>
   </section>
 {% else %}
-  <section class="panel empty-state-callout">
-    {% if not catalog_seeded %}
-      <p>Catalog is not initialized yet.</p>
-      <p class="muted">Seed the catalog data, then refresh this page.</p>
-    {% else %}
-      <p>No models currently fit this setup.</p>
-      <p class="muted">Try one of these next steps:</p>
-      <div class="empty-state-actions">
-        {% if empty_state_q4_url %}
-          <a class="chip chip-active" href="{{ empty_state_q4_url }}">Try Q4</a>
-        {% else %}
-          <span class="chip">Try Q4</span>
+  {# Empty and unseeded states (R-025, R-026): one inset sheet in the results pane, docs/design/mockups/final-empty-*.html. #}
+  <section class="results pane lite" aria-label="Models">
+    <div class="empty inset">
+      {% if not catalog_seeded %}
+        <div class="empty-status" role="status">
+          <svg width="28" height="28" aria-hidden="true"><use href="#i-info"/></svg>
+          <p class="empty-title">Catalog is not initialized yet.</p>
+          <p class="muted">Seed the catalog data, then refresh this page.</p>
+        </div>
+      {% else %}
+        <p class="empty-title">No models currently fit this setup.</p>
+        <p class="muted">Try one of these next steps:</p>
+        <div class="empty-actions">
+          {% if empty_state_q4_url %}
+            <a class="action-chip" href="{{ empty_state_q4_url }}">Try Q4</a>
+          {% else %}
+            <span class="action-chip">Try Q4</span>
+          {% endif %}
+          {% if empty_state_lower_context_url %}
+            <a class="action-chip" href="{{ empty_state_lower_context_url }}">Lower context</a>
+          {% else %}
+            <span class="action-chip">Lower context</span>
+          {% endif %}
+        </div>
+        {% set wont_count = summary_counts["Won't fit"] %}
+        {% if wont_count == 1 %}
+          <p class="muted">There is 1 model in Won't fit, hidden by default.</p>
+        {% elif wont_count > 1 %}
+          <p class="muted">There are {{ wont_count }} models in Won't fit, hidden by default.</p>
         {% endif %}
-        {% if empty_state_lower_context_url %}
-          <a class="chip chip-active" href="{{ empty_state_lower_context_url }}">Lower context</a>
-        {% else %}
-          <span class="chip">Lower context</span>
-        {% endif %}
-      </div>
-      {% if summary_counts["Won't fit"] > 0 %}
-        <p class="muted">There are {{ summary_counts["Won't fit"] }} variants in Won't fit, hidden by default.</p>
       {% endif %}
-    {% endif %}
+    </div>
   </section>
 {% endif %}

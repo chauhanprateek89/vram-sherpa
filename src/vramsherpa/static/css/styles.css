@@ -588,17 +588,6 @@ details[open] > .why-content { animation: whyIn var(--dur-2) var(--ease-out); }
 /* Reduced motion stops the shimmer (the global rule below) but the rows stay, as flat bars. */
 @media (prefers-reduced-motion: reduce) { .sk-list i { background: var(--sk-a); } }
 
-.empty-state-callout p {
-  margin: 0;
-}
-
-.empty-state-actions {
-  margin-top: 0.7rem;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.45rem;
-}
-
 table {
   width: 100%;
   border-collapse: collapse;
@@ -827,6 +816,20 @@ details[open] > .filter-fields { animation: whyIn var(--dur-2) var(--ease-out); 
 .htmx-added .resv { opacity: 0; }
 .resv { transition: opacity var(--dur-3) var(--ease-out) calc(var(--dur-fill) * .6); }
 .bar { transition: width var(--dur-fill) var(--ease-out); transition-delay: calc(var(--i, 0) * 70ms); }
+
+/* ===== empty and unseeded states (T-017), from docs/design/build/components.css ===== */
+.empty { padding: 28px 24px 30px; display: grid; gap: 14px; justify-items: start; }
+@media (min-width: 900px) { .empty { padding: 36px 40px 40px; } }
+.empty p { margin: 0; }
+.empty .muted { font-size: var(--fs-small); }
+.empty .empty-title { font-size: 28px; line-height: 1.15; font-weight: 450; letter-spacing: -.02em; }
+.empty .empty-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.empty .empty-status { display: grid; gap: 14px; justify-items: start; }
+/* A link next step is a filled button; an inert one (R-025) is dashed, muted and not focusable. */
+.action-chip { display: inline-flex; align-items: center; min-height: var(--tap); padding: 0 20px; border-radius: var(--r-pill); font-weight: 560; font-size: var(--fs-body); text-decoration: none; transition: background var(--dur-1), transform var(--dur-1) var(--ease-out); }
+a.action-chip { background: linear-gradient(180deg, color-mix(in srgb, var(--btn) 86%, #fff), var(--btn)); color: var(--on-btn); box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 8px 18px -10px color-mix(in srgb, var(--btn) 70%, transparent); }
+a.action-chip:hover { transform: translateY(-1px); } a.action-chip:active { transform: scale(.96); }
+span.action-chip { border: 1.5px dashed var(--line); color: var(--muted); background: transparent; }
 
 /* ===== Top Picks (T-014): a disclosure under the answer tile, three tiles from 900 px ===== */
 .picks { padding: 4px 10px 10px; }
