@@ -1179,10 +1179,11 @@ def test_loading_state_is_five_shimmer_rows_in_markup_and_shown_by_htmx_request(
 def test_breakdown_css_reuses_the_one_keyframes_and_fits_a_phone() -> None:
     css = _css()
     assert css.count("@keyframes whyIn") == 1 and css.count("@keyframes shimmer") == 1
-    # One fade, on opening; the loaded list does not fade in a second time (nothing sets the
-    # mockup's .is-loaded hook).
+    # Two fades, as in the spec sheet: the panel fades in on opening, then the rows fade in when
+    # they load. htmx swaps in a fresh .why-list once per card, so an animation on .why-list is
+    # the app's counterpart of the mockup's `.why-content.is-loaded .why-list` hook.
     assert "animation: whyIn" in _rules(css, "details[open] > .why-content")[0]
-    assert "animation" not in _rules(css, ".why-list")[0]
+    assert "animation: whyIn var(--dur-2) var(--ease-out)" in _rules(css, ".why-list")[0]
     row = _rules(css, ".why-list > div")[0]
     assert "justify-content: space-between" in row and "gap: 16px" in row
     assert "min-width: 0" in _rules(css, ".why-list dt")[0]
@@ -1206,9 +1207,12 @@ def test_breakdown_pseudo_elements_are_border_box_like_the_mockup() -> None:
     # spinner 18 px, and the summary label shifts right by 2 px.
     css = _css()
     reset_covers_pseudo = bool(re.search(r"\*,\s*\*::before,\s*\*::after\s*\{[^}]*border-box", css))
-    for selector in (".why-panel > summary::before", ".why-panel .sk-note::before"):
+    for selector, width in (
+        (".why-panel > summary::before", "width: 9px"),
+        (".why-panel .sk-note::before", "width: 14px"),
+    ):
         rule = _rules(css, selector)[0]
-        assert "width: 9px" in rule or "width: 14px" in rule
+        assert width in rule, selector
         assert reset_covers_pseudo or "box-sizing: border-box" in rule, selector
 
 
@@ -1220,4 +1224,4 @@ def test_breakdown_fragment_has_no_unstyled_wrapper(client: TestClient) -> None:
 
 
 def test_asset_version_moved_on_for_the_breakdown() -> None:
-    assert main.ASSET_VERSION > "20261025k"
+    assert main.ASSET_VERSION > "20261025l"

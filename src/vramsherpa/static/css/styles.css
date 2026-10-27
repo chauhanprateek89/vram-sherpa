@@ -565,7 +565,7 @@ select[multiple] {
 .why-content { padding: 2px 0 14px; }
 details[open] > .why-content { animation: whyIn var(--dur-2) var(--ease-out); }
 .why-panel .why-title { margin: 4px 0 8px; font-size: var(--fs-small); font-weight: 600; overflow-wrap: anywhere; }
-.why-list { margin: 0; padding: 0; }
+.why-list { margin: 0; padding: 0; animation: whyIn var(--dur-2) var(--ease-out); }
 .why-list > div { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 10px 0; font-size: var(--fs-small); border-top: 1px solid var(--hair); }
 .why-list dt { min-width: 0; color: var(--muted); }
 .why-list dd { margin: 0; font-weight: 600; white-space: nowrap; }
