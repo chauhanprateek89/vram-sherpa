@@ -1,0 +1,61 @@
+=== GET /
+status 200 type text/html; charset=utf-8
+<link rel="icon" type="image/svg+xml" href="http://localhost:8000/static/img/favicon.svg?v=20261027c" />
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:8000/static/img/favicon-32.png?v=20261027c" />
+mark svgs: 1  brand href: <a class="brand" href="/">
+<title>VRAM Sherpa
+=== GET /results?vram_gb=24&context_tokens=4096
+status 200 type text/html; charset=utf-8
+<link rel="icon" type="image/svg+xml" href="http://localhost:8000/static/img/favicon.svg?v=20261027c" />
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:8000/static/img/favicon-32.png?v=20261027c" />
+mark svgs: 1  brand href: <a class="brand" href="/">
+<title>VRAM Sherpa
+=== GET /results?vram_gb=abc
+status 200 type text/html; charset=utf-8
+<link rel="icon" type="image/svg+xml" href="http://localhost:8000/static/img/favicon.svg?v=20261027c" />
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:8000/static/img/favicon-32.png?v=20261027c" />
+mark svgs: 1  brand href: <a class="brand" href="/">
+<title>VRAM Sherpa
+=== GET /results?gpu_search=RTX
+status 200 type text/html; charset=utf-8
+<link rel="icon" type="image/svg+xml" href="http://localhost:8000/static/img/favicon.svg?v=20261027c" />
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:8000/static/img/favicon-32.png?v=20261027c" />
+mark svgs: 1  brand href: <a class="brand" href="/">
+<title>VRAM Sherpa
+=== GET /results?vram_gb=1&context_tokens=4096&quant_bucket=Q8
+status 200 type text/html; charset=utf-8
+<link rel="icon" type="image/svg+xml" href="http://localhost:8000/static/img/favicon.svg?v=20261027c" />
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:8000/static/img/favicon-32.png?v=20261027c" />
+mark svgs: 1  brand href: <a class="brand" href="/">
+<title>VRAM Sherpa
+=== GET /models/model_llama_31_8b_instruct?vram_gb=24
+status 200 type text/html; charset=utf-8
+<link rel="icon" type="image/svg+xml" href="http://localhost:8000/static/img/favicon.svg?v=20261027c" />
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:8000/static/img/favicon-32.png?v=20261027c" />
+mark svgs: 1  brand href: <a class="brand" href="/">
+<title>Llama 3.1 8B Instruct - VRAM Sherpa
+=== GET /models/model_qwen25_7b_instruct?vram_gb=abc
+status 200 type text/html; charset=utf-8
+<link rel="icon" type="image/svg+xml" href="http://localhost:8000/static/img/favicon.svg?v=20261027c" />
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:8000/static/img/favicon-32.png?v=20261027c" />
+mark svgs: 1  brand href: <a class="brand" href="/">
+<title>Qwen2.5 7B Instruct - VRAM Sherpa
+=== GET /how-it-works
+status 200 type text/html; charset=utf-8
+<link rel="icon" type="image/svg+xml" href="http://localhost:8000/static/img/favicon.svg?v=20261027c" />
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:8000/static/img/favicon-32.png?v=20261027c" />
+mark svgs: 1  brand href: <a class="brand" href="/">
+<title>How It Works - VRAM Sherpa
+=== GET /models/nope
+status 404 type application/json
+mark svgs: 0  brand href: 
+=== GET /nonexistent-page
+status 404 type application/json
+mark svgs: 0  brand href: 
+
+/static/img/favicon.svg 200 image/svg+xml 636B
+/static/img/favicon-32.png 200 image/png 1272B
+/static/img/apple-touch-icon.png 200 image/png 6988B
+served favicon.svg == docs/design/marks/final-favicon.svg (byte-identical)
+/static/img/favicon.svg?v=20261027c 200
+/static/img/favicon-32.png?v=20261027c 200
