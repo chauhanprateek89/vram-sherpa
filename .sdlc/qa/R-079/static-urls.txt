@@ -1,0 +1,12 @@
+/static/fonts/outfit-v1-latin-wght.woff2  HTTP/1.1 200 OK
+   code=200 type=application/octet-stream size=32292
+/static/img/favicon.svg?v=20261027c  HTTP/1.1 200 OK
+   code=200 type=image/svg+xml size=636
+/static/img/favicon-32.png?v=20261027c  HTTP/1.1 200 OK
+   code=200 type=image/png size=1272
+/static/img/apple-touch-icon.png?v=20261027c  HTTP/1.1 200 OK
+   code=200 type=image/png size=6988
+/static/css/styles.css?v=20261027c  HTTP/1.1 200 OK
+   code=200 type=text/css; charset=utf-8 size=49963
+/static/js/app.js?v=20261027c  HTTP/1.1 200 OK
+   code=200 type=text/javascript; charset=utf-8 size=16188

@@ -26,7 +26,7 @@
       "dependsOn": [],
       "notes": "UI: no. No file under `src/vramsherpa/static/` changes, so `ASSET_VERSION` is not bumped (rule 21). Use the same `app.middleware(\"http\")` style as `host_guard`. Do not touch the `/static` mount or the host guard logic.",
       "review": "passed",
-      "passes": false
+      "passes": true
     },
     {
       "id": "T-002",
@@ -62,7 +62,7 @@
       ],
       "notes": "UI: no visual change intended; the move of `#results-shell` is structural and T-010/T-011 restyle the layout, so the old layout may sit differently until then. No file under `src/vramsherpa/static/` changes, so `ASSET_VERSION` is not bumped (rule 21). Use `request.url.query` (already percent-encoded), never `request.url` scheme or host. Real-browser Back/Forward/reload steps of R-081 are QA's (rule 10).",
       "review": "passed",
-      "passes": false
+      "passes": true
     },
     {
       "id": "T-003",
@@ -92,7 +92,7 @@
       ],
       "notes": "UI: no. No file under `src/vramsherpa/static/` changes, so `ASSET_VERSION` is not bumped (rule 21). Starlette's `RedirectResponse` defaults to 307: pass 302 explicitly, and if a test shows any re-encoding of the query, set `Location` on a plain `Response`. Reuse T-002's helper.",
       "review": "passed",
-      "passes": false
+      "passes": true
     },
     {
       "id": "T-004",
@@ -180,7 +180,7 @@
       "dependsOn": [],
       "notes": "UI: no. No file under `src/vramsherpa/static/` changes, so `ASSET_VERSION` is not bumped (rule 21). Read `pyproject.toml` with `tomllib`. Lands before T-008 and T-009 add the first font and image files.",
       "review": "passed",
-      "passes": false
+      "passes": true
     },
     {
       "id": "T-007",
@@ -210,7 +210,7 @@
       ],
       "notes": "UI: no. No file under `src/vramsherpa/static/` changes, so `ASSET_VERSION` is not bumped (rule 21). Fetch the asset URLs without `X-Forwarded-Proto` (they render as `http://127.0.0.1:8000/static/...`). Use `curl -s -D - -o /dev/null` rather than `curl -I`, which sends HEAD. No paid service or new runner (rules 2 and 4).",
       "review": "passed",
-      "passes": false
+      "passes": true
     },
     {
       "id": "T-008",
@@ -252,7 +252,7 @@
       ],
       "notes": "Foundation of the `styles.css` chain: T-008 to T-021 all edit `styles.css` and/or `ASSET_VERSION` and run strictly one after another. Keep the pre-paint theme script (R-040).",
       "review": "passed",
-      "passes": false
+      "passes": true
     },
     {
       "id": "T-009",
