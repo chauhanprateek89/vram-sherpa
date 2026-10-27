@@ -34,6 +34,8 @@
 | 2026-10-27 | QA (R-070) | Accept the Search GPU field scrolling its own value at 390 px when a long GPU label is chosen; amend R-070 so a one-line input's value is exempt from "no clipped text" when the full label shows in the summary's Hardware line. |
 | 2026-10-27 | QA (R-070) | Fix the model-page source links to 44 px tap targets with no overlap: a small departure from the detail mockups. |
 | 2026-10-27 | QA (R-077) | Accept the phone header focus order (brand, nav links, then the theme toggle drawn on row 1) as it is in the approved mockup. Amend R-077 to record it as an agreed exception at 390 px. |
+| 2026-10-27 | 3 | Merge PR #22 now (squash), which deploys. |
+| 2026-10-27 | 3 | Fix the `CLAUDE.md` `ASSET_VERSION` line in this PR to match amended rule 21 (all of `static/`). |
 
 ## Made during work
 

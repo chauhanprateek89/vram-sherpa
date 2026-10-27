@@ -29,6 +29,6 @@ Changes go through the sdlc pipeline (`/sdlc:orchestrate`): features on the Full
 - The estimation formula (`estimation.py`) and `/how-it-works` must agree. A formula change bumps `ESTIMATION_POLICY_VERSION`.
 - Never edit `data/seed_*.json` by hand. Change `tools/catalog_sources.yaml` and re-run the ingest. All three files share one `catalog_version`.
 - No migrations: `create_all` never alters tables. A new column needs `docker compose down -v` locally and a note for the server.
-- When you change `styles.css` or `app.js`, bump `ASSET_VERSION` in `main.py`.
+- When you change anything under `src/vramsherpa/static/` (CSS, JS, fonts, images, favicons), bump `ASSET_VERSION` in `main.py` (constitution rule 21).
 - Merging to main releases and deploys to the homelab. The host guard reads only `ALLOWED_HOSTS`; `APP_ENV` and `PUBLIC_HOSTNAME` do not affect it.
 - `docs/archive/agent.md` (gitignored, local only) is the original MVP brief. Where it and the code disagree, the code and these docs win.

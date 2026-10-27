@@ -72,3 +72,4 @@ Follow-ups found at onboarding (not part of this track): host guard ignores APP_
 | 2026-10-27 | Build | orchestrator | All 21 tasks passed review; 348 tests; local stack rebuilt for QA |
 | 2026-10-27 | QA | sdlc:qa (sonnet), sdlc:builder, sdlc:reviewer, sdlc:product | All 15 requirements pass; 2 QA fixes (secondary button, source-link targets); R-070/R-077 amended by user |
 | 2026-10-27 | Release | sdlc:release (sonnet) | PR #22 opened, CI test passed |
+| 2026-10-27 | Gate 3 | user | Merge now (squash); fix CLAUDE.md ASSET_VERSION line first |
