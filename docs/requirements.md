@@ -864,7 +864,7 @@ Asked: "Whole app, incl. mobile"; "Looks generic/dated". Gate 1: "each direction
 
 ### R-077 Accessibility through the redesign
 
-Status: planned · Track: full · UI: yes · Source: intake 2026-10-25; `styles.css` (`:focus-visible` rules, `prefers-reduced-motion` blocks); R-008, R-016, R-018, R-022, R-039, R-040; PR #19 (contrast measurements); Gate 1 answer Q-4 (`docs/decisions.md`)
+Status: planned · Track: full · UI: yes · Source: intake 2026-10-25; `styles.css` (`:focus-visible` rules, `prefers-reduced-motion` blocks); R-008, R-016, R-018, R-022, R-039, R-040; PR #19 (contrast measurements); Gate 1 answer Q-4 (`docs/decisions.md`); QA decision 2026-10-27 (`docs/decisions.md`, row "QA (R-077)"): the user accepted the phone header focus order
 
 Asked: "UI/UX overhaul".
 
@@ -872,7 +872,7 @@ Asked: "UI/UX overhaul".
 - THE SYSTEM SHALL give these a contrast ratio of at least 3:1 against adjacent colours, in both themes (Q-4; today's borders measure 2.2:1 per PR #19): field borders, button outlines, the gauge bar, the reserve band and the classification markers.
 - WHEN an interactive element receives keyboard focus, THE SYSTEM SHALL show a visible focus indicator on it, in both themes.
 - WHILE the visitor's system requests reduced motion, THE SYSTEM SHALL NOT animate transitions.
-- THE SYSTEM SHALL keep every control operable by keyboard alone, in the order the controls appear on screen.
+- THE SYSTEM SHALL keep every control operable by keyboard alone, in the order the controls appear on screen, with one exemption: at a 390 px viewport width, THE SYSTEM SHALL move keyboard focus in the header in this order: the brand, then the `Estimator` link, then the `How it works` link, then the theme toggle, even though the toggle is drawn on the first row beside the brand. This order matches the approved Gate 2 mockups and the user accepted it on 2026-10-27. Every other part of the page keeps the on-screen order.
 - THE SYSTEM SHALL keep the ARIA roles and states the existing requirements specify:
   - `aria-pressed` on quantisation buttons (R-016) and on the theme toggle (R-040);
   - `role="img"` and its label on the gauge (R-018);

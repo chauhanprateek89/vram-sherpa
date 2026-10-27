@@ -16,3 +16,11 @@ Observations (not criteria):
 - The reserve outline over the bar measures 1.1–2.0:1, though it stays visible against the pane.
 - The empty track against the pane is 1.02–1.48:1.
 - Hover and active states were not tested.
+
+---
+
+# Round 2: re-evaluated against the amended R-077 (2026-10-27)
+
+The user accepted the phone header focus order (`docs/decisions.md`, row "QA (R-077)"), and R-077's keyboard criterion now says so: at 390 px the header order is brand, `Estimator`, `How it works`, then the theme toggle. Round 1 recorded exactly that order (`keyboard-checks.txt`, `tab-reach.txt`). Everywhere else on the page, focus already followed the on-screen order. The code did not change, so no new run was needed.
+
+**Criterion 6: PASS. R-077: PASS (7 of 7).**
