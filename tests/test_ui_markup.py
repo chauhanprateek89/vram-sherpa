@@ -1087,7 +1087,7 @@ WHY_LABELS = [
     "Context memory (KV cache)",
     "Runtime overhead",
     "Total needed",
-    "Safety reserveKept free, not part of the total",
+    "Safety reserve Kept free, not part of the total",
 ]
 
 
@@ -1187,6 +1187,14 @@ def test_breakdown_css_reuses_the_one_keyframes_and_fits_a_phone() -> None:
     assert "dashed" in _rules(css, ".why-list .reserve")[0]
     assert "2px solid" in _rules(css, ".why-list .total")[0]
     assert ".why-breakdown ul" not in css
+
+
+def test_breakdown_margins_outrank_the_model_card_reset() -> None:
+    # `.model-card p` (0,1,1) beats a bare `.why-title` (0,1,0); the panel prefix (0,2,0) wins.
+    css = _css()
+    assert "margin: 0" in _rules(css, ".model-card h3, .model-card p")[0]
+    assert "margin: 4px 0 8px" in _rules(css, ".why-panel .why-title")[0]
+    assert "margin: 4px 0 0" in _rules(css, ".why-panel .sk-note")[0]
 
 
 def test_asset_version_moved_on_for_the_breakdown() -> None:

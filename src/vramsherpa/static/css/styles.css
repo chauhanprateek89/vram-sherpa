@@ -563,7 +563,7 @@ select[multiple] {
 .why-panel > summary.htmx-request { color: var(--muted); }
 .why-content { padding: 2px 0 14px; }
 details[open] > .why-content { animation: whyIn var(--dur-2) var(--ease-out); }
-.why-title { margin: 4px 0 8px; font-size: var(--fs-small); font-weight: 600; overflow-wrap: anywhere; }
+.why-panel .why-title { margin: 4px 0 8px; font-size: var(--fs-small); font-weight: 600; overflow-wrap: anywhere; }
 .why-list { margin: 0; padding: 0; animation: whyIn var(--dur-2) var(--ease-out); }
 .why-list > div { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 10px 0; font-size: var(--fs-small); border-top: 1px solid var(--hair); }
 .why-list dt { min-width: 0; color: var(--muted); }
@@ -578,8 +578,8 @@ details[open] > .why-content { animation: whyIn var(--dur-2) var(--ease-out); }
 .why-loading { display: none; }
 .why-panel > summary.htmx-request + .why-content .why-idle { display: none; }
 .why-panel > summary.htmx-request + .why-content .why-loading { display: block; }
-.sk-note { display: flex; align-items: center; gap: 8px; margin: 4px 0 0; font-size: var(--fs-caption); color: var(--muted); }
-.sk-note::before { content: ""; width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--line); border-top-color: transparent; animation: spin .8s linear infinite; }
+.why-panel .sk-note { display: flex; align-items: center; gap: 8px; margin: 4px 0 0; font-size: var(--fs-caption); color: var(--muted); }
+.why-panel .sk-note::before { content: ""; width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--line); border-top-color: transparent; animation: spin .8s linear infinite; }
 .sk-list { display: grid; gap: 12px; padding: 8px 0 4px; }
 .sk-list i { display: block; height: 14px; border-radius: 8px; background: linear-gradient(100deg, var(--sk-a) 30%, var(--sk-b) 50%, var(--sk-a) 70%); background-size: 300% 100%; animation: shimmer 1.4s linear infinite; }
 .sk-list i:nth-child(2) { width: 86%; } .sk-list i:nth-child(3) { width: 72%; } .sk-list i:nth-child(4) { width: 80%; } .sk-list i:nth-child(5) { width: 64%; }
