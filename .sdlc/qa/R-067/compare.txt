@@ -1,0 +1,108 @@
+detail-error 390 light ref 390x2966 live 390x2966 dH=0 diff>40=0.00% textdiff=0 sw=390 console=1
+detail-error 390 dark ref 390x2966 live 390x2966 dH=0 diff>40=0.00% textdiff=0 sw=390 console=1
+detail-error 1280 light ref 1280x1488 live 1280x1488 dH=0 diff>40=0.00% textdiff=0 sw=1280 console=1
+detail-error 1280 dark ref 1280x1488 live 1280x1488 dH=0 diff>40=0.00% textdiff=0 sw=1280 console=1
+detail-gated 390 light ref 390x3095 live 390x3095 dH=0 diff>40=0.00% textdiff=0 sw=390 console=0
+detail-gated 390 dark ref 390x3095 live 390x3095 dH=0 diff>40=0.00% textdiff=0 sw=390 console=0
+detail-gated 1280 light ref 1280x1401 live 1280x1401 dH=0 diff>40=0.00% textdiff=0 sw=1280 console=0
+detail-gated 1280 dark ref 1280x1401 live 1280x1401 dH=0 diff>40=0.00% textdiff=0 sw=1280 console=0
+detail-no-sources 390 light ref 390x2290 live 390x2290 dH=0 diff>40=0.00% textdiff=0 sw=390 console=0
+detail-no-sources 390 dark ref 390x2290 live 390x2290 dH=0 diff>40=0.00% textdiff=0 sw=390 console=0
+detail-no-sources 1280 light ref 1280x1013 live 1280x1013 dH=0 diff>40=0.00% textdiff=0 sw=1280 console=0
+detail-no-sources 1280 dark ref 1280x1013 live 1280x1013 dH=0 diff>40=0.00% textdiff=0 sw=1280 console=0
+detail-ungated 390 light ref 390x2875 live 390x2875 dH=0 diff>40=0.00% textdiff=0 sw=390 console=0
+detail-ungated 390 dark ref 390x2875 live 390x2875 dH=0 diff>40=0.00% textdiff=0 sw=390 console=0
+detail-ungated 1280 light ref 1280x1314 live 1280x1314 dH=0 diff>40=0.00% textdiff=0 sw=1280 console=0
+detail-ungated 1280 dark ref 1280x1314 live 1280x1314 dH=0 diff>40=0.00% textdiff=0 sw=1280 console=0
+empty-inert 390 light ref 390x1485 live 390x1485 dH=0 diff>40=0.00% textdiff=1 sw=390 console=0
+      +Results
+empty-inert 390 dark ref 390x1485 live 390x1485 dH=0 diff>40=0.00% textdiff=1 sw=390 console=0
+      +Results
+empty-inert 1280 light ref 1280x959 live 1280x959 dH=0 diff>40=0.00% textdiff=1 sw=1280 console=0
+      +Results
+empty-inert 1280 dark ref 1280x959 live 1280x959 dH=0 diff>40=0.00% textdiff=1 sw=1280 console=0
+      +Results
+empty-links 390 light ref 390x1485 live 390x1485 dH=0 diff>40=0.00% textdiff=1 sw=390 console=0
+      +Results
+empty-links 390 dark ref 390x1485 live 390x1485 dH=0 diff>40=0.00% textdiff=1 sw=390 console=0
+      +Results
+empty-links 1280 light ref 1280x959 live 1280x959 dH=0 diff>40=0.00% textdiff=1 sw=1280 console=0
+      +Results
+empty-links 1280 dark ref 1280x959 live 1280x959 dH=0 diff>40=0.00% textdiff=1 sw=1280 console=0
+      +Results
+empty-mixed 390 light ref 390x1485 live 390x1485 dH=0 diff>40=0.00% textdiff=1 sw=390 console=0
+      +Results
+empty-mixed 390 dark ref 390x1485 live 390x1485 dH=0 diff>40=0.00% textdiff=1 sw=390 console=0
+      +Results
+empty-mixed 1280 light ref 1280x959 live 1280x959 dH=0 diff>40=0.00% textdiff=1 sw=1280 console=0
+      +Results
+empty-mixed 1280 dark ref 1280x959 live 1280x959 dH=0 diff>40=0.00% textdiff=1 sw=1280 console=0
+      +Results
+gpu-suggest 390 light ref 390x2419 live 390x2419 dH=0 diff>40=0.18% textdiff=0 sw=390 console=0
+gpu-suggest 390 dark ref 390x2419 live 390x2419 dH=0 diff>40=0.18% textdiff=0 sw=390 console=0
+gpu-suggest 1280 light ref 1280x1303 live 1280x1303 dH=0 diff>40=0.16% textdiff=0 sw=1280 console=0
+gpu-suggest 1280 dark ref 1280x1303 live 1280x1303 dH=0 diff>40=0.15% textdiff=0 sw=1280 console=0
+home-default 390 light ref 390x3447 live 390x3447 dH=0 diff>40=0.00% textdiff=0 sw=390 console=0
+home-default 390 dark ref 390x3447 live 390x3447 dH=0 diff>40=0.00% textdiff=0 sw=390 console=0
+home-default 1280 light ref 1280x1576 live 1280x1576 dH=0 diff>40=0.00% textdiff=0 sw=1280 console=0
+home-default 1280 dark ref 1280x1576 live 1280x1576 dH=0 diff>40=0.00% textdiff=0 sw=1280 console=0
+how-it-works 390 light ref 390x4735 live 390x4735 dH=0 diff>40=0.00% textdiff=0 sw=390 console=0
+how-it-works 390 dark ref 390x4735 live 390x4735 dH=0 diff>40=0.00% textdiff=0 sw=390 console=0
+how-it-works 1280 light ref 1280x2457 live 1280x2457 dH=0 diff>40=0.00% textdiff=0 sw=1280 console=0
+how-it-works 1280 dark ref 1280x2457 live 1280x2457 dH=0 diff>40=0.00% textdiff=0 sw=1280 console=0
+results-chips 390 light ref 390x3446 live 390x3446 dH=0 diff>40=0.00% textdiff=0 sw=390 console=0
+results-chips 390 dark ref 390x3446 live 390x3446 dH=0 diff>40=0.00% textdiff=0 sw=390 console=0
+results-chips 1280 light ref 1280x1569 live 1280x1569 dH=0 diff>40=0.00% textdiff=0 sw=1280 console=0
+results-chips 1280 dark ref 1280x1569 live 1280x1569 dH=0 diff>40=0.00% textdiff=0 sw=1280 console=0
+results-errors 390 light ref 390x3532 live 390x3532 dH=0 diff>40=0.00% textdiff=0 sw=390 console=1
+results-errors 390 dark ref 390x3532 live 390x3532 dH=0 diff>40=0.00% textdiff=0 sw=390 console=1
+results-errors 1280 light ref 1280x1661 live 1280x1661 dH=0 diff>40=0.00% textdiff=0 sw=1280 console=1
+results-errors 1280 dark ref 1280x1661 live 1280x1661 dH=0 diff>40=0.00% textdiff=0 sw=1280 console=1
+results-filters-open 390 light ref 390x3939 live 390x3939 dH=0 diff>40=0.02% textdiff=0 sw=390 console=0
+results-filters-open 390 dark ref 390x3939 live 390x3939 dH=0 diff>40=0.02% textdiff=0 sw=390 console=0
+results-filters-open 1280 light ref 1280x1909 live 1280x1909 dH=0 diff>40=0.06% textdiff=0 sw=1280 console=0
+results-filters-open 1280 dark ref 1280x1909 live 1280x1909 dH=0 diff>40=0.06% textdiff=0 sw=1280 console=0
+results-gpu 390 light ref 390x4103 live 390x4103 dH=0 diff>40=0.00% textdiff=0 sw=390 console=0
+results-gpu 390 dark ref 390x4103 live 390x4103 dH=0 diff>40=0.00% textdiff=0 sw=390 console=0
+results-gpu 1280 light ref 1280x1796 live 1280x1796 dH=0 diff>40=0.00% textdiff=0 sw=1280 console=0
+results-gpu 1280 dark ref 1280x1796 live 1280x1796 dH=0 diff>40=0.00% textdiff=0 sw=1280 console=0
+results-gpu-ambiguous 390 light ref 390x3537 live 390x3537 dH=0 diff>40=0.00% textdiff=0 sw=390 console=0
+results-gpu-ambiguous 390 dark ref 390x3537 live 390x3537 dH=0 diff>40=0.00% textdiff=0 sw=390 console=0
+results-gpu-ambiguous 1280 light ref 1280x1621 live 1280x1621 dH=0 diff>40=0.00% textdiff=0 sw=1280 console=0
+results-gpu-ambiguous 1280 dark ref 1280x1621 live 1280x1621 dH=0 diff>40=0.00% textdiff=0 sw=1280 console=0
+results-gpu-notfound 390 light ref 390x3498 live 390x3498 dH=0 diff>40=0.00% textdiff=0 sw=390 console=0
+results-gpu-notfound 390 dark ref 390x3498 live 390x3498 dH=0 diff>40=0.00% textdiff=0 sw=390 console=0
+results-gpu-notfound 1280 light ref 1280x1577 live 1280x1577 dH=0 diff>40=0.00% textdiff=0 sw=1280 console=0
+results-gpu-notfound 1280 dark ref 1280x1577 live 1280x1577 dH=0 diff>40=0.00% textdiff=0 sw=1280 console=0
+results-manual-vram 390 light ref 390x4076 live 390x4076 dH=0 diff>40=0.00% textdiff=0 sw=390 console=0
+results-manual-vram 390 dark ref 390x4076 live 390x4076 dH=0 diff>40=0.00% textdiff=0 sw=390 console=0
+results-manual-vram 1280 light ref 1280x1818 live 1280x1818 dH=0 diff>40=0.00% textdiff=0 sw=1280 console=0
+results-manual-vram 1280 dark ref 1280x1818 live 1280x1818 dH=0 diff>40=0.00% textdiff=0 sw=1280 console=0
+results-picks-hidden 390 light ref 390x3247 live 390x3247 dH=0 diff>40=0.00% textdiff=0 sw=390 console=0
+results-picks-hidden 390 dark ref 390x3247 live 390x3247 dH=0 diff>40=0.00% textdiff=0 sw=390 console=0
+results-picks-hidden 1280 light ref 1280x1524 live 1280x1524 dH=0 diff>40=0.00% textdiff=0 sw=1280 console=0
+results-picks-hidden 1280 dark ref 1280x1524 live 1280x1524 dH=0 diff>40=0.00% textdiff=0 sw=1280 console=0
+results-tight-gated 390 light ref 390x2748 live 390x2748 dH=0 diff>40=0.00% textdiff=0 sw=390 console=0
+results-tight-gated 390 dark ref 390x2748 live 390x2748 dH=0 diff>40=0.00% textdiff=0 sw=390 console=0
+results-tight-gated 1280 light ref 1280x1277 live 1280x1277 dH=0 diff>40=0.00% textdiff=0 sw=1280 console=0
+results-tight-gated 1280 dark ref 1280x1277 live 1280x1277 dH=0 diff>40=0.00% textdiff=0 sw=1280 console=0
+unseeded 390 light ref 390x1508 live 390x1508 dH=0 diff>40=0.00% textdiff=1 sw=390 console=0
+      +Results
+unseeded 390 dark ref 390x1508 live 390x1508 dH=0 diff>40=0.01% textdiff=1 sw=390 console=0
+      +Results
+unseeded 1280 light ref 1280x906 live 1280x906 dH=0 diff>40=0.00% textdiff=1 sw=1280 console=0
+      +Results
+unseeded 1280 dark ref 1280x906 live 1280x906 dH=0 diff>40=0.00% textdiff=1 sw=1280 console=0
+      +Results
+why-closed 390 light ref 390x2681 live 390x2681 dH=0 diff>40=0.00% textdiff=0 sw=390 console=0
+why-closed 390 dark ref 390x2681 live 390x2681 dH=0 diff>40=0.00% textdiff=0 sw=390 console=0
+why-closed 1280 light ref 1280x1273 live 1280x1273 dH=0 diff>40=0.00% textdiff=0 sw=1280 console=0
+why-closed 1280 dark ref 1280x1273 live 1280x1273 dH=0 diff>40=0.00% textdiff=0 sw=1280 console=0
+why-loaded 390 light ref 390x2974 live 390x2974 dH=0 diff>40=0.00% textdiff=0 sw=390 console=0
+why-loaded 390 dark ref 390x2974 live 390x2974 dH=0 diff>40=0.00% textdiff=0 sw=390 console=0
+why-loaded 1280 light ref 1280x1566 live 1280x1566 dH=0 diff>40=0.00% textdiff=0 sw=1280 console=0
+why-loaded 1280 dark ref 1280x1566 live 1280x1566 dH=0 diff>40=0.00% textdiff=0 sw=1280 console=0
+why-loading 390 light ref 390x2852 live 390x2852 dH=0 diff>40=0.00% textdiff=0 sw=390 console=0
+why-loading 390 dark ref 390x2852 live 390x2852 dH=0 diff>40=0.00% textdiff=0 sw=390 console=0
+why-loading 1280 light ref 1280x1444 live 1280x1444 dH=0 diff>40=0.00% textdiff=0 sw=1280 console=0
+why-loading 1280 dark ref 1280x1444 live 1280x1444 dH=0 diff>40=0.00% textdiff=0 sw=1280 console=0
