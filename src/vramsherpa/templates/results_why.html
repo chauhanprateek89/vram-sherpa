@@ -1,10 +1,8 @@
-<div class="why-breakdown">
-  <p class="why-title">{{ variant.quant_label }} on {{ model.name }}</p>
-  <dl class="why-list">
-    <div><dt>Model weights</dt><dd class="num">{{ '%.2f'|format(breakdown.weights_gb) }} GB</dd></div>
-    <div><dt>Context memory (KV cache)</dt><dd class="num">{{ '%.2f'|format(breakdown.kv_cache_gb) }} GB</dd></div>
-    <div><dt>Runtime overhead</dt><dd class="num">{{ '%.2f'|format(breakdown.runtime_overhead_gb) }} GB</dd></div>
-    <div class="total"><dt>Total needed</dt><dd class="num">{{ '%.2f'|format(breakdown.required_vram_gb) }} GB</dd></div>
-    <div class="reserve"><dt>Safety reserve <small>Kept free, not part of the total</small></dt><dd class="num">{{ '%.2f'|format(breakdown.reserve_gb) }} GB</dd></div>
-  </dl>
-</div>
+<p class="why-title">{{ variant.quant_label }} on {{ model.name }}</p>
+<dl class="why-list">
+  <div><dt>Model weights</dt><dd class="num">{{ '%.2f'|format(breakdown.weights_gb) }} GB</dd></div>
+  <div><dt>Context memory (KV cache)</dt><dd class="num">{{ '%.2f'|format(breakdown.kv_cache_gb) }} GB</dd></div>
+  <div><dt>Runtime overhead</dt><dd class="num">{{ '%.2f'|format(breakdown.runtime_overhead_gb) }} GB</dd></div>
+  <div class="total"><dt>Total needed</dt><dd class="num">{{ '%.2f'|format(breakdown.required_vram_gb) }} GB</dd></div>
+  <div class="reserve"><dt>Safety reserve <small>Kept free, not part of the total</small></dt><dd class="num">{{ '%.2f'|format(breakdown.reserve_gb) }} GB</dd></div>
+</dl>
