@@ -5,12 +5,12 @@
 | Track | Full: UI/UX overhaul |
 | Stage | Build |
 | Branch | sdlc/full-ui-overhaul |
-| Gate waiting | none |
+| Gate waiting | T-016 failed review 3 times: retry with the one-line fix, drop, or stop |
 | Updated | 2026-10-25 |
 
 ## Your actions
 
-- none
+- Decide on T-016: retry with the one-line fix (restore the breakdown rows' fade-in), drop the task, or stop.
 
 ## Next step
 
