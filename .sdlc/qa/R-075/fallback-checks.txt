@@ -1,0 +1,29 @@
+no-llama-model http=200
+ h2: ['Inputs', 'Formula', 'Reserve buffer', 'Classification', 'Worked example', 'Limitations']
+ contains "Llama": False | "Instruct": False | model link "/models/": False | "See its model page": False
+ lead: An example for an 8B model at Q4, with a 2048-token context.
+ inputs: params_b 8 bits_effective 4.5 kv_gb_per_1k_ctx 0.48 context_tokens 2048
+ steps: ['Weights 4.95 GB 8 &times; 4.5 &divide; 8 &times; 1.10 = 4.95', 'KV cache 0.98 GB 0.48 &times; 2048 &divide; 1000 = 0.98304', 'Runtime overhead 1.40 GB 1.0 + 0.05 &times; 8 = 1.40', 'Required VRAM 7.33 GB 4.95 + 0.98304 + 1.40 = 7.33304']
+ formulas present: True | limitations: True
+no-q4-variant http=200
+ h2: ['Inputs', 'Formula', 'Reserve buffer', 'Classification', 'Worked example', 'Limitations']
+ contains "Llama": False | "Instruct": False | model link "/models/": False | "See its model page": False
+ lead: An example for an 8B model at Q4, with a 2048-token context.
+ inputs: params_b 8 bits_effective 4.5 kv_gb_per_1k_ctx 0.48 context_tokens 2048
+ steps: ['Weights 4.95 GB 8 &times; 4.5 &divide; 8 &times; 1.10 = 4.95', 'KV cache 0.98 GB 0.48 &times; 2048 &divide; 1000 = 0.98304', 'Runtime overhead 1.40 GB 1.0 + 0.05 &times; 8 = 1.40', 'Required VRAM 7.33 GB 4.95 + 0.98304 + 1.40 = 7.33304']
+ formulas present: True | limitations: True
+unseeded http=200
+ h2: ['Inputs', 'Formula', 'Reserve buffer', 'Classification', 'Worked example', 'Limitations']
+ contains "Llama": False | "Instruct": False | model link "/models/": False | "See its model page": False
+ lead: An example for an 8B model at Q4, with a 2048-token context.
+ inputs: params_b 8 bits_effective 4.5 kv_gb_per_1k_ctx 0.48 context_tokens 2048
+ steps: ['Weights 4.95 GB 8 &times; 4.5 &divide; 8 &times; 1.10 = 4.95', 'KV cache 0.98 GB 0.48 &times; 2048 &divide; 1000 = 0.98304', 'Runtime overhead 1.40 GB 1.0 + 0.05 &times; 8 = 1.40', 'Required VRAM 7.33 GB 4.95 + 0.98304 + 1.40 = 7.33304']
+ formulas present: True | limitations: True
+no-llama-model 390 light sw 390 console 0
+no-llama-model 390 dark sw 390 console 0
+no-llama-model 1280 light sw 1280 console 0
+no-llama-model 1280 dark sw 1280 console 0
+unseeded 390 light sw 390 console 0
+unseeded 390 dark sw 390 console 0
+unseeded 1280 light sw 1280 console 0
+unseeded 1280 dark sw 1280 console 0

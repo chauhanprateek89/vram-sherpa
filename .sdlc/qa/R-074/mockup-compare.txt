@@ -1,0 +1,16 @@
+detail-gated-390-light       ref (390, 3095) live (390, 3215) dH=+120 diff>40=13.16% firstdiffrow=686
+detail-gated-390-dark        ref (390, 3095) live (390, 3215) dH=+120 diff>40=12.96% firstdiffrow=686
+detail-gated-1280-light      ref (1280, 1401) live (1280, 1524) dH=+123 diff>40=9.28% firstdiffrow=512
+detail-gated-1280-dark       ref (1280, 1401) live (1280, 1524) dH=+123 diff>40=7.13% firstdiffrow=512
+detail-ungated-390-light     ref (390, 2875) live (390, 2995) dH=+120 diff>40=14.08% firstdiffrow=466
+detail-ungated-390-dark      ref (390, 2875) live (390, 2995) dH=+120 diff>40=13.89% firstdiffrow=466
+detail-ungated-1280-light    ref (1280, 1314) live (1280, 1437) dH=+123 diff>40=10.14% firstdiffrow=425
+detail-ungated-1280-dark     ref (1280, 1314) live (1280, 1437) dH=+123 diff>40=7.58% firstdiffrow=425
+detail-no-sources-390-light  ref (390, 2290) live (390, 2290) dH=+0 diff>40=0.00% firstdiffrow=None
+detail-no-sources-390-dark   ref (390, 2290) live (390, 2290) dH=+0 diff>40=0.00% firstdiffrow=None
+detail-no-sources-1280-light ref (1280, 1013) live (1280, 1013) dH=+0 diff>40=0.00% firstdiffrow=None
+detail-no-sources-1280-dark  ref (1280, 1013) live (1280, 1013) dH=+0 diff>40=0.00% firstdiffrow=None
+detail-error-390-light       ref (390, 2966) live (390, 3086) dH=+120 diff>40=14.39% firstdiffrow=466
+detail-error-390-dark        ref (390, 2966) live (390, 3086) dH=+120 diff>40=16.13% firstdiffrow=466
+detail-error-1280-light      ref (1280, 1488) live (1280, 1568) dH=+80 diff>40=8.46% firstdiffrow=425
+detail-error-1280-dark       ref (1280, 1488) live (1280, 1568) dH=+80 diff>40=6.54% firstdiffrow=425

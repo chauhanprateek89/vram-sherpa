@@ -1,0 +1,330 @@
+{
+ "390-light": {
+  "W": 390,
+  "sw": 390,
+  "cw": 390,
+  "H": 4735,
+  "over": [],
+  "scrolls": [],
+  "nowrap": 0,
+  "formulas": [
+   {
+    "t": "weights_gb = params_b * bits_effective / 8 * 1.10",
+    "right": 334,
+    "h": 65,
+    "lines": 3
+   },
+   {
+    "t": "kv_cache_gb = kv_gb_per_1k_ctx * (context_tokens / 1000)",
+    "right": 334,
+    "h": 87,
+    "lines": 4
+   },
+   {
+    "t": "runtime_overhead_gb = 1.0 + 0.05 * params_b",
+    "right": 334,
+    "h": 65,
+    "lines": 3
+   },
+   {
+    "t": "required_vram_gb = weights_gb + kv_cache_gb + runtime_overhead_gb",
+    "right": 334,
+    "h": 87,
+    "lines": 4
+   },
+   {
+    "t": "reserve_gb = max(0.75, 0.10 * available_vram_gb)",
+    "right": 334,
+    "h": 65,
+    "lines": 3
+   },
+   {
+    "t": "required_vram_gb <= available_vram_gb - reserve_gb",
+    "right": 334,
+    "h": 87,
+    "lines": 4
+   },
+   {
+    "t": "available_vram_gb - reserve_gb < required_vram_gb <= available_vram_gb",
+    "right": 334,
+    "h": 87,
+    "lines": 4
+   },
+   {
+    "t": "required_vram_gb > available_vram_gb",
+    "right": 334,
+    "h": 65,
+    "lines": 3
+   }
+  ],
+  "small": [
+   {
+    "t": "See its model page",
+    "h": 21,
+    "w": 140.984375
+   }
+  ],
+  "tiny": [],
+  "h1": [
+   "How VRAM Sherpa estimates fit (Policy v0.1)"
+  ],
+  "h2": [
+   "Inputs",
+   "Formula",
+   "Reserve buffer",
+   "Classification",
+   "Worked example",
+   "Limitations"
+  ],
+  "footer": "Catalog version: 2026-10-23\nEstimation policy: v0.1\nLast updated: 2026-10-23",
+  "theme": "light",
+  "text": "VRAM Sherpa\nEstimator\nHow it works\nDark mode\nHow VRAM Sherpa estimates fit (Policy v0.1)\n\nVRAM Sherpa estimates whether a model variant can fit on your available VRAM for local inference. It is a planning estimate, not a benchmark.\n\nInputs\navailable_vram_gb\n\nThe VRAM you have, from the GPU you pick or the number you type.\n\nFrom GPU selection or manual VRAM input\n\ncontext_tokens\n\nHow much text the model keeps in view at once: 2048, 4096 or 8192 tokens, shown as 2k, 4k and 8k.\n\nFrom presets (2048 default, 4096, 8192)\n\nparams_b\n\nModel size in billions of parameters. A bigger model has more weights to store.\n\nVariant and model metadata\n\nbits_effective\n\nBits stored per parameter after quantisation: Q4 is 4.5, Q5 is 5.5, Q8 is 8.5, FP16 is 16. Fewer bits, less memory.\n\nVariant and model metadata\n\nkv_gb_per_1k_ctx\n\nMemory the model's context (its KV cache) takes for every 1,000 tokens, in GB. Each model page shows this value.\n\nVariant and model metadata\n\nFormula\nweights_gb\n\nMemory for the model itself. Parameters times bits per parameter, divided by 8, gives gigabytes; the 1.10 adds 10% on top.\n\nweights_gb = params_b * bits_effective / 8 * 1.10\nkv_cache_gb\n\nMemory for the context window you chose. It grows with the context length.\n\nkv_cache_gb = kv_gb_per_1k_ctx * (context_tokens / 1000)\nruntime_overhead_gb\n\nMemory the runtime needs besides the model: a flat 1.0 GB plus 0.05 GB for every billion parameters.\n\nruntime_overhead_gb = 1.0 + 0.05 * params_b\nrequired_vram_gb\n\nEverything the variant needs: weights, KV cache and runtime overhead added up.\n\nrequired_vram_gb = weights_gb + kv_cache_gb + runtime_overhead_gb\nReserve buffer\nreserve_gb\n\nFree space to leave as a safety margin: 10% of your VRAM, never less than 0.75 GB.\n\nreserve_gb = max(0.75, 0.10 * available_vram_gb)\n\nWith 4 GB the reserve is 0.75 GB. With 16 GB it is 1.6 GB.\n\nExample with 10 GB of VRAM\n\n0\n9.0 GB\n10 GB\n\nThe reserve is 1.0 GB. Up to 9.0 GB Fits, up to 10.0 GB is Tight, and anything more Won't fit.\n\nClassification\nFits\n\nIt fits with the whole reserve to spare.\n\nrequired_vram_gb <= available_vram_gb - reserve_gb\nTight\n\nIt can run, but it uses part of the reserve, so it is close to your VRAM limit.\n\navailable_vram_gb - reserve_gb < required_vram_gb <= available_vram_gb\nWon't fit\n\nIt needs more VRAM than you have.\n\nrequired_vram_gb > available_vram_gb\nWorked example\n\nLlama 3.1 8B Instruct at Q4, with a 2048-token context. See its model page.\n\nInputs\nparams_b\n8\nbits_effective\n4.5\nkv_gb_per_1k_ctx\n0.48\ncontext_tokens\n2048\nSteps\nWeights\n4.95 GB\n8 × 4.5 ÷ 8 × 1.10 = 4.95\nKV cache\n0.98 GB\n0.48 × 2048 ÷ 1000 = 0.98304\nRuntime overhead\n1.40 GB\n1.0 + 0.05 × 8 = 1.40\nRequired VRAM\n7.33 GB\n4.95 + 0.98304 + 1.40 = 7.33304\nLimitations\n\nReal outcomes vary by runtime, driver stack, memory fragmentation, and CPU/GPU offload behavior. This tool is not a benchmark and does not guarantee performance.\n\nCatalog version: 2026-10-23\nEstimation policy: v0.1\nLast updated: 2026-10-23",
+  "console": []
+ },
+ "390-dark": {
+  "W": 390,
+  "sw": 390,
+  "cw": 390,
+  "H": 4735,
+  "over": [],
+  "scrolls": [],
+  "nowrap": 0,
+  "formulas": [
+   {
+    "t": "weights_gb = params_b * bits_effective / 8 * 1.10",
+    "right": 334,
+    "h": 65,
+    "lines": 3
+   },
+   {
+    "t": "kv_cache_gb = kv_gb_per_1k_ctx * (context_tokens / 1000)",
+    "right": 334,
+    "h": 87,
+    "lines": 4
+   },
+   {
+    "t": "runtime_overhead_gb = 1.0 + 0.05 * params_b",
+    "right": 334,
+    "h": 65,
+    "lines": 3
+   },
+   {
+    "t": "required_vram_gb = weights_gb + kv_cache_gb + runtime_overhead_gb",
+    "right": 334,
+    "h": 87,
+    "lines": 4
+   },
+   {
+    "t": "reserve_gb = max(0.75, 0.10 * available_vram_gb)",
+    "right": 334,
+    "h": 65,
+    "lines": 3
+   },
+   {
+    "t": "required_vram_gb <= available_vram_gb - reserve_gb",
+    "right": 334,
+    "h": 87,
+    "lines": 4
+   },
+   {
+    "t": "available_vram_gb - reserve_gb < required_vram_gb <= available_vram_gb",
+    "right": 334,
+    "h": 87,
+    "lines": 4
+   },
+   {
+    "t": "required_vram_gb > available_vram_gb",
+    "right": 334,
+    "h": 65,
+    "lines": 3
+   }
+  ],
+  "small": [
+   {
+    "t": "See its model page",
+    "h": 21,
+    "w": 140.984375
+   }
+  ],
+  "tiny": [],
+  "h1": [
+   "How VRAM Sherpa estimates fit (Policy v0.1)"
+  ],
+  "h2": [
+   "Inputs",
+   "Formula",
+   "Reserve buffer",
+   "Classification",
+   "Worked example",
+   "Limitations"
+  ],
+  "footer": "Catalog version: 2026-10-23\nEstimation policy: v0.1\nLast updated: 2026-10-23",
+  "theme": "dark",
+  "text": "VRAM Sherpa\nEstimator\nHow it works\nLight mode\nHow VRAM Sherpa estimates fit (Policy v0.1)\n\nVRAM Sherpa estimates whether a model variant can fit on your available VRAM for local inference. It is a planning estimate, not a benchmark.\n\nInputs\navailable_vram_gb\n\nThe VRAM you have, from the GPU you pick or the number you type.\n\nFrom GPU selection or manual VRAM input\n\ncontext_tokens\n\nHow much text the model keeps in view at once: 2048, 4096 or 8192 tokens, shown as 2k, 4k and 8k.\n\nFrom presets (2048 default, 4096, 8192)\n\nparams_b\n\nModel size in billions of parameters. A bigger model has more weights to store.\n\nVariant and model metadata\n\nbits_effective\n\nBits stored per parameter after quantisation: Q4 is 4.5, Q5 is 5.5, Q8 is 8.5, FP16 is 16. Fewer bits, less memory.\n\nVariant and model metadata\n\nkv_gb_per_1k_ctx\n\nMemory the model's context (its KV cache) takes for every 1,000 tokens, in GB. Each model page shows this value.\n\nVariant and model metadata\n\nFormula\nweights_gb\n\nMemory for the model itself. Parameters times bits per parameter, divided by 8, gives gigabytes; the 1.10 adds 10% on top.\n\nweights_gb = params_b * bits_effective / 8 * 1.10\nkv_cache_gb\n\nMemory for the context window you chose. It grows with the context length.\n\nkv_cache_gb = kv_gb_per_1k_ctx * (context_tokens / 1000)\nruntime_overhead_gb\n\nMemory the runtime needs besides the model: a flat 1.0 GB plus 0.05 GB for every billion parameters.\n\nruntime_overhead_gb = 1.0 + 0.05 * params_b\nrequired_vram_gb\n\nEverything the variant needs: weights, KV cache and runtime overhead added up.\n\nrequired_vram_gb = weights_gb + kv_cache_gb + runtime_overhead_gb\nReserve buffer\nreserve_gb\n\nFree space to leave as a safety margin: 10% of your VRAM, never less than 0.75 GB.\n\nreserve_gb = max(0.75, 0.10 * available_vram_gb)\n\nWith 4 GB the reserve is 0.75 GB. With 16 GB it is 1.6 GB.\n\nExample with 10 GB of VRAM\n\n0\n9.0 GB\n10 GB\n\nThe reserve is 1.0 GB. Up to 9.0 GB Fits, up to 10.0 GB is Tight, and anything more Won't fit.\n\nClassification\nFits\n\nIt fits with the whole reserve to spare.\n\nrequired_vram_gb <= available_vram_gb - reserve_gb\nTight\n\nIt can run, but it uses part of the reserve, so it is close to your VRAM limit.\n\navailable_vram_gb - reserve_gb < required_vram_gb <= available_vram_gb\nWon't fit\n\nIt needs more VRAM than you have.\n\nrequired_vram_gb > available_vram_gb\nWorked example\n\nLlama 3.1 8B Instruct at Q4, with a 2048-token context. See its model page.\n\nInputs\nparams_b\n8\nbits_effective\n4.5\nkv_gb_per_1k_ctx\n0.48\ncontext_tokens\n2048\nSteps\nWeights\n4.95 GB\n8 × 4.5 ÷ 8 × 1.10 = 4.95\nKV cache\n0.98 GB\n0.48 × 2048 ÷ 1000 = 0.98304\nRuntime overhead\n1.40 GB\n1.0 + 0.05 × 8 = 1.40\nRequired VRAM\n7.33 GB\n4.95 + 0.98304 + 1.40 = 7.33304\nLimitations\n\nReal outcomes vary by runtime, driver stack, memory fragmentation, and CPU/GPU offload behavior. This tool is not a benchmark and does not guarantee performance.\n\nCatalog version: 2026-10-23\nEstimation policy: v0.1\nLast updated: 2026-10-23",
+  "console": []
+ },
+ "1280-light": {
+  "W": 1280,
+  "sw": 1280,
+  "cw": 1280,
+  "H": 2457,
+  "over": [],
+  "scrolls": [],
+  "nowrap": 0,
+  "formulas": [
+   {
+    "t": "weights_gb = params_b * bits_effective / 8 * 1.10",
+    "right": 618,
+    "h": 44,
+    "lines": 2
+   },
+   {
+    "t": "kv_cache_gb = kv_gb_per_1k_ctx * (context_tokens / 1000)",
+    "right": 1214,
+    "h": 44,
+    "lines": 2
+   },
+   {
+    "t": "runtime_overhead_gb = 1.0 + 0.05 * params_b",
+    "right": 618,
+    "h": 44,
+    "lines": 2
+   },
+   {
+    "t": "required_vram_gb = weights_gb + kv_cache_gb + runtime_overhead_gb",
+    "right": 1214,
+    "h": 65,
+    "lines": 3
+   },
+   {
+    "t": "reserve_gb = max(0.75, 0.10 * available_vram_gb)",
+    "right": 487,
+    "h": 65,
+    "lines": 3
+   },
+   {
+    "t": "required_vram_gb <= available_vram_gb - reserve_gb",
+    "right": 1214,
+    "h": 44,
+    "lines": 2
+   },
+   {
+    "t": "available_vram_gb - reserve_gb < required_vram_gb <= available_vram_gb",
+    "right": 1214,
+    "h": 44,
+    "lines": 2
+   },
+   {
+    "t": "required_vram_gb > available_vram_gb",
+    "right": 1214,
+    "h": 44,
+    "lines": 2
+   }
+  ],
+  "small": [
+   {
+    "t": "See its model page",
+    "h": 21,
+    "w": 140.984375
+   }
+  ],
+  "tiny": [],
+  "h1": [
+   "How VRAM Sherpa estimates fit (Policy v0.1)"
+  ],
+  "h2": [
+   "Inputs",
+   "Formula",
+   "Reserve buffer",
+   "Classification",
+   "Worked example",
+   "Limitations"
+  ],
+  "footer": "Catalog version: 2026-10-23\nEstimation policy: v0.1\nLast updated: 2026-10-23",
+  "theme": "light",
+  "text": "VRAM Sherpa\nEstimator\nHow it works\nDark mode\nHow VRAM Sherpa estimates fit (Policy v0.1)\n\nVRAM Sherpa estimates whether a model variant can fit on your available VRAM for local inference. It is a planning estimate, not a benchmark.\n\nInputs\navailable_vram_gb\n\nThe VRAM you have, from the GPU you pick or the number you type.\n\nFrom GPU selection or manual VRAM input\n\ncontext_tokens\n\nHow much text the model keeps in view at once: 2048, 4096 or 8192 tokens, shown as 2k, 4k and 8k.\n\nFrom presets (2048 default, 4096, 8192)\n\nparams_b\n\nModel size in billions of parameters. A bigger model has more weights to store.\n\nVariant and model metadata\n\nbits_effective\n\nBits stored per parameter after quantisation: Q4 is 4.5, Q5 is 5.5, Q8 is 8.5, FP16 is 16. Fewer bits, less memory.\n\nVariant and model metadata\n\nkv_gb_per_1k_ctx\n\nMemory the model's context (its KV cache) takes for every 1,000 tokens, in GB. Each model page shows this value.\n\nVariant and model metadata\n\nFormula\nweights_gb\n\nMemory for the model itself. Parameters times bits per parameter, divided by 8, gives gigabytes; the 1.10 adds 10% on top.\n\nweights_gb = params_b * bits_effective / 8 * 1.10\nkv_cache_gb\n\nMemory for the context window you chose. It grows with the context length.\n\nkv_cache_gb = kv_gb_per_1k_ctx * (context_tokens / 1000)\nruntime_overhead_gb\n\nMemory the runtime needs besides the model: a flat 1.0 GB plus 0.05 GB for every billion parameters.\n\nruntime_overhead_gb = 1.0 + 0.05 * params_b\nrequired_vram_gb\n\nEverything the variant needs: weights, KV cache and runtime overhead added up.\n\nrequired_vram_gb = weights_gb + kv_cache_gb + runtime_overhead_gb\nReserve buffer\nreserve_gb\n\nFree space to leave as a safety margin: 10% of your VRAM, never less than 0.75 GB.\n\nreserve_gb = max(0.75, 0.10 * available_vram_gb)\n\nWith 4 GB the reserve is 0.75 GB. With 16 GB it is 1.6 GB.\n\nExample with 10 GB of VRAM\n\n0\n9.0 GB\n10 GB\n\nThe reserve is 1.0 GB. Up to 9.0 GB Fits, up to 10.0 GB is Tight, and anything more Won't fit.\n\nClassification\nFits\n\nIt fits with the whole reserve to spare.\n\nrequired_vram_gb <= available_vram_gb - reserve_gb\nTight\n\nIt can run, but it uses part of the reserve, so it is close to your VRAM limit.\n\navailable_vram_gb - reserve_gb < required_vram_gb <= available_vram_gb\nWon't fit\n\nIt needs more VRAM than you have.\n\nrequired_vram_gb > available_vram_gb\nWorked example\n\nLlama 3.1 8B Instruct at Q4, with a 2048-token context. See its model page.\n\nInputs\nparams_b\n8\nbits_effective\n4.5\nkv_gb_per_1k_ctx\n0.48\ncontext_tokens\n2048\nSteps\nWeights\n4.95 GB\n8 × 4.5 ÷ 8 × 1.10 = 4.95\nKV cache\n0.98 GB\n0.48 × 2048 ÷ 1000 = 0.98304\nRuntime overhead\n1.40 GB\n1.0 + 0.05 × 8 = 1.40\nRequired VRAM\n7.33 GB\n4.95 + 0.98304 + 1.40 = 7.33304\nLimitations\n\nReal outcomes vary by runtime, driver stack, memory fragmentation, and CPU/GPU offload behavior. This tool is not a benchmark and does not guarantee performance.\n\nCatalog version: 2026-10-23\nEstimation policy: v0.1\nLast updated: 2026-10-23",
+  "console": []
+ },
+ "1280-dark": {
+  "W": 1280,
+  "sw": 1280,
+  "cw": 1280,
+  "H": 2457,
+  "over": [],
+  "scrolls": [],
+  "nowrap": 0,
+  "formulas": [
+   {
+    "t": "weights_gb = params_b * bits_effective / 8 * 1.10",
+    "right": 618,
+    "h": 44,
+    "lines": 2
+   },
+   {
+    "t": "kv_cache_gb = kv_gb_per_1k_ctx * (context_tokens / 1000)",
+    "right": 1214,
+    "h": 44,
+    "lines": 2
+   },
+   {
+    "t": "runtime_overhead_gb = 1.0 + 0.05 * params_b",
+    "right": 618,
+    "h": 44,
+    "lines": 2
+   },
+   {
+    "t": "required_vram_gb = weights_gb + kv_cache_gb + runtime_overhead_gb",
+    "right": 1214,
+    "h": 65,
+    "lines": 3
+   },
+   {
+    "t": "reserve_gb = max(0.75, 0.10 * available_vram_gb)",
+    "right": 487,
+    "h": 65,
+    "lines": 3
+   },
+   {
+    "t": "required_vram_gb <= available_vram_gb - reserve_gb",
+    "right": 1214,
+    "h": 44,
+    "lines": 2
+   },
+   {
+    "t": "available_vram_gb - reserve_gb < required_vram_gb <= available_vram_gb",
+    "right": 1214,
+    "h": 44,
+    "lines": 2
+   },
+   {
+    "t": "required_vram_gb > available_vram_gb",
+    "right": 1214,
+    "h": 44,
+    "lines": 2
+   }
+  ],
+  "small": [
+   {
+    "t": "See its model page",
+    "h": 21,
+    "w": 140.984375
+   }
+  ],
+  "tiny": [],
+  "h1": [
+   "How VRAM Sherpa estimates fit (Policy v0.1)"
+  ],
+  "h2": [
+   "Inputs",
+   "Formula",
+   "Reserve buffer",
+   "Classification",
+   "Worked example",
+   "Limitations"
+  ],
+  "footer": "Catalog version: 2026-10-23\nEstimation policy: v0.1\nLast updated: 2026-10-23",
+  "theme": "dark",
+  "text": "VRAM Sherpa\nEstimator\nHow it works\nLight mode\nHow VRAM Sherpa estimates fit (Policy v0.1)\n\nVRAM Sherpa estimates whether a model variant can fit on your available VRAM for local inference. It is a planning estimate, not a benchmark.\n\nInputs\navailable_vram_gb\n\nThe VRAM you have, from the GPU you pick or the number you type.\n\nFrom GPU selection or manual VRAM input\n\ncontext_tokens\n\nHow much text the model keeps in view at once: 2048, 4096 or 8192 tokens, shown as 2k, 4k and 8k.\n\nFrom presets (2048 default, 4096, 8192)\n\nparams_b\n\nModel size in billions of parameters. A bigger model has more weights to store.\n\nVariant and model metadata\n\nbits_effective\n\nBits stored per parameter after quantisation: Q4 is 4.5, Q5 is 5.5, Q8 is 8.5, FP16 is 16. Fewer bits, less memory.\n\nVariant and model metadata\n\nkv_gb_per_1k_ctx\n\nMemory the model's context (its KV cache) takes for every 1,000 tokens, in GB. Each model page shows this value.\n\nVariant and model metadata\n\nFormula\nweights_gb\n\nMemory for the model itself. Parameters times bits per parameter, divided by 8, gives gigabytes; the 1.10 adds 10% on top.\n\nweights_gb = params_b * bits_effective / 8 * 1.10\nkv_cache_gb\n\nMemory for the context window you chose. It grows with the context length.\n\nkv_cache_gb = kv_gb_per_1k_ctx * (context_tokens / 1000)\nruntime_overhead_gb\n\nMemory the runtime needs besides the model: a flat 1.0 GB plus 0.05 GB for every billion parameters.\n\nruntime_overhead_gb = 1.0 + 0.05 * params_b\nrequired_vram_gb\n\nEverything the variant needs: weights, KV cache and runtime overhead added up.\n\nrequired_vram_gb = weights_gb + kv_cache_gb + runtime_overhead_gb\nReserve buffer\nreserve_gb\n\nFree space to leave as a safety margin: 10% of your VRAM, never less than 0.75 GB.\n\nreserve_gb = max(0.75, 0.10 * available_vram_gb)\n\nWith 4 GB the reserve is 0.75 GB. With 16 GB it is 1.6 GB.\n\nExample with 10 GB of VRAM\n\n0\n9.0 GB\n10 GB\n\nThe reserve is 1.0 GB. Up to 9.0 GB Fits, up to 10.0 GB is Tight, and anything more Won't fit.\n\nClassification\nFits\n\nIt fits with the whole reserve to spare.\n\nrequired_vram_gb <= available_vram_gb - reserve_gb\nTight\n\nIt can run, but it uses part of the reserve, so it is close to your VRAM limit.\n\navailable_vram_gb - reserve_gb < required_vram_gb <= available_vram_gb\nWon't fit\n\nIt needs more VRAM than you have.\n\nrequired_vram_gb > available_vram_gb\nWorked example\n\nLlama 3.1 8B Instruct at Q4, with a 2048-token context. See its model page.\n\nInputs\nparams_b\n8\nbits_effective\n4.5\nkv_gb_per_1k_ctx\n0.48\ncontext_tokens\n2048\nSteps\nWeights\n4.95 GB\n8 × 4.5 ÷ 8 × 1.10 = 4.95\nKV cache\n0.98 GB\n0.48 × 2048 ÷ 1000 = 0.98304\nRuntime overhead\n1.40 GB\n1.0 + 0.05 × 8 = 1.40\nRequired VRAM\n7.33 GB\n4.95 + 0.98304 + 1.40 = 7.33304\nLimitations\n\nReal outcomes vary by runtime, driver stack, memory fragmentation, and CPU/GPU offload behavior. This tool is not a benchmark and does not guarantee performance.\n\nCatalog version: 2026-10-23\nEstimation policy: v0.1\nLast updated: 2026-10-23",
+  "console": []
+ }
+}

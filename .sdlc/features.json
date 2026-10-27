@@ -155,7 +155,7 @@
       ],
       "notes": "Content only; T-019 restyles the page and adds the plain-language terms. No file under `src/vramsherpa/static/` changes, so `ASSET_VERSION` is not bumped (rule 21). `estimate_breakdown` needs an available VRAM: pass a declared constant the template does not render (ADR-0007 decision 3). Depends on T-003 only to keep edits to `main.py` in sequence.",
       "review": "passed",
-      "passes": false
+      "passes": true
     },
     {
       "id": "T-006",
@@ -700,7 +700,7 @@
       ],
       "notes": "Source URLs wrap (`overflow-wrap: anywhere`). The mockup `select` rule uses `text-overflow: ellipsis`; R-070 forbids cutting text with an ellipsis, so make sure the longest GPU label is not truncated at 390 px.",
       "review": "passed",
-      "passes": false
+      "passes": true
     },
     {
       "id": "T-019",
