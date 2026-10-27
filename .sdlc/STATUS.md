@@ -3,14 +3,14 @@
 | | |
 | --- | --- |
 | Track | Full: UI/UX overhaul |
-| Stage | Release PR |
+| Stage | Gate 3 |
 | Branch | sdlc/full-ui-overhaul |
-| Gate waiting | none |
+| Gate waiting | Gate 3: merge PR #22 (squash), which deploys |
 | Updated | 2026-10-27 |
 
 ## Your actions
 
-- none
+- Decide on merging https://github.com/chauhanprateek89/vram-sherpa/pull/22 (squash-merge; merging deploys).
 
 ## Next step
 
@@ -71,3 +71,4 @@ Follow-ups found at onboarding (not part of this track): host guard ignores APP_
 | 2026-10-25 | Build | sdlc:builder (sonnet), sdlc:reviewer (inherit) | T-021 passed: commits a64eb01+53c7b13, passed review 2 (review 1: stale aria-invalid after in-place refresh) |
 | 2026-10-27 | Build | orchestrator | All 21 tasks passed review; 348 tests; local stack rebuilt for QA |
 | 2026-10-27 | QA | sdlc:qa (sonnet), sdlc:builder, sdlc:reviewer, sdlc:product | All 15 requirements pass; 2 QA fixes (secondary button, source-link targets); R-070/R-077 amended by user |
+| 2026-10-27 | Release | sdlc:release (sonnet) | PR #22 opened, CI test passed |
