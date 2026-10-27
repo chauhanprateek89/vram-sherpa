@@ -1,0 +1,12 @@
+results-gpu              390 light mock=(390, 4103) live=(390, 25878) compared top 1500px: diff>40 = 0.0000%
+results-manual-vram      390 light mock=(390, 4076) live=(390, 25855) compared top 1500px: diff>40 = 0.0000%
+results-tight-gated      390 light mock=(390, 2748) live=(390, 2748) compared top 1500px: diff>40 = 0.0000%
+results-gpu              390 dark  mock=(390, 4103) live=(390, 25878) compared top 1500px: diff>40 = 0.0000%
+results-manual-vram      390 dark  mock=(390, 4076) live=(390, 25855) compared top 1500px: diff>40 = 0.0009%
+results-tight-gated      390 dark  mock=(390, 2748) live=(390, 2748) compared top 1500px: diff>40 = 0.0000%
+results-gpu             1280 light mock=(1280, 1796) live=(1280, 10580) compared top 1000px: diff>40 = 0.0000%
+results-manual-vram     1280 light mock=(1280, 1818) live=(1280, 10582) compared top 1000px: diff>40 = 0.0000%
+results-tight-gated     1280 light mock=(1280, 1277) live=(1280, 1277) compared top 1000px: diff>40 = 0.0000%
+results-gpu             1280 dark  mock=(1280, 1796) live=(1280, 10580) compared top 1000px: diff>40 = 0.0823%
+results-manual-vram     1280 dark  mock=(1280, 1818) live=(1280, 10582) compared top 1000px: diff>40 = 0.0811%
+results-tight-gated     1280 dark  mock=(1280, 1277) live=(1280, 1277) compared top 1000px: diff>40 = 0.0000%

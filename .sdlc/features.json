@@ -567,7 +567,7 @@
       ],
       "notes": "Existing assertions on old card markup in `tests/test_app.py` (for example `12.0 GB</span>`) may be updated to the new markup but must keep checking the same value.",
       "review": "passed",
-      "passes": false
+      "passes": true
     },
     {
       "id": "T-016",
