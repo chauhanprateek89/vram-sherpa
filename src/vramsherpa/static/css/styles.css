@@ -551,61 +551,41 @@ select[multiple] {
   color: var(--muted);
 }
 
-/* Inside a model card this is a secondary affordance, not a section header:
-   as a filled full-width bar it outweighed the gauge it explains. */
-.why-panel {
-  margin-top: 0.55rem;
-}
-
-.why-panel > summary {
-  cursor: pointer;
-  font-size: 0.82rem;
-  font-weight: 500;
-  color: var(--brand);
-  list-style: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  min-height: 28px;
-}
-
-.why-panel > summary::-webkit-details-marker {
-  display: none;
-}
-
-.why-panel > summary::before {
-  content: "\25B8";
-  font-size: 0.7rem;
-}
-
-.why-panel[open] > summary::before {
-  content: "\25BE";
-}
-
-.why-panel > summary:hover {
-  color: var(--brand-strong);
-  text-decoration: underline;
-}
-
-.why-panel > summary:focus-visible {
-  outline: 2px solid var(--focus);
-  outline-offset: 2px;
-  border-radius: 3px;
-}
-
-.why-content {
-  border-top: 1px solid var(--line);
-  padding: 0.65rem 0.75rem;
-}
-
-.why-breakdown p {
-  margin: 0;
-}
-
-.why-breakdown ul {
-  margin: 0.5rem 0 0;
-  padding-left: 1.2rem;
-}
+/* ===== How this is estimated (T-016): the disclosure under each gauge, from docs/design/build/components.css ===== */
+.why-panel { margin-top: 10px; border-top: 1px solid var(--hair); }
+.why-panel > summary { list-style: none; display: flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 6px; border-radius: 12px; cursor: pointer; font-weight: 520; font-size: var(--fs-small); }
+.why-panel > summary::-webkit-details-marker { display: none; }
+.why-panel > summary::before { content: ""; width: 9px; height: 9px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(-45deg); transition: transform var(--dur-2) var(--ease-out); flex: none; }
+.why-panel[open] > summary::before { transform: rotate(45deg); margin-top: -4px; }
+.why-panel > summary:hover { color: var(--accent); }
+.why-panel > summary:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+/* htmx puts .htmx-request on the summary while /results/why/... runs; no script is involved. */
+.why-panel > summary.htmx-request { color: var(--muted); }
+.why-content { padding: 2px 0 14px; }
+details[open] > .why-content { animation: whyIn var(--dur-2) var(--ease-out); }
+.why-title { margin: 4px 0 8px; font-size: var(--fs-small); font-weight: 600; overflow-wrap: anywhere; }
+.why-list { margin: 0; padding: 0; animation: whyIn var(--dur-2) var(--ease-out); }
+.why-list > div { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 10px 0; font-size: var(--fs-small); border-top: 1px solid var(--hair); }
+.why-list dt { min-width: 0; color: var(--muted); }
+.why-list dd { margin: 0; font-weight: 600; white-space: nowrap; }
+.why-list .total { border-top: 2px solid var(--line); }
+.why-list .total dt { color: var(--ink); font-weight: 600; }
+.why-list .total dd { font-size: var(--fs-lead); font-weight: 700; }
+.why-list .reserve { border-top: 1px dashed var(--resv); }
+.why-list .reserve dt small { display: block; font-size: var(--fs-caption); }
+/* Loading: the placeholder gives way to five shimmering rows while the summary has .htmx-request. */
+.why-idle { margin: 0; font-size: var(--fs-small); }
+.why-loading { display: none; }
+.why-panel > summary.htmx-request + .why-content .why-idle { display: none; }
+.why-panel > summary.htmx-request + .why-content .why-loading { display: block; }
+.sk-note { display: flex; align-items: center; gap: 8px; margin: 4px 0 0; font-size: var(--fs-caption); color: var(--muted); }
+.sk-note::before { content: ""; width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--line); border-top-color: transparent; animation: spin .8s linear infinite; }
+.sk-list { display: grid; gap: 12px; padding: 8px 0 4px; }
+.sk-list i { display: block; height: 14px; border-radius: 8px; background: linear-gradient(100deg, var(--sk-a) 30%, var(--sk-b) 50%, var(--sk-a) 70%); background-size: 300% 100%; animation: shimmer 1.4s linear infinite; }
+.sk-list i:nth-child(2) { width: 86%; } .sk-list i:nth-child(3) { width: 72%; } .sk-list i:nth-child(4) { width: 80%; } .sk-list i:nth-child(5) { width: 64%; }
+@keyframes spin { to { transform: rotate(360deg); } }
+/* Reduced motion stops the shimmer (the global rule below) but the rows stay, as flat bars. */
+@media (prefers-reduced-motion: reduce) { .sk-list i { background: var(--sk-a); } }
 
 .empty-state-callout p {
   margin: 0;

@@ -1078,3 +1078,116 @@ def test_app_js_motion_is_progressive_and_off_under_reduced_motion() -> None:
 
 def test_asset_version_moved_on_for_the_card_restyle() -> None:
     assert main.ASSET_VERSION > "20261025h"
+
+
+# ---- T-016: How this is estimated ----
+
+WHY_LABELS = [
+    "Model weights",
+    "Context memory (KV cache)",
+    "Runtime overhead",
+    "Total needed",
+    "Safety reserveKept free, not part of the total",
+]
+
+
+def _first_pane(html: str) -> _Node:
+    return next(n for n in _tree(html).walk() if "data-variant-pane" in n.attrs)
+
+
+def _why_summary(pane: _Node) -> _Node:
+    return next(n for n in pane.walk() if n.tag == "summary")
+
+
+def test_breakdown_is_a_definition_list_with_the_total_ruled_off_before_the_reserve(
+    client: TestClient,
+) -> None:
+    url = _why_summary(_first_pane(client.get(REFERENCE).text)).attrs["hx-get"]
+    root = _tree(client.get(url).text)
+    title = next(n for n in root.walk() if "why-title" in n.classes())
+    assert re.fullmatch(r"\S+ on .+", title.all_text())
+    lists = [n for n in root.walk() if n.tag == "dl"]
+    assert len(lists) == 1 and "why-list" in lists[0].classes()
+    rows = [n for n in lists[0].children if n.tag == "div"]
+    assert [next(c for c in r.children if c.tag == "dt").all_text() for r in rows] == WHY_LABELS
+    for row in rows:
+        dd = next(c for c in row.children if c.tag == "dd")
+        assert re.fullmatch(r"\d+\.\d\d GB", dd.all_text())
+    assert [r.classes() for r in rows] == [[], [], [], ["total"], ["reserve"]]
+    assert not any(n.tag == "ul" for n in root.walk())
+
+
+def test_total_needed_equals_the_gb_needed_caption_of_the_same_pane(client: TestClient) -> None:
+    html = client.get(REFERENCE).text
+    checked = 0
+    for pane in (n for n in _tree(html).walk() if "data-variant-pane" in n.attrs):
+        caption = next(n for n in pane.walk() if "scale" in n.classes())
+        needed = caption.children[0].all_text()
+        assert needed.endswith(" GB needed")
+        root = _tree(client.get(_why_summary(pane).attrs["hx-get"]).text)
+        total = next(n for n in root.walk() if "total" in n.classes())
+        assert next(c for c in total.children if c.tag == "dd").all_text() == needed.replace(
+            " needed", ""
+        )
+        checked += 1
+        if checked == 6:
+            break
+    assert checked > 1
+
+
+def test_breakdown_stays_collapsed_and_fetched_once_with_its_placeholder(
+    client: TestClient,
+) -> None:
+    pane = _first_pane(client.get(REFERENCE).text)
+    panel = next(n for n in pane.walk() if "why-panel" in n.classes())
+    assert panel.tag == "details" and "open" not in panel.attrs
+    summary = _why_summary(pane)
+    assert summary.all_text() == "How this is estimated"
+    assert summary.attrs["hx-trigger"] == "click once"
+    assert summary.attrs["hx-swap"] == "innerHTML"
+    content = next(n for n in panel.walk() if "why-content" in n.classes())
+    assert summary.attrs["hx-target"] == "#" + content.attrs["id"]
+    idle = next(n for n in content.walk() if "why-idle" in n.classes())
+    assert idle.all_text() == "Open to load the breakdown."
+
+
+def test_loading_state_is_five_shimmer_rows_in_markup_and_shown_by_htmx_request(
+    client: TestClient,
+) -> None:
+    pane = _first_pane(client.get(REFERENCE).text)
+    loading = next(n for n in pane.walk() if "why-loading" in n.classes())
+    assert "Loading the breakdown" in loading.all_text()
+    rows = [n for n in loading.walk() if n.tag == "i"]
+    assert len(rows) == 5
+    css = _css()
+    assert "display: none" in _rules(css, ".why-loading")[0]
+    shown = ".why-panel > summary.htmx-request + .why-content .why-loading"
+    assert "display: block" in _rules(css, shown)[0]
+    assert (
+        "display: none"
+        in _rules(css, ".why-panel > summary.htmx-request + .why-content .why-idle")[0]
+    )
+    assert "animation: shimmer" in _rules(css, ".sk-list i")[0]
+    # Under reduced motion the global rule stops the shimmer; the rows stay as flat bars.
+    assert re.search(
+        r"prefers-reduced-motion: reduce\) \{ \.sk-list i \{ background: var\(--sk-a\)", css
+    )
+    js = (ROOT / "src/vramsherpa/static/js/app.js").read_text(encoding="utf-8")
+    assert "Loading the breakdown" not in js
+
+
+def test_breakdown_css_reuses_the_one_keyframes_and_fits_a_phone() -> None:
+    css = _css()
+    assert css.count("@keyframes whyIn") == 1 and css.count("@keyframes shimmer") == 1
+    assert "animation: whyIn" in _rules(css, ".why-list")[0]
+    row = _rules(css, ".why-list > div")[0]
+    assert "justify-content: space-between" in row and "gap: 16px" in row
+    assert "min-width: 0" in _rules(css, ".why-list dt")[0]
+    assert "margin: 0" in _rules(css, ".why-list dd")[0]  # the browser default indents dd
+    assert "dashed" in _rules(css, ".why-list .reserve")[0]
+    assert "2px solid" in _rules(css, ".why-list .total")[0]
+    assert ".why-breakdown ul" not in css
+
+
+def test_asset_version_moved_on_for_the_breakdown() -> None:
+    assert main.ASSET_VERSION > "20261025i"

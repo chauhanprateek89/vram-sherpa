@@ -10,6 +10,7 @@ from sqlalchemy.orm import Session
 from starlette.requests import Request
 
 from vramsherpa.config import Settings, _parse_allowed_hosts
+from vramsherpa.estimation import estimate_breakdown
 from vramsherpa.main import (
     create_app,
     healthz,
@@ -22,6 +23,7 @@ from vramsherpa.main import (
     results_partial_summary,
     variant_breakdown,
 )
+from vramsherpa.models import Variant
 
 
 def _request(app, path: str, *, hx: bool = False) -> Request:
@@ -221,6 +223,8 @@ def test_results_gpu_search_uses_vram_hint_from_text(app, seeded_session: Sessio
 
 
 def test_variant_breakdown_returns_html_partial(app, seeded_session: Session) -> None:
+    variant = seeded_session.get(Variant, "variant_model_llama_31_8b_instruct_q4")
+    assert variant is not None
     response = variant_breakdown(
         _request(app, "/results/why/variant_model_llama_31_8b_instruct_q4"),
         variant_id="variant_model_llama_31_8b_instruct_q4",
@@ -231,11 +235,33 @@ def test_variant_breakdown_returns_html_partial(app, seeded_session: Session) ->
 
     assert response.status_code == 200
     response_text = _response_text(response)
-    assert "weights_gb" in response_text
-    assert "kv_cache_gb" in response_text
-    assert "runtime_overhead_gb" in response_text
-    assert "reserve_gb" in response_text
-    assert "required_vram_gb" in response_text
+    # The labels changed at Gate 2 (T-016); all five figures are still asserted.
+    breakdown = estimate_breakdown(
+        params_b=float(variant.model.params_b),
+        bits_effective=float(variant.bits_effective),
+        kv_gb_per_1k_ctx=float(variant.model.kv_gb_per_1k_ctx),
+        context_tokens=2048,
+        available_vram_gb=16,
+    )
+    for label, value in (
+        ("Model weights", breakdown.weights_gb),
+        ("Context memory (KV cache)", breakdown.kv_cache_gb),
+        ("Runtime overhead", breakdown.runtime_overhead_gb),
+        ("Total needed", breakdown.required_vram_gb),
+        ("Safety reserve", breakdown.reserve_gb),
+    ):
+        assert re.search(rf"<dt>{re.escape(label)}[^>]*>.*?{value:.2f} GB</dd>", response_text), (
+            label
+        )
+    assert "Kept free, not part of the total" in response_text
+    for raw in (
+        "weights_gb",
+        "kv_cache_gb",
+        "runtime_overhead_gb",
+        "reserve_gb",
+        "required_vram_gb",
+    ):
+        assert raw not in response_text
 
 
 def test_results_filters_change_output_deterministically(app, seeded_session: Session) -> None:
