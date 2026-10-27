@@ -699,7 +699,7 @@
         "T-017"
       ],
       "notes": "Source URLs wrap (`overflow-wrap: anywhere`). The mockup `select` rule uses `text-overflow: ellipsis`; R-070 forbids cutting text with an ellipsis, so make sure the longest GPU label is not truncated at 390 px.",
-      "review": "pending",
+      "review": "passed",
       "passes": false
     },
     {
