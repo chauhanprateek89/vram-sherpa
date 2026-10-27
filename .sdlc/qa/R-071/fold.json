@@ -1,0 +1,1990 @@
+{
+ "fold": {
+  "home-default|390|light": {
+   "scrollY": 0,
+   "searchLabel": {
+    "top": 296,
+    "bottom": 317,
+    "left": 39,
+    "right": 351
+   },
+   "searchInput": {
+    "top": 323,
+    "bottom": 375,
+    "left": 39,
+    "right": 267
+   },
+   "vramLabel": {
+    "top": 391,
+    "bottom": 412,
+    "left": 39,
+    "right": 193
+   },
+   "vramInput": {
+    "top": 418,
+    "bottom": 470,
+    "left": 39,
+    "right": 193
+   },
+   "legend": {
+    "top": 389,
+    "bottom": 410,
+    "left": 205,
+    "right": 308
+   },
+   "presets": [
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 209,
+     "right": 255
+    },
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 255,
+     "right": 301
+    },
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 301,
+     "right": 347
+    }
+   ],
+   "submit": {
+    "top": 544,
+    "bottom": 598,
+    "left": 39,
+    "right": 351
+   },
+   "sw": 390,
+   "vh": 844
+  },
+  "results-gpu|390|light": {
+   "scrollY": 0,
+   "searchLabel": {
+    "top": 296,
+    "bottom": 317,
+    "left": 39,
+    "right": 351
+   },
+   "searchInput": {
+    "top": 323,
+    "bottom": 375,
+    "left": 39,
+    "right": 267
+   },
+   "vramLabel": {
+    "top": 391,
+    "bottom": 412,
+    "left": 39,
+    "right": 193
+   },
+   "vramInput": {
+    "top": 418,
+    "bottom": 470,
+    "left": 39,
+    "right": 193
+   },
+   "legend": {
+    "top": 389,
+    "bottom": 410,
+    "left": 205,
+    "right": 308
+   },
+   "presets": [
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 209,
+     "right": 255
+    },
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 255,
+     "right": 301
+    },
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 301,
+     "right": 347
+    }
+   ],
+   "submit": {
+    "top": 544,
+    "bottom": 598,
+    "left": 39,
+    "right": 351
+   },
+   "sw": 390,
+   "vh": 844
+  },
+  "results-manual-vram|390|light": {
+   "scrollY": 0,
+   "searchLabel": {
+    "top": 296,
+    "bottom": 317,
+    "left": 39,
+    "right": 351
+   },
+   "searchInput": {
+    "top": 323,
+    "bottom": 375,
+    "left": 39,
+    "right": 267
+   },
+   "vramLabel": {
+    "top": 391,
+    "bottom": 412,
+    "left": 39,
+    "right": 193
+   },
+   "vramInput": {
+    "top": 418,
+    "bottom": 470,
+    "left": 39,
+    "right": 193
+   },
+   "legend": {
+    "top": 389,
+    "bottom": 410,
+    "left": 205,
+    "right": 308
+   },
+   "presets": [
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 209,
+     "right": 255
+    },
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 255,
+     "right": 301
+    },
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 301,
+     "right": 347
+    }
+   ],
+   "submit": {
+    "top": 544,
+    "bottom": 598,
+    "left": 39,
+    "right": 351
+   },
+   "sw": 390,
+   "vh": 844
+  },
+  "results-gpu-ambiguous|390|light": {
+   "scrollY": 0,
+   "searchLabel": {
+    "top": 296,
+    "bottom": 317,
+    "left": 39,
+    "right": 351
+   },
+   "searchInput": {
+    "top": 323,
+    "bottom": 375,
+    "left": 39,
+    "right": 267
+   },
+   "vramLabel": {
+    "top": 391,
+    "bottom": 412,
+    "left": 39,
+    "right": 193
+   },
+   "vramInput": {
+    "top": 418,
+    "bottom": 470,
+    "left": 39,
+    "right": 193
+   },
+   "legend": {
+    "top": 389,
+    "bottom": 410,
+    "left": 205,
+    "right": 308
+   },
+   "presets": [
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 209,
+     "right": 255
+    },
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 255,
+     "right": 301
+    },
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 301,
+     "right": 347
+    }
+   ],
+   "submit": {
+    "top": 544,
+    "bottom": 598,
+    "left": 39,
+    "right": 351
+   },
+   "sw": 390,
+   "vh": 844
+  },
+  "results-gpu-notfound|390|light": {
+   "scrollY": 0,
+   "searchLabel": {
+    "top": 296,
+    "bottom": 317,
+    "left": 39,
+    "right": 351
+   },
+   "searchInput": {
+    "top": 323,
+    "bottom": 375,
+    "left": 39,
+    "right": 267
+   },
+   "vramLabel": {
+    "top": 391,
+    "bottom": 412,
+    "left": 39,
+    "right": 193
+   },
+   "vramInput": {
+    "top": 418,
+    "bottom": 470,
+    "left": 39,
+    "right": 193
+   },
+   "legend": {
+    "top": 389,
+    "bottom": 410,
+    "left": 205,
+    "right": 308
+   },
+   "presets": [
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 209,
+     "right": 255
+    },
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 255,
+     "right": 301
+    },
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 301,
+     "right": 347
+    }
+   ],
+   "submit": {
+    "top": 544,
+    "bottom": 598,
+    "left": 39,
+    "right": 351
+   },
+   "sw": 390,
+   "vh": 844
+  },
+  "results-errors|390|light": {
+   "scrollY": 0,
+   "searchLabel": {
+    "top": 296,
+    "bottom": 317,
+    "left": 39,
+    "right": 351
+   },
+   "searchInput": {
+    "top": 323,
+    "bottom": 375,
+    "left": 39,
+    "right": 267
+   },
+   "vramLabel": {
+    "top": 391,
+    "bottom": 412,
+    "left": 39,
+    "right": 193
+   },
+   "vramInput": {
+    "top": 418,
+    "bottom": 470,
+    "left": 39,
+    "right": 193
+   },
+   "legend": {
+    "top": 389,
+    "bottom": 410,
+    "left": 205,
+    "right": 308
+   },
+   "presets": [
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 209,
+     "right": 255
+    },
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 255,
+     "right": 301
+    },
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 301,
+     "right": 347
+    }
+   ],
+   "submit": {
+    "top": 544,
+    "bottom": 598,
+    "left": 39,
+    "right": 351
+   },
+   "sw": 390,
+   "vh": 844
+  },
+  "results-chips|390|light": {
+   "scrollY": 0,
+   "searchLabel": {
+    "top": 296,
+    "bottom": 317,
+    "left": 39,
+    "right": 351
+   },
+   "searchInput": {
+    "top": 323,
+    "bottom": 375,
+    "left": 39,
+    "right": 267
+   },
+   "vramLabel": {
+    "top": 391,
+    "bottom": 412,
+    "left": 39,
+    "right": 193
+   },
+   "vramInput": {
+    "top": 418,
+    "bottom": 470,
+    "left": 39,
+    "right": 193
+   },
+   "legend": {
+    "top": 389,
+    "bottom": 410,
+    "left": 205,
+    "right": 308
+   },
+   "presets": [
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 209,
+     "right": 255
+    },
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 255,
+     "right": 301
+    },
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 301,
+     "right": 347
+    }
+   ],
+   "submit": {
+    "top": 544,
+    "bottom": 598,
+    "left": 39,
+    "right": 351
+   },
+   "sw": 390,
+   "vh": 844
+  },
+  "gpu-suggest|390|light": {
+   "scrollY": 0,
+   "searchLabel": {
+    "top": 296,
+    "bottom": 317,
+    "left": 39,
+    "right": 351
+   },
+   "searchInput": {
+    "top": 323,
+    "bottom": 375,
+    "left": 39,
+    "right": 267
+   },
+   "vramLabel": {
+    "top": 391,
+    "bottom": 412,
+    "left": 39,
+    "right": 193
+   },
+   "vramInput": {
+    "top": 418,
+    "bottom": 470,
+    "left": 39,
+    "right": 193
+   },
+   "legend": {
+    "top": 389,
+    "bottom": 410,
+    "left": 205,
+    "right": 308
+   },
+   "presets": [
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 209,
+     "right": 255
+    },
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 255,
+     "right": 301
+    },
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 301,
+     "right": 347
+    }
+   ],
+   "submit": {
+    "top": 544,
+    "bottom": 598,
+    "left": 39,
+    "right": 351
+   },
+   "sw": 390,
+   "vh": 844
+  },
+  "home-default|390|dark": {
+   "scrollY": 0,
+   "searchLabel": {
+    "top": 296,
+    "bottom": 317,
+    "left": 39,
+    "right": 351
+   },
+   "searchInput": {
+    "top": 323,
+    "bottom": 375,
+    "left": 39,
+    "right": 267
+   },
+   "vramLabel": {
+    "top": 391,
+    "bottom": 412,
+    "left": 39,
+    "right": 193
+   },
+   "vramInput": {
+    "top": 418,
+    "bottom": 470,
+    "left": 39,
+    "right": 193
+   },
+   "legend": {
+    "top": 389,
+    "bottom": 410,
+    "left": 205,
+    "right": 308
+   },
+   "presets": [
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 209,
+     "right": 255
+    },
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 255,
+     "right": 301
+    },
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 301,
+     "right": 347
+    }
+   ],
+   "submit": {
+    "top": 544,
+    "bottom": 598,
+    "left": 39,
+    "right": 351
+   },
+   "sw": 390,
+   "vh": 844
+  },
+  "results-gpu|390|dark": {
+   "scrollY": 0,
+   "searchLabel": {
+    "top": 296,
+    "bottom": 317,
+    "left": 39,
+    "right": 351
+   },
+   "searchInput": {
+    "top": 323,
+    "bottom": 375,
+    "left": 39,
+    "right": 267
+   },
+   "vramLabel": {
+    "top": 391,
+    "bottom": 412,
+    "left": 39,
+    "right": 193
+   },
+   "vramInput": {
+    "top": 418,
+    "bottom": 470,
+    "left": 39,
+    "right": 193
+   },
+   "legend": {
+    "top": 389,
+    "bottom": 410,
+    "left": 205,
+    "right": 308
+   },
+   "presets": [
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 209,
+     "right": 255
+    },
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 255,
+     "right": 301
+    },
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 301,
+     "right": 347
+    }
+   ],
+   "submit": {
+    "top": 544,
+    "bottom": 598,
+    "left": 39,
+    "right": 351
+   },
+   "sw": 390,
+   "vh": 844
+  },
+  "results-manual-vram|390|dark": {
+   "scrollY": 0,
+   "searchLabel": {
+    "top": 296,
+    "bottom": 317,
+    "left": 39,
+    "right": 351
+   },
+   "searchInput": {
+    "top": 323,
+    "bottom": 375,
+    "left": 39,
+    "right": 267
+   },
+   "vramLabel": {
+    "top": 391,
+    "bottom": 412,
+    "left": 39,
+    "right": 193
+   },
+   "vramInput": {
+    "top": 418,
+    "bottom": 470,
+    "left": 39,
+    "right": 193
+   },
+   "legend": {
+    "top": 389,
+    "bottom": 410,
+    "left": 205,
+    "right": 308
+   },
+   "presets": [
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 209,
+     "right": 255
+    },
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 255,
+     "right": 301
+    },
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 301,
+     "right": 347
+    }
+   ],
+   "submit": {
+    "top": 544,
+    "bottom": 598,
+    "left": 39,
+    "right": 351
+   },
+   "sw": 390,
+   "vh": 844
+  },
+  "results-gpu-ambiguous|390|dark": {
+   "scrollY": 0,
+   "searchLabel": {
+    "top": 296,
+    "bottom": 317,
+    "left": 39,
+    "right": 351
+   },
+   "searchInput": {
+    "top": 323,
+    "bottom": 375,
+    "left": 39,
+    "right": 267
+   },
+   "vramLabel": {
+    "top": 391,
+    "bottom": 412,
+    "left": 39,
+    "right": 193
+   },
+   "vramInput": {
+    "top": 418,
+    "bottom": 470,
+    "left": 39,
+    "right": 193
+   },
+   "legend": {
+    "top": 389,
+    "bottom": 410,
+    "left": 205,
+    "right": 308
+   },
+   "presets": [
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 209,
+     "right": 255
+    },
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 255,
+     "right": 301
+    },
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 301,
+     "right": 347
+    }
+   ],
+   "submit": {
+    "top": 544,
+    "bottom": 598,
+    "left": 39,
+    "right": 351
+   },
+   "sw": 390,
+   "vh": 844
+  },
+  "results-gpu-notfound|390|dark": {
+   "scrollY": 0,
+   "searchLabel": {
+    "top": 296,
+    "bottom": 317,
+    "left": 39,
+    "right": 351
+   },
+   "searchInput": {
+    "top": 323,
+    "bottom": 375,
+    "left": 39,
+    "right": 267
+   },
+   "vramLabel": {
+    "top": 391,
+    "bottom": 412,
+    "left": 39,
+    "right": 193
+   },
+   "vramInput": {
+    "top": 418,
+    "bottom": 470,
+    "left": 39,
+    "right": 193
+   },
+   "legend": {
+    "top": 389,
+    "bottom": 410,
+    "left": 205,
+    "right": 308
+   },
+   "presets": [
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 209,
+     "right": 255
+    },
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 255,
+     "right": 301
+    },
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 301,
+     "right": 347
+    }
+   ],
+   "submit": {
+    "top": 544,
+    "bottom": 598,
+    "left": 39,
+    "right": 351
+   },
+   "sw": 390,
+   "vh": 844
+  },
+  "results-errors|390|dark": {
+   "scrollY": 0,
+   "searchLabel": {
+    "top": 296,
+    "bottom": 317,
+    "left": 39,
+    "right": 351
+   },
+   "searchInput": {
+    "top": 323,
+    "bottom": 375,
+    "left": 39,
+    "right": 267
+   },
+   "vramLabel": {
+    "top": 391,
+    "bottom": 412,
+    "left": 39,
+    "right": 193
+   },
+   "vramInput": {
+    "top": 418,
+    "bottom": 470,
+    "left": 39,
+    "right": 193
+   },
+   "legend": {
+    "top": 389,
+    "bottom": 410,
+    "left": 205,
+    "right": 308
+   },
+   "presets": [
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 209,
+     "right": 255
+    },
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 255,
+     "right": 301
+    },
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 301,
+     "right": 347
+    }
+   ],
+   "submit": {
+    "top": 544,
+    "bottom": 598,
+    "left": 39,
+    "right": 351
+   },
+   "sw": 390,
+   "vh": 844
+  },
+  "results-chips|390|dark": {
+   "scrollY": 0,
+   "searchLabel": {
+    "top": 296,
+    "bottom": 317,
+    "left": 39,
+    "right": 351
+   },
+   "searchInput": {
+    "top": 323,
+    "bottom": 375,
+    "left": 39,
+    "right": 267
+   },
+   "vramLabel": {
+    "top": 391,
+    "bottom": 412,
+    "left": 39,
+    "right": 193
+   },
+   "vramInput": {
+    "top": 418,
+    "bottom": 470,
+    "left": 39,
+    "right": 193
+   },
+   "legend": {
+    "top": 389,
+    "bottom": 410,
+    "left": 205,
+    "right": 308
+   },
+   "presets": [
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 209,
+     "right": 255
+    },
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 255,
+     "right": 301
+    },
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 301,
+     "right": 347
+    }
+   ],
+   "submit": {
+    "top": 544,
+    "bottom": 598,
+    "left": 39,
+    "right": 351
+   },
+   "sw": 390,
+   "vh": 844
+  },
+  "gpu-suggest|390|dark": {
+   "scrollY": 0,
+   "searchLabel": {
+    "top": 296,
+    "bottom": 317,
+    "left": 39,
+    "right": 351
+   },
+   "searchInput": {
+    "top": 323,
+    "bottom": 375,
+    "left": 39,
+    "right": 267
+   },
+   "vramLabel": {
+    "top": 391,
+    "bottom": 412,
+    "left": 39,
+    "right": 193
+   },
+   "vramInput": {
+    "top": 418,
+    "bottom": 470,
+    "left": 39,
+    "right": 193
+   },
+   "legend": {
+    "top": 389,
+    "bottom": 410,
+    "left": 205,
+    "right": 308
+   },
+   "presets": [
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 209,
+     "right": 255
+    },
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 255,
+     "right": 301
+    },
+    {
+     "top": 420,
+     "bottom": 466,
+     "left": 301,
+     "right": 347
+    }
+   ],
+   "submit": {
+    "top": 544,
+    "bottom": 598,
+    "left": 39,
+    "right": 351
+   },
+   "sw": 390,
+   "vh": 844
+  },
+  "home-default|1280|light": {
+   "scrollY": 0,
+   "searchLabel": {
+    "top": 193,
+    "bottom": 214,
+    "left": 49,
+    "right": 507
+   },
+   "searchInput": {
+    "top": 220,
+    "bottom": 272,
+    "left": 49,
+    "right": 423
+   },
+   "vramLabel": {
+    "top": 288,
+    "bottom": 309,
+    "left": 49,
+    "right": 349
+   },
+   "vramInput": {
+    "top": 315,
+    "bottom": 367,
+    "left": 49,
+    "right": 349
+   },
+   "legend": {
+    "top": 286,
+    "bottom": 307,
+    "left": 361,
+    "right": 464
+   },
+   "presets": [
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 365,
+     "right": 411
+    },
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 411,
+     "right": 457
+    },
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 457,
+     "right": 503
+    }
+   ],
+   "submit": {
+    "top": 441,
+    "bottom": 495,
+    "left": 49,
+    "right": 507
+   },
+   "sw": 1280,
+   "vh": 800
+  },
+  "results-gpu|1280|light": {
+   "scrollY": 0,
+   "searchLabel": {
+    "top": 193,
+    "bottom": 214,
+    "left": 49,
+    "right": 507
+   },
+   "searchInput": {
+    "top": 220,
+    "bottom": 272,
+    "left": 49,
+    "right": 423
+   },
+   "vramLabel": {
+    "top": 288,
+    "bottom": 309,
+    "left": 49,
+    "right": 349
+   },
+   "vramInput": {
+    "top": 315,
+    "bottom": 367,
+    "left": 49,
+    "right": 349
+   },
+   "legend": {
+    "top": 286,
+    "bottom": 307,
+    "left": 361,
+    "right": 464
+   },
+   "presets": [
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 365,
+     "right": 411
+    },
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 411,
+     "right": 457
+    },
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 457,
+     "right": 503
+    }
+   ],
+   "submit": {
+    "top": 441,
+    "bottom": 495,
+    "left": 49,
+    "right": 507
+   },
+   "sw": 1280,
+   "vh": 800
+  },
+  "results-manual-vram|1280|light": {
+   "scrollY": 0,
+   "searchLabel": {
+    "top": 193,
+    "bottom": 214,
+    "left": 49,
+    "right": 507
+   },
+   "searchInput": {
+    "top": 220,
+    "bottom": 272,
+    "left": 49,
+    "right": 423
+   },
+   "vramLabel": {
+    "top": 288,
+    "bottom": 309,
+    "left": 49,
+    "right": 349
+   },
+   "vramInput": {
+    "top": 315,
+    "bottom": 367,
+    "left": 49,
+    "right": 349
+   },
+   "legend": {
+    "top": 286,
+    "bottom": 307,
+    "left": 361,
+    "right": 464
+   },
+   "presets": [
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 365,
+     "right": 411
+    },
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 411,
+     "right": 457
+    },
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 457,
+     "right": 503
+    }
+   ],
+   "submit": {
+    "top": 441,
+    "bottom": 495,
+    "left": 49,
+    "right": 507
+   },
+   "sw": 1280,
+   "vh": 800
+  },
+  "results-gpu-ambiguous|1280|light": {
+   "scrollY": 0,
+   "searchLabel": {
+    "top": 193,
+    "bottom": 214,
+    "left": 49,
+    "right": 507
+   },
+   "searchInput": {
+    "top": 220,
+    "bottom": 272,
+    "left": 49,
+    "right": 423
+   },
+   "vramLabel": {
+    "top": 288,
+    "bottom": 309,
+    "left": 49,
+    "right": 349
+   },
+   "vramInput": {
+    "top": 315,
+    "bottom": 367,
+    "left": 49,
+    "right": 349
+   },
+   "legend": {
+    "top": 286,
+    "bottom": 307,
+    "left": 361,
+    "right": 464
+   },
+   "presets": [
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 365,
+     "right": 411
+    },
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 411,
+     "right": 457
+    },
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 457,
+     "right": 503
+    }
+   ],
+   "submit": {
+    "top": 441,
+    "bottom": 495,
+    "left": 49,
+    "right": 507
+   },
+   "sw": 1280,
+   "vh": 800
+  },
+  "results-gpu-notfound|1280|light": {
+   "scrollY": 0,
+   "searchLabel": {
+    "top": 193,
+    "bottom": 214,
+    "left": 49,
+    "right": 507
+   },
+   "searchInput": {
+    "top": 220,
+    "bottom": 272,
+    "left": 49,
+    "right": 423
+   },
+   "vramLabel": {
+    "top": 288,
+    "bottom": 309,
+    "left": 49,
+    "right": 349
+   },
+   "vramInput": {
+    "top": 315,
+    "bottom": 367,
+    "left": 49,
+    "right": 349
+   },
+   "legend": {
+    "top": 286,
+    "bottom": 307,
+    "left": 361,
+    "right": 464
+   },
+   "presets": [
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 365,
+     "right": 411
+    },
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 411,
+     "right": 457
+    },
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 457,
+     "right": 503
+    }
+   ],
+   "submit": {
+    "top": 441,
+    "bottom": 495,
+    "left": 49,
+    "right": 507
+   },
+   "sw": 1280,
+   "vh": 800
+  },
+  "results-errors|1280|light": {
+   "scrollY": 0,
+   "searchLabel": {
+    "top": 193,
+    "bottom": 214,
+    "left": 49,
+    "right": 507
+   },
+   "searchInput": {
+    "top": 220,
+    "bottom": 272,
+    "left": 49,
+    "right": 423
+   },
+   "vramLabel": {
+    "top": 288,
+    "bottom": 309,
+    "left": 49,
+    "right": 349
+   },
+   "vramInput": {
+    "top": 315,
+    "bottom": 367,
+    "left": 49,
+    "right": 349
+   },
+   "legend": {
+    "top": 286,
+    "bottom": 307,
+    "left": 361,
+    "right": 464
+   },
+   "presets": [
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 365,
+     "right": 411
+    },
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 411,
+     "right": 457
+    },
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 457,
+     "right": 503
+    }
+   ],
+   "submit": {
+    "top": 441,
+    "bottom": 495,
+    "left": 49,
+    "right": 507
+   },
+   "sw": 1280,
+   "vh": 800
+  },
+  "results-chips|1280|light": {
+   "scrollY": 0,
+   "searchLabel": {
+    "top": 193,
+    "bottom": 214,
+    "left": 49,
+    "right": 507
+   },
+   "searchInput": {
+    "top": 220,
+    "bottom": 272,
+    "left": 49,
+    "right": 423
+   },
+   "vramLabel": {
+    "top": 288,
+    "bottom": 309,
+    "left": 49,
+    "right": 349
+   },
+   "vramInput": {
+    "top": 315,
+    "bottom": 367,
+    "left": 49,
+    "right": 349
+   },
+   "legend": {
+    "top": 286,
+    "bottom": 307,
+    "left": 361,
+    "right": 464
+   },
+   "presets": [
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 365,
+     "right": 411
+    },
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 411,
+     "right": 457
+    },
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 457,
+     "right": 503
+    }
+   ],
+   "submit": {
+    "top": 441,
+    "bottom": 495,
+    "left": 49,
+    "right": 507
+   },
+   "sw": 1280,
+   "vh": 800
+  },
+  "gpu-suggest|1280|light": {
+   "scrollY": 0,
+   "searchLabel": {
+    "top": 193,
+    "bottom": 214,
+    "left": 49,
+    "right": 507
+   },
+   "searchInput": {
+    "top": 220,
+    "bottom": 272,
+    "left": 49,
+    "right": 423
+   },
+   "vramLabel": {
+    "top": 288,
+    "bottom": 309,
+    "left": 49,
+    "right": 349
+   },
+   "vramInput": {
+    "top": 315,
+    "bottom": 367,
+    "left": 49,
+    "right": 349
+   },
+   "legend": {
+    "top": 286,
+    "bottom": 307,
+    "left": 361,
+    "right": 464
+   },
+   "presets": [
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 365,
+     "right": 411
+    },
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 411,
+     "right": 457
+    },
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 457,
+     "right": 503
+    }
+   ],
+   "submit": {
+    "top": 441,
+    "bottom": 495,
+    "left": 49,
+    "right": 507
+   },
+   "sw": 1280,
+   "vh": 800
+  },
+  "home-default|1280|dark": {
+   "scrollY": 0,
+   "searchLabel": {
+    "top": 193,
+    "bottom": 214,
+    "left": 49,
+    "right": 507
+   },
+   "searchInput": {
+    "top": 220,
+    "bottom": 272,
+    "left": 49,
+    "right": 423
+   },
+   "vramLabel": {
+    "top": 288,
+    "bottom": 309,
+    "left": 49,
+    "right": 349
+   },
+   "vramInput": {
+    "top": 315,
+    "bottom": 367,
+    "left": 49,
+    "right": 349
+   },
+   "legend": {
+    "top": 286,
+    "bottom": 307,
+    "left": 361,
+    "right": 464
+   },
+   "presets": [
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 365,
+     "right": 411
+    },
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 411,
+     "right": 457
+    },
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 457,
+     "right": 503
+    }
+   ],
+   "submit": {
+    "top": 441,
+    "bottom": 495,
+    "left": 49,
+    "right": 507
+   },
+   "sw": 1280,
+   "vh": 800
+  },
+  "results-gpu|1280|dark": {
+   "scrollY": 0,
+   "searchLabel": {
+    "top": 193,
+    "bottom": 214,
+    "left": 49,
+    "right": 507
+   },
+   "searchInput": {
+    "top": 220,
+    "bottom": 272,
+    "left": 49,
+    "right": 423
+   },
+   "vramLabel": {
+    "top": 288,
+    "bottom": 309,
+    "left": 49,
+    "right": 349
+   },
+   "vramInput": {
+    "top": 315,
+    "bottom": 367,
+    "left": 49,
+    "right": 349
+   },
+   "legend": {
+    "top": 286,
+    "bottom": 307,
+    "left": 361,
+    "right": 464
+   },
+   "presets": [
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 365,
+     "right": 411
+    },
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 411,
+     "right": 457
+    },
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 457,
+     "right": 503
+    }
+   ],
+   "submit": {
+    "top": 441,
+    "bottom": 495,
+    "left": 49,
+    "right": 507
+   },
+   "sw": 1280,
+   "vh": 800
+  },
+  "results-manual-vram|1280|dark": {
+   "scrollY": 0,
+   "searchLabel": {
+    "top": 193,
+    "bottom": 214,
+    "left": 49,
+    "right": 507
+   },
+   "searchInput": {
+    "top": 220,
+    "bottom": 272,
+    "left": 49,
+    "right": 423
+   },
+   "vramLabel": {
+    "top": 288,
+    "bottom": 309,
+    "left": 49,
+    "right": 349
+   },
+   "vramInput": {
+    "top": 315,
+    "bottom": 367,
+    "left": 49,
+    "right": 349
+   },
+   "legend": {
+    "top": 286,
+    "bottom": 307,
+    "left": 361,
+    "right": 464
+   },
+   "presets": [
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 365,
+     "right": 411
+    },
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 411,
+     "right": 457
+    },
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 457,
+     "right": 503
+    }
+   ],
+   "submit": {
+    "top": 441,
+    "bottom": 495,
+    "left": 49,
+    "right": 507
+   },
+   "sw": 1280,
+   "vh": 800
+  },
+  "results-gpu-ambiguous|1280|dark": {
+   "scrollY": 0,
+   "searchLabel": {
+    "top": 193,
+    "bottom": 214,
+    "left": 49,
+    "right": 507
+   },
+   "searchInput": {
+    "top": 220,
+    "bottom": 272,
+    "left": 49,
+    "right": 423
+   },
+   "vramLabel": {
+    "top": 288,
+    "bottom": 309,
+    "left": 49,
+    "right": 349
+   },
+   "vramInput": {
+    "top": 315,
+    "bottom": 367,
+    "left": 49,
+    "right": 349
+   },
+   "legend": {
+    "top": 286,
+    "bottom": 307,
+    "left": 361,
+    "right": 464
+   },
+   "presets": [
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 365,
+     "right": 411
+    },
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 411,
+     "right": 457
+    },
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 457,
+     "right": 503
+    }
+   ],
+   "submit": {
+    "top": 441,
+    "bottom": 495,
+    "left": 49,
+    "right": 507
+   },
+   "sw": 1280,
+   "vh": 800
+  },
+  "results-gpu-notfound|1280|dark": {
+   "scrollY": 0,
+   "searchLabel": {
+    "top": 193,
+    "bottom": 214,
+    "left": 49,
+    "right": 507
+   },
+   "searchInput": {
+    "top": 220,
+    "bottom": 272,
+    "left": 49,
+    "right": 423
+   },
+   "vramLabel": {
+    "top": 288,
+    "bottom": 309,
+    "left": 49,
+    "right": 349
+   },
+   "vramInput": {
+    "top": 315,
+    "bottom": 367,
+    "left": 49,
+    "right": 349
+   },
+   "legend": {
+    "top": 286,
+    "bottom": 307,
+    "left": 361,
+    "right": 464
+   },
+   "presets": [
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 365,
+     "right": 411
+    },
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 411,
+     "right": 457
+    },
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 457,
+     "right": 503
+    }
+   ],
+   "submit": {
+    "top": 441,
+    "bottom": 495,
+    "left": 49,
+    "right": 507
+   },
+   "sw": 1280,
+   "vh": 800
+  },
+  "results-errors|1280|dark": {
+   "scrollY": 0,
+   "searchLabel": {
+    "top": 193,
+    "bottom": 214,
+    "left": 49,
+    "right": 507
+   },
+   "searchInput": {
+    "top": 220,
+    "bottom": 272,
+    "left": 49,
+    "right": 423
+   },
+   "vramLabel": {
+    "top": 288,
+    "bottom": 309,
+    "left": 49,
+    "right": 349
+   },
+   "vramInput": {
+    "top": 315,
+    "bottom": 367,
+    "left": 49,
+    "right": 349
+   },
+   "legend": {
+    "top": 286,
+    "bottom": 307,
+    "left": 361,
+    "right": 464
+   },
+   "presets": [
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 365,
+     "right": 411
+    },
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 411,
+     "right": 457
+    },
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 457,
+     "right": 503
+    }
+   ],
+   "submit": {
+    "top": 441,
+    "bottom": 495,
+    "left": 49,
+    "right": 507
+   },
+   "sw": 1280,
+   "vh": 800
+  },
+  "results-chips|1280|dark": {
+   "scrollY": 0,
+   "searchLabel": {
+    "top": 193,
+    "bottom": 214,
+    "left": 49,
+    "right": 507
+   },
+   "searchInput": {
+    "top": 220,
+    "bottom": 272,
+    "left": 49,
+    "right": 423
+   },
+   "vramLabel": {
+    "top": 288,
+    "bottom": 309,
+    "left": 49,
+    "right": 349
+   },
+   "vramInput": {
+    "top": 315,
+    "bottom": 367,
+    "left": 49,
+    "right": 349
+   },
+   "legend": {
+    "top": 286,
+    "bottom": 307,
+    "left": 361,
+    "right": 464
+   },
+   "presets": [
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 365,
+     "right": 411
+    },
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 411,
+     "right": 457
+    },
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 457,
+     "right": 503
+    }
+   ],
+   "submit": {
+    "top": 441,
+    "bottom": 495,
+    "left": 49,
+    "right": 507
+   },
+   "sw": 1280,
+   "vh": 800
+  },
+  "gpu-suggest|1280|dark": {
+   "scrollY": 0,
+   "searchLabel": {
+    "top": 193,
+    "bottom": 214,
+    "left": 49,
+    "right": 507
+   },
+   "searchInput": {
+    "top": 220,
+    "bottom": 272,
+    "left": 49,
+    "right": 423
+   },
+   "vramLabel": {
+    "top": 288,
+    "bottom": 309,
+    "left": 49,
+    "right": 349
+   },
+   "vramInput": {
+    "top": 315,
+    "bottom": 367,
+    "left": 49,
+    "right": 349
+   },
+   "legend": {
+    "top": 286,
+    "bottom": 307,
+    "left": 361,
+    "right": 464
+   },
+   "presets": [
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 365,
+     "right": 411
+    },
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 411,
+     "right": 457
+    },
+    {
+     "top": 317,
+     "bottom": 363,
+     "left": 457,
+     "right": 503
+    }
+   ],
+   "submit": {
+    "top": 441,
+    "bottom": 495,
+    "left": 49,
+    "right": 507
+   },
+   "sw": 1280,
+   "vh": 800
+  }
+ },
+ "consoleErrs": {
+  "home-default|390|light": [],
+  "results-gpu|390|light": [],
+  "results-manual-vram|390|light": [],
+  "results-gpu-ambiguous|390|light": [],
+  "results-gpu-notfound|390|light": [],
+  "results-errors|390|light": [],
+  "results-chips|390|light": [],
+  "gpu-suggest|390|light": [],
+  "home-default|390|dark": [],
+  "results-gpu|390|dark": [],
+  "results-manual-vram|390|dark": [],
+  "results-gpu-ambiguous|390|dark": [],
+  "results-gpu-notfound|390|dark": [],
+  "results-errors|390|dark": [],
+  "results-chips|390|dark": [],
+  "gpu-suggest|390|dark": [],
+  "home-default|1280|light": [],
+  "results-gpu|1280|light": [],
+  "results-manual-vram|1280|light": [],
+  "results-gpu-ambiguous|1280|light": [],
+  "results-gpu-notfound|1280|light": [],
+  "results-errors|1280|light": [],
+  "results-chips|1280|light": [],
+  "gpu-suggest|1280|light": [],
+  "home-default|1280|dark": [],
+  "results-gpu|1280|dark": [],
+  "results-manual-vram|1280|dark": [],
+  "results-gpu-ambiguous|1280|dark": [],
+  "results-gpu-notfound|1280|dark": [],
+  "results-errors|1280|dark": [],
+  "results-chips|1280|dark": [],
+  "gpu-suggest|1280|dark": []
+ }
+}

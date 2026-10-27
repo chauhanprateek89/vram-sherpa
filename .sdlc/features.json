@@ -381,7 +381,7 @@
       ],
       "notes": "Filters (the `<details>` at the foot of this tile) are T-012; the answer tile is T-013.",
       "review": "passed",
-      "passes": false
+      "passes": true
     },
     {
       "id": "T-012",
@@ -817,7 +817,7 @@
       ],
       "notes": "Choose on `pointerdown` with `preventDefault` so blur does not close the list first. Keyboard and screen-reader checks at 390 and 1280 px are QA's (rule 10, R-077). Known issue outside scope: after an htmx history cache hit the combobox listeners are lost (ADR-0008); free text still works.",
       "review": "passed",
-      "passes": false
+      "passes": true
     }
   ]
 }
