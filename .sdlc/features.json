@@ -118,7 +118,7 @@
       "dependsOn": [],
       "notes": "UI: no. Test-only; no app code changes. Must land before T-008 so every UI task runs against it. No file under `src/vramsherpa/static/` changes, so `ASSET_VERSION` is not bumped (rule 21).",
       "review": "passed",
-      "passes": false
+      "passes": true
     },
     {
       "id": "T-005",
@@ -427,7 +427,7 @@
       ],
       "notes": "N comes from `active_filter_chips|length` in the template; `main.py` changes only for `ASSET_VERSION`.",
       "review": "passed",
-      "passes": false
+      "passes": true
     },
     {
       "id": "T-013",
@@ -652,7 +652,7 @@
       ],
       "notes": "",
       "review": "passed",
-      "passes": false
+      "passes": true
     },
     {
       "id": "T-018",
@@ -775,7 +775,7 @@
       ],
       "notes": "Remove a rule only after grepping the templates and `app.js` for its class.",
       "review": "passed",
-      "passes": false
+      "passes": true
     },
     {
       "id": "T-021",

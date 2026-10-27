@@ -619,7 +619,7 @@ Requirements R-001 to R-066 stay in force unless a requirement in this section c
 
 ### R-067 Screens and states in scope
 
-Status: planned · Track: full · UI: yes · Source: intake 2026-10-25 and Gate 2 approval (`docs/decisions.md`); `docs/design/README.md` ("Screens and states"); `docs/design/final/`, `docs/design/mockups/final-*.html`; `templates/base.html`, `index.html`, `results_summary.html`, `results_list.html`, `results_why.html`, `model_detail.html`, `how_it_works.html`
+Status: done · Track: full · UI: yes · Source: intake 2026-10-25 and Gate 2 approval (`docs/decisions.md`); `docs/design/README.md` ("Screens and states"); `docs/design/final/`, `docs/design/mockups/final-*.html`; `templates/base.html`, `index.html`, `results_summary.html`, `results_list.html`, `results_why.html`, `model_detail.html`, `how_it_works.html`
 
 Asked: "UI/UX overhaul". Screens: "Whole app, incl. mobile" (offered as "every page, with the 390 px phone layout treated as a first-class design") and "How it works" (offered as "the /how-it-works explainer page"). Gate 2: "Approved the design: all 24 screens and states in `docs/design/final/` and `docs/design/mockups/final-*.html`, the copy table in `docs/design/README.md`, and ADRs 0001-0008. These are QA's reference (rule 10)."
 
@@ -678,7 +678,7 @@ Asked: "UI/UX overhaul". Screens: "Whole app, incl. mobile" (offered as "every p
 
 ### R-068 One visual identity, applied everywhere
 
-Status: planned · Track: full · UI: yes · Source: intake 2026-10-25; Gate 1 answers Q-7 and Q-11, Gate 2 round 1 and round 1 redo (`docs/decisions.md`); `docs/design/` (direction boards D, E and F; round 2 mockups in `docs/design/final/`); `styles.css` (`.state` on cards, `.badge` on model detail; `.tag` vs `.badge-gated`), `model_detail.html` (unstyled `Recompute` button), `base.html` (text wordmark only, no favicon)
+Status: done · Track: full · UI: yes · Source: intake 2026-10-25; Gate 1 answers Q-7 and Q-11, Gate 2 round 1 and round 1 redo (`docs/decisions.md`); `docs/design/` (direction boards D, E and F; round 2 mockups in `docs/design/final/`); `styles.css` (`.state` on cards, `.badge` on model detail; `.tag` vs `.badge-gated`), `model_detail.html` (unstyled `Recompute` button), `base.html` (text wordmark only, no favicon)
 
 Asked: "Looks generic/dated" (offered as "no visual identity; it should look like a product someone designed"). Visual direction: "Designer proposes 2-3". Gate 1: "each direction includes a logo mark and favicon"; "Gate 2 runs in two rounds: 2-3 direction boards (home/results at 390 and 1280, both themes), then every screen and state for the chosen direction." Gate 2 round 1 redo: "Direction: "D layout + E glass": D Bento's tile grid built from E Glass's frosted panes and type (Outfit). Every screen and state is mocked up in this hybrid for Gate 2."
 
@@ -704,7 +704,7 @@ Asked: "Looks generic/dated" (offered as "no visual identity; it should look lik
 
 ### R-069 The answer leads the results
 
-Status: planned · Track: full · UI: yes · Source: intake 2026-10-25; Gate 1 answers Q-1, Q-2, Q-3, Q-4 and Q-10, Gate 2 approval (`docs/decisions.md`); `docs/design/README.md` (R-069 measurements, "Where a requirement pushed back", "Decisions for you" item 3, copy table); ADR-0006; `index.html` (filters `<details open>` between the form and the results), `results_summary.html`, `results_list.html` (count sentence after Top Picks and filter chips; `There are <n> variants in Won't fit` line), `main.py` (`_top_picks` descriptions); PR #19 (Top Picks copy deferred)
+Status: done · Track: full · UI: yes · Source: intake 2026-10-25; Gate 1 answers Q-1, Q-2, Q-3, Q-4 and Q-10, Gate 2 approval (`docs/decisions.md`); `docs/design/README.md` (R-069 measurements, "Where a requirement pushed back", "Decisions for you" item 3, copy table); ADR-0006; `index.html` (filters `<details open>` between the form and the results), `results_summary.html`, `results_list.html` (count sentence after Top Picks and filter chips; `There are <n> variants in Won't fit` line), `main.py` (`_top_picks` descriptions); PR #19 (Top Picks copy deferred)
 
 Asked: "Too dense" (offered as "too much information at once; the answer gets lost"). Gate 1: "the designer shows Top Picks placement options at Gate 2"; "filters start collapsed on a phone with an active-filter count"; "fix only the two copy quirks (empty state "variants" vs models, Top Picks copy)". Gate 2: "Filters start closed at both widths (not opened on desktop by script). The 800 px desktop target (R-069) applies to the normal results view; states that show a message (ambiguous GPU, input errors) may end around 840-880 px." The Gate 2 dispatch set the ceiling for those states at 900 px, added the GPU-not-found state to them, and kept 1688 px at phone width for every state.
 
@@ -731,7 +731,7 @@ Asked: "Too dense" (offered as "too much information at once; the answer gets lo
 
 ### R-070 Phone layout on every page
 
-Status: planned · Track: full · UI: yes · Source: intake 2026-10-25; Gate 1 answers Q-4 and Q-5 (`docs/decisions.md`); `styles.css` (breakpoints at 980, 780 and 720 px; `min-width: 44px` on quantisation buttons); `data/seed_models.json`, `data/seed_gpus.json` (longest names); QA decisions 2026-10-27 (`docs/decisions.md`, Gate "QA (R-070)"; `.sdlc/qa/R-070/report.md`, criteria 2 and 3)
+Status: done · Track: full · UI: yes · Source: intake 2026-10-25; Gate 1 answers Q-4 and Q-5 (`docs/decisions.md`); `styles.css` (breakpoints at 980, 780 and 720 px; `min-width: 44px` on quantisation buttons); `data/seed_models.json`, `data/seed_gpus.json` (longest names); QA decisions 2026-10-27 (`docs/decisions.md`, Gate "QA (R-070)"; `.sdlc/qa/R-070/report.md`, criteria 2 and 3)
 
 Asked: "Bad on mobile" (offered as "the layout breaks or is cramped on a phone"). Also "Whole app, incl. mobile" (offered as "the 390 px phone layout treated as a first-class design").
 
@@ -758,7 +758,7 @@ Asked: "Bad on mobile" (offered as "the layout breaks or is cramped on a phone")
 
 ### R-071 Input form on `/` and `/results`
 
-Status: planned · Track: full · UI: yes · Source: intake 2026-10-25; `index.html` (form errors and `gpu_search_feedback` rendered in the form), `results_summary.html` (the same messages rendered again above the summary), `index.html` `hx-target="#results-shell"` (the form is not re-rendered on in-place refresh); Gate 1 answers Q-2, Q-4 and Q-8, Gate 2 approval (`docs/decisions.md`); ADR-0005 (`docs/adr/0005-gpu-suggestions-progressive-combobox.md`); approved mockup `gpu-suggest` (`docs/design/mockups/final-gpu-suggest.html`)
+Status: done · Track: full · UI: yes · Source: intake 2026-10-25; `index.html` (form errors and `gpu_search_feedback` rendered in the form), `results_summary.html` (the same messages rendered again above the summary), `index.html` `hx-target="#results-shell"` (the form is not re-rendered on in-place refresh); Gate 1 answers Q-2, Q-4 and Q-8, Gate 2 approval (`docs/decisions.md`); ADR-0005 (`docs/adr/0005-gpu-suggestions-progressive-combobox.md`); approved mockup `gpu-suggest` (`docs/design/mockups/final-gpu-suggest.html`)
 
 Asked: "Too dense"; "Bad on mobile"; "Looks generic/dated". Gate 1: "restyle the controls only, but the native GPU suggestion list may be replaced if it works badly on phones". Gate 2: "Build the styled GPU suggestion list (the `gpu-suggest` mockup): a small vanilla JS combobox over the native list at every width (ADR-0005), keeping R-001's behaviour and the no-JavaScript path."
 
@@ -784,7 +784,7 @@ Asked: "Too dense"; "Bad on mobile"; "Looks generic/dated". Gate 1: "restyle the
 
 ### R-072 Model cards, quantisation switcher and fit gauge
 
-Status: planned · Track: full · UI: yes · Source: intake 2026-10-25; `results_list.html`, `styles.css` (`.state::before` marker shapes, hatched reserve band, `[data-oversize]` strike-through); PR #19
+Status: done · Track: full · UI: yes · Source: intake 2026-10-25; `results_list.html`, `styles.css` (`.state::before` marker shapes, hatched reserve band, `[data-oversize]` strike-through); PR #19
 
 Asked: "Too dense"; "Bad on mobile"; "Looks generic/dated".
 
@@ -796,7 +796,7 @@ Asked: "Too dense"; "Bad on mobile"; "Looks generic/dated".
 
 ### R-073 "How this is estimated" breakdown
 
-Status: planned · Track: full · UI: yes · Source: intake 2026-10-25; Gate 1 answer Q-2 (`docs/decisions.md`); `results_why.html` (raw labels `weights_gb`, `kv_cache_gb`, `runtime_overhead_gb`, `reserve_gb`, `required_vram_gb`), `results_list.html` (`why-panel`, placeholder `Open to load the breakdown.`)
+Status: done · Track: full · UI: yes · Source: intake 2026-10-25; Gate 1 answer Q-2 (`docs/decisions.md`); `results_why.html` (raw labels `weights_gb`, `kv_cache_gb`, `runtime_overhead_gb`, `reserve_gb`, `required_vram_gb`), `results_list.html` (`why-panel`, placeholder `Open to load the breakdown.`)
 
 Asked: "Whole app, incl. mobile"; "Too dense"; "Looks generic/dated". Gate 1: "raw labels (such as `weights_gb`) may be reworded".
 
@@ -808,7 +808,7 @@ Asked: "Whole app, incl. mobile"; "Too dense"; "Looks generic/dated". Gate 1: "r
 
 ### R-074 Model detail page
 
-Status: planned · Track: full · UI: yes · Source: intake 2026-10-25; Gate 1 answers Q-4 and Q-8 (`docs/decisions.md`); `model_detail.html` (seven-column table in `.table-scroll`; plain `<button>` `Recompute`)
+Status: done · Track: full · UI: yes · Source: intake 2026-10-25; Gate 1 answers Q-4 and Q-8 (`docs/decisions.md`); `model_detail.html` (seven-column table in `.table-scroll`; plain `<button>` `Recompute`)
 
 Asked: "Whole app, incl. mobile"; "Too dense"; "Bad on mobile".
 
@@ -820,7 +820,7 @@ Asked: "Whole app, incl. mobile"; "Too dense"; "Bad on mobile".
 
 ### R-075 How it works page
 
-Status: planned · Track: full · UI: yes · Source: intake 2026-10-25; Gate 1 answer Q-6, Gate 2 round 1 and round 1 redo (Q-12) (`docs/decisions.md`); `how_it_works.html` (policy version typed into the heading), `main.py` (`ESTIMATION_POLICY_VERSION = "v0.1"`); `src/vramsherpa/estimation.py` (`estimate_breakdown`); `data/seed_models.json` and `data/seed_variants.json` (catalog `2026-10-23`: `model_llama_31_8b_instruct`, params_b 8.0, kv_gb_per_1k_ctx 0.48, no `discovered` flag; `variant_model_llama_31_8b_instruct_q4`, bits_effective 4.5); `tools/catalog_sources.yaml` (the model is curated there); constitution rule 16
+Status: done · Track: full · UI: yes · Source: intake 2026-10-25; Gate 1 answer Q-6, Gate 2 round 1 and round 1 redo (Q-12) (`docs/decisions.md`); `how_it_works.html` (policy version typed into the heading), `main.py` (`ESTIMATION_POLICY_VERSION = "v0.1"`); `src/vramsherpa/estimation.py` (`estimate_breakdown`); `data/seed_models.json` and `data/seed_variants.json` (catalog `2026-10-23`: `model_llama_31_8b_instruct`, params_b 8.0, kv_gb_per_1k_ctx 0.48, no `discovered` flag; `variant_model_llama_31_8b_instruct_q4`, bits_effective 4.5); `tools/catalog_sources.yaml` (the model is curated there); constitution rule 16
 
 Asked: "How it works" (offered as "the /how-it-works explainer page"). Also "Looks generic/dated" and "Too dense". Gate 1: "restyle it and add plain-language terms plus a worked example (8B at Q4, 2048 tokens = 6.72 GB). Formulas are unchanged, so `ESTIMATION_POLICY_VERSION` stays v0.1. Reading of rule 16: the three change together only when the estimate itself changes." Gate 2 round 1: "The /how-it-works worked example uses a real catalog 8B model, so the page agrees with that model's card (about 7.33 GB at Q4, 2048 tokens), replacing the 6.72 GB test inputs." Gate 2 round 1 redo (Q-12): "if Llama 3.1 8B Instruct leaves the catalog, /how-it-works keeps the worked example from fixed inputs, unnamed ("an 8B model at Q4")."
 
@@ -852,7 +852,7 @@ The example model is Llama 3.1 8B Instruct (`model_llama_31_8b_instruct`). It is
 
 ### R-076 Header and footer
 
-Status: planned · Track: full · UI: yes · Source: intake 2026-10-25; Gate 1 answer Q-7 (`docs/decisions.md`); `base.html`
+Status: done · Track: full · UI: yes · Source: intake 2026-10-25; Gate 1 answer Q-7 (`docs/decisions.md`); `base.html`
 
 Asked: "Whole app, incl. mobile"; "Looks generic/dated". Gate 1: "each direction includes a logo mark and favicon".
 
@@ -864,7 +864,7 @@ Asked: "Whole app, incl. mobile"; "Looks generic/dated". Gate 1: "each direction
 
 ### R-077 Accessibility through the redesign
 
-Status: planned · Track: full · UI: yes · Source: intake 2026-10-25; `styles.css` (`:focus-visible` rules, `prefers-reduced-motion` blocks); R-008, R-016, R-018, R-022, R-039, R-040; PR #19 (contrast measurements); Gate 1 answer Q-4 (`docs/decisions.md`); QA decision 2026-10-27 (`docs/decisions.md`, row "QA (R-077)"): the user accepted the phone header focus order
+Status: done · Track: full · UI: yes · Source: intake 2026-10-25; `styles.css` (`:focus-visible` rules, `prefers-reduced-motion` blocks); R-008, R-016, R-018, R-022, R-039, R-040; PR #19 (contrast measurements); Gate 1 answer Q-4 (`docs/decisions.md`); QA decision 2026-10-27 (`docs/decisions.md`, row "QA (R-077)"): the user accepted the phone header focus order
 
 Asked: "UI/UX overhaul".
 
@@ -882,7 +882,7 @@ Asked: "UI/UX overhaul".
 
 ### R-078 Behaviour the overhaul keeps
 
-Status: planned · Track: full · UI: yes · Source: intake 2026-10-25 (the user did not pick "Hard to use"); Gate 1 answers Q-2 and Q-8, Gate 2 approval (`docs/decisions.md`); `docs/design/README.md` (section "Copy table (Q-2): what changed" and its list "Word for word (R-078)"); constitution rules 11 and 16; R-001 to R-066
+Status: done · Track: full · UI: yes · Source: intake 2026-10-25 (the user did not pick "Hard to use"); Gate 1 answers Q-2 and Q-8, Gate 2 approval (`docs/decisions.md`); `docs/design/README.md` (section "Copy table (Q-2): what changed" and its list "Word for word (R-078)"); constitution rules 11 and 16; R-001 to R-066
 
 Asked: "UI/UX overhaul". The user did not name the flow as a problem. Gate 1: "headings, help text, notes and raw labels (such as `weights_gb`) may be reworded and repeats merged. Error messages, verdict labels and figures stay. New wording is approved in the Gate 2 mockups."; "restyle the controls only, but the native GPU suggestion list may be replaced if it works badly on phones". Gate 2: "Approved the design: all 24 screens and states …, the copy table in `docs/design/README.md`, and ADRs 0001-0008. These are QA's reference (rule 10)."; "Build the styled GPU suggestion list (the `gpu-suggest` mockup) …".
 
@@ -904,7 +904,7 @@ Asked: "UI/UX overhaul". The user did not name the flow as a problem. Gate 1: "h
 
 ### R-079 New styles reach returning visitors
 
-Status: planned · Track: full · UI: no · Source: constitution rule 21; R-041; `main.py` (`ASSET_VERSION = "20261024a"`)
+Status: done · Track: full · UI: no · Source: constitution rule 21; R-041; `main.py` (`ASSET_VERSION = "20261024a"`)
 
 Asked: "UI/UX overhaul".
 
@@ -912,7 +912,7 @@ Asked: "UI/UX overhaul".
 
 ### R-080 HTML responses carry `Cache-Control`
 
-Status: planned · Track: full · UI: no · Source: Gate 1 answer Q-9 (`docs/decisions.md`); constitution rule 9; `main.py` (no route or middleware sets `Cache-Control` today; see "Other docs against the code" below)
+Status: done · Track: full · UI: no · Source: Gate 1 answer Q-9 (`docs/decisions.md`); constitution rule 9; `main.py` (no route or middleware sets `Cache-Control` today; see "Other docs against the code" below)
 
 Asked: "the overhaul ships with a `Cache-Control` header on HTML responses (a new UI: no requirement in this change)."
 
@@ -938,7 +938,7 @@ Out of scope: `/static/…` files, whose freshness comes from the asset version 
 
 ### R-081 Back, forward, reload and shared links show the full page
 
-Status: planned · Track: full · UI: no (no new screen or state: every page this requirement shows is the results state of R-067) · Source: Gate 2 round 1 and round 1 redo, Q-13 (`docs/decisions.md`); ADR-0008 (`docs/adr/0008-htmx-history-restores-full-page.md`); `index.html` (`hx-get="/results/partials/content"` with `hx-push-url="true"`, so each in-place refresh pushes a fragment URL); `main.py` (`results_partial_content` always returns `results_content.html`; `results` returns it for any `HX-Request: true`); `base.html` (htmx 1.9.12, default history cache)
+Status: done · Track: full · UI: no (no new screen or state: every page this requirement shows is the results state of R-067) · Source: Gate 2 round 1 and round 1 redo, Q-13 (`docs/decisions.md`); ADR-0008 (`docs/adr/0008-htmx-history-restores-full-page.md`); `index.html` (`hx-get="/results/partials/content"` with `hx-push-url="true"`, so each in-place refresh pushes a fragment URL); `main.py` (`results_partial_content` always returns `results_content.html`; `results` returns it for any `HX-Request: true`); `base.html` (htmx 1.9.12, default history cache)
 
 Asked: "Fix the htmx history-miss bug (a back navigation replaces the page with the bare results fragment) in this change." Gate 2 round 1 redo: "Q-13 resolved by ADR-0008: reload and shared links show the full page, so R-081 covers reload and share as well as Back/Forward."; "Old saved or shared links to `/results/partials/content?…`, opened as a normal page, redirect to `/results?…`."
 

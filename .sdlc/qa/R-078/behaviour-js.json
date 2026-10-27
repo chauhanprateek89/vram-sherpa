@@ -1,0 +1,310 @@
+{
+ "old-1280": {
+  "/results?vram_gb=24&context_tokens=4096": {
+   "cards": 71,
+   "buttons": 284,
+   "bad": 0,
+   "badSample": [],
+   "maxVisible": 1,
+   "minVisible": 1
+  },
+  "/results?vram_gb=12&context_tokens=8192&family=qwen&quant_bucket=Q4": {
+   "cards": 23,
+   "buttons": 23,
+   "bad": 0,
+   "badSample": [],
+   "maxVisible": 1,
+   "minVisible": 1
+  },
+  "/results?vram_gb=2&context_tokens=4096": {
+   "cards": 9,
+   "buttons": 36,
+   "bad": 0,
+   "badSample": [],
+   "maxVisible": 1,
+   "minVisible": 1
+  },
+  "/results?vram_gb=1&context_tokens=2048&quant_bucket=Q8": {
+   "cards": 0,
+   "buttons": 0,
+   "bad": 0,
+   "badSample": [],
+   "maxVisible": 0,
+   "minVisible": 9
+  },
+  "flow": {
+   "presetButtons": [
+    "RTX 4060 8GB",
+    "8GB",
+    "24GB"
+   ],
+   "ctxLabels": [
+    "2k",
+    "4k",
+    "8k"
+   ],
+   "checkedCtx": "8192",
+   "urlAfterSubmit": "http://localhost:8101/results/partials/content?gpu_id=&gpu_search=&vram_gb=24&context_tokens=8192&min_params_b=&max_params_b=",
+   "headline": "Summary for this query\n\nHardware: Manual VRAM (24 GB)\nContext: 8k\n\nShowing only Fits and Tight models in the list below.\n\n71\nFits\n0\nTight\n24\nWon't fit\nTop Picks for you\n\nBEST QUALITY THAT FITS\n\nDeepSeek-Coder-V2-Lite-Instruct\n\n15.7B · Q4\n\nHighest-ranked variant that remains in the Fits band.\n\nBEST B",
+   "filtersOpenInitially": true,
+   "urlAfterFamily": "http://localhost:8101/results/partials/content?gpu_id=&gpu_search=&vram_gb=24&context_tokens=8192&family=qwen&min_params_b=&max_params_b=",
+   "urlAfterQuant": "http://localhost:8101/results/partials/content?gpu_id=&gpu_search=&vram_gb=24&context_tokens=8192&family=qwen&quant_bucket=Q4&min_params_b=&max_params_b=",
+   "urlAfterMin": "http://localhost:8101/results/partials/content?gpu_id=&gpu_search=&vram_gb=24&context_tokens=8192&family=qwen&quant_bucket=Q4&min_params_b=&max_params_b=",
+   "urlAfterRec": "http://localhost:8101/results/partials/content?gpu_id=&gpu_search=&vram_gb=24&context_tokens=8192&family=qwen&quant_bucket=Q4&min_params_b=7&max_params_b=&recommended_only=true",
+   "cardsAfter": 9,
+   "chips": [
+    "RTX 4060 8GB 8GB 24GB",
+    "RTX 4060 8GB",
+    "8GB",
+    "24GB",
+    "Family: qwen ×",
+    "Quant: Q4 ×",
+    "Min params >= 7B ×",
+    "Recommended only ×"
+   ],
+   "gpuListbox": null,
+   "nativeDatalistOptions": 35,
+   "gpuIdAfterExact": "gpu_nvidia_rtx_4090_24gb",
+   "vramAfterExact": "",
+   "gpuIdAfterVram": "",
+   "focusAfterClear": "gpu_search",
+   "themeText": "Dark mode",
+   "themeTextAfter": "Light mode"
+  },
+  "errs": [
+   "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ]
+ },
+ "new-1280": {
+  "/results?vram_gb=24&context_tokens=4096": {
+   "cards": 71,
+   "buttons": 284,
+   "bad": 0,
+   "badSample": [],
+   "maxVisible": 1,
+   "minVisible": 1
+  },
+  "/results?vram_gb=12&context_tokens=8192&family=qwen&quant_bucket=Q4": {
+   "cards": 23,
+   "buttons": 23,
+   "bad": 0,
+   "badSample": [],
+   "maxVisible": 1,
+   "minVisible": 1
+  },
+  "/results?vram_gb=2&context_tokens=4096": {
+   "cards": 9,
+   "buttons": 36,
+   "bad": 0,
+   "badSample": [],
+   "maxVisible": 1,
+   "minVisible": 1
+  },
+  "/results?vram_gb=1&context_tokens=2048&quant_bucket=Q8": {
+   "cards": 0,
+   "buttons": 0,
+   "bad": 0,
+   "badSample": [],
+   "maxVisible": 0,
+   "minVisible": 9
+  },
+  "flow": {
+   "presetButtons": [
+    "RTX 4060 8GB",
+    "8GB",
+    "24GB"
+   ],
+   "ctxLabels": [
+    "2k",
+    "4k",
+    "8k"
+   ],
+   "checkedCtx": "8192",
+   "urlAfterSubmit": "http://localhost:8000/results?gpu_id=&gpu_search=&vram_gb=24&context_tokens=8192&min_params_b=&max_params_b=",
+   "headline": "71 models fit or are tight\n\nHardware: Manual VRAM (24 GB)\nContext: 8k\n\n71\nFits\n0\nTight\n24\nWon't fit\n\nOnly Fits and Tight models are listed. Pick a quantisation on any card to see how it changes.\n\nTop Picks for you\n\nBest quality that fits\n\nDeepSeek-Coder-V2-Lite-Instruct\n\n15.7B · Q4\n\nThe strongest mo",
+   "filtersOpenInitially": false,
+   "urlAfterFamily": "http://localhost:8000/results?gpu_id=&gpu_search=&vram_gb=24&context_tokens=8192&family=qwen&min_params_b=&max_params_b=",
+   "urlAfterQuant": "http://localhost:8000/results?gpu_id=&gpu_search=&vram_gb=24&context_tokens=8192&family=qwen&quant_bucket=Q4&min_params_b=&max_params_b=",
+   "urlAfterMin": "http://localhost:8000/results?gpu_id=&gpu_search=&vram_gb=24&context_tokens=8192&family=qwen&quant_bucket=Q4&min_params_b=&max_params_b=",
+   "urlAfterRec": "http://localhost:8000/results?gpu_id=&gpu_search=&vram_gb=24&context_tokens=8192&family=qwen&quant_bucket=Q4&min_params_b=7&max_params_b=&recommended_only=true",
+   "cardsAfter": 9,
+   "chips": [
+    "RTX 4060 8GB 8GB 24GB",
+    "RTX 4060 8GB",
+    "8GB",
+    "24GB",
+    "Family: qwen ×",
+    "Quant: Q4 ×",
+    "Min params >= 7B ×",
+    "Recommended only ×"
+   ],
+   "gpuListbox": [
+    "NVIDIA GeForce RTX 4060 (8.0 GB)",
+    "NVIDIA GeForce RTX 4060 Laptop GPU (8.0 GB)",
+    "NVIDIA GeForce RTX 4060 Ti (8GB) (8.0 GB)",
+    "NVIDIA GeForce RTX 4060 Ti (16GB) (16.0 GB)"
+   ],
+   "nativeDatalistOptions": 35,
+   "gpuIdAfterExact": "gpu_nvidia_rtx_4090_24gb",
+   "vramAfterExact": "",
+   "gpuIdAfterVram": "",
+   "focusAfterClear": "gpu_search",
+   "themeText": "Dark mode",
+   "themeTextAfter": "Light mode"
+  },
+  "errs": []
+ },
+ "old-390": {
+  "/results?vram_gb=24&context_tokens=4096": {
+   "cards": 71,
+   "buttons": 284,
+   "bad": 0,
+   "badSample": [],
+   "maxVisible": 1,
+   "minVisible": 1
+  },
+  "/results?vram_gb=12&context_tokens=8192&family=qwen&quant_bucket=Q4": {
+   "cards": 23,
+   "buttons": 23,
+   "bad": 0,
+   "badSample": [],
+   "maxVisible": 1,
+   "minVisible": 1
+  },
+  "/results?vram_gb=2&context_tokens=4096": {
+   "cards": 9,
+   "buttons": 36,
+   "bad": 0,
+   "badSample": [],
+   "maxVisible": 1,
+   "minVisible": 1
+  },
+  "/results?vram_gb=1&context_tokens=2048&quant_bucket=Q8": {
+   "cards": 0,
+   "buttons": 0,
+   "bad": 0,
+   "badSample": [],
+   "maxVisible": 0,
+   "minVisible": 9
+  },
+  "flow": {
+   "presetButtons": [
+    "RTX 4060 8GB",
+    "8GB",
+    "24GB"
+   ],
+   "ctxLabels": [
+    "2k",
+    "4k",
+    "8k"
+   ],
+   "checkedCtx": "8192",
+   "urlAfterSubmit": "http://localhost:8101/results/partials/content?gpu_id=&gpu_search=&vram_gb=24&context_tokens=8192&min_params_b=&max_params_b=",
+   "headline": "Summary for this query\n\nHardware: Manual VRAM (24 GB)\nContext: 8k\n\nShowing only Fits and Tight models in the list below.\n\n71\nFits\n0\nTight\n24\nWon't fit\nTop Picks for you\n\nBEST QUALITY THAT FITS\n\nDeepSeek-Coder-V2-Lite-Instruct\n\n15.7B · Q4\n\nHighest-ranked variant that remains in the Fits band.\n\nBEST B",
+   "filtersOpenInitially": true,
+   "urlAfterFamily": "http://localhost:8101/results/partials/content?gpu_id=&gpu_search=&vram_gb=24&context_tokens=8192&family=qwen&min_params_b=&max_params_b=",
+   "urlAfterQuant": "http://localhost:8101/results/partials/content?gpu_id=&gpu_search=&vram_gb=24&context_tokens=8192&family=qwen&quant_bucket=Q4&min_params_b=&max_params_b=",
+   "urlAfterMin": "http://localhost:8101/results/partials/content?gpu_id=&gpu_search=&vram_gb=24&context_tokens=8192&family=qwen&quant_bucket=Q4&min_params_b=&max_params_b=",
+   "urlAfterRec": "http://localhost:8101/results/partials/content?gpu_id=&gpu_search=&vram_gb=24&context_tokens=8192&family=qwen&quant_bucket=Q4&min_params_b=7&max_params_b=&recommended_only=true",
+   "cardsAfter": 9,
+   "chips": [
+    "RTX 4060 8GB 8GB 24GB",
+    "RTX 4060 8GB",
+    "8GB",
+    "24GB",
+    "Family: qwen ×",
+    "Quant: Q4 ×",
+    "Min params >= 7B ×",
+    "Recommended only ×"
+   ],
+   "gpuListbox": null,
+   "nativeDatalistOptions": 35,
+   "gpuIdAfterExact": "gpu_nvidia_rtx_4090_24gb",
+   "vramAfterExact": "",
+   "gpuIdAfterVram": "",
+   "focusAfterClear": "gpu_search",
+   "themeText": "Dark mode",
+   "themeTextAfter": "Light mode"
+  },
+  "errs": []
+ },
+ "new-390": {
+  "/results?vram_gb=24&context_tokens=4096": {
+   "cards": 71,
+   "buttons": 284,
+   "bad": 0,
+   "badSample": [],
+   "maxVisible": 1,
+   "minVisible": 1
+  },
+  "/results?vram_gb=12&context_tokens=8192&family=qwen&quant_bucket=Q4": {
+   "cards": 23,
+   "buttons": 23,
+   "bad": 0,
+   "badSample": [],
+   "maxVisible": 1,
+   "minVisible": 1
+  },
+  "/results?vram_gb=2&context_tokens=4096": {
+   "cards": 9,
+   "buttons": 36,
+   "bad": 0,
+   "badSample": [],
+   "maxVisible": 1,
+   "minVisible": 1
+  },
+  "/results?vram_gb=1&context_tokens=2048&quant_bucket=Q8": {
+   "cards": 0,
+   "buttons": 0,
+   "bad": 0,
+   "badSample": [],
+   "maxVisible": 0,
+   "minVisible": 9
+  },
+  "flow": {
+   "presetButtons": [
+    "RTX 4060 8GB",
+    "8GB",
+    "24GB"
+   ],
+   "ctxLabels": [
+    "2k",
+    "4k",
+    "8k"
+   ],
+   "checkedCtx": "8192",
+   "urlAfterSubmit": "http://localhost:8000/results?gpu_id=&gpu_search=&vram_gb=24&context_tokens=8192&min_params_b=&max_params_b=",
+   "headline": "71 models fit or are tight\n\nHardware: Manual VRAM (24 GB)\nContext: 8k\n\n71\nFits\n0\nTight\n24\nWon't fit\n\nOnly Fits and Tight models are listed. Pick a quantisation on any card to see how it changes.\n\nTop Picks for you\nResults\nDeepSeek-Coder-V2-Lite-Instruct\n\n15.71B params\ndeepseek\n\nQ4\nQ5\nQ8\nFP16\nFits\n4.",
+   "filtersOpenInitially": false,
+   "urlAfterFamily": "http://localhost:8000/results?gpu_id=&gpu_search=&vram_gb=24&context_tokens=8192&family=qwen&min_params_b=&max_params_b=",
+   "urlAfterQuant": "http://localhost:8000/results?gpu_id=&gpu_search=&vram_gb=24&context_tokens=8192&family=qwen&quant_bucket=Q4&min_params_b=&max_params_b=",
+   "urlAfterMin": "http://localhost:8000/results?gpu_id=&gpu_search=&vram_gb=24&context_tokens=8192&family=qwen&quant_bucket=Q4&min_params_b=&max_params_b=",
+   "urlAfterRec": "http://localhost:8000/results?gpu_id=&gpu_search=&vram_gb=24&context_tokens=8192&family=qwen&quant_bucket=Q4&min_params_b=7&max_params_b=&recommended_only=true",
+   "cardsAfter": 9,
+   "chips": [
+    "RTX 4060 8GB 8GB 24GB",
+    "RTX 4060 8GB",
+    "8GB",
+    "24GB",
+    "Family: qwen ×",
+    "Quant: Q4 ×",
+    "Min params >= 7B ×",
+    "Recommended only ×"
+   ],
+   "gpuListbox": [
+    "NVIDIA GeForce RTX 4060 (8.0 GB)",
+    "NVIDIA GeForce RTX 4060 Laptop GPU (8.0 GB)",
+    "NVIDIA GeForce RTX 4060 Ti (8GB) (8.0 GB)",
+    "NVIDIA GeForce RTX 4060 Ti (16GB) (16.0 GB)"
+   ],
+   "nativeDatalistOptions": 35,
+   "gpuIdAfterExact": "gpu_nvidia_rtx_4090_24gb",
+   "vramAfterExact": "",
+   "gpuIdAfterVram": "",
+   "focusAfterClear": "gpu_search",
+   "themeText": "Dark mode",
+   "themeTextAfter": "Light mode"
+  },
+  "errs": []
+ }
+}
