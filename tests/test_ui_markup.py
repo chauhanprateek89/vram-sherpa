@@ -1487,3 +1487,92 @@ def test_detail_css_follows_the_mockup() -> None:
 
 def test_asset_version_moved_on_for_the_detail_page() -> None:
     assert main.ASSET_VERSION > "20261025n"
+
+
+# ---- T-021: the GPU suggestion list ----
+
+
+def test_gpu_field_keeps_the_native_list_for_the_no_javascript_path(
+    client: TestClient, seeded_session: Session
+) -> None:
+    root = _tree(client.get("/").text)
+    search = _by_id(root, "gpu_search")
+    assert search.attrs["list"] == "gpu-options"
+    assert "combo" in search.parent.classes()
+    # The script adds all of these; the server markup must not carry them.
+    for attr in ("role", "aria-expanded", "aria-controls", "aria-activedescendant"):
+        assert attr not in search.attrs, attr
+    assert not [n for n in root.walk() if n.attrs.get("id") == "gpu-listbox"]
+    options = [n for n in _by_id(root, "gpu-options").walk() if n.tag == "option"]
+    gpus = main._load_gpus(seeded_session)
+    assert len(options) == len(gpus) == 35
+    assert [o.attrs["data-gpu-id"] for o in options] == [g.id for g in gpus]
+    assert [o.attrs["value"] for o in options] == [
+        f"{g.vendor} {g.name} ({g.vram_gb:.1f} GB)" for g in gpus
+    ]
+
+
+def test_app_js_gpu_combobox_follows_adr_0005() -> None:
+    js = APP_JS.read_text(encoding="utf-8")
+    body = js.split("function initGpuCombobox")[1].split("function initExampleChips")[0]
+    # Takes over from the native list only when it can: it removes `list` and sets the ARIA state.
+    assert 'input.removeAttribute("list")' in body
+    assert 'input.setAttribute("list", nativeList)' in body
+    for fragment in (
+        '"role", "combobox"',
+        '"aria-autocomplete", "list"',
+        '"aria-expanded"',
+        '"aria-controls", "gpu-listbox"',
+        '"aria-activedescendant"',
+        'listbox.id = "gpu-listbox"',
+        '"aria-label", "GPU suggestions"',
+        '"role", "option"',
+        '"aria-selected", "true"',
+    ):
+        assert fragment in body, fragment
+    # Keys and pointer.
+    for key in ("ArrowDown", "ArrowUp", "Enter", "Escape"):
+        assert f'event.key === "{key}"' in body, key
+    assert "event.preventDefault();\n        choose(active);" in body
+    assert 'addEventListener("pointerdown"' in body
+    assert 'addEventListener("blur", close)' in body
+    # Choosing reuses the exact-match code through input and change; it never submits.
+    assert 'new Event("input"' in body and 'new Event("change"' in body
+    assert "submit" not in body
+    assert "initGpuCombobox();" in js.split('addEventListener("DOMContentLoaded"')[1]
+
+
+def test_gpu_suggestion_css_follows_the_mockup() -> None:
+    css = _css()
+    box = _rules(css, ".listbox")[0]
+    assert "position: absolute" in box and "left: 0" in box and "right: 0" in box
+    assert "max-height: 300px" in box
+    assert _rules(css, ".f-gpu")[0].strip() == "position: relative;"
+    option = _rules(css, ".listbox li")[0]
+    assert "min-height: 48px" in option and "overflow-wrap: anywhere" in option
+    assert "text-overflow" not in option and "white-space: nowrap" not in option
+    solid = re.search(r"@media \(max-width: 899px\)\s*\{\s*\.listbox\s*\{([^}]*)\}", css)
+    assert solid and "var(--panel-solid)" in solid.group(1)
+    assert "backdrop-filter: none" in solid.group(1)
+    assert 'li[aria-selected="true"]' in css
+
+
+def test_home_vram_field_is_marked_only_when_the_server_rejects_it(client: TestClient) -> None:
+    bad = _tree(client.get("/results?vram_gb=abc").text)
+    assert _by_id(bad, "vram_gb").attrs["aria-invalid"] == "true"
+    other = _tree(client.get("/results?vram_gb=8&min_params_b=x").text)
+    assert "aria-invalid" not in _by_id(other, "vram_gb").attrs
+    assert "aria-invalid" not in _by_id(_tree(client.get("/").text), "vram_gb").attrs
+    rule = _rules(_css(), '.form-pane input[aria-invalid="true"]')
+    assert rule and "border-color: var(--wont-fg)" in rule[0] and "border-width: 2px" in rule[0]
+
+
+def test_choices_and_presets_carry_the_label_letter_spacing() -> None:
+    css = _css()
+    assert "letter-spacing: .01em" in _rules(css, ".choice")[0]
+    assert "letter-spacing: .01em" in _rules(css, ".seg label")[0]
+
+
+def test_asset_version_moved_on_for_the_suggestion_list() -> None:
+    assert main.ASSET_VERSION > "20261027a"
+    assert re.fullmatch(r"\d{8}[a-z]", main.ASSET_VERSION)

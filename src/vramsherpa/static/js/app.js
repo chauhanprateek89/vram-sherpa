@@ -99,6 +99,180 @@ function initGpuInputs() {
   }
 }
 
+// Styled GPU suggestion list (ADR-0005): a WAI-ARIA combobox over the server-rendered datalist.
+// Progressive: the native list stays in the markup for no-JavaScript, and this removes the
+// input's `list` attribute only once everything it needs is in place. Choosing writes the exact
+// label and fires input and change, so the exact-match code in initGpuInputs sets gpu_id.
+function normaliseGpuText(text) {
+  return text.toLowerCase().split(/\s+/).filter(Boolean).join(" ");
+}
+
+function initGpuCombobox() {
+  var input = document.getElementById("gpu_search");
+  var datalist = document.getElementById("gpu-options");
+  var combo = input ? input.closest(".combo") : null;
+  if (!input || !datalist || !combo || document.getElementById("gpu-listbox")) {
+    return;
+  }
+  var gpus = [];
+  datalist.querySelectorAll("option").forEach(function (option) {
+    if (option.value) {
+      gpus.push({ label: option.value, key: normaliseGpuText(option.value) });
+    }
+  });
+  if (!gpus.length) {
+    return;
+  }
+
+  var listbox = document.createElement("ul");
+  listbox.id = "gpu-listbox";
+  listbox.className = "listbox";
+  listbox.setAttribute("role", "listbox");
+  listbox.setAttribute("aria-label", "GPU suggestions");
+  listbox.hidden = true;
+  var nativeList = input.getAttribute("list");
+  try {
+    combo.appendChild(listbox);
+    input.removeAttribute("list");
+    input.setAttribute("role", "combobox");
+    input.setAttribute("aria-autocomplete", "list");
+    input.setAttribute("aria-expanded", "false");
+    input.setAttribute("aria-controls", "gpu-listbox");
+  } catch (err) {
+    listbox.remove();
+    if (nativeList) {
+      input.setAttribute("list", nativeList);
+    }
+    return;
+  }
+
+  var shown = [];
+  var active = -1;
+  var choosing = false;
+
+  function setActive(index) {
+    var items = listbox.children;
+    active = index;
+    for (var i = 0; i < items.length; i += 1) {
+      if (i === index) {
+        items[i].setAttribute("aria-selected", "true");
+      } else {
+        items[i].removeAttribute("aria-selected");
+      }
+    }
+    if (index >= 0 && items[index]) {
+      input.setAttribute("aria-activedescendant", items[index].id);
+      if (items[index].scrollIntoView) {
+        items[index].scrollIntoView({ block: "nearest" });
+      }
+    } else {
+      input.removeAttribute("aria-activedescendant");
+    }
+  }
+
+  function close() {
+    listbox.hidden = true;
+    input.setAttribute("aria-expanded", "false");
+    setActive(-1);
+  }
+
+  function open() {
+    var query = normaliseGpuText(input.value);
+    shown = gpus.filter(function (gpu) {
+      return gpu.key.indexOf(query) !== -1;
+    });
+    listbox.textContent = "";
+    shown.forEach(function (gpu, index) {
+      var item = document.createElement("li");
+      item.id = "gpu-opt-" + index;
+      item.setAttribute("role", "option");
+      item.textContent = gpu.label;
+      listbox.appendChild(item);
+    });
+    active = -1;
+    input.removeAttribute("aria-activedescendant");
+    if (!shown.length) {
+      close();
+      return;
+    }
+    listbox.hidden = false;
+    input.setAttribute("aria-expanded", "true");
+  }
+
+  function choose(index) {
+    if (index < 0 || index >= shown.length) {
+      return;
+    }
+    choosing = true;
+    input.value = shown[index].label;
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+    input.dispatchEvent(new Event("change", { bubbles: true }));
+    choosing = false;
+    close();
+  }
+
+  function optionIndex(event) {
+    var item = event.target.closest ? event.target.closest("li") : null;
+    return item ? Array.prototype.indexOf.call(listbox.children, item) : -1;
+  }
+
+  input.addEventListener("input", function () {
+    if (!choosing) {
+      open();
+    }
+  });
+  input.addEventListener("blur", close);
+  input.addEventListener("keydown", function (event) {
+    var isOpen = !listbox.hidden;
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+      if (!isOpen) {
+        open();
+        if (event.altKey) {
+          return;
+        }
+      }
+      if (!listbox.hidden && active < shown.length - 1) {
+        setActive(active + 1);
+      }
+    } else if (event.key === "ArrowUp") {
+      if (isOpen) {
+        event.preventDefault();
+        if (active > 0) {
+          setActive(active - 1);
+        }
+      }
+    } else if (event.key === "Enter") {
+      if (isOpen && active >= 0) {
+        event.preventDefault();
+        choose(active);
+      }
+    } else if (event.key === "Escape") {
+      if (isOpen) {
+        event.preventDefault();
+        close();
+      }
+    }
+  });
+
+  // pointerdown keeps focus in the field (no blur, so the list stays) and chooses at once for a
+  // mouse or pen. A touch starts as a scroll, so it chooses on the click that follows a tap.
+  listbox.addEventListener("pointerdown", function (event) {
+    event.preventDefault();
+    if (event.pointerType !== "touch") {
+      choose(optionIndex(event));
+    }
+  });
+  listbox.addEventListener("mousedown", function (event) {
+    event.preventDefault();
+  });
+  listbox.addEventListener("click", function (event) {
+    if (!listbox.hidden) {
+      choose(optionIndex(event));
+    }
+  });
+}
+
 function initExampleChips() {
   var chips = document.querySelectorAll(".chip-example");
   if (!chips.length) {
@@ -295,6 +469,7 @@ document.addEventListener("DOMContentLoaded", function () {
   initSheen();
   initFilterCount();
   initGpuInputs();
+  initGpuCombobox();
   initExampleChips();
   initModelDetailInputs();
 });

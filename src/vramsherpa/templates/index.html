@@ -22,7 +22,7 @@
     <input id="gpu_id" name="gpu_id" type="hidden" value="{{ selected_gpu_id or '' }}" />
     <label for="gpu_search">Search GPU</label>
     <div class="field-row">
-      {# The wrapper is the anchor for the suggestion list, if ADR-0005 is ever accepted (T-021). #}
+      {# app.js drops the native list and renders #gpu-listbox inside this wrapper (ADR-0005). #}
       <div class="combo">
         <input
           id="gpu_search"
@@ -45,6 +45,8 @@
 
   <div class="f-pair">
     <div class="f-vram">
+      {# The VRAM field is marked when the server reports a bad vram_gb, as on the detail page. #}
+      {% set vram_invalid = 'vram_gb' in ((form_errors or []) | join(' ')) %}
       <label for="vram_gb">Available VRAM (GB)</label>
       <input
         id="vram_gb"
@@ -55,6 +57,7 @@
         name="vram_gb"
         value="{{ manual_vram_input }}"
         placeholder="e.g. 8"
+        {% if vram_invalid %}aria-invalid="true"{% endif %}
       />
     </div>
 
