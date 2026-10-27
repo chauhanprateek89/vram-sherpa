@@ -31,6 +31,8 @@
 | 2026-10-25 | 2 | Build the styled GPU suggestion list (the `gpu-suggest` mockup): a small vanilla JS combobox over the native list at every width (ADR-0005), keeping R-001's behaviour and the no-JavaScript path. |
 | 2026-10-25 | 2 | Repo weight: commit the final mockup HTML and PNGs only; the rejected rounds keep their HTML but lose their PNGs; the release PR is squash-merged so rejected binaries never reach main. |
 | 2026-10-27 | Build (T-016) | After three failed reviews, retry T-016 with the one-line fix: restore the breakdown rows' 220 ms fade-in (`animation: whyIn` on `.why-list`) per the approved spec, then re-review once. |
+| 2026-10-27 | QA (R-070) | Accept the Search GPU field scrolling its own value at 390 px when a long GPU label is chosen; amend R-070 so a one-line input's value is exempt from "no clipped text" when the full label shows in the summary's Hardware line. |
+| 2026-10-27 | QA (R-070) | Fix the model-page source links to 44 px tap targets with no overlap: a small departure from the detail mockups. |
 
 ## Made during work
 
