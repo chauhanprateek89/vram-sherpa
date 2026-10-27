@@ -335,7 +335,7 @@
       ],
       "notes": "Page `<main>` classes (`bento`, `detail`, `doc`) via a template block. Old component rules for screens not yet migrated stay until their task.",
       "review": "passed",
-      "passes": false
+      "passes": true
     },
     {
       "id": "T-011",
@@ -611,7 +611,7 @@
       ],
       "notes": "",
       "review": "passed",
-      "passes": false
+      "passes": true
     },
     {
       "id": "T-017",
@@ -739,7 +739,7 @@
       ],
       "notes": "The 10 GB gauge example uses figures from R-010/R-011; render its widths from those numbers, not from a guess.",
       "review": "passed",
-      "passes": false
+      "passes": true
     },
     {
       "id": "T-020",

@@ -1,0 +1,667 @@
+[
+ {
+  "check": "static HTML: placeholder text word for word in every pane",
+  "ok": true,
+  "evidence": [
+   284,
+   284
+  ]
+ },
+ {
+  "check": "static HTML: hx-get / hx-trigger click once / hx-swap innerHTML",
+  "ok": true,
+  "evidence": "present"
+ },
+ {
+  "check": "390-light-reduced loading: shown, htmx-request, placeholder hidden, no list",
+  "ok": true,
+  "evidence": {
+   "open": true,
+   "sumCls": "htmx-request",
+   "loadDisp": "block",
+   "idleDisp": "none",
+   "note": "Loading the breakdown",
+   "rows": [
+    {
+     "w": 298,
+     "h": 14,
+     "anim": "none",
+     "dur": "0s",
+     "bg": "none|rgba(40, 30, 110, 0.1)"
+    },
+    {
+     "w": 256,
+     "h": 14,
+     "anim": "none",
+     "dur": "0s",
+     "bg": "none|rgba(40, 30, 110, 0.1)"
+    },
+    {
+     "w": 215,
+     "h": 14,
+     "anim": "none",
+     "dur": "0s",
+     "bg": "none|rgba(40, 30, 110, 0.1)"
+    },
+    {
+     "w": 238,
+     "h": 14,
+     "anim": "none",
+     "dur": "0s",
+     "bg": "none|rgba(40, 30, 110, 0.1)"
+    },
+    {
+     "w": 191,
+     "h": 14,
+     "anim": "none",
+     "dur": "0s",
+     "bg": "none|rgba(40, 30, 110, 0.1)"
+    }
+   ],
+   "list": false,
+   "ariaHidden": "true",
+   "sw": 390,
+   "noteAnim": "none",
+   "noteDur": "0s"
+  }
+ },
+ {
+  "check": "390-light-reduced reduced motion: shimmer stops, rows stay",
+  "ok": true,
+  "evidence": [
+   "0s",
+   "0s",
+   "0s",
+   "0s",
+   "0s"
+  ]
+ },
+ {
+  "check": "390-light-reduced after response: loaded list replaces loading rows",
+  "ok": true,
+  "evidence": {
+   "list": true,
+   "loading": false,
+   "idle": false,
+   "sumCls": ""
+  }
+ },
+ {
+  "check": "390-light-motion loading: shown, htmx-request, placeholder hidden, no list",
+  "ok": true,
+  "evidence": {
+   "open": true,
+   "sumCls": "htmx-request",
+   "loadDisp": "block",
+   "idleDisp": "none",
+   "note": "Loading the breakdown",
+   "rows": [
+    {
+     "w": 298,
+     "h": 14,
+     "anim": "shimmer",
+     "dur": "1.4s",
+     "bg": "linear-gradient(100deg, rgba(4|rgba(0, 0, 0, 0)"
+    },
+    {
+     "w": 256,
+     "h": 14,
+     "anim": "shimmer",
+     "dur": "1.4s",
+     "bg": "linear-gradient(100deg, rgba(4|rgba(0, 0, 0, 0)"
+    },
+    {
+     "w": 215,
+     "h": 14,
+     "anim": "shimmer",
+     "dur": "1.4s",
+     "bg": "linear-gradient(100deg, rgba(4|rgba(0, 0, 0, 0)"
+    },
+    {
+     "w": 238,
+     "h": 14,
+     "anim": "shimmer",
+     "dur": "1.4s",
+     "bg": "linear-gradient(100deg, rgba(4|rgba(0, 0, 0, 0)"
+    },
+    {
+     "w": 191,
+     "h": 14,
+     "anim": "shimmer",
+     "dur": "1.4s",
+     "bg": "linear-gradient(100deg, rgba(4|rgba(0, 0, 0, 0)"
+    }
+   ],
+   "list": false,
+   "ariaHidden": "true",
+   "sw": 390,
+   "noteAnim": "spin",
+   "noteDur": "0.8s"
+  }
+ },
+ {
+  "check": "390-light-motion motion: shimmer animates",
+  "ok": true,
+  "evidence": [
+   [
+    "shimmer",
+    "1.4s"
+   ],
+   [
+    "shimmer",
+    "1.4s"
+   ],
+   [
+    "shimmer",
+    "1.4s"
+   ],
+   [
+    "shimmer",
+    "1.4s"
+   ],
+   [
+    "shimmer",
+    "1.4s"
+   ]
+  ]
+ },
+ {
+  "check": "390-light-motion after response: loaded list replaces loading rows",
+  "ok": true,
+  "evidence": {
+   "list": true,
+   "loading": false,
+   "idle": false,
+   "sumCls": ""
+  }
+ },
+ {
+  "check": "390-dark-reduced loading: shown, htmx-request, placeholder hidden, no list",
+  "ok": true,
+  "evidence": {
+   "open": true,
+   "sumCls": "htmx-request",
+   "loadDisp": "block",
+   "idleDisp": "none",
+   "note": "Loading the breakdown",
+   "rows": [
+    {
+     "w": 298,
+     "h": 14,
+     "anim": "none",
+     "dur": "0s",
+     "bg": "none|rgba(255, 255, 255, 0.08)"
+    },
+    {
+     "w": 256,
+     "h": 14,
+     "anim": "none",
+     "dur": "0s",
+     "bg": "none|rgba(255, 255, 255, 0.08)"
+    },
+    {
+     "w": 215,
+     "h": 14,
+     "anim": "none",
+     "dur": "0s",
+     "bg": "none|rgba(255, 255, 255, 0.08)"
+    },
+    {
+     "w": 238,
+     "h": 14,
+     "anim": "none",
+     "dur": "0s",
+     "bg": "none|rgba(255, 255, 255, 0.08)"
+    },
+    {
+     "w": 191,
+     "h": 14,
+     "anim": "none",
+     "dur": "0s",
+     "bg": "none|rgba(255, 255, 255, 0.08)"
+    }
+   ],
+   "list": false,
+   "ariaHidden": "true",
+   "sw": 390,
+   "noteAnim": "none",
+   "noteDur": "0s"
+  }
+ },
+ {
+  "check": "390-dark-reduced reduced motion: shimmer stops, rows stay",
+  "ok": true,
+  "evidence": [
+   "0s",
+   "0s",
+   "0s",
+   "0s",
+   "0s"
+  ]
+ },
+ {
+  "check": "390-dark-reduced after response: loaded list replaces loading rows",
+  "ok": true,
+  "evidence": {
+   "list": true,
+   "loading": false,
+   "idle": false,
+   "sumCls": ""
+  }
+ },
+ {
+  "check": "390-dark-motion loading: shown, htmx-request, placeholder hidden, no list",
+  "ok": true,
+  "evidence": {
+   "open": true,
+   "sumCls": "htmx-request",
+   "loadDisp": "block",
+   "idleDisp": "none",
+   "note": "Loading the breakdown",
+   "rows": [
+    {
+     "w": 298,
+     "h": 14,
+     "anim": "shimmer",
+     "dur": "1.4s",
+     "bg": "linear-gradient(100deg, rgba(2|rgba(0, 0, 0, 0)"
+    },
+    {
+     "w": 256,
+     "h": 14,
+     "anim": "shimmer",
+     "dur": "1.4s",
+     "bg": "linear-gradient(100deg, rgba(2|rgba(0, 0, 0, 0)"
+    },
+    {
+     "w": 215,
+     "h": 14,
+     "anim": "shimmer",
+     "dur": "1.4s",
+     "bg": "linear-gradient(100deg, rgba(2|rgba(0, 0, 0, 0)"
+    },
+    {
+     "w": 238,
+     "h": 14,
+     "anim": "shimmer",
+     "dur": "1.4s",
+     "bg": "linear-gradient(100deg, rgba(2|rgba(0, 0, 0, 0)"
+    },
+    {
+     "w": 191,
+     "h": 14,
+     "anim": "shimmer",
+     "dur": "1.4s",
+     "bg": "linear-gradient(100deg, rgba(2|rgba(0, 0, 0, 0)"
+    }
+   ],
+   "list": false,
+   "ariaHidden": "true",
+   "sw": 390,
+   "noteAnim": "spin",
+   "noteDur": "0.8s"
+  }
+ },
+ {
+  "check": "390-dark-motion motion: shimmer animates",
+  "ok": true,
+  "evidence": [
+   [
+    "shimmer",
+    "1.4s"
+   ],
+   [
+    "shimmer",
+    "1.4s"
+   ],
+   [
+    "shimmer",
+    "1.4s"
+   ],
+   [
+    "shimmer",
+    "1.4s"
+   ],
+   [
+    "shimmer",
+    "1.4s"
+   ]
+  ]
+ },
+ {
+  "check": "390-dark-motion after response: loaded list replaces loading rows",
+  "ok": true,
+  "evidence": {
+   "list": true,
+   "loading": false,
+   "idle": false,
+   "sumCls": ""
+  }
+ },
+ {
+  "check": "1280-light-reduced loading: shown, htmx-request, placeholder hidden, no list",
+  "ok": true,
+  "evidence": {
+   "open": true,
+   "sumCls": "htmx-request",
+   "loadDisp": "block",
+   "idleDisp": "none",
+   "note": "Loading the breakdown",
+   "rows": [
+    {
+     "w": 554,
+     "h": 14,
+     "anim": "none",
+     "dur": "0s",
+     "bg": "none|rgba(40, 30, 110, 0.1)"
+    },
+    {
+     "w": 476,
+     "h": 14,
+     "anim": "none",
+     "dur": "0s",
+     "bg": "none|rgba(40, 30, 110, 0.1)"
+    },
+    {
+     "w": 399,
+     "h": 14,
+     "anim": "none",
+     "dur": "0s",
+     "bg": "none|rgba(40, 30, 110, 0.1)"
+    },
+    {
+     "w": 443,
+     "h": 14,
+     "anim": "none",
+     "dur": "0s",
+     "bg": "none|rgba(40, 30, 110, 0.1)"
+    },
+    {
+     "w": 355,
+     "h": 14,
+     "anim": "none",
+     "dur": "0s",
+     "bg": "none|rgba(40, 30, 110, 0.1)"
+    }
+   ],
+   "list": false,
+   "ariaHidden": "true",
+   "sw": 1280,
+   "noteAnim": "none",
+   "noteDur": "0s"
+  }
+ },
+ {
+  "check": "1280-light-reduced reduced motion: shimmer stops, rows stay",
+  "ok": true,
+  "evidence": [
+   "0s",
+   "0s",
+   "0s",
+   "0s",
+   "0s"
+  ]
+ },
+ {
+  "check": "1280-light-reduced after response: loaded list replaces loading rows",
+  "ok": true,
+  "evidence": {
+   "list": true,
+   "loading": false,
+   "idle": false,
+   "sumCls": ""
+  }
+ },
+ {
+  "check": "1280-light-motion loading: shown, htmx-request, placeholder hidden, no list",
+  "ok": true,
+  "evidence": {
+   "open": true,
+   "sumCls": "htmx-request",
+   "loadDisp": "block",
+   "idleDisp": "none",
+   "note": "Loading the breakdown",
+   "rows": [
+    {
+     "w": 554,
+     "h": 14,
+     "anim": "shimmer",
+     "dur": "1.4s",
+     "bg": "linear-gradient(100deg, rgba(4|rgba(0, 0, 0, 0)"
+    },
+    {
+     "w": 476,
+     "h": 14,
+     "anim": "shimmer",
+     "dur": "1.4s",
+     "bg": "linear-gradient(100deg, rgba(4|rgba(0, 0, 0, 0)"
+    },
+    {
+     "w": 399,
+     "h": 14,
+     "anim": "shimmer",
+     "dur": "1.4s",
+     "bg": "linear-gradient(100deg, rgba(4|rgba(0, 0, 0, 0)"
+    },
+    {
+     "w": 443,
+     "h": 14,
+     "anim": "shimmer",
+     "dur": "1.4s",
+     "bg": "linear-gradient(100deg, rgba(4|rgba(0, 0, 0, 0)"
+    },
+    {
+     "w": 355,
+     "h": 14,
+     "anim": "shimmer",
+     "dur": "1.4s",
+     "bg": "linear-gradient(100deg, rgba(4|rgba(0, 0, 0, 0)"
+    }
+   ],
+   "list": false,
+   "ariaHidden": "true",
+   "sw": 1280,
+   "noteAnim": "spin",
+   "noteDur": "0.8s"
+  }
+ },
+ {
+  "check": "1280-light-motion motion: shimmer animates",
+  "ok": true,
+  "evidence": [
+   [
+    "shimmer",
+    "1.4s"
+   ],
+   [
+    "shimmer",
+    "1.4s"
+   ],
+   [
+    "shimmer",
+    "1.4s"
+   ],
+   [
+    "shimmer",
+    "1.4s"
+   ],
+   [
+    "shimmer",
+    "1.4s"
+   ]
+  ]
+ },
+ {
+  "check": "1280-light-motion after response: loaded list replaces loading rows",
+  "ok": true,
+  "evidence": {
+   "list": true,
+   "loading": false,
+   "idle": false,
+   "sumCls": ""
+  }
+ },
+ {
+  "check": "1280-dark-reduced loading: shown, htmx-request, placeholder hidden, no list",
+  "ok": true,
+  "evidence": {
+   "open": true,
+   "sumCls": "htmx-request",
+   "loadDisp": "block",
+   "idleDisp": "none",
+   "note": "Loading the breakdown",
+   "rows": [
+    {
+     "w": 554,
+     "h": 14,
+     "anim": "none",
+     "dur": "0s",
+     "bg": "none|rgba(255, 255, 255, 0.08)"
+    },
+    {
+     "w": 476,
+     "h": 14,
+     "anim": "none",
+     "dur": "0s",
+     "bg": "none|rgba(255, 255, 255, 0.08)"
+    },
+    {
+     "w": 399,
+     "h": 14,
+     "anim": "none",
+     "dur": "0s",
+     "bg": "none|rgba(255, 255, 255, 0.08)"
+    },
+    {
+     "w": 443,
+     "h": 14,
+     "anim": "none",
+     "dur": "0s",
+     "bg": "none|rgba(255, 255, 255, 0.08)"
+    },
+    {
+     "w": 355,
+     "h": 14,
+     "anim": "none",
+     "dur": "0s",
+     "bg": "none|rgba(255, 255, 255, 0.08)"
+    }
+   ],
+   "list": false,
+   "ariaHidden": "true",
+   "sw": 1280,
+   "noteAnim": "none",
+   "noteDur": "0s"
+  }
+ },
+ {
+  "check": "1280-dark-reduced reduced motion: shimmer stops, rows stay",
+  "ok": true,
+  "evidence": [
+   "0s",
+   "0s",
+   "0s",
+   "0s",
+   "0s"
+  ]
+ },
+ {
+  "check": "1280-dark-reduced after response: loaded list replaces loading rows",
+  "ok": true,
+  "evidence": {
+   "list": true,
+   "loading": false,
+   "idle": false,
+   "sumCls": ""
+  }
+ },
+ {
+  "check": "1280-dark-motion loading: shown, htmx-request, placeholder hidden, no list",
+  "ok": true,
+  "evidence": {
+   "open": true,
+   "sumCls": "htmx-request",
+   "loadDisp": "block",
+   "idleDisp": "none",
+   "note": "Loading the breakdown",
+   "rows": [
+    {
+     "w": 554,
+     "h": 14,
+     "anim": "shimmer",
+     "dur": "1.4s",
+     "bg": "linear-gradient(100deg, rgba(2|rgba(0, 0, 0, 0)"
+    },
+    {
+     "w": 476,
+     "h": 14,
+     "anim": "shimmer",
+     "dur": "1.4s",
+     "bg": "linear-gradient(100deg, rgba(2|rgba(0, 0, 0, 0)"
+    },
+    {
+     "w": 399,
+     "h": 14,
+     "anim": "shimmer",
+     "dur": "1.4s",
+     "bg": "linear-gradient(100deg, rgba(2|rgba(0, 0, 0, 0)"
+    },
+    {
+     "w": 443,
+     "h": 14,
+     "anim": "shimmer",
+     "dur": "1.4s",
+     "bg": "linear-gradient(100deg, rgba(2|rgba(0, 0, 0, 0)"
+    },
+    {
+     "w": 355,
+     "h": 14,
+     "anim": "shimmer",
+     "dur": "1.4s",
+     "bg": "linear-gradient(100deg, rgba(2|rgba(0, 0, 0, 0)"
+    }
+   ],
+   "list": false,
+   "ariaHidden": "true",
+   "sw": 1280,
+   "noteAnim": "spin",
+   "noteDur": "0.8s"
+  }
+ },
+ {
+  "check": "1280-dark-motion motion: shimmer animates",
+  "ok": true,
+  "evidence": [
+   [
+    "shimmer",
+    "1.4s"
+   ],
+   [
+    "shimmer",
+    "1.4s"
+   ],
+   [
+    "shimmer",
+    "1.4s"
+   ],
+   [
+    "shimmer",
+    "1.4s"
+   ],
+   [
+    "shimmer",
+    "1.4s"
+   ]
+  ]
+ },
+ {
+  "check": "1280-dark-motion after response: loaded list replaces loading rows",
+  "ok": true,
+  "evidence": {
+   "list": true,
+   "loading": false,
+   "idle": false,
+   "sumCls": ""
+  }
+ }
+]

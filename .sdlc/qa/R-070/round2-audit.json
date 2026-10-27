@@ -1,0 +1,670 @@
+{
+ "results-longgpu-light": {
+  "sw": 390,
+  "bw": 390,
+  "small": [],
+  "overlaps": [],
+  "fieldsLt16": [],
+  "textLt12": [],
+  "ellipsis": [],
+  "clipped": [],
+  "scrollOverflow": [],
+  "inputs": [
+   {
+    "id": "gpu_search",
+    "value": "NVIDIA GeForce RTX 4090 Laptop GPU (16.0 GB)",
+    "sw": 384,
+    "cw": 226
+   }
+  ],
+  "scrollX": 0,
+  "hardware": {
+   "tag": "B.",
+   "text": "Hardware:",
+   "sw": 0,
+   "cw": 0,
+   "right": 111.5625,
+   "h": 19
+  },
+  "errs": 0,
+  "sources": [],
+  "srcOverlaps": 0,
+  "srcMinH": null
+ },
+ "results-manual-light": {
+  "sw": 390,
+  "bw": 390,
+  "small": [],
+  "overlaps": [],
+  "fieldsLt16": [],
+  "textLt12": [],
+  "ellipsis": [],
+  "clipped": [],
+  "scrollOverflow": [],
+  "inputs": [
+   {
+    "id": "gpu_search",
+    "value": "",
+    "sw": 226,
+    "cw": 226
+   }
+  ],
+  "scrollX": 0,
+  "hardware": {
+   "tag": "B.",
+   "text": "Hardware:",
+   "sw": 0,
+   "cw": 0,
+   "right": 111.5625,
+   "h": 19
+  },
+  "errs": 0,
+  "sources": [],
+  "srcOverlaps": 0,
+  "srcMinH": null
+ },
+ "detail-mistral-light": {
+  "sw": 390,
+  "bw": 390,
+  "small": [],
+  "overlaps": [],
+  "fieldsLt16": [],
+  "textLt12": [],
+  "ellipsis": [],
+  "clipped": [
+   {
+    "why": "overflow-ancestor THEAD.",
+    "t": "Variant"
+   },
+   {
+    "why": "overflow-ancestor THEAD.",
+    "t": "Bits"
+   },
+   {
+    "why": "overflow-ancestor THEAD.",
+    "t": "Required VRAM (GB)"
+   },
+   {
+    "why": "overflow-ancestor THEAD.",
+    "t": "Available VRAM (GB)"
+   },
+   {
+    "why": "overflow-ancestor THEAD.",
+    "t": "Margin (GB)"
+   },
+   {
+    "why": "overflow-ancestor THEAD.",
+    "t": "Status"
+   },
+   {
+    "why": "overflow-ancestor THEAD.",
+    "t": "Provenance"
+   }
+  ],
+  "scrollOverflow": [],
+  "inputs": [],
+  "scrollX": 0,
+  "hardware": null,
+  "errs": 0,
+  "sources": [
+   {
+    "href": "https://huggingface.co/mistralai/Mistral-Nemo-Instruct-2407",
+    "h": 65,
+    "w": 312,
+    "top": 497.3,
+    "bottom": 562.3
+   },
+   {
+    "href": "https://mistral.ai/news/mistral-nemo",
+    "h": 44,
+    "w": 312,
+    "top": 568.3,
+    "bottom": 612.3
+   },
+   {
+    "href": "https://huggingface.co/nvidia/Mistral-NeMo-12B-Instruct",
+    "h": 65,
+    "w": 312,
+    "top": 618.3,
+    "bottom": 683.3
+   },
+   {
+    "href": "https://github.com/ggerganov/llama.cpp/blob/master/docs/quan",
+    "h": 62,
+    "w": 278,
+    "top": 1540.8,
+    "bottom": 1602.8
+   },
+   {
+    "href": "https://github.com/ggerganov/llama.cpp/blob/master/docs/quan",
+    "h": 62,
+    "w": 278,
+    "top": 1961.3,
+    "bottom": 2023.3
+   },
+   {
+    "href": "https://github.com/ggerganov/llama.cpp/blob/master/docs/quan",
+    "h": 62,
+    "w": 278,
+    "top": 2381.8,
+    "bottom": 2443.8
+   },
+   {
+    "href": "https://github.com/ggerganov/llama.cpp/blob/master/docs/quan",
+    "h": 62,
+    "w": 278,
+    "top": 2802.3,
+    "bottom": 2864.3
+   }
+  ],
+  "srcOverlaps": 0,
+  "srcMinH": 44
+ },
+ "detail-deepseek-light": {
+  "sw": 390,
+  "bw": 390,
+  "small": [],
+  "overlaps": [],
+  "fieldsLt16": [],
+  "textLt12": [],
+  "ellipsis": [],
+  "clipped": [
+   {
+    "why": "overflow-ancestor THEAD.",
+    "t": "Variant"
+   },
+   {
+    "why": "overflow-ancestor THEAD.",
+    "t": "Bits"
+   },
+   {
+    "why": "overflow-ancestor THEAD.",
+    "t": "Required VRAM (GB)"
+   },
+   {
+    "why": "overflow-ancestor THEAD.",
+    "t": "Available VRAM (GB)"
+   },
+   {
+    "why": "overflow-ancestor THEAD.",
+    "t": "Margin (GB)"
+   },
+   {
+    "why": "overflow-ancestor THEAD.",
+    "t": "Status"
+   },
+   {
+    "why": "overflow-ancestor THEAD.",
+    "t": "Provenance"
+   }
+  ],
+  "scrollOverflow": [],
+  "inputs": [],
+  "scrollX": 0,
+  "hardware": null,
+  "errs": 0,
+  "sources": [
+   {
+    "href": "https://huggingface.co/deepseek-ai/DeepSeek-Coder-V2-Lite-In",
+    "h": 65,
+    "w": 312,
+    "top": 497.3,
+    "bottom": 562.3
+   },
+   {
+    "href": "https://github.com/ggerganov/llama.cpp/blob/master/docs/quan",
+    "h": 62,
+    "w": 278,
+    "top": 1419.8,
+    "bottom": 1481.8
+   },
+   {
+    "href": "https://github.com/ggerganov/llama.cpp/blob/master/docs/quan",
+    "h": 62,
+    "w": 278,
+    "top": 1840.3,
+    "bottom": 1902.3
+   },
+   {
+    "href": "https://github.com/ggerganov/llama.cpp/blob/master/docs/quan",
+    "h": 62,
+    "w": 278,
+    "top": 2260.8,
+    "bottom": 2322.8
+   },
+   {
+    "href": "https://github.com/ggerganov/llama.cpp/blob/master/docs/quan",
+    "h": 62,
+    "w": 278,
+    "top": 2681.3,
+    "bottom": 2743.3
+   }
+  ],
+  "srcOverlaps": 0,
+  "srcMinH": 62
+ },
+ "detail-qwen-light": {
+  "sw": 390,
+  "bw": 390,
+  "small": [],
+  "overlaps": [],
+  "fieldsLt16": [],
+  "textLt12": [],
+  "ellipsis": [],
+  "clipped": [
+   {
+    "why": "overflow-ancestor THEAD.",
+    "t": "Variant"
+   },
+   {
+    "why": "overflow-ancestor THEAD.",
+    "t": "Bits"
+   },
+   {
+    "why": "overflow-ancestor THEAD.",
+    "t": "Required VRAM (GB)"
+   },
+   {
+    "why": "overflow-ancestor THEAD.",
+    "t": "Available VRAM (GB)"
+   },
+   {
+    "why": "overflow-ancestor THEAD.",
+    "t": "Margin (GB)"
+   },
+   {
+    "why": "overflow-ancestor THEAD.",
+    "t": "Status"
+   },
+   {
+    "why": "overflow-ancestor THEAD.",
+    "t": "Provenance"
+   }
+  ],
+  "scrollOverflow": [],
+  "inputs": [],
+  "scrollX": 0,
+  "hardware": null,
+  "errs": 0,
+  "sources": [
+   {
+    "href": "https://huggingface.co/Qwen/Qwen2.5-7B-Instruct",
+    "h": 65,
+    "w": 312,
+    "top": 459.9,
+    "bottom": 524.9
+   },
+   {
+    "href": "https://huggingface.co/Qwen/Qwen2.5-7B-Instruct/blob/main/LI",
+    "h": 65,
+    "w": 312,
+    "top": 530.9,
+    "bottom": 595.9
+   },
+   {
+    "href": "https://github.com/ggerganov/llama.cpp/blob/master/docs/quan",
+    "h": 62,
+    "w": 278,
+    "top": 1439.4,
+    "bottom": 1501.4
+   },
+   {
+    "href": "https://github.com/ggerganov/llama.cpp/blob/master/docs/quan",
+    "h": 62,
+    "w": 278,
+    "top": 1859.9,
+    "bottom": 1921.9
+   },
+   {
+    "href": "https://github.com/ggerganov/llama.cpp/blob/master/docs/quan",
+    "h": 62,
+    "w": 278,
+    "top": 2280.4,
+    "bottom": 2342.4
+   },
+   {
+    "href": "https://github.com/ggerganov/llama.cpp/blob/master/docs/quan",
+    "h": 62,
+    "w": 278,
+    "top": 2700.9,
+    "bottom": 2762.9
+   }
+  ],
+  "srcOverlaps": 0,
+  "srcMinH": 62
+ },
+ "results-longgpu-dark": {
+  "sw": 390,
+  "bw": 390,
+  "small": [],
+  "overlaps": [],
+  "fieldsLt16": [],
+  "textLt12": [],
+  "ellipsis": [],
+  "clipped": [],
+  "scrollOverflow": [],
+  "inputs": [
+   {
+    "id": "gpu_search",
+    "value": "NVIDIA GeForce RTX 4090 Laptop GPU (16.0 GB)",
+    "sw": 384,
+    "cw": 226
+   }
+  ],
+  "scrollX": 0,
+  "hardware": {
+   "tag": "B.",
+   "text": "Hardware:",
+   "sw": 0,
+   "cw": 0,
+   "right": 111.5625,
+   "h": 19
+  },
+  "errs": 0,
+  "sources": [],
+  "srcOverlaps": 0,
+  "srcMinH": null
+ },
+ "results-manual-dark": {
+  "sw": 390,
+  "bw": 390,
+  "small": [],
+  "overlaps": [],
+  "fieldsLt16": [],
+  "textLt12": [],
+  "ellipsis": [],
+  "clipped": [],
+  "scrollOverflow": [],
+  "inputs": [
+   {
+    "id": "gpu_search",
+    "value": "",
+    "sw": 226,
+    "cw": 226
+   }
+  ],
+  "scrollX": 0,
+  "hardware": {
+   "tag": "B.",
+   "text": "Hardware:",
+   "sw": 0,
+   "cw": 0,
+   "right": 111.5625,
+   "h": 19
+  },
+  "errs": 0,
+  "sources": [],
+  "srcOverlaps": 0,
+  "srcMinH": null
+ },
+ "detail-mistral-dark": {
+  "sw": 390,
+  "bw": 390,
+  "small": [],
+  "overlaps": [],
+  "fieldsLt16": [],
+  "textLt12": [],
+  "ellipsis": [],
+  "clipped": [
+   {
+    "why": "overflow-ancestor THEAD.",
+    "t": "Variant"
+   },
+   {
+    "why": "overflow-ancestor THEAD.",
+    "t": "Bits"
+   },
+   {
+    "why": "overflow-ancestor THEAD.",
+    "t": "Required VRAM (GB)"
+   },
+   {
+    "why": "overflow-ancestor THEAD.",
+    "t": "Available VRAM (GB)"
+   },
+   {
+    "why": "overflow-ancestor THEAD.",
+    "t": "Margin (GB)"
+   },
+   {
+    "why": "overflow-ancestor THEAD.",
+    "t": "Status"
+   },
+   {
+    "why": "overflow-ancestor THEAD.",
+    "t": "Provenance"
+   }
+  ],
+  "scrollOverflow": [],
+  "inputs": [],
+  "scrollX": 0,
+  "hardware": null,
+  "errs": 0,
+  "sources": [
+   {
+    "href": "https://huggingface.co/mistralai/Mistral-Nemo-Instruct-2407",
+    "h": 65,
+    "w": 312,
+    "top": 497.3,
+    "bottom": 562.3
+   },
+   {
+    "href": "https://mistral.ai/news/mistral-nemo",
+    "h": 44,
+    "w": 312,
+    "top": 568.3,
+    "bottom": 612.3
+   },
+   {
+    "href": "https://huggingface.co/nvidia/Mistral-NeMo-12B-Instruct",
+    "h": 65,
+    "w": 312,
+    "top": 618.3,
+    "bottom": 683.3
+   },
+   {
+    "href": "https://github.com/ggerganov/llama.cpp/blob/master/docs/quan",
+    "h": 62,
+    "w": 278,
+    "top": 1540.8,
+    "bottom": 1602.8
+   },
+   {
+    "href": "https://github.com/ggerganov/llama.cpp/blob/master/docs/quan",
+    "h": 62,
+    "w": 278,
+    "top": 1961.3,
+    "bottom": 2023.3
+   },
+   {
+    "href": "https://github.com/ggerganov/llama.cpp/blob/master/docs/quan",
+    "h": 62,
+    "w": 278,
+    "top": 2381.8,
+    "bottom": 2443.8
+   },
+   {
+    "href": "https://github.com/ggerganov/llama.cpp/blob/master/docs/quan",
+    "h": 62,
+    "w": 278,
+    "top": 2802.3,
+    "bottom": 2864.3
+   }
+  ],
+  "srcOverlaps": 0,
+  "srcMinH": 44
+ },
+ "detail-deepseek-dark": {
+  "sw": 390,
+  "bw": 390,
+  "small": [],
+  "overlaps": [],
+  "fieldsLt16": [],
+  "textLt12": [],
+  "ellipsis": [],
+  "clipped": [
+   {
+    "why": "overflow-ancestor THEAD.",
+    "t": "Variant"
+   },
+   {
+    "why": "overflow-ancestor THEAD.",
+    "t": "Bits"
+   },
+   {
+    "why": "overflow-ancestor THEAD.",
+    "t": "Required VRAM (GB)"
+   },
+   {
+    "why": "overflow-ancestor THEAD.",
+    "t": "Available VRAM (GB)"
+   },
+   {
+    "why": "overflow-ancestor THEAD.",
+    "t": "Margin (GB)"
+   },
+   {
+    "why": "overflow-ancestor THEAD.",
+    "t": "Status"
+   },
+   {
+    "why": "overflow-ancestor THEAD.",
+    "t": "Provenance"
+   }
+  ],
+  "scrollOverflow": [],
+  "inputs": [],
+  "scrollX": 0,
+  "hardware": null,
+  "errs": 0,
+  "sources": [
+   {
+    "href": "https://huggingface.co/deepseek-ai/DeepSeek-Coder-V2-Lite-In",
+    "h": 65,
+    "w": 312,
+    "top": 497.3,
+    "bottom": 562.3
+   },
+   {
+    "href": "https://github.com/ggerganov/llama.cpp/blob/master/docs/quan",
+    "h": 62,
+    "w": 278,
+    "top": 1419.8,
+    "bottom": 1481.8
+   },
+   {
+    "href": "https://github.com/ggerganov/llama.cpp/blob/master/docs/quan",
+    "h": 62,
+    "w": 278,
+    "top": 1840.3,
+    "bottom": 1902.3
+   },
+   {
+    "href": "https://github.com/ggerganov/llama.cpp/blob/master/docs/quan",
+    "h": 62,
+    "w": 278,
+    "top": 2260.8,
+    "bottom": 2322.8
+   },
+   {
+    "href": "https://github.com/ggerganov/llama.cpp/blob/master/docs/quan",
+    "h": 62,
+    "w": 278,
+    "top": 2681.3,
+    "bottom": 2743.3
+   }
+  ],
+  "srcOverlaps": 0,
+  "srcMinH": 62
+ },
+ "detail-qwen-dark": {
+  "sw": 390,
+  "bw": 390,
+  "small": [],
+  "overlaps": [],
+  "fieldsLt16": [],
+  "textLt12": [],
+  "ellipsis": [],
+  "clipped": [
+   {
+    "why": "overflow-ancestor THEAD.",
+    "t": "Variant"
+   },
+   {
+    "why": "overflow-ancestor THEAD.",
+    "t": "Bits"
+   },
+   {
+    "why": "overflow-ancestor THEAD.",
+    "t": "Required VRAM (GB)"
+   },
+   {
+    "why": "overflow-ancestor THEAD.",
+    "t": "Available VRAM (GB)"
+   },
+   {
+    "why": "overflow-ancestor THEAD.",
+    "t": "Margin (GB)"
+   },
+   {
+    "why": "overflow-ancestor THEAD.",
+    "t": "Status"
+   },
+   {
+    "why": "overflow-ancestor THEAD.",
+    "t": "Provenance"
+   }
+  ],
+  "scrollOverflow": [],
+  "inputs": [],
+  "scrollX": 0,
+  "hardware": null,
+  "errs": 0,
+  "sources": [
+   {
+    "href": "https://huggingface.co/Qwen/Qwen2.5-7B-Instruct",
+    "h": 65,
+    "w": 312,
+    "top": 459.9,
+    "bottom": 524.9
+   },
+   {
+    "href": "https://huggingface.co/Qwen/Qwen2.5-7B-Instruct/blob/main/LI",
+    "h": 65,
+    "w": 312,
+    "top": 530.9,
+    "bottom": 595.9
+   },
+   {
+    "href": "https://github.com/ggerganov/llama.cpp/blob/master/docs/quan",
+    "h": 62,
+    "w": 278,
+    "top": 1439.4,
+    "bottom": 1501.4
+   },
+   {
+    "href": "https://github.com/ggerganov/llama.cpp/blob/master/docs/quan",
+    "h": 62,
+    "w": 278,
+    "top": 1859.9,
+    "bottom": 1921.9
+   },
+   {
+    "href": "https://github.com/ggerganov/llama.cpp/blob/master/docs/quan",
+    "h": 62,
+    "w": 278,
+    "top": 2280.4,
+    "bottom": 2342.4
+   },
+   {
+    "href": "https://github.com/ggerganov/llama.cpp/blob/master/docs/quan",
+    "h": 62,
+    "w": 278,
+    "top": 2700.9,
+    "bottom": 2762.9
+   }
+  ],
+  "srcOverlaps": 0,
+  "srcMinH": 62
+ }
+}

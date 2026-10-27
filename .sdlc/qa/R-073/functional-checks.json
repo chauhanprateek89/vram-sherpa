@@ -1,0 +1,710 @@
+{
+ "checks": [
+  {
+   "check": "390-light-reduced collapsed on load, no fetch",
+   "ok": true,
+   "evidence": "open=0 requests=0"
+  },
+  {
+   "check": "390-light-reduced summary text",
+   "ok": true,
+   "evidence": "How this is estimated"
+  },
+  {
+   "check": "390-light-reduced placeholder before open (in DOM, panel closed)",
+   "ok": false,
+   "evidence": ""
+  },
+  {
+   "check": "390-light-reduced five labels in order, Total before Safety reserve",
+   "ok": true,
+   "evidence": [
+    "Model weights",
+    "Context memory (KV cache)",
+    "Runtime overhead",
+    "Total needed",
+    "Safety reserve"
+   ]
+  },
+  {
+   "check": "390-light-reduced no raw labels",
+   "ok": true,
+   "evidence": []
+  },
+  {
+   "check": "390-light-reduced reserve note",
+   "ok": true,
+   "evidence": "Safety reserve Kept free, not part of the total"
+  },
+  {
+   "check": "390-light-reduced 2-decimal GB figures",
+   "ok": true,
+   "evidence": [
+    "9.72 GB",
+    "3.85 GB",
+    "1.79 GB",
+    "15.36 GB",
+    "2.40 GB"
+   ]
+  },
+  {
+   "check": "390-light-reduced Total needed == GB needed caption",
+   "ok": true,
+   "evidence": "15.36 vs 15.36"
+  },
+  {
+   "check": "390-light-reduced title",
+   "ok": true,
+   "evidence": "Q4 on DeepSeek-Coder-V2-Lite-Instruct"
+  },
+  {
+   "check": "390-light-reduced total ruled off (class total), reserve last",
+   "ok": true,
+   "evidence": [
+    "",
+    "",
+    "",
+    "total",
+    "reserve"
+   ]
+  },
+  {
+   "check": "390-light-reduced five values within card width, sw",
+   "ok": true,
+   "evidence": "sw=390 cardR=363 maxRight=344 dl 298/298"
+  },
+  {
+   "check": "390-light-reduced fetched once",
+   "ok": true,
+   "evidence": [
+    "http://localhost:8000/results/why/variant_model_deepseek_coder_v2_lite_instruct_q4?context_tokens=4096&vram_gb=24"
+   ]
+  },
+  {
+   "check": "390-light-reduced console errors",
+   "ok": true,
+   "evidence": []
+  },
+  {
+   "check": "390-light-motion collapsed on load, no fetch",
+   "ok": true,
+   "evidence": "open=0 requests=0"
+  },
+  {
+   "check": "390-light-motion summary text",
+   "ok": true,
+   "evidence": "How this is estimated"
+  },
+  {
+   "check": "390-light-motion placeholder before open (in DOM, panel closed)",
+   "ok": false,
+   "evidence": ""
+  },
+  {
+   "check": "390-light-motion five labels in order, Total before Safety reserve",
+   "ok": true,
+   "evidence": [
+    "Model weights",
+    "Context memory (KV cache)",
+    "Runtime overhead",
+    "Total needed",
+    "Safety reserve"
+   ]
+  },
+  {
+   "check": "390-light-motion no raw labels",
+   "ok": true,
+   "evidence": []
+  },
+  {
+   "check": "390-light-motion reserve note",
+   "ok": true,
+   "evidence": "Safety reserve Kept free, not part of the total"
+  },
+  {
+   "check": "390-light-motion 2-decimal GB figures",
+   "ok": true,
+   "evidence": [
+    "9.72 GB",
+    "3.85 GB",
+    "1.79 GB",
+    "15.36 GB",
+    "2.40 GB"
+   ]
+  },
+  {
+   "check": "390-light-motion Total needed == GB needed caption",
+   "ok": true,
+   "evidence": "15.36 vs 15.36"
+  },
+  {
+   "check": "390-light-motion title",
+   "ok": true,
+   "evidence": "Q4 on DeepSeek-Coder-V2-Lite-Instruct"
+  },
+  {
+   "check": "390-light-motion total ruled off (class total), reserve last",
+   "ok": true,
+   "evidence": [
+    "",
+    "",
+    "",
+    "total",
+    "reserve"
+   ]
+  },
+  {
+   "check": "390-light-motion five values within card width, sw",
+   "ok": true,
+   "evidence": "sw=390 cardR=363 maxRight=344 dl 298/298"
+  },
+  {
+   "check": "390-light-motion fetched once",
+   "ok": true,
+   "evidence": [
+    "http://localhost:8000/results/why/variant_model_deepseek_coder_v2_lite_instruct_q4?context_tokens=4096&vram_gb=24"
+   ]
+  },
+  {
+   "check": "390-light-motion console errors",
+   "ok": true,
+   "evidence": []
+  },
+  {
+   "check": "390-dark-reduced collapsed on load, no fetch",
+   "ok": true,
+   "evidence": "open=0 requests=0"
+  },
+  {
+   "check": "390-dark-reduced summary text",
+   "ok": true,
+   "evidence": "How this is estimated"
+  },
+  {
+   "check": "390-dark-reduced placeholder before open (in DOM, panel closed)",
+   "ok": false,
+   "evidence": ""
+  },
+  {
+   "check": "390-dark-reduced five labels in order, Total before Safety reserve",
+   "ok": true,
+   "evidence": [
+    "Model weights",
+    "Context memory (KV cache)",
+    "Runtime overhead",
+    "Total needed",
+    "Safety reserve"
+   ]
+  },
+  {
+   "check": "390-dark-reduced no raw labels",
+   "ok": true,
+   "evidence": []
+  },
+  {
+   "check": "390-dark-reduced reserve note",
+   "ok": true,
+   "evidence": "Safety reserve Kept free, not part of the total"
+  },
+  {
+   "check": "390-dark-reduced 2-decimal GB figures",
+   "ok": true,
+   "evidence": [
+    "9.72 GB",
+    "3.85 GB",
+    "1.79 GB",
+    "15.36 GB",
+    "2.40 GB"
+   ]
+  },
+  {
+   "check": "390-dark-reduced Total needed == GB needed caption",
+   "ok": true,
+   "evidence": "15.36 vs 15.36"
+  },
+  {
+   "check": "390-dark-reduced title",
+   "ok": true,
+   "evidence": "Q4 on DeepSeek-Coder-V2-Lite-Instruct"
+  },
+  {
+   "check": "390-dark-reduced total ruled off (class total), reserve last",
+   "ok": true,
+   "evidence": [
+    "",
+    "",
+    "",
+    "total",
+    "reserve"
+   ]
+  },
+  {
+   "check": "390-dark-reduced five values within card width, sw",
+   "ok": true,
+   "evidence": "sw=390 cardR=363 maxRight=344 dl 298/298"
+  },
+  {
+   "check": "390-dark-reduced fetched once",
+   "ok": true,
+   "evidence": [
+    "http://localhost:8000/results/why/variant_model_deepseek_coder_v2_lite_instruct_q4?context_tokens=4096&vram_gb=24"
+   ]
+  },
+  {
+   "check": "390-dark-reduced console errors",
+   "ok": true,
+   "evidence": []
+  },
+  {
+   "check": "390-dark-motion collapsed on load, no fetch",
+   "ok": true,
+   "evidence": "open=0 requests=0"
+  },
+  {
+   "check": "390-dark-motion summary text",
+   "ok": true,
+   "evidence": "How this is estimated"
+  },
+  {
+   "check": "390-dark-motion placeholder before open (in DOM, panel closed)",
+   "ok": false,
+   "evidence": ""
+  },
+  {
+   "check": "390-dark-motion five labels in order, Total before Safety reserve",
+   "ok": true,
+   "evidence": [
+    "Model weights",
+    "Context memory (KV cache)",
+    "Runtime overhead",
+    "Total needed",
+    "Safety reserve"
+   ]
+  },
+  {
+   "check": "390-dark-motion no raw labels",
+   "ok": true,
+   "evidence": []
+  },
+  {
+   "check": "390-dark-motion reserve note",
+   "ok": true,
+   "evidence": "Safety reserve Kept free, not part of the total"
+  },
+  {
+   "check": "390-dark-motion 2-decimal GB figures",
+   "ok": true,
+   "evidence": [
+    "9.72 GB",
+    "3.85 GB",
+    "1.79 GB",
+    "15.36 GB",
+    "2.40 GB"
+   ]
+  },
+  {
+   "check": "390-dark-motion Total needed == GB needed caption",
+   "ok": true,
+   "evidence": "15.36 vs 15.36"
+  },
+  {
+   "check": "390-dark-motion title",
+   "ok": true,
+   "evidence": "Q4 on DeepSeek-Coder-V2-Lite-Instruct"
+  },
+  {
+   "check": "390-dark-motion total ruled off (class total), reserve last",
+   "ok": true,
+   "evidence": [
+    "",
+    "",
+    "",
+    "total",
+    "reserve"
+   ]
+  },
+  {
+   "check": "390-dark-motion five values within card width, sw",
+   "ok": true,
+   "evidence": "sw=390 cardR=363 maxRight=344 dl 298/298"
+  },
+  {
+   "check": "390-dark-motion fetched once",
+   "ok": true,
+   "evidence": [
+    "http://localhost:8000/results/why/variant_model_deepseek_coder_v2_lite_instruct_q4?context_tokens=4096&vram_gb=24"
+   ]
+  },
+  {
+   "check": "390-dark-motion console errors",
+   "ok": true,
+   "evidence": []
+  },
+  {
+   "check": "1280-light-reduced collapsed on load, no fetch",
+   "ok": true,
+   "evidence": "open=0 requests=0"
+  },
+  {
+   "check": "1280-light-reduced summary text",
+   "ok": true,
+   "evidence": "How this is estimated"
+  },
+  {
+   "check": "1280-light-reduced placeholder before open (in DOM, panel closed)",
+   "ok": false,
+   "evidence": ""
+  },
+  {
+   "check": "1280-light-reduced five labels in order, Total before Safety reserve",
+   "ok": true,
+   "evidence": [
+    "Model weights",
+    "Context memory (KV cache)",
+    "Runtime overhead",
+    "Total needed",
+    "Safety reserve"
+   ]
+  },
+  {
+   "check": "1280-light-reduced no raw labels",
+   "ok": true,
+   "evidence": []
+  },
+  {
+   "check": "1280-light-reduced reserve note",
+   "ok": true,
+   "evidence": "Safety reserve Kept free, not part of the total"
+  },
+  {
+   "check": "1280-light-reduced 2-decimal GB figures",
+   "ok": true,
+   "evidence": [
+    "9.72 GB",
+    "3.85 GB",
+    "1.79 GB",
+    "15.36 GB",
+    "2.40 GB"
+   ]
+  },
+  {
+   "check": "1280-light-reduced Total needed == GB needed caption",
+   "ok": true,
+   "evidence": "15.36 vs 15.36"
+  },
+  {
+   "check": "1280-light-reduced title",
+   "ok": true,
+   "evidence": "Q4 on DeepSeek-Coder-V2-Lite-Instruct"
+  },
+  {
+   "check": "1280-light-reduced total ruled off (class total), reserve last",
+   "ok": true,
+   "evidence": [
+    "",
+    "",
+    "",
+    "total",
+    "reserve"
+   ]
+  },
+  {
+   "check": "1280-light-reduced five values within card width, sw",
+   "ok": true,
+   "evidence": "sw=1280 cardR=633 maxRight=612 dl 554/554"
+  },
+  {
+   "check": "1280-light-reduced fetched once",
+   "ok": true,
+   "evidence": [
+    "http://localhost:8000/results/why/variant_model_deepseek_coder_v2_lite_instruct_q4?context_tokens=4096&vram_gb=24"
+   ]
+  },
+  {
+   "check": "1280-light-reduced console errors",
+   "ok": true,
+   "evidence": []
+  },
+  {
+   "check": "1280-light-motion collapsed on load, no fetch",
+   "ok": true,
+   "evidence": "open=0 requests=0"
+  },
+  {
+   "check": "1280-light-motion summary text",
+   "ok": true,
+   "evidence": "How this is estimated"
+  },
+  {
+   "check": "1280-light-motion placeholder before open (in DOM, panel closed)",
+   "ok": false,
+   "evidence": ""
+  },
+  {
+   "check": "1280-light-motion five labels in order, Total before Safety reserve",
+   "ok": true,
+   "evidence": [
+    "Model weights",
+    "Context memory (KV cache)",
+    "Runtime overhead",
+    "Total needed",
+    "Safety reserve"
+   ]
+  },
+  {
+   "check": "1280-light-motion no raw labels",
+   "ok": true,
+   "evidence": []
+  },
+  {
+   "check": "1280-light-motion reserve note",
+   "ok": true,
+   "evidence": "Safety reserve Kept free, not part of the total"
+  },
+  {
+   "check": "1280-light-motion 2-decimal GB figures",
+   "ok": true,
+   "evidence": [
+    "9.72 GB",
+    "3.85 GB",
+    "1.79 GB",
+    "15.36 GB",
+    "2.40 GB"
+   ]
+  },
+  {
+   "check": "1280-light-motion Total needed == GB needed caption",
+   "ok": true,
+   "evidence": "15.36 vs 15.36"
+  },
+  {
+   "check": "1280-light-motion title",
+   "ok": true,
+   "evidence": "Q4 on DeepSeek-Coder-V2-Lite-Instruct"
+  },
+  {
+   "check": "1280-light-motion total ruled off (class total), reserve last",
+   "ok": true,
+   "evidence": [
+    "",
+    "",
+    "",
+    "total",
+    "reserve"
+   ]
+  },
+  {
+   "check": "1280-light-motion five values within card width, sw",
+   "ok": true,
+   "evidence": "sw=1280 cardR=633 maxRight=612 dl 554/554"
+  },
+  {
+   "check": "1280-light-motion fetched once",
+   "ok": true,
+   "evidence": [
+    "http://localhost:8000/results/why/variant_model_deepseek_coder_v2_lite_instruct_q4?context_tokens=4096&vram_gb=24"
+   ]
+  },
+  {
+   "check": "1280-light-motion console errors",
+   "ok": true,
+   "evidence": []
+  },
+  {
+   "check": "1280-dark-reduced collapsed on load, no fetch",
+   "ok": true,
+   "evidence": "open=0 requests=0"
+  },
+  {
+   "check": "1280-dark-reduced summary text",
+   "ok": true,
+   "evidence": "How this is estimated"
+  },
+  {
+   "check": "1280-dark-reduced placeholder before open (in DOM, panel closed)",
+   "ok": false,
+   "evidence": ""
+  },
+  {
+   "check": "1280-dark-reduced five labels in order, Total before Safety reserve",
+   "ok": true,
+   "evidence": [
+    "Model weights",
+    "Context memory (KV cache)",
+    "Runtime overhead",
+    "Total needed",
+    "Safety reserve"
+   ]
+  },
+  {
+   "check": "1280-dark-reduced no raw labels",
+   "ok": true,
+   "evidence": []
+  },
+  {
+   "check": "1280-dark-reduced reserve note",
+   "ok": true,
+   "evidence": "Safety reserve Kept free, not part of the total"
+  },
+  {
+   "check": "1280-dark-reduced 2-decimal GB figures",
+   "ok": true,
+   "evidence": [
+    "9.72 GB",
+    "3.85 GB",
+    "1.79 GB",
+    "15.36 GB",
+    "2.40 GB"
+   ]
+  },
+  {
+   "check": "1280-dark-reduced Total needed == GB needed caption",
+   "ok": true,
+   "evidence": "15.36 vs 15.36"
+  },
+  {
+   "check": "1280-dark-reduced title",
+   "ok": true,
+   "evidence": "Q4 on DeepSeek-Coder-V2-Lite-Instruct"
+  },
+  {
+   "check": "1280-dark-reduced total ruled off (class total), reserve last",
+   "ok": true,
+   "evidence": [
+    "",
+    "",
+    "",
+    "total",
+    "reserve"
+   ]
+  },
+  {
+   "check": "1280-dark-reduced five values within card width, sw",
+   "ok": true,
+   "evidence": "sw=1280 cardR=633 maxRight=612 dl 554/554"
+  },
+  {
+   "check": "1280-dark-reduced fetched once",
+   "ok": true,
+   "evidence": [
+    "http://localhost:8000/results/why/variant_model_deepseek_coder_v2_lite_instruct_q4?context_tokens=4096&vram_gb=24"
+   ]
+  },
+  {
+   "check": "1280-dark-reduced console errors",
+   "ok": true,
+   "evidence": []
+  },
+  {
+   "check": "1280-dark-motion collapsed on load, no fetch",
+   "ok": true,
+   "evidence": "open=0 requests=0"
+  },
+  {
+   "check": "1280-dark-motion summary text",
+   "ok": true,
+   "evidence": "How this is estimated"
+  },
+  {
+   "check": "1280-dark-motion placeholder before open (in DOM, panel closed)",
+   "ok": false,
+   "evidence": ""
+  },
+  {
+   "check": "1280-dark-motion five labels in order, Total before Safety reserve",
+   "ok": true,
+   "evidence": [
+    "Model weights",
+    "Context memory (KV cache)",
+    "Runtime overhead",
+    "Total needed",
+    "Safety reserve"
+   ]
+  },
+  {
+   "check": "1280-dark-motion no raw labels",
+   "ok": true,
+   "evidence": []
+  },
+  {
+   "check": "1280-dark-motion reserve note",
+   "ok": true,
+   "evidence": "Safety reserve Kept free, not part of the total"
+  },
+  {
+   "check": "1280-dark-motion 2-decimal GB figures",
+   "ok": true,
+   "evidence": [
+    "9.72 GB",
+    "3.85 GB",
+    "1.79 GB",
+    "15.36 GB",
+    "2.40 GB"
+   ]
+  },
+  {
+   "check": "1280-dark-motion Total needed == GB needed caption",
+   "ok": true,
+   "evidence": "15.36 vs 15.36"
+  },
+  {
+   "check": "1280-dark-motion title",
+   "ok": true,
+   "evidence": "Q4 on DeepSeek-Coder-V2-Lite-Instruct"
+  },
+  {
+   "check": "1280-dark-motion total ruled off (class total), reserve last",
+   "ok": true,
+   "evidence": [
+    "",
+    "",
+    "",
+    "total",
+    "reserve"
+   ]
+  },
+  {
+   "check": "1280-dark-motion five values within card width, sw",
+   "ok": true,
+   "evidence": "sw=1280 cardR=633 maxRight=612 dl 554/554"
+  },
+  {
+   "check": "1280-dark-motion fetched once",
+   "ok": true,
+   "evidence": [
+    "http://localhost:8000/results/why/variant_model_deepseek_coder_v2_lite_instruct_q4?context_tokens=4096&vram_gb=24"
+   ]
+  },
+  {
+   "check": "1280-dark-motion console errors",
+   "ok": true,
+   "evidence": []
+  },
+  {
+   "check": "390 manual24: 48 variants over 12 cards: Total==needed, sum, fit",
+   "ok": true,
+   "evidence": [
+    [],
+    []
+   ]
+  },
+  {
+   "check": "390 laptop16: 48 variants over 12 cards: Total==needed, sum, fit",
+   "ok": true,
+   "evidence": [
+    [],
+    []
+   ]
+  },
+  {
+   "check": "390 long name Mistral NeMo 12B Instruct (2407): open, five values in card",
+   "ok": true,
+   "evidence": "title='Q4 on Mistral NeMo 12B Instruct (2407)' sw=390 cardR=363 maxRight=344"
+  },
+  {
+   "check": "390 long name DeepSeek-Coder-V2-Lite-Instruct: open, five values in card",
+   "ok": true,
+   "evidence": "title='Q4 on DeepSeek-Coder-V2-Lite-Instruct' sw=390 cardR=363 maxRight=344"
+  }
+ ]
+}

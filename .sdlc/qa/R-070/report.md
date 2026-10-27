@@ -29,3 +29,23 @@ R-070 names the longest GPU label "in the GPU field and in the summary" and says
 ## Test added
 
 `tests/test_r070_acceptance.py` (numeric keyboards, 5 tests, passing; `ruff check` and `ruff format --check` clean).
+
+---
+
+# Round 2 (2026-10-27)
+
+Result: **PASS**. All 7 criteria pass against R-070 as amended on 2026-10-27 (input-value exemption, 44 px Sources links). `passes: true` set on T-010, T-019 (T-011, T-016 and T-021 also, see the R-073 report for T-016). T-011 and T-021 were already true.
+
+Tested against http://localhost:8000 (assets `v=20261027e`, commit cd57789 included), Chromium via Playwright, 390 px, `is_mobile` + touch, light and dark. Helper scripts live in the QA scratchpad, not the repo. Evidence in this folder: `round2-audit.json` (per-state measurements), `round2-sources-all-models.json` (every model page), `r2-*-390-<theme>.png` (full pages), `r2-crop-gpu-field-and-hardware-390-<theme>.png`, `r2-crop-hardware-line-390-light.png`, `r2-crop-sources-mistral-390-<theme>.png`.
+
+| # | Criterion (as amended) | Round 2 | Evidence |
+| --- | --- | --- | --- |
+| 1 | No horizontal scroll (`scrollWidth` 390), both themes, breakdown open, longest names, longest GPU label | PASS (spot-check) | `sw=390`, `body=390`, pan to x=80 leaves `scrollX=0` on `/results` (long GPU and manual 24 GB) and three model pages (Mistral NeMo, DeepSeek-Coder, Qwen) in both themes. Breakdown open on the Mistral NeMo and DeepSeek-Coder cards at 390 px: `sw=390`, five values inside the card (R-073 report) |
+| 2 | No clipped, overlapping or ellipsised static text; input values may scroll if the full label is in the summary `Hardware` line | **PASS** | `input#gpu_search` holds `NVIDIA GeForce RTX 4090 Laptop GPU (16.0 GB)`; the value is 384 px wide in a 226 px field (scrolls inside the field, permitted for input values). The summary `Hardware` line reads `Hardware: NVIDIA GeForce RTX 4090 Laptop GPU (16.0 GB)` in full: it wraps onto two lines, `scrollWidth 312` = `clientWidth 312`, `overflow: visible`, right edge 346.9 px of a 351 px box (`r2-crop-hardware-line-390-light.png`). Same result when the GPU arrives through `gpu_search=<full label>` as through `gpu_id`. Static text: 0 `text-overflow: ellipsis`, 0 text nodes outside the viewport or an `overflow` ancestor (the 7 hits on model pages are the visually hidden 1x1 px table header, as in round 1), 0 elements with hidden horizontal overflow |
+| 3 | 44 x 44 tap targets, none overlapping (buttons, chips, quant buttons, presets, checkbox/radio with labels, header links, theme toggle, disclosures) | PASS (spot-check) | 0 targets below 44 x 44 and 0 overlapping pairs on `/results` (both states) and the three model pages, both themes (running-text links exempt per the criterion) |
+| 4 | Each Sources link at least 44 px tall, neighbours not overlapping (new) | **PASS** | All 95 model pages at 390 px: 491 source links, minimum height 44 px, 0 neighbouring overlaps, `scrollWidth` 390 on every page (`round2-sources-all-models.json`). Mistral NeMo page: 7 links, min 44 px; a one-line URL (`https://mistral.ai/news/mistral-nemo`) is now 44 px, not 38.5 px. Visual: `r2-crop-sources-mistral-390-light.png` and `-dark.png` |
+| 5 | Text/number/select fields at least 16 px; no visible text under 12 px | PASS (spot-check) | `fields<16=0`, `text<12=0` on all 10 state/theme runs |
+| 6 | Numeric keyboards on the four number fields | PASS | `tests/test_r070_acceptance.py`, 5 tests passing (markup `type="number"` with `inputmode="decimal"`) |
+| 7 | Header reachable with at most one tap | PASS (spot-check) | Brand, `Estimator`, `How it works` and the theme toggle are 44 px high and fully inside the first viewport (top 23 and 75 px) on `/results` and a model page; a touch tap on the toggle sets `aria-pressed=true` and a tap on `How it works` reaches `/how-it-works`. Header markup and CSS are unchanged since round 1. Console errors: 0 on every page |
+
+Round 1 failure resolved by the requirement amendment (the field value may scroll because the full label shows in the `Hardware` line), not by a layout change. Round 1 flag on Sources links resolved by commit cd57789.
