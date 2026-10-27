@@ -3,10 +3,10 @@
 | | |
 | --- | --- |
 | Track | Full: UI/UX overhaul |
-| Stage | QA |
+| Stage | Release PR |
 | Branch | sdlc/full-ui-overhaul |
 | Gate waiting | none |
-| Updated | 2026-10-25 |
+| Updated | 2026-10-27 |
 
 ## Your actions
 
@@ -14,9 +14,9 @@
 
 ## Next step
 
-QA: one sdlc:qa agent per planned requirement R-067..R-081, run in sequence against the local stack (rebuilt from current code at http://localhost:8000), each comparing with the approved mockups. Order puts R-078 (wording) after the copy-table row is added. Failures go back to Build with the failing step; after one round of fixes, ask the user. Then Release PR (squash-merge) and Gate 3.
+sdlc:release (mode pr) pushes the branch and opens the PR with review and QA evidence, then waits for CI. Then Gate 3. On "Merge now": **squash-merge** (Gate 2 repo-weight decision), then release live-check.
 
-Build: all 21 tasks passed review (T-010, T-018, T-019, T-021 needed a fix round; T-016 needed the user-approved retry).
+QA: R-067 to R-081 all pass (R-068, R-070 and R-077 needed a round; R-070 and R-077 were amended by user decision). 572 tests pass. Page HTML is about 30% larger than main (`/` 475 to 617 KB raw, 13.9 to 16.1 KB gzipped).
 
 Follow-ups found at onboarding (not part of this track): host guard ignores APP_ENV/PUBLIC_HOSTNAME that docs/RELEASE_AND_DEPLOY.md tells the server to set (tunnel requests would get 400); release.yml pushes :latest before the smoke test; smoke test never hits /results; no Cache-Control on HTML (rule 9); local docker-compose.yml binds 8000 on all interfaces (rule 3).
 
@@ -70,3 +70,4 @@ Follow-ups found at onboarding (not part of this track): host guard ignores APP_
 | 2026-10-25 | Build | sdlc:builder (opus), sdlc:reviewer (inherit) | T-020 passed: commit 80c9954, passed first review; 88 views match mockups (<1px); carry O-1 aria-invalid, O-2 label letter-spacing to T-021 |
 | 2026-10-25 | Build | sdlc:builder (sonnet), sdlc:reviewer (inherit) | T-021 passed: commits a64eb01+53c7b13, passed review 2 (review 1: stale aria-invalid after in-place refresh) |
 | 2026-10-27 | Build | orchestrator | All 21 tasks passed review; 348 tests; local stack rebuilt for QA |
+| 2026-10-27 | QA | sdlc:qa (sonnet), sdlc:builder, sdlc:reviewer, sdlc:product | All 15 requirements pass; 2 QA fixes (secondary button, source-link targets); R-070/R-077 amended by user |
