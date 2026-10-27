@@ -1,5 +1,7 @@
 # QA report: R-077 (accessibility), round 1
 
+**Final result: PASS.** Round 1 below found one issue; it was resolved in round 2 (see the end of this file).
+
 Result: **FAIL** on one item, criterion 6 (focus order at 390 px). The other criteria pass. Tested 2026-10-27 against http://localhost:8000 (assets `v=20261027e`), at 390 px (touch) and 1280 px, light and dark. The QA agent's Write was refused, so the orchestrator recorded its returned report here. Test added: `tests/test_r077_acceptance.py` (15 tests).
 
 | # | Criterion | Result | Evidence |

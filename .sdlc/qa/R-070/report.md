@@ -1,5 +1,7 @@
 # QA report: R-070 Phone layout on every page (round 1)
 
+**Final result: PASS.** Round 1 below found one issue; it was resolved in round 2 (see the end of this file).
+
 Result: **FAIL**. 6 of 7 criteria pass; one fails (clipped GPU label in the `Search GPU` field). `passes` NOT set on T-010, T-011, T-016, T-019, T-021.
 
 Tested 2026-10-27 against http://localhost:8000 (assets `v=20261027d`), Chromium via Playwright, 390 px viewport with `is_mobile` and touch emulation, light and dark. All 24 approved states, plus longest-name probes. The unseeded state and the no-sources detail state ran on scratch SQLite apps (ports 8101, 8102, started from the branch code, stopped afterwards is not needed; they are local scratch). Helper scripts are in the QA scratchpad, not the repo.

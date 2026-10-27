@@ -1,5 +1,7 @@
 # QA report: R-068 (round 1)
 
+**Final result: PASS.** Round 1 below found one issue; it was resolved in round 2 (see the end of this file).
+
 Result: **FAIL**. 6 of 7 criteria pass. Tested 2026-10-27 against http://localhost:8000 (assets `v=20261027c`) in Chromium via Playwright at 390 and 1280 px, light and dark.
 
 The QA agent could not write this file itself (its Write call was refused), so the orchestrator recorded its returned report here. Evidence is in this folder: `<state>-<w>-<theme>.png` (44 captures, kept local), `mockup-compare.txt`, `computed-styles.json`, `secondary-chip-link-probe-1280-light.json`, `control-audit.json`, `ua-default-baseline.json` and `favicon-and-logo-curl.txt`.
