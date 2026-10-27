@@ -25,3 +25,28 @@ These differ from criterion 2 read literally, but match the approved mockups:
 ## Observation
 
 Chrome's native number stepper shows on hover in number fields. The approved mockup doesn't hide it either.
+
+---
+
+# Round 2 (criterion 2 re-test, after 1ae19b2)
+
+Result: **PASS** for criterion 2 (secondary buttons). Criteria 1 and 5 spot-checked on `/results`: still hold. Tested 2026-10-27 against http://localhost:8000 (assets `v=20261027d`), Chromium via Playwright.
+
+## Criterion 2: `Clear` and `Apply filters`
+
+`Apply filters` sits in `<noscript>`, so it was tested with JavaScript off (`java_script_enabled=False`, filters opened with the `open` attribute), on `/results?vram_gb=24&context_tokens=4096&family=qwen&quant_bucket=Q4`, at 390 and 1280 px, light and dark (4 runs). Computed values, `Clear` (`.btn-clear`) vs `Apply filters` (`.btn-secondary`), all four runs:
+
+| Property | `Clear` | `Apply filters` | Equal |
+| --- | --- | --- | --- |
+| font-family | Outfit stack | Outfit stack | yes |
+| font-size / weight | 15px / 520 | 15px / 520 | yes |
+| colour (light / dark) | rgb(20,17,43) / rgb(243,241,255) | same | yes |
+| background (light / dark) | rgba(255,255,255,.6) / rgba(0,0,0,.3) | same | yes |
+| border (width, style, colour) | 1px solid rgb(100,95,150) light / rgb(142,139,196) dark | same | yes |
+| border-radius | 16px | 16px | yes |
+
+The only differences in the full property dump are `height` (52px vs 44px, `Clear` is stretched to the input's row height) and `padding-left` (16px vs 20px); neither is a property named by the criterion. `min-height` is equal. Evidence: `round2-computed-styles.json`, `r2-secondary-nojs-{390,1280}-{light,dark}.png`.
+
+## Spot-check of criteria 1 and 5 on `/results`
+
+`results-manual-vram` and `results-chips`, 390 and 1280 px, light and dark, JavaScript on, card list trimmed as in round 1: 8 of 8 renders differ from `docs/design/final/` by 0.0% of pixels over 40 (same sizes), scroll width equals the viewport, no console errors (criterion 1). Control audit: every button, field, select and summary uses Outfit and has its own border and background. The only controls with `appearance: auto` are the 3 visually hidden context-preset radios, whose `<span>` labels carry the styling, as in round 1 (criterion 5). Evidence: `round2-spot-check.txt`.

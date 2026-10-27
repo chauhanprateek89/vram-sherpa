@@ -1,0 +1,6100 @@
+{
+ "home-default-light": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [],
+  "smallText": [],
+  "textClip": [],
+  "textNodes": 809,
+  "textOverlap": [],
+  "fields": [
+   {
+    "d": "input#gpu_search",
+    "type": "text",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 364,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     178.4,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     225.4,
+     23,
+     137.6,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "light"
+ },
+ "home-default-dark": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [],
+  "smallText": [],
+  "textClip": [],
+  "textNodes": 809,
+  "textOverlap": [],
+  "fields": [
+   {
+    "d": "input#gpu_search",
+    "type": "text",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 364,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     177.7,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     224.7,
+     23,
+     138.3,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "dark"
+ },
+ "results-gpu-light": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [
+   "input#gpu_search \"NVIDIA GeForce RTX 4090 Laptop GPU (16.0 GB)\" ox=clip sw=384 cw=226 sh=50 ch=50"
+  ],
+  "ellipsis": [],
+  "selects": [],
+  "smallText": [],
+  "textClip": [],
+  "textNodes": 980,
+  "textOverlap": [],
+  "fields": [
+   {
+    "d": "input#gpu_search \"NVIDIA GeForce RTX 4090 Laptop GPU (16.0 GB)\"",
+    "type": "text",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 442,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     178.4,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     225.4,
+     23,
+     137.6,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "light"
+ },
+ "results-gpu-dark": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [
+   "input#gpu_search \"NVIDIA GeForce RTX 4090 Laptop GPU (16.0 GB)\" ox=clip sw=384 cw=226 sh=50 ch=50"
+  ],
+  "ellipsis": [],
+  "selects": [],
+  "smallText": [],
+  "textClip": [],
+  "textNodes": 980,
+  "textOverlap": [],
+  "fields": [
+   {
+    "d": "input#gpu_search \"NVIDIA GeForce RTX 4090 Laptop GPU (16.0 GB)\"",
+    "type": "text",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 442,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     177.7,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     224.7,
+     23,
+     138.3,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "dark"
+ },
+ "results-manual-vram-light": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [],
+  "smallText": [],
+  "textClip": [],
+  "textNodes": 980,
+  "textOverlap": [],
+  "fields": [
+   {
+    "d": "input#gpu_search",
+    "type": "text",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb \"24\"",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 442,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     178.4,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     225.4,
+     23,
+     137.6,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "light"
+ },
+ "results-manual-vram-dark": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [],
+  "smallText": [],
+  "textClip": [],
+  "textNodes": 980,
+  "textOverlap": [],
+  "fields": [
+   {
+    "d": "input#gpu_search",
+    "type": "text",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb \"24\"",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 442,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     177.7,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     224.7,
+     23,
+     138.3,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "dark"
+ },
+ "results-gpu-ambiguous-light": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [],
+  "smallText": [],
+  "textClip": [],
+  "textNodes": 809,
+  "textOverlap": [],
+  "fields": [
+   {
+    "d": "input#gpu_search \"RTX\"",
+    "type": "text",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 364,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     178.4,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     225.4,
+     23,
+     137.6,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "light"
+ },
+ "results-gpu-ambiguous-dark": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [],
+  "smallText": [],
+  "textClip": [],
+  "textNodes": 809,
+  "textOverlap": [],
+  "fields": [
+   {
+    "d": "input#gpu_search \"RTX\"",
+    "type": "text",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 364,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     177.7,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     224.7,
+     23,
+     138.3,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "dark"
+ },
+ "results-gpu-notfound-light": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [],
+  "smallText": [],
+  "textClip": [],
+  "textNodes": 877,
+  "textOverlap": [],
+  "fields": [
+   {
+    "d": "input#gpu_search \"RTX 3060 12GB\"",
+    "type": "text",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 394,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     178.4,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     225.4,
+     23,
+     137.6,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "light"
+ },
+ "results-gpu-notfound-dark": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [],
+  "smallText": [],
+  "textClip": [],
+  "textNodes": 877,
+  "textOverlap": [],
+  "fields": [
+   {
+    "d": "input#gpu_search \"RTX 3060 12GB\"",
+    "type": "text",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 394,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     177.7,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     224.7,
+     23,
+     138.3,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "dark"
+ },
+ "results-errors-light": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [],
+  "smallText": [],
+  "textClip": [],
+  "textNodes": 811,
+  "textOverlap": [],
+  "fields": [
+   {
+    "d": "input#gpu_search",
+    "type": "text",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 364,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     178.4,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     225.4,
+     23,
+     137.6,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "light"
+ },
+ "results-errors-dark": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [],
+  "smallText": [],
+  "textClip": [],
+  "textNodes": 811,
+  "textOverlap": [],
+  "fields": [
+   {
+    "d": "input#gpu_search",
+    "type": "text",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 364,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     177.7,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     224.7,
+     23,
+     138.3,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "dark"
+ },
+ "results-chips-light": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [],
+  "smallText": [],
+  "textClip": [],
+  "textNodes": 301,
+  "textOverlap": [],
+  "fields": [
+   {
+    "d": "input#gpu_search",
+    "type": "text",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb \"24\"",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 96,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     178.4,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     225.4,
+     23,
+     137.6,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "light"
+ },
+ "results-chips-dark": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [],
+  "smallText": [],
+  "textClip": [],
+  "textNodes": 301,
+  "textOverlap": [],
+  "fields": [
+   {
+    "d": "input#gpu_search",
+    "type": "text",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb \"24\"",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 96,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     177.7,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     224.7,
+     23,
+     138.3,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "dark"
+ },
+ "results-filters-open-light": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [],
+  "smallText": [],
+  "textClip": [],
+  "textNodes": 317,
+  "textOverlap": [],
+  "fields": [
+   {
+    "d": "input#gpu_search",
+    "type": "text",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb \"24\"",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#min_params_b.js-auto-filter-text",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#max_params_b.js-auto-filter-text",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 110,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     178.4,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     225.4,
+     23,
+     137.6,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "light"
+ },
+ "results-filters-open-dark": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [],
+  "smallText": [],
+  "textClip": [],
+  "textNodes": 317,
+  "textOverlap": [],
+  "fields": [
+   {
+    "d": "input#gpu_search",
+    "type": "text",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb \"24\"",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#min_params_b.js-auto-filter-text",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#max_params_b.js-auto-filter-text",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 110,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     177.7,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     224.7,
+     23,
+     138.3,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "dark"
+ },
+ "results-picks-hidden-light": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [],
+  "smallText": [],
+  "textClip": [],
+  "textNodes": 157,
+  "textOverlap": [],
+  "fields": [
+   {
+    "d": "input#gpu_search",
+    "type": "text",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb \"2\"",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 69,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     178.4,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     225.4,
+     23,
+     137.6,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "light"
+ },
+ "results-picks-hidden-dark": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [],
+  "smallText": [],
+  "textClip": [],
+  "textNodes": 157,
+  "textOverlap": [],
+  "fields": [
+   {
+    "d": "input#gpu_search",
+    "type": "text",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb \"2\"",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 69,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     177.7,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     224.7,
+     23,
+     138.3,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "dark"
+ },
+ "results-tight-gated-light": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [],
+  "smallText": [],
+  "textClip": [],
+  "textNodes": 98,
+  "textOverlap": [],
+  "fields": [
+   {
+    "d": "input#gpu_search",
+    "type": "text",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb \"8\"",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 42,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     178.4,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     225.4,
+     23,
+     137.6,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "light"
+ },
+ "results-tight-gated-dark": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [],
+  "smallText": [],
+  "textClip": [],
+  "textNodes": 98,
+  "textOverlap": [],
+  "fields": [
+   {
+    "d": "input#gpu_search",
+    "type": "text",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb \"8\"",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 42,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     177.7,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     224.7,
+     23,
+     138.3,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "dark"
+ },
+ "gpu-suggest-light": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [],
+  "smallText": [],
+  "textClip": [],
+  "textNodes": 813,
+  "textOverlap": [
+   "li#gpu-opt-0 \"NVIDIA GeForce RTX 4060 (8.0 GB)\" x label \"Available VRAM (GB)\" 113x8",
+   "li#gpu-opt-1 \"NVIDIA GeForce RTX 4060 Laptop GPU (8.0 GB)\" x span \"2k\" 16x8",
+   "li#gpu-opt-2 \"NVIDIA GeForce RTX 4060 Ti (8GB) (8.0 GB)\" x button.chip.chip-example \"RTX 4060 8GB\" 96x11",
+   "li#gpu-opt-3 \"NVIDIA GeForce RTX 4060 Ti (16GB) (16.0 GB)\" x button.btn-primary \"Check compatibility\" 152x17"
+  ],
+  "fields": [
+   {
+    "d": "input#gpu_search \"4060\"",
+    "type": "text",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 368,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [
+   "li#gpu-opt-0 \"NVIDIA GeForce RTX 4060 (8.0 GB)\" x input#vram_gb 147x18",
+   "li#gpu-opt-0 \"NVIDIA GeForce RTX 4060 (8.0 GB)\" x input.js-auto-filter \"2048\" 46x16",
+   "li#gpu-opt-0 \"NVIDIA GeForce RTX 4060 (8.0 GB)\" x input.js-auto-filter \"4096\" 46x16",
+   "li#gpu-opt-0 \"NVIDIA GeForce RTX 4060 (8.0 GB)\" x input.js-auto-filter \"8192\" 43x16",
+   "li#gpu-opt-1 \"NVIDIA GeForce RTX 4060 Laptop GPU (8.0 GB)\" x input#vram_gb 147x34",
+   "li#gpu-opt-1 \"NVIDIA GeForce RTX 4060 Laptop GPU (8.0 GB)\" x input.js-auto-filter \"2048\" 46x30",
+   "li#gpu-opt-1 \"NVIDIA GeForce RTX 4060 Laptop GPU (8.0 GB)\" x input.js-auto-filter \"4096\" 46x30",
+   "li#gpu-opt-1 \"NVIDIA GeForce RTX 4060 Laptop GPU (8.0 GB)\" x input.js-auto-filter \"8192\" 43x30",
+   "li#gpu-opt-1 \"NVIDIA GeForce RTX 4060 Laptop GPU (8.0 GB)\" x button.chip.chip-example \"RTX 4060 8GB\" 127.2x12",
+   "li#gpu-opt-1 \"NVIDIA GeForce RTX 4060 Laptop GPU (8.0 GB)\" x button.chip.chip-example \"8GB\" 63.2x12",
+   "li#gpu-opt-1 \"NVIDIA GeForce RTX 4060 Laptop GPU (8.0 GB)\" x button.chip.chip-example \"24GB\" 72.1x12",
+   "li#gpu-opt-2 \"NVIDIA GeForce RTX 4060 Ti (8GB) (8.0 GB)\" x button.chip.chip-example \"RTX 4060 8GB\" 127.2x32",
+   "li#gpu-opt-2 \"NVIDIA GeForce RTX 4060 Ti (8GB) (8.0 GB)\" x button.chip.chip-example \"8GB\" 63.2x32",
+   "li#gpu-opt-2 \"NVIDIA GeForce RTX 4060 Ti (8GB) (8.0 GB)\" x button.chip.chip-example \"24GB\" 72.1x32",
+   "li#gpu-opt-2 \"NVIDIA GeForce RTX 4060 Ti (8GB) (8.0 GB)\" x button.btn-primary \"Check compatibility\" 298x12",
+   "li#gpu-opt-3 \"NVIDIA GeForce RTX 4060 Ti (16GB) (16.0 GB)\" x button.btn-primary \"Check compatibility\" 298x42",
+   "li#gpu-opt-3 \"NVIDIA GeForce RTX 4060 Ti (16GB) (16.0 GB)\" x summary \"Filters (0)\" 298x3"
+  ],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     178.4,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     225.4,
+     23,
+     137.6,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "light"
+ },
+ "gpu-suggest-dark": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [],
+  "smallText": [],
+  "textClip": [],
+  "textNodes": 813,
+  "textOverlap": [
+   "li#gpu-opt-0 \"NVIDIA GeForce RTX 4060 (8.0 GB)\" x label \"Available VRAM (GB)\" 113x8",
+   "li#gpu-opt-1 \"NVIDIA GeForce RTX 4060 Laptop GPU (8.0 GB)\" x span \"2k\" 16x8",
+   "li#gpu-opt-2 \"NVIDIA GeForce RTX 4060 Ti (8GB) (8.0 GB)\" x button.chip.chip-example \"RTX 4060 8GB\" 96x11",
+   "li#gpu-opt-3 \"NVIDIA GeForce RTX 4060 Ti (16GB) (16.0 GB)\" x button.btn-primary \"Check compatibility\" 152x17"
+  ],
+  "fields": [
+   {
+    "d": "input#gpu_search \"4060\"",
+    "type": "text",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 368,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [
+   "li#gpu-opt-0 \"NVIDIA GeForce RTX 4060 (8.0 GB)\" x input#vram_gb 147x18",
+   "li#gpu-opt-0 \"NVIDIA GeForce RTX 4060 (8.0 GB)\" x input.js-auto-filter \"2048\" 46x16",
+   "li#gpu-opt-0 \"NVIDIA GeForce RTX 4060 (8.0 GB)\" x input.js-auto-filter \"4096\" 46x16",
+   "li#gpu-opt-0 \"NVIDIA GeForce RTX 4060 (8.0 GB)\" x input.js-auto-filter \"8192\" 43x16",
+   "li#gpu-opt-1 \"NVIDIA GeForce RTX 4060 Laptop GPU (8.0 GB)\" x input#vram_gb 147x34",
+   "li#gpu-opt-1 \"NVIDIA GeForce RTX 4060 Laptop GPU (8.0 GB)\" x input.js-auto-filter \"2048\" 46x30",
+   "li#gpu-opt-1 \"NVIDIA GeForce RTX 4060 Laptop GPU (8.0 GB)\" x input.js-auto-filter \"4096\" 46x30",
+   "li#gpu-opt-1 \"NVIDIA GeForce RTX 4060 Laptop GPU (8.0 GB)\" x input.js-auto-filter \"8192\" 43x30",
+   "li#gpu-opt-1 \"NVIDIA GeForce RTX 4060 Laptop GPU (8.0 GB)\" x button.chip.chip-example \"RTX 4060 8GB\" 127.2x12",
+   "li#gpu-opt-1 \"NVIDIA GeForce RTX 4060 Laptop GPU (8.0 GB)\" x button.chip.chip-example \"8GB\" 63.2x12",
+   "li#gpu-opt-1 \"NVIDIA GeForce RTX 4060 Laptop GPU (8.0 GB)\" x button.chip.chip-example \"24GB\" 72.1x12",
+   "li#gpu-opt-2 \"NVIDIA GeForce RTX 4060 Ti (8GB) (8.0 GB)\" x button.chip.chip-example \"RTX 4060 8GB\" 127.2x32",
+   "li#gpu-opt-2 \"NVIDIA GeForce RTX 4060 Ti (8GB) (8.0 GB)\" x button.chip.chip-example \"8GB\" 63.2x32",
+   "li#gpu-opt-2 \"NVIDIA GeForce RTX 4060 Ti (8GB) (8.0 GB)\" x button.chip.chip-example \"24GB\" 72.1x32",
+   "li#gpu-opt-2 \"NVIDIA GeForce RTX 4060 Ti (8GB) (8.0 GB)\" x button.btn-primary \"Check compatibility\" 298x12",
+   "li#gpu-opt-3 \"NVIDIA GeForce RTX 4060 Ti (16GB) (16.0 GB)\" x button.btn-primary \"Check compatibility\" 298x42",
+   "li#gpu-opt-3 \"NVIDIA GeForce RTX 4060 Ti (16GB) (16.0 GB)\" x summary \"Filters (0)\" 298x3"
+  ],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     177.7,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     224.7,
+     23,
+     138.3,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "dark"
+ },
+ "why-closed-light": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [],
+  "smallText": [],
+  "textClip": [],
+  "textNodes": 980,
+  "textOverlap": [],
+  "fields": [
+   {
+    "d": "input#gpu_search",
+    "type": "text",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb \"24\"",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 442,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     178.4,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     225.4,
+     23,
+     137.6,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "light"
+ },
+ "why-closed-dark": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [],
+  "smallText": [],
+  "textClip": [],
+  "textNodes": 980,
+  "textOverlap": [],
+  "fields": [
+   {
+    "d": "input#gpu_search",
+    "type": "text",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb \"24\"",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 442,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     177.7,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     224.7,
+     23,
+     138.3,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "dark"
+ },
+ "why-loading-light": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [],
+  "smallText": [],
+  "textClip": [],
+  "textNodes": 981,
+  "textOverlap": [],
+  "fields": [
+   {
+    "d": "input#gpu_search",
+    "type": "text",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb \"24\"",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 442,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     178.4,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     225.4,
+     23,
+     137.6,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "light"
+ },
+ "why-loading-dark": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [],
+  "smallText": [],
+  "textClip": [],
+  "textNodes": 981,
+  "textOverlap": [],
+  "fields": [
+   {
+    "d": "input#gpu_search",
+    "type": "text",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb \"24\"",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 442,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     177.7,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     224.7,
+     23,
+     138.3,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "dark"
+ },
+ "why-loaded-light": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [],
+  "smallText": [],
+  "textClip": [],
+  "textNodes": 992,
+  "textOverlap": [],
+  "fields": [
+   {
+    "d": "input#gpu_search",
+    "type": "text",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb \"24\"",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 442,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     178.4,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     225.4,
+     23,
+     137.6,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "light"
+ },
+ "why-loaded-dark": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [],
+  "smallText": [],
+  "textClip": [],
+  "textNodes": 992,
+  "textOverlap": [],
+  "fields": [
+   {
+    "d": "input#gpu_search",
+    "type": "text",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb \"24\"",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 442,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     177.7,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     224.7,
+     23,
+     138.3,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "dark"
+ },
+ "empty-links-light": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [],
+  "smallText": [],
+  "textClip": [],
+  "textNodes": 43,
+  "textOverlap": [],
+  "fields": [
+   {
+    "d": "input#gpu_search",
+    "type": "text",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb \"1\"",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 18,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     178.4,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     225.4,
+     23,
+     137.6,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "light"
+ },
+ "empty-links-dark": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [],
+  "smallText": [],
+  "textClip": [],
+  "textNodes": 43,
+  "textOverlap": [],
+  "fields": [
+   {
+    "d": "input#gpu_search",
+    "type": "text",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb \"1\"",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 18,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     177.7,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     224.7,
+     23,
+     138.3,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "dark"
+ },
+ "empty-inert-light": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [],
+  "smallText": [],
+  "textClip": [],
+  "textNodes": 43,
+  "textOverlap": [],
+  "fields": [
+   {
+    "d": "input#gpu_search",
+    "type": "text",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb \"1\"",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 16,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     178.4,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     225.4,
+     23,
+     137.6,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "light"
+ },
+ "empty-inert-dark": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [],
+  "smallText": [],
+  "textClip": [],
+  "textNodes": 43,
+  "textOverlap": [],
+  "fields": [
+   {
+    "d": "input#gpu_search",
+    "type": "text",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb \"1\"",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 16,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     177.7,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     224.7,
+     23,
+     138.3,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "dark"
+ },
+ "empty-mixed-light": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [],
+  "smallText": [],
+  "textClip": [],
+  "textNodes": 43,
+  "textOverlap": [],
+  "fields": [
+   {
+    "d": "input#gpu_search",
+    "type": "text",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb \"1\"",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 17,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     178.4,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     225.4,
+     23,
+     137.6,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "light"
+ },
+ "empty-mixed-dark": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [],
+  "smallText": [],
+  "textClip": [],
+  "textNodes": 43,
+  "textOverlap": [],
+  "fields": [
+   {
+    "d": "input#gpu_search",
+    "type": "text",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb \"1\"",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 17,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     177.7,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     224.7,
+     23,
+     138.3,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "dark"
+ },
+ "unseeded-light": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [],
+  "smallText": [],
+  "textClip": [],
+  "textNodes": 38,
+  "textOverlap": [],
+  "fields": [
+   {
+    "d": "input#gpu_search",
+    "type": "text",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 15,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     178.4,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     225.4,
+     23,
+     137.6,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "light"
+ },
+ "unseeded-dark": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [],
+  "smallText": [],
+  "textClip": [],
+  "textNodes": 38,
+  "textOverlap": [],
+  "fields": [
+   {
+    "d": "input#gpu_search",
+    "type": "text",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 15,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     177.7,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     224.7,
+     23,
+     138.3,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "dark"
+ },
+ "detail-gated-light": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [
+   {
+    "id": "gpu_id",
+    "text": "Manual VRAM",
+    "textWidth": 101,
+    "contentWidth": 250,
+    "clipped": false,
+    "rect": [
+     39,
+     915.3,
+     312,
+     52
+    ],
+    "fs": "16px"
+   },
+   {
+    "id": "context_tokens",
+    "text": "2048 tokens",
+    "textWidth": 87,
+    "contentWidth": 250,
+    "clipped": false,
+    "rect": [
+     39,
+     1151.3,
+     312,
+     52
+    ],
+    "fs": "16px"
+   }
+  ],
+  "smallText": [],
+  "textClip": [
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Variant\" [68,1371.3,47.1,18] box [39,1339.3,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Bits\" [180.5,1371.3,23.6,18] box [39,1339.3,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Required VRAM (GB)\" [68,1420.3,56.3,18] box [39,1339.3,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Available VRAM (GB)\" [180.5,1420.3,58.3,18] box [39,1339.3,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Margin (GB)\" [68,1511.3,44.9,18] box [39,1339.3,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Status\" [180.5,1511.3,40.1,18] box [39,1339.3,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Provenance\" [68,1581.3,74.5,18] box [39,1339.3,1,1]"
+  ],
+  "textNodes": 71,
+  "textOverlap": [
+   "th \"Variant\" x td.vl \"FP16 (FP16)\" 47x14",
+   "th \"Required VRAM (GB)\" x td.fig \"16.0\" 23x11",
+   "th \"Required VRAM (GB)\" x td.fig \"16.0\" 23x7",
+   "th \"Available VRAM (GB)\" x td.fig \"19.98\" 37x11",
+   "th \"Available VRAM (GB)\" x td.fig \"19.98\" 18x7",
+   "th \"Provenance\" x p \"Quant bucket for VRAM Sherpa MVP sizing. Treat as \" 74x11"
+  ],
+  "fields": [
+   {
+    "d": "select#gpu_id \"Manual VRAM NVIDIA GeForce RTX 4050 Laptop GPU (6.\"",
+    "type": "select-one",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb \"24\"",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "select#context_tokens \"2048 tokens 4096 tokens 8192 tokens\"",
+    "type": "select-one",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 14,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [
+   "a \"https://huggingface.co/meta-llama/Llama-3.1-8B-Ins\" x a \"https://huggingface.co/meta-llama/Llama-3.1-8B-Ins\" 312x10"
+  ],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     178.4,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     225.4,
+     23,
+     137.6,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "light"
+ },
+ "detail-gated-dark": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [
+   {
+    "id": "gpu_id",
+    "text": "Manual VRAM",
+    "textWidth": 101,
+    "contentWidth": 250,
+    "clipped": false,
+    "rect": [
+     39,
+     915.3,
+     312,
+     52
+    ],
+    "fs": "16px"
+   },
+   {
+    "id": "context_tokens",
+    "text": "2048 tokens",
+    "textWidth": 87,
+    "contentWidth": 250,
+    "clipped": false,
+    "rect": [
+     39,
+     1151.3,
+     312,
+     52
+    ],
+    "fs": "16px"
+   }
+  ],
+  "smallText": [],
+  "textClip": [
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Variant\" [68,1371.3,47.1,18] box [39,1339.3,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Bits\" [180.5,1371.3,23.6,18] box [39,1339.3,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Required VRAM (GB)\" [68,1420.3,56.3,18] box [39,1339.3,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Available VRAM (GB)\" [180.5,1420.3,58.3,18] box [39,1339.3,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Margin (GB)\" [68,1511.3,44.9,18] box [39,1339.3,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Status\" [180.5,1511.3,40.1,18] box [39,1339.3,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Provenance\" [68,1581.3,74.5,18] box [39,1339.3,1,1]"
+  ],
+  "textNodes": 71,
+  "textOverlap": [
+   "th \"Variant\" x td.vl \"FP16 (FP16)\" 47x14",
+   "th \"Required VRAM (GB)\" x td.fig \"16.0\" 23x11",
+   "th \"Required VRAM (GB)\" x td.fig \"16.0\" 23x7",
+   "th \"Available VRAM (GB)\" x td.fig \"19.98\" 37x11",
+   "th \"Available VRAM (GB)\" x td.fig \"19.98\" 18x7",
+   "th \"Provenance\" x p \"Quant bucket for VRAM Sherpa MVP sizing. Treat as \" 74x11"
+  ],
+  "fields": [
+   {
+    "d": "select#gpu_id \"Manual VRAM NVIDIA GeForce RTX 4050 Laptop GPU (6.\"",
+    "type": "select-one",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb \"24\"",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "select#context_tokens \"2048 tokens 4096 tokens 8192 tokens\"",
+    "type": "select-one",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 14,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [
+   "a \"https://huggingface.co/meta-llama/Llama-3.1-8B-Ins\" x a \"https://huggingface.co/meta-llama/Llama-3.1-8B-Ins\" 312x10"
+  ],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     177.7,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     224.7,
+     23,
+     138.3,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "dark"
+ },
+ "detail-ungated-light": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [
+   {
+    "id": "gpu_id",
+    "text": "Manual VRAM",
+    "textWidth": 101,
+    "contentWidth": 250,
+    "clipped": false,
+    "rect": [
+     39,
+     694.9,
+     312,
+     52
+    ],
+    "fs": "16px"
+   },
+   {
+    "id": "context_tokens",
+    "text": "4096 tokens",
+    "textWidth": 88,
+    "contentWidth": 250,
+    "clipped": false,
+    "rect": [
+     39,
+     930.9,
+     312,
+     52
+    ],
+    "fs": "16px"
+   }
+  ],
+  "smallText": [],
+  "textClip": [
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Variant\" [68,1150.9,47.1,18] box [39,1118.9,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Bits\" [180.5,1150.9,23.6,18] box [39,1118.9,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Required VRAM (GB)\" [68,1199.9,56.3,18] box [39,1118.9,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Available VRAM (GB)\" [180.5,1199.9,58.3,18] box [39,1118.9,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Margin (GB)\" [68,1290.9,44.9,18] box [39,1118.9,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Status\" [180.5,1290.9,40.1,18] box [39,1118.9,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Provenance\" [68,1360.9,74.5,18] box [39,1118.9,1,1]"
+  ],
+  "textNodes": 69,
+  "textOverlap": [
+   "th \"Variant\" x td.vl \"FP16 (FP16)\" 47x14",
+   "th \"Required VRAM (GB)\" x td.fig \"16.0\" 23x11",
+   "th \"Required VRAM (GB)\" x td.fig \"16.0\" 23x7",
+   "th \"Available VRAM (GB)\" x td.fig \"20.01\" 37x11",
+   "th \"Available VRAM (GB)\" x td.fig \"20.01\" 18x7",
+   "th \"Provenance\" x p \"Quant bucket for VRAM Sherpa MVP sizing. Treat as \" 74x11"
+  ],
+  "fields": [
+   {
+    "d": "select#gpu_id \"Manual VRAM NVIDIA GeForce RTX 4050 Laptop GPU (6.\"",
+    "type": "select-one",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb \"24\"",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "select#context_tokens \"2048 tokens 4096 tokens 8192 tokens\"",
+    "type": "select-one",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 14,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [
+   "a \"https://huggingface.co/Qwen/Qwen2.5-7B-Instruct\" x a \"https://huggingface.co/Qwen/Qwen2.5-7B-Instruct/bl\" 312x10"
+  ],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     178.4,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     225.4,
+     23,
+     137.6,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "light"
+ },
+ "detail-ungated-dark": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [
+   {
+    "id": "gpu_id",
+    "text": "Manual VRAM",
+    "textWidth": 101,
+    "contentWidth": 250,
+    "clipped": false,
+    "rect": [
+     39,
+     694.9,
+     312,
+     52
+    ],
+    "fs": "16px"
+   },
+   {
+    "id": "context_tokens",
+    "text": "4096 tokens",
+    "textWidth": 88,
+    "contentWidth": 250,
+    "clipped": false,
+    "rect": [
+     39,
+     930.9,
+     312,
+     52
+    ],
+    "fs": "16px"
+   }
+  ],
+  "smallText": [],
+  "textClip": [
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Variant\" [68,1150.9,47.1,18] box [39,1118.9,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Bits\" [180.5,1150.9,23.6,18] box [39,1118.9,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Required VRAM (GB)\" [68,1199.9,56.3,18] box [39,1118.9,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Available VRAM (GB)\" [180.5,1199.9,58.3,18] box [39,1118.9,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Margin (GB)\" [68,1290.9,44.9,18] box [39,1118.9,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Status\" [180.5,1290.9,40.1,18] box [39,1118.9,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Provenance\" [68,1360.9,74.5,18] box [39,1118.9,1,1]"
+  ],
+  "textNodes": 69,
+  "textOverlap": [
+   "th \"Variant\" x td.vl \"FP16 (FP16)\" 47x14",
+   "th \"Required VRAM (GB)\" x td.fig \"16.0\" 23x11",
+   "th \"Required VRAM (GB)\" x td.fig \"16.0\" 23x7",
+   "th \"Available VRAM (GB)\" x td.fig \"20.01\" 37x11",
+   "th \"Available VRAM (GB)\" x td.fig \"20.01\" 18x7",
+   "th \"Provenance\" x p \"Quant bucket for VRAM Sherpa MVP sizing. Treat as \" 74x11"
+  ],
+  "fields": [
+   {
+    "d": "select#gpu_id \"Manual VRAM NVIDIA GeForce RTX 4050 Laptop GPU (6.\"",
+    "type": "select-one",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb \"24\"",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "select#context_tokens \"2048 tokens 4096 tokens 8192 tokens\"",
+    "type": "select-one",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 14,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [
+   "a \"https://huggingface.co/Qwen/Qwen2.5-7B-Instruct\" x a \"https://huggingface.co/Qwen/Qwen2.5-7B-Instruct/bl\" 312x10"
+  ],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     177.7,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     224.7,
+     23,
+     138.3,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "dark"
+ },
+ "detail-no-sources-light": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [
+   {
+    "id": "gpu_id",
+    "text": "Manual VRAM",
+    "textWidth": 101,
+    "contentWidth": 250,
+    "clipped": false,
+    "rect": [
+     39,
+     494.4,
+     312,
+     52
+    ],
+    "fs": "16px"
+   },
+   {
+    "id": "context_tokens",
+    "text": "4096 tokens",
+    "textWidth": 88,
+    "contentWidth": 250,
+    "clipped": false,
+    "rect": [
+     39,
+     730.4,
+     312,
+     52
+    ],
+    "fs": "16px"
+   }
+  ],
+  "smallText": [],
+  "textClip": [
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Variant\" [68,950.4,47.1,18] box [39,918.4,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Bits\" [180.5,950.4,23.6,18] box [39,918.4,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Required VRAM (GB)\" [68,999.4,56.3,18] box [39,918.4,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Available VRAM (GB)\" [180.5,999.4,58.3,18] box [39,918.4,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Margin (GB)\" [68,1090.4,44.9,18] box [39,918.4,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Status\" [180.5,1090.4,40.1,18] box [39,918.4,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Provenance\" [68,1160.4,74.5,18] box [39,918.4,1,1]"
+  ],
+  "textNodes": 57,
+  "textOverlap": [
+   "th \"Variant\" x td.vl \"FP16 (FP16)\" 47x14",
+   "th \"Required VRAM (GB)\" x td.fig \"16.0\" 23x11",
+   "th \"Required VRAM (GB)\" x td.fig \"16.0\" 23x7",
+   "th \"Available VRAM (GB)\" x td.fig \"20.01\" 37x11",
+   "th \"Available VRAM (GB)\" x td.fig \"20.01\" 18x7",
+   "th \"Provenance\" x p \"Quant bucket for VRAM Sherpa MVP sizing. Treat as \" 74x11"
+  ],
+  "fields": [
+   {
+    "d": "select#gpu_id \"Manual VRAM NVIDIA GeForce RTX 4050 Laptop GPU (6.\"",
+    "type": "select-one",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb \"24\"",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "select#context_tokens \"2048 tokens 4096 tokens 8192 tokens\"",
+    "type": "select-one",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 8,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     178.4,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     225.4,
+     23,
+     137.6,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "light"
+ },
+ "detail-no-sources-dark": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [
+   {
+    "id": "gpu_id",
+    "text": "Manual VRAM",
+    "textWidth": 101,
+    "contentWidth": 250,
+    "clipped": false,
+    "rect": [
+     39,
+     494.4,
+     312,
+     52
+    ],
+    "fs": "16px"
+   },
+   {
+    "id": "context_tokens",
+    "text": "4096 tokens",
+    "textWidth": 88,
+    "contentWidth": 250,
+    "clipped": false,
+    "rect": [
+     39,
+     730.4,
+     312,
+     52
+    ],
+    "fs": "16px"
+   }
+  ],
+  "smallText": [],
+  "textClip": [
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Variant\" [68,950.4,47.1,18] box [39,918.4,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Bits\" [180.5,950.4,23.6,18] box [39,918.4,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Required VRAM (GB)\" [68,999.4,56.3,18] box [39,918.4,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Available VRAM (GB)\" [180.5,999.4,58.3,18] box [39,918.4,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Margin (GB)\" [68,1090.4,44.9,18] box [39,918.4,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Status\" [180.5,1090.4,40.1,18] box [39,918.4,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Provenance\" [68,1160.4,74.5,18] box [39,918.4,1,1]"
+  ],
+  "textNodes": 57,
+  "textOverlap": [
+   "th \"Variant\" x td.vl \"FP16 (FP16)\" 47x14",
+   "th \"Required VRAM (GB)\" x td.fig \"16.0\" 23x11",
+   "th \"Required VRAM (GB)\" x td.fig \"16.0\" 23x7",
+   "th \"Available VRAM (GB)\" x td.fig \"20.01\" 37x11",
+   "th \"Available VRAM (GB)\" x td.fig \"20.01\" 18x7",
+   "th \"Provenance\" x p \"Quant bucket for VRAM Sherpa MVP sizing. Treat as \" 74x11"
+  ],
+  "fields": [
+   {
+    "d": "select#gpu_id \"Manual VRAM NVIDIA GeForce RTX 4050 Laptop GPU (6.\"",
+    "type": "select-one",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb \"24\"",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "select#context_tokens \"2048 tokens 4096 tokens 8192 tokens\"",
+    "type": "select-one",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 8,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     177.7,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     224.7,
+     23,
+     138.3,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "dark"
+ },
+ "detail-error-light": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [
+   {
+    "id": "gpu_id",
+    "text": "Manual VRAM",
+    "textWidth": 101,
+    "contentWidth": 250,
+    "clipped": false,
+    "rect": [
+     39,
+     785.9,
+     312,
+     52
+    ],
+    "fs": "16px"
+   },
+   {
+    "id": "context_tokens",
+    "text": "2048 tokens",
+    "textWidth": 87,
+    "contentWidth": 250,
+    "clipped": false,
+    "rect": [
+     39,
+     1021.9,
+     312,
+     52
+    ],
+    "fs": "16px"
+   }
+  ],
+  "smallText": [],
+  "textClip": [
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Variant\" [68,1241.9,47.1,18] box [39,1209.9,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Bits\" [180.5,1241.9,23.6,18] box [39,1209.9,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Required VRAM (GB)\" [68,1290.9,56.3,18] box [39,1209.9,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Available VRAM (GB)\" [180.5,1290.9,58.3,18] box [39,1209.9,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Margin (GB)\" [68,1381.9,44.9,18] box [39,1209.9,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Status\" [180.5,1381.9,40.1,18] box [39,1209.9,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Provenance\" [68,1451.9,74.5,18] box [39,1209.9,1,1]"
+  ],
+  "textNodes": 71,
+  "textOverlap": [
+   "th \"Variant\" x td.vl \"FP16 (FP16)\" 47x14",
+   "th \"Required VRAM (GB)\" x td.fig \"16.0\" 23x11",
+   "th \"Required VRAM (GB)\" x td.fig \"16.0\" 23x7",
+   "th \"Available VRAM (GB)\" x td.fig \"19.06\" 37x11",
+   "th \"Available VRAM (GB)\" x td.fig \"19.06\" 18x7",
+   "th \"Provenance\" x p \"Quant bucket for VRAM Sherpa MVP sizing. Treat as \" 74x11"
+  ],
+  "fields": [
+   {
+    "d": "select#gpu_id \"Manual VRAM NVIDIA GeForce RTX 4050 Laptop GPU (6.\"",
+    "type": "select-one",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "select#context_tokens \"2048 tokens 4096 tokens 8192 tokens\"",
+    "type": "select-one",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 14,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [
+   "a \"https://huggingface.co/Qwen/Qwen2.5-7B-Instruct\" x a \"https://huggingface.co/Qwen/Qwen2.5-7B-Instruct/bl\" 312x10"
+  ],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     178.4,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     225.4,
+     23,
+     137.6,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "light"
+ },
+ "detail-error-dark": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [
+   {
+    "id": "gpu_id",
+    "text": "Manual VRAM",
+    "textWidth": 101,
+    "contentWidth": 250,
+    "clipped": false,
+    "rect": [
+     39,
+     785.9,
+     312,
+     52
+    ],
+    "fs": "16px"
+   },
+   {
+    "id": "context_tokens",
+    "text": "2048 tokens",
+    "textWidth": 87,
+    "contentWidth": 250,
+    "clipped": false,
+    "rect": [
+     39,
+     1021.9,
+     312,
+     52
+    ],
+    "fs": "16px"
+   }
+  ],
+  "smallText": [],
+  "textClip": [
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Variant\" [68,1241.9,47.1,18] box [39,1209.9,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Bits\" [180.5,1241.9,23.6,18] box [39,1209.9,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Required VRAM (GB)\" [68,1290.9,56.3,18] box [39,1209.9,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Available VRAM (GB)\" [180.5,1290.9,58.3,18] box [39,1209.9,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Margin (GB)\" [68,1381.9,44.9,18] box [39,1209.9,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Status\" [180.5,1381.9,40.1,18] box [39,1209.9,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Provenance\" [68,1451.9,74.5,18] box [39,1209.9,1,1]"
+  ],
+  "textNodes": 71,
+  "textOverlap": [
+   "th \"Variant\" x td.vl \"FP16 (FP16)\" 47x14",
+   "th \"Required VRAM (GB)\" x td.fig \"16.0\" 23x11",
+   "th \"Required VRAM (GB)\" x td.fig \"16.0\" 23x7",
+   "th \"Available VRAM (GB)\" x td.fig \"19.06\" 37x11",
+   "th \"Available VRAM (GB)\" x td.fig \"19.06\" 18x7",
+   "th \"Provenance\" x p \"Quant bucket for VRAM Sherpa MVP sizing. Treat as \" 74x11"
+  ],
+  "fields": [
+   {
+    "d": "select#gpu_id \"Manual VRAM NVIDIA GeForce RTX 4050 Laptop GPU (6.\"",
+    "type": "select-one",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "select#context_tokens \"2048 tokens 4096 tokens 8192 tokens\"",
+    "type": "select-one",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 14,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [
+   "a \"https://huggingface.co/Qwen/Qwen2.5-7B-Instruct\" x a \"https://huggingface.co/Qwen/Qwen2.5-7B-Instruct/bl\" 312x10"
+  ],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     177.7,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     224.7,
+     23,
+     138.3,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "dark"
+ },
+ "how-it-works-light": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [],
+  "smallText": [],
+  "textClip": [],
+  "textNodes": 86,
+  "textOverlap": [],
+  "fields": [],
+  "targetCount": 5,
+  "smallTargets": [],
+  "exemptLinks": [
+   "a \"See its model page\" [148.8,3593.9,141,21] in <p>"
+  ],
+  "overlaps": [],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     178.4,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     225.4,
+     23,
+     137.6,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "light"
+ },
+ "how-it-works-dark": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [],
+  "smallText": [],
+  "textClip": [],
+  "textNodes": 86,
+  "textOverlap": [],
+  "fields": [],
+  "targetCount": 5,
+  "smallTargets": [],
+  "exemptLinks": [
+   "a \"See its model page\" [148.8,3593.9,141,21] in <p>"
+  ],
+  "overlaps": [],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     177.7,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     224.7,
+     23,
+     138.3,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "dark"
+ },
+ "long-gpu-field-light": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [
+   "input#gpu_search \"NVIDIA GeForce RTX 4090 Laptop GPU (16.0 GB)\" ox=clip sw=384 cw=226 sh=50 ch=50"
+  ],
+  "ellipsis": [],
+  "selects": [],
+  "smallText": [],
+  "textClip": [],
+  "textNodes": 980,
+  "textOverlap": [],
+  "fields": [
+   {
+    "d": "input#gpu_search \"NVIDIA GeForce RTX 4090 Laptop GPU (16.0 GB)\"",
+    "type": "text",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 442,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     178.4,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     225.4,
+     23,
+     137.6,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "light"
+ },
+ "long-gpu-field-dark": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [
+   "input#gpu_search \"NVIDIA GeForce RTX 4090 Laptop GPU (16.0 GB)\" ox=clip sw=384 cw=226 sh=50 ch=50"
+  ],
+  "ellipsis": [],
+  "selects": [],
+  "smallText": [],
+  "textClip": [],
+  "textNodes": 980,
+  "textOverlap": [],
+  "fields": [
+   {
+    "d": "input#gpu_search \"NVIDIA GeForce RTX 4090 Laptop GPU (16.0 GB)\"",
+    "type": "text",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 442,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     177.7,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     224.7,
+     23,
+     138.3,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "dark"
+ },
+ "long-models-breakdown-open-light": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [],
+  "smallText": [],
+  "textClip": [],
+  "textNodes": 1004,
+  "textOverlap": [],
+  "fields": [
+   {
+    "d": "input#gpu_search",
+    "type": "text",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb \"24\"",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 442,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     178.4,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     225.4,
+     23,
+     137.6,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "light"
+ },
+ "long-models-breakdown-open-dark": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [],
+  "smallText": [],
+  "textClip": [],
+  "textNodes": 1004,
+  "textOverlap": [],
+  "fields": [
+   {
+    "d": "input#gpu_search",
+    "type": "text",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb \"24\"",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 442,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     177.7,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     224.7,
+     23,
+     138.3,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "dark"
+ },
+ "long-detail-mistral-light": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [
+   {
+    "id": "gpu_id",
+    "text": "NVIDIA GeForce RTX 4090 Laptop GPU (16.0 GB)",
+    "textWidth": 352,
+    "contentWidth": 250,
+    "clipped": true,
+    "rect": [
+     39,
+     760.8,
+     312,
+     66
+    ],
+    "fs": "16px"
+   },
+   {
+    "id": "context_tokens",
+    "text": "4096 tokens",
+    "textWidth": 88,
+    "contentWidth": 250,
+    "clipped": false,
+    "rect": [
+     39,
+     1010.8,
+     312,
+     52
+    ],
+    "fs": "16px"
+   }
+  ],
+  "smallText": [],
+  "textClip": [
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Variant\" [68,1230.8,47.1,18] box [39,1198.8,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Bits\" [180.5,1230.8,23.6,18] box [39,1198.8,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Required VRAM (GB)\" [68,1279.8,56.3,18] box [39,1198.8,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Available VRAM (GB)\" [180.5,1279.8,58.3,18] box [39,1198.8,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Margin (GB)\" [68,1370.8,44.9,18] box [39,1198.8,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Status\" [180.5,1370.8,40.1,18] box [39,1198.8,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Provenance\" [68,1440.8,74.5,18] box [39,1198.8,1,1]"
+  ],
+  "textNodes": 70,
+  "textOverlap": [
+   "th \"Variant\" x td.vl \"FP16 (FP16)\" 47x14",
+   "th \"Required VRAM (GB)\" x td.fig \"16.0\" 23x11",
+   "th \"Required VRAM (GB)\" x td.fig \"16.0\" 23x7",
+   "th \"Available VRAM (GB)\" x td.fig \"30.95\" 37x11",
+   "th \"Available VRAM (GB)\" x td.fig \"30.95\" 18x7",
+   "th \"Provenance\" x p \"Quant bucket for VRAM Sherpa MVP sizing. Treat as \" 74x11"
+  ],
+  "fields": [
+   {
+    "d": "select#gpu_id \"Manual VRAM NVIDIA GeForce RTX 4050 Laptop GPU (6.\"",
+    "type": "select-one",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 66
+   },
+   {
+    "d": "input#vram_gb",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "select#context_tokens \"2048 tokens 4096 tokens 8192 tokens\"",
+    "type": "select-one",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 15,
+  "smallTargets": [
+   "a a \"https://mistral.ai/news/mistral-nemo\" 244.9x38.5 @39,540"
+  ],
+  "exemptLinks": [],
+  "overlaps": [
+   "a \"https://huggingface.co/mistralai/Mistral-Nemo-Inst\" x a \"https://mistral.ai/news/mistral-nemo\" 244.9x10",
+   "a \"https://mistral.ai/news/mistral-nemo\" x a \"https://huggingface.co/nvidia/Mistral-NeMo-12B-Ins\" 244.9x10"
+  ],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     178.4,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     225.4,
+     23,
+     137.6,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "light"
+ },
+ "long-detail-mistral-dark": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [
+   {
+    "id": "gpu_id",
+    "text": "NVIDIA GeForce RTX 4090 Laptop GPU (16.0 GB)",
+    "textWidth": 352,
+    "contentWidth": 250,
+    "clipped": true,
+    "rect": [
+     39,
+     760.8,
+     312,
+     66
+    ],
+    "fs": "16px"
+   },
+   {
+    "id": "context_tokens",
+    "text": "4096 tokens",
+    "textWidth": 88,
+    "contentWidth": 250,
+    "clipped": false,
+    "rect": [
+     39,
+     1010.8,
+     312,
+     52
+    ],
+    "fs": "16px"
+   }
+  ],
+  "smallText": [],
+  "textClip": [
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Variant\" [68,1230.8,47.1,18] box [39,1198.8,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Bits\" [180.5,1230.8,23.6,18] box [39,1198.8,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Required VRAM (GB)\" [68,1279.8,56.3,18] box [39,1198.8,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Available VRAM (GB)\" [180.5,1279.8,58.3,18] box [39,1198.8,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Margin (GB)\" [68,1370.8,44.9,18] box [39,1198.8,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Status\" [180.5,1370.8,40.1,18] box [39,1198.8,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Provenance\" [68,1440.8,74.5,18] box [39,1198.8,1,1]"
+  ],
+  "textNodes": 70,
+  "textOverlap": [
+   "th \"Variant\" x td.vl \"FP16 (FP16)\" 47x14",
+   "th \"Required VRAM (GB)\" x td.fig \"16.0\" 23x11",
+   "th \"Required VRAM (GB)\" x td.fig \"16.0\" 23x7",
+   "th \"Available VRAM (GB)\" x td.fig \"30.95\" 37x11",
+   "th \"Available VRAM (GB)\" x td.fig \"30.95\" 18x7",
+   "th \"Provenance\" x p \"Quant bucket for VRAM Sherpa MVP sizing. Treat as \" 74x11"
+  ],
+  "fields": [
+   {
+    "d": "select#gpu_id \"Manual VRAM NVIDIA GeForce RTX 4050 Laptop GPU (6.\"",
+    "type": "select-one",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 66
+   },
+   {
+    "d": "input#vram_gb",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "select#context_tokens \"2048 tokens 4096 tokens 8192 tokens\"",
+    "type": "select-one",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 15,
+  "smallTargets": [
+   "a a \"https://mistral.ai/news/mistral-nemo\" 244.9x38.5 @39,540"
+  ],
+  "exemptLinks": [],
+  "overlaps": [
+   "a \"https://huggingface.co/mistralai/Mistral-Nemo-Inst\" x a \"https://mistral.ai/news/mistral-nemo\" 244.9x10",
+   "a \"https://mistral.ai/news/mistral-nemo\" x a \"https://huggingface.co/nvidia/Mistral-NeMo-12B-Ins\" 244.9x10"
+  ],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     177.7,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     224.7,
+     23,
+     138.3,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "dark"
+ },
+ "long-detail-deepseek-light": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [
+   {
+    "id": "gpu_id",
+    "text": "NVIDIA GeForce RTX 4090 Laptop GPU (16.0 GB)",
+    "textWidth": 352,
+    "contentWidth": 250,
+    "clipped": true,
+    "rect": [
+     39,
+     681.3,
+     312,
+     66
+    ],
+    "fs": "16px"
+   },
+   {
+    "id": "context_tokens",
+    "text": "4096 tokens",
+    "textWidth": 88,
+    "contentWidth": 250,
+    "clipped": false,
+    "rect": [
+     39,
+     931.3,
+     312,
+     52
+    ],
+    "fs": "16px"
+   }
+  ],
+  "smallText": [],
+  "textClip": [
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Variant\" [68,1151.3,47.1,18] box [39,1119.3,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Bits\" [180.5,1151.3,23.6,18] box [39,1119.3,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Required VRAM (GB)\" [68,1200.3,56.3,18] box [39,1119.3,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Available VRAM (GB)\" [180.5,1200.3,58.3,18] box [39,1119.3,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Margin (GB)\" [68,1291.3,44.9,18] box [39,1119.3,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Status\" [180.5,1291.3,40.1,18] box [39,1119.3,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Provenance\" [68,1361.3,74.5,18] box [39,1119.3,1,1]"
+  ],
+  "textNodes": 68,
+  "textOverlap": [
+   "th \"Variant\" x td.vl \"FP16 (FP16)\" 47x14",
+   "th \"Required VRAM (GB)\" x td.fig \"16.0\" 23x11",
+   "th \"Required VRAM (GB)\" x td.fig \"16.0\" 23x7",
+   "th \"Available VRAM (GB)\" x td.fig \"40.20\" 37x11",
+   "th \"Available VRAM (GB)\" x td.fig \"40.20\" 18x7",
+   "th \"Provenance\" x p \"Quant bucket for VRAM Sherpa MVP sizing. Treat as \" 74x11"
+  ],
+  "fields": [
+   {
+    "d": "select#gpu_id \"Manual VRAM NVIDIA GeForce RTX 4050 Laptop GPU (6.\"",
+    "type": "select-one",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 66
+   },
+   {
+    "d": "input#vram_gb",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "select#context_tokens \"2048 tokens 4096 tokens 8192 tokens\"",
+    "type": "select-one",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 13,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     178.4,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     225.4,
+     23,
+     137.6,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "light"
+ },
+ "long-detail-deepseek-dark": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [],
+  "ellipsis": [],
+  "selects": [
+   {
+    "id": "gpu_id",
+    "text": "NVIDIA GeForce RTX 4090 Laptop GPU (16.0 GB)",
+    "textWidth": 352,
+    "contentWidth": 250,
+    "clipped": true,
+    "rect": [
+     39,
+     681.3,
+     312,
+     66
+    ],
+    "fs": "16px"
+   },
+   {
+    "id": "context_tokens",
+    "text": "4096 tokens",
+    "textWidth": 88,
+    "contentWidth": 250,
+    "clipped": false,
+    "rect": [
+     39,
+     931.3,
+     312,
+     52
+    ],
+    "fs": "16px"
+   }
+  ],
+  "smallText": [],
+  "textClip": [
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Variant\" [68,1151.3,47.1,18] box [39,1119.3,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Bits\" [180.5,1151.3,23.6,18] box [39,1119.3,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Required VRAM (GB)\" [68,1200.3,56.3,18] box [39,1119.3,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Available VRAM (GB)\" [180.5,1200.3,58.3,18] box [39,1119.3,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Margin (GB)\" [68,1291.3,44.9,18] box [39,1119.3,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Status\" [180.5,1291.3,40.1,18] box [39,1119.3,1,1]",
+   "clipped-by thead \"Variant Bits Required VRAM (GB) Available VRAM (GB\" text th \"Provenance\" [68,1361.3,74.5,18] box [39,1119.3,1,1]"
+  ],
+  "textNodes": 68,
+  "textOverlap": [
+   "th \"Variant\" x td.vl \"FP16 (FP16)\" 47x14",
+   "th \"Required VRAM (GB)\" x td.fig \"16.0\" 23x11",
+   "th \"Required VRAM (GB)\" x td.fig \"16.0\" 23x7",
+   "th \"Available VRAM (GB)\" x td.fig \"40.20\" 37x11",
+   "th \"Available VRAM (GB)\" x td.fig \"40.20\" 18x7",
+   "th \"Provenance\" x p \"Quant bucket for VRAM Sherpa MVP sizing. Treat as \" 74x11"
+  ],
+  "fields": [
+   {
+    "d": "select#gpu_id \"Manual VRAM NVIDIA GeForce RTX 4050 Laptop GPU (6.\"",
+    "type": "select-one",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 66
+   },
+   {
+    "d": "input#vram_gb",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "select#context_tokens \"2048 tokens 4096 tokens 8192 tokens\"",
+    "type": "select-one",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 13,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     177.7,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     224.7,
+     23,
+     138.3,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "dark"
+ },
+ "long-gpu-suggest-light": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [
+   "ul#gpu-listbox.listbox \"GPU suggestions\" ox=auto sw=310 cw=310 sh=312 ch=298"
+  ],
+  "ellipsis": [],
+  "selects": [],
+  "smallText": [],
+  "textClip": [],
+  "textNodes": 814,
+  "textOverlap": [
+   "li#gpu-opt-0 \"NVIDIA GeForce RTX 4050 Laptop GPU (6.0 GB)\" x label \"Available VRAM (GB)\" 113x14",
+   "li#gpu-opt-1 \"NVIDIA GeForce RTX 4060 Laptop GPU (8.0 GB)\" x button.chip.chip-example \"RTX 4060 8GB\" 95x4",
+   "li#gpu-opt-3 \"NVIDIA GeForce RTX 4080 Laptop GPU (12.0 GB)\" x button.btn-primary \"Check compatibility\" 152x5",
+   "li#gpu-opt-4 \"NVIDIA GeForce RTX 4090 Laptop GPU (16.0 GB)\" x span \"Filters (0)\" 53x13"
+  ],
+  "fields": [
+   {
+    "d": "input#gpu_search \"laptop\"",
+    "type": "text",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 369,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [
+   "li#gpu-opt-0 \"NVIDIA GeForce RTX 4050 Laptop GPU (6.0 GB)\" x input#vram_gb 147x30",
+   "li#gpu-opt-0 \"NVIDIA GeForce RTX 4050 Laptop GPU (6.0 GB)\" x input.js-auto-filter \"2048\" 46x28",
+   "li#gpu-opt-0 \"NVIDIA GeForce RTX 4050 Laptop GPU (6.0 GB)\" x input.js-auto-filter \"4096\" 46x28",
+   "li#gpu-opt-0 \"NVIDIA GeForce RTX 4050 Laptop GPU (6.0 GB)\" x input.js-auto-filter \"8192\" 43x28",
+   "li#gpu-opt-1 \"NVIDIA GeForce RTX 4060 Laptop GPU (8.0 GB)\" x input#vram_gb 147x22",
+   "li#gpu-opt-1 \"NVIDIA GeForce RTX 4060 Laptop GPU (8.0 GB)\" x input.js-auto-filter \"2048\" 46x18",
+   "li#gpu-opt-1 \"NVIDIA GeForce RTX 4060 Laptop GPU (8.0 GB)\" x input.js-auto-filter \"4096\" 46x18",
+   "li#gpu-opt-1 \"NVIDIA GeForce RTX 4060 Laptop GPU (8.0 GB)\" x input.js-auto-filter \"8192\" 43x18",
+   "li#gpu-opt-1 \"NVIDIA GeForce RTX 4060 Laptop GPU (8.0 GB)\" x button.chip.chip-example \"RTX 4060 8GB\" 127.2x24",
+   "li#gpu-opt-1 \"NVIDIA GeForce RTX 4060 Laptop GPU (8.0 GB)\" x button.chip.chip-example \"8GB\" 63.2x24",
+   "li#gpu-opt-1 \"NVIDIA GeForce RTX 4060 Laptop GPU (8.0 GB)\" x button.chip.chip-example \"24GB\" 72.1x24",
+   "li#gpu-opt-2 \"NVIDIA GeForce RTX 4070 Laptop GPU (8.0 GB)\" x button.chip.chip-example \"RTX 4060 8GB\" 127.2x20",
+   "li#gpu-opt-2 \"NVIDIA GeForce RTX 4070 Laptop GPU (8.0 GB)\" x button.chip.chip-example \"8GB\" 63.2x20",
+   "li#gpu-opt-2 \"NVIDIA GeForce RTX 4070 Laptop GPU (8.0 GB)\" x button.chip.chip-example \"24GB\" 72.1x20",
+   "li#gpu-opt-2 \"NVIDIA GeForce RTX 4070 Laptop GPU (8.0 GB)\" x button.btn-primary \"Check compatibility\" 298x24",
+   "li#gpu-opt-3 \"NVIDIA GeForce RTX 4080 Laptop GPU (12.0 GB)\" x button.btn-primary \"Check compatibility\" 298x30",
+   "li#gpu-opt-3 \"NVIDIA GeForce RTX 4080 Laptop GPU (12.0 GB)\" x summary \"Filters (0)\" 298x15",
+   "li#gpu-opt-4 \"NVIDIA GeForce RTX 4090 Laptop GPU (16.0 GB)\" x summary \"Filters (0)\" 298x37"
+  ],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     178.4,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     225.4,
+     23,
+     137.6,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "light"
+ },
+ "long-gpu-suggest-dark": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [
+   "ul#gpu-listbox.listbox \"GPU suggestions\" ox=auto sw=310 cw=310 sh=312 ch=298"
+  ],
+  "ellipsis": [],
+  "selects": [],
+  "smallText": [],
+  "textClip": [],
+  "textNodes": 814,
+  "textOverlap": [
+   "li#gpu-opt-0 \"NVIDIA GeForce RTX 4050 Laptop GPU (6.0 GB)\" x label \"Available VRAM (GB)\" 113x14",
+   "li#gpu-opt-1 \"NVIDIA GeForce RTX 4060 Laptop GPU (8.0 GB)\" x button.chip.chip-example \"RTX 4060 8GB\" 95x4",
+   "li#gpu-opt-3 \"NVIDIA GeForce RTX 4080 Laptop GPU (12.0 GB)\" x button.btn-primary \"Check compatibility\" 152x5",
+   "li#gpu-opt-4 \"NVIDIA GeForce RTX 4090 Laptop GPU (16.0 GB)\" x span \"Filters (0)\" 53x13"
+  ],
+  "fields": [
+   {
+    "d": "input#gpu_search \"laptop\"",
+    "type": "text",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 369,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [
+   "li#gpu-opt-0 \"NVIDIA GeForce RTX 4050 Laptop GPU (6.0 GB)\" x input#vram_gb 147x30",
+   "li#gpu-opt-0 \"NVIDIA GeForce RTX 4050 Laptop GPU (6.0 GB)\" x input.js-auto-filter \"2048\" 46x28",
+   "li#gpu-opt-0 \"NVIDIA GeForce RTX 4050 Laptop GPU (6.0 GB)\" x input.js-auto-filter \"4096\" 46x28",
+   "li#gpu-opt-0 \"NVIDIA GeForce RTX 4050 Laptop GPU (6.0 GB)\" x input.js-auto-filter \"8192\" 43x28",
+   "li#gpu-opt-1 \"NVIDIA GeForce RTX 4060 Laptop GPU (8.0 GB)\" x input#vram_gb 147x22",
+   "li#gpu-opt-1 \"NVIDIA GeForce RTX 4060 Laptop GPU (8.0 GB)\" x input.js-auto-filter \"2048\" 46x18",
+   "li#gpu-opt-1 \"NVIDIA GeForce RTX 4060 Laptop GPU (8.0 GB)\" x input.js-auto-filter \"4096\" 46x18",
+   "li#gpu-opt-1 \"NVIDIA GeForce RTX 4060 Laptop GPU (8.0 GB)\" x input.js-auto-filter \"8192\" 43x18",
+   "li#gpu-opt-1 \"NVIDIA GeForce RTX 4060 Laptop GPU (8.0 GB)\" x button.chip.chip-example \"RTX 4060 8GB\" 127.2x24",
+   "li#gpu-opt-1 \"NVIDIA GeForce RTX 4060 Laptop GPU (8.0 GB)\" x button.chip.chip-example \"8GB\" 63.2x24",
+   "li#gpu-opt-1 \"NVIDIA GeForce RTX 4060 Laptop GPU (8.0 GB)\" x button.chip.chip-example \"24GB\" 72.1x24",
+   "li#gpu-opt-2 \"NVIDIA GeForce RTX 4070 Laptop GPU (8.0 GB)\" x button.chip.chip-example \"RTX 4060 8GB\" 127.2x20",
+   "li#gpu-opt-2 \"NVIDIA GeForce RTX 4070 Laptop GPU (8.0 GB)\" x button.chip.chip-example \"8GB\" 63.2x20",
+   "li#gpu-opt-2 \"NVIDIA GeForce RTX 4070 Laptop GPU (8.0 GB)\" x button.chip.chip-example \"24GB\" 72.1x20",
+   "li#gpu-opt-2 \"NVIDIA GeForce RTX 4070 Laptop GPU (8.0 GB)\" x button.btn-primary \"Check compatibility\" 298x24",
+   "li#gpu-opt-3 \"NVIDIA GeForce RTX 4080 Laptop GPU (12.0 GB)\" x button.btn-primary \"Check compatibility\" 298x30",
+   "li#gpu-opt-3 \"NVIDIA GeForce RTX 4080 Laptop GPU (12.0 GB)\" x summary \"Filters (0)\" 298x15",
+   "li#gpu-opt-4 \"NVIDIA GeForce RTX 4090 Laptop GPU (16.0 GB)\" x summary \"Filters (0)\" 298x37"
+  ],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     177.7,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     224.7,
+     23,
+     138.3,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [],
+  "theme": "dark"
+ },
+ "long-gpu-selected-mistral-light": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [
+   "input#gpu_search \"NVIDIA GeForce RTX 4090 Laptop GPU (16.0 GB)\" ox=clip sw=384 cw=226 sh=50 ch=50"
+  ],
+  "ellipsis": [],
+  "selects": [],
+  "smallText": [],
+  "textClip": [],
+  "textNodes": 874,
+  "textOverlap": [],
+  "fields": [
+   {
+    "d": "input#gpu_search \"NVIDIA GeForce RTX 4090 Laptop GPU (16.0 GB)\"",
+    "type": "text",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 388,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     178.4,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     225.4,
+     23,
+     137.6,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [
+   "SETUP Locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator(\".model-card\").filter(has_text=\"DeepSeek-Code"
+  ],
+  "theme": "light"
+ },
+ "long-gpu-selected-mistral-dark": {
+  "sw": 390,
+  "bodySw": 390,
+  "iw": 390,
+  "cw": 390,
+  "scrollXAfterPan": 0,
+  "overflowOff": [],
+  "clipped": [
+   "input#gpu_search \"NVIDIA GeForce RTX 4090 Laptop GPU (16.0 GB)\" ox=clip sw=384 cw=226 sh=50 ch=50"
+  ],
+  "ellipsis": [],
+  "selects": [],
+  "smallText": [],
+  "textClip": [],
+  "textNodes": 874,
+  "textOverlap": [],
+  "fields": [
+   {
+    "d": "input#gpu_search \"NVIDIA GeForce RTX 4090 Laptop GPU (16.0 GB)\"",
+    "type": "text",
+    "inputmode": null,
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   },
+   {
+    "d": "input#vram_gb",
+    "type": "number",
+    "inputmode": "decimal",
+    "fs": 16,
+    "ok": true,
+    "h": 52
+   }
+  ],
+  "targetCount": 388,
+  "smallTargets": [],
+  "exemptLinks": [],
+  "overlaps": [],
+  "header": {
+   "brand": {
+    "rect": [
+     35,
+     23,
+     177.7,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "estimator": {
+    "rect": [
+     35,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "howItWorks": {
+    "rect": [
+     202,
+     75,
+     161,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   },
+   "themeToggle": {
+    "rect": [
+     224.7,
+     23,
+     138.3,
+     44
+    ],
+    "inViewport": true,
+    "hit": true,
+    "visible": true
+   }
+  },
+  "headerPosition": "relative",
+  "headerRect": [
+   16,
+   12,
+   358,
+   118
+  ],
+  "console": [
+   "SETUP Locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator(\".model-card\").filter(has_text=\"DeepSeek-Code"
+  ],
+  "theme": "dark"
+ }
+}
