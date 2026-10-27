@@ -769,7 +769,7 @@
         "docs/design/mockups/final-focus-states.html",
         "docs/design/final/focus-states-*.png"
       ],
-      "model": "sonnet",
+      "model": "opus",
       "dependsOn": [
         "T-019"
       ],
