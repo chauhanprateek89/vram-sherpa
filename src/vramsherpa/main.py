@@ -18,11 +18,11 @@ from sqlalchemy.orm import Session
 
 from vramsherpa.config import Settings, get_settings
 from vramsherpa.database import configure_engine, create_db_and_tables, get_session
-from vramsherpa.estimation import FitBadge, estimate_breakdown, estimate_variant
+from vramsherpa.estimation import FitBadge, estimate_breakdown, estimate_variant, reserve_gb
 from vramsherpa.models import GPU, CatalogMeta, Model, Variant
 
 CONTEXT_OPTIONS = (2048, 4096, 8192)
-ASSET_VERSION = "20261025p"
+ASSET_VERSION = "20261025q"
 ESTIMATION_POLICY_VERSION = "v0.1"
 # The /how-it-works worked example (R-075, ADR-0007). The figures are computed by
 # estimate_breakdown at request time; none is typed into the template.
@@ -32,6 +32,11 @@ WORKED_EXAMPLE_CONTEXT_TOKENS = 2048
 WORKED_EXAMPLE_FALLBACK = {"params_b": 8.0, "bits_effective": 4.5, "kv_gb_per_1k_ctx": 0.48}
 # estimate_breakdown needs an available VRAM; the example never renders it or anything from it.
 _WORKED_EXAMPLE_AVAILABLE_VRAM_GB = 24.0
+# The /how-it-works reserve examples (R-010, R-011): VRAM sizes only; every figure and gauge width
+# is computed from estimation.reserve_gb.
+_RESERVE_EXAMPLE_SMALL_GB = 4
+_RESERVE_EXAMPLE_LARGE_GB = 16
+_RESERVE_EXAMPLE_GAUGE_GB = 10
 PACKAGE_DIR = Path(__file__).resolve().parent
 templates = Jinja2Templates(directory=str(PACKAGE_DIR / "templates"))
 
@@ -1381,9 +1386,29 @@ def _worked_example(session: Session) -> dict:
     }
 
 
+def _reserve_example() -> dict:
+    """The reserve examples and the 10 GB gauge on /how-it-works, from estimation.reserve_gb."""
+    available = float(_RESERVE_EXAMPLE_GAUGE_GB)
+    reserve = reserve_gb(available)
+    fit_limit = available - reserve
+    return {
+        "small_gb": _RESERVE_EXAMPLE_SMALL_GB,
+        "small_reserve_gb": f"{reserve_gb(_RESERVE_EXAMPLE_SMALL_GB):g}",
+        "large_gb": _RESERVE_EXAMPLE_LARGE_GB,
+        "large_reserve_gb": f"{reserve_gb(_RESERVE_EXAMPLE_LARGE_GB):g}",
+        "available_gb": _RESERVE_EXAMPLE_GAUGE_GB,
+        "available_gb_1dp": f"{available:.1f}",
+        "reserve_gb": f"{reserve:.1f}",
+        "fit_limit_gb": f"{fit_limit:.1f}",
+        "fit_limit_percent": f"{100 * fit_limit / available:g}",
+        "reserve_percent": f"{100 * reserve / available:g}",
+    }
+
+
 def how_it_works(request: Request, session: Session = Depends(get_session)) -> HTMLResponse:
     context = _base_context(request, session)
     context["worked_example"] = _worked_example(session)
+    context["reserve_example"] = _reserve_example()
     return templates.TemplateResponse(request, "how_it_works.html", context)
 
 

@@ -554,12 +554,6 @@ details[open] > .why-content { animation: whyIn var(--dur-2) var(--ease-out); }
 /* Reduced motion stops the shimmer (the global rule below) but the rows stay, as flat bars. */
 @media (prefers-reduced-motion: reduce) { .sk-list i { background: var(--sk-a); } }
 
-.prose code {
-  background: color-mix(in srgb, var(--panel-alt) 70%, var(--line));
-  padding: 0.15rem 0.3rem;
-  border-radius: 4px;
-}
-
 @media (max-width: 780px) {
   .numbers-grid {
     grid-template-columns: 1fr;
@@ -837,3 +831,40 @@ details[open] > .pick-grid { animation: whyIn var(--dur-2) var(--ease-out); }
   .vtable td.prov { order: 9; grid-column: 1 / -1; max-width: none; padding-top: 10px; border-top: 1px solid var(--hair); }
   .vtable td.prov:not(:has(p, ul)) { display: none; }
 }
+
+/* ===== how it works (T-019): term tiles, reserve gauge, classification rules, worked example, from docs/design/build/components.css ===== */
+.doc :where(h1, h2, h3, p, ul, ol, dl, dd) { margin: 0; padding: 0; }
+.doc :where(ul, ol) { list-style: none; }
+.doc code { font-family: var(--mono); font-size: .92em; overflow-wrap: anywhere; }
+.doc { display: grid; gap: var(--gap); grid-template-columns: minmax(0, 1fr); align-items: start; }
+@media (min-width: 900px) { .doc { grid-template-columns: repeat(12, minmax(0, 1fr)); } .doc .s-12 { grid-column: span 12; } .doc .s-7 { grid-column: span 7; } .doc .s-5 { grid-column: span 5; } .doc .s-6 { grid-column: span 6; } .doc .stretch { align-self: stretch; } }
+.doc section { padding: var(--pad-pane); display: flex; flex-direction: column; gap: 14px; }
+.doc h1 { font-size: 34px; line-height: 1.08; letter-spacing: -.03em; font-weight: 400; overflow-wrap: anywhere; }
+@media (min-width: 900px) { .doc h1 { font-size: 50px; } }
+.doc h2 { font-size: 24px; line-height: 1.15; letter-spacing: -.02em; font-weight: 520; }
+.doc .lead { font-size: var(--fs-lead); max-width: 60ch; }
+.term-grid { display: grid; gap: 10px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 900px) { .term-grid.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } .term-grid.cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.term { padding: 14px 16px 16px; border-radius: 20px; background: var(--inset); border: 1px solid var(--edge); box-shadow: var(--sh-2); display: grid; gap: 6px; align-content: start; min-width: 0; }
+.term code.name { font-size: var(--fs-small); font-weight: 650; color: var(--accent); }
+.term p { font-size: var(--fs-small); }
+.term .src { font-size: var(--fs-caption); color: var(--muted); }
+.term code.formula { display: block; margin-top: 4px; padding: 10px 12px; border-radius: 12px; background: var(--field); border: 1px solid var(--hair); box-shadow: var(--sh-in); font-size: 14px; line-height: 1.55; }
+.rule { display: grid; gap: 10px; align-content: start; }
+.rule .state { justify-self: start; }
+.rule code { display: block; padding: 10px 12px; border-radius: 12px; background: var(--field); border: 1px solid var(--hair); box-shadow: var(--sh-in); font-size: 14px; line-height: 1.55; }
+.worked { display: grid; gap: 14px; }
+@media (min-width: 900px) { .worked { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 18px; } }
+.worked h3 { font-size: var(--fs-lead); font-weight: 600; margin-bottom: 8px; }
+.kv-list > div { display: flex; justify-content: space-between; gap: 16px; padding: 10px 0; border-top: 1px solid var(--hair); font-size: var(--fs-small); }
+.kv-list dt { color: var(--muted); overflow-wrap: anywhere; } .kv-list dd { font-weight: 600; white-space: nowrap; }
+.steps { counter-reset: s; display: grid; gap: 10px; }
+.steps li { counter-increment: s; display: grid; grid-template-columns: 32px minmax(0, 1fr) auto; gap: 4px 12px; align-items: baseline; padding: 14px 16px; border-radius: 20px; background: var(--inset); border: 1px solid var(--edge); box-shadow: var(--sh-2); }
+.steps li::before { content: counter(s); grid-row: 1 / span 2; align-self: center; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--seg); border: 1px solid var(--line); font-weight: 600; font-size: var(--fs-caption); }
+.steps .what { font-weight: 600; font-size: var(--fs-small); }
+.steps .out { font-size: var(--fs-h3); font-weight: 520; letter-spacing: -.02em; grid-row: 1 / span 2; grid-column: 3; align-self: center; white-space: nowrap; }
+.steps .calc { grid-column: 2; font-size: var(--fs-caption); color: var(--muted); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.steps li.final { background: var(--pressed); color: var(--on-pressed); border-color: transparent; }
+.steps li.final::before { background: color-mix(in srgb, var(--on-pressed) 18%, transparent); border-color: color-mix(in srgb, var(--on-pressed) 40%, transparent); }
+.steps li.final .calc { color: inherit; opacity: .9; }
+.steps li.final .out { font-size: 34px; font-weight: 500; }

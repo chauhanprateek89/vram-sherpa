@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 
 from sqlalchemy.orm import Session
@@ -91,7 +92,7 @@ def test_worked_example_named_model_figures(app, seeded_session: Session) -> Non
         ("kv_gb_per_1k_ctx", "0.48"),
         ("context_tokens", "2048"),
     ):
-        assert f"<code>{name}</code> {value}</li>" in html
+        assert f'<div><dt>{name}</dt><dd class="num">{value}</dd></div>' in html
 
 
 def test_worked_example_equals_card_figure(app, seeded_session: Session) -> None:
@@ -114,7 +115,7 @@ def test_worked_example_equals_card_figure(app, seeded_session: Session) -> None
         breakdown.runtime_overhead_gb,
         card,
     ):
-        assert f"<strong>{figure:.2f} GB</strong>" in html
+        assert f'<span class="out num">{figure:.2f} GB</span>' in html
 
 
 def test_worked_example_follows_catalog_values(app, seeded_session: Session) -> None:
@@ -129,9 +130,9 @@ def test_worked_example_follows_catalog_values(app, seeded_session: Session) -> 
         context_tokens=2048,
         available_vram_gb=24.0,
     )
-    assert f"<strong>{expected.kv_cache_gb:.2f} GB</strong>" in html
-    assert f"<strong>{expected.required_vram_gb:.2f} GB</strong>" in html
-    assert "<code>kv_gb_per_1k_ctx</code> 0.5</li>" in html
+    assert f'<span class="out num">{expected.kv_cache_gb:.2f} GB</span>' in html
+    assert f'<span class="out num">{expected.required_vram_gb:.2f} GB</span>' in html
+    assert '<div><dt>kv_gb_per_1k_ctx</dt><dd class="num">0.5</dd></div>' in html
 
 
 def _assert_fallback(status: int, html: str) -> None:
@@ -176,6 +177,136 @@ def test_fallback_when_no_q4_variant(app, seeded_session: Session) -> None:
         .count()
     )
     _assert_fallback(*_page(app, seeded_session))
+
+
+SECTIONS = [
+    "Inputs",
+    "Formula",
+    "Reserve buffer",
+    "Classification",
+    "Worked example",
+    "Limitations",
+]
+FORMULAS = (
+    "weights_gb = params_b * bits_effective / 8 * 1.10",
+    "kv_cache_gb = kv_gb_per_1k_ctx * (context_tokens / 1000)",
+    "runtime_overhead_gb = 1.0 + 0.05 * params_b",
+    "required_vram_gb = weights_gb + kv_cache_gb + runtime_overhead_gb",
+    "reserve_gb = max(0.75, 0.10 * available_vram_gb)",
+)
+RULES = (
+    "required_vram_gb &lt;= available_vram_gb - reserve_gb",
+    "available_vram_gb - reserve_gb &lt; required_vram_gb &lt;= available_vram_gb",
+    "required_vram_gb &gt; available_vram_gb",
+)
+TERMS = (
+    "params_b",
+    "bits_effective",
+    "kv_gb_per_1k_ctx",
+    "context_tokens",
+    "weights_gb",
+    "kv_cache_gb",
+    "runtime_overhead_gb",
+    "required_vram_gb",
+    "available_vram_gb",
+    "reserve_gb",
+)
+EXPLANATIONS = (
+    "The VRAM you have, from the GPU you pick or the number you type.",
+    "How much text the model keeps in view at once: 2048, 4096 or 8192 tokens, shown as "
+    "2k, 4k and 8k.",
+    "Model size in billions of parameters. A bigger model has more weights to store.",
+    "Bits stored per parameter after quantisation: Q4 is 4.5, Q5 is 5.5, Q8 is 8.5, FP16 is "
+    "16. Fewer bits, less memory.",
+    "Memory the model's context (its KV cache) takes for every 1,000 tokens, in GB. "
+    "Each model page shows this value.",
+    "Memory for the model itself. Parameters times bits per parameter, divided by 8, gives "
+    "gigabytes; the 1.10 adds 10% on top.",
+    "Memory for the context window you chose. It grows with the context length.",
+    "Memory the runtime needs besides the model: a flat 1.0 GB plus 0.05 GB for every billion "
+    "parameters.",
+    "Everything the variant needs: weights, KV cache and runtime overhead added up.",
+    "Free space to leave as a safety margin: 10% of your VRAM, never less than 0.75 GB.",
+)
+SOURCE_LINES = (
+    "From GPU selection or manual VRAM input",
+    "From presets (2048 default, 4096, 8192)",
+    "Variant and model metadata",
+)
+
+
+def test_headings_and_policy_version(app, seeded_session: Session) -> None:
+    _, html = _page(app, seeded_session)
+    assert html.count("<h1>") == 1
+    assert f"<h1>How VRAM Sherpa estimates fit (Policy {ESTIMATION_POLICY_VERSION})</h1>" in html
+    assert f"Estimation policy: {ESTIMATION_POLICY_VERSION}</span>" in html
+    assert re.findall(r"<h2>(.*?)</h2>", html) == SECTIONS
+
+
+def test_formulas_rules_intro_and_limitations_word_for_word(app, seeded_session: Session) -> None:
+    _, html = _page(app, seeded_session)
+    for text in FORMULAS:
+        assert f'<code class="formula">{text}</code>' in html
+    for text in RULES:
+        assert f"<code>{text}</code>" in html
+    assert (
+        "VRAM Sherpa estimates whether a model variant can fit on your available VRAM for "
+        "local inference. It is a planning estimate, not a benchmark."
+    ) in html
+    assert (
+        "Real outcomes vary by runtime, driver stack, memory fragmentation, and CPU/GPU "
+        "offload behavior. This tool is not a benchmark and does not guarantee performance."
+    ) in html
+    for constant in ("1.10", "1.0", "0.05", "0.75", "0.10"):
+        assert constant in html
+
+
+def test_every_term_is_explained_in_plain_language(app, seeded_session: Session) -> None:
+    _, html = _page(app, seeded_session)
+    for term in TERMS:
+        assert f'<code class="name">{term}</code>' in html
+    for line in EXPLANATIONS:
+        assert f"<p>{line}</p>" in html
+    for line in SOURCE_LINES:
+        assert f'<p class="src">{line}</p>' in html
+
+
+def test_reserve_examples_and_gauge(app, seeded_session: Session) -> None:
+    _, html = _page(app, seeded_session)
+    assert "With 4 GB the reserve is 0.75 GB. With 16 GB it is 1.6 GB." in html
+    assert "Example with 10 GB of VRAM" in html
+    assert (
+        "The reserve is 1.0 GB. Up to 9.0 GB Fits, up to 10.0 GB is Tight, and anything more "
+        "Won't fit."
+    ) in html
+    # widths come from reserve_gb(10): 9.0 GB of 10 is 90%, the 1.0 GB reserve the last 10%
+    assert 'class="bar bar-tight" style="width: 100%"' in html
+    assert 'class="bar bar-fits" style="width: 90%"' in html
+    assert 'class="resv" style="left: 90%; width: 10%"' in html
+    assert main._reserve_example()["reserve_gb"] == "1.0"
+
+
+def test_classification_tiles_use_the_verdict_macro(app, seeded_session: Session) -> None:
+    _, html = _page(app, seeded_session)
+    for key, label in (("fits", "Fits"), ("tight", "Tight"), ("wont", "Won&#39;t fit")):
+        assert (
+            f'<span class="state state-{key}"><svg width="18" height="18" aria-hidden="true">'
+            f'<use href="#i-{key}"/></svg>{label}</span>'
+        ) in html
+
+
+def test_assets_bumped_for_this_page() -> None:
+    assert main.ASSET_VERSION > "20261025p"
+    assert re.fullmatch(r"\d{8}[a-z]", main.ASSET_VERSION)
+
+
+def test_formulas_wrap_at_phone_width() -> None:
+    css = (Path(main.__file__).parent / "static" / "css" / "styles.css").read_text("utf-8")
+    assert (
+        ".doc code { font-family: var(--mono); font-size: .92em; overflow-wrap: anywhere; }" in css
+    )
+    assert ".steps .calc" in css and "overflow-wrap: anywhere" in css
+    assert "white-space: nowrap" not in css.split(".term code.formula")[1].split("\n")[0]
 
 
 def test_estimation_module_untouched_by_this_task() -> None:
