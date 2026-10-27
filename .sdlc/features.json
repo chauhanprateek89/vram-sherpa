@@ -566,7 +566,7 @@
         "T-014"
       ],
       "notes": "Existing assertions on old card markup in `tests/test_app.py` (for example `12.0 GB</span>`) may be updated to the new markup but must keep checking the same value.",
-      "review": "pending",
+      "review": "passed",
       "passes": false
     },
     {
