@@ -731,7 +731,7 @@ Asked: "Too dense" (offered as "too much information at once; the answer gets lo
 
 ### R-070 Phone layout on every page
 
-Status: planned · Track: full · UI: yes · Source: intake 2026-10-25; Gate 1 answers Q-4 and Q-5 (`docs/decisions.md`); `styles.css` (breakpoints at 980, 780 and 720 px; `min-width: 44px` on quantisation buttons); `data/seed_models.json`, `data/seed_gpus.json` (longest names)
+Status: planned · Track: full · UI: yes · Source: intake 2026-10-25; Gate 1 answers Q-4 and Q-5 (`docs/decisions.md`); `styles.css` (breakpoints at 980, 780 and 720 px; `min-width: 44px` on quantisation buttons); `data/seed_models.json`, `data/seed_gpus.json` (longest names); QA decisions 2026-10-27 (`docs/decisions.md`, Gate "QA (R-070)"; `.sdlc/qa/R-070/report.md`, criteria 2 and 3)
 
 Asked: "Bad on mobile" (offered as "the layout breaks or is cramped on a phone"). Also "Whole app, incl. mobile" (offered as "the 390 px phone layout treated as a first-class design").
 
@@ -740,7 +740,8 @@ Asked: "Bad on mobile" (offered as "the layout breaks or is cramped on a phone")
   - with the breakdown open;
   - for cards showing the longest catalog names, `Mistral NeMo 12B Instruct (2407)` and `DeepSeek-Coder-V2-Lite-Instruct`;
   - with the longest GPU label, `NVIDIA GeForce RTX 4090 Laptop GPU (16.0 GB)`, in the GPU field and in the summary.
-- THE SYSTEM SHALL NOT clip, overlap, or cut off with an ellipsis any text at phone width. Model names, GPU labels, source URLs and formulas SHALL wrap inside their container.
+- THE SYSTEM SHALL NOT clip, overlap, or cut off with an ellipsis any static text at phone width. Model names, GPU labels, source URLs and formulas SHALL wrap inside their container.
+- WHERE the value of a one-line text input (for example a long chosen GPU label in `Search GPU`, such as `NVIDIA GeForce RTX 4090 Laptop GPU (16.0 GB)`) is wider than the field at phone width, THE SYSTEM MAY scroll that value within the field, provided the full label is shown in the summary's `Hardware` line on the same page (QA decision 2026-10-27). This exemption covers input values only, never static text.
 - THE SYSTEM SHALL give each of these a tap target of at least 44 × 44 CSS px at phone width, with no two targets overlapping (Q-4):
   - buttons, chips and quantisation buttons;
   - context presets;
@@ -749,6 +750,7 @@ Asked: "Bad on mobile" (offered as "the layout breaks or is cramped on a phone")
   - disclosure controls.
 
   Links inside running text are exempt.
+- THE SYSTEM SHALL render each link in the Sources list on `/models/<id>` as a tap target at least 44 CSS px tall at phone width, and the boxes of neighbouring source links SHALL NOT overlap (QA decision 2026-10-27; today a one-line URL link is 38.5 px tall and neighbours overlap by 10 px).
 - THE SYSTEM SHALL render every text field, number field and select at a font size of at least 16 CSS px at phone width, so focusing one does not zoom the page in iOS Safari.
 - THE SYSTEM SHALL render no visible text smaller than 12 CSS px at any width (Q-4).
 - WHEN a user on a phone focuses `Available VRAM (GB)`, `Min params (B)`, `Max params (B)` or `Manual VRAM (GB)`, THE SYSTEM SHALL bring up a numeric keyboard.
