@@ -1366,7 +1366,9 @@ def test_detail_facts_are_four_labelled_tiles_with_the_same_values(client: TestC
         ["License", "Llama 3.1 Community License"],
     ]
     assert "KV cache estimate per 1k context: 0.480 GB" in root.all_text()
-    assert [n.all_text() for n in root.walk() if n.tag == "h2" and "sources" in n.parent.classes()]
+    assert [
+        n.all_text() for n in root.walk() if n.tag == "h2" and "sources" in n.parent.classes()
+    ] == ["Sources"]
 
 
 def test_detail_headings_for_the_form_and_the_table_are_visually_hidden(
@@ -1383,6 +1385,7 @@ def test_detail_gated_marker_and_verdicts_come_from_the_shared_macros(client: Te
     h1 = _one(gated, "h1")
     tag = next(n for n in h1.walk() if "tag-gated" in n.classes())
     assert tag.all_text() == "gated"
+    assert tag.attrs["title"].startswith("Gated repo: you must accept the model license")
     assert next(n for n in tag.walk() if n.tag == "use").attrs["href"] == "#i-lock"
     assert all(n.all_text() != "Gated" for n in gated.walk() if "tag-gated" in n.classes())
     assert "Weights are gated on Hugging Face" in gated.all_text()

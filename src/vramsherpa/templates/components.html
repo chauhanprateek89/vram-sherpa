@@ -10,6 +10,6 @@
 {%- endmacro %}
 
 {# The word is "Gated" on a card and "gated" on model detail (R-021, R-036); the look is one. #}
-{% macro gated_tag(label="Gated") -%}
-  <span class="tag-gated" title="Accept the model licence on Hugging Face before downloading the weights."><svg aria-hidden="true"><use href="#i-lock"/></svg>{{ label }}</span>
+{% macro gated_tag(label="Gated", title="Accept the model licence on Hugging Face before downloading the weights.") -%}
+  <span class="tag-gated" title="{{ title }}"><svg aria-hidden="true"><use href="#i-lock"/></svg>{{ label }}</span>
 {%- endmacro %}

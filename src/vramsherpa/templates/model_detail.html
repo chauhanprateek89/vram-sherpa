@@ -6,7 +6,7 @@
 
 {% block content %}
 <section class="model-tile pane">
-  <h1>{{ model.name }}{% if model.gated %}{{ gated_tag("gated") }}{% endif %}</h1>
+  <h1>{{ model.name }}{% if model.gated %}{{ gated_tag("gated", "Gated repo: you must accept the model license on Hugging Face before downloading weights.") }}{% endif %}</h1>
   <dl class="facts">
     <div><dt>Family</dt><dd>{{ model.family }}</dd></div>
     <div><dt>Params</dt><dd>{{ '%.1f'|format(model.params_b) }}B</dd></div>

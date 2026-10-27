@@ -802,7 +802,7 @@ details[open] > .pick-grid { animation: whyIn var(--dur-2) var(--ease-out); }
 .facts div { padding: 10px 14px 12px; border-radius: 18px; background: var(--inset); border: 1px solid var(--edge); box-shadow: var(--sh-2); min-width: 0; }
 .facts dt { font-size: var(--fs-caption); color: var(--muted); font-weight: 520; }
 .facts dd { font-size: var(--fs-lead); font-weight: 560; overflow-wrap: anywhere; }
-.sources h2, .recompute h2 { font-size: var(--fs-lead); font-weight: 600; margin-bottom: 6px; }
+.sources h2 { font-size: var(--fs-lead); font-weight: 600; margin-bottom: 6px; }
 .recompute h2.sr-only { margin: 0; }
 .detail .sources-list { list-style: none; padding: 0; }
 .sources-list li { padding: 3px 0; font-size: var(--fs-small); overflow-wrap: anywhere; }
@@ -823,7 +823,6 @@ details[open] > .pick-grid { animation: whyIn var(--dur-2) var(--ease-out); }
 .vtable td.vl { font-weight: 600; font-size: var(--fs-body); white-space: nowrap; }
 .prov { color: var(--muted); font-size: var(--fs-caption); max-width: 44ch; }
 .prov .sources-list li { font-size: var(--fs-caption); }
-.prov p + .sources-list { margin-top: 6px; }
 /* ADR-0006 point 7: below 900 px each row is a sheet, the figures in a grid, provenance last. */
 @media (max-width: 899px) {
   .vtable tbody, .vtable { display: block; }
