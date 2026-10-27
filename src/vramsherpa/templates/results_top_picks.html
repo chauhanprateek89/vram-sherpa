@@ -1,0 +1,24 @@
+{# Top Picks (R-024, R-069): a disclosure under the answer tile, rendered closed. The script right
+   after it opens it from 900 px; without JavaScript it stays closed and can still be opened
+   (R-078, ADR-0006 point 2). It sits inside #results-shell, so htmx runs it after each refresh. #}
+{% if top_picks %}
+  <details class="picks pane lite" data-open-wide>
+    <summary><span>Top Picks for you</span></summary>
+    <div class="pick-grid">
+      {% for pick in top_picks %}
+        <article class="pick" data-sheen>
+          <p class="pick-title">{{ pick.title }}</p>
+          <h3><a href="/models/{{ pick.row.model_id }}?{{ hardware_query_string }}">{{ pick.row.model_name }}</a></h3>
+          <p class="pick-meta num">{{ '%.1f'|format(pick.row.params_b) }}B · {{ pick.row.quant_label }}</p>
+          <p class="pick-desc">{{ pick.description }}</p>
+        </article>
+      {% endfor %}
+    </div>
+  </details>
+  <script>
+    (function () {
+      var d = document.currentScript && document.currentScript.previousElementSibling;
+      if (d && d.hasAttribute('data-open-wide') && matchMedia('(min-width: 900px)').matches) d.open = true;
+    })();
+  </script>
+{% endif %}

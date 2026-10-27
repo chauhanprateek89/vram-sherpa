@@ -1,0 +1,7 @@
+git diff f2ad2d8 -- src/vramsherpa/estimation.py | wc -l: 0
+git diff f2ad2d8 -- src/vramsherpa/estimation.py (working tree incl.) sha: 6eebae1b6f23f4fdbac45cfc895ae0dd8eaad77f vs 6eebae1b6f23f4fdbac45cfc895ae0dd8eaad77f
+main.py now: 26:ESTIMATION_POLICY_VERSION = "v0.1"
+main f2ad2d8: 26:ESTIMATION_POLICY_VERSION = "v0.1"
+live footer: Estimation policy: v0.1
+live how h1: <h1>How VRAM Sherpa estimates fit (Policy v0.1)
+ 284 files changed, 290698 insertions(+), 1705 deletions(-)

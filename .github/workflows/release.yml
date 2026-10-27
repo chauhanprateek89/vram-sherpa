@@ -138,6 +138,44 @@ jobs:
             echo "::error::Host guard did not reject an unknown Host (got ${code}, want 400)."
             exit 1
           fi
+
+          # HTML must be revalidated on every load, or a deploy stays invisible
+          # behind a cached page that names the old asset version (ADR-0004,
+          # rule 9). GET with -D -, not curl -I: the routes answer GET only.
+          headers="$(curl -sS -m 10 -D - -o /dev/null http://127.0.0.1:8000/ || true)"
+          if ! printf '%s\n' "$headers" \
+              | grep -iE '^cache-control:.*(no-cache|no-store)' >/dev/null; then
+            echo "::error::GET / sent no Cache-Control with no-cache or no-store."
+            printf '%s\n' "$headers"
+            exit 1
+          fi
+
+          # Every /static/ URL on the home page must be served by the installed
+          # package. A font or image missing from package-data passes the tests
+          # (editable install) but 404s in the image (ADR-0002, ADR-0003).
+          # Fetched without X-Forwarded-Proto, so the URLs are plain http.
+          static_urls="$(curl -fsS -m 10 http://127.0.0.1:8000/ \
+            | grep -oE '(href|src)="[^"]*/static/[^"]*"' \
+            | sed -E 's/^(href|src)="//; s/"$//; s/&amp;/\&/g' \
+            | sort -u || true)"
+          if [ -z "$static_urls" ]; then
+            echo "::error::Home page linked no /static/ URLs to check."
+            exit 1
+          fi
+          missing=0
+          while IFS= read -r url; do
+            case "$url" in
+              /*) url="http://127.0.0.1:8000${url}" ;;
+            esac
+            status="$(curl -s -o /dev/null -w '%{http_code}' -m 10 "$url")"
+            if [ "$status" != "200" ]; then
+              echo "::error::Static asset ${url} returned ${status}, want 200."
+              missing=1
+            fi
+          done <<< "$static_urls"
+          if [ "$missing" -ne 0 ]; then
+            exit 1
+          fi
           echo "Smoke test passed."
 
       - name: Tag and publish release

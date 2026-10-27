@@ -1,0 +1,8 @@
+390px tap a.brand svg.mark from /how-it-works -> http://localhost:8000/ title='VRAM Sherpa'
+390px tap a.brand .brand-name from /how-it-works -> http://localhost:8000/ title='VRAM Sherpa'
+390px tap a.brand svg.mark from /models/model_llama_31_8b_instruct?vram_gb=24 -> http://localhost:8000/ title='VRAM Sherpa'
+390px tap a.brand .brand-name from /models/model_llama_31_8b_instruct?vram_gb=24 -> http://localhost:8000/ title='VRAM Sherpa'
+390px tap a.brand svg.mark from /results?vram_gb=24&context_tokens=4096 -> http://localhost:8000/ title='VRAM Sherpa'
+390px tap a.brand .brand-name from /results?vram_gb=24&context_tokens=4096 -> http://localhost:8000/ title='VRAM Sherpa'
+tap How it works -> http://localhost:8000/how-it-works aria-current=['Estimator:null', 'How it works:page']
+tap Estimator -> http://localhost:8000/

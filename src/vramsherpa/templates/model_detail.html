@@ -1,24 +1,29 @@
 {% extends "base.html" %}
+{% from "components.html" import verdict, gated_tag %}
 
 {% block title %}{{ model.name }} - VRAM Sherpa{% endblock %}
+{% block main_class %}detail{% endblock %}
 
 {% block content %}
-<section class="panel">
-  <h1>{{ model.name }}</h1>
-  <p>
-    Family: <strong>{{ model.family }}</strong> | Params: <strong>{{ '%.1f'|format(model.params_b) }}B</strong>
-    {% if model.model_type %}| Type: <strong>{{ model.model_type }}</strong>{% endif %}
-    {% if model.license %}| License: <strong>{{ model.license }}</strong>{% endif %}
-    {% if model.gated %}<span class="badge badge-gated badge-inline" title="Gated repo: you must accept the model license on Hugging Face before downloading weights.">gated</span>{% endif %}
-  </p>
+<section class="model-tile pane">
+  <h1>{{ model.name }}{% if model.gated %}{{ gated_tag("gated", "Gated repo: you must accept the model license on Hugging Face before downloading weights.") }}{% endif %}</h1>
+  <dl class="facts">
+    <div><dt>Family</dt><dd>{{ model.family }}</dd></div>
+    <div><dt>Params</dt><dd>{{ '%.1f'|format(model.params_b) }}B</dd></div>
+    {% if model.model_type %}<div><dt>Type</dt><dd>{{ model.model_type }}</dd></div>{% endif %}
+    {% if model.license %}<div><dt>License</dt><dd>{{ model.license }}</dd></div>{% endif %}
+  </dl>
   {% if model.gated %}
-    <p class="field-help">Weights are gated on Hugging Face: accept the model license on its
-    model page before downloading. VRAM estimates below are unaffected.</p>
+    <div class="notice">
+      <svg width="18" height="18" aria-hidden="true"><use href="#i-info"/></svg>
+      <p>Weights are gated on Hugging Face: accept the model license on its
+      model page before downloading. VRAM estimates below are unaffected.</p>
+    </div>
   {% endif %}
   <p>KV cache estimate per 1k context: {{ '%.3f'|format(model.kv_gb_per_1k_ctx) }} GB</p>
   {% if model_source_items %}
-    <div class="sources-block">
-      <p><strong>Sources</strong></p>
+    <div class="sources">
+      <h2>Sources</h2>
       <ul class="sources-list">
         {% for source in model_source_items %}
           <li>
@@ -34,86 +39,96 @@
   {% endif %}
 </section>
 
-<section class="panel">
+<section class="recompute pane lite">
+  <h2 class="sr-only">Recompute for other hardware</h2>
   {% if form_errors %}
-    <div class="form-alert" role="alert" aria-live="polite">
-      <p>Please fix the following input issues:</p>
-      <ul>
-        {% for error in form_errors %}
-          <li>{{ error }}</li>
-        {% endfor %}
-      </ul>
+    <div class="notice is-alert" role="alert">
+      <svg width="18" height="18" aria-hidden="true"><use href="#i-wont"/></svg>
+      <div>
+        <p><strong>Please fix the following input issues:</strong></p>
+        <ul>
+          {% for error in form_errors %}
+            <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      </div>
     </div>
   {% endif %}
-  <form class="filters" method="get" action="/models/{{ model.id }}">
-    <label for="gpu_id">GPU</label>
-    <select id="gpu_id" name="gpu_id">
-      <option value="">Manual VRAM</option>
-      {% for gpu in gpus %}
-        <option value="{{ gpu.id }}" {% if selected_gpu_id == gpu.id %}selected{% endif %}>{{ gpu.vendor }} {{ gpu.name }} ({{ '%.1f'|format(gpu.vram_gb) }} GB)</option>
-      {% endfor %}
-    </select>
+  <form method="get" action="/models/{{ model.id }}">
+    <div>
+      <label for="gpu_id">GPU</label>
+      <select id="gpu_id" name="gpu_id">
+        <option value="">Manual VRAM</option>
+        {% for gpu in gpus %}
+          <option value="{{ gpu.id }}" {% if selected_gpu_id == gpu.id %}selected{% endif %}>{{ gpu.vendor }} {{ gpu.name }} ({{ '%.1f'|format(gpu.vram_gb) }} GB)</option>
+        {% endfor %}
+      </select>
+    </div>
 
-    <label for="vram_gb">Manual VRAM (GB)</label>
-    <input id="vram_gb" type="number" min="1" step="0.1" name="vram_gb" value="{{ manual_vram_input }}" />
-    <p class="field-help">Choosing a GPU and entering VRAM together will prioritize the selected GPU.</p>
+    <div>
+      <label for="vram_gb">Manual VRAM (GB)</label>
+      <input id="vram_gb" type="number" inputmode="decimal" min="1" step="0.1" name="vram_gb" value="{{ manual_vram_input }}"{% if form_errors %} aria-invalid="true"{% endif %} />
+    </div>
+    <p class="help">Choosing a GPU and entering VRAM together will prioritize the selected GPU.</p>
 
-    <label for="context_tokens">Context</label>
-    <select id="context_tokens" name="context_tokens">
-      {% for value in context_options %}
-        <option value="{{ value }}" {% if selected_context == value %}selected{% endif %}>{{ value }} tokens</option>
-      {% endfor %}
-    </select>
+    <div>
+      <label for="context_tokens">Context</label>
+      <select id="context_tokens" name="context_tokens">
+        {% for value in context_options %}
+          <option value="{{ value }}" {% if selected_context == value %}selected{% endif %}>{{ value }} tokens</option>
+        {% endfor %}
+      </select>
+    </div>
 
-    <button type="submit">Recompute</button>
+    <button type="submit" class="btn-primary">Recompute</button>
   </form>
 </section>
 
-<section class="panel">
-  <div class="table-scroll">
-    <table>
-      <thead>
-        <tr>
-          <th>Variant</th>
-          <th>Bits</th>
-          <th>Required VRAM (GB)</th>
-          <th>Available VRAM (GB)</th>
-          <th>Margin (GB)</th>
-          <th>Status</th>
-          <th>Provenance</th>
+<section class="variants pane lite" aria-label="Variants">
+  <h2 class="sr-only">Variants</h2>
+  {# Explicit roles: at phone width the rows stack as blocks, which would drop the table semantics (ADR-0006 point 7). #}
+  <table class="vtable" role="table">
+    <thead role="rowgroup">
+      <tr role="row">
+        <th scope="col" role="columnheader">Variant</th>
+        <th scope="col" role="columnheader">Bits</th>
+        <th scope="col" role="columnheader">Required VRAM (GB)</th>
+        <th scope="col" role="columnheader">Available VRAM (GB)</th>
+        <th scope="col" role="columnheader">Margin (GB)</th>
+        <th scope="col" role="columnheader">Status</th>
+        <th scope="col" role="columnheader">Provenance</th>
+      </tr>
+    </thead>
+    <tbody role="rowgroup">
+      {% for row in variants %}
+        <tr role="row">
+          <td class="vl" role="cell" data-label="Variant">{{ row.quant_label }} ({{ row.quant_bucket }}){% if row.recommended %} *{% endif %}</td>
+          <td class="fig" role="cell" data-label="Bits">{{ '%.1f'|format(row.bits_effective) }}</td>
+          <td class="fig" role="cell" data-label="Required VRAM (GB)">{{ '%.2f'|format(row.required_vram_gb) }}</td>
+          <td class="fig" role="cell" data-label="Available VRAM (GB)">{{ '%.2f'|format(row.available_vram_gb) }}</td>
+          <td class="fig" role="cell" data-label="Margin (GB)">{{ '%.2f'|format(row.margin_gb) }}</td>
+          <td class="st" role="cell" data-label="Status">{{ verdict(row.classification) }}</td>
+          <td class="prov" role="cell" data-label="Provenance">
+            {% if row.notes %}<p>{{ row.notes }}</p>{% endif %}
+            {% if row.source_items %}
+              <ul class="sources-list">
+                {% for source in row.source_items %}
+                  <li>
+                    {% if source.url %}
+                      <a href="{{ source.url }}" target="_blank" rel="noopener noreferrer">{{ source.label }}</a>
+                    {% else %}
+                      {{ source.label }}
+                    {% endif %}
+                  </li>
+                {% endfor %}
+              </ul>
+            {% elif row.sources %}
+              <p>{{ row.sources }}</p>
+            {% endif %}
+          </td>
         </tr>
-      </thead>
-      <tbody>
-        {% for row in variants %}
-          <tr>
-            <td>{{ row.quant_label }} ({{ row.quant_bucket }}){% if row.recommended %} *{% endif %}</td>
-            <td>{{ '%.1f'|format(row.bits_effective) }}</td>
-            <td>{{ '%.2f'|format(row.required_vram_gb) }}</td>
-            <td>{{ '%.2f'|format(row.available_vram_gb) }}</td>
-            <td>{{ '%.2f'|format(row.margin_gb) }}</td>
-            <td><span class="badge badge-{{ row.classification|lower|replace("'", "")|replace(" ", "-") }}">{{ row.classification }}</span></td>
-            <td>
-              {% if row.notes %}<div>{{ row.notes }}</div>{% endif %}
-              {% if row.source_items %}
-                <ul class="sources-list">
-                  {% for source in row.source_items %}
-                    <li>
-                      {% if source.url %}
-                        <a href="{{ source.url }}" target="_blank" rel="noopener noreferrer">{{ source.label }}</a>
-                      {% else %}
-                        {{ source.label }}
-                      {% endif %}
-                    </li>
-                  {% endfor %}
-                </ul>
-              {% elif row.sources %}
-                <div>{{ row.sources }}</div>
-              {% endif %}
-            </td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
+      {% endfor %}
+    </tbody>
+  </table>
 </section>
 {% endblock %}

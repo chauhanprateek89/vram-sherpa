@@ -1,0 +1,82 @@
+=== 1: / 
+HTTP/1.1 200 OK
+date: Tue, 27 Oct 2026 10:57:38 GMT
+server: uvicorn
+content-length: 616775
+content-type: text/html; charset=utf-8
+cache-control: no-cache
+vary: HX-Request, HX-History-Restore-Request
+
+=== 2: /results?vram_gb=24&context_tokens=4096 
+HTTP/1.1 200 OK
+date: Tue, 27 Oct 2026 10:57:39 GMT
+server: uvicorn
+content-length: 752512
+content-type: text/html; charset=utf-8
+cache-control: no-cache
+vary: HX-Request, HX-History-Restore-Request
+
+=== 3: /results?vram_gb=24&context_tokens=4096 [HX-Request: true]
+HTTP/1.1 200 OK
+date: Tue, 27 Oct 2026 10:57:39 GMT
+server: uvicorn
+content-length: 735589
+content-type: text/html; charset=utf-8
+cache-control: no-cache
+vary: HX-Request, HX-History-Restore-Request
+
+=== 4: /results/partials/content?vram_gb=24&context_tokens=4096 [HX-Request: true]
+HTTP/1.1 200 OK
+date: Tue, 27 Oct 2026 10:57:39 GMT
+server: uvicorn
+hx-push-url: /results?vram_gb=24&context_tokens=4096
+content-length: 735589
+content-type: text/html; charset=utf-8
+cache-control: no-cache
+vary: HX-Request, HX-History-Restore-Request
+
+=== 5: /results/partials/summary?vram_gb=24&context_tokens=4096 
+HTTP/1.1 200 OK
+date: Tue, 27 Oct 2026 10:57:39 GMT
+server: uvicorn
+content-length: 2633
+content-type: text/html; charset=utf-8
+cache-control: no-cache
+vary: HX-Request, HX-History-Restore-Request
+
+=== 6: /results/partials/list?vram_gb=24&context_tokens=4096 
+HTTP/1.1 200 OK
+date: Tue, 27 Oct 2026 10:57:39 GMT
+server: uvicorn
+content-length: 732874
+content-type: text/html; charset=utf-8
+cache-control: no-cache
+vary: HX-Request, HX-History-Restore-Request
+
+=== 7: /results/why/variant_model_qwen25_7b_instruct_q4?vram_gb=24&context_tokens=4096 
+HTTP/1.1 200 OK
+date: Tue, 27 Oct 2026 10:57:40 GMT
+server: uvicorn
+content-length: 491
+content-type: text/html; charset=utf-8
+cache-control: no-cache
+vary: HX-Request, HX-History-Restore-Request
+
+=== 8: /models/model_qwen25_7b_instruct?vram_gb=24&context_tokens=4096 
+HTTP/1.1 200 OK
+date: Tue, 27 Oct 2026 10:57:40 GMT
+server: uvicorn
+content-length: 17633
+content-type: text/html; charset=utf-8
+cache-control: no-cache
+vary: HX-Request, HX-History-Restore-Request
+
+=== 9: /how-it-works 
+HTTP/1.1 200 OK
+date: Tue, 27 Oct 2026 10:57:40 GMT
+server: uvicorn
+content-length: 11591
+content-type: text/html; charset=utf-8
+cache-control: no-cache
+vary: HX-Request, HX-History-Restore-Request
+

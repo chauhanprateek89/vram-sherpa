@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VRAM Sherpa - Direction B brand sheet</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'><rect width='36' height='36' rx='8' fill='%230D1013'/><rect x='15.0' y='4.0' width='6' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='12.0' y='10.2' width='12' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='9.0' y='16.4' width='18' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='6.0' y='22.6' width='24' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='3.0' y='28.8' width='30' height='4.2' rx='1.4' fill='%2366C6F0'/></svg>">
+<style>
+
+@font-face{font-family:"Saira";src:url(../fonts/saira-latin-wdth-normal.woff2) format("woff2");font-weight:100 900;font-stretch:50% 125%;font-display:swap}
+:root {
+  color-scheme: light;
+  --bg: #E8ECEF;
+  --surface: #FFFFFF;
+  --field: #F2F5F7;
+  --ink: #10161B;
+  --muted: #44525D;
+  --ls: #6B7B87;
+  --line: #C9D2D9;
+  --accent: #0B6A93;
+  --onaccent: #FFFFFF;
+  --fitsT: #0B5E56;
+  --fitsB: #D3F0EC;
+  --tightT: #7A4F00;
+  --tightB: #FFEBC2;
+  --wontT: #9A2A22;
+  --wontB: #FFDDD9;
+  --barF: #0F9C8A;
+  --barT: #B27500;
+  --barW: #D6453A;
+  --focus: #0A4EC9;
+  --hatch: #10161B;
+}
+@media (prefers-color-scheme: dark) {
+ :root:not([data-theme="light"]) {
+  color-scheme: dark;
+  --bg: #0D1013;
+  --surface: #151A1F;
+  --field: #0D1013;
+  --ink: #E9EEF2;
+  --muted: #97A5B0;
+  --ls: #5F6D78;
+  --line: #262F37;
+  --accent: #66C6F0;
+  --onaccent: #04202D;
+  --fitsT: #5DE0C9;
+  --fitsB: #0F3A36;
+  --tightT: #FFBE3D;
+  --tightB: #402F05;
+  --wontT: #FF8A80;
+  --wontB: #471C1A;
+  --barF: #3CCFB8;
+  --barT: #FFB020;
+  --barW: #FF6B5E;
+  --focus: #FFD866;
+  --hatch: #E9EEF2;
+ }
+}
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0D1013;
+  --surface: #151A1F;
+  --field: #0D1013;
+  --ink: #E9EEF2;
+  --muted: #97A5B0;
+  --ls: #5F6D78;
+  --line: #262F37;
+  --accent: #66C6F0;
+  --onaccent: #04202D;
+  --fitsT: #5DE0C9;
+  --fitsB: #0F3A36;
+  --tightT: #FFBE3D;
+  --tightB: #402F05;
+  --wontT: #FF8A80;
+  --wontB: #471C1A;
+  --barF: #3CCFB8;
+  --barT: #FFB020;
+  --barW: #FF6B5E;
+  --focus: #FFD866;
+  --hatch: #E9EEF2;
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 "Saira",system-ui,sans-serif;font-variant-numeric:tabular-nums}
+.wrap{max-width:1200px;margin:0 auto;padding:0 20px}
+a{color:var(--accent);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:3px}
+h1,h2,h3,p,ul{margin:0}
+.muted{color:var(--muted)}
+.cond{font-stretch:72%}
+
+/* header */
+.top{background:var(--surface);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:0 16px;min-height:64px;flex-wrap:wrap}
+.brand{display:inline-flex;align-items:center;gap:10px;min-height:44px;font:700 22px/1 "Saira",sans-serif;font-stretch:88%;letter-spacing:.01em;color:var(--ink);text-decoration:none}
+.brand .mark{color:var(--accent)}
+.top nav{display:flex;gap:2px;margin-left:28px;align-self:stretch}
+.top nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;color:var(--muted);text-decoration:none;font-weight:500;border-bottom:3px solid transparent;margin-bottom:-1px}
+.top nav a[aria-current="page"]{color:var(--ink);font-weight:700;border-bottom-color:var(--accent)}
+.theme{margin-left:auto;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border:1.5px solid var(--ls);border-radius:6px;background:transparent;color:var(--ink);font:600 15px/1 "Saira",sans-serif;cursor:pointer}
+
+/* title + control deck */
+.intro{padding:28px 0 8px;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 20px}
+h1{font:700 clamp(30px,3.2vw,40px)/1.1 "Saira",sans-serif;font-stretch:80%;letter-spacing:.005em}
+.intro p{color:var(--muted)}
+.deck{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px;display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr) auto auto;gap:12px 16px;align-items:end;margin-top:12px}
+.cell>label,.cell>legend,.lab{display:block;font-weight:600;font-size:14px;color:var(--muted);margin-bottom:6px;padding:0}
+.field-row{display:flex;gap:8px}
+input[type=text],input[type=number]{width:100%;min-height:48px;padding:0 14px;border:1.5px solid var(--ls);border-radius:6px;background:var(--field);color:var(--ink);font:500 17px/1 "Saira",sans-serif}
+input::placeholder{color:var(--muted);opacity:1;font-weight:400}
+.btn-clear{min-height:48px;min-width:64px;padding:0 14px;border:1.5px solid var(--ls);border-radius:6px;background:transparent;color:var(--ink);font:600 15px "Saira",sans-serif;cursor:pointer}
+fieldset{border:0;margin:0;padding:0;min-width:0}
+.seg{display:inline-grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:4px;border:1.5px solid var(--ls);border-radius:8px;background:var(--field)}
+.seg label{position:relative;display:block}
+.seg input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer}
+.seg span{display:flex;align-items:center;justify-content:center;min-width:56px;min-height:44px;border-radius:5px;font-weight:600}
+.seg input:checked+span{background:var(--accent);color:var(--onaccent)}
+.seg input:focus-visible+span{outline:3px solid var(--focus);outline-offset:1px}
+.btn-primary{min-height:52px;padding:0 26px;border:0;border-radius:6px;background:var(--accent);color:var(--onaccent);font:700 17px "Saira",sans-serif;letter-spacing:.01em;cursor:pointer}
+.aux{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-top:12px}
+.aux .help{font-size:14px;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border:1.5px solid var(--ls);border-radius:6px;background:transparent;color:var(--ink);font:600 14px "Saira",sans-serif;cursor:pointer}
+
+/* filters (collapsed everywhere) */
+.filters-bar{margin-top:20px}
+.filters-bar details{background:var(--surface);border:1px solid var(--line);border-radius:8px}
+.filters-bar summary{display:flex;align-items:center;gap:10px;min-height:52px;padding:0 16px;font:600 16px "Saira",sans-serif;cursor:pointer;list-style:none}
+.filters-bar summary::-webkit-details-marker{display:none}
+.filters-bar summary::after{content:"";margin-left:auto;width:9px;height:9px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);transition:transform .15s}
+.filters-bar details[open] summary::after{transform:rotate(-135deg)}
+.filter-fields{display:grid;grid-template-columns:2fr 1.2fr 1.4fr auto;gap:8px 32px;padding:4px 16px 16px;border-top:1px solid var(--line);padding-top:16px}
+.filter-group{margin:0}
+legend{font-weight:600;font-size:14px;color:var(--muted);margin-bottom:6px;padding:0}
+.checklist{display:flex;flex-wrap:wrap;gap:0 16px}
+.choice{display:inline-flex;align-items:center;gap:10px;min-height:44px}
+.choice input{appearance:none;-webkit-appearance:none;display:grid;place-content:center;width:22px;height:22px;margin:0;border:1.5px solid var(--ls);border-radius:4px;background:var(--field);flex:none}
+.choice input:checked{background:var(--accent);border-color:var(--accent)}
+.choice input:checked::after{content:"";width:13px;height:13px;background:var(--onaccent);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12.5l5 5L20 6.5'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12.5l5 5L20 6.5'/%3E%3C/svg%3E") center/contain no-repeat}
+.range-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.range-row label{display:block;font-weight:600;font-size:14px;color:var(--muted);margin-bottom:6px}
+
+/* answer + layout */
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:32px;align-items:start;margin-top:24px;padding-bottom:64px}
+.answer{margin-bottom:20px}
+.headline{font:700 clamp(32px,3.6vw,46px)/1.05 "Saira",sans-serif;font-stretch:78%;letter-spacing:.003em;margin-bottom:10px}
+.ctx-line{display:flex;flex-wrap:wrap;gap:2px 22px;color:var(--muted)}
+.ctx-line b{color:var(--ink);font-weight:600}
+.tri{display:flex;height:12px;margin-top:16px;border-radius:3px;overflow:hidden;gap:3px}
+.tri i{display:block;height:100%}
+.tri .t-f{background:var(--barF)}.tri .t-w{background:transparent;border:1.5px solid var(--barW);border-radius:3px}
+.counts{display:flex;flex-wrap:wrap;gap:6px 24px;list-style:none;padding:0;margin:12px 0 0}
+.counts li{display:inline-flex;align-items:center;gap:8px}
+.counts b{font:700 20px/1 "Saira",sans-serif}
+.ico{display:inline-block;width:16px;height:16px;background:currentColor;-webkit-mask:var(--m) center/contain no-repeat;mask:var(--m) center/contain no-repeat;flex:none}
+.i-fits,.state-fits::before{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='9' fill='black'/%3E%3C/svg%3E")}
+.i-tight,.state-tight::before{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='8' fill='none' stroke='black' stroke-width='3'/%3E%3Cpath d='M12 4a8 8 0 0 1 0 16z' fill='black'/%3E%3C/svg%3E")}
+.i-wont,.state-wont-fit::before{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='8'/%3E%3Cpath d='M6.5 17.5l11-11'/%3E%3C/svg%3E")}
+.i-fits{color:var(--fitsT)}.i-tight{color:var(--tightT)}.i-wont{color:var(--wontT)}
+.note{color:var(--muted);font-size:14px;margin-top:8px}
+
+/* cards */
+.model-list{display:grid;gap:14px}
+.model-card{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"name top" "meta top" "track track" "scale scale" "quants why";gap:0 20px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px 20px 12px}
+.model-id,.fit-panes,.fit-pane{display:contents}
+.fit-pane[hidden]{display:none}
+.model-id h3{grid-area:name;font:700 22px/1.2 "Saira",sans-serif;font-stretch:88%;overflow-wrap:anywhere}
+.model-id h3 a{color:var(--ink);text-decoration:none}
+.model-id h3 a:hover{text-decoration:underline}
+.tag{display:inline-flex;align-items:center;vertical-align:middle;margin-left:8px;padding:1px 8px;border:1.5px solid var(--accent);border-radius:4px;color:var(--accent);font:700 13px/1.4 "Saira",sans-serif}
+.model-meta{grid-area:meta;color:var(--muted);margin-top:2px}
+.model-meta .num{color:var(--ink);font-weight:600}
+.fit-top{grid-area:top;display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.state{display:inline-flex;align-items:center;gap:8px;padding:5px 12px 5px 9px;border-radius:5px;font:700 16px/1.2 "Saira",sans-serif}
+.state::before{content:"";width:16px;height:16px;background:currentColor;-webkit-mask:var(--m) center/contain no-repeat;mask:var(--m) center/contain no-repeat}
+.state-fits{background:var(--fitsB);color:var(--fitsT)}
+.state-tight{background:var(--tightB);color:var(--tightT)}
+.state-wont-fit{background:var(--wontB);color:var(--wontT)}
+.headroom{font-size:16px;color:var(--muted);white-space:nowrap}
+.headroom b{font:700 44px/1 "Saira",sans-serif;font-stretch:70%;color:var(--ink);margin-right:4px;letter-spacing:.005em}
+.track{grid-area:track;position:relative;height:22px;margin-top:16px;border-radius:4px;border:1.5px solid var(--ls);background:var(--field);overflow:hidden}
+.track::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,var(--line) 0 7px,transparent 7px 10px)}
+.bar{position:absolute;inset:0 auto 0 0;-webkit-mask:repeating-linear-gradient(90deg,#000 0 7px,transparent 7px 10px);mask:repeating-linear-gradient(90deg,#000 0 7px,transparent 7px 10px)}
+.bar-fits{background:var(--barF)}.bar-tight{background:var(--barT)}.bar-wont-fit{background:var(--barW)}
+.resv{position:absolute;top:0;bottom:0;background:repeating-linear-gradient(135deg,var(--hatch) 0 1.6px,transparent 1.6px 6px);border-left:2px dashed var(--ink);opacity:.85}
+.scale{grid-area:scale;display:flex;justify-content:space-between;gap:12px;margin-top:6px;font-size:14px;color:var(--muted)}
+.quants{grid-area:quants;display:flex;gap:6px;margin-top:10px;align-self:center}
+.quants button{flex:1;max-width:76px;min-width:44px;min-height:44px;padding:0 6px;border:1.5px solid var(--ls);border-radius:6px;background:transparent;color:var(--ink);font:600 15px "Saira",sans-serif;cursor:pointer}
+.quants button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--onaccent)}
+.quants button[data-oversize="true"]{border-style:dashed;text-decoration:line-through;text-decoration-thickness:2px}
+.quants button[data-oversize="true"]:not([aria-pressed="true"]){color:var(--muted)}
+.why-panel{grid-area:why;align-self:center;justify-self:end;margin-top:10px}
+.why-panel summary{display:flex;align-items:center;gap:8px;min-height:44px;font-weight:600;font-size:14px;color:var(--accent);cursor:pointer;list-style:none}
+.why-panel summary::-webkit-details-marker{display:none}
+.why-panel summary::before{content:"";width:8px;height:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(-45deg);transition:transform .15s}
+.why-panel[open] summary::before{transform:rotate(45deg)}
+.why-content{font-size:14px;padding:4px 0 8px}
+
+/* top picks: side rail on desktop, folded on phone */
+.rail{position:sticky;top:16px}
+.top-picks{background:var(--surface);border:1px solid var(--line);border-radius:10px}
+.top-picks>summary{display:flex;align-items:center;gap:10px;min-height:52px;padding:0 18px;font:700 18px "Saira",sans-serif;cursor:default;list-style:none}
+.top-picks>summary::-webkit-details-marker{display:none}
+.top-picks>summary .n{margin-left:auto;font:600 14px "Saira";color:var(--muted)}
+.top-pick-grid{display:grid;padding:0 18px 8px}
+.top-pick-card{padding:14px 0 14px 14px;border-top:1px solid var(--line);border-left:3px solid var(--accent);margin-bottom:-1px}
+.top-pick-card+.top-pick-card{margin-top:0}
+.pick-title{font-weight:600;font-size:14px;color:var(--accent);margin-bottom:2px}
+.top-pick-card h3{font:700 18px/1.2 "Saira",sans-serif;font-stretch:90%;margin-bottom:2px;overflow-wrap:anywhere}
+.top-pick-card h3 a{color:var(--ink);text-decoration:none}
+.top-pick-card h3 a:hover{text-decoration:underline}
+.pick-meta{font-weight:600;font-size:15px}
+.pick-desc{font-size:14px;color:var(--muted)}
+
+.footer{border-top:1px solid var(--line);background:var(--surface);padding:22px 0 30px;color:var(--muted);font-size:14px}
+.footer .wrap{display:flex;flex-wrap:wrap;gap:6px 32px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+@media (max-width:999px){
+  .layout{grid-template-columns:minmax(0,1fr)}
+  .rail{position:static;order:-1}
+  .top-picks{border-radius:8px}
+  .top-picks>summary{cursor:pointer;min-height:56px}
+  .top-picks>summary::after{content:"";width:9px;height:9px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);transition:transform .15s;margin-left:10px}
+  .top-picks[open]>summary::after{transform:rotate(-135deg)}
+  .deck{grid-template-columns:minmax(0,2fr) minmax(0,1fr)}
+  .deck .cell-btn{grid-column:1/-1}
+  .btn-primary{width:100%}
+  .filter-fields{grid-template-columns:1fr 1fr}
+}
+@media (max-width:699px){
+  .wrap{padding:0 16px}
+  .top .wrap{padding-top:8px;gap:0 8px;min-height:0}
+  .brand{flex:1}
+  .theme{margin-left:0}
+  .top nav{order:3;width:100%;margin:0;border-top:1px solid var(--line);margin-top:6px}
+  .top nav a{flex:1;justify-content:center}
+  .intro{padding-top:20px}
+  .intro p{display:none}
+  .deck{grid-template-columns:1fr;padding:14px}
+  .cell-ctx .seg{display:grid}
+  .aux .help{display:none}
+  .filter-fields{grid-template-columns:1fr}
+  .model-card{grid-template-columns:minmax(0,1fr);grid-template-areas:"name" "meta" "top" "track" "scale" "quants" "why";padding:18px 16px 8px}
+  .fit-top{flex-direction:row;align-items:center;justify-content:space-between;margin-top:14px}
+  .headroom b{font-size:40px}
+  .quants{margin-top:6px}
+  .quants button{max-width:none}
+  .why-panel{justify-self:start;margin-top:2px}
+  .footer .wrap{flex-direction:column}
+}
+
+body.sheet{background:#fff;color:#14181c;margin:0;font-size:16px}
+.sh-wrap{max-width:1240px;margin:0 auto;padding:40px 28px 64px}
+.sh-head{display:flex;flex-wrap:wrap;gap:8px 32px;align-items:baseline;border-bottom:2px solid #14181c;padding-bottom:16px;margin-bottom:28px}
+.sh-head h1{font-size:34px;margin:0;line-height:1.1;max-width:none;letter-spacing:-.01em;color:#14181c;font-stretch:100%}
+.sh-head p{margin:0;color:#3d464e;font-size:18px;max-width:60ch}
+.sh-sec{margin:0 0 36px}
+.sh-sec>h2{font-size:20px;margin:0 0 14px;color:#14181c}
+.sh-two{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.sh-panel{border:1px solid #9aa4ad;border-radius:12px;padding:22px;background:var(--bg);color:var(--ink)}
+.sh-panel h3{margin:0 0 12px;font-size:14px;color:var(--muted);font-weight:700}
+.lockup{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.lockup .mark{width:76px;height:76px}
+.tabs{display:flex;gap:12px;margin-top:18px;flex-wrap:wrap}
+.tab{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:8px 8px 0 0;background:var(--surface);border:1px solid var(--line);color:var(--ink);font-size:13px}
+.tab img{width:16px;height:16px}
+.favs{display:flex;gap:16px;align-items:flex-end;margin-top:14px}
+.favs img{border-radius:6px}
+.sw{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:8px;margin-bottom:14px}
+.sw div{border:1px solid var(--ls);border-radius:8px;overflow:hidden;font-size:12px;line-height:1.3;background:var(--surface);color:var(--ink)}
+.sw i{display:block;height:36px;border-bottom:1px solid var(--ls)}
+.sw span{display:block;padding:5px 8px}
+.ct{width:100%;border-collapse:collapse;font-size:13px;color:var(--ink)}
+.ct td,.ct th{padding:5px 6px;border-top:1px solid var(--line);text-align:left;vertical-align:middle}
+.ct .dot{display:inline-block;width:14px;height:14px;border-radius:3px;border:1px solid var(--ls);vertical-align:-2px;margin-right:6px}
+.ct .ok{font-weight:700}
+.spec-h{font-size:34px;line-height:1.05;margin:0 0 10px;color:var(--ink)}
+.spec-p{margin:0 0 10px;color:var(--ink);max-width:56ch}
+.spec-n{font-size:30px;margin:0 0 4px;color:var(--ink)}
+.sample{display:grid;gap:14px}
+.sample .fit-pane{height:auto;display:block;padding:16px;border-radius:10px}
+.ctrls{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:14px}
+.ctrls .quants{max-width:340px;min-width:240px;display:grid}
+.ctrls input[type=text]{max-width:260px}
+.sh-rat{max-width:78ch;font-size:17px;line-height:1.6;color:#14181c;margin:0}
+.sh-meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px 28px;margin-top:16px;font-size:15px;color:#2b333a}
+.sh-meta b{color:#14181c}
+.pn{font-size:12px}
+.pl{--bg:#E8ECEF;--surface:#FFFFFF;--field:#F2F5F7;--ink:#10161B;--muted:#44525D;--ls:#6B7B87;--line:#C9D2D9;--accent:#0B6A93;--onaccent:#FFFFFF;--fitsT:#0B5E56;--fitsB:#D3F0EC;--tightT:#7A4F00;--tightB:#FFEBC2;--wontT:#9A2A22;--wontB:#FFDDD9;--barF:#0F9C8A;--barT:#B27500;--barW:#D6453A;--focus:#0A4EC9;--hatch:#10161B}.pd{--bg:#0D1013;--surface:#151A1F;--field:#0D1013;--ink:#E9EEF2;--muted:#97A5B0;--ls:#5F6D78;--line:#262F37;--accent:#66C6F0;--onaccent:#04202D;--fitsT:#5DE0C9;--fitsB:#0F3A36;--tightT:#FFBE3D;--tightB:#402F05;--wontT:#FF8A80;--wontB:#471C1A;--barF:#3CCFB8;--barT:#FFB020;--barW:#FF6B5E;--focus:#FFD866;--hatch:#E9EEF2}
+</style>
+
+<script>
+(function(){
+  var q=new URLSearchParams(location.search), t=q.get('theme');
+  if(t){document.documentElement.dataset.theme=t;}
+  function label(){var d=document.documentElement.dataset.theme==='dark'||(!document.documentElement.dataset.theme&&matchMedia('(prefers-color-scheme: dark)').matches);var b=document.getElementById('theme-toggle');if(b){b.querySelector('.tt-label').textContent=d?'Light mode':'Dark mode';b.setAttribute('aria-pressed',d?'true':'false');}}
+  document.addEventListener('DOMContentLoaded',function(){
+    label();
+    var b=document.getElementById('theme-toggle');
+    if(b)b.addEventListener('click',function(){var d=document.documentElement.dataset.theme==='dark'||(!document.documentElement.dataset.theme&&matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.dataset.theme=d?'light':'dark';label();});
+    document.querySelectorAll('[data-model-card]').forEach(function(card){
+      card.querySelectorAll('[data-quant-btn]').forEach(function(btn){
+        btn.addEventListener('click',function(){
+          card.querySelectorAll('[data-quant-btn]').forEach(function(o){o.setAttribute('aria-pressed',o===btn?'true':'false');});
+          card.querySelectorAll('[data-variant-pane]').forEach(function(p){p.hidden=p.getAttribute('data-variant-pane')!==btn.getAttribute('data-variant');});
+        });
+      });
+    });
+    document.querySelectorAll('details[data-open-wide]').forEach(function(d){var bp=parseInt(d.getAttribute('data-open-wide'))||900;d.open=matchMedia('(min-width: '+bp+'px)').matches;});
+  });
+})();
+</script>
+</head>
+<body class="sheet">
+
+<div class="sh-wrap">
+<div class="sh-head"><h1>Direction B: Altimeter</h1><p>An instrument panel. Dark first, segmented gauges, big condensed readouts, a quiet toolbar.</p></div>
+<section class="sh-sec"><h2>Logo mark and favicon</h2><div class="sh-two"><div class="sh-panel pl"><h3>Light</h3>
+<div class="lockup"><span class="brand" style="font-size:38px;gap:16px"><svg class="mark" width="34" height="34" viewBox="0 0 36 36" aria-hidden="true"><rect x="15.0" y="4.0" width="6" height="4.2" rx="1.4" fill="currentColor"/><rect x="12.0" y="10.2" width="12" height="4.2" rx="1.4" fill="currentColor"/><rect x="9.0" y="16.4" width="18" height="4.2" rx="1.4" fill="currentColor"/><rect x="6.0" y="22.6" width="24" height="4.2" rx="1.4" fill="currentColor"/><rect x="3.0" y="28.8" width="30" height="4.2" rx="1.4" fill="currentColor"/></svg><span>VRAM Sherpa</span></span></div>
+<div class="tabs"><span class="tab"><img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'><rect width='36' height='36' rx='8' fill='%230D1013'/><rect x='15.0' y='4.0' width='6' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='12.0' y='10.2' width='12' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='9.0' y='16.4' width='18' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='6.0' y='22.6' width='24' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='3.0' y='28.8' width='30' height='4.2' rx='1.4' fill='%2366C6F0'/></svg>" alt="">VRAM Sherpa</span></div>
+<div class="favs"><img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'><rect width='36' height='36' rx='8' fill='%230D1013'/><rect x='15.0' y='4.0' width='6' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='12.0' y='10.2' width='12' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='9.0' y='16.4' width='18' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='6.0' y='22.6' width='24' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='3.0' y='28.8' width='30' height='4.2' rx='1.4' fill='%2366C6F0'/></svg>" width="16" height="16" alt="16 px favicon"><img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'><rect width='36' height='36' rx='8' fill='%230D1013'/><rect x='15.0' y='4.0' width='6' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='12.0' y='10.2' width='12' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='9.0' y='16.4' width='18' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='6.0' y='22.6' width='24' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='3.0' y='28.8' width='30' height='4.2' rx='1.4' fill='%2366C6F0'/></svg>" width="32" height="32" alt="32 px favicon"><img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'><rect width='36' height='36' rx='8' fill='%230D1013'/><rect x='15.0' y='4.0' width='6' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='12.0' y='10.2' width='12' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='9.0' y='16.4' width='18' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='6.0' y='22.6' width='24' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='3.0' y='28.8' width='30' height='4.2' rx='1.4' fill='%2366C6F0'/></svg>" width="64" height="64" alt="64 px favicon"><img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'><rect width='36' height='36' rx='8' fill='%230D1013'/><rect x='15.0' y='4.0' width='6' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='12.0' y='10.2' width='12' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='9.0' y='16.4' width='18' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='6.0' y='22.6' width='24' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='3.0' y='28.8' width='30' height='4.2' rx='1.4' fill='%2366C6F0'/></svg>" width="96" height="96" alt="96 px app icon"></div>
+</div><div class="sh-panel pd"><h3>Dark</h3>
+<div class="lockup"><span class="brand" style="font-size:38px;gap:16px"><svg class="mark" width="34" height="34" viewBox="0 0 36 36" aria-hidden="true"><rect x="15.0" y="4.0" width="6" height="4.2" rx="1.4" fill="currentColor"/><rect x="12.0" y="10.2" width="12" height="4.2" rx="1.4" fill="currentColor"/><rect x="9.0" y="16.4" width="18" height="4.2" rx="1.4" fill="currentColor"/><rect x="6.0" y="22.6" width="24" height="4.2" rx="1.4" fill="currentColor"/><rect x="3.0" y="28.8" width="30" height="4.2" rx="1.4" fill="currentColor"/></svg><span>VRAM Sherpa</span></span></div>
+<div class="tabs"><span class="tab"><img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'><rect width='36' height='36' rx='8' fill='%230D1013'/><rect x='15.0' y='4.0' width='6' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='12.0' y='10.2' width='12' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='9.0' y='16.4' width='18' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='6.0' y='22.6' width='24' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='3.0' y='28.8' width='30' height='4.2' rx='1.4' fill='%2366C6F0'/></svg>" alt="">VRAM Sherpa</span></div>
+<div class="favs"><img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'><rect width='36' height='36' rx='8' fill='%230D1013'/><rect x='15.0' y='4.0' width='6' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='12.0' y='10.2' width='12' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='9.0' y='16.4' width='18' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='6.0' y='22.6' width='24' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='3.0' y='28.8' width='30' height='4.2' rx='1.4' fill='%2366C6F0'/></svg>" width="16" height="16" alt="16 px favicon"><img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'><rect width='36' height='36' rx='8' fill='%230D1013'/><rect x='15.0' y='4.0' width='6' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='12.0' y='10.2' width='12' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='9.0' y='16.4' width='18' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='6.0' y='22.6' width='24' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='3.0' y='28.8' width='30' height='4.2' rx='1.4' fill='%2366C6F0'/></svg>" width="32" height="32" alt="32 px favicon"><img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'><rect width='36' height='36' rx='8' fill='%230D1013'/><rect x='15.0' y='4.0' width='6' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='12.0' y='10.2' width='12' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='9.0' y='16.4' width='18' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='6.0' y='22.6' width='24' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='3.0' y='28.8' width='30' height='4.2' rx='1.4' fill='%2366C6F0'/></svg>" width="64" height="64" alt="64 px favicon"><img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'><rect width='36' height='36' rx='8' fill='%230D1013'/><rect x='15.0' y='4.0' width='6' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='12.0' y='10.2' width='12' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='9.0' y='16.4' width='18' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='6.0' y='22.6' width='24' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='3.0' y='28.8' width='30' height='4.2' rx='1.4' fill='%2366C6F0'/></svg>" width="96" height="96" alt="96 px app icon"></div>
+</div></div><div class="sh-meta"><span>Mark: five level-meter bars that stack into a peak. It reads as both a mountain and a gauge at 16 px. The favicon is the mark in ice blue on a graphite square.</span></div></section>
+<section class="sh-sec"><h2>Colour tokens and contrast</h2><div class="sh-two"><div class="sh-panel pl"><h3>Light theme</h3><div class="sw"><div><i style="background:#E8ECEF"></i><span><b>bg</b><br>#E8ECEF</span></div><div><i style="background:#FFFFFF"></i><span><b>surface</b><br>#FFFFFF</span></div><div><i style="background:#F2F5F7"></i><span><b>field</b><br>#F2F5F7</span></div><div><i style="background:#10161B"></i><span><b>ink</b><br>#10161B</span></div><div><i style="background:#44525D"></i><span><b>muted</b><br>#44525D</span></div><div><i style="background:#6B7B87"></i><span><b>ls</b><br>#6B7B87</span></div><div><i style="background:#0B6A93"></i><span><b>accent</b><br>#0B6A93</span></div><div><i style="background:#D3F0EC"></i><span><b>fitsB</b><br>#D3F0EC</span></div><div><i style="background:#FFEBC2"></i><span><b>tightB</b><br>#FFEBC2</span></div><div><i style="background:#FFDDD9"></i><span><b>wontB</b><br>#FFDDD9</span></div><div><i style="background:#0F9C8A"></i><span><b>barF</b><br>#0F9C8A</span></div><div><i style="background:#B27500"></i><span><b>barT</b><br>#B27500</span></div><div><i style="background:#D6453A"></i><span><b>barW</b><br>#D6453A</span></div></div><table class="ct"><tbody><tr><td><span class="dot" style="background:#10161B"></span><span class="dot" style="background:#E8ECEF"></span>Body text on page</td><td class="ok">15.3:1</td><td>needs 4.5:1</td></tr><tr><td><span class="dot" style="background:#44525D"></span><span class="dot" style="background:#E8ECEF"></span>Secondary text on page</td><td class="ok">6.8:1</td><td>needs 4.5:1</td></tr><tr><td><span class="dot" style="background:#44525D"></span><span class="dot" style="background:#FFFFFF"></span>Secondary text on panel</td><td class="ok">8.0:1</td><td>needs 4.5:1</td></tr><tr><td><span class="dot" style="background:#0B6A93"></span><span class="dot" style="background:#E8ECEF"></span>Links and accent text on page</td><td class="ok">5.1:1</td><td>needs 4.5:1</td></tr><tr><td><span class="dot" style="background:#FFFFFF"></span><span class="dot" style="background:#0B6A93"></span>Primary button label</td><td class="ok">6.0:1</td><td>needs 4.5:1</td></tr><tr><td><span class="dot" style="background:#0B5E56"></span><span class="dot" style="background:#D3F0EC"></span>Fits label</td><td class="ok">6.3:1</td><td>needs 4.5:1</td></tr><tr><td><span class="dot" style="background:#7A4F00"></span><span class="dot" style="background:#FFEBC2"></span>Tight label</td><td class="ok">6.1:1</td><td>needs 4.5:1</td></tr><tr><td><span class="dot" style="background:#9A2A22"></span><span class="dot" style="background:#FFDDD9"></span>Won't fit label</td><td class="ok">6.1:1</td><td>needs 4.5:1</td></tr><tr><td><span class="dot" style="background:#6B7B87"></span><span class="dot" style="background:#F2F5F7"></span>Field and button border</td><td class="ok">4.0:1</td><td>needs 3:1</td></tr><tr><td><span class="dot" style="background:#0F9C8A"></span><span class="dot" style="background:#F2F5F7"></span>Gauge bar, Fits</td><td class="ok">3.1:1</td><td>needs 3:1</td></tr><tr><td><span class="dot" style="background:#B27500"></span><span class="dot" style="background:#F2F5F7"></span>Gauge bar, Tight</td><td class="ok">3.5:1</td><td>needs 3:1</td></tr><tr><td><span class="dot" style="background:#D6453A"></span><span class="dot" style="background:#F2F5F7"></span>Gauge bar, Won't fit</td><td class="ok">4.0:1</td><td>needs 3:1</td></tr></tbody></table></div><div class="sh-panel pd"><h3>Dark theme</h3><div class="sw"><div><i style="background:#0D1013"></i><span><b>bg</b><br>#0D1013</span></div><div><i style="background:#151A1F"></i><span><b>surface</b><br>#151A1F</span></div><div><i style="background:#0D1013"></i><span><b>field</b><br>#0D1013</span></div><div><i style="background:#E9EEF2"></i><span><b>ink</b><br>#E9EEF2</span></div><div><i style="background:#97A5B0"></i><span><b>muted</b><br>#97A5B0</span></div><div><i style="background:#5F6D78"></i><span><b>ls</b><br>#5F6D78</span></div><div><i style="background:#66C6F0"></i><span><b>accent</b><br>#66C6F0</span></div><div><i style="background:#0F3A36"></i><span><b>fitsB</b><br>#0F3A36</span></div><div><i style="background:#402F05"></i><span><b>tightB</b><br>#402F05</span></div><div><i style="background:#471C1A"></i><span><b>wontB</b><br>#471C1A</span></div><div><i style="background:#3CCFB8"></i><span><b>barF</b><br>#3CCFB8</span></div><div><i style="background:#FFB020"></i><span><b>barT</b><br>#FFB020</span></div><div><i style="background:#FF6B5E"></i><span><b>barW</b><br>#FF6B5E</span></div></div><table class="ct"><tbody><tr><td><span class="dot" style="background:#E9EEF2"></span><span class="dot" style="background:#0D1013"></span>Body text on page</td><td class="ok">16.3:1</td><td>needs 4.5:1</td></tr><tr><td><span class="dot" style="background:#97A5B0"></span><span class="dot" style="background:#0D1013"></span>Secondary text on page</td><td class="ok">7.6:1</td><td>needs 4.5:1</td></tr><tr><td><span class="dot" style="background:#97A5B0"></span><span class="dot" style="background:#151A1F"></span>Secondary text on panel</td><td class="ok">6.9:1</td><td>needs 4.5:1</td></tr><tr><td><span class="dot" style="background:#66C6F0"></span><span class="dot" style="background:#0D1013"></span>Links and accent text on page</td><td class="ok">9.9:1</td><td>needs 4.5:1</td></tr><tr><td><span class="dot" style="background:#04202D"></span><span class="dot" style="background:#66C6F0"></span>Primary button label</td><td class="ok">8.7:1</td><td>needs 4.5:1</td></tr><tr><td><span class="dot" style="background:#5DE0C9"></span><span class="dot" style="background:#0F3A36"></span>Fits label</td><td class="ok">7.7:1</td><td>needs 4.5:1</td></tr><tr><td><span class="dot" style="background:#FFBE3D"></span><span class="dot" style="background:#402F05"></span>Tight label</td><td class="ok">7.8:1</td><td>needs 4.5:1</td></tr><tr><td><span class="dot" style="background:#FF8A80"></span><span class="dot" style="background:#471C1A"></span>Won't fit label</td><td class="ok">6.3:1</td><td>needs 4.5:1</td></tr><tr><td><span class="dot" style="background:#5F6D78"></span><span class="dot" style="background:#0D1013"></span>Field and button border</td><td class="ok">3.6:1</td><td>needs 3:1</td></tr><tr><td><span class="dot" style="background:#3CCFB8"></span><span class="dot" style="background:#0D1013"></span>Gauge bar, Fits</td><td class="ok">9.8:1</td><td>needs 3:1</td></tr><tr><td><span class="dot" style="background:#FFB020"></span><span class="dot" style="background:#0D1013"></span>Gauge bar, Tight</td><td class="ok">10.4:1</td><td>needs 3:1</td></tr><tr><td><span class="dot" style="background:#FF6B5E"></span><span class="dot" style="background:#0D1013"></span>Gauge bar, Won't fit</td><td class="ok">6.8:1</td><td>needs 3:1</td></tr></tbody></table></div></div><div class="sh-meta"><span>Graphite and ice blue in dark, instrument white and deep cyan in light. Fits is teal, Tight is amber, Won't fit is coral; each also has a shape (disc, half disc, struck ring) and the Won't fit quantisation button is dashed and struck through. Every pair above meets WCAG AA.</span></div></section>
+<section class="sh-sec"><h2>Type</h2><div class="sh-two"><div class="sh-panel pl"><p class="spec-h" style="font:700 40px/1.05 Saira;font-stretch:78%">71 models fit or are tight</p><p class="spec-p">Saira 16 px on a 1.5 line. Pick your GPU or enter VRAM, then check.</p><p class="spec-n" style="font:700 44px/1 Saira;font-stretch:70%">8.6 GB <span style="font:400 16px Saira;font-stretch:100%">spare</span></p><p class="pn muted">One family, two widths: Saira at 70 to 88 percent width for headings and readouts, 100 percent for body. Weights 400, 600, 700.</p></div><div class="sh-panel pd"><p class="spec-h" style="font:700 40px/1.05 Saira;font-stretch:78%">71 models fit or are tight</p><p class="spec-p">Saira 16 px on a 1.5 line. Pick your GPU or enter VRAM, then check.</p><p class="spec-n" style="font:700 44px/1 Saira;font-stretch:70%">8.6 GB <span style="font:400 16px Saira;font-stretch:100%">spare</span></p><p class="pn muted">One family, two widths: Saira at 70 to 88 percent width for headings and readouts, 100 percent for body. Weights 400, 600, 700.</p></div></div><div class="sh-meta"><span>Saira (SIL OFL 1.1, variable weight and width) for every piece of text. One file, woff2, in docs/design/fonts; headings use the condensed end of the width axis.</span></div></section>
+<section class="sh-sec"><h2>Controls and verdicts</h2><div class="sh-two"><div class="sh-panel pl"><h3>Light</h3><div class="ctrls"><button type="button" class="btn-primary" style="width:auto">Check compatibility</button><button type="button" class="chip">RTX 4060 8GB</button><button type="button" class="chip">24GB</button><span class="tag" style="margin:0">Gated</span></div><div class="ctrls"><input type="text" placeholder="Start typing a GPU name" style="max-width:260px"><div class="quants" role="group" aria-label="sample"><button type="button" aria-pressed="true">Q4</button><button type="button" aria-pressed="false">Q5</button><button type="button" aria-pressed="false">Q8</button><button type="button" aria-pressed="false" data-oversize="true">FP16</button></div></div><div class="sample"><div class="fit-pane"><div class="fit-top"><span class="state state-fits">Fits</span><span class="headroom"><b class="num">8.6 GB</b> spare</span></div><div class="track" role="img" aria-label="sample"><span class="bar bar-fits" style="width:64.0%"></span><span class="resv" style="left:90%;width:10%"></span></div><div class="scale"><span>15.36 GB needed</span><span>24.0 GB</span></div></div><div class="fit-pane"><div class="fit-top"><span class="state state-tight">Tight</span><span class="headroom"><b class="num">0.0 GB</b> spare</span></div><div class="track" role="img" aria-label="sample"><span class="bar bar-tight" style="width:100.0%"></span><span class="resv" style="left:90%;width:10%"></span></div><div class="scale"><span>24.00 GB needed</span><span>24.0 GB</span></div></div><div class="fit-pane"><div class="fit-top"><span class="state state-wont-fit">Won't fit</span><span class="headroom"><b class="num">16.2 GB</b> over</span></div><div class="track" role="img" aria-label="sample"><span class="bar bar-wont-fit" style="width:100.0%"></span><span class="resv" style="left:90%;width:10%"></span></div><div class="scale"><span>40.20 GB needed</span><span>24.0 GB</span></div></div></div></div><div class="sh-panel pd"><h3>Dark</h3><div class="ctrls"><button type="button" class="btn-primary" style="width:auto">Check compatibility</button><button type="button" class="chip">RTX 4060 8GB</button><button type="button" class="chip">24GB</button><span class="tag" style="margin:0">Gated</span></div><div class="ctrls"><input type="text" placeholder="Start typing a GPU name" style="max-width:260px"><div class="quants" role="group" aria-label="sample"><button type="button" aria-pressed="true">Q4</button><button type="button" aria-pressed="false">Q5</button><button type="button" aria-pressed="false">Q8</button><button type="button" aria-pressed="false" data-oversize="true">FP16</button></div></div><div class="sample"><div class="fit-pane"><div class="fit-top"><span class="state state-fits">Fits</span><span class="headroom"><b class="num">8.6 GB</b> spare</span></div><div class="track" role="img" aria-label="sample"><span class="bar bar-fits" style="width:64.0%"></span><span class="resv" style="left:90%;width:10%"></span></div><div class="scale"><span>15.36 GB needed</span><span>24.0 GB</span></div></div><div class="fit-pane"><div class="fit-top"><span class="state state-tight">Tight</span><span class="headroom"><b class="num">0.0 GB</b> spare</span></div><div class="track" role="img" aria-label="sample"><span class="bar bar-tight" style="width:100.0%"></span><span class="resv" style="left:90%;width:10%"></span></div><div class="scale"><span>24.00 GB needed</span><span>24.0 GB</span></div></div><div class="fit-pane"><div class="fit-top"><span class="state state-wont-fit">Won't fit</span><span class="headroom"><b class="num">16.2 GB</b> over</span></div><div class="track" role="img" aria-label="sample"><span class="bar bar-wont-fit" style="width:100.0%"></span><span class="resv" style="left:90%;width:10%"></span></div><div class="scale"><span>40.20 GB needed</span><span>24.0 GB</span></div></div></div></div></div></section>
+<section class="sh-sec"><h2>Why this direction</h2><p class="sh-rat">Altimeter reads a model card the way a pilot reads an instrument: one big readout (the margin, in a condensed face), a verdict tag, and a segmented gauge where each notch is a slice of your VRAM and the hatched band is the reserve. The page is calm because the control deck is one row, filters are collapsed behind Filters (0) at every width, and Top Picks move into a side rail on desktop and fold into a single disclosure on a phone, so nothing sits between you and the first card. It answers "generic" with a technical identity (level-meter mark, one condensed family, a proportion bar for the Fits and Won't fit counts), and "mobile" with a card that is already a single column: name, verdict and margin, gauge, then a 44 px quantisation row.</p><div class="sh-meta"><span><b>Top Picks:</b> a side rail on desktop (sticky, always open), and a collapsed Top Picks for you disclosure on a phone (Q-1 option c). The first card starts at 642 px at 1280 and 1002 px at 390.</span></div></section>
+</div>
+</body>
+</html>

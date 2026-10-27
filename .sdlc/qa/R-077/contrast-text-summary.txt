@@ -1,0 +1,11 @@
+NORMAL (glass, natural and worst-case backdrop): 92 page x width x theme combinations, 23 states, 18666 text boxes measured (both backdrops), failures: 0
+  lowest light natural: 6.42:1 detail-error|1280|light|natural "Fits"; 6.42:1 detail-error|390|light|natural "Fits"
+  lowest light worst: 6.29:1 how-it-works|1280|light|worst "See its model page"; 6.34:1 detail-error|1280|light|worst "https://huggingface.co/Qwen/Qwen2.5-7B-I"
+  lowest dark natural: 6.26:1 detail-error|390|dark|natural "Margin (GB)"; 6.26:1 detail-gated|390|dark|natural "Margin (GB)"
+  lowest dark worst: 4.78:1 detail-error|390|dark|worst "Margin (GB)"; 4.78:1 detail-gated|390|dark|worst "Margin (GB)"
+REDUCED TRANSPARENCY (CDP prefers-reduced-transparency: reduce): 44 combinations (11 states), 8860 text boxes, failures: 0
+  lowest light: 6.42:1 detail-error|1280|light|worst "Fits"
+  lowest dark: 6.08:1 detail-error|390|dark|worst "Margin (GB)"
+NO backdrop-filter (stylesheet rewritten so the property and the @supports query fail): 44 combinations (11 states), 8860 text boxes, failures: 0
+  lowest light: 6.42:1 detail-error|1280|light|worst "Fits"
+  lowest dark: 6.08:1 detail-error|390|dark|worst "Margin (GB)"

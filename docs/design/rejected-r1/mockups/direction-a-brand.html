@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VRAM Sherpa - Direction A brand sheet</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 34'><rect width='34' height='34' rx='8' fill='%230E5C4D'/><g fill='%23E9EFF2'><ellipse cx='17' cy='26' rx='10' ry='4.8'/><ellipse cx='16.2' cy='17.4' rx='7.2' ry='4.1'/><ellipse cx='17.6' cy='10' rx='4.4' ry='3.1'/></g></svg>">
+<style>
+
+@font-face{font-family:"Young Serif";src:url(../fonts/young-serif-latin-400-normal.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Hanken Grotesk";src:url(../fonts/hanken-grotesk-latin-wght-normal.woff2) format("woff2");font-weight:100 900;font-display:swap}
+:root {
+  color-scheme: light;
+  --bg: #E9EFF2;
+  --surface: #F7FAFB;
+  --field: #FFFFFF;
+  --ink: #0C2631;
+  --muted: #44596A;
+  --ls: #5F7A88;
+  --line: #C3D0D6;
+  --accent: #0E5C4D;
+  --onaccent: #FFFFFF;
+  --fitsT: #0A5A44;
+  --fitsB: #D5EEE4;
+  --tightT: #8A3A06;
+  --tightB: #FBE3CF;
+  --wontT: #8E1F32;
+  --wontB: #F9D9DE;
+  --barF: #148A68;
+  --barT: #D9650F;
+  --barW: #C23A4E;
+  --focus: #0B4FD0;
+  --hatch: #0C2631;
+}
+@media (prefers-color-scheme: dark) {
+ :root:not([data-theme="light"]) {
+  color-scheme: dark;
+  --bg: #0A1920;
+  --surface: #10252E;
+  --field: #0A1920;
+  --ink: #E3EEF2;
+  --muted: #9BB2BC;
+  --ls: #5E808F;
+  --line: #24404B;
+  --accent: #5BD1AE;
+  --onaccent: #05241B;
+  --fitsT: #8FE8CB;
+  --fitsB: #123A30;
+  --tightT: #FFC184;
+  --tightB: #46290F;
+  --wontT: #FFA0AE;
+  --wontB: #4A1B26;
+  --barF: #3FC49C;
+  --barT: #F29A3F;
+  --barW: #F2677B;
+  --focus: #8DB8FF;
+  --hatch: #E3EEF2;
+ }
+}
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0A1920;
+  --surface: #10252E;
+  --field: #0A1920;
+  --ink: #E3EEF2;
+  --muted: #9BB2BC;
+  --ls: #5E808F;
+  --line: #24404B;
+  --accent: #5BD1AE;
+  --onaccent: #05241B;
+  --fitsT: #8FE8CB;
+  --fitsB: #123A30;
+  --tightT: #FFC184;
+  --tightB: #46290F;
+  --wontT: #FFA0AE;
+  --wontB: #4A1B26;
+  --barF: #3FC49C;
+  --barT: #F29A3F;
+  --barW: #F2677B;
+  --focus: #8DB8FF;
+  --hatch: #E3EEF2;
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 "Hanken Grotesk",system-ui,sans-serif;font-variant-numeric:tabular-nums}
+.wrap{max-width:1200px;margin:0 auto;padding:0 20px}
+a{color:var(--accent);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:4px}
+h1,h2,h3,p,ul{margin:0}
+.muted{color:var(--muted)}
+
+/* header */
+.top{border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:8px 24px;min-height:72px;flex-wrap:wrap}
+.brand{display:inline-flex;align-items:center;gap:10px;min-height:44px;font:400 23px/1 "Young Serif",serif;color:var(--ink);text-decoration:none}
+.brand .mark{color:var(--accent)}
+.top nav{display:flex;gap:4px;margin-left:auto}
+.top nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;color:var(--ink);text-decoration:none;font-weight:500;border-bottom:3px solid transparent}
+.top nav a[aria-current="page"]{border-bottom-color:var(--accent);font-weight:700}
+.theme{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border:1.5px solid var(--ls);border-radius:999px;background:transparent;color:var(--ink);font:600 15px/1 "Hanken Grotesk",sans-serif;cursor:pointer}
+.theme[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+
+/* hero + form */
+.rig{position:relative;display:grid;grid-template-columns:3.5fr 8.5fr;gap:48px;padding:20px 0 20px;align-items:center}
+.rig-copy{position:relative}
+.contour-clip{position:absolute;inset:-56px -28px -48px -20px;overflow:hidden;pointer-events:none;z-index:0}
+.contour-clip .contours{position:absolute;left:-60px;top:-60px;width:760px;height:auto;color:var(--line)}
+.rig-copy>*:not(.contour-clip){position:relative;z-index:1}
+h1{font:400 clamp(34px,3.6vw,46px)/1.06 "Young Serif",serif;letter-spacing:-.012em;margin-bottom:16px;text-wrap:balance}
+.rig-copy p{font-size:17px;color:var(--muted);max-width:30ch}
+.rig-form{position:relative;z-index:1;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px 24px}
+.paths{display:grid;grid-template-columns:minmax(0,1.5fr) auto minmax(0,1fr);gap:0 20px;align-items:start}
+.or{align-self:center;color:var(--muted);font-size:15px;padding-top:26px}
+.field label,.lab{display:block;font-weight:600;font-size:15px;margin-bottom:6px}
+.field-row{display:flex;gap:8px}
+input[type=text],input[type=number]{width:100%;min-height:48px;padding:0 14px;border:1.5px solid var(--ls);border-radius:10px;background:var(--field);color:var(--ink);font:400 16px/1 "Hanken Grotesk",sans-serif}
+input::placeholder{color:var(--muted);opacity:1}
+.btn-clear{min-height:48px;min-width:64px;padding:0 14px;border:1.5px solid var(--ls);border-radius:10px;background:transparent;color:var(--ink);font:600 15px "Hanken Grotesk",sans-serif;cursor:pointer}
+.help{font-size:14px;color:var(--muted);margin-top:6px}
+.under{display:flex;flex-wrap:wrap;align-items:flex-end;gap:16px 20px;margin-top:16px;padding-top:16px;border-top:1px solid var(--line)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border:1.5px solid var(--ls);border-radius:999px;background:transparent;color:var(--ink);font:600 14px "Hanken Grotesk",sans-serif;cursor:pointer}
+fieldset{border:0;margin:0;padding:0;min-width:0}
+legend{padding:0;font-weight:600;font-size:15px;margin-bottom:6px}
+.ctx-group{display:inline-grid;grid-template-columns:repeat(3,1fr);border:1.5px solid var(--ls);border-radius:12px;overflow:hidden;background:var(--field)}
+.ctx-group label{position:relative;display:block}
+.ctx-group input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer}
+.ctx-group span{display:flex;align-items:center;justify-content:center;min-width:64px;min-height:44px;font-weight:600;padding:0 8px}
+.ctx-group label+label span{border-left:1.5px solid var(--ls)}
+.ctx-group input:checked+span{background:var(--ink);color:var(--bg)}
+.ctx-group input:focus-visible+span{outline:3px solid var(--focus);outline-offset:-3px}
+.btn-primary{min-height:52px;padding:0 24px;border:0;border-radius:12px;background:var(--accent);color:var(--onaccent);font:700 17px "Hanken Grotesk",sans-serif;cursor:pointer;margin-left:auto}
+
+/* layout */
+.layout{margin-top:12px;display:grid;grid-template-columns:260px minmax(0,1fr);gap:56px;padding-bottom:72px;align-items:start}
+.filters{position:sticky;top:16px}
+.filters details{border-top:1.5px solid var(--ink)}
+.filters summary{display:flex;align-items:center;justify-content:space-between;min-height:52px;font:700 17px "Hanken Grotesk";cursor:pointer;list-style:none}
+.filters summary::-webkit-details-marker{display:none}
+.filters summary::after{content:"";width:10px;height:10px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);margin-right:4px;transition:transform .15s}
+.filters details[open] summary::after{transform:rotate(-135deg)}
+.filter-group{margin-bottom:18px}
+.checklist{display:flex;flex-wrap:wrap;gap:0 18px}
+.choice{display:inline-flex;align-items:center;gap:10px;min-height:36px}
+.choice input{appearance:none;-webkit-appearance:none;display:grid;place-content:center;width:22px;height:22px;margin:0;border:1.5px solid var(--ls);border-radius:6px;background:var(--field);flex:none}
+.choice input:checked{background:var(--accent);border-color:var(--accent)}
+.choice input:checked::after{content:"";width:13px;height:13px;background:var(--onaccent);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12.5l5 5L20 6.5'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12.5l5 5L20 6.5'/%3E%3C/svg%3E") center/contain no-repeat}
+.range-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.range-row label{display:block;font-weight:600;font-size:14px;margin-bottom:6px}
+.choice-solo{margin-bottom:16px}
+
+/* answer */
+.headline{font:400 clamp(34px,3.4vw,44px)/1.06 "Young Serif",serif;font-feature-settings:"lnum";letter-spacing:-.012em;margin-bottom:12px;text-wrap:balance}
+.ctx-line{display:flex;flex-wrap:wrap;gap:4px 24px;color:var(--muted);font-size:16px}
+.ctx-line b{color:var(--ink);font-weight:600}
+.counts{display:flex;flex-wrap:wrap;gap:8px 28px;list-style:none;padding:0;margin:14px 0 0;font-size:16px}
+.counts li{display:inline-flex;align-items:center;gap:8px}
+.counts b{font:700 20px/1 "Hanken Grotesk",sans-serif}
+.ico{display:inline-block;width:18px;height:18px;background:currentColor;-webkit-mask:var(--m) center/contain no-repeat;mask:var(--m) center/contain no-repeat;flex:none}
+.i-fits,.state-fits::before{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12.5l5 5L20 6.5'/%3E%3C/svg%3E")}
+.i-tight,.state-tight::before{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 3.5L22 20.5H2z' fill='black'/%3E%3C/svg%3E")}
+.i-wont,.state-wont-fit::before{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3.2' stroke-linecap='round'%3E%3Cpath d='M5.5 5.5l13 13M18.5 5.5l-13 13'/%3E%3C/svg%3E")}
+.i-fits{color:var(--fitsT)}.i-tight{color:var(--tightT)}.i-wont{color:var(--wontT)}
+.tally{display:flex;flex-wrap:wrap;align-items:center;gap:6px 28px;margin-top:14px}
+.tally .counts{margin:0}
+.note{color:var(--muted);font-size:14px}
+
+/* top picks (above the cards) */
+.top-picks{margin-top:22px;padding:16px 0 4px;border-top:1.5px solid var(--ink)}
+.top-picks h2{font:700 17px "Hanken Grotesk";margin-bottom:10px}
+.top-pick-grid{display:grid;grid-template-columns:repeat(3,1fr)}
+.top-pick-card{padding:2px 20px 12px}
+.top-pick-card:first-child{padding-left:0}
+.top-pick-card+.top-pick-card{border-left:1px solid var(--line)}
+.pick-title{font-weight:700;font-size:14px;color:var(--accent);margin-bottom:6px}
+.top-pick-card h3{font:400 18px/1.2 "Young Serif",serif;margin-bottom:4px}
+.top-pick-card h3 a{color:var(--ink);text-decoration:none;overflow-wrap:anywhere}
+.top-pick-card h3 a:hover{text-decoration:underline}
+.pick-meta{font-weight:600;font-size:15px;margin-bottom:4px}
+.pick-desc{font-size:14px;color:var(--muted)}
+
+/* cards */
+.model-list{margin-top:8px}
+.model-card{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:20px 48px;padding:24px 0;border-top:1px solid var(--line)}
+.model-card:first-child{border-top:1.5px solid var(--ink)}
+.model-id h3{font:400 26px/1.15 "Young Serif",serif;overflow-wrap:anywhere}
+.model-id h3 a{color:var(--ink);text-decoration:none}
+.model-id h3 a:hover{text-decoration:underline}
+.tag{display:inline-flex;align-items:center;vertical-align:middle;margin-left:8px;padding:2px 10px;border:1.5px solid var(--ink);border-radius:6px;font:700 13px/1.4 "Hanken Grotesk",sans-serif}
+.model-meta{margin:6px 0 14px;color:var(--muted)}
+.model-meta .num{color:var(--ink);font-weight:600}
+.quants{display:grid;grid-template-columns:repeat(4,minmax(44px,1fr));border:1.5px solid var(--ls);border-radius:12px;overflow:hidden;background:var(--field);max-width:340px}
+.quants button{min-height:44px;padding:0 6px;border:0;background:transparent;color:var(--ink);font:600 15px "Hanken Grotesk",sans-serif;cursor:pointer}
+.quants button+button{border-left:1.5px solid var(--ls)}
+.quants button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.quants button[data-oversize="true"]{text-decoration:line-through;text-decoration-thickness:2px}
+.quants button[data-oversize="true"]:not([aria-pressed="true"]){color:var(--muted)}
+.fit-pane[hidden]{display:none}
+.fit-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px;margin-bottom:14px}
+.state{display:inline-flex;align-items:center;gap:8px;padding:6px 14px 6px 10px;border-radius:999px;font:700 16px/1.2 "Hanken Grotesk",sans-serif}
+.state::before{content:"";width:18px;height:18px;background:currentColor;-webkit-mask:var(--m) center/contain no-repeat;mask:var(--m) center/contain no-repeat}
+.state-fits{background:var(--fitsB);color:var(--fitsT)}
+.state-tight{background:var(--tightB);color:var(--tightT)}
+.state-wont-fit{background:var(--wontB);color:var(--wontT)}
+.headroom{font-size:16px;color:var(--muted)}
+.headroom b{font:800 30px/1 "Hanken Grotesk",sans-serif;letter-spacing:-.01em;color:var(--ink);margin-right:2px}
+.track{position:relative;height:18px;border-radius:9px;border:1.5px solid var(--ls);background:var(--field);overflow:hidden}
+.bar{position:absolute;inset:0 auto 0 0}
+.bar-fits{background:var(--barF)}.bar-tight{background:var(--barT)}.bar-wont-fit{background:var(--barW)}
+.resv{position:absolute;top:0;bottom:0;background:repeating-linear-gradient(135deg,var(--hatch) 0 1.6px,transparent 1.6px 6px);border-left:2px dashed var(--ls);opacity:.8}
+.scale{display:flex;justify-content:space-between;gap:12px;margin-top:8px;font-size:14px;color:var(--muted)}
+.why-panel{margin-top:6px}
+.why-panel summary{display:flex;align-items:center;gap:8px;min-height:44px;font-weight:600;font-size:14px;color:var(--accent);cursor:pointer;list-style:none}
+.why-panel summary::-webkit-details-marker{display:none}
+.why-panel summary::before{content:"";width:8px;height:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(-45deg);transition:transform .15s}
+.why-panel[open] summary::before{transform:rotate(45deg)}
+.why-content{font-size:14px;padding:4px 0 8px}
+
+.footer{border-top:1px solid var(--line);padding:24px 0 36px;color:var(--muted);font-size:14px}
+.footer .wrap{display:flex;flex-wrap:wrap;gap:6px 32px}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+@media (max-width:899px){
+  .rig{grid-template-columns:1fr;gap:24px;padding:28px 0 28px}
+  .contour-clip{inset:-28px -16px -20px -16px}
+  .contour-clip .contours{left:auto;right:-200px;top:-110px;width:520px}
+  .rig-copy p,.lab-ex{display:none}
+  h1{font-size:34px}
+  .rig-copy p{font-size:16px;max-width:none}
+  .rig-form{padding:20px 16px;border-radius:16px}
+  .paths{grid-template-columns:1fr;gap:16px}
+  .or{display:none}
+  .under{gap:16px}
+  .btn-primary{width:100%;margin-left:0}
+  .layout{grid-template-columns:1fr;gap:20px;padding-bottom:48px}
+  .filters{position:static}
+  .filters details{border:1.5px solid var(--ls);border-radius:12px;padding:0 16px}
+  .filters summary{min-height:56px}
+  .choice{min-height:44px}
+  .headline{font-size:34px}
+  .top-pick-grid{grid-template-columns:1fr}
+  .top-pick-card,.top-pick-card:first-child{padding:14px 0;border-left:0}
+  .top-pick-card+.top-pick-card{border-top:1px solid var(--line)}
+  .top-pick-card{display:grid;grid-template-columns:1fr auto;gap:2px 12px;padding:10px 0!important}
+  .top-pick-card h3{grid-column:1/-1;grid-row:2;font-size:19px}
+  .pick-title{margin:0}.pick-meta{margin:0;grid-row:1;grid-column:2}.pick-desc{grid-column:1/-1;grid-row:3}
+  .top-picks{margin-top:24px;padding-top:16px}
+  .choice{min-width:44px}
+  .model-card{grid-template-columns:1fr;gap:16px;padding:26px 0}
+  .model-id h3{font-size:23px}
+  .quants{max-width:none}
+  .top .wrap{gap:0 8px;min-height:0;padding-top:8px;padding-bottom:0}
+  .top nav{order:3;width:100%;margin:0;border-top:1px solid var(--line)}
+  .top nav a{flex:1;justify-content:center}
+  .brand{flex:1}
+  .wrap{padding:0 16px}
+  .footer .wrap{flex-direction:column}
+}
+
+body.sheet{background:#fff;color:#14181c;margin:0;font-size:16px}
+.sh-wrap{max-width:1240px;margin:0 auto;padding:40px 28px 64px}
+.sh-head{display:flex;flex-wrap:wrap;gap:8px 32px;align-items:baseline;border-bottom:2px solid #14181c;padding-bottom:16px;margin-bottom:28px}
+.sh-head h1{font-size:34px;margin:0;line-height:1.1;max-width:none;letter-spacing:-.01em;color:#14181c;font-stretch:100%}
+.sh-head p{margin:0;color:#3d464e;font-size:18px;max-width:60ch}
+.sh-sec{margin:0 0 36px}
+.sh-sec>h2{font-size:20px;margin:0 0 14px;color:#14181c}
+.sh-two{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.sh-panel{border:1px solid #9aa4ad;border-radius:12px;padding:22px;background:var(--bg);color:var(--ink)}
+.sh-panel h3{margin:0 0 12px;font-size:14px;color:var(--muted);font-weight:700}
+.lockup{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.lockup .mark{width:76px;height:76px}
+.tabs{display:flex;gap:12px;margin-top:18px;flex-wrap:wrap}
+.tab{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:8px 8px 0 0;background:var(--surface);border:1px solid var(--line);color:var(--ink);font-size:13px}
+.tab img{width:16px;height:16px}
+.favs{display:flex;gap:16px;align-items:flex-end;margin-top:14px}
+.favs img{border-radius:6px}
+.sw{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:8px;margin-bottom:14px}
+.sw div{border:1px solid var(--ls);border-radius:8px;overflow:hidden;font-size:12px;line-height:1.3;background:var(--surface);color:var(--ink)}
+.sw i{display:block;height:36px;border-bottom:1px solid var(--ls)}
+.sw span{display:block;padding:5px 8px}
+.ct{width:100%;border-collapse:collapse;font-size:13px;color:var(--ink)}
+.ct td,.ct th{padding:5px 6px;border-top:1px solid var(--line);text-align:left;vertical-align:middle}
+.ct .dot{display:inline-block;width:14px;height:14px;border-radius:3px;border:1px solid var(--ls);vertical-align:-2px;margin-right:6px}
+.ct .ok{font-weight:700}
+.spec-h{font-size:34px;line-height:1.05;margin:0 0 10px;color:var(--ink)}
+.spec-p{margin:0 0 10px;color:var(--ink);max-width:56ch}
+.spec-n{font-size:30px;margin:0 0 4px;color:var(--ink)}
+.sample{display:grid;gap:14px}
+.sample .fit-pane{height:auto;display:block;padding:16px;border-radius:10px}
+.ctrls{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:14px}
+.ctrls .quants{max-width:340px;min-width:240px;display:grid}
+.ctrls input[type=text]{max-width:260px}
+.sh-rat{max-width:78ch;font-size:17px;line-height:1.6;color:#14181c;margin:0}
+.sh-meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px 28px;margin-top:16px;font-size:15px;color:#2b333a}
+.sh-meta b{color:#14181c}
+.pn{font-size:12px}
+.pl{--bg:#E9EFF2;--surface:#F7FAFB;--field:#FFFFFF;--ink:#0C2631;--muted:#44596A;--ls:#5F7A88;--line:#C3D0D6;--accent:#0E5C4D;--onaccent:#FFFFFF;--fitsT:#0A5A44;--fitsB:#D5EEE4;--tightT:#8A3A06;--tightB:#FBE3CF;--wontT:#8E1F32;--wontB:#F9D9DE;--barF:#148A68;--barT:#D9650F;--barW:#C23A4E;--focus:#0B4FD0;--hatch:#0C2631}.pd{--bg:#0A1920;--surface:#10252E;--field:#0A1920;--ink:#E3EEF2;--muted:#9BB2BC;--ls:#5E808F;--line:#24404B;--accent:#5BD1AE;--onaccent:#05241B;--fitsT:#8FE8CB;--fitsB:#123A30;--tightT:#FFC184;--tightB:#46290F;--wontT:#FFA0AE;--wontB:#4A1B26;--barF:#3FC49C;--barT:#F29A3F;--barW:#F2677B;--focus:#8DB8FF;--hatch:#E3EEF2}
+</style>
+
+<script>
+(function(){
+  var q=new URLSearchParams(location.search), t=q.get('theme');
+  if(t){document.documentElement.dataset.theme=t;}
+  function label(){var d=document.documentElement.dataset.theme==='dark'||(!document.documentElement.dataset.theme&&matchMedia('(prefers-color-scheme: dark)').matches);var b=document.getElementById('theme-toggle');if(b){b.querySelector('.tt-label').textContent=d?'Light mode':'Dark mode';b.setAttribute('aria-pressed',d?'true':'false');}}
+  document.addEventListener('DOMContentLoaded',function(){
+    label();
+    var b=document.getElementById('theme-toggle');
+    if(b)b.addEventListener('click',function(){var d=document.documentElement.dataset.theme==='dark'||(!document.documentElement.dataset.theme&&matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.dataset.theme=d?'light':'dark';label();});
+    document.querySelectorAll('[data-model-card]').forEach(function(card){
+      card.querySelectorAll('[data-quant-btn]').forEach(function(btn){
+        btn.addEventListener('click',function(){
+          card.querySelectorAll('[data-quant-btn]').forEach(function(o){o.setAttribute('aria-pressed',o===btn?'true':'false');});
+          card.querySelectorAll('[data-variant-pane]').forEach(function(p){p.hidden=p.getAttribute('data-variant-pane')!==btn.getAttribute('data-variant');});
+        });
+      });
+    });
+    document.querySelectorAll('details[data-open-wide]').forEach(function(d){var bp=parseInt(d.getAttribute('data-open-wide'))||900;d.open=matchMedia('(min-width: '+bp+'px)').matches;});
+  });
+})();
+</script>
+</head>
+<body class="sheet">
+
+<div class="sh-wrap">
+<div class="sh-head"><h1>Direction A: Basecamp</h1><p>A calm field guide. Big serif answer, ruled rows instead of boxes, contour lines for place.</p></div>
+<section class="sh-sec"><h2>Logo mark and favicon</h2><div class="sh-two"><div class="sh-panel pl"><h3>Light</h3>
+<div class="lockup"><span class="brand" style="font-size:38px;gap:16px"><svg class="mark" width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><g fill="currentColor"><ellipse cx="17" cy="27" rx="12" ry="5.6"/><ellipse cx="16" cy="17.2" rx="8.6" ry="4.8"/><ellipse cx="17.6" cy="8.6" rx="5.2" ry="3.7"/></g></svg><span>VRAM Sherpa</span></span></div>
+<div class="tabs"><span class="tab"><img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 34'><rect width='34' height='34' rx='8' fill='%230E5C4D'/><g fill='%23E9EFF2'><ellipse cx='17' cy='26' rx='10' ry='4.8'/><ellipse cx='16.2' cy='17.4' rx='7.2' ry='4.1'/><ellipse cx='17.6' cy='10' rx='4.4' ry='3.1'/></g></svg>" alt="">VRAM Sherpa</span></div>
+<div class="favs"><img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 34'><rect width='34' height='34' rx='8' fill='%230E5C4D'/><g fill='%23E9EFF2'><ellipse cx='17' cy='26' rx='10' ry='4.8'/><ellipse cx='16.2' cy='17.4' rx='7.2' ry='4.1'/><ellipse cx='17.6' cy='10' rx='4.4' ry='3.1'/></g></svg>" width="16" height="16" alt="16 px favicon"><img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 34'><rect width='34' height='34' rx='8' fill='%230E5C4D'/><g fill='%23E9EFF2'><ellipse cx='17' cy='26' rx='10' ry='4.8'/><ellipse cx='16.2' cy='17.4' rx='7.2' ry='4.1'/><ellipse cx='17.6' cy='10' rx='4.4' ry='3.1'/></g></svg>" width="32" height="32" alt="32 px favicon"><img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 34'><rect width='34' height='34' rx='8' fill='%230E5C4D'/><g fill='%23E9EFF2'><ellipse cx='17' cy='26' rx='10' ry='4.8'/><ellipse cx='16.2' cy='17.4' rx='7.2' ry='4.1'/><ellipse cx='17.6' cy='10' rx='4.4' ry='3.1'/></g></svg>" width="64" height="64" alt="64 px favicon"><img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 34'><rect width='34' height='34' rx='8' fill='%230E5C4D'/><g fill='%23E9EFF2'><ellipse cx='17' cy='26' rx='10' ry='4.8'/><ellipse cx='16.2' cy='17.4' rx='7.2' ry='4.1'/><ellipse cx='17.6' cy='10' rx='4.4' ry='3.1'/></g></svg>" width="96" height="96" alt="96 px app icon"></div>
+</div><div class="sh-panel pd"><h3>Dark</h3>
+<div class="lockup"><span class="brand" style="font-size:38px;gap:16px"><svg class="mark" width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><g fill="currentColor"><ellipse cx="17" cy="27" rx="12" ry="5.6"/><ellipse cx="16" cy="17.2" rx="8.6" ry="4.8"/><ellipse cx="17.6" cy="8.6" rx="5.2" ry="3.7"/></g></svg><span>VRAM Sherpa</span></span></div>
+<div class="tabs"><span class="tab"><img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 34'><rect width='34' height='34' rx='8' fill='%230E5C4D'/><g fill='%23E9EFF2'><ellipse cx='17' cy='26' rx='10' ry='4.8'/><ellipse cx='16.2' cy='17.4' rx='7.2' ry='4.1'/><ellipse cx='17.6' cy='10' rx='4.4' ry='3.1'/></g></svg>" alt="">VRAM Sherpa</span></div>
+<div class="favs"><img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 34'><rect width='34' height='34' rx='8' fill='%230E5C4D'/><g fill='%23E9EFF2'><ellipse cx='17' cy='26' rx='10' ry='4.8'/><ellipse cx='16.2' cy='17.4' rx='7.2' ry='4.1'/><ellipse cx='17.6' cy='10' rx='4.4' ry='3.1'/></g></svg>" width="16" height="16" alt="16 px favicon"><img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 34'><rect width='34' height='34' rx='8' fill='%230E5C4D'/><g fill='%23E9EFF2'><ellipse cx='17' cy='26' rx='10' ry='4.8'/><ellipse cx='16.2' cy='17.4' rx='7.2' ry='4.1'/><ellipse cx='17.6' cy='10' rx='4.4' ry='3.1'/></g></svg>" width="32" height="32" alt="32 px favicon"><img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 34'><rect width='34' height='34' rx='8' fill='%230E5C4D'/><g fill='%23E9EFF2'><ellipse cx='17' cy='26' rx='10' ry='4.8'/><ellipse cx='16.2' cy='17.4' rx='7.2' ry='4.1'/><ellipse cx='17.6' cy='10' rx='4.4' ry='3.1'/></g></svg>" width="64" height="64" alt="64 px favicon"><img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 34'><rect width='34' height='34' rx='8' fill='%230E5C4D'/><g fill='%23E9EFF2'><ellipse cx='17' cy='26' rx='10' ry='4.8'/><ellipse cx='16.2' cy='17.4' rx='7.2' ry='4.1'/><ellipse cx='17.6' cy='10' rx='4.4' ry='3.1'/></g></svg>" width="96" height="96" alt="96 px app icon"></div>
+</div></div><div class="sh-meta"><span>Mark: a three-stone cairn, the walker's marker for a safe route. It reads at 16 px as a stacked silhouette. The favicon is the cairn in snow on a spruce square.</span></div></section>
+<section class="sh-sec"><h2>Colour tokens and contrast</h2><div class="sh-two"><div class="sh-panel pl"><h3>Light theme</h3><div class="sw"><div><i style="background:#E9EFF2"></i><span><b>bg</b><br>#E9EFF2</span></div><div><i style="background:#F7FAFB"></i><span><b>surface</b><br>#F7FAFB</span></div><div><i style="background:#FFFFFF"></i><span><b>field</b><br>#FFFFFF</span></div><div><i style="background:#0C2631"></i><span><b>ink</b><br>#0C2631</span></div><div><i style="background:#44596A"></i><span><b>muted</b><br>#44596A</span></div><div><i style="background:#5F7A88"></i><span><b>ls</b><br>#5F7A88</span></div><div><i style="background:#0E5C4D"></i><span><b>accent</b><br>#0E5C4D</span></div><div><i style="background:#D5EEE4"></i><span><b>fitsB</b><br>#D5EEE4</span></div><div><i style="background:#FBE3CF"></i><span><b>tightB</b><br>#FBE3CF</span></div><div><i style="background:#F9D9DE"></i><span><b>wontB</b><br>#F9D9DE</span></div><div><i style="background:#148A68"></i><span><b>barF</b><br>#148A68</span></div><div><i style="background:#D9650F"></i><span><b>barT</b><br>#D9650F</span></div><div><i style="background:#C23A4E"></i><span><b>barW</b><br>#C23A4E</span></div></div><table class="ct"><tbody><tr><td><span class="dot" style="background:#0C2631"></span><span class="dot" style="background:#E9EFF2"></span>Body text on page</td><td class="ok">13.5:1</td><td>needs 4.5:1</td></tr><tr><td><span class="dot" style="background:#44596A"></span><span class="dot" style="background:#E9EFF2"></span>Secondary text on page</td><td class="ok">6.3:1</td><td>needs 4.5:1</td></tr><tr><td><span class="dot" style="background:#44596A"></span><span class="dot" style="background:#F7FAFB"></span>Secondary text on panel</td><td class="ok">6.9:1</td><td>needs 4.5:1</td></tr><tr><td><span class="dot" style="background:#0E5C4D"></span><span class="dot" style="background:#E9EFF2"></span>Links and accent text on page</td><td class="ok">6.8:1</td><td>needs 4.5:1</td></tr><tr><td><span class="dot" style="background:#FFFFFF"></span><span class="dot" style="background:#0E5C4D"></span>Primary button label</td><td class="ok">7.9:1</td><td>needs 4.5:1</td></tr><tr><td><span class="dot" style="background:#0A5A44"></span><span class="dot" style="background:#D5EEE4"></span>Fits label</td><td class="ok">6.7:1</td><td>needs 4.5:1</td></tr><tr><td><span class="dot" style="background:#8A3A06"></span><span class="dot" style="background:#FBE3CF"></span>Tight label</td><td class="ok">6.3:1</td><td>needs 4.5:1</td></tr><tr><td><span class="dot" style="background:#8E1F32"></span><span class="dot" style="background:#F9D9DE"></span>Won't fit label</td><td class="ok">6.7:1</td><td>needs 4.5:1</td></tr><tr><td><span class="dot" style="background:#5F7A88"></span><span class="dot" style="background:#FFFFFF"></span>Field and button border</td><td class="ok">4.5:1</td><td>needs 3:1</td></tr><tr><td><span class="dot" style="background:#148A68"></span><span class="dot" style="background:#FFFFFF"></span>Gauge bar, Fits</td><td class="ok">4.3:1</td><td>needs 3:1</td></tr><tr><td><span class="dot" style="background:#D9650F"></span><span class="dot" style="background:#FFFFFF"></span>Gauge bar, Tight</td><td class="ok">3.6:1</td><td>needs 3:1</td></tr><tr><td><span class="dot" style="background:#C23A4E"></span><span class="dot" style="background:#FFFFFF"></span>Gauge bar, Won't fit</td><td class="ok">5.2:1</td><td>needs 3:1</td></tr></tbody></table></div><div class="sh-panel pd"><h3>Dark theme</h3><div class="sw"><div><i style="background:#0A1920"></i><span><b>bg</b><br>#0A1920</span></div><div><i style="background:#10252E"></i><span><b>surface</b><br>#10252E</span></div><div><i style="background:#0A1920"></i><span><b>field</b><br>#0A1920</span></div><div><i style="background:#E3EEF2"></i><span><b>ink</b><br>#E3EEF2</span></div><div><i style="background:#9BB2BC"></i><span><b>muted</b><br>#9BB2BC</span></div><div><i style="background:#5E808F"></i><span><b>ls</b><br>#5E808F</span></div><div><i style="background:#5BD1AE"></i><span><b>accent</b><br>#5BD1AE</span></div><div><i style="background:#123A30"></i><span><b>fitsB</b><br>#123A30</span></div><div><i style="background:#46290F"></i><span><b>tightB</b><br>#46290F</span></div><div><i style="background:#4A1B26"></i><span><b>wontB</b><br>#4A1B26</span></div><div><i style="background:#3FC49C"></i><span><b>barF</b><br>#3FC49C</span></div><div><i style="background:#F29A3F"></i><span><b>barT</b><br>#F29A3F</span></div><div><i style="background:#F2677B"></i><span><b>barW</b><br>#F2677B</span></div></div><table class="ct"><tbody><tr><td><span class="dot" style="background:#E3EEF2"></span><span class="dot" style="background:#0A1920"></span>Body text on page</td><td class="ok">15.2:1</td><td>needs 4.5:1</td></tr><tr><td><span class="dot" style="background:#9BB2BC"></span><span class="dot" style="background:#0A1920"></span>Secondary text on page</td><td class="ok">8.1:1</td><td>needs 4.5:1</td></tr><tr><td><span class="dot" style="background:#9BB2BC"></span><span class="dot" style="background:#10252E"></span>Secondary text on panel</td><td class="ok">7.2:1</td><td>needs 4.5:1</td></tr><tr><td><span class="dot" style="background:#5BD1AE"></span><span class="dot" style="background:#0A1920"></span>Links and accent text on page</td><td class="ok">9.5:1</td><td>needs 4.5:1</td></tr><tr><td><span class="dot" style="background:#05241B"></span><span class="dot" style="background:#5BD1AE"></span>Primary button label</td><td class="ok">8.8:1</td><td>needs 4.5:1</td></tr><tr><td><span class="dot" style="background:#8FE8CB"></span><span class="dot" style="background:#123A30"></span>Fits label</td><td class="ok">8.7:1</td><td>needs 4.5:1</td></tr><tr><td><span class="dot" style="background:#FFC184"></span><span class="dot" style="background:#46290F"></span>Tight label</td><td class="ok">8.3:1</td><td>needs 4.5:1</td></tr><tr><td><span class="dot" style="background:#FFA0AE"></span><span class="dot" style="background:#4A1B26"></span>Won't fit label</td><td class="ok">7.4:1</td><td>needs 4.5:1</td></tr><tr><td><span class="dot" style="background:#5E808F"></span><span class="dot" style="background:#0A1920"></span>Field and button border</td><td class="ok">4.2:1</td><td>needs 3:1</td></tr><tr><td><span class="dot" style="background:#3FC49C"></span><span class="dot" style="background:#0A1920"></span>Gauge bar, Fits</td><td class="ok">8.2:1</td><td>needs 3:1</td></tr><tr><td><span class="dot" style="background:#F29A3F"></span><span class="dot" style="background:#0A1920"></span>Gauge bar, Tight</td><td class="ok">8.1:1</td><td>needs 3:1</td></tr><tr><td><span class="dot" style="background:#F2677B"></span><span class="dot" style="background:#0A1920"></span>Gauge bar, Won't fit</td><td class="ok">6.0:1</td><td>needs 3:1</td></tr></tbody></table></div></div><div class="sh-meta"><span>Light is glacier fog with spruce ink and a blaze-orange Tight. Dark is deep spruce water with mint. Every pair above meets WCAG AA, and verdicts carry a shape (check, triangle, cross) as well as colour.</span></div></section>
+<section class="sh-sec"><h2>Type</h2><div class="sh-two"><div class="sh-panel pl"><p class="spec-h" style="font-family:'Young Serif',serif;font-feature-settings:'lnum'">71 models fit or are tight</p><p class="spec-p">Hanken Grotesk 16 px on a 1.55 line. Pick your GPU, or type the VRAM you have. We show what runs.</p><p class="spec-n" style="font:800 30px/1 'Hanken Grotesk'">8.6 GB <span style="font:500 16px 'Hanken Grotesk'">spare</span></p><p class="pn muted">Headings: Young Serif 400, 34 to 56 px. Figures: Hanken Grotesk 800, tabular. Body 16 px, labels 14 to 15 px semibold.</p></div><div class="sh-panel pd"><p class="spec-h" style="font-family:'Young Serif',serif;font-feature-settings:'lnum'">71 models fit or are tight</p><p class="spec-p">Hanken Grotesk 16 px on a 1.55 line. Pick your GPU, or type the VRAM you have. We show what runs.</p><p class="spec-n" style="font:800 30px/1 'Hanken Grotesk'">8.6 GB <span style="font:500 16px 'Hanken Grotesk'">spare</span></p><p class="pn muted">Headings: Young Serif 400, 34 to 56 px. Figures: Hanken Grotesk 800, tabular. Body 16 px, labels 14 to 15 px semibold.</p></div></div><div class="sh-meta"><span>Young Serif (SIL OFL 1.1) for the headline and model names; Hanken Grotesk (OFL 1.1, variable) for everything else. Both are woff2 files in docs/design/fonts and can be self-hosted.</span></div></section>
+<section class="sh-sec"><h2>Controls and verdicts</h2><div class="sh-two"><div class="sh-panel pl"><h3>Light</h3><div class="ctrls"><button type="button" class="btn-primary" style="width:auto">Check compatibility</button><button type="button" class="chip">RTX 4060 8GB</button><button type="button" class="chip">24GB</button><span class="tag" style="margin:0">Gated</span></div><div class="ctrls"><input type="text" placeholder="Start typing a GPU name" style="max-width:260px"><div class="quants" role="group" aria-label="sample"><button type="button" aria-pressed="true">Q4</button><button type="button" aria-pressed="false">Q5</button><button type="button" aria-pressed="false">Q8</button><button type="button" aria-pressed="false" data-oversize="true">FP16</button></div></div><div class="sample"><div class="fit-pane"><div class="fit-top"><span class="state state-fits">Fits</span><span class="headroom"><b class="num">8.6 GB</b> spare</span></div><div class="track" role="img" aria-label="sample"><span class="bar bar-fits" style="width:64.0%"></span><span class="resv" style="left:90%;width:10%"></span></div><div class="scale"><span>15.36 GB needed</span><span>24.0 GB</span></div></div><div class="fit-pane"><div class="fit-top"><span class="state state-tight">Tight</span><span class="headroom"><b class="num">0.0 GB</b> spare</span></div><div class="track" role="img" aria-label="sample"><span class="bar bar-tight" style="width:100.0%"></span><span class="resv" style="left:90%;width:10%"></span></div><div class="scale"><span>24.00 GB needed</span><span>24.0 GB</span></div></div><div class="fit-pane"><div class="fit-top"><span class="state state-wont-fit">Won't fit</span><span class="headroom"><b class="num">16.2 GB</b> over</span></div><div class="track" role="img" aria-label="sample"><span class="bar bar-wont-fit" style="width:100.0%"></span><span class="resv" style="left:90%;width:10%"></span></div><div class="scale"><span>40.20 GB needed</span><span>24.0 GB</span></div></div></div></div><div class="sh-panel pd"><h3>Dark</h3><div class="ctrls"><button type="button" class="btn-primary" style="width:auto">Check compatibility</button><button type="button" class="chip">RTX 4060 8GB</button><button type="button" class="chip">24GB</button><span class="tag" style="margin:0">Gated</span></div><div class="ctrls"><input type="text" placeholder="Start typing a GPU name" style="max-width:260px"><div class="quants" role="group" aria-label="sample"><button type="button" aria-pressed="true">Q4</button><button type="button" aria-pressed="false">Q5</button><button type="button" aria-pressed="false">Q8</button><button type="button" aria-pressed="false" data-oversize="true">FP16</button></div></div><div class="sample"><div class="fit-pane"><div class="fit-top"><span class="state state-fits">Fits</span><span class="headroom"><b class="num">8.6 GB</b> spare</span></div><div class="track" role="img" aria-label="sample"><span class="bar bar-fits" style="width:64.0%"></span><span class="resv" style="left:90%;width:10%"></span></div><div class="scale"><span>15.36 GB needed</span><span>24.0 GB</span></div></div><div class="fit-pane"><div class="fit-top"><span class="state state-tight">Tight</span><span class="headroom"><b class="num">0.0 GB</b> spare</span></div><div class="track" role="img" aria-label="sample"><span class="bar bar-tight" style="width:100.0%"></span><span class="resv" style="left:90%;width:10%"></span></div><div class="scale"><span>24.00 GB needed</span><span>24.0 GB</span></div></div><div class="fit-pane"><div class="fit-top"><span class="state state-wont-fit">Won't fit</span><span class="headroom"><b class="num">16.2 GB</b> over</span></div><div class="track" role="img" aria-label="sample"><span class="bar bar-wont-fit" style="width:100.0%"></span><span class="resv" style="left:90%;width:10%"></span></div><div class="scale"><span>40.20 GB needed</span><span>24.0 GB</span></div></div></div></div></div></section>
+<section class="sh-sec"><h2>Why this direction</h2><p class="sh-rat">Basecamp treats the page as a trail guide rather than a dashboard. The answer is typeset first and large in Young Serif, the cards become ruled rows on the page instead of a stack of boxes, and each row gives one verdict, one margin and one gauge, so the page reads top to bottom with nothing competing. That answers "too dense" by removing containers, not content. It answers "generic" with a serif headline, faint contour lines behind the hero and a cairn mark, none of which a default dashboard has. On a phone every row is already a single column with a four-up quantisation switcher at 44 px, filters fold behind one Filters (0) control, and Top Picks sit above the cards as compact rows so the first card still lands inside 1688 px.</p><div class="sh-meta"><span><b>Top Picks:</b> above the cards (Q-1 option a). Three columns at 1280 px and three compact rows on a phone. The first card still starts at 752 px at 1280 and 1409 px at 390.</span></div></section>
+</div>
+</body>
+</html>

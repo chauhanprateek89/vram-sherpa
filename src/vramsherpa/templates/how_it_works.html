@@ -1,36 +1,95 @@
 {% extends "base.html" %}
+{% from "components.html" import verdict %}
 
 {% block title %}How It Works - VRAM Sherpa{% endblock %}
+{% block main_class %}doc{% endblock %}
 
 {% block content %}
-<section class="panel prose">
-  <h1>How VRAM Sherpa estimates fit (Policy v0.1)</h1>
-  <p>VRAM Sherpa estimates whether a model variant can fit on your available VRAM for local inference. It is a planning estimate, not a benchmark.</p>
+{% set ex = worked_example %}
+{% set b = ex.breakdown %}
+{% set rs = reserve_example %}
+<section class="pane s-12">
+  <h1>How VRAM Sherpa estimates fit (Policy {{ estimation_policy_version }})</h1>
+  <p class="lead">VRAM Sherpa estimates whether a model variant can fit on your available VRAM for local inference. It is a planning estimate, not a benchmark.</p>
+</section>
 
+<section class="pane lite s-12">
   <h2>Inputs</h2>
-  <ul>
-    <li><code>available_vram_gb</code> from GPU selection or manual VRAM input</li>
-    <li><code>context_tokens</code> from presets (2048 default, 4096, 8192)</li>
-    <li>Variant and model metadata: <code>params_b</code>, <code>bits_effective</code>, <code>kv_gb_per_1k_ctx</code></li>
-  </ul>
+  <div class="term-grid cols-3">
+    <div class="term"><code class="name">available_vram_gb</code><p>The VRAM you have, from the GPU you pick or the number you type.</p><p class="src">From GPU selection or manual VRAM input</p></div>
+    <div class="term"><code class="name">context_tokens</code><p>How much text the model keeps in view at once: 2048, 4096 or 8192 tokens, shown as 2k, 4k and 8k.</p><p class="src">From presets (2048 default, 4096, 8192)</p></div>
+    <div class="term"><code class="name">params_b</code><p>Model size in billions of parameters. A bigger model has more weights to store.</p><p class="src">Variant and model metadata</p></div>
+    <div class="term"><code class="name">bits_effective</code><p>Bits stored per parameter after quantisation: Q4 is 4.5, Q5 is 5.5, Q8 is 8.5, FP16 is 16. Fewer bits, less memory.</p><p class="src">Variant and model metadata</p></div>
+    <div class="term"><code class="name">kv_gb_per_1k_ctx</code><p>Memory the model's context (its KV cache) takes for every 1,000 tokens, in GB. Each model page shows this value.</p><p class="src">Variant and model metadata</p></div>
+  </div>
+</section>
 
+<section class="pane lite s-12">
   <h2>Formula</h2>
-  <p><code>weights_gb = params_b * bits_effective / 8 * 1.10</code></p>
-  <p><code>kv_cache_gb = kv_gb_per_1k_ctx * (context_tokens / 1000)</code></p>
-  <p><code>runtime_overhead_gb = 1.0 + 0.05 * params_b</code></p>
-  <p><code>required_vram_gb = weights_gb + kv_cache_gb + runtime_overhead_gb</code></p>
+  <div class="term-grid cols-2">
+    <div class="term"><code class="name">weights_gb</code><p>Memory for the model itself. Parameters times bits per parameter, divided by 8, gives gigabytes; the 1.10 adds 10% on top.</p><code class="formula">weights_gb = params_b * bits_effective / 8 * 1.10</code></div>
+    <div class="term"><code class="name">kv_cache_gb</code><p>Memory for the context window you chose. It grows with the context length.</p><code class="formula">kv_cache_gb = kv_gb_per_1k_ctx * (context_tokens / 1000)</code></div>
+    <div class="term"><code class="name">runtime_overhead_gb</code><p>Memory the runtime needs besides the model: a flat 1.0 GB plus 0.05 GB for every billion parameters.</p><code class="formula">runtime_overhead_gb = 1.0 + 0.05 * params_b</code></div>
+    <div class="term"><code class="name">required_vram_gb</code><p>Everything the variant needs: weights, KV cache and runtime overhead added up.</p><code class="formula">required_vram_gb = weights_gb + kv_cache_gb + runtime_overhead_gb</code></div>
+  </div>
+</section>
 
+<section class="pane lite s-5 stretch">
   <h2>Reserve buffer</h2>
-  <p><code>reserve_gb = max(0.75, 0.10 * available_vram_gb)</code></p>
+  <div class="term">
+    <code class="name">reserve_gb</code>
+    <p>Free space to leave as a safety margin: 10% of your VRAM, never less than 0.75 GB.</p>
+    <code class="formula">reserve_gb = max(0.75, 0.10 * available_vram_gb)</code>
+    <p class="src">With {{ rs.small_gb }} GB the reserve is {{ rs.small_reserve_gb }} GB. With {{ rs.large_gb }} GB it is {{ rs.large_reserve_gb }} GB.</p>
+  </div>
+  <div class="term">
+    <p><b>Example with {{ rs.available_gb }} GB of VRAM</b></p>
+    <div class="track" role="img" aria-label="With {{ rs.available_gb }} gigabytes of VRAM, {{ rs.fit_limit_gb }} gigabytes or less Fits, more than {{ rs.fit_limit_gb }} and up to {{ rs.available_gb_1dp }} is Tight, and the last {{ rs.reserve_gb }} gigabyte is the reserve"><span class="bar bar-tight" style="width: 100%"></span><span class="bar bar-fits" style="width: {{ rs.fit_limit_percent }}%"></span><span class="resv" style="left: {{ rs.fit_limit_percent }}%; width: {{ rs.reserve_percent }}%"></span></div>
+    <div class="scale"><span class="num">0</span><span class="num">{{ rs.fit_limit_gb }} GB</span><span class="num">{{ rs.available_gb }} GB</span></div>
+    <p class="src">The reserve is {{ rs.reserve_gb }} GB. Up to {{ rs.fit_limit_gb }} GB Fits, up to {{ rs.available_gb_1dp }} GB is Tight, and anything more Won't fit.</p>
+  </div>
+</section>
 
+<section class="pane lite s-7 stretch">
   <h2>Classification</h2>
-  <ul>
-    <li><strong>Fits</strong>: <code>required_vram_gb &lt;= available_vram_gb - reserve_gb</code></li>
-    <li><strong>Tight</strong>: <code>available_vram_gb - reserve_gb &lt; required_vram_gb &lt;= available_vram_gb</code></li>
-    <li><strong>Won't fit</strong>: <code>required_vram_gb &gt; available_vram_gb</code></li>
-  </ul>
+  <div class="term-grid">
+    <div class="term rule">{{ verdict("Fits") }}<p>It fits with the whole reserve to spare.</p><code>required_vram_gb &lt;= available_vram_gb - reserve_gb</code></div>
+    <div class="term rule">{{ verdict("Tight") }}<p>It can run, but it uses part of the reserve, so it is close to your VRAM limit.</p><code>available_vram_gb - reserve_gb &lt; required_vram_gb &lt;= available_vram_gb</code></div>
+    <div class="term rule">{{ verdict("Won't fit") }}<p>It needs more VRAM than you have.</p><code>required_vram_gb &gt; available_vram_gb</code></div>
+  </div>
+</section>
 
+<section class="pane lite s-12">
+  <h2>Worked example</h2>
+  {% if ex.model_name %}
+  <p class="lead">{{ ex.model_name }} at {{ ex.quant_bucket }}, with a {{ ex.context_tokens }}-token context. <a href="/models/{{ ex.model_id }}?context_tokens={{ ex.context_tokens }}">See its model page</a>.</p>
+  {% else %}
+  <p class="lead">An example for an {{ '%g'|format(ex.params_b) }}B model at {{ ex.quant_bucket }}, with a {{ ex.context_tokens }}-token context.</p>
+  {% endif %}
+  <div class="worked">
+    <div>
+      <h3>Inputs</h3>
+      <dl class="kv-list">
+        <div><dt>params_b</dt><dd class="num">{{ '%g'|format(ex.params_b) }}</dd></div>
+        <div><dt>bits_effective</dt><dd class="num">{{ '%g'|format(ex.bits_effective) }}</dd></div>
+        <div><dt>kv_gb_per_1k_ctx</dt><dd class="num">{{ '%g'|format(ex.kv_gb_per_1k_ctx) }}</dd></div>
+        <div><dt>context_tokens</dt><dd class="num">{{ ex.context_tokens }}</dd></div>
+      </dl>
+    </div>
+    <div>
+      <h3>Steps</h3>
+      <ol class="steps">
+        <li><span class="what">Weights</span><span class="out num">{{ '%.2f'|format(b.weights_gb) }} GB</span><span class="calc">{{ '%g'|format(ex.params_b) }} &times; {{ '%g'|format(ex.bits_effective) }} &divide; 8 &times; 1.10 = {{ '%.2f'|format(b.weights_gb) }}</span></li>
+        <li><span class="what">KV cache</span><span class="out num">{{ '%.2f'|format(b.kv_cache_gb) }} GB</span><span class="calc">{{ '%g'|format(ex.kv_gb_per_1k_ctx) }} &times; {{ ex.context_tokens }} &divide; 1000 = {{ '%g'|format(b.kv_cache_gb|round(5)) }}</span></li>
+        <li><span class="what">Runtime overhead</span><span class="out num">{{ '%.2f'|format(b.runtime_overhead_gb) }} GB</span><span class="calc">1.0 + 0.05 &times; {{ '%g'|format(ex.params_b) }} = {{ '%.2f'|format(b.runtime_overhead_gb) }}</span></li>
+        <li class="final"><span class="what">Required VRAM</span><span class="out num">{{ '%.2f'|format(b.required_vram_gb) }} GB</span><span class="calc">{{ '%.2f'|format(b.weights_gb) }} + {{ '%g'|format(b.kv_cache_gb|round(5)) }} + {{ '%.2f'|format(b.runtime_overhead_gb) }} = {{ '%g'|format(b.required_vram_gb|round(5)) }}</span></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="pane lite s-12">
   <h2>Limitations</h2>
-  <p>Real outcomes vary by runtime, driver stack, memory fragmentation, and CPU/GPU offload behavior. This tool is not a benchmark and does not guarantee performance.</p>
+  <div class="notice"><svg width="18" height="18" aria-hidden="true"><use href="#i-info"/></svg><p>Real outcomes vary by runtime, driver stack, memory fragmentation, and CPU/GPU offload behavior. This tool is not a benchmark and does not guarantee performance.</p></div>
 </section>
 {% endblock %}

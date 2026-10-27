@@ -9,7 +9,7 @@ from pathlib import Path
 from urllib.parse import urlencode
 
 from fastapi import Depends, FastAPI, HTTPException, Query, Request
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse, Response
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from sqlalchemy import Select, distinct, func, select
@@ -18,12 +18,25 @@ from sqlalchemy.orm import Session
 
 from vramsherpa.config import Settings, get_settings
 from vramsherpa.database import configure_engine, create_db_and_tables, get_session
-from vramsherpa.estimation import FitBadge, estimate_breakdown, estimate_variant
+from vramsherpa.estimation import FitBadge, estimate_breakdown, estimate_variant, reserve_gb
 from vramsherpa.models import GPU, CatalogMeta, Model, Variant
 
 CONTEXT_OPTIONS = (2048, 4096, 8192)
-ASSET_VERSION = "20261024a"
+ASSET_VERSION = "20261027e"
 ESTIMATION_POLICY_VERSION = "v0.1"
+# The /how-it-works worked example (R-075, ADR-0007). The figures are computed by
+# estimate_breakdown at request time; none is typed into the template.
+WORKED_EXAMPLE_MODEL_ID = "model_llama_31_8b_instruct"
+WORKED_EXAMPLE_QUANT_BUCKET = "Q4"
+WORKED_EXAMPLE_CONTEXT_TOKENS = 2048
+WORKED_EXAMPLE_FALLBACK = {"params_b": 8.0, "bits_effective": 4.5, "kv_gb_per_1k_ctx": 0.48}
+# estimate_breakdown needs an available VRAM; the example never renders it or anything from it.
+_WORKED_EXAMPLE_AVAILABLE_VRAM_GB = 24.0
+# The /how-it-works reserve examples (R-010, R-011): VRAM sizes only; every figure and gauge width
+# is computed from estimation.reserve_gb.
+_RESERVE_EXAMPLE_SMALL_GB = 4
+_RESERVE_EXAMPLE_LARGE_GB = 16
+_RESERVE_EXAMPLE_GAUGE_GB = 10
 PACKAGE_DIR = Path(__file__).resolve().parent
 templates = Jinja2Templates(directory=str(PACKAGE_DIR / "templates"))
 
@@ -110,6 +123,36 @@ async def host_guard(request: Request, call_next):
         if host and host not in allowed_hosts:
             return JSONResponse({"detail": "Host not allowed"}, status_code=400)
     return await call_next(request)
+
+
+HTML_VARY_HEADERS = ("HX-Request", "HX-History-Restore-Request")
+
+
+async def html_cache_control(request: Request, call_next):
+    """Make every HTML response revalidate, so a deploy shows on the next page load.
+
+    Keyed on the response content type rather than on paths, so a new HTML route is
+    covered without a list to keep in step. JSON and `/static` pass through untouched.
+    `/results` answers a full page or a fragment depending on the htmx headers, so
+    HTML responses also vary on both of them (ADR-0004, ADR-0008).
+    """
+    response = await call_next(request)
+    if not response.headers.get("content-type", "").lower().startswith("text/html"):
+        return response
+
+    if "cache-control" not in response.headers:
+        response.headers["Cache-Control"] = "no-cache"
+
+    vary = [
+        name.strip()
+        for value in response.headers.getlist("vary")
+        for name in value.split(",")
+        if name.strip()
+    ]
+    present = {name.lower() for name in vary}
+    vary.extend(name for name in HTML_VARY_HEADERS if name.lower() not in present)
+    response.headers["Vary"] = ", ".join(vary)
+    return response
 
 
 QUANT_ORDER = {"Q4": 0, "Q5": 1, "Q8": 2, "FP16": 3}
@@ -492,6 +535,24 @@ def _results_url(items: list[tuple[str, str]]) -> str:
     return f"/results?{encoded}" if encoded else "/results"
 
 
+def _results_page_url(raw_query: str) -> str:
+    """Full-page URL for a request's raw query string, passed through byte for byte.
+
+    `raw_query` is `request.url.query`: still percent-encoded, repeated parameters in
+    order. The result is a path with no scheme or host, so it cannot point off-site.
+    Used for the partial's `HX-Push-Url` and for the old-link redirect (ADR-0008).
+    """
+    return f"/results?{raw_query}" if raw_query else "/results"
+
+
+def _is_htmx_fragment_request(request: Request) -> bool:
+    """True for an htmx swap; False for a page load or htmx's history-restore fetch."""
+    return (
+        request.headers.get("HX-Request") == "true"
+        and request.headers.get("HX-History-Restore-Request") != "true"
+    )
+
+
 def _active_filter_chips(
     *,
     selected_gpu_id: str | None,
@@ -655,17 +716,17 @@ def _top_picks(rows: list[ResultRow]) -> list[TopPick]:
     return [
         TopPick(
             title="Best quality that fits",
-            description="Highest-ranked variant that remains in the Fits band.",
+            description="The strongest model that still leaves room to spare.",
             row=best_quality,
         ),
         TopPick(
             title="Best balance",
-            description="Next highest-ranked practical option by current ranking order.",
+            description="Nearly as capable, and comfortable to run.",
             row=best_balance,
         ),
         TopPick(
             title="Best small",
-            description="Lowest-ranked viable option, usually the lightest footprint.",
+            description="The lightest model that still runs on your GPU.",
             row=best_small,
         ),
     ]
@@ -797,6 +858,7 @@ def _results_context(
     max_params_b: float | None,
     recommended_only: bool,
     form_errors: list[str] | None = None,
+    vram_error: bool = False,
     gpu_search_feedback: str | None = None,
     manual_vram_input: str | None = None,
     min_params_b_input: str | None = None,
@@ -860,6 +922,7 @@ def _results_context(
             ),
             "recommended_only": recommended_only,
             "form_errors": form_errors or [],
+            "vram_error": vram_error,
             "gpu_search_feedback": gpu_search_feedback,
             "summary_counts": _summary_counts(results_rows),
             "selected_hardware_label": _selected_hardware_label(
@@ -986,6 +1049,7 @@ def _results_page_context(
         max_params_b=parsed_max_params_b,
         recommended_only=recommended_only,
         form_errors=form_errors,
+        vram_error=parsed_vram_result.error is not None,
         gpu_search_feedback=gpu_search_feedback,
         manual_vram_input=vram_gb if isinstance(vram_gb, str) else None,
         min_params_b_input=min_params_b if isinstance(min_params_b, str) else None,
@@ -1058,7 +1122,8 @@ def results(
         recommended_only=recommended_only,
     )
 
-    if request.headers.get("HX-Request") == "true":
+    # A history-restore fetch swaps the response into <body>, so it needs the full page.
+    if _is_htmx_fragment_request(request):
         return templates.TemplateResponse(request, "results_content.html", context)
     return templates.TemplateResponse(request, "index.html", context)
 
@@ -1075,7 +1140,18 @@ def results_partial_content(
     max_params_b: str | None = Query(default=None),
     recommended_only: bool = Query(default=False),
     session: Session = Depends(get_session),
-) -> HTMLResponse:
+) -> Response:
+    # Old links pushed by earlier releases, opened as a page: send them to the full page
+    # before any database work. Only an exact `HX-Request: true` gets the fragment, and
+    # FastAPI has already validated the query, so a bad value still gets the 422 (ADR-0008
+    # fix 4). The redirect has no HTML body, so it sets the headers the middleware would.
+    if request.headers.get("HX-Request") != "true":
+        return RedirectResponse(
+            _results_page_url(request.url.query),
+            status_code=302,
+            headers={"Cache-Control": "no-cache", "Vary": ", ".join(HTML_VARY_HEADERS)},
+        )
+
     context = _results_page_context(
         request,
         session,
@@ -1089,7 +1165,14 @@ def results_partial_content(
         max_params_b=max_params_b,
         recommended_only=recommended_only,
     )
-    return templates.TemplateResponse(request, "results_content.html", context)
+    # Overrides the form's hx-push-url="true", so history and the address bar name
+    # the full page rather than this fragment (ADR-0008 fix 1).
+    return templates.TemplateResponse(
+        request,
+        "results_content.html",
+        context,
+        headers={"HX-Push-Url": _results_page_url(request.url.query)},
+    )
 
 
 def results_partial_summary(
@@ -1263,8 +1346,73 @@ def model_detail(
     return templates.TemplateResponse(request, "model_detail.html", context)
 
 
+def _worked_example(session: Session) -> dict:
+    """Build the /how-it-works worked example from the catalog row, or the fallback inputs."""
+    model = session.get(Model, WORKED_EXAMPLE_MODEL_ID)
+    variant = None
+    if model is not None:
+        q4_variants = sorted(
+            (v for v in model.variants if v.quant_bucket == WORKED_EXAMPLE_QUANT_BUCKET),
+            key=lambda v: v.id,
+        )
+        variant = q4_variants[0] if q4_variants else None
+
+    if model is not None and variant is not None:
+        model_id: str | None = model.id
+        model_name: str | None = model.name
+        params_b = float(model.params_b)
+        bits_effective = float(variant.bits_effective)
+        kv_gb_per_1k_ctx = float(model.kv_gb_per_1k_ctx)
+    else:
+        model_id = None
+        model_name = None
+        params_b = WORKED_EXAMPLE_FALLBACK["params_b"]
+        bits_effective = WORKED_EXAMPLE_FALLBACK["bits_effective"]
+        kv_gb_per_1k_ctx = WORKED_EXAMPLE_FALLBACK["kv_gb_per_1k_ctx"]
+
+    breakdown = estimate_breakdown(
+        params_b=params_b,
+        bits_effective=bits_effective,
+        kv_gb_per_1k_ctx=kv_gb_per_1k_ctx,
+        context_tokens=WORKED_EXAMPLE_CONTEXT_TOKENS,
+        available_vram_gb=_WORKED_EXAMPLE_AVAILABLE_VRAM_GB,
+    )
+    return {
+        "model_id": model_id,
+        "model_name": model_name,
+        "quant_bucket": WORKED_EXAMPLE_QUANT_BUCKET,
+        "params_b": params_b,
+        "bits_effective": bits_effective,
+        "kv_gb_per_1k_ctx": kv_gb_per_1k_ctx,
+        "context_tokens": WORKED_EXAMPLE_CONTEXT_TOKENS,
+        "breakdown": breakdown,
+    }
+
+
+def _reserve_example() -> dict:
+    """The reserve examples and the 10 GB gauge on /how-it-works, from estimation.reserve_gb."""
+    available = float(_RESERVE_EXAMPLE_GAUGE_GB)
+    reserve = reserve_gb(available)
+    fit_limit = available - reserve
+    return {
+        "small_gb": _RESERVE_EXAMPLE_SMALL_GB,
+        "small_reserve_gb": f"{reserve_gb(_RESERVE_EXAMPLE_SMALL_GB):g}",
+        "large_gb": _RESERVE_EXAMPLE_LARGE_GB,
+        "large_reserve_gb": f"{reserve_gb(_RESERVE_EXAMPLE_LARGE_GB):g}",
+        "available_gb": _RESERVE_EXAMPLE_GAUGE_GB,
+        "available_gb_1dp": f"{available:.1f}",
+        "reserve_gb": f"{reserve:.1f}",
+        "fit_limit_gb": f"{fit_limit:.1f}",
+        "fit_limit_percent": f"{100 * fit_limit / available:g}",
+        "reserve_percent": f"{100 * reserve / available:g}",
+    }
+
+
 def how_it_works(request: Request, session: Session = Depends(get_session)) -> HTMLResponse:
-    return templates.TemplateResponse(request, "how_it_works.html", _base_context(request, session))
+    context = _base_context(request, session)
+    context["worked_example"] = _worked_example(session)
+    context["reserve_example"] = _reserve_example()
+    return templates.TemplateResponse(request, "how_it_works.html", context)
 
 
 def healthz(session: Session = Depends(get_session)) -> JSONResponse:
@@ -1322,6 +1470,8 @@ def create_app(settings: Settings | None = None, *, database_url: str | None = N
     app = FastAPI(title="VRAM Sherpa", lifespan=lifespan)
     app.state.settings = resolved_settings
     app.mount("/static", StaticFiles(directory=str(PACKAGE_DIR / "static")), name="static")
+    # Registered first so it sits inside host_guard: a rejected Host never reaches it.
+    app.middleware("http")(html_cache_control)
     app.middleware("http")(host_guard)
     app.add_api_route("/", home, methods=["GET"], response_class=HTMLResponse)
     app.add_api_route("/results", results, methods=["GET"], response_class=HTMLResponse)

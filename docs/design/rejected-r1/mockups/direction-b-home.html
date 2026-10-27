@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VRAM Sherpa - Direction B Altimeter</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'><rect width='36' height='36' rx='8' fill='%230D1013'/><rect x='15.0' y='4.0' width='6' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='12.0' y='10.2' width='12' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='9.0' y='16.4' width='18' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='6.0' y='22.6' width='24' height='4.2' rx='1.4' fill='%2366C6F0'/><rect x='3.0' y='28.8' width='30' height='4.2' rx='1.4' fill='%2366C6F0'/></svg>">
+<style>
+
+@font-face{font-family:"Saira";src:url(../fonts/saira-latin-wdth-normal.woff2) format("woff2");font-weight:100 900;font-stretch:50% 125%;font-display:swap}
+:root {
+  color-scheme: light;
+  --bg: #E8ECEF;
+  --surface: #FFFFFF;
+  --field: #F2F5F7;
+  --ink: #10161B;
+  --muted: #44525D;
+  --ls: #6B7B87;
+  --line: #C9D2D9;
+  --accent: #0B6A93;
+  --onaccent: #FFFFFF;
+  --fitsT: #0B5E56;
+  --fitsB: #D3F0EC;
+  --tightT: #7A4F00;
+  --tightB: #FFEBC2;
+  --wontT: #9A2A22;
+  --wontB: #FFDDD9;
+  --barF: #0F9C8A;
+  --barT: #B27500;
+  --barW: #D6453A;
+  --focus: #0A4EC9;
+  --hatch: #10161B;
+}
+@media (prefers-color-scheme: dark) {
+ :root:not([data-theme="light"]) {
+  color-scheme: dark;
+  --bg: #0D1013;
+  --surface: #151A1F;
+  --field: #0D1013;
+  --ink: #E9EEF2;
+  --muted: #97A5B0;
+  --ls: #5F6D78;
+  --line: #262F37;
+  --accent: #66C6F0;
+  --onaccent: #04202D;
+  --fitsT: #5DE0C9;
+  --fitsB: #0F3A36;
+  --tightT: #FFBE3D;
+  --tightB: #402F05;
+  --wontT: #FF8A80;
+  --wontB: #471C1A;
+  --barF: #3CCFB8;
+  --barT: #FFB020;
+  --barW: #FF6B5E;
+  --focus: #FFD866;
+  --hatch: #E9EEF2;
+ }
+}
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0D1013;
+  --surface: #151A1F;
+  --field: #0D1013;
+  --ink: #E9EEF2;
+  --muted: #97A5B0;
+  --ls: #5F6D78;
+  --line: #262F37;
+  --accent: #66C6F0;
+  --onaccent: #04202D;
+  --fitsT: #5DE0C9;
+  --fitsB: #0F3A36;
+  --tightT: #FFBE3D;
+  --tightB: #402F05;
+  --wontT: #FF8A80;
+  --wontB: #471C1A;
+  --barF: #3CCFB8;
+  --barT: #FFB020;
+  --barW: #FF6B5E;
+  --focus: #FFD866;
+  --hatch: #E9EEF2;
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 "Saira",system-ui,sans-serif;font-variant-numeric:tabular-nums}
+.wrap{max-width:1200px;margin:0 auto;padding:0 20px}
+a{color:var(--accent);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:3px}
+h1,h2,h3,p,ul{margin:0}
+.muted{color:var(--muted)}
+.cond{font-stretch:72%}
+
+/* header */
+.top{background:var(--surface);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:0 16px;min-height:64px;flex-wrap:wrap}
+.brand{display:inline-flex;align-items:center;gap:10px;min-height:44px;font:700 22px/1 "Saira",sans-serif;font-stretch:88%;letter-spacing:.01em;color:var(--ink);text-decoration:none}
+.brand .mark{color:var(--accent)}
+.top nav{display:flex;gap:2px;margin-left:28px;align-self:stretch}
+.top nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;color:var(--muted);text-decoration:none;font-weight:500;border-bottom:3px solid transparent;margin-bottom:-1px}
+.top nav a[aria-current="page"]{color:var(--ink);font-weight:700;border-bottom-color:var(--accent)}
+.theme{margin-left:auto;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border:1.5px solid var(--ls);border-radius:6px;background:transparent;color:var(--ink);font:600 15px/1 "Saira",sans-serif;cursor:pointer}
+
+/* title + control deck */
+.intro{padding:28px 0 8px;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 20px}
+h1{font:700 clamp(30px,3.2vw,40px)/1.1 "Saira",sans-serif;font-stretch:80%;letter-spacing:.005em}
+.intro p{color:var(--muted)}
+.deck{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px;display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr) auto auto;gap:12px 16px;align-items:end;margin-top:12px}
+.cell>label,.cell>legend,.lab{display:block;font-weight:600;font-size:14px;color:var(--muted);margin-bottom:6px;padding:0}
+.field-row{display:flex;gap:8px}
+input[type=text],input[type=number]{width:100%;min-height:48px;padding:0 14px;border:1.5px solid var(--ls);border-radius:6px;background:var(--field);color:var(--ink);font:500 17px/1 "Saira",sans-serif}
+input::placeholder{color:var(--muted);opacity:1;font-weight:400}
+.btn-clear{min-height:48px;min-width:64px;padding:0 14px;border:1.5px solid var(--ls);border-radius:6px;background:transparent;color:var(--ink);font:600 15px "Saira",sans-serif;cursor:pointer}
+fieldset{border:0;margin:0;padding:0;min-width:0}
+.seg{display:inline-grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:4px;border:1.5px solid var(--ls);border-radius:8px;background:var(--field)}
+.seg label{position:relative;display:block}
+.seg input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer}
+.seg span{display:flex;align-items:center;justify-content:center;min-width:56px;min-height:44px;border-radius:5px;font-weight:600}
+.seg input:checked+span{background:var(--accent);color:var(--onaccent)}
+.seg input:focus-visible+span{outline:3px solid var(--focus);outline-offset:1px}
+.btn-primary{min-height:52px;padding:0 26px;border:0;border-radius:6px;background:var(--accent);color:var(--onaccent);font:700 17px "Saira",sans-serif;letter-spacing:.01em;cursor:pointer}
+.aux{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-top:12px}
+.aux .help{font-size:14px;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border:1.5px solid var(--ls);border-radius:6px;background:transparent;color:var(--ink);font:600 14px "Saira",sans-serif;cursor:pointer}
+
+/* filters (collapsed everywhere) */
+.filters-bar{margin-top:20px}
+.filters-bar details{background:var(--surface);border:1px solid var(--line);border-radius:8px}
+.filters-bar summary{display:flex;align-items:center;gap:10px;min-height:52px;padding:0 16px;font:600 16px "Saira",sans-serif;cursor:pointer;list-style:none}
+.filters-bar summary::-webkit-details-marker{display:none}
+.filters-bar summary::after{content:"";margin-left:auto;width:9px;height:9px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);transition:transform .15s}
+.filters-bar details[open] summary::after{transform:rotate(-135deg)}
+.filter-fields{display:grid;grid-template-columns:2fr 1.2fr 1.4fr auto;gap:8px 32px;padding:4px 16px 16px;border-top:1px solid var(--line);padding-top:16px}
+.filter-group{margin:0}
+legend{font-weight:600;font-size:14px;color:var(--muted);margin-bottom:6px;padding:0}
+.checklist{display:flex;flex-wrap:wrap;gap:0 16px}
+.choice{display:inline-flex;align-items:center;gap:10px;min-height:44px}
+.choice input{appearance:none;-webkit-appearance:none;display:grid;place-content:center;width:22px;height:22px;margin:0;border:1.5px solid var(--ls);border-radius:4px;background:var(--field);flex:none}
+.choice input:checked{background:var(--accent);border-color:var(--accent)}
+.choice input:checked::after{content:"";width:13px;height:13px;background:var(--onaccent);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12.5l5 5L20 6.5'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12.5l5 5L20 6.5'/%3E%3C/svg%3E") center/contain no-repeat}
+.range-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.range-row label{display:block;font-weight:600;font-size:14px;color:var(--muted);margin-bottom:6px}
+
+/* answer + layout */
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:32px;align-items:start;margin-top:24px;padding-bottom:64px}
+.answer{margin-bottom:20px}
+.headline{font:700 clamp(32px,3.6vw,46px)/1.05 "Saira",sans-serif;font-stretch:78%;letter-spacing:.003em;margin-bottom:10px}
+.ctx-line{display:flex;flex-wrap:wrap;gap:2px 22px;color:var(--muted)}
+.ctx-line b{color:var(--ink);font-weight:600}
+.tri{display:flex;height:12px;margin-top:16px;border-radius:3px;overflow:hidden;gap:3px}
+.tri i{display:block;height:100%}
+.tri .t-f{background:var(--barF)}.tri .t-w{background:transparent;border:1.5px solid var(--barW);border-radius:3px}
+.counts{display:flex;flex-wrap:wrap;gap:6px 24px;list-style:none;padding:0;margin:12px 0 0}
+.counts li{display:inline-flex;align-items:center;gap:8px}
+.counts b{font:700 20px/1 "Saira",sans-serif}
+.ico{display:inline-block;width:16px;height:16px;background:currentColor;-webkit-mask:var(--m) center/contain no-repeat;mask:var(--m) center/contain no-repeat;flex:none}
+.i-fits,.state-fits::before{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='9' fill='black'/%3E%3C/svg%3E")}
+.i-tight,.state-tight::before{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='8' fill='none' stroke='black' stroke-width='3'/%3E%3Cpath d='M12 4a8 8 0 0 1 0 16z' fill='black'/%3E%3C/svg%3E")}
+.i-wont,.state-wont-fit::before{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='8'/%3E%3Cpath d='M6.5 17.5l11-11'/%3E%3C/svg%3E")}
+.i-fits{color:var(--fitsT)}.i-tight{color:var(--tightT)}.i-wont{color:var(--wontT)}
+.note{color:var(--muted);font-size:14px;margin-top:8px}
+
+/* cards */
+.model-list{display:grid;gap:14px}
+.model-card{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"name top" "meta top" "track track" "scale scale" "quants why";gap:0 20px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px 20px 12px}
+.model-id,.fit-panes,.fit-pane{display:contents}
+.fit-pane[hidden]{display:none}
+.model-id h3{grid-area:name;font:700 22px/1.2 "Saira",sans-serif;font-stretch:88%;overflow-wrap:anywhere}
+.model-id h3 a{color:var(--ink);text-decoration:none}
+.model-id h3 a:hover{text-decoration:underline}
+.tag{display:inline-flex;align-items:center;vertical-align:middle;margin-left:8px;padding:1px 8px;border:1.5px solid var(--accent);border-radius:4px;color:var(--accent);font:700 13px/1.4 "Saira",sans-serif}
+.model-meta{grid-area:meta;color:var(--muted);margin-top:2px}
+.model-meta .num{color:var(--ink);font-weight:600}
+.fit-top{grid-area:top;display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.state{display:inline-flex;align-items:center;gap:8px;padding:5px 12px 5px 9px;border-radius:5px;font:700 16px/1.2 "Saira",sans-serif}
+.state::before{content:"";width:16px;height:16px;background:currentColor;-webkit-mask:var(--m) center/contain no-repeat;mask:var(--m) center/contain no-repeat}
+.state-fits{background:var(--fitsB);color:var(--fitsT)}
+.state-tight{background:var(--tightB);color:var(--tightT)}
+.state-wont-fit{background:var(--wontB);color:var(--wontT)}
+.headroom{font-size:16px;color:var(--muted);white-space:nowrap}
+.headroom b{font:700 44px/1 "Saira",sans-serif;font-stretch:70%;color:var(--ink);margin-right:4px;letter-spacing:.005em}
+.track{grid-area:track;position:relative;height:22px;margin-top:16px;border-radius:4px;border:1.5px solid var(--ls);background:var(--field);overflow:hidden}
+.track::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,var(--line) 0 7px,transparent 7px 10px)}
+.bar{position:absolute;inset:0 auto 0 0;-webkit-mask:repeating-linear-gradient(90deg,#000 0 7px,transparent 7px 10px);mask:repeating-linear-gradient(90deg,#000 0 7px,transparent 7px 10px)}
+.bar-fits{background:var(--barF)}.bar-tight{background:var(--barT)}.bar-wont-fit{background:var(--barW)}
+.resv{position:absolute;top:0;bottom:0;background:repeating-linear-gradient(135deg,var(--hatch) 0 1.6px,transparent 1.6px 6px);border-left:2px dashed var(--ink);opacity:.85}
+.scale{grid-area:scale;display:flex;justify-content:space-between;gap:12px;margin-top:6px;font-size:14px;color:var(--muted)}
+.quants{grid-area:quants;display:flex;gap:6px;margin-top:10px;align-self:center}
+.quants button{flex:1;max-width:76px;min-width:44px;min-height:44px;padding:0 6px;border:1.5px solid var(--ls);border-radius:6px;background:transparent;color:var(--ink);font:600 15px "Saira",sans-serif;cursor:pointer}
+.quants button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--onaccent)}
+.quants button[data-oversize="true"]{border-style:dashed;text-decoration:line-through;text-decoration-thickness:2px}
+.quants button[data-oversize="true"]:not([aria-pressed="true"]){color:var(--muted)}
+.why-panel{grid-area:why;align-self:center;justify-self:end;margin-top:10px}
+.why-panel summary{display:flex;align-items:center;gap:8px;min-height:44px;font-weight:600;font-size:14px;color:var(--accent);cursor:pointer;list-style:none}
+.why-panel summary::-webkit-details-marker{display:none}
+.why-panel summary::before{content:"";width:8px;height:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(-45deg);transition:transform .15s}
+.why-panel[open] summary::before{transform:rotate(45deg)}
+.why-content{font-size:14px;padding:4px 0 8px}
+
+/* top picks: side rail on desktop, folded on phone */
+.rail{position:sticky;top:16px}
+.top-picks{background:var(--surface);border:1px solid var(--line);border-radius:10px}
+.top-picks>summary{display:flex;align-items:center;gap:10px;min-height:52px;padding:0 18px;font:700 18px "Saira",sans-serif;cursor:default;list-style:none}
+.top-picks>summary::-webkit-details-marker{display:none}
+.top-picks>summary .n{margin-left:auto;font:600 14px "Saira";color:var(--muted)}
+.top-pick-grid{display:grid;padding:0 18px 8px}
+.top-pick-card{padding:14px 0 14px 14px;border-top:1px solid var(--line);border-left:3px solid var(--accent);margin-bottom:-1px}
+.top-pick-card+.top-pick-card{margin-top:0}
+.pick-title{font-weight:600;font-size:14px;color:var(--accent);margin-bottom:2px}
+.top-pick-card h3{font:700 18px/1.2 "Saira",sans-serif;font-stretch:90%;margin-bottom:2px;overflow-wrap:anywhere}
+.top-pick-card h3 a{color:var(--ink);text-decoration:none}
+.top-pick-card h3 a:hover{text-decoration:underline}
+.pick-meta{font-weight:600;font-size:15px}
+.pick-desc{font-size:14px;color:var(--muted)}
+
+.footer{border-top:1px solid var(--line);background:var(--surface);padding:22px 0 30px;color:var(--muted);font-size:14px}
+.footer .wrap{display:flex;flex-wrap:wrap;gap:6px 32px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+@media (max-width:999px){
+  .layout{grid-template-columns:minmax(0,1fr)}
+  .rail{position:static;order:-1}
+  .top-picks{border-radius:8px}
+  .top-picks>summary{cursor:pointer;min-height:56px}
+  .top-picks>summary::after{content:"";width:9px;height:9px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);transition:transform .15s;margin-left:10px}
+  .top-picks[open]>summary::after{transform:rotate(-135deg)}
+  .deck{grid-template-columns:minmax(0,2fr) minmax(0,1fr)}
+  .deck .cell-btn{grid-column:1/-1}
+  .btn-primary{width:100%}
+  .filter-fields{grid-template-columns:1fr 1fr}
+}
+@media (max-width:699px){
+  .wrap{padding:0 16px}
+  .top .wrap{padding-top:8px;gap:0 8px;min-height:0}
+  .brand{flex:1}
+  .theme{margin-left:0}
+  .top nav{order:3;width:100%;margin:0;border-top:1px solid var(--line);margin-top:6px}
+  .top nav a{flex:1;justify-content:center}
+  .intro{padding-top:20px}
+  .intro p{display:none}
+  .deck{grid-template-columns:1fr;padding:14px}
+  .cell-ctx .seg{display:grid}
+  .aux .help{display:none}
+  .filter-fields{grid-template-columns:1fr}
+  .model-card{grid-template-columns:minmax(0,1fr);grid-template-areas:"name" "meta" "top" "track" "scale" "quants" "why";padding:18px 16px 8px}
+  .fit-top{flex-direction:row;align-items:center;justify-content:space-between;margin-top:14px}
+  .headroom b{font-size:40px}
+  .quants{margin-top:6px}
+  .quants button{max-width:none}
+  .why-panel{justify-self:start;margin-top:2px}
+  .footer .wrap{flex-direction:column}
+}
+
+</style>
+
+<script>
+(function(){
+  var q=new URLSearchParams(location.search), t=q.get('theme');
+  if(t){document.documentElement.dataset.theme=t;}
+  function label(){var d=document.documentElement.dataset.theme==='dark'||(!document.documentElement.dataset.theme&&matchMedia('(prefers-color-scheme: dark)').matches);var b=document.getElementById('theme-toggle');if(b){b.querySelector('.tt-label').textContent=d?'Light mode':'Dark mode';b.setAttribute('aria-pressed',d?'true':'false');}}
+  document.addEventListener('DOMContentLoaded',function(){
+    label();
+    var b=document.getElementById('theme-toggle');
+    if(b)b.addEventListener('click',function(){var d=document.documentElement.dataset.theme==='dark'||(!document.documentElement.dataset.theme&&matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.dataset.theme=d?'light':'dark';label();});
+    document.querySelectorAll('[data-model-card]').forEach(function(card){
+      card.querySelectorAll('[data-quant-btn]').forEach(function(btn){
+        btn.addEventListener('click',function(){
+          card.querySelectorAll('[data-quant-btn]').forEach(function(o){o.setAttribute('aria-pressed',o===btn?'true':'false');});
+          card.querySelectorAll('[data-variant-pane]').forEach(function(p){p.hidden=p.getAttribute('data-variant-pane')!==btn.getAttribute('data-variant');});
+        });
+      });
+    });
+    document.querySelectorAll('details[data-open-wide]').forEach(function(d){var bp=parseInt(d.getAttribute('data-open-wide'))||900;d.open=matchMedia('(min-width: '+bp+'px)').matches;});
+  });
+})();
+</script>
+</head>
+<body>
+
+<header class="top"><div class="wrap">
+  <a class="brand" href="#"><svg class="mark" width="34" height="34" viewBox="0 0 36 36" aria-hidden="true"><rect x="15.0" y="4.0" width="6" height="4.2" rx="1.4" fill="currentColor"/><rect x="12.0" y="10.2" width="12" height="4.2" rx="1.4" fill="currentColor"/><rect x="9.0" y="16.4" width="18" height="4.2" rx="1.4" fill="currentColor"/><rect x="6.0" y="22.6" width="24" height="4.2" rx="1.4" fill="currentColor"/><rect x="3.0" y="28.8" width="30" height="4.2" rx="1.4" fill="currentColor"/></svg><span>VRAM Sherpa</span></a>
+  <nav aria-label="Main"><a href="#" aria-current="page">Estimator</a><a href="#">How it works</a></nav>
+  <button id="theme-toggle" class="theme" type="button" aria-pressed="false" aria-label="Toggle color theme"><svg class="tt-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4 6.5 6.5 0 0 0 20 14.5z"/></svg><span class="tt-label">Dark mode</span></button>
+</div></header>
+
+<main class="wrap">
+<form id="search-form" method="get" action="/results" onsubmit="return false">
+  <div class="intro"><h1>Find models that fit your VRAM</h1><p>Pick your GPU or enter VRAM, then check.</p></div>
+  <div class="deck">
+    <div class="cell"><label for="gpu_search">Search GPU</label><div class="field-row"><input id="gpu_search" name="gpu_search" type="text" placeholder="Start typing a GPU name (or leave blank)" autocomplete="off"><button type="button" class="btn-clear">Clear</button></div></div>
+    <div class="cell"><label for="vram_gb">Available VRAM (GB)</label><input id="vram_gb" name="vram_gb" type="number" inputmode="decimal" min="1" step="0.1" value="24" placeholder="e.g. 8"></div>
+    <fieldset class="cell cell-ctx"><legend>Context window</legend><div class="seg"><label><input type="radio" name="context_tokens" value="2048"><span>2k</span></label><label><input type="radio" name="context_tokens" value="4096" checked><span>4k</span></label><label><input type="radio" name="context_tokens" value="8192"><span>8k</span></label></div></fieldset>
+    <div class="cell cell-btn"><button type="submit" class="btn-primary">Check compatibility</button></div>
+  </div>
+  <div class="aux"><div class="chips"><button type="button" class="chip">RTX 4060 8GB</button><button type="button" class="chip">8GB</button><button type="button" class="chip">24GB</button></div><span class="help">Not listed? Leave the GPU blank and enter VRAM.</span></div>
+
+  <div class="filters-bar"><details><summary>Filters (0)</summary><div class="filter-fields">
+<fieldset class="filter-group"><legend>Family</legend><div class="checklist"><label class="choice"><input type="checkbox" name="family" value="deepseek"><span>deepseek</span></label><label class="choice"><input type="checkbox" name="family" value="gemma"><span>gemma</span></label><label class="choice"><input type="checkbox" name="family" value="llama"><span>llama</span></label><label class="choice"><input type="checkbox" name="family" value="mistral"><span>mistral</span></label><label class="choice"><input type="checkbox" name="family" value="phi"><span>phi</span></label><label class="choice"><input type="checkbox" name="family" value="qwen"><span>qwen</span></label><label class="choice"><input type="checkbox" name="family" value="yi"><span>yi</span></label></div></fieldset>
+<fieldset class="filter-group"><legend>Quantization</legend><div class="checklist"><label class="choice"><input type="checkbox" name="quant_bucket" value="FP16"><span>FP16</span></label><label class="choice"><input type="checkbox" name="quant_bucket" value="Q4"><span>Q4</span></label><label class="choice"><input type="checkbox" name="quant_bucket" value="Q5"><span>Q5</span></label><label class="choice"><input type="checkbox" name="quant_bucket" value="Q8"><span>Q8</span></label></div></fieldset>
+<div class="range-row">
+<div class="field"><label for="bmin">Min params (B)</label><input id="bmin" type="number" inputmode="decimal" min="0" step="0.1" name="min_params_b"></div>
+<div class="field"><label for="bmax">Max params (B)</label><input id="bmax" type="number" inputmode="decimal" min="0" step="0.1" name="max_params_b"></div>
+</div>
+<label class="choice choice-solo"><input type="checkbox" name="recommended_only" value="true"><span>Recommended only</span></label>
+</div></details></div>
+
+  <div class="layout">
+    <div id="results-shell">
+      <section class="answer" id="summary-banner">
+        <h2 class="headline">71 models fit or are tight</h2>
+        <p class="ctx-line"><span><b>Hardware:</b> Manual VRAM (24 GB)</span><span><b>Context:</b> 4k</span></p>
+        <div class="tri" role="img" aria-label="71 Fits, 0 Tight, 24 Won't fit"><i class="t-f" style="flex:71"></i><i class="t-w" style="flex:24"></i></div>
+        <ul class="counts"><li><span class="ico i-fits"></span><b>71</b> Fits</li><li><span class="ico i-tight"></span><b>0</b> Tight</li><li><span class="ico i-wont"></span><b>24</b> Won't fit</li></ul>
+        <p class="note">Only Fits and Tight models are listed.</p>
+      </section>
+      <section class="model-list" id="results-cards">
+<article class="model-card" data-model-card>
+<div class="model-id">
+<h3><a href="#">DeepSeek-Coder-V2-Lite-Instruct</a> </h3>
+<p class="model-meta"><span class="num">15.71B</span> params <span class="sep">·</span> deepseek</p>
+<div class="quants" role="group" aria-label="Quantisation for DeepSeek-Coder-V2-Lite-Instruct">
+<button type="button" data-quant-btn data-variant="deepseek_coder_v2_lite_instruct_q4" aria-pressed="true">Q4</button>
+<button type="button" data-quant-btn data-variant="deepseek_coder_v2_lite_instruct_q5" aria-pressed="false">Q5</button>
+<button type="button" data-quant-btn data-variant="deepseek_coder_v2_lite_instruct_q8" aria-pressed="false">Q8</button>
+<button type="button" data-quant-btn data-variant="deepseek_coder_v2_lite_instruct_fp16" aria-pressed="false" data-oversize="true" title="Does not fit in 24 GB">FP16</button>
+</div></div>
+<div class="fit-panes">
+<div class="fit-pane" data-variant-pane="deepseek_coder_v2_lite_instruct_q4">
+<div class="fit-top"><span class="state state-fits">Fits</span><span class="headroom"><b class="num">8.6 GB</b> spare</span></div>
+<div class="track" role="img" aria-label="Needs 15.36 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"><span class="bar bar-fits" style="width: 64.0%;"></span><span class="resv" style="left: 90.0%; width: 10.0%;"></span></div>
+<div class="scale"><span>15.36 GB needed</span><span>24.0 GB</span></div>
+<details class="why-panel"><summary>How this is estimated</summary><div class="why-content"><p class="muted">Open to load the breakdown.</p></div></details>
+</div>
+<div class="fit-pane" data-variant-pane="deepseek_coder_v2_lite_instruct_q5" hidden>
+<div class="fit-top"><span class="state state-fits">Fits</span><span class="headroom"><b class="num">6.5 GB</b> spare</span></div>
+<div class="track" role="img" aria-label="Needs 17.52 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"><span class="bar bar-fits" style="width: 73.0%;"></span><span class="resv" style="left: 90.0%; width: 10.0%;"></span></div>
+<div class="scale"><span>17.52 GB needed</span><span>24.0 GB</span></div>
+<details class="why-panel"><summary>How this is estimated</summary><div class="why-content"><p class="muted">Open to load the breakdown.</p></div></details>
+</div>
+<div class="fit-pane" data-variant-pane="deepseek_coder_v2_lite_instruct_q8" hidden>
+<div class="fit-top"><span class="state state-tight">Tight</span><span class="headroom"><b class="num">0.0 GB</b> spare</span></div>
+<div class="track" role="img" aria-label="Needs 24.00 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"><span class="bar bar-tight" style="width: 100.0%;"></span><span class="resv" style="left: 90.0%; width: 10.0%;"></span></div>
+<div class="scale"><span>24.00 GB needed</span><span>24.0 GB</span></div>
+<details class="why-panel"><summary>How this is estimated</summary><div class="why-content"><p class="muted">Open to load the breakdown.</p></div></details>
+</div>
+<div class="fit-pane" data-variant-pane="deepseek_coder_v2_lite_instruct_fp16" hidden>
+<div class="fit-top"><span class="state state-wont-fit">Won't fit</span><span class="headroom"><b class="num">16.2 GB</b> over</span></div>
+<div class="track" role="img" aria-label="Needs 40.20 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"><span class="bar bar-wont-fit" style="width: 100.0%;"></span><span class="resv" style="left: 90.0%; width: 10.0%;"></span></div>
+<div class="scale"><span>40.20 GB needed</span><span>24.0 GB</span></div>
+<details class="why-panel"><summary>How this is estimated</summary><div class="why-content"><p class="muted">Open to load the breakdown.</p></div></details>
+</div>
+</div></article>
+<article class="model-card" data-model-card>
+<div class="model-id">
+<h3><a href="#">DeepSeek-V2-Lite</a> </h3>
+<p class="model-meta"><span class="num">15.71B</span> params <span class="sep">·</span> deepseek</p>
+<div class="quants" role="group" aria-label="Quantisation for DeepSeek-V2-Lite">
+<button type="button" data-quant-btn data-variant="deepseek_v2_lite_q4" aria-pressed="false">Q4</button>
+<button type="button" data-quant-btn data-variant="deepseek_v2_lite_q5" aria-pressed="false">Q5</button>
+<button type="button" data-quant-btn data-variant="deepseek_v2_lite_q8" aria-pressed="true">Q8</button>
+<button type="button" data-quant-btn data-variant="deepseek_v2_lite_fp16" aria-pressed="false" data-oversize="true" title="Does not fit in 24 GB">FP16</button>
+</div></div>
+<div class="fit-panes">
+<div class="fit-pane" data-variant-pane="deepseek_v2_lite_q4" hidden>
+<div class="fit-top"><span class="state state-fits">Fits</span><span class="headroom"><b class="num">8.6 GB</b> spare</span></div>
+<div class="track" role="img" aria-label="Needs 15.36 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"><span class="bar bar-fits" style="width: 64.0%;"></span><span class="resv" style="left: 90.0%; width: 10.0%;"></span></div>
+<div class="scale"><span>15.36 GB needed</span><span>24.0 GB</span></div>
+<details class="why-panel"><summary>How this is estimated</summary><div class="why-content"><p class="muted">Open to load the breakdown.</p></div></details>
+</div>
+<div class="fit-pane" data-variant-pane="deepseek_v2_lite_q5" hidden>
+<div class="fit-top"><span class="state state-fits">Fits</span><span class="headroom"><b class="num">6.5 GB</b> spare</span></div>
+<div class="track" role="img" aria-label="Needs 17.52 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"><span class="bar bar-fits" style="width: 73.0%;"></span><span class="resv" style="left: 90.0%; width: 10.0%;"></span></div>
+<div class="scale"><span>17.52 GB needed</span><span>24.0 GB</span></div>
+<details class="why-panel"><summary>How this is estimated</summary><div class="why-content"><p class="muted">Open to load the breakdown.</p></div></details>
+</div>
+<div class="fit-pane" data-variant-pane="deepseek_v2_lite_q8">
+<div class="fit-top"><span class="state state-tight">Tight</span><span class="headroom"><b class="num">0.0 GB</b> spare</span></div>
+<div class="track" role="img" aria-label="Needs 24.00 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"><span class="bar bar-tight" style="width: 100.0%;"></span><span class="resv" style="left: 90.0%; width: 10.0%;"></span></div>
+<div class="scale"><span>24.00 GB needed</span><span>24.0 GB</span></div>
+<details class="why-panel"><summary>How this is estimated</summary><div class="why-content"><p class="muted">Open to load the breakdown.</p></div></details>
+</div>
+<div class="fit-pane" data-variant-pane="deepseek_v2_lite_fp16" hidden>
+<div class="fit-top"><span class="state state-wont-fit">Won't fit</span><span class="headroom"><b class="num">16.2 GB</b> over</span></div>
+<div class="track" role="img" aria-label="Needs 40.20 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"><span class="bar bar-wont-fit" style="width: 100.0%;"></span><span class="resv" style="left: 90.0%; width: 10.0%;"></span></div>
+<div class="scale"><span>40.20 GB needed</span><span>24.0 GB</span></div>
+<details class="why-panel"><summary>How this is estimated</summary><div class="why-content"><p class="muted">Open to load the breakdown.</p></div></details>
+</div>
+</div></article>
+<article class="model-card" data-model-card>
+<div class="model-id">
+<h3><a href="#">DeepSeek-V2-Lite-Chat</a> </h3>
+<p class="model-meta"><span class="num">15.71B</span> params <span class="sep">·</span> deepseek</p>
+<div class="quants" role="group" aria-label="Quantisation for DeepSeek-V2-Lite-Chat">
+<button type="button" data-quant-btn data-variant="deepseek_v2_lite_chat_q4" aria-pressed="true">Q4</button>
+<button type="button" data-quant-btn data-variant="deepseek_v2_lite_chat_q5" aria-pressed="false">Q5</button>
+<button type="button" data-quant-btn data-variant="deepseek_v2_lite_chat_q8" aria-pressed="false">Q8</button>
+<button type="button" data-quant-btn data-variant="deepseek_v2_lite_chat_fp16" aria-pressed="false" data-oversize="true" title="Does not fit in 24 GB">FP16</button>
+</div></div>
+<div class="fit-panes">
+<div class="fit-pane" data-variant-pane="deepseek_v2_lite_chat_q4">
+<div class="fit-top"><span class="state state-fits">Fits</span><span class="headroom"><b class="num">8.6 GB</b> spare</span></div>
+<div class="track" role="img" aria-label="Needs 15.36 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"><span class="bar bar-fits" style="width: 64.0%;"></span><span class="resv" style="left: 90.0%; width: 10.0%;"></span></div>
+<div class="scale"><span>15.36 GB needed</span><span>24.0 GB</span></div>
+<details class="why-panel"><summary>How this is estimated</summary><div class="why-content"><p class="muted">Open to load the breakdown.</p></div></details>
+</div>
+<div class="fit-pane" data-variant-pane="deepseek_v2_lite_chat_q5" hidden>
+<div class="fit-top"><span class="state state-fits">Fits</span><span class="headroom"><b class="num">6.5 GB</b> spare</span></div>
+<div class="track" role="img" aria-label="Needs 17.52 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"><span class="bar bar-fits" style="width: 73.0%;"></span><span class="resv" style="left: 90.0%; width: 10.0%;"></span></div>
+<div class="scale"><span>17.52 GB needed</span><span>24.0 GB</span></div>
+<details class="why-panel"><summary>How this is estimated</summary><div class="why-content"><p class="muted">Open to load the breakdown.</p></div></details>
+</div>
+<div class="fit-pane" data-variant-pane="deepseek_v2_lite_chat_q8" hidden>
+<div class="fit-top"><span class="state state-tight">Tight</span><span class="headroom"><b class="num">0.0 GB</b> spare</span></div>
+<div class="track" role="img" aria-label="Needs 24.00 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"><span class="bar bar-tight" style="width: 100.0%;"></span><span class="resv" style="left: 90.0%; width: 10.0%;"></span></div>
+<div class="scale"><span>24.00 GB needed</span><span>24.0 GB</span></div>
+<details class="why-panel"><summary>How this is estimated</summary><div class="why-content"><p class="muted">Open to load the breakdown.</p></div></details>
+</div>
+<div class="fit-pane" data-variant-pane="deepseek_v2_lite_chat_fp16" hidden>
+<div class="fit-top"><span class="state state-wont-fit">Won't fit</span><span class="headroom"><b class="num">16.2 GB</b> over</span></div>
+<div class="track" role="img" aria-label="Needs 40.20 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"><span class="bar bar-wont-fit" style="width: 100.0%;"></span><span class="resv" style="left: 90.0%; width: 10.0%;"></span></div>
+<div class="scale"><span>40.20 GB needed</span><span>24.0 GB</span></div>
+<details class="why-panel"><summary>How this is estimated</summary><div class="why-content"><p class="muted">Open to load the breakdown.</p></div></details>
+</div>
+</div></article>
+</section>
+    </div>
+    <aside class="rail">
+      <details class="top-picks" data-open-wide="1000">
+        <summary><span>Top Picks for you</span><span class="n">3</span></summary>
+        <div class="top-pick-grid">
+<article class="top-pick-card"><p class="pick-title">Best quality that fits</p><h3><a href="#">DeepSeek-Coder-V2-Lite-Instruct</a></h3><p class="pick-meta">15.7B · Q4</p><p class="pick-desc">Top of the ranking, with room to spare.</p></article><article class="top-pick-card"><p class="pick-title">Best balance</p><h3><a href="#">DeepSeek-V2-Lite</a></h3><p class="pick-meta">15.7B · Q4</p><p class="pick-desc">Next in the ranking and still practical.</p></article><article class="top-pick-card"><p class="pick-title">Best small</p><h3><a href="#">Yi-1.5 9B Chat</a></h3><p class="pick-meta">9.0B · FP16</p><p class="pick-desc">Usually the lightest on memory.</p></article>
+        </div>
+      </details>
+    </aside>
+  </div>
+</form>
+</main>
+<footer class="footer"><div class="wrap"><span>Catalog version: 2026-10-23</span><span>Estimation policy: v0.1</span><span>Last updated: 2026-10-23</span></div></footer>
+
+</body>
+</html>

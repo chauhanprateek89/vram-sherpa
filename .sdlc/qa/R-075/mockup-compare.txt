@@ -1,0 +1,4 @@
+how-it-works-390-light       ref (390, 4735) live (390, 4735) diff>40=0.00% firstdiffrow=None sw=390/390 over=0 scrolls=[] nowrap=0 small=1 tiny=0 console=[] h1=['How VRAM Sherpa estimates fit (Policy v0.1)'] theme=light
+how-it-works-390-dark        ref (390, 4735) live (390, 4735) diff>40=0.00% firstdiffrow=None sw=390/390 over=0 scrolls=[] nowrap=0 small=1 tiny=0 console=[] h1=['How VRAM Sherpa estimates fit (Policy v0.1)'] theme=dark
+how-it-works-1280-light      ref (1280, 2457) live (1280, 2457) diff>40=0.00% firstdiffrow=None sw=1280/1280 over=0 scrolls=[] nowrap=0 small=1 tiny=0 console=[] h1=['How VRAM Sherpa estimates fit (Policy v0.1)'] theme=light
+how-it-works-1280-dark       ref (1280, 2457) live (1280, 2457) diff>40=0.00% firstdiffrow=None sw=1280/1280 over=0 scrolls=[] nowrap=0 small=1 tiny=0 console=[] h1=['How VRAM Sherpa estimates fit (Policy v0.1)'] theme=dark

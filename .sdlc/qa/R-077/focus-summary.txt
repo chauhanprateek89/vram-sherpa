@@ -1,0 +1,4 @@
+FOCUS RING: 1926 keyboard stops over 68 page x width x theme runs (17 states, 390 touch and 1280, light and dark).
+  :focus-visible matched on 1926/1926; ring colour found in the screenshot on 1926/1926; lowest ring vs adjacent colour 7.21:1.
+  outline: {('solid', '3px', '2px'): 1302, ('solid', '3px', '1px'): 624}; ring carried by parent tile (.pick): 42 stops.
+  Tab order versus screen order (heuristic, y then x): one genuine mismatch, at 390 px only: the header theme toggle (drawn on the brand row) is focused after "How it works" (second row). Everything else flagged is column or card-by-card order in the two-column 1280 layout.

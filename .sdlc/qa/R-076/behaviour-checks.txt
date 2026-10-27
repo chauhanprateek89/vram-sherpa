@@ -1,0 +1,35 @@
+390px OS=light no saved choice: {'theme': 'light', 'saved': 'light', 'text': 'Dark mode', 'pressed': 'false', 'bg': 'rgb(220, 228, 255)', 'label': 'Toggle color theme'}
+390px OS=light after press 1: {'theme': 'dark', 'saved': 'dark', 'text': 'Light mode', 'pressed': 'true', 'bg': 'rgb(10, 11, 31)', 'label': 'Toggle color theme'}
+390px OS=light next page (saved applies): {'theme': 'dark', 'saved': 'dark', 'text': 'Light mode', 'pressed': 'true', 'bg': 'rgb(10, 11, 31)', 'label': 'Toggle color theme'}
+390px OS=light after press 2: {'theme': 'light', 'saved': 'light', 'text': 'Dark mode', 'pressed': 'false', 'bg': 'rgb(220, 228, 255)', 'label': 'Toggle color theme'}
+390px keyboard Enter: {'theme': 'dark', 'saved': 'dark', 'text': 'Light mode', 'pressed': 'true', 'bg': 'rgb(10, 11, 31)', 'label': 'Toggle color theme'}
+390px keyboard Space: {'theme': 'light', 'saved': 'light', 'text': 'Dark mode', 'pressed': 'false', 'bg': 'rgb(220, 228, 255)', 'label': 'Toggle color theme'}
+390px OS=dark no saved choice: {'theme': 'dark', 'saved': 'dark', 'text': 'Light mode', 'pressed': 'true', 'bg': 'rgb(10, 11, 31)', 'label': 'Toggle color theme'}
+390px OS=dark after press 1: {'theme': 'light', 'saved': 'light', 'text': 'Dark mode', 'pressed': 'false', 'bg': 'rgb(220, 228, 255)', 'label': 'Toggle color theme'}
+390px OS=dark next page (saved applies): {'theme': 'light', 'saved': 'light', 'text': 'Dark mode', 'pressed': 'false', 'bg': 'rgb(220, 228, 255)', 'label': 'Toggle color theme'}
+390px OS=dark after press 2: {'theme': 'dark', 'saved': 'dark', 'text': 'Light mode', 'pressed': 'true', 'bg': 'rgb(10, 11, 31)', 'label': 'Toggle color theme'}
+390px keyboard Enter: {'theme': 'light', 'saved': 'light', 'text': 'Dark mode', 'pressed': 'false', 'bg': 'rgb(220, 228, 255)', 'label': 'Toggle color theme'}
+390px keyboard Space: {'theme': 'dark', 'saved': 'dark', 'text': 'Light mode', 'pressed': 'true', 'bg': 'rgb(10, 11, 31)', 'label': 'Toggle color theme'}
+390px pre-paint saved=dark OS=light: {'theme_when_body_appeared': None, 'paints': [['first-paint', 632, 'dark', 'dark'], ['first-contentful-paint', 632, 'dark', 'dark']], 'final': 'dark'}
+390px pre-paint saved=light OS=dark: {'theme_when_body_appeared': None, 'paints': [['first-paint', 596, 'light', 'light'], ['first-contentful-paint', 596, 'light', 'light']], 'final': 'light'}
+1280px click mark from /how-it-works -> http://localhost:8000/ title='VRAM Sherpa'
+1280px click name from /how-it-works -> http://localhost:8000/ title='VRAM Sherpa'
+1280px click mark from /models/model_llama_31_8b_instruct?vram_gb=24 -> http://localhost:8000/ title='VRAM Sherpa'
+1280px click name from /models/model_llama_31_8b_instruct?vram_gb=24 -> http://localhost:8000/ title='VRAM Sherpa'
+1280px click mark from /results?vram_gb=24&context_tokens=4096 -> http://localhost:8000/ title='VRAM Sherpa'
+1280px click name from /results?vram_gb=24&context_tokens=4096 -> http://localhost:8000/ title='VRAM Sherpa'
+1280px OS=light no saved choice: {'theme': 'light', 'saved': 'light', 'text': 'Dark mode', 'pressed': 'false', 'bg': 'rgb(220, 228, 255)', 'label': 'Toggle color theme'}
+1280px OS=light after press 1: {'theme': 'dark', 'saved': 'dark', 'text': 'Light mode', 'pressed': 'true', 'bg': 'rgb(10, 11, 31)', 'label': 'Toggle color theme'}
+1280px OS=light next page (saved applies): {'theme': 'dark', 'saved': 'dark', 'text': 'Light mode', 'pressed': 'true', 'bg': 'rgb(10, 11, 31)', 'label': 'Toggle color theme'}
+1280px OS=light after press 2: {'theme': 'light', 'saved': 'light', 'text': 'Dark mode', 'pressed': 'false', 'bg': 'rgb(220, 228, 255)', 'label': 'Toggle color theme'}
+1280px keyboard Enter: {'theme': 'dark', 'saved': 'dark', 'text': 'Light mode', 'pressed': 'true', 'bg': 'rgb(10, 11, 31)', 'label': 'Toggle color theme'}
+1280px keyboard Space: {'theme': 'light', 'saved': 'light', 'text': 'Dark mode', 'pressed': 'false', 'bg': 'rgb(220, 228, 255)', 'label': 'Toggle color theme'}
+1280px OS=dark no saved choice: {'theme': 'dark', 'saved': 'dark', 'text': 'Light mode', 'pressed': 'true', 'bg': 'rgb(10, 11, 31)', 'label': 'Toggle color theme'}
+1280px OS=dark after press 1: {'theme': 'light', 'saved': 'light', 'text': 'Dark mode', 'pressed': 'false', 'bg': 'rgb(220, 228, 255)', 'label': 'Toggle color theme'}
+1280px OS=dark next page (saved applies): {'theme': 'light', 'saved': 'light', 'text': 'Dark mode', 'pressed': 'false', 'bg': 'rgb(220, 228, 255)', 'label': 'Toggle color theme'}
+1280px OS=dark after press 2: {'theme': 'dark', 'saved': 'dark', 'text': 'Light mode', 'pressed': 'true', 'bg': 'rgb(10, 11, 31)', 'label': 'Toggle color theme'}
+1280px keyboard Enter: {'theme': 'light', 'saved': 'light', 'text': 'Dark mode', 'pressed': 'false', 'bg': 'rgb(220, 228, 255)', 'label': 'Toggle color theme'}
+1280px keyboard Space: {'theme': 'dark', 'saved': 'dark', 'text': 'Light mode', 'pressed': 'true', 'bg': 'rgb(10, 11, 31)', 'label': 'Toggle color theme'}
+1280px pre-paint saved=dark OS=light: {'theme_when_body_appeared': None, 'paints': [['first-paint', 796, 'dark', 'dark'], ['first-contentful-paint', 796, 'dark', 'dark']], 'final': 'dark'}
+1280px pre-paint saved=light OS=dark: {'theme_when_body_appeared': None, 'paints': [['first-paint', 800, 'light', 'light'], ['first-contentful-paint', 800, 'light', 'light']], 'final': 'light'}
+inline theme script index 300 < stylesheet link index 1419

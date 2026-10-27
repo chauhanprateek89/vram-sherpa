@@ -1,0 +1,78 @@
+### 1 old-form with query
+HTTP/1.1 302 Found
+date: Tue, 27 Oct 2026 10:58:41 GMT
+server: uvicorn
+cache-control: no-cache
+vary: HX-Request, HX-History-Restore-Request
+content-length: 0
+location: /results?vram_gb=24&context_tokens=4096&family=qwen&family=llama&quant_bucket=Q4&quant_bucket=Q8
+
+### 2 no query
+HTTP/1.1 302 Found
+date: Tue, 27 Oct 2026 10:58:41 GMT
+server: uvicorn
+cache-control: no-cache
+vary: HX-Request, HX-History-Restore-Request
+content-length: 0
+location: /results
+
+### 3 HX-Request true
+HTTP/1.1 200 OK
+date: Tue, 27 Oct 2026 10:58:41 GMT
+server: uvicorn
+hx-push-url: /results?vram_gb=24&context_tokens=4096&family=a&family=b
+content-length: 2185
+content-type: text/html; charset=utf-8
+cache-control: no-cache
+vary: HX-Request, HX-History-Restore-Request
+
+2185 /tmp/x.html
+### 3b HX no query
+HTTP/1.1 200 OK
+date: Tue, 27 Oct 2026 10:58:41 GMT
+server: uvicorn
+hx-push-url: /results
+content-length: 599854
+content-type: text/html; charset=utf-8
+cache-control: no-cache
+vary: HX-Request, HX-History-Restore-Request
+
+### 4 HX-Request false
+HTTP/1.1 302 Found
+date: Tue, 27 Oct 2026 10:58:41 GMT
+server: uvicorn
+cache-control: no-cache
+vary: HX-Request, HX-History-Restore-Request
+content-length: 0
+location: /results?vram_gb=24
+
+### 5 summary/list
+HTTP/1.1 200 OK
+date: Tue, 27 Oct 2026 10:58:41 GMT
+server: uvicorn
+HTTP/1.1 200 OK
+date: Tue, 27 Oct 2026 10:58:41 GMT
+server: uvicorn
+### 6 422
+HTTP/1.1 422 Unprocessable Entity
+date: Tue, 27 Oct 2026 10:58:41 GMT
+server: uvicorn
+content-length: 160
+content-type: application/json
+
+{"detail":[{"type":"int_parsing","loc":["query","context_tokens"],"msg":"Input should be a valid integer, unable to parse string as an integer","input":"abc"}]}
+results 422: 422
+### 7 unknown host
+HTTP/1.1 400 Bad Request
+date: Tue, 27 Oct 2026 10:58:41 GMT
+server: uvicorn
+content-length: 29
+content-type: application/json
+
+{"detail":"Host not allowed"}### 8 full page w/ both headers
+3
+### 9 only HX
+0
+### 10 meta
+36:    <meta name="htmx-config" content='{"refreshOnHistoryMiss":true}' />
+37:    <script src="https://unpkg.com/htmx.org@1.9.12"></script>

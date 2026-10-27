@@ -1,0 +1,3030 @@
+{
+  "catalog_version": "2026-10-23",
+  "captured_from": "main at f2ad2d8; the extractor output was identical on that tree and on the T-003 tree",
+  "queries": {
+    "/results?vram_gb=24&context_tokens=4096": [
+      {
+        "model_id": "model_deepseek_coder_v2_lite_instruct",
+        "name": "DeepSeek-Coder-V2-Lite-Instruct",
+        "panes": [
+          {
+            "variant_id": "variant_model_deepseek_coder_v2_lite_instruct_q4",
+            "verdict": "Fits",
+            "required": "15.36 GB needed",
+            "available_gb": "24.0",
+            "margin": "8.6 GB spare",
+            "gauge": "Needs 15.36 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_deepseek_coder_v2_lite_instruct_q5",
+            "verdict": "Fits",
+            "required": "17.52 GB needed",
+            "available_gb": "24.0",
+            "margin": "6.5 GB spare",
+            "gauge": "Needs 17.52 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_deepseek_coder_v2_lite_instruct_q8",
+            "verdict": "Tight",
+            "required": "24.00 GB needed",
+            "available_gb": "24.0",
+            "margin": "0.0 GB spare",
+            "gauge": "Needs 24.00 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_deepseek_coder_v2_lite_instruct_fp16",
+            "verdict": "Won't fit",
+            "required": "40.20 GB needed",
+            "available_gb": "24.0",
+            "margin": "16.2 GB over",
+            "gauge": "Needs 40.20 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_deepseek_v2_lite",
+        "name": "DeepSeek-V2-Lite",
+        "panes": [
+          {
+            "variant_id": "variant_model_deepseek_v2_lite_q4",
+            "verdict": "Fits",
+            "required": "15.36 GB needed",
+            "available_gb": "24.0",
+            "margin": "8.6 GB spare",
+            "gauge": "Needs 15.36 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_deepseek_v2_lite_q5",
+            "verdict": "Fits",
+            "required": "17.52 GB needed",
+            "available_gb": "24.0",
+            "margin": "6.5 GB spare",
+            "gauge": "Needs 17.52 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_deepseek_v2_lite_q8",
+            "verdict": "Tight",
+            "required": "24.00 GB needed",
+            "available_gb": "24.0",
+            "margin": "0.0 GB spare",
+            "gauge": "Needs 24.00 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_deepseek_v2_lite_fp16",
+            "verdict": "Won't fit",
+            "required": "40.20 GB needed",
+            "available_gb": "24.0",
+            "margin": "16.2 GB over",
+            "gauge": "Needs 40.20 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_deepseek_v2_lite_chat",
+        "name": "DeepSeek-V2-Lite-Chat",
+        "panes": [
+          {
+            "variant_id": "variant_model_deepseek_v2_lite_chat_q4",
+            "verdict": "Fits",
+            "required": "15.36 GB needed",
+            "available_gb": "24.0",
+            "margin": "8.6 GB spare",
+            "gauge": "Needs 15.36 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_deepseek_v2_lite_chat_q5",
+            "verdict": "Fits",
+            "required": "17.52 GB needed",
+            "available_gb": "24.0",
+            "margin": "6.5 GB spare",
+            "gauge": "Needs 17.52 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_deepseek_v2_lite_chat_q8",
+            "verdict": "Tight",
+            "required": "24.00 GB needed",
+            "available_gb": "24.0",
+            "margin": "0.0 GB spare",
+            "gauge": "Needs 24.00 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_deepseek_v2_lite_chat_fp16",
+            "verdict": "Won't fit",
+            "required": "40.20 GB needed",
+            "available_gb": "24.0",
+            "margin": "16.2 GB over",
+            "gauge": "Needs 40.20 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen25_14b_instruct",
+        "name": "Qwen2.5 14B Instruct",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen25_14b_instruct_q4",
+            "verdict": "Fits",
+            "required": "14.44 GB needed",
+            "available_gb": "24.0",
+            "margin": "9.6 GB spare",
+            "gauge": "Needs 14.44 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen25_14b_instruct_q5",
+            "verdict": "Fits",
+            "required": "16.46 GB needed",
+            "available_gb": "24.0",
+            "margin": "7.5 GB spare",
+            "gauge": "Needs 16.46 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen25_14b_instruct_q8",
+            "verdict": "Tight",
+            "required": "22.52 GB needed",
+            "available_gb": "24.0",
+            "margin": "1.5 GB spare",
+            "gauge": "Needs 22.52 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen25_14b_instruct_fp16",
+            "verdict": "Won't fit",
+            "required": "37.68 GB needed",
+            "available_gb": "24.0",
+            "margin": "13.7 GB over",
+            "gauge": "Needs 37.68 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_deepseek_r1_distill_qwen_14b",
+        "name": "DeepSeek-R1-Distill-Qwen-14B",
+        "panes": [
+          {
+            "variant_id": "variant_model_deepseek_r1_distill_qwen_14b_q4",
+            "verdict": "Fits",
+            "required": "13.80 GB needed",
+            "available_gb": "24.0",
+            "margin": "10.2 GB spare",
+            "gauge": "Needs 13.80 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_deepseek_r1_distill_qwen_14b_q5",
+            "verdict": "Fits",
+            "required": "15.73 GB needed",
+            "available_gb": "24.0",
+            "margin": "8.3 GB spare",
+            "gauge": "Needs 15.73 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_deepseek_r1_distill_qwen_14b_q8",
+            "verdict": "Fits",
+            "required": "21.50 GB needed",
+            "available_gb": "24.0",
+            "margin": "2.5 GB spare",
+            "gauge": "Needs 21.50 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_deepseek_r1_distill_qwen_14b_fp16",
+            "verdict": "Won't fit",
+            "required": "35.94 GB needed",
+            "available_gb": "24.0",
+            "margin": "11.9 GB over",
+            "gauge": "Needs 35.94 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_phi4_instruct",
+        "name": "Phi-4",
+        "panes": [
+          {
+            "variant_id": "variant_model_phi4_instruct_q4",
+            "verdict": "Fits",
+            "required": "13.80 GB needed",
+            "available_gb": "24.0",
+            "margin": "10.2 GB spare",
+            "gauge": "Needs 13.80 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_phi4_instruct_q5",
+            "verdict": "Fits",
+            "required": "15.73 GB needed",
+            "available_gb": "24.0",
+            "margin": "8.3 GB spare",
+            "gauge": "Needs 15.73 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_phi4_instruct_q8",
+            "verdict": "Fits",
+            "required": "21.50 GB needed",
+            "available_gb": "24.0",
+            "margin": "2.5 GB spare",
+            "gauge": "Needs 21.50 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_phi4_instruct_fp16",
+            "verdict": "Won't fit",
+            "required": "35.94 GB needed",
+            "available_gb": "24.0",
+            "margin": "11.9 GB over",
+            "gauge": "Needs 35.94 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen2_5_coder_14b_instruct",
+        "name": "Qwen2.5-Coder-14B-Instruct",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen2_5_coder_14b_instruct_q4",
+            "verdict": "Fits",
+            "required": "13.80 GB needed",
+            "available_gb": "24.0",
+            "margin": "10.2 GB spare",
+            "gauge": "Needs 13.80 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen2_5_coder_14b_instruct_q5",
+            "verdict": "Fits",
+            "required": "15.73 GB needed",
+            "available_gb": "24.0",
+            "margin": "8.3 GB spare",
+            "gauge": "Needs 15.73 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen2_5_coder_14b_instruct_q8",
+            "verdict": "Fits",
+            "required": "21.50 GB needed",
+            "available_gb": "24.0",
+            "margin": "2.5 GB spare",
+            "gauge": "Needs 21.50 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen2_5_coder_14b_instruct_fp16",
+            "verdict": "Won't fit",
+            "required": "35.94 GB needed",
+            "available_gb": "24.0",
+            "margin": "11.9 GB over",
+            "gauge": "Needs 35.94 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen3_14b",
+        "name": "Qwen3-14B",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen3_14b_q4",
+            "verdict": "Fits",
+            "required": "13.80 GB needed",
+            "available_gb": "24.0",
+            "margin": "10.2 GB spare",
+            "gauge": "Needs 13.80 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen3_14b_q5",
+            "verdict": "Fits",
+            "required": "15.73 GB needed",
+            "available_gb": "24.0",
+            "margin": "8.3 GB spare",
+            "gauge": "Needs 15.73 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen3_14b_q8",
+            "verdict": "Fits",
+            "required": "21.50 GB needed",
+            "available_gb": "24.0",
+            "margin": "2.5 GB spare",
+            "gauge": "Needs 21.50 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen3_14b_fp16",
+            "verdict": "Won't fit",
+            "required": "35.94 GB needed",
+            "available_gb": "24.0",
+            "margin": "11.9 GB over",
+            "gauge": "Needs 35.94 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_llama_2_13b_chat_hf",
+        "name": "Llama-2-13b-chat-hf",
+        "panes": [
+          {
+            "variant_id": "variant_model_llama_2_13b_chat_hf_q4",
+            "verdict": "Fits",
+            "required": "12.89 GB needed",
+            "available_gb": "24.0",
+            "margin": "11.1 GB spare",
+            "gauge": "Needs 12.89 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_llama_2_13b_chat_hf_q5",
+            "verdict": "Fits",
+            "required": "14.68 GB needed",
+            "available_gb": "24.0",
+            "margin": "9.3 GB spare",
+            "gauge": "Needs 14.68 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_llama_2_13b_chat_hf_q8",
+            "verdict": "Fits",
+            "required": "20.04 GB needed",
+            "available_gb": "24.0",
+            "margin": "4.0 GB spare",
+            "gauge": "Needs 20.04 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_llama_2_13b_chat_hf_fp16",
+            "verdict": "Won't fit",
+            "required": "33.44 GB needed",
+            "available_gb": "24.0",
+            "margin": "9.4 GB over",
+            "gauge": "Needs 33.44 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_mistral_nemo_12b_instruct_2407",
+        "name": "Mistral NeMo 12B Instruct (2407)",
+        "panes": [
+          {
+            "variant_id": "variant_model_mistral_nemo_12b_instruct_2407_q4",
+            "verdict": "Fits",
+            "required": "11.97 GB needed",
+            "available_gb": "24.0",
+            "margin": "12.0 GB spare",
+            "gauge": "Needs 11.97 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_mistral_nemo_12b_instruct_2407_q5",
+            "verdict": "Fits",
+            "required": "13.62 GB needed",
+            "available_gb": "24.0",
+            "margin": "10.4 GB spare",
+            "gauge": "Needs 13.62 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_mistral_nemo_12b_instruct_2407_q8",
+            "verdict": "Fits",
+            "required": "18.57 GB needed",
+            "available_gb": "24.0",
+            "margin": "5.4 GB spare",
+            "gauge": "Needs 18.57 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_mistral_nemo_12b_instruct_2407_fp16",
+            "verdict": "Won't fit",
+            "required": "30.95 GB needed",
+            "available_gb": "24.0",
+            "margin": "6.9 GB over",
+            "gauge": "Needs 30.95 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_gemma2_9b_base",
+        "name": "Gemma 2 9B",
+        "panes": [
+          {
+            "variant_id": "variant_model_gemma2_9b_base_q4",
+            "verdict": "Fits",
+            "required": "9.23 GB needed",
+            "available_gb": "24.0",
+            "margin": "14.8 GB spare",
+            "gauge": "Needs 9.23 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_gemma2_9b_base_q5",
+            "verdict": "Fits",
+            "required": "10.47 GB needed",
+            "available_gb": "24.0",
+            "margin": "13.5 GB spare",
+            "gauge": "Needs 10.47 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_gemma2_9b_base_q8",
+            "verdict": "Fits",
+            "required": "14.18 GB needed",
+            "available_gb": "24.0",
+            "margin": "9.8 GB spare",
+            "gauge": "Needs 14.18 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_gemma2_9b_base_fp16",
+            "verdict": "Tight",
+            "required": "23.46 GB needed",
+            "available_gb": "24.0",
+            "margin": "0.5 GB spare",
+            "gauge": "Needs 23.46 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_gemma2_9b_it",
+        "name": "Gemma 2 9B IT",
+        "panes": [
+          {
+            "variant_id": "variant_model_gemma2_9b_it_q4",
+            "verdict": "Fits",
+            "required": "9.23 GB needed",
+            "available_gb": "24.0",
+            "margin": "14.8 GB spare",
+            "gauge": "Needs 9.23 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_gemma2_9b_it_q5",
+            "verdict": "Fits",
+            "required": "10.47 GB needed",
+            "available_gb": "24.0",
+            "margin": "13.5 GB spare",
+            "gauge": "Needs 10.47 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_gemma2_9b_it_q8",
+            "verdict": "Fits",
+            "required": "14.18 GB needed",
+            "available_gb": "24.0",
+            "margin": "9.8 GB spare",
+            "gauge": "Needs 14.18 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_gemma2_9b_it_fp16",
+            "verdict": "Tight",
+            "required": "23.46 GB needed",
+            "available_gb": "24.0",
+            "margin": "0.5 GB spare",
+            "gauge": "Needs 23.46 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_yi15_9b_chat",
+        "name": "Yi-1.5 9B Chat",
+        "panes": [
+          {
+            "variant_id": "variant_model_yi15_9b_chat_q4",
+            "verdict": "Fits",
+            "required": "9.23 GB needed",
+            "available_gb": "24.0",
+            "margin": "14.8 GB spare",
+            "gauge": "Needs 9.23 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_yi15_9b_chat_q5",
+            "verdict": "Fits",
+            "required": "10.47 GB needed",
+            "available_gb": "24.0",
+            "margin": "13.5 GB spare",
+            "gauge": "Needs 10.47 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_yi15_9b_chat_q8",
+            "verdict": "Fits",
+            "required": "14.18 GB needed",
+            "available_gb": "24.0",
+            "margin": "9.8 GB spare",
+            "gauge": "Needs 14.18 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_yi15_9b_chat_fp16",
+            "verdict": "Tight",
+            "required": "23.46 GB needed",
+            "available_gb": "24.0",
+            "margin": "0.5 GB spare",
+            "gauge": "Needs 23.46 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_deepseek_r1_0528_qwen3_8b",
+        "name": "DeepSeek-R1-0528-Qwen3-8B",
+        "panes": [
+          {
+            "variant_id": "variant_model_deepseek_r1_0528_qwen3_8b_q4",
+            "verdict": "Fits",
+            "required": "8.32 GB needed",
+            "available_gb": "24.0",
+            "margin": "15.7 GB spare",
+            "gauge": "Needs 8.32 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_deepseek_r1_0528_qwen3_8b_q5",
+            "verdict": "Fits",
+            "required": "9.42 GB needed",
+            "available_gb": "24.0",
+            "margin": "14.6 GB spare",
+            "gauge": "Needs 9.42 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_deepseek_r1_0528_qwen3_8b_q8",
+            "verdict": "Fits",
+            "required": "12.72 GB needed",
+            "available_gb": "24.0",
+            "margin": "11.3 GB spare",
+            "gauge": "Needs 12.72 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_deepseek_r1_0528_qwen3_8b_fp16",
+            "verdict": "Fits",
+            "required": "20.97 GB needed",
+            "available_gb": "24.0",
+            "margin": "3.0 GB spare",
+            "gauge": "Needs 20.97 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_deepseek_r1_distill_llama_8b",
+        "name": "DeepSeek-R1-Distill-Llama-8B",
+        "panes": [
+          {
+            "variant_id": "variant_model_deepseek_r1_distill_llama_8b_q4",
+            "verdict": "Fits",
+            "required": "8.32 GB needed",
+            "available_gb": "24.0",
+            "margin": "15.7 GB spare",
+            "gauge": "Needs 8.32 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_deepseek_r1_distill_llama_8b_q5",
+            "verdict": "Fits",
+            "required": "9.42 GB needed",
+            "available_gb": "24.0",
+            "margin": "14.6 GB spare",
+            "gauge": "Needs 9.42 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_deepseek_r1_distill_llama_8b_q8",
+            "verdict": "Fits",
+            "required": "12.72 GB needed",
+            "available_gb": "24.0",
+            "margin": "11.3 GB spare",
+            "gauge": "Needs 12.72 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_deepseek_r1_distill_llama_8b_fp16",
+            "verdict": "Fits",
+            "required": "20.97 GB needed",
+            "available_gb": "24.0",
+            "margin": "3.0 GB spare",
+            "gauge": "Needs 20.97 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_llama_31_8b_base",
+        "name": "Llama 3.1 8B",
+        "panes": [
+          {
+            "variant_id": "variant_model_llama_31_8b_base_q4",
+            "verdict": "Fits",
+            "required": "8.32 GB needed",
+            "available_gb": "24.0",
+            "margin": "15.7 GB spare",
+            "gauge": "Needs 8.32 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_llama_31_8b_base_q5",
+            "verdict": "Fits",
+            "required": "9.42 GB needed",
+            "available_gb": "24.0",
+            "margin": "14.6 GB spare",
+            "gauge": "Needs 9.42 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_llama_31_8b_base_q8",
+            "verdict": "Fits",
+            "required": "12.72 GB needed",
+            "available_gb": "24.0",
+            "margin": "11.3 GB spare",
+            "gauge": "Needs 12.72 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_llama_31_8b_base_fp16",
+            "verdict": "Fits",
+            "required": "20.97 GB needed",
+            "available_gb": "24.0",
+            "margin": "3.0 GB spare",
+            "gauge": "Needs 20.97 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_llama_31_8b_instruct",
+        "name": "Llama 3.1 8B Instruct",
+        "panes": [
+          {
+            "variant_id": "variant_model_llama_31_8b_instruct_q4",
+            "verdict": "Fits",
+            "required": "8.32 GB needed",
+            "available_gb": "24.0",
+            "margin": "15.7 GB spare",
+            "gauge": "Needs 8.32 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_llama_31_8b_instruct_q5",
+            "verdict": "Fits",
+            "required": "9.42 GB needed",
+            "available_gb": "24.0",
+            "margin": "14.6 GB spare",
+            "gauge": "Needs 9.42 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_llama_31_8b_instruct_q8",
+            "verdict": "Fits",
+            "required": "12.72 GB needed",
+            "available_gb": "24.0",
+            "margin": "11.3 GB spare",
+            "gauge": "Needs 12.72 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_llama_31_8b_instruct_fp16",
+            "verdict": "Fits",
+            "required": "20.97 GB needed",
+            "available_gb": "24.0",
+            "margin": "3.0 GB spare",
+            "gauge": "Needs 20.97 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_meta_llama_3_8b",
+        "name": "Meta-Llama-3-8B",
+        "panes": [
+          {
+            "variant_id": "variant_model_meta_llama_3_8b_q4",
+            "verdict": "Fits",
+            "required": "8.32 GB needed",
+            "available_gb": "24.0",
+            "margin": "15.7 GB spare",
+            "gauge": "Needs 8.32 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_meta_llama_3_8b_q5",
+            "verdict": "Fits",
+            "required": "9.42 GB needed",
+            "available_gb": "24.0",
+            "margin": "14.6 GB spare",
+            "gauge": "Needs 9.42 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_meta_llama_3_8b_q8",
+            "verdict": "Fits",
+            "required": "12.72 GB needed",
+            "available_gb": "24.0",
+            "margin": "11.3 GB spare",
+            "gauge": "Needs 12.72 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_meta_llama_3_8b_fp16",
+            "verdict": "Fits",
+            "required": "20.97 GB needed",
+            "available_gb": "24.0",
+            "margin": "3.0 GB spare",
+            "gauge": "Needs 20.97 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_meta_llama_3_8b_instruct",
+        "name": "Meta-Llama-3-8B-Instruct",
+        "panes": [
+          {
+            "variant_id": "variant_model_meta_llama_3_8b_instruct_q4",
+            "verdict": "Fits",
+            "required": "8.32 GB needed",
+            "available_gb": "24.0",
+            "margin": "15.7 GB spare",
+            "gauge": "Needs 8.32 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_meta_llama_3_8b_instruct_q5",
+            "verdict": "Fits",
+            "required": "9.42 GB needed",
+            "available_gb": "24.0",
+            "margin": "14.6 GB spare",
+            "gauge": "Needs 9.42 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_meta_llama_3_8b_instruct_q8",
+            "verdict": "Fits",
+            "required": "12.72 GB needed",
+            "available_gb": "24.0",
+            "margin": "11.3 GB spare",
+            "gauge": "Needs 12.72 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_meta_llama_3_8b_instruct_fp16",
+            "verdict": "Fits",
+            "required": "20.97 GB needed",
+            "available_gb": "24.0",
+            "margin": "3.0 GB spare",
+            "gauge": "Needs 20.97 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen3_8b",
+        "name": "Qwen3-8B",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen3_8b_q4",
+            "verdict": "Fits",
+            "required": "8.32 GB needed",
+            "available_gb": "24.0",
+            "margin": "15.7 GB spare",
+            "gauge": "Needs 8.32 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen3_8b_q5",
+            "verdict": "Fits",
+            "required": "9.42 GB needed",
+            "available_gb": "24.0",
+            "margin": "14.6 GB spare",
+            "gauge": "Needs 9.42 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen3_8b_q8",
+            "verdict": "Fits",
+            "required": "12.72 GB needed",
+            "available_gb": "24.0",
+            "margin": "11.3 GB spare",
+            "gauge": "Needs 12.72 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen3_8b_fp16",
+            "verdict": "Fits",
+            "required": "20.97 GB needed",
+            "available_gb": "24.0",
+            "margin": "3.0 GB spare",
+            "gauge": "Needs 20.97 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen3_8b_base",
+        "name": "Qwen3-8B-Base",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen3_8b_base_q4",
+            "verdict": "Fits",
+            "required": "8.32 GB needed",
+            "available_gb": "24.0",
+            "margin": "15.7 GB spare",
+            "gauge": "Needs 8.32 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen3_8b_base_q5",
+            "verdict": "Fits",
+            "required": "9.42 GB needed",
+            "available_gb": "24.0",
+            "margin": "14.6 GB spare",
+            "gauge": "Needs 9.42 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen3_8b_base_q8",
+            "verdict": "Fits",
+            "required": "12.72 GB needed",
+            "available_gb": "24.0",
+            "margin": "11.3 GB spare",
+            "gauge": "Needs 12.72 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen3_8b_base_fp16",
+            "verdict": "Fits",
+            "required": "20.97 GB needed",
+            "available_gb": "24.0",
+            "margin": "3.0 GB spare",
+            "gauge": "Needs 20.97 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen3_8b_gguf",
+        "name": "Qwen3-8B-GGUF",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen3_8b_gguf_q4",
+            "verdict": "Fits",
+            "required": "8.32 GB needed",
+            "available_gb": "24.0",
+            "margin": "15.7 GB spare",
+            "gauge": "Needs 8.32 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen3_8b_gguf_q5",
+            "verdict": "Fits",
+            "required": "9.42 GB needed",
+            "available_gb": "24.0",
+            "margin": "14.6 GB spare",
+            "gauge": "Needs 9.42 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen3_8b_gguf_q8",
+            "verdict": "Fits",
+            "required": "12.72 GB needed",
+            "available_gb": "24.0",
+            "margin": "11.3 GB spare",
+            "gauge": "Needs 12.72 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen3_8b_gguf_fp16",
+            "verdict": "Fits",
+            "required": "20.97 GB needed",
+            "available_gb": "24.0",
+            "margin": "3.0 GB spare",
+            "gauge": "Needs 20.97 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen25_7b_instruct",
+        "name": "Qwen2.5 7B Instruct",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen25_7b_instruct_q4",
+            "verdict": "Fits",
+            "required": "7.97 GB needed",
+            "available_gb": "24.0",
+            "margin": "16.0 GB spare",
+            "gauge": "Needs 7.97 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen25_7b_instruct_q5",
+            "verdict": "Fits",
+            "required": "9.02 GB needed",
+            "available_gb": "24.0",
+            "margin": "15.0 GB spare",
+            "gauge": "Needs 9.02 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen25_7b_instruct_q8",
+            "verdict": "Fits",
+            "required": "12.16 GB needed",
+            "available_gb": "24.0",
+            "margin": "11.8 GB spare",
+            "gauge": "Needs 12.16 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen25_7b_instruct_fp16",
+            "verdict": "Fits",
+            "required": "20.01 GB needed",
+            "available_gb": "24.0",
+            "margin": "4.0 GB spare",
+            "gauge": "Needs 20.01 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_deepseek_r1_distill_qwen_7b",
+        "name": "DeepSeek-R1-Distill-Qwen-7B",
+        "panes": [
+          {
+            "variant_id": "variant_model_deepseek_r1_distill_qwen_7b_q4",
+            "verdict": "Fits",
+            "required": "7.40 GB needed",
+            "available_gb": "24.0",
+            "margin": "16.6 GB spare",
+            "gauge": "Needs 7.40 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_deepseek_r1_distill_qwen_7b_q5",
+            "verdict": "Fits",
+            "required": "8.36 GB needed",
+            "available_gb": "24.0",
+            "margin": "15.6 GB spare",
+            "gauge": "Needs 8.36 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_deepseek_r1_distill_qwen_7b_q8",
+            "verdict": "Fits",
+            "required": "11.25 GB needed",
+            "available_gb": "24.0",
+            "margin": "12.7 GB spare",
+            "gauge": "Needs 11.25 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_deepseek_r1_distill_qwen_7b_fp16",
+            "verdict": "Fits",
+            "required": "18.47 GB needed",
+            "available_gb": "24.0",
+            "margin": "5.5 GB spare",
+            "gauge": "Needs 18.47 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_llama_2_7b_chat_hf",
+        "name": "Llama-2-7b-chat-hf",
+        "panes": [
+          {
+            "variant_id": "variant_model_llama_2_7b_chat_hf_q4",
+            "verdict": "Fits",
+            "required": "7.40 GB needed",
+            "available_gb": "24.0",
+            "margin": "16.6 GB spare",
+            "gauge": "Needs 7.40 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_llama_2_7b_chat_hf_q5",
+            "verdict": "Fits",
+            "required": "8.36 GB needed",
+            "available_gb": "24.0",
+            "margin": "15.6 GB spare",
+            "gauge": "Needs 8.36 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_llama_2_7b_chat_hf_q8",
+            "verdict": "Fits",
+            "required": "11.25 GB needed",
+            "available_gb": "24.0",
+            "margin": "12.7 GB spare",
+            "gauge": "Needs 11.25 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_llama_2_7b_chat_hf_fp16",
+            "verdict": "Fits",
+            "required": "18.47 GB needed",
+            "available_gb": "24.0",
+            "margin": "5.5 GB spare",
+            "gauge": "Needs 18.47 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_llama_2_7b_hf",
+        "name": "Llama-2-7b-hf",
+        "panes": [
+          {
+            "variant_id": "variant_model_llama_2_7b_hf_q4",
+            "verdict": "Fits",
+            "required": "7.40 GB needed",
+            "available_gb": "24.0",
+            "margin": "16.6 GB spare",
+            "gauge": "Needs 7.40 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_llama_2_7b_hf_q5",
+            "verdict": "Fits",
+            "required": "8.36 GB needed",
+            "available_gb": "24.0",
+            "margin": "15.6 GB spare",
+            "gauge": "Needs 8.36 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_llama_2_7b_hf_q8",
+            "verdict": "Fits",
+            "required": "11.25 GB needed",
+            "available_gb": "24.0",
+            "margin": "12.7 GB spare",
+            "gauge": "Needs 11.25 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_llama_2_7b_hf_fp16",
+            "verdict": "Fits",
+            "required": "18.47 GB needed",
+            "available_gb": "24.0",
+            "margin": "5.5 GB spare",
+            "gauge": "Needs 18.47 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_mistral_7b_instruct_v03",
+        "name": "Mistral 7B Instruct v0.3",
+        "panes": [
+          {
+            "variant_id": "variant_model_mistral_7b_instruct_v03_q4",
+            "verdict": "Fits",
+            "required": "7.40 GB needed",
+            "available_gb": "24.0",
+            "margin": "16.6 GB spare",
+            "gauge": "Needs 7.40 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_mistral_7b_instruct_v03_q5",
+            "verdict": "Fits",
+            "required": "8.36 GB needed",
+            "available_gb": "24.0",
+            "margin": "15.6 GB spare",
+            "gauge": "Needs 8.36 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_mistral_7b_instruct_v03_q8",
+            "verdict": "Fits",
+            "required": "11.25 GB needed",
+            "available_gb": "24.0",
+            "margin": "12.7 GB spare",
+            "gauge": "Needs 11.25 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_mistral_7b_instruct_v03_fp16",
+            "verdict": "Fits",
+            "required": "18.47 GB needed",
+            "available_gb": "24.0",
+            "margin": "5.5 GB spare",
+            "gauge": "Needs 18.47 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_mistral_7b_base_v03",
+        "name": "Mistral 7B v0.3",
+        "panes": [
+          {
+            "variant_id": "variant_model_mistral_7b_base_v03_q4",
+            "verdict": "Fits",
+            "required": "7.40 GB needed",
+            "available_gb": "24.0",
+            "margin": "16.6 GB spare",
+            "gauge": "Needs 7.40 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_mistral_7b_base_v03_q5",
+            "verdict": "Fits",
+            "required": "8.36 GB needed",
+            "available_gb": "24.0",
+            "margin": "15.6 GB spare",
+            "gauge": "Needs 8.36 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_mistral_7b_base_v03_q8",
+            "verdict": "Fits",
+            "required": "11.25 GB needed",
+            "available_gb": "24.0",
+            "margin": "12.7 GB spare",
+            "gauge": "Needs 11.25 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_mistral_7b_base_v03_fp16",
+            "verdict": "Fits",
+            "required": "18.47 GB needed",
+            "available_gb": "24.0",
+            "margin": "5.5 GB spare",
+            "gauge": "Needs 18.47 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_mistral_7b_instruct_v0_1",
+        "name": "Mistral-7B-Instruct-v0.1",
+        "panes": [
+          {
+            "variant_id": "variant_model_mistral_7b_instruct_v0_1_q4",
+            "verdict": "Fits",
+            "required": "7.40 GB needed",
+            "available_gb": "24.0",
+            "margin": "16.6 GB spare",
+            "gauge": "Needs 7.40 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_mistral_7b_instruct_v0_1_q5",
+            "verdict": "Fits",
+            "required": "8.36 GB needed",
+            "available_gb": "24.0",
+            "margin": "15.6 GB spare",
+            "gauge": "Needs 8.36 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_mistral_7b_instruct_v0_1_q8",
+            "verdict": "Fits",
+            "required": "11.25 GB needed",
+            "available_gb": "24.0",
+            "margin": "12.7 GB spare",
+            "gauge": "Needs 11.25 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_mistral_7b_instruct_v0_1_fp16",
+            "verdict": "Fits",
+            "required": "18.47 GB needed",
+            "available_gb": "24.0",
+            "margin": "5.5 GB spare",
+            "gauge": "Needs 18.47 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_mistral_7b_instruct_v0_2",
+        "name": "Mistral-7B-Instruct-v0.2",
+        "panes": [
+          {
+            "variant_id": "variant_model_mistral_7b_instruct_v0_2_q4",
+            "verdict": "Fits",
+            "required": "7.40 GB needed",
+            "available_gb": "24.0",
+            "margin": "16.6 GB spare",
+            "gauge": "Needs 7.40 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_mistral_7b_instruct_v0_2_q5",
+            "verdict": "Fits",
+            "required": "8.36 GB needed",
+            "available_gb": "24.0",
+            "margin": "15.6 GB spare",
+            "gauge": "Needs 8.36 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_mistral_7b_instruct_v0_2_q8",
+            "verdict": "Fits",
+            "required": "11.25 GB needed",
+            "available_gb": "24.0",
+            "margin": "12.7 GB spare",
+            "gauge": "Needs 11.25 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_mistral_7b_instruct_v0_2_fp16",
+            "verdict": "Fits",
+            "required": "18.47 GB needed",
+            "available_gb": "24.0",
+            "margin": "5.5 GB spare",
+            "gauge": "Needs 18.47 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_mistral_7b_v0_1",
+        "name": "Mistral-7B-v0.1",
+        "panes": [
+          {
+            "variant_id": "variant_model_mistral_7b_v0_1_q4",
+            "verdict": "Fits",
+            "required": "7.40 GB needed",
+            "available_gb": "24.0",
+            "margin": "16.6 GB spare",
+            "gauge": "Needs 7.40 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_mistral_7b_v0_1_q5",
+            "verdict": "Fits",
+            "required": "8.36 GB needed",
+            "available_gb": "24.0",
+            "margin": "15.6 GB spare",
+            "gauge": "Needs 8.36 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_mistral_7b_v0_1_q8",
+            "verdict": "Fits",
+            "required": "11.25 GB needed",
+            "available_gb": "24.0",
+            "margin": "12.7 GB spare",
+            "gauge": "Needs 11.25 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_mistral_7b_v0_1_fp16",
+            "verdict": "Fits",
+            "required": "18.47 GB needed",
+            "available_gb": "24.0",
+            "margin": "5.5 GB spare",
+            "gauge": "Needs 18.47 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen2_5_7b",
+        "name": "Qwen2.5-7B",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen2_5_7b_q4",
+            "verdict": "Fits",
+            "required": "7.40 GB needed",
+            "available_gb": "24.0",
+            "margin": "16.6 GB spare",
+            "gauge": "Needs 7.40 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen2_5_7b_q5",
+            "verdict": "Fits",
+            "required": "8.36 GB needed",
+            "available_gb": "24.0",
+            "margin": "15.6 GB spare",
+            "gauge": "Needs 8.36 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen2_5_7b_q8",
+            "verdict": "Fits",
+            "required": "11.25 GB needed",
+            "available_gb": "24.0",
+            "margin": "12.7 GB spare",
+            "gauge": "Needs 11.25 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen2_5_7b_fp16",
+            "verdict": "Fits",
+            "required": "18.47 GB needed",
+            "available_gb": "24.0",
+            "margin": "5.5 GB spare",
+            "gauge": "Needs 18.47 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen2_5_coder_7b_instruct",
+        "name": "Qwen2.5-Coder-7B-Instruct",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen2_5_coder_7b_instruct_q4",
+            "verdict": "Fits",
+            "required": "7.40 GB needed",
+            "available_gb": "24.0",
+            "margin": "16.6 GB spare",
+            "gauge": "Needs 7.40 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen2_5_coder_7b_instruct_q5",
+            "verdict": "Fits",
+            "required": "8.36 GB needed",
+            "available_gb": "24.0",
+            "margin": "15.6 GB spare",
+            "gauge": "Needs 8.36 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen2_5_coder_7b_instruct_q8",
+            "verdict": "Fits",
+            "required": "11.25 GB needed",
+            "available_gb": "24.0",
+            "margin": "12.7 GB spare",
+            "gauge": "Needs 11.25 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen2_5_coder_7b_instruct_fp16",
+            "verdict": "Fits",
+            "required": "18.47 GB needed",
+            "available_gb": "24.0",
+            "margin": "5.5 GB spare",
+            "gauge": "Needs 18.47 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_codegemma_7b_it",
+        "name": "codegemma-7b-it",
+        "panes": [
+          {
+            "variant_id": "variant_model_codegemma_7b_it_q4",
+            "verdict": "Fits",
+            "required": "7.40 GB needed",
+            "available_gb": "24.0",
+            "margin": "16.6 GB spare",
+            "gauge": "Needs 7.40 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_codegemma_7b_it_q5",
+            "verdict": "Fits",
+            "required": "8.36 GB needed",
+            "available_gb": "24.0",
+            "margin": "15.6 GB spare",
+            "gauge": "Needs 8.36 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_codegemma_7b_it_q8",
+            "verdict": "Fits",
+            "required": "11.25 GB needed",
+            "available_gb": "24.0",
+            "margin": "12.7 GB spare",
+            "gauge": "Needs 11.25 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_codegemma_7b_it_fp16",
+            "verdict": "Fits",
+            "required": "18.47 GB needed",
+            "available_gb": "24.0",
+            "margin": "5.5 GB spare",
+            "gauge": "Needs 18.47 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_deepseek_coder_7b_instruct_v1_5",
+        "name": "deepseek-coder-7b-instruct-v1.5",
+        "panes": [
+          {
+            "variant_id": "variant_model_deepseek_coder_7b_instruct_v1_5_q4",
+            "verdict": "Fits",
+            "required": "7.40 GB needed",
+            "available_gb": "24.0",
+            "margin": "16.6 GB spare",
+            "gauge": "Needs 7.40 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_deepseek_coder_7b_instruct_v1_5_q5",
+            "verdict": "Fits",
+            "required": "8.36 GB needed",
+            "available_gb": "24.0",
+            "margin": "15.6 GB spare",
+            "gauge": "Needs 8.36 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_deepseek_coder_7b_instruct_v1_5_q8",
+            "verdict": "Fits",
+            "required": "11.25 GB needed",
+            "available_gb": "24.0",
+            "margin": "12.7 GB spare",
+            "gauge": "Needs 11.25 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_deepseek_coder_7b_instruct_v1_5_fp16",
+            "verdict": "Fits",
+            "required": "18.47 GB needed",
+            "available_gb": "24.0",
+            "margin": "5.5 GB spare",
+            "gauge": "Needs 18.47 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_deepseek_coder_6_7b_base",
+        "name": "deepseek-coder-6.7b-base",
+        "panes": [
+          {
+            "variant_id": "variant_model_deepseek_coder_6_7b_base_q4",
+            "verdict": "Fits",
+            "required": "7.12 GB needed",
+            "available_gb": "24.0",
+            "margin": "16.9 GB spare",
+            "gauge": "Needs 7.12 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_deepseek_coder_6_7b_base_q5",
+            "verdict": "Fits",
+            "required": "8.04 GB needed",
+            "available_gb": "24.0",
+            "margin": "16.0 GB spare",
+            "gauge": "Needs 8.04 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_deepseek_coder_6_7b_base_q8",
+            "verdict": "Fits",
+            "required": "10.80 GB needed",
+            "available_gb": "24.0",
+            "margin": "13.2 GB spare",
+            "gauge": "Needs 10.80 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_deepseek_coder_6_7b_base_fp16",
+            "verdict": "Fits",
+            "required": "17.71 GB needed",
+            "available_gb": "24.0",
+            "margin": "6.3 GB spare",
+            "gauge": "Needs 17.71 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen3_4b",
+        "name": "Qwen3-4B",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen3_4b_q4",
+            "verdict": "Fits",
+            "required": "4.66 GB needed",
+            "available_gb": "24.0",
+            "margin": "19.3 GB spare",
+            "gauge": "Needs 4.66 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen3_4b_q5",
+            "verdict": "Fits",
+            "required": "5.21 GB needed",
+            "available_gb": "24.0",
+            "margin": "18.8 GB spare",
+            "gauge": "Needs 5.21 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen3_4b_q8",
+            "verdict": "Fits",
+            "required": "6.86 GB needed",
+            "available_gb": "24.0",
+            "margin": "17.1 GB spare",
+            "gauge": "Needs 6.86 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen3_4b_fp16",
+            "verdict": "Fits",
+            "required": "10.98 GB needed",
+            "available_gb": "24.0",
+            "margin": "13.0 GB spare",
+            "gauge": "Needs 10.98 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen3_4b_base",
+        "name": "Qwen3-4B-Base",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen3_4b_base_q4",
+            "verdict": "Fits",
+            "required": "4.66 GB needed",
+            "available_gb": "24.0",
+            "margin": "19.3 GB spare",
+            "gauge": "Needs 4.66 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen3_4b_base_q5",
+            "verdict": "Fits",
+            "required": "5.21 GB needed",
+            "available_gb": "24.0",
+            "margin": "18.8 GB spare",
+            "gauge": "Needs 5.21 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen3_4b_base_q8",
+            "verdict": "Fits",
+            "required": "6.86 GB needed",
+            "available_gb": "24.0",
+            "margin": "17.1 GB spare",
+            "gauge": "Needs 6.86 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen3_4b_base_fp16",
+            "verdict": "Fits",
+            "required": "10.98 GB needed",
+            "available_gb": "24.0",
+            "margin": "13.0 GB spare",
+            "gauge": "Needs 10.98 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen3_4b_gguf",
+        "name": "Qwen3-4B-GGUF",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen3_4b_gguf_q4",
+            "verdict": "Fits",
+            "required": "4.66 GB needed",
+            "available_gb": "24.0",
+            "margin": "19.3 GB spare",
+            "gauge": "Needs 4.66 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen3_4b_gguf_q5",
+            "verdict": "Fits",
+            "required": "5.21 GB needed",
+            "available_gb": "24.0",
+            "margin": "18.8 GB spare",
+            "gauge": "Needs 5.21 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen3_4b_gguf_q8",
+            "verdict": "Fits",
+            "required": "6.86 GB needed",
+            "available_gb": "24.0",
+            "margin": "17.1 GB spare",
+            "gauge": "Needs 6.86 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen3_4b_gguf_fp16",
+            "verdict": "Fits",
+            "required": "10.98 GB needed",
+            "available_gb": "24.0",
+            "margin": "13.0 GB spare",
+            "gauge": "Needs 10.98 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen3_4b_instruct_2507",
+        "name": "Qwen3-4B-Instruct-2507",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen3_4b_instruct_2507_q4",
+            "verdict": "Fits",
+            "required": "4.66 GB needed",
+            "available_gb": "24.0",
+            "margin": "19.3 GB spare",
+            "gauge": "Needs 4.66 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen3_4b_instruct_2507_q5",
+            "verdict": "Fits",
+            "required": "5.21 GB needed",
+            "available_gb": "24.0",
+            "margin": "18.8 GB spare",
+            "gauge": "Needs 5.21 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen3_4b_instruct_2507_q8",
+            "verdict": "Fits",
+            "required": "6.86 GB needed",
+            "available_gb": "24.0",
+            "margin": "17.1 GB spare",
+            "gauge": "Needs 6.86 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen3_4b_instruct_2507_fp16",
+            "verdict": "Fits",
+            "required": "10.98 GB needed",
+            "available_gb": "24.0",
+            "margin": "13.0 GB spare",
+            "gauge": "Needs 10.98 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen3_4b_thinking_2507",
+        "name": "Qwen3-4B-Thinking-2507",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen3_4b_thinking_2507_q4",
+            "verdict": "Fits",
+            "required": "4.66 GB needed",
+            "available_gb": "24.0",
+            "margin": "19.3 GB spare",
+            "gauge": "Needs 4.66 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen3_4b_thinking_2507_q5",
+            "verdict": "Fits",
+            "required": "5.21 GB needed",
+            "available_gb": "24.0",
+            "margin": "18.8 GB spare",
+            "gauge": "Needs 5.21 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen3_4b_thinking_2507_q8",
+            "verdict": "Fits",
+            "required": "6.86 GB needed",
+            "available_gb": "24.0",
+            "margin": "17.1 GB spare",
+            "gauge": "Needs 6.86 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen3_4b_thinking_2507_fp16",
+            "verdict": "Fits",
+            "required": "10.98 GB needed",
+            "available_gb": "24.0",
+            "margin": "13.0 GB spare",
+            "gauge": "Needs 10.98 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_phi_4_mini_instruct",
+        "name": "Phi-4-mini-instruct",
+        "panes": [
+          {
+            "variant_id": "variant_model_phi_4_mini_instruct_q4",
+            "verdict": "Fits",
+            "required": "4.51 GB needed",
+            "available_gb": "24.0",
+            "margin": "19.5 GB spare",
+            "gauge": "Needs 4.51 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_phi_4_mini_instruct_q5",
+            "verdict": "Fits",
+            "required": "5.04 GB needed",
+            "available_gb": "24.0",
+            "margin": "19.0 GB spare",
+            "gauge": "Needs 5.04 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_phi_4_mini_instruct_q8",
+            "verdict": "Fits",
+            "required": "6.62 GB needed",
+            "available_gb": "24.0",
+            "margin": "17.4 GB spare",
+            "gauge": "Needs 6.62 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_phi_4_mini_instruct_fp16",
+            "verdict": "Fits",
+            "required": "10.58 GB needed",
+            "available_gb": "24.0",
+            "margin": "13.4 GB spare",
+            "gauge": "Needs 10.58 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_phi_3_mini_128k_instruct",
+        "name": "Phi-3-mini-128k-instruct",
+        "panes": [
+          {
+            "variant_id": "variant_model_phi_3_mini_128k_instruct_q4",
+            "verdict": "Fits",
+            "required": "4.50 GB needed",
+            "available_gb": "24.0",
+            "margin": "19.5 GB spare",
+            "gauge": "Needs 4.50 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_phi_3_mini_128k_instruct_q5",
+            "verdict": "Fits",
+            "required": "5.02 GB needed",
+            "available_gb": "24.0",
+            "margin": "19.0 GB spare",
+            "gauge": "Needs 5.02 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_phi_3_mini_128k_instruct_q8",
+            "verdict": "Fits",
+            "required": "6.60 GB needed",
+            "available_gb": "24.0",
+            "margin": "17.4 GB spare",
+            "gauge": "Needs 6.60 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_phi_3_mini_128k_instruct_fp16",
+            "verdict": "Fits",
+            "required": "10.54 GB needed",
+            "available_gb": "24.0",
+            "margin": "13.5 GB spare",
+            "gauge": "Needs 10.54 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_phi_3_mini_4k_instruct",
+        "name": "Phi-3-mini-4k-instruct",
+        "panes": [
+          {
+            "variant_id": "variant_model_phi_3_mini_4k_instruct_q4",
+            "verdict": "Fits",
+            "required": "4.50 GB needed",
+            "available_gb": "24.0",
+            "margin": "19.5 GB spare",
+            "gauge": "Needs 4.50 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_phi_3_mini_4k_instruct_q5",
+            "verdict": "Fits",
+            "required": "5.02 GB needed",
+            "available_gb": "24.0",
+            "margin": "19.0 GB spare",
+            "gauge": "Needs 5.02 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_phi_3_mini_4k_instruct_q8",
+            "verdict": "Fits",
+            "required": "6.60 GB needed",
+            "available_gb": "24.0",
+            "margin": "17.4 GB spare",
+            "gauge": "Needs 6.60 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_phi_3_mini_4k_instruct_fp16",
+            "verdict": "Fits",
+            "required": "10.54 GB needed",
+            "available_gb": "24.0",
+            "margin": "13.5 GB spare",
+            "gauge": "Needs 10.54 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_phi35_mini_instruct",
+        "name": "Phi-3.5 Mini Instruct",
+        "panes": [
+          {
+            "variant_id": "variant_model_phi35_mini_instruct_q4",
+            "verdict": "Fits",
+            "required": "4.48 GB needed",
+            "available_gb": "24.0",
+            "margin": "19.5 GB spare",
+            "gauge": "Needs 4.48 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_phi35_mini_instruct_q5",
+            "verdict": "Fits",
+            "required": "5.01 GB needed",
+            "available_gb": "24.0",
+            "margin": "19.0 GB spare",
+            "gauge": "Needs 5.01 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_phi35_mini_instruct_q8",
+            "verdict": "Fits",
+            "required": "6.57 GB needed",
+            "available_gb": "24.0",
+            "margin": "17.4 GB spare",
+            "gauge": "Needs 6.57 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_phi35_mini_instruct_fp16",
+            "verdict": "Fits",
+            "required": "10.49 GB needed",
+            "available_gb": "24.0",
+            "margin": "13.5 GB spare",
+            "gauge": "Needs 10.49 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen25_3b_instruct",
+        "name": "Qwen2.5 3B Instruct",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen25_3b_instruct_q4",
+            "verdict": "Fits",
+            "required": "3.84 GB needed",
+            "available_gb": "24.0",
+            "margin": "20.2 GB spare",
+            "gauge": "Needs 3.84 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen25_3b_instruct_q5",
+            "verdict": "Fits",
+            "required": "4.27 GB needed",
+            "available_gb": "24.0",
+            "margin": "19.7 GB spare",
+            "gauge": "Needs 4.27 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen25_3b_instruct_q8",
+            "verdict": "Fits",
+            "required": "5.54 GB needed",
+            "available_gb": "24.0",
+            "margin": "18.5 GB spare",
+            "gauge": "Needs 5.54 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen25_3b_instruct_fp16",
+            "verdict": "Fits",
+            "required": "8.73 GB needed",
+            "available_gb": "24.0",
+            "margin": "15.3 GB spare",
+            "gauge": "Needs 8.73 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_llama_3_2_3b",
+        "name": "Llama-3.2-3B",
+        "panes": [
+          {
+            "variant_id": "variant_model_llama_3_2_3b_q4",
+            "verdict": "Fits",
+            "required": "3.74 GB needed",
+            "available_gb": "24.0",
+            "margin": "20.3 GB spare",
+            "gauge": "Needs 3.74 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_llama_3_2_3b_q5",
+            "verdict": "Fits",
+            "required": "4.16 GB needed",
+            "available_gb": "24.0",
+            "margin": "19.8 GB spare",
+            "gauge": "Needs 4.16 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_llama_3_2_3b_q8",
+            "verdict": "Fits",
+            "required": "5.39 GB needed",
+            "available_gb": "24.0",
+            "margin": "18.6 GB spare",
+            "gauge": "Needs 5.39 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_llama_3_2_3b_fp16",
+            "verdict": "Fits",
+            "required": "8.49 GB needed",
+            "available_gb": "24.0",
+            "margin": "15.5 GB spare",
+            "gauge": "Needs 8.49 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_llama_3_2_3b_instruct",
+        "name": "Llama-3.2-3B-Instruct",
+        "panes": [
+          {
+            "variant_id": "variant_model_llama_3_2_3b_instruct_q4",
+            "verdict": "Fits",
+            "required": "3.74 GB needed",
+            "available_gb": "24.0",
+            "margin": "20.3 GB spare",
+            "gauge": "Needs 3.74 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_llama_3_2_3b_instruct_q5",
+            "verdict": "Fits",
+            "required": "4.16 GB needed",
+            "available_gb": "24.0",
+            "margin": "19.8 GB spare",
+            "gauge": "Needs 4.16 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_llama_3_2_3b_instruct_q8",
+            "verdict": "Fits",
+            "required": "5.39 GB needed",
+            "available_gb": "24.0",
+            "margin": "18.6 GB spare",
+            "gauge": "Needs 5.39 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_llama_3_2_3b_instruct_fp16",
+            "verdict": "Fits",
+            "required": "8.49 GB needed",
+            "available_gb": "24.0",
+            "margin": "15.5 GB spare",
+            "gauge": "Needs 8.49 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen2_5_coder_3b_instruct",
+        "name": "Qwen2.5-Coder-3B-Instruct",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen2_5_coder_3b_instruct_q4",
+            "verdict": "Fits",
+            "required": "3.74 GB needed",
+            "available_gb": "24.0",
+            "margin": "20.3 GB spare",
+            "gauge": "Needs 3.74 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen2_5_coder_3b_instruct_q5",
+            "verdict": "Fits",
+            "required": "4.16 GB needed",
+            "available_gb": "24.0",
+            "margin": "19.8 GB spare",
+            "gauge": "Needs 4.16 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen2_5_coder_3b_instruct_q8",
+            "verdict": "Fits",
+            "required": "5.39 GB needed",
+            "available_gb": "24.0",
+            "margin": "18.6 GB spare",
+            "gauge": "Needs 5.39 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen2_5_coder_3b_instruct_fp16",
+            "verdict": "Fits",
+            "required": "8.49 GB needed",
+            "available_gb": "24.0",
+            "margin": "15.5 GB spare",
+            "gauge": "Needs 8.49 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_phi_2",
+        "name": "phi-2",
+        "panes": [
+          {
+            "variant_id": "variant_model_phi_2_q4",
+            "verdict": "Fits",
+            "required": "3.56 GB needed",
+            "available_gb": "24.0",
+            "margin": "20.4 GB spare",
+            "gauge": "Needs 3.56 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_phi_2_q5",
+            "verdict": "Fits",
+            "required": "3.94 GB needed",
+            "available_gb": "24.0",
+            "margin": "20.1 GB spare",
+            "gauge": "Needs 3.94 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_phi_2_q8",
+            "verdict": "Fits",
+            "required": "5.08 GB needed",
+            "available_gb": "24.0",
+            "margin": "18.9 GB spare",
+            "gauge": "Needs 5.08 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_phi_2_fp16",
+            "verdict": "Fits",
+            "required": "7.95 GB needed",
+            "available_gb": "24.0",
+            "margin": "16.0 GB spare",
+            "gauge": "Needs 7.95 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_gemma_2_2b",
+        "name": "gemma-2-2b",
+        "panes": [
+          {
+            "variant_id": "variant_model_gemma_2_2b_q4",
+            "verdict": "Fits",
+            "required": "2.83 GB needed",
+            "available_gb": "24.0",
+            "margin": "21.2 GB spare",
+            "gauge": "Needs 2.83 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_gemma_2_2b_q5",
+            "verdict": "Fits",
+            "required": "3.10 GB needed",
+            "available_gb": "24.0",
+            "margin": "20.9 GB spare",
+            "gauge": "Needs 3.10 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_gemma_2_2b_q8",
+            "verdict": "Fits",
+            "required": "3.93 GB needed",
+            "available_gb": "24.0",
+            "margin": "20.1 GB spare",
+            "gauge": "Needs 3.93 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_gemma_2_2b_fp16",
+            "verdict": "Fits",
+            "required": "5.99 GB needed",
+            "available_gb": "24.0",
+            "margin": "18.0 GB spare",
+            "gauge": "Needs 5.99 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_gemma_2_2b_it",
+        "name": "gemma-2-2b-it",
+        "panes": [
+          {
+            "variant_id": "variant_model_gemma_2_2b_it_q4",
+            "verdict": "Fits",
+            "required": "2.83 GB needed",
+            "available_gb": "24.0",
+            "margin": "21.2 GB spare",
+            "gauge": "Needs 2.83 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_gemma_2_2b_it_q5",
+            "verdict": "Fits",
+            "required": "3.10 GB needed",
+            "available_gb": "24.0",
+            "margin": "20.9 GB spare",
+            "gauge": "Needs 3.10 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_gemma_2_2b_it_q8",
+            "verdict": "Fits",
+            "required": "3.93 GB needed",
+            "available_gb": "24.0",
+            "margin": "20.1 GB spare",
+            "gauge": "Needs 3.93 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_gemma_2_2b_it_fp16",
+            "verdict": "Fits",
+            "required": "5.99 GB needed",
+            "available_gb": "24.0",
+            "margin": "18.0 GB spare",
+            "gauge": "Needs 5.99 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_gemma_2b",
+        "name": "gemma-2b",
+        "panes": [
+          {
+            "variant_id": "variant_model_gemma_2b_q4",
+            "verdict": "Fits",
+            "required": "2.83 GB needed",
+            "available_gb": "24.0",
+            "margin": "21.2 GB spare",
+            "gauge": "Needs 2.83 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_gemma_2b_q5",
+            "verdict": "Fits",
+            "required": "3.10 GB needed",
+            "available_gb": "24.0",
+            "margin": "20.9 GB spare",
+            "gauge": "Needs 3.10 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_gemma_2b_q8",
+            "verdict": "Fits",
+            "required": "3.93 GB needed",
+            "available_gb": "24.0",
+            "margin": "20.1 GB spare",
+            "gauge": "Needs 3.93 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_gemma_2b_fp16",
+            "verdict": "Fits",
+            "required": "5.99 GB needed",
+            "available_gb": "24.0",
+            "margin": "18.0 GB spare",
+            "gauge": "Needs 5.99 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_t5gemma_2b_2b_ul2_it",
+        "name": "t5gemma-2b-2b-ul2-it",
+        "panes": [
+          {
+            "variant_id": "variant_model_t5gemma_2b_2b_ul2_it_q4",
+            "verdict": "Fits",
+            "required": "2.83 GB needed",
+            "available_gb": "24.0",
+            "margin": "21.2 GB spare",
+            "gauge": "Needs 2.83 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_t5gemma_2b_2b_ul2_it_q5",
+            "verdict": "Fits",
+            "required": "3.10 GB needed",
+            "available_gb": "24.0",
+            "margin": "20.9 GB spare",
+            "gauge": "Needs 3.10 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_t5gemma_2b_2b_ul2_it_q8",
+            "verdict": "Fits",
+            "required": "3.93 GB needed",
+            "available_gb": "24.0",
+            "margin": "20.1 GB spare",
+            "gauge": "Needs 3.93 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_t5gemma_2b_2b_ul2_it_fp16",
+            "verdict": "Fits",
+            "required": "5.99 GB needed",
+            "available_gb": "24.0",
+            "margin": "18.0 GB spare",
+            "gauge": "Needs 5.99 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen3_1_7b",
+        "name": "Qwen3-1.7B",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen3_1_7b_q4",
+            "verdict": "Fits",
+            "required": "2.55 GB needed",
+            "available_gb": "24.0",
+            "margin": "21.5 GB spare",
+            "gauge": "Needs 2.55 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen3_1_7b_q5",
+            "verdict": "Fits",
+            "required": "2.78 GB needed",
+            "available_gb": "24.0",
+            "margin": "21.2 GB spare",
+            "gauge": "Needs 2.78 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen3_1_7b_q8",
+            "verdict": "Fits",
+            "required": "3.48 GB needed",
+            "available_gb": "24.0",
+            "margin": "20.5 GB spare",
+            "gauge": "Needs 3.48 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen3_1_7b_fp16",
+            "verdict": "Fits",
+            "required": "5.23 GB needed",
+            "available_gb": "24.0",
+            "margin": "18.8 GB spare",
+            "gauge": "Needs 5.23 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen3_1_7b_base",
+        "name": "Qwen3-1.7B-Base",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen3_1_7b_base_q4",
+            "verdict": "Fits",
+            "required": "2.55 GB needed",
+            "available_gb": "24.0",
+            "margin": "21.5 GB spare",
+            "gauge": "Needs 2.55 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen3_1_7b_base_q5",
+            "verdict": "Fits",
+            "required": "2.78 GB needed",
+            "available_gb": "24.0",
+            "margin": "21.2 GB spare",
+            "gauge": "Needs 2.78 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen3_1_7b_base_q8",
+            "verdict": "Fits",
+            "required": "3.48 GB needed",
+            "available_gb": "24.0",
+            "margin": "20.5 GB spare",
+            "gauge": "Needs 3.48 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen3_1_7b_base_fp16",
+            "verdict": "Fits",
+            "required": "5.23 GB needed",
+            "available_gb": "24.0",
+            "margin": "18.8 GB spare",
+            "gauge": "Needs 5.23 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_deepseek_r1_distill_qwen_1_5b",
+        "name": "DeepSeek-R1-Distill-Qwen-1.5B",
+        "panes": [
+          {
+            "variant_id": "variant_model_deepseek_r1_distill_qwen_1_5b_q4",
+            "verdict": "Fits",
+            "required": "2.37 GB needed",
+            "available_gb": "24.0",
+            "margin": "21.6 GB spare",
+            "gauge": "Needs 2.37 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_deepseek_r1_distill_qwen_1_5b_q5",
+            "verdict": "Fits",
+            "required": "2.58 GB needed",
+            "available_gb": "24.0",
+            "margin": "21.4 GB spare",
+            "gauge": "Needs 2.58 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_deepseek_r1_distill_qwen_1_5b_q8",
+            "verdict": "Fits",
+            "required": "3.20 GB needed",
+            "available_gb": "24.0",
+            "margin": "20.8 GB spare",
+            "gauge": "Needs 3.20 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_deepseek_r1_distill_qwen_1_5b_fp16",
+            "verdict": "Fits",
+            "required": "4.74 GB needed",
+            "available_gb": "24.0",
+            "margin": "19.3 GB spare",
+            "gauge": "Needs 4.74 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen2_5_1_5b",
+        "name": "Qwen2.5-1.5B",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen2_5_1_5b_q4",
+            "verdict": "Fits",
+            "required": "2.37 GB needed",
+            "available_gb": "24.0",
+            "margin": "21.6 GB spare",
+            "gauge": "Needs 2.37 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen2_5_1_5b_q5",
+            "verdict": "Fits",
+            "required": "2.58 GB needed",
+            "available_gb": "24.0",
+            "margin": "21.4 GB spare",
+            "gauge": "Needs 2.58 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen2_5_1_5b_q8",
+            "verdict": "Fits",
+            "required": "3.20 GB needed",
+            "available_gb": "24.0",
+            "margin": "20.8 GB spare",
+            "gauge": "Needs 3.20 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen2_5_1_5b_fp16",
+            "verdict": "Fits",
+            "required": "4.74 GB needed",
+            "available_gb": "24.0",
+            "margin": "19.3 GB spare",
+            "gauge": "Needs 4.74 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen2_5_1_5b_instruct",
+        "name": "Qwen2.5-1.5B-Instruct",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen2_5_1_5b_instruct_q4",
+            "verdict": "Fits",
+            "required": "2.37 GB needed",
+            "available_gb": "24.0",
+            "margin": "21.6 GB spare",
+            "gauge": "Needs 2.37 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen2_5_1_5b_instruct_q5",
+            "verdict": "Fits",
+            "required": "2.58 GB needed",
+            "available_gb": "24.0",
+            "margin": "21.4 GB spare",
+            "gauge": "Needs 2.58 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen2_5_1_5b_instruct_q8",
+            "verdict": "Fits",
+            "required": "3.20 GB needed",
+            "available_gb": "24.0",
+            "margin": "20.8 GB spare",
+            "gauge": "Needs 3.20 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen2_5_1_5b_instruct_fp16",
+            "verdict": "Fits",
+            "required": "4.74 GB needed",
+            "available_gb": "24.0",
+            "margin": "19.3 GB spare",
+            "gauge": "Needs 4.74 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen2_5_coder_1_5b",
+        "name": "Qwen2.5-Coder-1.5B",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen2_5_coder_1_5b_q4",
+            "verdict": "Fits",
+            "required": "2.37 GB needed",
+            "available_gb": "24.0",
+            "margin": "21.6 GB spare",
+            "gauge": "Needs 2.37 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen2_5_coder_1_5b_q5",
+            "verdict": "Fits",
+            "required": "2.58 GB needed",
+            "available_gb": "24.0",
+            "margin": "21.4 GB spare",
+            "gauge": "Needs 2.58 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen2_5_coder_1_5b_q8",
+            "verdict": "Fits",
+            "required": "3.20 GB needed",
+            "available_gb": "24.0",
+            "margin": "20.8 GB spare",
+            "gauge": "Needs 3.20 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen2_5_coder_1_5b_fp16",
+            "verdict": "Fits",
+            "required": "4.74 GB needed",
+            "available_gb": "24.0",
+            "margin": "19.3 GB spare",
+            "gauge": "Needs 4.74 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen2_5_coder_1_5b_instruct",
+        "name": "Qwen2.5-Coder-1.5B-Instruct",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen2_5_coder_1_5b_instruct_q4",
+            "verdict": "Fits",
+            "required": "2.37 GB needed",
+            "available_gb": "24.0",
+            "margin": "21.6 GB spare",
+            "gauge": "Needs 2.37 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen2_5_coder_1_5b_instruct_q5",
+            "verdict": "Fits",
+            "required": "2.58 GB needed",
+            "available_gb": "24.0",
+            "margin": "21.4 GB spare",
+            "gauge": "Needs 2.58 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen2_5_coder_1_5b_instruct_q8",
+            "verdict": "Fits",
+            "required": "3.20 GB needed",
+            "available_gb": "24.0",
+            "margin": "20.8 GB spare",
+            "gauge": "Needs 3.20 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen2_5_coder_1_5b_instruct_fp16",
+            "verdict": "Fits",
+            "required": "4.74 GB needed",
+            "available_gb": "24.0",
+            "margin": "19.3 GB spare",
+            "gauge": "Needs 4.74 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_phi_1_5",
+        "name": "phi-1_5",
+        "panes": [
+          {
+            "variant_id": "variant_model_phi_1_5_q4",
+            "verdict": "Fits",
+            "required": "2.32 GB needed",
+            "available_gb": "24.0",
+            "margin": "21.7 GB spare",
+            "gauge": "Needs 2.32 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_phi_1_5_q5",
+            "verdict": "Fits",
+            "required": "2.51 GB needed",
+            "available_gb": "24.0",
+            "margin": "21.5 GB spare",
+            "gauge": "Needs 2.51 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_phi_1_5_q8",
+            "verdict": "Fits",
+            "required": "3.10 GB needed",
+            "available_gb": "24.0",
+            "margin": "20.9 GB spare",
+            "gauge": "Needs 3.10 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_phi_1_5_fp16",
+            "verdict": "Fits",
+            "required": "4.56 GB needed",
+            "available_gb": "24.0",
+            "margin": "19.4 GB spare",
+            "gauge": "Needs 4.56 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_llama_3_2_1b",
+        "name": "Llama-3.2-1B",
+        "panes": [
+          {
+            "variant_id": "variant_model_llama_3_2_1b_q4",
+            "verdict": "Fits",
+            "required": "1.91 GB needed",
+            "available_gb": "24.0",
+            "margin": "22.1 GB spare",
+            "gauge": "Needs 1.91 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_llama_3_2_1b_q5",
+            "verdict": "Fits",
+            "required": "2.05 GB needed",
+            "available_gb": "24.0",
+            "margin": "21.9 GB spare",
+            "gauge": "Needs 2.05 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_llama_3_2_1b_q8",
+            "verdict": "Fits",
+            "required": "2.46 GB needed",
+            "available_gb": "24.0",
+            "margin": "21.5 GB spare",
+            "gauge": "Needs 2.46 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_llama_3_2_1b_fp16",
+            "verdict": "Fits",
+            "required": "3.50 GB needed",
+            "available_gb": "24.0",
+            "margin": "20.5 GB spare",
+            "gauge": "Needs 3.50 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_llama_3_2_1b_instruct",
+        "name": "Llama-3.2-1B-Instruct",
+        "panes": [
+          {
+            "variant_id": "variant_model_llama_3_2_1b_instruct_q4",
+            "verdict": "Fits",
+            "required": "1.91 GB needed",
+            "available_gb": "24.0",
+            "margin": "22.1 GB spare",
+            "gauge": "Needs 1.91 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_llama_3_2_1b_instruct_q5",
+            "verdict": "Fits",
+            "required": "2.05 GB needed",
+            "available_gb": "24.0",
+            "margin": "21.9 GB spare",
+            "gauge": "Needs 2.05 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_llama_3_2_1b_instruct_q8",
+            "verdict": "Fits",
+            "required": "2.46 GB needed",
+            "available_gb": "24.0",
+            "margin": "21.5 GB spare",
+            "gauge": "Needs 2.46 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_llama_3_2_1b_instruct_fp16",
+            "verdict": "Fits",
+            "required": "3.50 GB needed",
+            "available_gb": "24.0",
+            "margin": "20.5 GB spare",
+            "gauge": "Needs 3.50 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_gemma_3_1b_it",
+        "name": "gemma-3-1b-it",
+        "panes": [
+          {
+            "variant_id": "variant_model_gemma_3_1b_it_q4",
+            "verdict": "Fits",
+            "required": "1.91 GB needed",
+            "available_gb": "24.0",
+            "margin": "22.1 GB spare",
+            "gauge": "Needs 1.91 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_gemma_3_1b_it_q5",
+            "verdict": "Fits",
+            "required": "2.05 GB needed",
+            "available_gb": "24.0",
+            "margin": "21.9 GB spare",
+            "gauge": "Needs 2.05 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_gemma_3_1b_it_q8",
+            "verdict": "Fits",
+            "required": "2.46 GB needed",
+            "available_gb": "24.0",
+            "margin": "21.5 GB spare",
+            "gauge": "Needs 2.46 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_gemma_3_1b_it_fp16",
+            "verdict": "Fits",
+            "required": "3.50 GB needed",
+            "available_gb": "24.0",
+            "margin": "20.5 GB spare",
+            "gauge": "Needs 3.50 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen3_0_6b",
+        "name": "Qwen3-0.6B",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen3_0_6b_q4",
+            "verdict": "Fits",
+            "required": "1.57 GB needed",
+            "available_gb": "24.0",
+            "margin": "22.4 GB spare",
+            "gauge": "Needs 1.57 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen3_0_6b_q5",
+            "verdict": "Fits",
+            "required": "1.65 GB needed",
+            "available_gb": "24.0",
+            "margin": "22.4 GB spare",
+            "gauge": "Needs 1.65 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen3_0_6b_q8",
+            "verdict": "Fits",
+            "required": "1.90 GB needed",
+            "available_gb": "24.0",
+            "margin": "22.1 GB spare",
+            "gauge": "Needs 1.90 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen3_0_6b_fp16",
+            "verdict": "Fits",
+            "required": "2.51 GB needed",
+            "available_gb": "24.0",
+            "margin": "21.5 GB spare",
+            "gauge": "Needs 2.51 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen3_0_6b_base",
+        "name": "Qwen3-0.6B-Base",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen3_0_6b_base_q4",
+            "verdict": "Fits",
+            "required": "1.57 GB needed",
+            "available_gb": "24.0",
+            "margin": "22.4 GB spare",
+            "gauge": "Needs 1.57 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen3_0_6b_base_q5",
+            "verdict": "Fits",
+            "required": "1.65 GB needed",
+            "available_gb": "24.0",
+            "margin": "22.4 GB spare",
+            "gauge": "Needs 1.65 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen3_0_6b_base_q8",
+            "verdict": "Fits",
+            "required": "1.90 GB needed",
+            "available_gb": "24.0",
+            "margin": "22.1 GB spare",
+            "gauge": "Needs 1.90 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen3_0_6b_base_fp16",
+            "verdict": "Fits",
+            "required": "2.51 GB needed",
+            "available_gb": "24.0",
+            "margin": "21.5 GB spare",
+            "gauge": "Needs 2.51 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen2_5_0_5b",
+        "name": "Qwen2.5-0.5B",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen2_5_0_5b_q4",
+            "verdict": "Fits",
+            "required": "1.46 GB needed",
+            "available_gb": "24.0",
+            "margin": "22.5 GB spare",
+            "gauge": "Needs 1.46 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen2_5_0_5b_q5",
+            "verdict": "Fits",
+            "required": "1.53 GB needed",
+            "available_gb": "24.0",
+            "margin": "22.5 GB spare",
+            "gauge": "Needs 1.53 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen2_5_0_5b_q8",
+            "verdict": "Fits",
+            "required": "1.73 GB needed",
+            "available_gb": "24.0",
+            "margin": "22.3 GB spare",
+            "gauge": "Needs 1.73 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen2_5_0_5b_fp16",
+            "verdict": "Fits",
+            "required": "2.25 GB needed",
+            "available_gb": "24.0",
+            "margin": "21.8 GB spare",
+            "gauge": "Needs 2.25 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen2_5_0_5b_instruct",
+        "name": "Qwen2.5-0.5B-Instruct",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen2_5_0_5b_instruct_q4",
+            "verdict": "Fits",
+            "required": "1.46 GB needed",
+            "available_gb": "24.0",
+            "margin": "22.5 GB spare",
+            "gauge": "Needs 1.46 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen2_5_0_5b_instruct_q5",
+            "verdict": "Fits",
+            "required": "1.53 GB needed",
+            "available_gb": "24.0",
+            "margin": "22.5 GB spare",
+            "gauge": "Needs 1.53 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen2_5_0_5b_instruct_q8",
+            "verdict": "Fits",
+            "required": "1.73 GB needed",
+            "available_gb": "24.0",
+            "margin": "22.3 GB spare",
+            "gauge": "Needs 1.73 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_qwen2_5_0_5b_instruct_fp16",
+            "verdict": "Fits",
+            "required": "2.25 GB needed",
+            "available_gb": "24.0",
+            "margin": "21.8 GB spare",
+            "gauge": "Needs 2.25 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_gemma_3_270m",
+        "name": "gemma-3-270m",
+        "panes": [
+          {
+            "variant_id": "variant_model_gemma_3_270m_q4",
+            "verdict": "Fits",
+            "required": "1.26 GB needed",
+            "available_gb": "24.0",
+            "margin": "22.7 GB spare",
+            "gauge": "Needs 1.26 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_gemma_3_270m_q5",
+            "verdict": "Fits",
+            "required": "1.30 GB needed",
+            "available_gb": "24.0",
+            "margin": "22.7 GB spare",
+            "gauge": "Needs 1.30 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_gemma_3_270m_q8",
+            "verdict": "Fits",
+            "required": "1.41 GB needed",
+            "available_gb": "24.0",
+            "margin": "22.6 GB spare",
+            "gauge": "Needs 1.41 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_gemma_3_270m_fp16",
+            "verdict": "Fits",
+            "required": "1.69 GB needed",
+            "available_gb": "24.0",
+            "margin": "22.3 GB spare",
+            "gauge": "Needs 1.69 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_gemma_3_270m_it",
+        "name": "gemma-3-270m-it",
+        "panes": [
+          {
+            "variant_id": "variant_model_gemma_3_270m_it_q4",
+            "verdict": "Fits",
+            "required": "1.26 GB needed",
+            "available_gb": "24.0",
+            "margin": "22.7 GB spare",
+            "gauge": "Needs 1.26 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_gemma_3_270m_it_q5",
+            "verdict": "Fits",
+            "required": "1.30 GB needed",
+            "available_gb": "24.0",
+            "margin": "22.7 GB spare",
+            "gauge": "Needs 1.30 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_gemma_3_270m_it_q8",
+            "verdict": "Fits",
+            "required": "1.41 GB needed",
+            "available_gb": "24.0",
+            "margin": "22.6 GB spare",
+            "gauge": "Needs 1.41 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          },
+          {
+            "variant_id": "variant_model_gemma_3_270m_it_fp16",
+            "verdict": "Fits",
+            "required": "1.69 GB needed",
+            "available_gb": "24.0",
+            "margin": "22.3 GB spare",
+            "gauge": "Needs 1.69 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"
+          }
+        ]
+      }
+    ],
+    "/results?vram_gb=12&context_tokens=8192&family=qwen&quant_bucket=Q4": [
+      {
+        "model_id": "model_qwen3_8b",
+        "name": "Qwen3-8B",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen3_8b_q4",
+            "verdict": "Fits",
+            "required": "10.28 GB needed",
+            "available_gb": "12.0",
+            "margin": "1.7 GB spare",
+            "gauge": "Needs 10.28 of 12.0 gigabytes, with 1.20 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen3_8b_base",
+        "name": "Qwen3-8B-Base",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen3_8b_base_q4",
+            "verdict": "Fits",
+            "required": "10.28 GB needed",
+            "available_gb": "12.0",
+            "margin": "1.7 GB spare",
+            "gauge": "Needs 10.28 of 12.0 gigabytes, with 1.20 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen3_8b_gguf",
+        "name": "Qwen3-8B-GGUF",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen3_8b_gguf_q4",
+            "verdict": "Fits",
+            "required": "10.28 GB needed",
+            "available_gb": "12.0",
+            "margin": "1.7 GB spare",
+            "gauge": "Needs 10.28 of 12.0 gigabytes, with 1.20 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen25_7b_instruct",
+        "name": "Qwen2.5 7B Instruct",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen25_7b_instruct_q4",
+            "verdict": "Fits",
+            "required": "9.86 GB needed",
+            "available_gb": "12.0",
+            "margin": "2.1 GB spare",
+            "gauge": "Needs 9.86 of 12.0 gigabytes, with 1.20 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen2_5_7b",
+        "name": "Qwen2.5-7B",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen2_5_7b_q4",
+            "verdict": "Fits",
+            "required": "9.12 GB needed",
+            "available_gb": "12.0",
+            "margin": "2.9 GB spare",
+            "gauge": "Needs 9.12 of 12.0 gigabytes, with 1.20 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen2_5_coder_7b_instruct",
+        "name": "Qwen2.5-Coder-7B-Instruct",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen2_5_coder_7b_instruct_q4",
+            "verdict": "Fits",
+            "required": "9.12 GB needed",
+            "available_gb": "12.0",
+            "margin": "2.9 GB spare",
+            "gauge": "Needs 9.12 of 12.0 gigabytes, with 1.20 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen3_4b",
+        "name": "Qwen3-4B",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen3_4b_q4",
+            "verdict": "Fits",
+            "required": "5.64 GB needed",
+            "available_gb": "12.0",
+            "margin": "6.4 GB spare",
+            "gauge": "Needs 5.64 of 12.0 gigabytes, with 1.20 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen3_4b_base",
+        "name": "Qwen3-4B-Base",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen3_4b_base_q4",
+            "verdict": "Fits",
+            "required": "5.64 GB needed",
+            "available_gb": "12.0",
+            "margin": "6.4 GB spare",
+            "gauge": "Needs 5.64 of 12.0 gigabytes, with 1.20 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen3_4b_gguf",
+        "name": "Qwen3-4B-GGUF",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen3_4b_gguf_q4",
+            "verdict": "Fits",
+            "required": "5.64 GB needed",
+            "available_gb": "12.0",
+            "margin": "6.4 GB spare",
+            "gauge": "Needs 5.64 of 12.0 gigabytes, with 1.20 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen3_4b_instruct_2507",
+        "name": "Qwen3-4B-Instruct-2507",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen3_4b_instruct_2507_q4",
+            "verdict": "Fits",
+            "required": "5.64 GB needed",
+            "available_gb": "12.0",
+            "margin": "6.4 GB spare",
+            "gauge": "Needs 5.64 of 12.0 gigabytes, with 1.20 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen3_4b_thinking_2507",
+        "name": "Qwen3-4B-Thinking-2507",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen3_4b_thinking_2507_q4",
+            "verdict": "Fits",
+            "required": "5.64 GB needed",
+            "available_gb": "12.0",
+            "margin": "6.4 GB spare",
+            "gauge": "Needs 5.64 of 12.0 gigabytes, with 1.20 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen25_3b_instruct",
+        "name": "Qwen2.5 3B Instruct",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen25_3b_instruct_q4",
+            "verdict": "Fits",
+            "required": "4.62 GB needed",
+            "available_gb": "12.0",
+            "margin": "7.4 GB spare",
+            "gauge": "Needs 4.62 of 12.0 gigabytes, with 1.20 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen2_5_coder_3b_instruct",
+        "name": "Qwen2.5-Coder-3B-Instruct",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen2_5_coder_3b_instruct_q4",
+            "verdict": "Fits",
+            "required": "4.48 GB needed",
+            "available_gb": "12.0",
+            "margin": "7.5 GB spare",
+            "gauge": "Needs 4.48 of 12.0 gigabytes, with 1.20 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen3_1_7b",
+        "name": "Qwen3-1.7B",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen3_1_7b_q4",
+            "verdict": "Fits",
+            "required": "2.96 GB needed",
+            "available_gb": "12.0",
+            "margin": "9.0 GB spare",
+            "gauge": "Needs 2.96 of 12.0 gigabytes, with 1.20 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen3_1_7b_base",
+        "name": "Qwen3-1.7B-Base",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen3_1_7b_base_q4",
+            "verdict": "Fits",
+            "required": "2.96 GB needed",
+            "available_gb": "12.0",
+            "margin": "9.0 GB spare",
+            "gauge": "Needs 2.96 of 12.0 gigabytes, with 1.20 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen2_5_1_5b",
+        "name": "Qwen2.5-1.5B",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen2_5_1_5b_q4",
+            "verdict": "Fits",
+            "required": "2.74 GB needed",
+            "available_gb": "12.0",
+            "margin": "9.3 GB spare",
+            "gauge": "Needs 2.74 of 12.0 gigabytes, with 1.20 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen2_5_1_5b_instruct",
+        "name": "Qwen2.5-1.5B-Instruct",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen2_5_1_5b_instruct_q4",
+            "verdict": "Fits",
+            "required": "2.74 GB needed",
+            "available_gb": "12.0",
+            "margin": "9.3 GB spare",
+            "gauge": "Needs 2.74 of 12.0 gigabytes, with 1.20 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen2_5_coder_1_5b",
+        "name": "Qwen2.5-Coder-1.5B",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen2_5_coder_1_5b_q4",
+            "verdict": "Fits",
+            "required": "2.74 GB needed",
+            "available_gb": "12.0",
+            "margin": "9.3 GB spare",
+            "gauge": "Needs 2.74 of 12.0 gigabytes, with 1.20 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen2_5_coder_1_5b_instruct",
+        "name": "Qwen2.5-Coder-1.5B-Instruct",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen2_5_coder_1_5b_instruct_q4",
+            "verdict": "Fits",
+            "required": "2.74 GB needed",
+            "available_gb": "12.0",
+            "margin": "9.3 GB spare",
+            "gauge": "Needs 2.74 of 12.0 gigabytes, with 1.20 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen3_0_6b",
+        "name": "Qwen3-0.6B",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen3_0_6b_q4",
+            "verdict": "Fits",
+            "required": "1.73 GB needed",
+            "available_gb": "12.0",
+            "margin": "10.3 GB spare",
+            "gauge": "Needs 1.73 of 12.0 gigabytes, with 1.20 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen3_0_6b_base",
+        "name": "Qwen3-0.6B-Base",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen3_0_6b_base_q4",
+            "verdict": "Fits",
+            "required": "1.73 GB needed",
+            "available_gb": "12.0",
+            "margin": "10.3 GB spare",
+            "gauge": "Needs 1.73 of 12.0 gigabytes, with 1.20 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen2_5_0_5b",
+        "name": "Qwen2.5-0.5B",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen2_5_0_5b_q4",
+            "verdict": "Fits",
+            "required": "1.58 GB needed",
+            "available_gb": "12.0",
+            "margin": "10.4 GB spare",
+            "gauge": "Needs 1.58 of 12.0 gigabytes, with 1.20 gigabytes held in reserve"
+          }
+        ]
+      },
+      {
+        "model_id": "model_qwen2_5_0_5b_instruct",
+        "name": "Qwen2.5-0.5B-Instruct",
+        "panes": [
+          {
+            "variant_id": "variant_model_qwen2_5_0_5b_instruct_q4",
+            "verdict": "Fits",
+            "required": "1.58 GB needed",
+            "available_gb": "12.0",
+            "margin": "10.4 GB spare",
+            "gauge": "Needs 1.58 of 12.0 gigabytes, with 1.20 gigabytes held in reserve"
+          }
+        ]
+      }
+    ]
+  }
+}

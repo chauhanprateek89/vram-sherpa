@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VRAM Sherpa - Direction C Expedition</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'><rect x='1.5' y='1.5' width='33' height='33' rx='9' fill='%232A3BDC' stroke='%230E1433' stroke-width='2.5'/><path d='M6 28 L15.5 11 L20.5 19.5 L24 14.5 L30 28 Z' fill='%23fff'/><path d='M15.5 11 L15.5 5.5 L21 7.8 L15.5 10Z' fill='%23FFD84D'/></svg>">
+<style>
+
+@font-face{font-family:"Archivo";src:url(../fonts/archivo-latin-wdth-normal.woff2) format("woff2");font-weight:100 900;font-stretch:62% 125%;font-display:swap}
+:root {
+  color-scheme: light;
+  --bg: #F3F4FA;
+  --surface: #FFFFFF;
+  --field: #FFFFFF;
+  --ink: #0E1433;
+  --muted: #444B70;
+  --ls: #0E1433;
+  --line: #CDD1EA;
+  --accent: #2A3BDC;
+  --onaccent: #FFFFFF;
+  --hero: #2A3BDC;
+  --onhero: #FFFFFF;
+  --shadow: #0E1433;
+  --yellow: #FFD84D;
+  --onblock: #0E1433;
+  --fitsB: #9FEFC2;
+  --tightB: #FFD84D;
+  --wontB: #FFB3C1;
+  --focus: #2A3BDC;
+  --hatch: #0E1433;
+}
+@media (prefers-color-scheme: dark) {
+ :root:not([data-theme="light"]) {
+  color-scheme: dark;
+  --bg: #0A0E25;
+  --surface: #141A3B;
+  --field: #0A0E25;
+  --ink: #F1F3FF;
+  --muted: #A6AED8;
+  --ls: #8D97F5;
+  --line: #2A3366;
+  --accent: #8E9AFF;
+  --onaccent: #0A0E25;
+  --hero: #1D2A7A;
+  --onhero: #FFFFFF;
+  --shadow: #34409F;
+  --yellow: #FFD84D;
+  --onblock: #0A0E25;
+  --fitsB: #8FE9B8;
+  --tightB: #FFD84D;
+  --wontB: #FFA9BA;
+  --focus: #FFD84D;
+  --hatch: #F1F3FF;
+ }
+}
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0A0E25;
+  --surface: #141A3B;
+  --field: #0A0E25;
+  --ink: #F1F3FF;
+  --muted: #A6AED8;
+  --ls: #8D97F5;
+  --line: #2A3366;
+  --accent: #8E9AFF;
+  --onaccent: #0A0E25;
+  --hero: #1D2A7A;
+  --onhero: #FFFFFF;
+  --shadow: #34409F;
+  --yellow: #FFD84D;
+  --onblock: #0A0E25;
+  --fitsB: #8FE9B8;
+  --tightB: #FFD84D;
+  --wontB: #FFA9BA;
+  --focus: #FFD84D;
+  --hatch: #F1F3FF;
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 "Archivo",system-ui,sans-serif;font-variant-numeric:tabular-nums}
+.wrap{max-width:1200px;margin:0 auto;padding:0 20px}
+a{color:var(--accent);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:4px}
+.hero :focus-visible{outline-color:var(--yellow)}
+h1,h2,h3,p,ul{margin:0}
+.muted{color:var(--muted)}
+
+/* header */
+.top{background:var(--surface);border-bottom:3px solid var(--ls)}
+.top .wrap{display:flex;align-items:center;gap:8px 16px;min-height:72px;flex-wrap:wrap}
+.brand{white-space:nowrap;display:inline-flex;align-items:center;gap:10px;min-height:44px;font:800 22px/1 "Archivo",sans-serif;font-stretch:112%;color:var(--ink);text-decoration:none;letter-spacing:-.01em}
+.top nav{display:flex;gap:8px;margin-left:24px}
+.top nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border:2px solid transparent;border-radius:999px;color:var(--ink);text-decoration:none;font-weight:600}
+.top nav a[aria-current="page"]{background:var(--ink);color:var(--bg);font-weight:700}
+.theme{margin-left:auto;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border:2px solid var(--ls);border-radius:999px;background:var(--surface);color:var(--ink);font:700 15px/1 "Archivo",sans-serif;cursor:pointer}
+
+/* hero: the question is a three-step form */
+.hero{background:var(--hero);color:var(--onhero);border-bottom:3px solid var(--ls)}
+.hero .wrap{padding-top:26px;padding-bottom:32px}
+h1{font:800 clamp(30px,4.2vw,54px)/1.02 "Archivo",sans-serif;font-stretch:118%;letter-spacing:-.025em;text-wrap:balance}
+.hero-p{margin-top:12px;font-size:18px;max-width:46ch}
+.steps{display:grid;grid-template-columns:minmax(0,2.3fr) minmax(0,1fr) minmax(0,.9fr);gap:20px;margin-top:20px;align-items:stretch}
+.step{background:var(--surface);color:var(--ink);border:2px solid var(--ls);border-radius:16px;box-shadow:5px 5px 0 var(--shadow);padding:18px 18px 16px;min-width:0}
+.step-h{display:flex;align-items:center;gap:10px;font:800 17px/1 "Archivo",sans-serif;font-stretch:108%;margin-bottom:14px;padding:0}
+.n{display:inline-grid;place-content:center;width:28px;height:28px;border-radius:50%;background:var(--ink);color:var(--bg);font:800 15px/1 "Archivo",sans-serif}
+.pair{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:14px}
+.field>label{display:block;font-weight:600;font-size:14px;margin-bottom:6px}
+.field-row{display:flex;gap:8px}
+input[type=text],input[type=number]{width:100%;min-height:48px;padding:0 14px;border:2px solid var(--ls);border-radius:10px;background:var(--field);color:var(--ink);font:500 16px/1 "Archivo",sans-serif}
+input::placeholder{color:var(--muted);opacity:1}
+.btn-clear{min-height:48px;min-width:64px;padding:0 14px;border:2px solid var(--ls);border-radius:10px;background:var(--surface);color:var(--ink);font:700 14px "Archivo",sans-serif;cursor:pointer}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chip{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border:2px solid var(--ls);border-radius:999px;background:var(--surface);color:var(--ink);font:700 14px "Archivo",sans-serif;cursor:pointer}
+.help{font-size:14px;color:var(--muted);margin-top:6px}
+fieldset{border:0;margin:0;padding:0;min-width:0}
+.ctx{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.ctx label{position:relative;display:block}
+.ctx input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer}
+.ctx span{display:flex;align-items:center;justify-content:center;min-height:48px;border:2px solid var(--ls);border-radius:10px;font:800 17px "Archivo",sans-serif;background:var(--surface)}
+.ctx input:checked+span{background:var(--ink);color:var(--bg)}
+.ctx input:focus-visible+span{outline:3px solid var(--focus);outline-offset:2px}
+.btn-primary{width:100%;min-height:56px;padding:0 20px;border:2px solid var(--ls);border-radius:12px;background:var(--yellow);color:#0E1433;font:800 18px/1.1 "Archivo",sans-serif;font-stretch:105%;box-shadow:4px 4px 0 var(--ls);cursor:pointer}
+.step-go{display:flex;flex-direction:column;justify-content:flex-end}
+
+/* layout */
+.layout{display:grid;grid-template-columns:264px minmax(0,1fr);gap:40px;margin-top:36px;padding-bottom:72px;align-items:start}
+.filters{position:sticky;top:16px;background:var(--surface);border:2px solid var(--ls);border-radius:16px;box-shadow:5px 5px 0 var(--shadow)}
+.filters summary{display:flex;align-items:center;justify-content:space-between;min-height:56px;padding:0 18px;font:800 17px "Archivo";font-stretch:108%;cursor:pointer;list-style:none}
+.filters summary::-webkit-details-marker{display:none}
+.filters summary::after{content:"";width:10px;height:10px;border-right:3px solid currentColor;border-bottom:3px solid currentColor;transform:rotate(45deg);margin-right:3px;transition:transform .15s}
+.filters details[open] summary::after{transform:rotate(-135deg)}
+.filters details[open] summary{border-bottom:2px solid var(--ls)}
+.filter-fields{padding:14px 18px 8px}
+.filter-group{margin-bottom:14px}
+legend{font-weight:700;font-size:14px;margin-bottom:4px;padding:0}
+.checklist{display:flex;flex-wrap:wrap;gap:0 16px}
+.choice{display:inline-flex;align-items:center;gap:10px;min-height:38px}
+.choice input{appearance:none;-webkit-appearance:none;display:grid;place-content:center;width:24px;height:24px;margin:0;border:2px solid var(--ls);border-radius:7px;background:var(--field);flex:none}
+.choice input:checked{background:var(--ink)}
+.choice input:checked::after{content:"";width:14px;height:14px;background:var(--bg);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12.5l5 5L20 6.5'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12.5l5 5L20 6.5'/%3E%3C/svg%3E") center/contain no-repeat}
+.range-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px}
+.range-row label{display:block;font-weight:700;font-size:14px;margin-bottom:6px}
+
+/* answer */
+.answer{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px 28px;align-items:end;margin-bottom:28px}
+.headline{font:800 clamp(30px,3.6vw,46px)/1.04 "Archivo",sans-serif;font-stretch:112%;letter-spacing:-.02em;margin-bottom:10px}
+.ctx-line{display:flex;flex-wrap:wrap;gap:2px 22px;color:var(--muted)}
+.ctx-line b{color:var(--ink);font-weight:700}
+.note{grid-column:1/-1;color:var(--muted);font-size:14px;margin-top:-6px}
+.counts{display:flex;gap:10px;list-style:none;padding:0;margin:0}
+.counts li{display:flex;align-items:center;gap:8px;padding:8px 14px;border:2px solid var(--ls);border-radius:12px;color:var(--onblock);font-weight:700;box-shadow:3px 3px 0 var(--shadow)}
+.counts b{font:800 28px/1 "Archivo",sans-serif;font-stretch:105%}
+.counts .c-f{background:var(--fitsB)}.counts .c-t{background:var(--tightB)}.counts .c-w{background:var(--wontB)}
+.ico{display:inline-block;width:18px;height:18px;background:currentColor;-webkit-mask:var(--m) center/contain no-repeat;mask:var(--m) center/contain no-repeat;flex:none}
+.i-fits,.state-fits::before{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10' fill='black'/%3E%3C/svg%3E")}
+.i-tight,.state-tight::before{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2.5L23 21.5H1z' fill='black'/%3E%3C/svg%3E")}
+.i-wont,.state-wont-fit::before{--m:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3.4' stroke-linejoin='round' stroke-linecap='round'%3E%3Crect x='2.5' y='2.5' width='19' height='19' rx='3'/%3E%3Cpath d='M8 8l8 8M16 8l-8 8'/%3E%3C/svg%3E")}
+
+/* cards */
+.model-list{display:grid;gap:28px}
+.model-card{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.08fr);background:var(--surface);border:2px solid var(--ls);border-radius:18px;box-shadow:6px 6px 0 var(--shadow);overflow:hidden}
+.model-id{padding:20px 20px 18px;min-width:0}
+.model-id h3{font:800 24px/1.12 "Archivo",sans-serif;font-stretch:108%;letter-spacing:-.012em;overflow-wrap:anywhere}
+.model-id h3 a{color:var(--ink);text-decoration:none}
+.model-id h3 a:hover{text-decoration:underline}
+.tag{display:inline-flex;align-items:center;vertical-align:middle;margin-left:8px;padding:1px 9px;border:2px solid var(--ls);border-radius:999px;background:var(--bg);font:700 13px/1.4 "Archivo",sans-serif;letter-spacing:0}
+.model-meta{margin:6px 0 18px;color:var(--muted)}
+.model-meta .num{color:var(--ink);font-weight:700}
+.quants{display:grid;grid-template-columns:repeat(4,minmax(44px,1fr));gap:8px}
+.quants button{min-height:48px;padding:0 4px;border:2px solid var(--ls);border-radius:10px;background:var(--surface);color:var(--ink);font:800 15px "Archivo",sans-serif;cursor:pointer}
+.quants button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.quants button[data-oversize="true"]{border-style:dashed;text-decoration:line-through;text-decoration-thickness:2px}
+.quants button[data-oversize="true"]:not([aria-pressed="true"]){color:var(--muted)}
+.fit-panes{border-left:2px solid var(--ls);min-width:0}
+.fit-pane{height:100%;padding:20px;color:var(--onblock);display:flex;flex-direction:column;justify-content:center}
+.fit-pane[hidden]{display:none}
+.fit-pane:has(.state-fits){background:var(--fitsB)}
+.fit-pane:has(.state-tight){background:var(--tightB)}
+.fit-pane:has(.state-wont-fit){background:var(--wontB)}
+.fit-top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:6px 14px;margin-bottom:14px}
+.state{display:inline-flex;align-items:center;gap:8px;font:800 20px/1.1 "Archivo",sans-serif;font-stretch:108%}
+.state::before{content:"";width:22px;height:22px;background:currentColor;-webkit-mask:var(--m) center/contain no-repeat;mask:var(--m) center/contain no-repeat}
+.headroom{font-size:16px;color:var(--onblock);font-weight:500}
+.headroom b{font:800 40px/1 "Archivo",sans-serif;font-stretch:100%;letter-spacing:-.02em;margin-right:4px}
+.track{position:relative;height:28px;border-radius:9px;border:2px solid var(--ls);background:var(--surface);overflow:hidden}
+.bar{position:absolute;inset:0 auto 0 0;background:var(--ls)}
+.resv{position:absolute;top:0;bottom:0;background:repeating-linear-gradient(135deg,var(--ls) 0 2px,var(--surface) 2px 6px);border-left:2px solid var(--ls)}
+.scale{display:flex;justify-content:space-between;gap:12px;margin-top:8px;font-size:14px;font-weight:500}
+.why-panel{margin-top:4px}
+.why-panel summary{display:flex;align-items:center;gap:8px;min-height:44px;font-weight:700;font-size:14px;color:var(--onblock);text-decoration:underline;text-underline-offset:3px;cursor:pointer;list-style:none}
+.why-panel summary::-webkit-details-marker{display:none}
+.why-panel summary::before{content:"";width:8px;height:8px;border-right:2.5px solid currentColor;border-bottom:2.5px solid currentColor;transform:rotate(-45deg);transition:transform .15s}
+.why-panel[open] summary::before{transform:rotate(45deg)}
+.why-content{font-size:14px;padding:4px 0 8px}
+
+/* top picks: band after the first cards */
+.picks-band{margin-top:36px;background:var(--hero);color:var(--onhero);border:2px solid var(--ls);border-radius:18px;padding:24px 24px 28px;box-shadow:6px 6px 0 var(--shadow)}
+.picks-band h2{font:800 26px/1.1 "Archivo",sans-serif;font-stretch:112%;letter-spacing:-.015em;margin-bottom:16px}
+.top-pick-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.top-pick-card{background:var(--surface);color:var(--ink);border:2px solid var(--ls);border-radius:14px;padding:16px 16px 14px}
+.pick-title{font-weight:800;font-size:14px;color:var(--ink);margin-bottom:8px;display:inline-block;padding:2px 10px;border:2px solid var(--ls);border-radius:999px;background:var(--yellow);color:#0E1433}
+.top-pick-card h3{font:800 18px/1.15 "Archivo",sans-serif;font-stretch:105%;margin-bottom:4px;overflow-wrap:anywhere}
+.top-pick-card h3 a{color:var(--ink);text-decoration:none}
+.top-pick-card h3 a:hover{text-decoration:underline}
+.pick-meta{font-weight:700;font-size:15px}
+.pick-desc{font-size:14px;color:var(--muted)}
+
+.footer{border-top:3px solid var(--ls);background:var(--surface);padding:22px 0 30px;color:var(--muted);font-size:14px}
+.footer .wrap{display:flex;flex-wrap:wrap;gap:6px 32px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+@media (max-width:999px){
+  .steps{grid-template-columns:1fr}
+  .layout{grid-template-columns:minmax(0,1fr);gap:24px;margin-top:28px}
+  .filters{position:static}
+  .top-pick-grid{grid-template-columns:1fr}
+  .answer{grid-template-columns:1fr}
+}
+@media (max-width:699px){
+  .wrap{padding:0 16px}
+  .top .wrap{gap:0 8px;padding-top:8px;padding-bottom:8px;min-height:0}
+  .brand{flex:1;font-size:19px;font-stretch:100%}
+  .theme{margin-left:0}
+  .choice{min-height:44px;min-width:44px}
+  .top nav{order:3;width:100%;margin:6px 0 0;gap:8px}
+  .top nav a{flex:1;justify-content:center;border-color:var(--ls)}
+  .hero .wrap{padding-top:22px;padding-bottom:26px}
+  h1{font-size:32px}
+  .hero-p{display:none}
+  .steps{margin-top:18px;gap:16px}
+  .step{padding:16px 14px;box-shadow:4px 4px 0 var(--shadow)}
+  .pair{grid-template-columns:1fr}
+  .help{display:none}
+  .counts{width:100%}
+  .counts li{flex:1;flex-direction:column;align-items:flex-start;gap:4px;padding:8px 10px}
+  .counts li .lbl{font-size:14px}
+  .model-card{grid-template-columns:1fr;box-shadow:5px 5px 0 var(--shadow)}
+  .model-id{padding:16px 14px 14px}
+  .model-id h3{font-size:21px}
+  .model-meta{margin-bottom:14px}
+  .fit-panes{border-left:0;border-top:2px solid var(--ls)}
+  .fit-pane{padding:14px}
+  .headroom b{font-size:34px}
+  .picks-band{padding:18px 14px 20px;box-shadow:5px 5px 0 var(--shadow)}
+  .footer .wrap{flex-direction:column}
+  .model-list{gap:24px}
+}
+
+</style>
+
+<script>
+(function(){
+  var q=new URLSearchParams(location.search), t=q.get('theme');
+  if(t){document.documentElement.dataset.theme=t;}
+  function label(){var d=document.documentElement.dataset.theme==='dark'||(!document.documentElement.dataset.theme&&matchMedia('(prefers-color-scheme: dark)').matches);var b=document.getElementById('theme-toggle');if(b){b.querySelector('.tt-label').textContent=d?'Light mode':'Dark mode';b.setAttribute('aria-pressed',d?'true':'false');}}
+  document.addEventListener('DOMContentLoaded',function(){
+    label();
+    var b=document.getElementById('theme-toggle');
+    if(b)b.addEventListener('click',function(){var d=document.documentElement.dataset.theme==='dark'||(!document.documentElement.dataset.theme&&matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.dataset.theme=d?'light':'dark';label();});
+    document.querySelectorAll('[data-model-card]').forEach(function(card){
+      card.querySelectorAll('[data-quant-btn]').forEach(function(btn){
+        btn.addEventListener('click',function(){
+          card.querySelectorAll('[data-quant-btn]').forEach(function(o){o.setAttribute('aria-pressed',o===btn?'true':'false');});
+          card.querySelectorAll('[data-variant-pane]').forEach(function(p){p.hidden=p.getAttribute('data-variant-pane')!==btn.getAttribute('data-variant');});
+        });
+      });
+    });
+    document.querySelectorAll('details[data-open-wide]').forEach(function(d){var bp=parseInt(d.getAttribute('data-open-wide'))||900;d.open=matchMedia('(min-width: '+bp+'px)').matches;});
+  });
+})();
+</script>
+</head>
+<body>
+
+<header class="top"><div class="wrap">
+  <a class="brand" href="#"><svg class="mark" width="36" height="36" viewBox="0 0 36 36" aria-hidden="true"><rect x="1.5" y="1.5" width="33" height="33" rx="9" fill="#2A3BDC" stroke="#0E1433" stroke-width="2.5"/><path d="M6 28 L15.5 11 L20.5 19.5 L24 14.5 L30 28 Z" fill="#fff"/><path d="M15.5 11 L15.5 5.5 L21 7.8 L15.5 10Z" fill="#FFD84D"/></svg><span>VRAM Sherpa</span></a>
+  <nav aria-label="Main"><a href="#" aria-current="page">Estimator</a><a href="#">How it works</a></nav>
+  <button id="theme-toggle" class="theme" type="button" aria-pressed="false" aria-label="Toggle color theme"><svg class="tt-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4 6.5 6.5 0 0 0 20 14.5z"/></svg><span class="tt-label">Dark mode</span></button>
+</div></header>
+
+<form id="search-form" method="get" action="/results" onsubmit="return false">
+<section class="hero"><div class="wrap">
+  <h1>Find models that fit your VRAM</h1>
+  <div class="steps">
+    <div class="step">
+      <h2 class="step-h"><span class="n">1</span>Your hardware</h2>
+      <div class="pair">
+        <div class="field"><label for="gpu_search">Search GPU</label><div class="field-row"><input id="gpu_search" name="gpu_search" type="text" placeholder="Start typing a GPU name (or leave blank)" autocomplete="off"><button type="button" class="btn-clear">Clear</button></div></div>
+        <div class="field"><label for="vram_gb">Available VRAM (GB)</label><input id="vram_gb" name="vram_gb" type="number" inputmode="decimal" min="1" step="0.1" value="24" placeholder="e.g. 8"></div>
+      </div>
+      <div class="chips"><button type="button" class="chip">RTX 4060 8GB</button><button type="button" class="chip">8GB</button><button type="button" class="chip">24GB</button></div>
+    </div>
+    <div class="step" role="group" aria-labelledby="ctx-h"><h2 class="step-h" id="ctx-h"><span class="n">2</span>Context window</h2>
+      <div class="ctx"><label><input type="radio" name="context_tokens" value="2048"><span>2k</span></label><label><input type="radio" name="context_tokens" value="4096" checked><span>4k</span></label><label><input type="radio" name="context_tokens" value="8192"><span>8k</span></label></div>
+    </div>
+    <div class="step step-go"><h2 class="step-h"><span class="n">3</span>See what fits</h2><button type="submit" class="btn-primary">Check compatibility</button></div>
+  </div>
+</div></section>
+
+<main class="wrap">
+  <div class="layout">
+    <aside class="filters"><details data-open-wide="1000"><summary>Filters (0)</summary><div class="filter-fields">
+<fieldset class="filter-group"><legend>Family</legend><div class="checklist"><label class="choice"><input type="checkbox" name="family" value="deepseek"><span>deepseek</span></label><label class="choice"><input type="checkbox" name="family" value="gemma"><span>gemma</span></label><label class="choice"><input type="checkbox" name="family" value="llama"><span>llama</span></label><label class="choice"><input type="checkbox" name="family" value="mistral"><span>mistral</span></label><label class="choice"><input type="checkbox" name="family" value="phi"><span>phi</span></label><label class="choice"><input type="checkbox" name="family" value="qwen"><span>qwen</span></label><label class="choice"><input type="checkbox" name="family" value="yi"><span>yi</span></label></div></fieldset>
+<fieldset class="filter-group"><legend>Quantization</legend><div class="checklist"><label class="choice"><input type="checkbox" name="quant_bucket" value="FP16"><span>FP16</span></label><label class="choice"><input type="checkbox" name="quant_bucket" value="Q4"><span>Q4</span></label><label class="choice"><input type="checkbox" name="quant_bucket" value="Q5"><span>Q5</span></label><label class="choice"><input type="checkbox" name="quant_bucket" value="Q8"><span>Q8</span></label></div></fieldset>
+<div class="range-row">
+<div class="field"><label for="cmin">Min params (B)</label><input id="cmin" type="number" inputmode="decimal" min="0" step="0.1" name="min_params_b"></div>
+<div class="field"><label for="cmax">Max params (B)</label><input id="cmax" type="number" inputmode="decimal" min="0" step="0.1" name="max_params_b"></div>
+</div>
+<label class="choice choice-solo"><input type="checkbox" name="recommended_only" value="true"><span>Recommended only</span></label>
+</div></details></aside>
+    <div id="results-shell">
+      <section class="answer" id="summary-banner">
+        <div>
+          <h2 class="headline">71 models fit or are tight</h2>
+          <p class="ctx-line"><span><b>Hardware:</b> Manual VRAM (24 GB)</span><span><b>Context:</b> 4k</span></p>
+        </div>
+        <ul class="counts" aria-label="Counts by verdict"><li class="c-f"><span class="ico i-fits"></span><b>71</b><span class="lbl">Fits</span></li><li class="c-t"><span class="ico i-tight"></span><b>0</b><span class="lbl">Tight</span></li><li class="c-w"><span class="ico i-wont"></span><b>24</b><span class="lbl">Won't fit</span></li></ul>
+        <p class="note">Only Fits and Tight models are listed.</p>
+      </section>
+      <section class="model-list" id="results-cards">
+<article class="model-card" data-model-card>
+<div class="model-id">
+<h3><a href="#">DeepSeek-Coder-V2-Lite-Instruct</a> </h3>
+<p class="model-meta"><span class="num">15.71B</span> params <span class="sep">·</span> deepseek</p>
+<div class="quants" role="group" aria-label="Quantisation for DeepSeek-Coder-V2-Lite-Instruct">
+<button type="button" data-quant-btn data-variant="deepseek_coder_v2_lite_instruct_q4" aria-pressed="true">Q4</button>
+<button type="button" data-quant-btn data-variant="deepseek_coder_v2_lite_instruct_q5" aria-pressed="false">Q5</button>
+<button type="button" data-quant-btn data-variant="deepseek_coder_v2_lite_instruct_q8" aria-pressed="false">Q8</button>
+<button type="button" data-quant-btn data-variant="deepseek_coder_v2_lite_instruct_fp16" aria-pressed="false" data-oversize="true" title="Does not fit in 24 GB">FP16</button>
+</div></div>
+<div class="fit-panes">
+<div class="fit-pane" data-variant-pane="deepseek_coder_v2_lite_instruct_q4">
+<div class="fit-top"><span class="state state-fits">Fits</span><span class="headroom"><b class="num">8.6 GB</b> spare</span></div>
+<div class="track" role="img" aria-label="Needs 15.36 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"><span class="bar bar-fits" style="width: 64.0%;"></span><span class="resv" style="left: 90.0%; width: 10.0%;"></span></div>
+<div class="scale"><span>15.36 GB needed</span><span>24.0 GB</span></div>
+<details class="why-panel"><summary>How this is estimated</summary><div class="why-content"><p class="muted">Open to load the breakdown.</p></div></details>
+</div>
+<div class="fit-pane" data-variant-pane="deepseek_coder_v2_lite_instruct_q5" hidden>
+<div class="fit-top"><span class="state state-fits">Fits</span><span class="headroom"><b class="num">6.5 GB</b> spare</span></div>
+<div class="track" role="img" aria-label="Needs 17.52 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"><span class="bar bar-fits" style="width: 73.0%;"></span><span class="resv" style="left: 90.0%; width: 10.0%;"></span></div>
+<div class="scale"><span>17.52 GB needed</span><span>24.0 GB</span></div>
+<details class="why-panel"><summary>How this is estimated</summary><div class="why-content"><p class="muted">Open to load the breakdown.</p></div></details>
+</div>
+<div class="fit-pane" data-variant-pane="deepseek_coder_v2_lite_instruct_q8" hidden>
+<div class="fit-top"><span class="state state-tight">Tight</span><span class="headroom"><b class="num">0.0 GB</b> spare</span></div>
+<div class="track" role="img" aria-label="Needs 24.00 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"><span class="bar bar-tight" style="width: 100.0%;"></span><span class="resv" style="left: 90.0%; width: 10.0%;"></span></div>
+<div class="scale"><span>24.00 GB needed</span><span>24.0 GB</span></div>
+<details class="why-panel"><summary>How this is estimated</summary><div class="why-content"><p class="muted">Open to load the breakdown.</p></div></details>
+</div>
+<div class="fit-pane" data-variant-pane="deepseek_coder_v2_lite_instruct_fp16" hidden>
+<div class="fit-top"><span class="state state-wont-fit">Won't fit</span><span class="headroom"><b class="num">16.2 GB</b> over</span></div>
+<div class="track" role="img" aria-label="Needs 40.20 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"><span class="bar bar-wont-fit" style="width: 100.0%;"></span><span class="resv" style="left: 90.0%; width: 10.0%;"></span></div>
+<div class="scale"><span>40.20 GB needed</span><span>24.0 GB</span></div>
+<details class="why-panel"><summary>How this is estimated</summary><div class="why-content"><p class="muted">Open to load the breakdown.</p></div></details>
+</div>
+</div></article>
+<article class="model-card" data-model-card>
+<div class="model-id">
+<h3><a href="#">DeepSeek-V2-Lite</a> </h3>
+<p class="model-meta"><span class="num">15.71B</span> params <span class="sep">·</span> deepseek</p>
+<div class="quants" role="group" aria-label="Quantisation for DeepSeek-V2-Lite">
+<button type="button" data-quant-btn data-variant="deepseek_v2_lite_q4" aria-pressed="false">Q4</button>
+<button type="button" data-quant-btn data-variant="deepseek_v2_lite_q5" aria-pressed="false">Q5</button>
+<button type="button" data-quant-btn data-variant="deepseek_v2_lite_q8" aria-pressed="true">Q8</button>
+<button type="button" data-quant-btn data-variant="deepseek_v2_lite_fp16" aria-pressed="false" data-oversize="true" title="Does not fit in 24 GB">FP16</button>
+</div></div>
+<div class="fit-panes">
+<div class="fit-pane" data-variant-pane="deepseek_v2_lite_q4" hidden>
+<div class="fit-top"><span class="state state-fits">Fits</span><span class="headroom"><b class="num">8.6 GB</b> spare</span></div>
+<div class="track" role="img" aria-label="Needs 15.36 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"><span class="bar bar-fits" style="width: 64.0%;"></span><span class="resv" style="left: 90.0%; width: 10.0%;"></span></div>
+<div class="scale"><span>15.36 GB needed</span><span>24.0 GB</span></div>
+<details class="why-panel"><summary>How this is estimated</summary><div class="why-content"><p class="muted">Open to load the breakdown.</p></div></details>
+</div>
+<div class="fit-pane" data-variant-pane="deepseek_v2_lite_q5" hidden>
+<div class="fit-top"><span class="state state-fits">Fits</span><span class="headroom"><b class="num">6.5 GB</b> spare</span></div>
+<div class="track" role="img" aria-label="Needs 17.52 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"><span class="bar bar-fits" style="width: 73.0%;"></span><span class="resv" style="left: 90.0%; width: 10.0%;"></span></div>
+<div class="scale"><span>17.52 GB needed</span><span>24.0 GB</span></div>
+<details class="why-panel"><summary>How this is estimated</summary><div class="why-content"><p class="muted">Open to load the breakdown.</p></div></details>
+</div>
+<div class="fit-pane" data-variant-pane="deepseek_v2_lite_q8">
+<div class="fit-top"><span class="state state-tight">Tight</span><span class="headroom"><b class="num">0.0 GB</b> spare</span></div>
+<div class="track" role="img" aria-label="Needs 24.00 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"><span class="bar bar-tight" style="width: 100.0%;"></span><span class="resv" style="left: 90.0%; width: 10.0%;"></span></div>
+<div class="scale"><span>24.00 GB needed</span><span>24.0 GB</span></div>
+<details class="why-panel"><summary>How this is estimated</summary><div class="why-content"><p class="muted">Open to load the breakdown.</p></div></details>
+</div>
+<div class="fit-pane" data-variant-pane="deepseek_v2_lite_fp16" hidden>
+<div class="fit-top"><span class="state state-wont-fit">Won't fit</span><span class="headroom"><b class="num">16.2 GB</b> over</span></div>
+<div class="track" role="img" aria-label="Needs 40.20 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"><span class="bar bar-wont-fit" style="width: 100.0%;"></span><span class="resv" style="left: 90.0%; width: 10.0%;"></span></div>
+<div class="scale"><span>40.20 GB needed</span><span>24.0 GB</span></div>
+<details class="why-panel"><summary>How this is estimated</summary><div class="why-content"><p class="muted">Open to load the breakdown.</p></div></details>
+</div>
+</div></article>
+<article class="model-card" data-model-card>
+<div class="model-id">
+<h3><a href="#">DeepSeek-V2-Lite-Chat</a> </h3>
+<p class="model-meta"><span class="num">15.71B</span> params <span class="sep">·</span> deepseek</p>
+<div class="quants" role="group" aria-label="Quantisation for DeepSeek-V2-Lite-Chat">
+<button type="button" data-quant-btn data-variant="deepseek_v2_lite_chat_q4" aria-pressed="true">Q4</button>
+<button type="button" data-quant-btn data-variant="deepseek_v2_lite_chat_q5" aria-pressed="false">Q5</button>
+<button type="button" data-quant-btn data-variant="deepseek_v2_lite_chat_q8" aria-pressed="false">Q8</button>
+<button type="button" data-quant-btn data-variant="deepseek_v2_lite_chat_fp16" aria-pressed="false" data-oversize="true" title="Does not fit in 24 GB">FP16</button>
+</div></div>
+<div class="fit-panes">
+<div class="fit-pane" data-variant-pane="deepseek_v2_lite_chat_q4">
+<div class="fit-top"><span class="state state-fits">Fits</span><span class="headroom"><b class="num">8.6 GB</b> spare</span></div>
+<div class="track" role="img" aria-label="Needs 15.36 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"><span class="bar bar-fits" style="width: 64.0%;"></span><span class="resv" style="left: 90.0%; width: 10.0%;"></span></div>
+<div class="scale"><span>15.36 GB needed</span><span>24.0 GB</span></div>
+<details class="why-panel"><summary>How this is estimated</summary><div class="why-content"><p class="muted">Open to load the breakdown.</p></div></details>
+</div>
+<div class="fit-pane" data-variant-pane="deepseek_v2_lite_chat_q5" hidden>
+<div class="fit-top"><span class="state state-fits">Fits</span><span class="headroom"><b class="num">6.5 GB</b> spare</span></div>
+<div class="track" role="img" aria-label="Needs 17.52 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"><span class="bar bar-fits" style="width: 73.0%;"></span><span class="resv" style="left: 90.0%; width: 10.0%;"></span></div>
+<div class="scale"><span>17.52 GB needed</span><span>24.0 GB</span></div>
+<details class="why-panel"><summary>How this is estimated</summary><div class="why-content"><p class="muted">Open to load the breakdown.</p></div></details>
+</div>
+<div class="fit-pane" data-variant-pane="deepseek_v2_lite_chat_q8" hidden>
+<div class="fit-top"><span class="state state-tight">Tight</span><span class="headroom"><b class="num">0.0 GB</b> spare</span></div>
+<div class="track" role="img" aria-label="Needs 24.00 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"><span class="bar bar-tight" style="width: 100.0%;"></span><span class="resv" style="left: 90.0%; width: 10.0%;"></span></div>
+<div class="scale"><span>24.00 GB needed</span><span>24.0 GB</span></div>
+<details class="why-panel"><summary>How this is estimated</summary><div class="why-content"><p class="muted">Open to load the breakdown.</p></div></details>
+</div>
+<div class="fit-pane" data-variant-pane="deepseek_v2_lite_chat_fp16" hidden>
+<div class="fit-top"><span class="state state-wont-fit">Won't fit</span><span class="headroom"><b class="num">16.2 GB</b> over</span></div>
+<div class="track" role="img" aria-label="Needs 40.20 of 24.0 gigabytes, with 2.40 gigabytes held in reserve"><span class="bar bar-wont-fit" style="width: 100.0%;"></span><span class="resv" style="left: 90.0%; width: 10.0%;"></span></div>
+<div class="scale"><span>40.20 GB needed</span><span>24.0 GB</span></div>
+<details class="why-panel"><summary>How this is estimated</summary><div class="why-content"><p class="muted">Open to load the breakdown.</p></div></details>
+</div>
+</div></article>
+</section>
+      <section class="picks-band" aria-labelledby="picks-h"><h2 id="picks-h">Top Picks for you</h2><div class="top-pick-grid">
+<article class="top-pick-card"><p class="pick-title">Best quality that fits</p><h3><a href="#">DeepSeek-Coder-V2-Lite-Instruct</a></h3><p class="pick-meta">15.7B · Q4</p><p class="pick-desc">Top of the ranking, with room to spare.</p></article>
+<article class="top-pick-card"><p class="pick-title">Best balance</p><h3><a href="#">DeepSeek-V2-Lite</a></h3><p class="pick-meta">15.7B · Q4</p><p class="pick-desc">Next in the ranking and still practical.</p></article>
+<article class="top-pick-card"><p class="pick-title">Best small</p><h3><a href="#">Yi-1.5 9B Chat</a></h3><p class="pick-meta">9.0B · FP16</p><p class="pick-desc">Usually the lightest on memory.</p></article>
+</div></section>
+    </div>
+  </div>
+</main>
+</form>
+<footer class="footer"><div class="wrap"><span>Catalog version: 2026-10-23</span><span>Estimation policy: v0.1</span><span>Last updated: 2026-10-23</span></div></footer>
+
+</body>
+</html>

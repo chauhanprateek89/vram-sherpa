@@ -1,115 +1,127 @@
-<section class="results-header">
-  <h2>Results</h2>
-  <p class="muted">
-    {{ model_cards|length }} model{{ '' if model_cards|length == 1 else 's' }} fit or are tight.
-    Pick a quantisation on any card to see how it changes.
-  </p>
-</section>
+{% from "components.html" import verdict, gated_tag %}
+<h2 class="sr-only">Results</h2>
 
 {% if model_cards %}
-  <section class="model-list" id="results-cards">
-    {% for card in model_cards %}
-      {% set default = card.default_variant %}
-      <article class="model-card" data-model-card>
-        <div class="model-id">
-          <h3>
-            <a href="/models/{{ card.model_id }}?{{ hardware_query_string }}">{{ card.model_name }}</a>
-            {% if card.gated %}
-              <span class="tag" title="Accept the model licence on Hugging Face before downloading the weights.">Gated</span>
-            {% endif %}
-          </h3>
-          <p class="model-meta">
-            <span class="num">{{ '%g'|format(card.params_b) }}B</span> params
-            <span class="sep">·</span>{{ card.family }}
-          </p>
-
-          <div class="quants" role="group" aria-label="Quantisation for {{ card.model_name }}">
-            {% for variant in card.variants %}
-              <button
-                type="button"
-                data-quant-btn
-                data-variant="{{ variant.variant_id }}"
-                aria-pressed="{{ 'true' if variant.variant_id == card.default_variant_id else 'false' }}"
-                {% if variant.classification == "Won't fit" %}data-oversize="true" title="Does not fit in {{ '%.0f'|format(variant.available_vram_gb) }} GB"{% endif %}
-              >{{ variant.quant_bucket }}</button>
-            {% endfor %}
-          </div>
-        </div>
-
-        <div class="fit-panes">
-          {% for variant in card.variants %}
-            <div
-              class="fit-pane"
-              data-variant-pane="{{ variant.variant_id }}"
-              {% if variant.variant_id != card.default_variant_id %}hidden{% endif %}
-            >
-              <div class="fit-top">
-                <span class="state state-{{ variant.classification_slug }}">{{ variant.classification }}</span>
-                <span class="headroom">
-                  {% if variant.margin_gb >= 0 %}
-                    <b class="num">{{ '%.1f'|format(variant.margin_gb) }} GB</b> spare
-                  {% else %}
-                    <b class="num">{{ '%.1f'|format(-variant.margin_gb) }} GB</b> over
-                  {% endif %}
-                </span>
+  <section class="results pane lite" id="results-cards" aria-label="Models">
+    <div class="card-grid">
+      {% for card in model_cards %}
+        {# --i staggers the gauge fill after a refresh (styles.css); capped so late cards do not wait. #}
+        <article class="model-card inset" data-model-card data-sheen style="--i: {{ [loop.index0, 5]|min }}">
+          <div class="card-in">
+            <div class="card-head">
+              <div class="model-id">
+                <h3>
+                  <a href="/models/{{ card.model_id }}?{{ hardware_query_string }}">{{ card.model_name }}</a>
+                  {%- if card.gated %}{{ gated_tag() }}{% endif -%}
+                </h3>
+                <p class="model-meta">
+                  <span class="num">{{ '%g'|format(card.params_b) }}B params</span>
+                  <span class="fam">{{ card.family }}</span>
+                </p>
               </div>
 
-              <div
-                class="track"
-                role="img"
-                aria-label="Needs {{ '%.2f'|format(variant.required_vram_gb) }} of {{ '%.1f'|format(variant.available_vram_gb) }} gigabytes, with {{ '%.2f'|format(variant.reserve_gb) }} gigabytes held in reserve"
-              >
-                <span class="bar bar-{{ variant.classification_slug }}" style="width: {{ '%.1f'|format(variant.required_gauge_percent) }}%;"></span>
-                <span class="resv" style="left: {{ '%.1f'|format(variant.fit_limit_gauge_percent) }}%; width: {{ '%.1f'|format(variant.reserve_gauge_percent) }}%;"></span>
+              <div class="quants" data-thumb role="group" aria-label="Quantisation for {{ card.model_name }}">
+                {% for variant in card.variants %}
+                  <button
+                    type="button"
+                    data-quant-btn
+                    data-variant="{{ variant.variant_id }}"
+                    aria-pressed="{{ 'true' if variant.variant_id == card.default_variant_id else 'false' }}"
+                    {% if variant.classification == "Won't fit" %}data-oversize="true" title="Does not fit in {{ '%.0f'|format(variant.available_vram_gb) }} GB"{% endif %}
+                  >{{ variant.quant_bucket }}</button>
+                {% endfor %}
               </div>
-
-              <div class="scale">
-                <span>{{ '%.2f'|format(variant.required_vram_gb) }} GB needed</span>
-                <span>{{ '%.1f'|format(variant.available_vram_gb) }} GB</span>
-              </div>
-
-              <details class="why-panel">
-                <summary
-                  hx-get="/results/why/{{ variant.variant_id }}?{{ hardware_query_string }}"
-                  hx-target="#why-{{ variant.variant_id }}"
-                  hx-swap="innerHTML"
-                  hx-trigger="click once"
-                >
-                  How this is estimated
-                </summary>
-                <div id="why-{{ variant.variant_id }}" class="why-content">
-                  <p class="muted">Open to load the breakdown.</p>
-                </div>
-              </details>
             </div>
-          {% endfor %}
-        </div>
-      </article>
-    {% endfor %}
+
+            <div class="fit-panes">
+              {% for variant in card.variants %}
+                <div
+                  class="fit-pane"
+                  data-variant-pane="{{ variant.variant_id }}"
+                  {% if variant.variant_id != card.default_variant_id %}hidden{% endif %}
+                >
+                  <div class="fit-top">
+                    {{ verdict(variant.classification) }}
+                    <span class="headroom">
+                      {% if variant.margin_gb >= 0 %}
+                        <b class="num">{{ '%.1f'|format(variant.margin_gb) }} GB</b> spare
+                      {% else %}
+                        <b class="num">{{ '%.1f'|format(-variant.margin_gb) }} GB</b> over
+                      {% endif %}
+                    </span>
+                  </div>
+
+                  <div
+                    class="track"
+                    role="img"
+                    aria-label="Needs {{ '%.2f'|format(variant.required_vram_gb) }} of {{ '%.1f'|format(variant.available_vram_gb) }} gigabytes, with {{ '%.2f'|format(variant.reserve_gb) }} gigabytes held in reserve"
+                  >
+                    <span class="bar bar-{{ 'wont' if variant.classification == "Won't fit" else variant.classification_slug }}" style="width: {{ '%.1f'|format(variant.required_gauge_percent) }}%;"></span>
+                    <span class="resv" style="left: {{ '%.1f'|format(variant.fit_limit_gauge_percent) }}%; width: {{ '%.1f'|format(variant.reserve_gauge_percent) }}%;"></span>
+                  </div>
+
+                  <div class="scale">
+                    <span class="num">{{ '%.2f'|format(variant.required_vram_gb) }} GB needed</span>
+                    <span class="num">{{ '%.1f'|format(variant.available_vram_gb) }} GB</span>
+                  </div>
+
+                  <details class="why-panel">
+                    <summary
+                      hx-get="/results/why/{{ variant.variant_id }}?{{ hardware_query_string }}"
+                      hx-target="#why-{{ variant.variant_id }}"
+                      hx-swap="innerHTML"
+                      hx-trigger="click once"
+                    >
+                      How this is estimated
+                    </summary>
+                    <div id="why-{{ variant.variant_id }}" class="why-content">
+                      <p class="muted why-idle">Open to load the breakdown.</p>
+                      <div class="why-loading">
+                        <p class="sk-note">Loading the breakdown</p>
+                        <div class="sk-list" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+                      </div>
+                    </div>
+                  </details>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
   </section>
 {% else %}
-  <section class="panel empty-state-callout">
-    {% if not catalog_seeded %}
-      <p>Catalog is not initialized yet.</p>
-      <p class="muted">Seed the catalog data, then refresh this page.</p>
-    {% else %}
-      <p>No models currently fit this setup.</p>
-      <p class="muted">Try one of these next steps:</p>
-      <div class="empty-state-actions">
-        {% if empty_state_q4_url %}
-          <a class="chip chip-active" href="{{ empty_state_q4_url }}">Try Q4</a>
-        {% else %}
-          <span class="chip">Try Q4</span>
+  {# Empty and unseeded states (R-025, R-026): one inset sheet in the results pane, docs/design/mockups/final-empty-*.html. #}
+  <section class="results pane lite" aria-label="Models">
+    <div class="empty inset">
+      {% if not catalog_seeded %}
+        <div class="empty-status" role="status">
+          <svg width="28" height="28" aria-hidden="true"><use href="#i-info"/></svg>
+          <p class="empty-title">Catalog is not initialized yet.</p>
+          <p class="muted">Seed the catalog data, then refresh this page.</p>
+        </div>
+      {% else %}
+        <p class="empty-title">No models currently fit this setup.</p>
+        <p class="muted">Try one of these next steps:</p>
+        <div class="empty-actions">
+          {% if empty_state_q4_url %}
+            <a class="action-chip" href="{{ empty_state_q4_url }}">Try Q4</a>
+          {% else %}
+            <span class="action-chip">Try Q4</span>
+          {% endif %}
+          {% if empty_state_lower_context_url %}
+            <a class="action-chip" href="{{ empty_state_lower_context_url }}">Lower context</a>
+          {% else %}
+            <span class="action-chip">Lower context</span>
+          {% endif %}
+        </div>
+        {% set wont_count = summary_counts["Won't fit"] %}
+        {% if wont_count == 1 %}
+          <p class="muted">There is 1 model in Won't fit, hidden by default.</p>
+        {% elif wont_count > 1 %}
+          <p class="muted">There are {{ wont_count }} models in Won't fit, hidden by default.</p>
         {% endif %}
-        {% if empty_state_lower_context_url %}
-          <a class="chip chip-active" href="{{ empty_state_lower_context_url }}">Lower context</a>
-        {% else %}
-          <span class="chip">Lower context</span>
-        {% endif %}
-      </div>
-      {% if summary_counts["Won't fit"] > 0 %}
-        <p class="muted">There are {{ summary_counts["Won't fit"] }} variants in Won't fit, hidden by default.</p>
       {% endif %}
-    {% endif %}
+    </div>
   </section>
 {% endif %}

@@ -1,0 +1,8 @@
+detail-gated 390: mock lines 112 live lines 112 textdiff 0
+detail-gated 1280: mock lines 90 live lines 90 textdiff 0
+detail-ungated 390: mock lines 110 live lines 110 textdiff 0
+detail-ungated 1280: mock lines 88 live lines 88 textdiff 0
+detail-no-sources 390: mock lines 98 live lines 98 textdiff 0
+detail-no-sources 1280: mock lines 76 live lines 76 textdiff 0
+detail-error 390: mock lines 112 live lines 112 textdiff 0
+detail-error 1280: mock lines 90 live lines 90 textdiff 0
