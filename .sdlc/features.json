@@ -774,7 +774,7 @@
         "T-019"
       ],
       "notes": "Remove a rule only after grepping the templates and `app.js` for its class.",
-      "review": "pending",
+      "review": "passed",
       "passes": false
     },
     {
