@@ -30,6 +30,7 @@
 | 2026-10-25 | 2 | Filters start closed at both widths (not opened on desktop by script). The 800 px desktop target (R-069) applies to the normal results view; states that show a message (ambiguous GPU, input errors) may end around 840-880 px. |
 | 2026-10-25 | 2 | Build the styled GPU suggestion list (the `gpu-suggest` mockup): a small vanilla JS combobox over the native list at every width (ADR-0005), keeping R-001's behaviour and the no-JavaScript path. |
 | 2026-10-25 | 2 | Repo weight: commit the final mockup HTML and PNGs only; the rejected rounds keep their HTML but lose their PNGs; the release PR is squash-merged so rejected binaries never reach main. |
+| 2026-10-27 | Build (T-016) | After three failed reviews, retry T-016 with the one-line fix: restore the breakdown rows' 220 ms fade-in (`animation: whyIn` on `.why-list`) per the approved spec, then re-review once. |
 
 ## Made during work
 

@@ -5,12 +5,12 @@
 | Track | Full: UI/UX overhaul |
 | Stage | Build |
 | Branch | sdlc/full-ui-overhaul |
-| Gate waiting | T-016 failed review 3 times: retry with the one-line fix, drop, or stop |
+| Gate waiting | none |
 | Updated | 2026-10-25 |
 
 ## Your actions
 
-- Decide on T-016: retry with the one-line fix (restore the breakdown rows' fade-in), drop the task, or stop.
+- none
 
 ## Next step
 
@@ -62,3 +62,4 @@ Follow-ups found at onboarding (not part of this track): host guard ignores APP_
 | 2026-10-25 | Build | sdlc:builder (sonnet), sdlc:reviewer (inherit) | T-014 passed: commit fc5ac39, passed first review; 390 px first verdict 1271-1459 (<1688); re-measure after T-015 |
 | 2026-10-25 | Build | sdlc:builder (sonnet), sdlc:reviewer (inherit) | T-015 passed: commit f6a7641, passed first review; R-069 holds (767/837/793/877 @1280; 1357-1520 @390) |
 | 2026-10-25 | Build | sdlc:builder (opus), sdlc:reviewer (inherit) | T-016 failed: 3 reviews failed (S-1 margins fixed, S-2 pseudo box-sizing fixed; S-3: 0f0052a dropped the rows' 220 ms fade-in per a relayed nit the reviewer later withdrew). Waiting for the user |
+| 2026-10-27 | Build | user | T-016: retry with the fade-in fix |
