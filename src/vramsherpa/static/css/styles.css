@@ -366,30 +366,6 @@ select[multiple] {
   border-color: color-mix(in srgb, var(--brand) 45%, var(--line));
 }
 
-.field-help {
-  margin: 0.35rem 0 0;
-  color: var(--muted);
-  font-size: 0.82rem;
-}
-
-.form-alert {
-  margin-top: 0.9rem;
-  border: 1px solid var(--badge-tight-text);
-  background: color-mix(in srgb, var(--badge-tight-bg) 35%, var(--panel-solid));
-  border-radius: 10px;
-  padding: 0.7rem 0.85rem;
-}
-
-.form-alert p {
-  margin: 0;
-  font-weight: 700;
-}
-
-.form-alert ul {
-  margin: 0.45rem 0 0;
-  padding-left: 1.2rem;
-}
-
 .advanced-disclosure {
   margin-top: 0.4rem;
 }
@@ -461,16 +437,6 @@ select[multiple] {
 .badge-quant {
   background: var(--badge-quant-bg);
   color: var(--badge-quant-text);
-}
-
-.badge-gated {
-  background: var(--badge-gated-bg);
-  color: var(--badge-gated-text);
-  font-weight: 600;
-}
-
-.badge-inline {
-  margin-left: 0.35rem;
 }
 
 .badge-recommended {
@@ -587,36 +553,6 @@ details[open] > .why-content { animation: whyIn var(--dur-2) var(--ease-out); }
 @keyframes spin { to { transform: rotate(360deg); } }
 /* Reduced motion stops the shimmer (the global rule below) but the rows stay, as flat bars. */
 @media (prefers-reduced-motion: reduce) { .sk-list i { background: var(--sk-a); } }
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.95rem;
-}
-
-.table-scroll {
-  overflow-x: auto;
-}
-
-th,
-td {
-  text-align: left;
-  border-bottom: 1px solid var(--line);
-  padding: 0.6rem;
-}
-
-.sources-block p {
-  margin: 0;
-}
-
-.sources-list {
-  margin: 0.45rem 0 0;
-  padding-left: 1.2rem;
-}
-
-.sources-list li + li {
-  margin-top: 0.28rem;
-}
 
 .prose code {
   background: color-mix(in srgb, var(--panel-alt) 70%, var(--line));
@@ -853,3 +789,52 @@ details[open] > .pick-grid { animation: whyIn var(--dur-2) var(--ease-out); }
 .pick-desc { font-size: var(--fs-caption); margin: 6px 0 0; line-height: 1.35; }
 .pick:hover { transform: translateY(-2px); box-shadow: var(--sh-2h); }
 .pick:active { transform: scale(.98); box-shadow: var(--sh-in); transition-duration: 70ms; }
+
+/* ===== model detail (T-018): fact tiles, recompute form, variant rows that stack on a phone ===== */
+.detail { line-height: var(--lh-body); display: grid; gap: var(--gap); grid-template-columns: minmax(0, 1fr); align-items: start; }
+@media (min-width: 900px) { .detail { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); } .detail .variants { grid-column: 1 / -1; } }
+.model-tile, .recompute { padding: var(--pad-pane); display: flex; flex-direction: column; gap: 16px; }
+.detail :where(h1, h2, p, dl, dd, ul) { margin: 0; }
+.detail h1 { font-size: 34px; line-height: 1.1; letter-spacing: -.025em; font-weight: 500; overflow-wrap: anywhere; }
+@media (min-width: 900px) { .detail h1 { font-size: 40px; } }
+.detail h1 .tag-gated { font-size: var(--fs-caption); }
+.facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.facts div { padding: 10px 14px 12px; border-radius: 18px; background: var(--inset); border: 1px solid var(--edge); box-shadow: var(--sh-2); min-width: 0; }
+.facts dt { font-size: var(--fs-caption); color: var(--muted); font-weight: 520; }
+.facts dd { font-size: var(--fs-lead); font-weight: 560; overflow-wrap: anywhere; }
+.sources h2, .recompute h2 { font-size: var(--fs-lead); font-weight: 600; margin-bottom: 6px; }
+.recompute h2.sr-only { margin: 0; }
+.detail .sources-list { list-style: none; padding: 0; }
+.sources-list li { padding: 3px 0; font-size: var(--fs-small); overflow-wrap: anywhere; }
+.sources-list a { display: inline-block; padding: 8px 0; margin: -8px 0; color: var(--accent); }
+.recompute form { display: grid; gap: 14px; }
+.recompute label { display: block; font-size: var(--fs-caption); font-weight: 560; margin-bottom: 6px; letter-spacing: .01em; padding: 0; color: var(--ink); }
+.recompute input[type=number], .recompute select { width: 100%; min-height: 52px; padding: 0 16px; border-radius: var(--r-in); border: 1.5px solid var(--line); background-color: var(--field); box-shadow: var(--sh-in); color: var(--ink); font-size: 16px; font-weight: 450; transition: border-color var(--dur-1), box-shadow var(--dur-2); }
+/* R-070: no ellipsis. The closed select wraps a long GPU label onto a second line (Chromium; elsewhere it clips, never ellipsises). */
+.recompute select { appearance: none; -webkit-appearance: none; height: auto; padding-top: 8px; padding-bottom: 8px; padding-right: 44px; white-space: normal; text-overflow: clip; background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%); background-position: calc(100% - 22px) 50%, calc(100% - 16px) 50%; background-size: 6px 6px; background-repeat: no-repeat; }
+.recompute input:focus-visible, .recompute select:focus-visible, .recompute button:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.recompute input[aria-invalid="true"] { border-color: var(--wont-fg); border-width: 2px; }
+.recompute .help { font-size: var(--fs-caption); color: var(--muted); margin-top: -6px; }
+.variants { padding: var(--pad-pane); }
+.vtable { width: 100%; border-collapse: collapse; }
+.vtable th, .vtable td { padding: 14px 12px; text-align: left; vertical-align: top; border: 0; border-top: 1px solid var(--hair); font-size: var(--fs-small); }
+.vtable thead th { font-size: var(--fs-caption); font-weight: 560; color: var(--muted); border-top: 0; padding-top: 4px; }
+.vtable td.fig { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.vtable td.vl { font-weight: 600; font-size: var(--fs-body); white-space: nowrap; }
+.prov { color: var(--muted); font-size: var(--fs-caption); max-width: 44ch; }
+.prov .sources-list li { font-size: var(--fs-caption); }
+.prov p + .sources-list { margin-top: 6px; }
+/* ADR-0006 point 7: below 900 px each row is a sheet, the figures in a grid, provenance last. */
+@media (max-width: 899px) {
+  .vtable tbody, .vtable { display: block; }
+  .vtable thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .vtable tr { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; padding: 16px; border-radius: 20px; background: var(--inset); border: 1px solid var(--edge); box-shadow: var(--sh-2); margin-top: 10px; }
+  .vtable td { display: block; padding: 0; border: 0; min-width: 0; }
+  .vtable td[data-label]::before { content: attr(data-label); display: block; font-size: var(--fs-caption); color: var(--muted); font-weight: 500; }
+  .vtable td.vl, .vtable td.st { order: 1; align-self: center; } .vtable td.vl::before, .vtable td.st::before { display: none; }
+  .vtable td.vl { white-space: normal; overflow-wrap: anywhere; }
+  .vtable td.st { order: 2; justify-self: end; }
+  .vtable td.fig { order: 3; font-size: var(--fs-lead); font-weight: 560; }
+  .vtable td.prov { order: 9; grid-column: 1 / -1; max-width: none; padding-top: 10px; border-top: 1px solid var(--hair); }
+  .vtable td.prov:not(:has(p, ul)) { display: none; }
+}

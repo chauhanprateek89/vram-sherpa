@@ -498,7 +498,7 @@ def test_model_detail_flags_gated_model(app, seeded_session: Session) -> None:
         session=seeded_session,
     )
     text = _response_text(response)
-    assert "badge-gated" in text
+    assert "tag-gated" in text
     assert "Weights are gated on Hugging Face" in text
 
 
@@ -511,5 +511,5 @@ def test_model_detail_omits_gated_notice_for_open_model(app, seeded_session: Ses
         session=seeded_session,
     )
     text = _response_text(response)
-    assert "badge-gated" not in text
+    assert "tag-gated" not in text
     assert "Weights are gated on Hugging Face" not in text

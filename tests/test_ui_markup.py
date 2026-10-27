@@ -1332,3 +1332,155 @@ def test_empty_state_styles_follow_the_mockup() -> None:
 
 def test_asset_version_moved_on_for_the_empty_states() -> None:
     assert main.ASSET_VERSION > "20261025m"
+
+
+# ---- T-018: model detail ----
+
+GATED_DETAIL = "/models/model_llama_31_8b_instruct?vram_gb=24&context_tokens=2048"
+OPEN_DETAIL = "/models/model_qwen25_7b_instruct?vram_gb=24&context_tokens=4096"
+ERROR_DETAIL = "/models/model_qwen25_7b_instruct?vram_gb=abc"
+VARIANT_HEADINGS = [
+    "Variant",
+    "Bits",
+    "Required VRAM (GB)",
+    "Available VRAM (GB)",
+    "Margin (GB)",
+    "Status",
+    "Provenance",
+]
+
+
+def _by_class(root: _Node, cls: str) -> list[_Node]:
+    return [n for n in root.walk() if cls in n.classes()]
+
+
+def test_detail_facts_are_four_labelled_tiles_with_the_same_values(client: TestClient) -> None:
+    root = _tree(client.get(GATED_DETAIL).text)
+    facts = _by_class(root, "facts")[0]
+    assert facts.tag == "dl"
+    tiles = [[c.all_text() for c in tile.children] for tile in facts.children]
+    assert tiles == [
+        ["Family", "llama"],
+        ["Params", "8.0B"],
+        ["Type", "instruct"],
+        ["License", "Llama 3.1 Community License"],
+    ]
+    assert "KV cache estimate per 1k context: 0.480 GB" in root.all_text()
+    assert [n.all_text() for n in root.walk() if n.tag == "h2" and "sources" in n.parent.classes()]
+
+
+def test_detail_headings_for_the_form_and_the_table_are_visually_hidden(
+    client: TestClient,
+) -> None:
+    root = _tree(client.get(OPEN_DETAIL).text)
+    hidden = {n.all_text() for n in root.walk() if n.tag == "h2" and "sr-only" in n.classes()}
+    assert {"Recompute for other hardware", "Variants"} <= hidden
+    assert "clip: rect(0 0 0 0)" in _rules(_css(), ".sr-only")[0]
+
+
+def test_detail_gated_marker_and_verdicts_come_from_the_shared_macros(client: TestClient) -> None:
+    gated = _tree(client.get(GATED_DETAIL).text)
+    h1 = _one(gated, "h1")
+    tag = next(n for n in h1.walk() if "tag-gated" in n.classes())
+    assert tag.all_text() == "gated"
+    assert next(n for n in tag.walk() if n.tag == "use").attrs["href"] == "#i-lock"
+    assert all(n.all_text() != "Gated" for n in gated.walk() if "tag-gated" in n.classes())
+    assert "Weights are gated on Hugging Face" in gated.all_text()
+    verdicts = _by_class(gated, "state")
+    assert len(verdicts) == 4
+    assert all("state-" in " ".join(n.classes()) for n in verdicts)
+    assert not [n for n in gated.walk() if any(c.startswith("badge") for c in n.classes())]
+
+    open_page = _tree(client.get(OPEN_DETAIL).text)
+    assert not _by_class(open_page, "tag-gated")
+    assert "Weights are gated on Hugging Face" not in open_page.all_text()
+
+
+def test_gated_macro_label_defaults_to_the_card_word() -> None:
+    assert _tree(_render_macro("{{ gated_tag() }}")).children[0].all_text() == "Gated"
+    assert _tree(_render_macro('{{ gated_tag("gated") }}')).children[0].all_text() == "gated"
+
+
+def test_detail_form_keeps_its_fields_and_the_primary_button(client: TestClient) -> None:
+    form = _one(_tree(client.get(OPEN_DETAIL).text), "form")
+    assert form.attrs["method"] == "get"
+    fields = {n.attrs.get("name"): n for n in form.walk() if n.tag in {"select", "input"}}
+    assert set(fields) == {"gpu_id", "vram_gb", "context_tokens"}
+    assert fields["vram_gb"].attrs["inputmode"] == "decimal"
+    assert fields["vram_gb"].attrs["value"] == "24"
+    labels = [n.all_text() for n in form.walk() if n.tag == "label"]
+    assert labels == ["GPU", "Manual VRAM (GB)", "Context"]
+    button = _one(form, "button")
+    assert button.all_text() == "Recompute"
+    assert "btn-primary" in button.classes() and button.attrs["type"] == "submit"
+    assert "aria-invalid" not in fields["vram_gb"].attrs
+
+
+def test_detail_input_error_is_one_alert_and_marks_the_field(client: TestClient) -> None:
+    root = _tree(client.get(ERROR_DETAIL).text)
+    alerts = [n for n in root.walk() if n.attrs.get("role") == "alert"]
+    assert len(alerts) == 1
+    assert "Invalid value for vram_gb." in alerts[0].all_text()
+    vram = next(n for n in root.walk() if n.attrs.get("name") == "vram_gb")
+    assert vram.attrs["aria-invalid"] == "true"
+
+
+def test_detail_table_keeps_seven_columns_with_labels_and_explicit_roles(
+    client: TestClient,
+) -> None:
+    root = _tree(client.get(GATED_DETAIL).text)
+    table = _one(root, "table")
+    assert table.attrs["role"] == "table"
+    heads = [n for n in table.walk() if n.tag == "th"]
+    assert [n.all_text() for n in heads] == VARIANT_HEADINGS
+    assert all(n.attrs["role"] == "columnheader" for n in heads)
+    rows = [n for n in table.walk() if n.tag == "tr"]
+    assert len(rows) == 5 and all(n.attrs["role"] == "row" for n in rows)
+    for row in rows[1:]:
+        cells = [n for n in row.children if n.tag == "td"]
+        assert [n.attrs["data-label"] for n in cells] == VARIANT_HEADINGS
+        assert all(n.attrs["role"] == "cell" for n in cells)
+        # Provenance is the last cell, after the figures and the verdict.
+        assert cells[-1].attrs["data-label"] == "Provenance"
+    labels = [rows[i].children[0].all_text() for i in range(1, 5)]
+    assert labels == ["FP16 (FP16)", "Q4 (Q4) *", "Q5 (Q5)", "Q8 (Q8)"]
+    assert "table-scroll" not in client.get(GATED_DETAIL).text
+
+
+def test_detail_rows_show_required_available_and_margin(client: TestClient) -> None:
+    root = _tree(client.get(OPEN_DETAIL).text)
+    row = [n for n in root.walk() if n.tag == "tr"][2]
+    values = [c.all_text() for c in row.children]
+    assert len(values) == 7
+    required, available, margin = (float(v) for v in values[2:5])
+    assert available == 24.0
+    assert round(available - required, 2) == margin
+    assert values[5] == "Fits"
+
+
+def test_detail_without_sources_omits_the_sources_block(
+    client: TestClient, seeded_session: Session
+) -> None:
+    seeded_session.get(main.Model, "model_qwen25_7b_instruct").sources = None
+    seeded_session.commit()
+    root = _tree(client.get(OPEN_DETAIL).text)
+    assert not _by_class(root, "sources")
+    assert "KV cache estimate per 1k context" in root.all_text()
+    assert len(_by_class(root, "facts")) == 1
+
+
+def test_detail_css_follows_the_mockup() -> None:
+    css = _css()
+    assert ".table-scroll" not in css
+    assert "grid-template-columns: repeat(2, minmax(0, 1fr))" in _rules(css, ".facts")[0]
+    assert "attr(data-label)" in css
+    assert "overflow-wrap: anywhere" in _rules(css, ".sources-list li")[0]
+    select = _rules(css, ".recompute select")
+    assert select and all("ellipsis" not in rule for rule in select)
+    raw = STYLES.read_text(encoding="utf-8").split("===== model detail (T-018)")[1]
+    assert "text-overflow: ellipsis" not in raw
+    assert "font-size: 16px" in _rules(css, ".recompute input[type=number], .recompute select")[0]
+
+
+def test_asset_version_moved_on_for_the_detail_page() -> None:
+    assert main.ASSET_VERSION > "20261025n"
