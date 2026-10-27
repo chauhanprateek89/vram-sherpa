@@ -5,9 +5,9 @@
 Continuous deployment, pull-based. Nothing in CI can reach the homelab.
 
 ```
-merge to main  ->  CI gates  ->  build + push GHCR  ->  smoke test  ->  tag + GitHub Release
-                                                                              |
-                                        homelab watchtower polls :latest  <---+
+merge to main  ->  CI gates  ->  build + push sha- tag  ->  smoke test  ->  tag version + latest  ->  git tag + GitHub Release
+                                                                                     |
+                                               homelab watchtower polls :latest  <---+
                                                    |
                                         docker pull + recreate web (~5 min)
 ```
@@ -33,12 +33,16 @@ Every release publishes three tags to `ghcr.io/chauhanprateek89/vram-sherpa`:
 | `sha-abc1234` | Exact commit, for tracing a running container back to source. |
 | `latest` | What the homelab tracks. |
 
+`sha-<short>` is pushed before the smoke test, as the candidate it runs. `v…` and `latest`
+are added to that same digest only after the smoke test passes, so every `v…` image has
+passed the smoke test and is safe to pin.
+
 ## What gates a release
 
 `release.yml` calls `ci.yml` via `workflow_call`, so main is gated on exactly the same
-checks as a PR — not a copy that can drift. After the image is pushed, a smoke test runs
-the real published image against a real Postgres and fails the release if any of these
-do not hold:
+checks as a PR — not a copy that can drift. The candidate image is pushed under its
+`sha-` tag only, and a smoke test runs it by digest against a real Postgres and fails the
+release if any of these do not hold:
 
 - `/healthz` responds
 - the catalog actually seeds (`Seeded catalog_version=` in the logs)
@@ -46,6 +50,7 @@ do not hold:
 - `APP_ENV=prod` rejects an unknown `Host` header with 400
 
 A broken image therefore never gets tagged or released, so `latest` never moves to it.
+The failed candidate's `sha-` tag stays in GHCR.
 
 ## Catalog refreshes
 
