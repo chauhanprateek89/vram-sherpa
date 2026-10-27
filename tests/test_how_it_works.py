@@ -315,8 +315,9 @@ def _css() -> str:
 
 
 def _rule(css: str, selector: str) -> str:
-    """The declaration block of the rule whose selector is exactly `selector`."""
-    match = re.search(rf"(?m)^{re.escape(selector)} \{{([^}}]*)\}}", css)
+    """The declaration block of the first rule whose selector list has exactly `selector`."""
+    pattern = rf"(?m)^(?:[^{{}}\n]*,\s*)?{re.escape(selector)}(?:\s*,[^{{}}\n]*)? \{{([^}}]*)\}}"
+    match = re.search(pattern, css)
     assert match, f"no rule for {selector}"
     return match.group(1)
 
@@ -332,12 +333,13 @@ def test_formulas_wrap_at_phone_width() -> None:
 def test_step_circles_stay_30px_and_links_use_accent() -> None:
     css = _css()
     circle = _rule(css, ".steps li::before")
-    # the app reset does not reach pseudo-elements, so the 1px border would add 2px
-    assert "box-sizing: border-box" in circle
+    # the 1px border must not add 2px: border-box here, or a reset that reaches pseudo-elements
+    reset = re.search(r"(?m)^\*, \*::before, \*::after \{ box-sizing: border-box; \}", css)
+    assert "box-sizing: border-box" in circle or reset
     assert "width: 30px" in circle and "height: 30px" in circle
-    # the page body link takes the mockup's accent, not the global brand colour
+    # the page body link takes the mockup's accent, and no later global hover recolours it
     assert "color: var(--accent)" in _rule(css, ".doc a")
-    assert css.index(".doc a {") > css.index("a:hover {")
+    assert "a:hover {" not in css or css.index(".doc a {") > css.index("a:hover {")
 
 
 def test_estimation_module_untouched_by_this_task() -> None:
