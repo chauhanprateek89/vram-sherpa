@@ -564,6 +564,32 @@ def test_segmented_control_targets_and_field_text_meet_the_phone_sizes() -> None
     assert "min-height: 54px" in _rules(css, ".btn-primary")[0]
 
 
+def _declared(css: str, selector: str, prop: str) -> str:
+    """The last value a rule for exactly this selector gives `prop`, with a var(--x) resolved."""
+    values = [
+        m.group(1).strip()
+        for body in _rules(css, selector)
+        for m in re.finditer(rf"(?:^|;)\s*{prop}\s*:\s*([^;]+)", body)
+    ]
+    assert values, f"{selector} does not set {prop}"
+    var = re.fullmatch(r"var\((--[\w-]+)\)", values[-1])
+    if not var:
+        return values[-1]
+    token = re.search(rf"{re.escape(var.group(1))}\s*:\s*([^;]+);", css)
+    assert token, f"{var.group(1)} is not defined"
+    return token.group(1).strip()
+
+
+def test_secondary_buttons_share_size_weight_and_height() -> None:
+    # R-068: Clear and Apply filters are the same kind of button.
+    css = _css()
+    for prop in ("font-size", "font-weight", "min-height"):
+        clear = _declared(css, ".btn-clear, .chips .chip", prop)
+        apply = _declared(css, ".btn-secondary", prop)
+        assert clear == apply, f"{prop}: Clear is {clear}, Apply filters is {apply}"
+    assert _declared(css, ".btn-secondary", "min-height") == "44px"
+
+
 def test_thumb_has_no_transition_under_reduced_motion() -> None:
     css = _css()
     reduced = re.findall(

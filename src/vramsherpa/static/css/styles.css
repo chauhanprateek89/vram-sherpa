@@ -329,7 +329,7 @@ h1.title { font-size: var(--fs-h1); line-height: 1.1; letter-spacing: -.025em; f
 .btn-primary { min-height: 54px; padding: 0 24px; border: 0; border-radius: var(--r-in); color: var(--on-btn); font-weight: 560; font-size: var(--fs-lead); background: linear-gradient(180deg, color-mix(in srgb, var(--btn) 86%, #fff), var(--btn)); box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 10px 24px -10px color-mix(in srgb, var(--btn) 70%, transparent); transition: transform var(--dur-1) var(--ease-out), box-shadow var(--dur-2) var(--ease-out), filter var(--dur-1); }
 .btn-primary:hover { transform: translateY(-1px); box-shadow: inset 0 1px 0 rgba(255,255,255,.4), 0 18px 32px -10px color-mix(in srgb, var(--btn) 80%, transparent); filter: saturate(1.1); }
 .btn-primary:active { transform: scale(.975); box-shadow: inset 0 2px 6px rgba(0,0,0,.25); transition-duration: 60ms; }
-.btn-secondary { min-height: 48px; padding: 0 20px; border-radius: var(--r-in); border: 1.5px solid var(--line); background: var(--seg); color: var(--ink); font-weight: 560; transition: background var(--dur-1), transform var(--dur-1) var(--ease-out); }
+.btn-secondary { min-height: var(--tap); padding: 0 20px; border-radius: var(--r-in); border: 1.5px solid var(--line); background: var(--seg); color: var(--ink); font-weight: 520; font-size: var(--fs-small); transition: background var(--dur-1), transform var(--dur-1) var(--ease-out); }
 .btn-secondary:hover { background: var(--inset); }
 .btn-secondary:active { transform: scale(.97); }
 .htmx-request .btn-primary { cursor: progress; background: linear-gradient(100deg, var(--btn) 30%, color-mix(in srgb, var(--btn) 60%, #fff) 50%, var(--btn) 70%); background-size: 300% 100%; animation: shimmer 1s linear infinite; }
