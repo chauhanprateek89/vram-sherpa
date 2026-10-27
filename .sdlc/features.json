@@ -738,7 +738,7 @@
         "T-018"
       ],
       "notes": "The 10 GB gauge example uses figures from R-010/R-011; render its widths from those numbers, not from a guess.",
-      "review": "pending",
+      "review": "passed",
       "passes": false
     },
     {
