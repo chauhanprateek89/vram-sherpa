@@ -1,0 +1,44 @@
+92 combos
+markup variants ('1280', 'dark') header 1 footer 2
+markup variants ('1280', 'light') header 1 footer 2
+markup variants ('390', 'dark') header 1 footer 2
+markup variants ('390', 'light') header 1 footer 2
+header variants ignoring toggle state 1
+88 (False, ('Catalog version: 2026-10-23', 'Estimation policy: v0.1', 'Last updated: 2026-10-23'))
+4 (True, ('Catalog version: unseeded', 'Estimation policy: v0.1', 'Last updated: unseeded'))
+footer geometry problems [] 0
+home-default|390|light [('Catalog version: 2026-10-23', 37, 3331, 316, 21), ('Estimation policy: v0.1', 37, 3358, 316, 21), ('Last updated: 2026-10-23', 37, 3385, 316, 21)] {'x': 16, 'y': 3318.4375, 'w': 358, 'h': 101, 'r': 374, 'b': 3419.4375}
+home-default|1280|light [('Catalog version: 2026-10-23', 379, 1514), ('Estimation policy: v0.1', 580, 1514), ('Last updated: 2026-10-23', 740, 1514)]
+home-default {(('VRAM Sherpa', '/', None), ('Estimator', '/', 'page'), ('How it works', '/how-it-works', None))}
+results-gpu {(('VRAM Sherpa', '/', None), ('Estimator', '/', 'page'), ('How it works', '/how-it-works', None))}
+results-manual-vram {(('VRAM Sherpa', '/', None), ('Estimator', '/', 'page'), ('How it works', '/how-it-works', None))}
+results-gpu-ambiguous {(('VRAM Sherpa', '/', None), ('Estimator', '/', 'page'), ('How it works', '/how-it-works', None))}
+results-gpu-notfound {(('VRAM Sherpa', '/', None), ('Estimator', '/', 'page'), ('How it works', '/how-it-works', None))}
+results-errors {(('VRAM Sherpa', '/', None), ('Estimator', '/', 'page'), ('How it works', '/how-it-works', None))}
+results-chips {(('VRAM Sherpa', '/', None), ('Estimator', '/', 'page'), ('How it works', '/how-it-works', None))}
+results-filters-open {(('VRAM Sherpa', '/', None), ('Estimator', '/', 'page'), ('How it works', '/how-it-works', None))}
+results-picks-hidden {(('VRAM Sherpa', '/', None), ('Estimator', '/', 'page'), ('How it works', '/how-it-works', None))}
+results-tight-gated {(('VRAM Sherpa', '/', None), ('Estimator', '/', 'page'), ('How it works', '/how-it-works', None))}
+gpu-suggest {(('VRAM Sherpa', '/', None), ('Estimator', '/', 'page'), ('How it works', '/how-it-works', None))}
+why-closed {(('VRAM Sherpa', '/', None), ('Estimator', '/', 'page'), ('How it works', '/how-it-works', None))}
+why-loading {(('VRAM Sherpa', '/', None), ('Estimator', '/', 'page'), ('How it works', '/how-it-works', None))}
+why-loaded {(('VRAM Sherpa', '/', None), ('Estimator', '/', 'page'), ('How it works', '/how-it-works', None))}
+empty-links {(('VRAM Sherpa', '/', None), ('Estimator', '/', 'page'), ('How it works', '/how-it-works', None))}
+empty-inert {(('VRAM Sherpa', '/', None), ('Estimator', '/', 'page'), ('How it works', '/how-it-works', None))}
+empty-mixed {(('VRAM Sherpa', '/', None), ('Estimator', '/', 'page'), ('How it works', '/how-it-works', None))}
+unseeded {(('VRAM Sherpa', '/', None), ('Estimator', '/', 'page'), ('How it works', '/how-it-works', None))}
+detail-gated {(('VRAM Sherpa', '/', None), ('Estimator', '/', 'page'), ('How it works', '/how-it-works', None))}
+detail-ungated {(('VRAM Sherpa', '/', None), ('Estimator', '/', 'page'), ('How it works', '/how-it-works', None))}
+detail-no-sources {(('VRAM Sherpa', '/', None), ('Estimator', '/', 'page'), ('How it works', '/how-it-works', None))}
+detail-error {(('VRAM Sherpa', '/', None), ('Estimator', '/', 'page'), ('How it works', '/how-it-works', None))}
+how-it-works {(('VRAM Sherpa', '/', None), ('Estimator', '/', None), ('How it works', '/how-it-works', 'page'))}
+Counter({('light', 'Dark mode', 'false'): 46, ('dark', 'Light mode', 'true'): 46})
+Counter({(True, 34, '390'): 46, (True, 34, '1280'): 46})
+Counter({(1, 1, 1): 92})
+{'390': {(16, 12, 358, 118)}, '1280': {(24, 16, 1232, 62)}}
+{'VRAM Sherpa': {(178, 44)}, 'Estimator': {(161, 44)}, 'How it works': {(161, 44)}, 'toggle': {(138, 44)}}
+size mismatch [('detail-gated|390|light', [[390, 3215], [390, 3095]]), ('detail-gated|390|dark', [[390, 3215], [390, 3095]]), ('detail-gated|1280|light', [[1280, 1524], [1280, 1401]]), ('detail-gated|1280|dark', [[1280, 1524], [1280, 1401]]), ('detail-ungated|390|light', [[390, 2995], [390, 2875]]), ('detail-ungated|390|dark', [[390, 2995], [390, 2875]]), ('detail-ungated|1280|light', [[1280, 1437], [1280, 1314]]), ('detail-ungated|1280|dark', [[1280, 1437], [1280, 1314]]), ('detail-error|390|light', [[390, 3086], [390, 2966]]), ('detail-error|390|dark', [[390, 3086], [390, 2966]]), ('detail-error|1280|light', [[1280, 1568], [1280, 1488]]), ('detail-error|1280|dark', [[1280, 1568], [1280, 1488]])]
+hdr max (0.0, 'why-loading|390|light') n 80
+ftr max (0.0, 'why-loading|390|light') n 80
+page max (0.18040936602325605, 'gpu-suggest|390|light') n 80
+console [('results-errors|390|light', ['warning: The specified value "abc" cannot be parsed, or is out of range.']), ('results-errors|390|dark', ['warning: The specified value "abc" cannot be parsed, or is out of range.']), ('results-errors|1280|light', ['warning: The specified value "abc" cannot be parsed, or is out of range.']), ('results-errors|1280|dark', ['warning: The specified value "abc" cannot be parsed, or is out of range.']), ('detail-error|390|light', ['warning: The specified value "abc" cannot be parsed, or is out of range.'])]

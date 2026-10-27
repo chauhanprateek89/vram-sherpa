@@ -1,0 +1,845 @@
+{
+ "res": {
+  "results-picks-hidden|390|light|natural": {
+   "n": 123,
+   "min": [
+    7.130699552797467,
+    4.5,
+    "Tight",
+    "state state-tight"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(16px) saturate(1.7)"
+   ]
+  },
+  "results-picks-hidden|390|light|worst": {
+   "n": 123,
+   "min": [
+    7.068379773837935,
+    4.5,
+    "Pick your GPU, or enter your VRAM if it ",
+    "hint"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(16px) saturate(1.7)"
+   ]
+  },
+  "results-picks-hidden|390|dark|natural": {
+   "n": 123,
+   "min": [
+    7.953232115312603,
+    4.5,
+    "1.46 GB needed",
+    "num"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(16px) saturate(1.7)"
+   ]
+  },
+  "results-picks-hidden|390|dark|worst": {
+   "n": 123,
+   "min": [
+    6.42947356476155,
+    4.5,
+    "1.57 GB needed",
+    "num"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(16px) saturate(1.7)"
+   ]
+  },
+  "results-picks-hidden|1280|light|natural": {
+   "n": 118,
+   "min": [
+    7.130699552797467,
+    4.5,
+    "Tight",
+    "state state-tight"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(24px) saturate(1.7)"
+   ]
+  },
+  "results-picks-hidden|1280|light|worst": {
+   "n": 118,
+   "min": [
+    7.007544832819123,
+    4.5,
+    "Only Fits and Tight models are listed. P",
+    "note"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(24px) saturate(1.7)"
+   ]
+  },
+  "results-picks-hidden|1280|dark|natural": {
+   "n": 118,
+   "min": [
+    8.56097355261864,
+    4.5,
+    "1.57 GB needed",
+    "num"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(24px) saturate(1.7)"
+   ]
+  },
+  "results-picks-hidden|1280|dark|worst": {
+   "n": 118,
+   "min": [
+    6.3575651110100875,
+    4.5,
+    "1.91 GB needed",
+    "num"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(24px) saturate(1.7)"
+   ]
+  },
+  "results-tight-gated|390|light|natural": {
+   "n": 102,
+   "min": [
+    7.130699552797467,
+    4.5,
+    "Tight",
+    "state state-tight"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(16px) saturate(1.7)"
+   ]
+  },
+  "results-tight-gated|390|light|worst": {
+   "n": 102,
+   "min": [
+    7.068379773837935,
+    4.5,
+    "Pick your GPU, or enter your VRAM if it ",
+    "hint"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(16px) saturate(1.7)"
+   ]
+  },
+  "results-tight-gated|390|dark|natural": {
+   "n": 102,
+   "min": [
+    7.8644206524595495,
+    4.5,
+    "7.33 GB needed",
+    "num"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(16px) saturate(1.7)"
+   ]
+  },
+  "results-tight-gated|390|dark|worst": {
+   "n": 102,
+   "min": [
+    6.42947356476155,
+    4.5,
+    "7.33 GB needed",
+    "num"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(16px) saturate(1.7)"
+   ]
+  },
+  "results-tight-gated|1280|light|natural": {
+   "n": 97,
+   "min": [
+    7.130699552797467,
+    4.5,
+    "Tight",
+    "state state-tight"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(24px) saturate(1.7)"
+   ]
+  },
+  "results-tight-gated|1280|light|worst": {
+   "n": 97,
+   "min": [
+    7.007544832819123,
+    4.5,
+    "Only Fits and Tight models are listed. P",
+    "note"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(24px) saturate(1.7)"
+   ]
+  },
+  "results-tight-gated|1280|dark|natural": {
+   "n": 97,
+   "min": [
+    8.606672058907732,
+    4.5,
+    "7.33 GB needed",
+    "num"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(24px) saturate(1.7)"
+   ]
+  },
+  "results-tight-gated|1280|dark|worst": {
+   "n": 97,
+   "min": [
+    6.3575651110100875,
+    4.5,
+    "7.33 GB needed",
+    "num"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(24px) saturate(1.7)"
+   ]
+  },
+  "why-closed|390|light|natural": {
+   "n": 96,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(16px) saturate(1.7)"
+   ]
+  },
+  "why-closed|390|light|worst": {
+   "n": 96,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(16px) saturate(1.7)"
+   ]
+  },
+  "why-closed|390|dark|natural": {
+   "n": 96,
+   "min": [
+    7.97203326032096,
+    4.5,
+    "14.44 GB needed",
+    "num"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(16px) saturate(1.7)"
+   ]
+  },
+  "why-closed|390|dark|worst": {
+   "n": 96,
+   "min": [
+    6.362602392972887,
+    4.5,
+    "15.36 GB needed",
+    "num"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(16px) saturate(1.7)"
+   ]
+  },
+  "why-closed|1280|light|natural": {
+   "n": 107,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(24px) saturate(1.7)"
+   ]
+  },
+  "why-closed|1280|light|worst": {
+   "n": 107,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(24px) saturate(1.7)"
+   ]
+  },
+  "why-closed|1280|dark|natural": {
+   "n": 107,
+   "min": [
+    8.541432623490042,
+    4.5,
+    "14.44 GB needed",
+    "num"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(24px) saturate(1.7)"
+   ]
+  },
+  "why-closed|1280|dark|worst": {
+   "n": 107,
+   "min": [
+    6.250616106009206,
+    4.5,
+    "15.36 GB needed",
+    "num"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(24px) saturate(1.7)"
+   ]
+  },
+  "why-loading|390|light|natural": {
+   "n": 97,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(16px) saturate(1.7)"
+   ]
+  },
+  "why-loading|390|light|worst": {
+   "n": 97,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(16px) saturate(1.7)"
+   ]
+  },
+  "why-loading|390|dark|natural": {
+   "n": 97,
+   "min": [
+    8.007583733869767,
+    4.5,
+    "14.44 GB needed",
+    "num"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(16px) saturate(1.7)"
+   ]
+  },
+  "why-loading|390|dark|worst": {
+   "n": 97,
+   "min": [
+    6.289139037195239,
+    4.5,
+    "15.36 GB needed",
+    "num"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(16px) saturate(1.7)"
+   ]
+  },
+  "why-loading|1280|light|natural": {
+   "n": 108,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(24px) saturate(1.7)"
+   ]
+  },
+  "why-loading|1280|light|worst": {
+   "n": 108,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(24px) saturate(1.7)"
+   ]
+  },
+  "why-loading|1280|dark|natural": {
+   "n": 107,
+   "min": [
+    8.690932587038697,
+    4.5,
+    "15.36 GB needed",
+    "num"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(24px) saturate(1.7)"
+   ]
+  },
+  "why-loading|1280|dark|worst": {
+   "n": 107,
+   "min": [
+    6.154039538171323,
+    4.5,
+    "How this is estimated",
+    "htmx-request"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(24px) saturate(1.7)"
+   ]
+  },
+  "why-loaded|390|light|natural": {
+   "n": 108,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(16px) saturate(1.7)"
+   ]
+  },
+  "why-loaded|390|light|worst": {
+   "n": 108,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(16px) saturate(1.7)"
+   ]
+  },
+  "why-loaded|390|dark|natural": {
+   "n": 108,
+   "min": [
+    7.689264027083216,
+    4.5,
+    "Model weights",
+    "dt"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(16px) saturate(1.7)"
+   ]
+  },
+  "why-loaded|390|dark|worst": {
+   "n": 108,
+   "min": [
+    5.912431845298034,
+    4.5,
+    "Model weights",
+    "dt"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(16px) saturate(1.7)"
+   ]
+  },
+  "why-loaded|1280|light|natural": {
+   "n": 107,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(24px) saturate(1.7)"
+   ]
+  },
+  "why-loaded|1280|light|worst": {
+   "n": 107,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(24px) saturate(1.7)"
+   ]
+  },
+  "why-loaded|1280|dark|natural": {
+   "n": 107,
+   "min": [
+    8.61681447658816,
+    4.5,
+    "15.36 GB needed",
+    "num"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(24px) saturate(1.7)"
+   ]
+  },
+  "why-loaded|1280|dark|worst": {
+   "n": 107,
+   "min": [
+    6.227315497998659,
+    4.5,
+    "How this is estimated",
+    "summary"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(24px) saturate(1.7)"
+   ]
+  },
+  "empty-links|390|light|natural": {
+   "n": 49,
+   "min": [
+    7.877233584939587,
+    4.5,
+    "Try Q4",
+    "action-chip"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(16px) saturate(1.7)"
+   ]
+  },
+  "empty-links|390|light|worst": {
+   "n": 49,
+   "min": [
+    7.068379773837935,
+    4.5,
+    "Pick your GPU, or enter your VRAM if it ",
+    "hint"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(16px) saturate(1.7)"
+   ]
+  },
+  "empty-links|390|dark|natural": {
+   "n": 49,
+   "min": [
+    8.341837103925313,
+    4.5,
+    "There are 95 models in Won't fit, hidden",
+    "muted"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(16px) saturate(1.7)"
+   ]
+  },
+  "empty-links|390|dark|worst": {
+   "n": 49,
+   "min": [
+    6.629988276002553,
+    4.5,
+    "There are 95 models in Won't fit, hidden",
+    "muted"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(16px) saturate(1.7)"
+   ]
+  },
+  "empty-links|1280|light|natural": {
+   "n": 44,
+   "min": [
+    7.596619508141924,
+    4.5,
+    "Pick your GPU, or enter your VRAM if it ",
+    "hint"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(24px) saturate(1.7)"
+   ]
+  },
+  "empty-links|1280|light|worst": {
+   "n": 44,
+   "min": [
+    7.007544832819123,
+    4.5,
+    "Only Fits and Tight models are listed.",
+    "note"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(24px) saturate(1.7)"
+   ]
+  },
+  "empty-links|1280|dark|natural": {
+   "n": 44,
+   "min": [
+    8.606306186868391,
+    4.5,
+    "Try Q4",
+    "action-chip"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(24px) saturate(1.7)"
+   ]
+  },
+  "empty-links|1280|dark|worst": {
+   "n": 44,
+   "min": [
+    6.617787042169293,
+    4.5,
+    "There are 95 models in Won't fit, hidden",
+    "muted"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(24px) saturate(1.7)"
+   ]
+  },
+  "empty-inert|390|light|natural": {
+   "n": 49,
+   "min": [
+    7.984302704636425,
+    4.5,
+    "Check compatibility",
+    "btn-primary"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(16px) saturate(1.7)"
+   ]
+  },
+  "empty-inert|390|light|worst": {
+   "n": 49,
+   "min": [
+    7.068379773837935,
+    4.5,
+    "Pick your GPU, or enter your VRAM if it ",
+    "hint"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(16px) saturate(1.7)"
+   ]
+  },
+  "empty-inert|390|dark|natural": {
+   "n": 49,
+   "min": [
+    8.379781992005473,
+    4.5,
+    "There are 95 models in Won't fit, hidden",
+    "muted"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(16px) saturate(1.7)"
+   ]
+  },
+  "empty-inert|390|dark|worst": {
+   "n": 49,
+   "min": [
+    6.8450774059425665,
+    4.5,
+    "Try one of these next steps:",
+    "muted"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(16px) saturate(1.7)"
+   ]
+  },
+  "empty-inert|1280|light|natural": {
+   "n": 44,
+   "min": [
+    7.596619508141924,
+    4.5,
+    "Pick your GPU, or enter your VRAM if it ",
+    "hint"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(24px) saturate(1.7)"
+   ]
+  },
+  "empty-inert|1280|light|worst": {
+   "n": 44,
+   "min": [
+    7.007544832819123,
+    4.5,
+    "Only Fits and Tight models are listed.",
+    "note"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(24px) saturate(1.7)"
+   ]
+  },
+  "empty-inert|1280|dark|natural": {
+   "n": 44,
+   "min": [
+    8.691795986008712,
+    4.5,
+    "Check compatibility",
+    "btn-primary"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(24px) saturate(1.7)"
+   ]
+  },
+  "empty-inert|1280|dark|worst": {
+   "n": 44,
+   "min": [
+    6.729240945999472,
+    4.5,
+    "Try one of these next steps:",
+    "muted"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(24px) saturate(1.7)"
+   ]
+  }
+ },
+ "fails": []
+}

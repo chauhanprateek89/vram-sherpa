@@ -1,0 +1,1325 @@
+{
+ "res": {
+  "home-default|390|light|natural": {
+   "n": 126,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "home-default|390|light|worst": {
+   "n": 126,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "home-default|390|dark|natural": {
+   "n": 126,
+   "min": [
+    8.243525308257809,
+    4.5,
+    "6.54 GB needed",
+    "num"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "home-default|390|dark|worst": {
+   "n": 126,
+   "min": [
+    8.243525308257809,
+    4.5,
+    "6.54 GB needed",
+    "num"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "home-default|1280|light|natural": {
+   "n": 135,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "home-default|1280|light|worst": {
+   "n": 135,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "home-default|1280|dark|natural": {
+   "n": 135,
+   "min": [
+    8.243525308257809,
+    4.5,
+    "6.54 GB needed",
+    "num"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "home-default|1280|dark|worst": {
+   "n": 135,
+   "min": [
+    8.243525308257809,
+    4.5,
+    "6.54 GB needed",
+    "num"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "results-manual-vram|390|light|natural": {
+   "n": 149,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "results-manual-vram|390|light|worst": {
+   "n": 149,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "results-manual-vram|390|dark|natural": {
+   "n": 149,
+   "min": [
+    8.243525308257809,
+    4.5,
+    "15.36 GB needed",
+    "num"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "results-manual-vram|390|dark|worst": {
+   "n": 149,
+   "min": [
+    8.243525308257809,
+    4.5,
+    "15.36 GB needed",
+    "num"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "results-manual-vram|1280|light|natural": {
+   "n": 159,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "results-manual-vram|1280|light|worst": {
+   "n": 159,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "results-manual-vram|1280|dark|natural": {
+   "n": 159,
+   "min": [
+    8.243525308257809,
+    4.5,
+    "15.36 GB needed",
+    "num"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "results-manual-vram|1280|dark|worst": {
+   "n": 159,
+   "min": [
+    8.243525308257809,
+    4.5,
+    "15.36 GB needed",
+    "num"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "results-errors|390|light|natural": {
+   "n": 128,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "results-errors|390|light|worst": {
+   "n": 128,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "results-errors|390|dark|natural": {
+   "n": 128,
+   "min": [
+    7.942682366624333,
+    4.5,
+    "Please fix the following input issues:",
+    "strong"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "results-errors|390|dark|worst": {
+   "n": 128,
+   "min": [
+    7.942682366624333,
+    4.5,
+    "Please fix the following input issues:",
+    "strong"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "results-errors|1280|light|natural": {
+   "n": 137,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "results-errors|1280|light|worst": {
+   "n": 137,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "results-errors|1280|dark|natural": {
+   "n": 137,
+   "min": [
+    7.942682366624333,
+    4.5,
+    "Please fix the following input issues:",
+    "strong"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "results-errors|1280|dark|worst": {
+   "n": 137,
+   "min": [
+    7.942682366624333,
+    4.5,
+    "Please fix the following input issues:",
+    "strong"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "results-tight-gated|390|light|natural": {
+   "n": 102,
+   "min": [
+    7.130699552797467,
+    4.5,
+    "Tight",
+    "state state-tight"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "results-tight-gated|390|light|worst": {
+   "n": 102,
+   "min": [
+    7.130699552797467,
+    4.5,
+    "Tight",
+    "state state-tight"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "results-tight-gated|390|dark|natural": {
+   "n": 102,
+   "min": [
+    8.26229395735358,
+    4.5,
+    "7.33 GB needed",
+    "num"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "results-tight-gated|390|dark|worst": {
+   "n": 102,
+   "min": [
+    8.26229395735358,
+    4.5,
+    "7.33 GB needed",
+    "num"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "results-tight-gated|1280|light|natural": {
+   "n": 97,
+   "min": [
+    7.130699552797467,
+    4.5,
+    "Tight",
+    "state state-tight"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "results-tight-gated|1280|light|worst": {
+   "n": 97,
+   "min": [
+    7.130699552797467,
+    4.5,
+    "Tight",
+    "state state-tight"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "results-tight-gated|1280|dark|natural": {
+   "n": 97,
+   "min": [
+    8.26229395735358,
+    4.5,
+    "7.33 GB needed",
+    "num"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "results-tight-gated|1280|dark|worst": {
+   "n": 97,
+   "min": [
+    8.26229395735358,
+    4.5,
+    "7.33 GB needed",
+    "num"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "gpu-suggest|390|light|natural": {
+   "n": 83,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "gpu-suggest|390|light|worst": {
+   "n": 83,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "gpu-suggest|390|dark|natural": {
+   "n": 83,
+   "min": [
+    8.243525308257809,
+    4.5,
+    "6.54 GB needed",
+    "num"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "gpu-suggest|390|dark|worst": {
+   "n": 83,
+   "min": [
+    8.243525308257809,
+    4.5,
+    "6.54 GB needed",
+    "num"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "gpu-suggest|1280|light|natural": {
+   "n": 89,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "gpu-suggest|1280|light|worst": {
+   "n": 89,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "gpu-suggest|1280|dark|natural": {
+   "n": 89,
+   "min": [
+    8.425217205313565,
+    4.5,
+    "7.03 GB needed",
+    "num"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "gpu-suggest|1280|dark|worst": {
+   "n": 89,
+   "min": [
+    8.425217205313565,
+    4.5,
+    "7.03 GB needed",
+    "num"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "why-loaded|390|light|natural": {
+   "n": 108,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "why-loaded|390|light|worst": {
+   "n": 108,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "why-loaded|390|dark|natural": {
+   "n": 108,
+   "min": [
+    8.243525308257809,
+    4.5,
+    "15.36 GB needed",
+    "num"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "why-loaded|390|dark|worst": {
+   "n": 108,
+   "min": [
+    8.243525308257809,
+    4.5,
+    "15.36 GB needed",
+    "num"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "why-loaded|1280|light|natural": {
+   "n": 119,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "why-loaded|1280|light|worst": {
+   "n": 119,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "why-loaded|1280|dark|natural": {
+   "n": 119,
+   "min": [
+    8.138241496888423,
+    4.5,
+    "How this is estimated",
+    "summary"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "why-loaded|1280|dark|worst": {
+   "n": 119,
+   "min": [
+    8.138241496888423,
+    4.5,
+    "How this is estimated",
+    "summary"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "empty-links|390|light|natural": {
+   "n": 49,
+   "min": [
+    7.877233584939587,
+    4.5,
+    "Try Q4",
+    "action-chip"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "empty-links|390|light|worst": {
+   "n": 49,
+   "min": [
+    7.877233584939587,
+    4.5,
+    "Try Q4",
+    "action-chip"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "empty-links|390|dark|natural": {
+   "n": 49,
+   "min": [
+    8.601921132216619,
+    4.5,
+    "There are 95 models in Won't fit, hidden",
+    "muted"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "empty-links|390|dark|worst": {
+   "n": 49,
+   "min": [
+    8.601921132216619,
+    4.5,
+    "There are 95 models in Won't fit, hidden",
+    "muted"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "empty-links|1280|light|natural": {
+   "n": 44,
+   "min": [
+    7.984302704636425,
+    4.5,
+    "Try Q4",
+    "action-chip"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "empty-links|1280|light|worst": {
+   "n": 44,
+   "min": [
+    7.984302704636425,
+    4.5,
+    "Try Q4",
+    "action-chip"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "empty-links|1280|dark|natural": {
+   "n": 44,
+   "min": [
+    8.606306186868391,
+    4.5,
+    "Try Q4",
+    "action-chip"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "empty-links|1280|dark|worst": {
+   "n": 44,
+   "min": [
+    8.606306186868391,
+    4.5,
+    "Try Q4",
+    "action-chip"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "unseeded|390|light|natural": {
+   "n": 47,
+   "min": [
+    7.984302704636425,
+    4.5,
+    "Check compatibility",
+    "btn-primary"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "unseeded|390|light|worst": {
+   "n": 47,
+   "min": [
+    7.984302704636425,
+    4.5,
+    "Check compatibility",
+    "btn-primary"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "unseeded|390|dark|natural": {
+   "n": 47,
+   "min": [
+    8.691795986008712,
+    4.5,
+    "Check compatibility",
+    "btn-primary"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "unseeded|390|dark|worst": {
+   "n": 47,
+   "min": [
+    8.691795986008712,
+    4.5,
+    "Check compatibility",
+    "btn-primary"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "unseeded|1280|light|natural": {
+   "n": 40,
+   "min": [
+    8.06528125558606,
+    4.5,
+    "Check compatibility",
+    "btn-primary"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "unseeded|1280|light|worst": {
+   "n": 40,
+   "min": [
+    8.06528125558606,
+    4.5,
+    "Check compatibility",
+    "btn-primary"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "unseeded|1280|dark|natural": {
+   "n": 40,
+   "min": [
+    8.691795986008712,
+    4.5,
+    "Check compatibility",
+    "btn-primary"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "unseeded|1280|dark|worst": {
+   "n": 40,
+   "min": [
+    8.691795986008712,
+    4.5,
+    "Check compatibility",
+    "btn-primary"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "detail-gated|390|light|natural": {
+   "n": 103,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "detail-gated|390|light|worst": {
+   "n": 103,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "detail-gated|390|dark|natural": {
+   "n": 103,
+   "min": [
+    6.081932878172465,
+    4.5,
+    "Margin (GB)",
+    "th"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "detail-gated|390|dark|worst": {
+   "n": 103,
+   "min": [
+    6.081932878172465,
+    4.5,
+    "Margin (GB)",
+    "th"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "detail-gated|1280|light|natural": {
+   "n": 84,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "detail-gated|1280|light|worst": {
+   "n": 84,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "detail-gated|1280|dark|natural": {
+   "n": 84,
+   "min": [
+    8.691795986008712,
+    4.5,
+    "Recompute",
+    "btn-primary"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "detail-gated|1280|dark|worst": {
+   "n": 84,
+   "min": [
+    8.691795986008712,
+    4.5,
+    "Recompute",
+    "btn-primary"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "detail-error|390|light|natural": {
+   "n": 97,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "detail-error|390|light|worst": {
+   "n": 97,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "detail-error|390|dark|natural": {
+   "n": 97,
+   "min": [
+    6.081932878172465,
+    4.5,
+    "Margin (GB)",
+    "th"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "detail-error|390|dark|worst": {
+   "n": 97,
+   "min": [
+    6.081932878172465,
+    4.5,
+    "Margin (GB)",
+    "th"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "detail-error|1280|light|natural": {
+   "n": 86,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "detail-error|1280|light|worst": {
+   "n": 86,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "detail-error|1280|dark|natural": {
+   "n": 86,
+   "min": [
+    7.942682366624333,
+    4.5,
+    "Please fix the following input issues:",
+    "strong"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "detail-error|1280|dark|worst": {
+   "n": 86,
+   "min": [
+    7.942682366624333,
+    4.5,
+    "Please fix the following input issues:",
+    "strong"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "how-it-works|390|light|natural": {
+   "n": 133,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "how-it-works|390|light|worst": {
+   "n": 133,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "how-it-works|390|dark|natural": {
+   "n": 133,
+   "min": [
+    7.942682366624333,
+    4.5,
+    "Won't fit",
+    "state state-wont"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "how-it-works|390|dark|worst": {
+   "n": 133,
+   "min": [
+    7.942682366624333,
+    4.5,
+    "Won't fit",
+    "state state-wont"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "how-it-works|1280|light|natural": {
+   "n": 100,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "how-it-works|1280|light|worst": {
+   "n": 100,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "how-it-works|1280|dark|natural": {
+   "n": 100,
+   "min": [
+    7.942682366624333,
+    4.5,
+    "Won't fit",
+    "state state-wont"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  },
+  "how-it-works|1280|dark|worst": {
+   "n": 100,
+   "min": [
+    7.942682366624333,
+    4.5,
+    "Won't fit",
+    "state state-wont"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "none"
+   ]
+  }
+ },
+ "fails": []
+}

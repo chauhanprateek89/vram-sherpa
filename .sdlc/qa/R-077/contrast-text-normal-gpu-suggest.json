@@ -1,0 +1,125 @@
+{
+ "res": {
+  "gpu-suggest|390|light|natural": {
+   "n": 83,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(16px) saturate(1.7)"
+   ]
+  },
+  "gpu-suggest|390|light|worst": {
+   "n": 83,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(16px) saturate(1.7)"
+   ]
+  },
+  "gpu-suggest|390|dark|natural": {
+   "n": 83,
+   "min": [
+    7.930657423596811,
+    4.5,
+    "6.54 GB needed",
+    "num"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(16px) saturate(1.7)"
+   ]
+  },
+  "gpu-suggest|390|dark|worst": {
+   "n": 83,
+   "min": [
+    6.362602392972887,
+    4.5,
+    "6.54 GB needed",
+    "num"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(16px) saturate(1.7)"
+   ]
+  },
+  "gpu-suggest|1280|light|natural": {
+   "n": 89,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(24px) saturate(1.7)"
+   ]
+  },
+  "gpu-suggest|1280|light|worst": {
+   "n": 89,
+   "min": [
+    6.4150006388844,
+    4.5,
+    "Fits",
+    "state state-fits"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(24px) saturate(1.7)"
+   ]
+  },
+  "gpu-suggest|1280|dark|natural": {
+   "n": 89,
+   "min": [
+    8.636030165672077,
+    4.5,
+    "6.54 GB needed",
+    "num"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(24px) saturate(1.7)"
+   ]
+  },
+  "gpu-suggest|1280|dark|worst": {
+   "n": 89,
+   "min": [
+    6.324999185316194,
+    4.5,
+    "7.03 GB needed",
+    "num"
+   ],
+   "console": [],
+   "media": [
+    false,
+    true,
+    "blur(24px) saturate(1.7)"
+   ]
+  }
+ },
+ "fails": []
+}

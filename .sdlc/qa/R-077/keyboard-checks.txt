@@ -1,0 +1,32 @@
+[kb 1280 light] tab stops to Search GPU (from page start) 5
+[kb 1280 light] gpu field after ArrowDown+Enter: ['NVIDIA GeForce RTX 4060 (8.0 GB)', 'gpu_nvidia_rtx_4060_8gb']
+[kb 1280 light] tabs to VRAM 2
+[kb 1280 light] tabs to a context preset 1
+[kb 1280 light] preset after ArrowRight: ['4096']
+[kb 1280 light] tabs to Check compatibility 4
+[kb 1280 light] Enter submitted -> http://localhost:8000/results?gpu_id=gpu_nvidia_rtx_4060_8gb&gpu_search=NVIDIA%20GeForce%20RTX%204060%20(8.0%20GB)&vram_gb=&context_tokens=4096&min_params_b=&max_params_b=
+[kb 1280 light] tabs to first quant button 7
+[kb 1280 light] second quant pressed by keyboard: ['false', 'true', 'false', 'false']
+[kb 1280 light] tabs to breakdown summary 3
+[kb 1280 light] breakdown opened and loaded by Enter
+[kb 1280 light] Space closes it: True
+[kb 1280 light] Shift+Tab stops back to Filters summary 10
+[kb 1280 light] Filters opened by Enter: True
+[kb 1280 light] theme toggle by Enter -> dark
+[kb 1280 light] nav link by Enter -> http://localhost:8000/how-it-works
+[kb 390 dark] tab stops to Search GPU (from page start) 5
+[kb 390 dark] gpu field after ArrowDown+Enter: ['NVIDIA GeForce RTX 4060 (8.0 GB)', 'gpu_nvidia_rtx_4060_8gb']
+[kb 390 dark] tabs to VRAM 2
+[kb 390 dark] tabs to a context preset 1
+[kb 390 dark] preset after ArrowRight: ['4096']
+[kb 390 dark] tabs to Check compatibility 4
+[kb 390 dark] Enter submitted -> http://localhost:8000/results?gpu_id=gpu_nvidia_rtx_4060_8gb&gpu_search=NVIDIA%20GeForce%20RTX%204060%20(8.0%20GB)&vram_gb=&context_tokens=4096&min_params_b=&max_params_b=
+[kb 390 dark] tabs to first quant button 4
+[kb 390 dark] second quant pressed by keyboard: ['false', 'true', 'false', 'false']
+[kb 390 dark] tabs to breakdown summary 3
+[kb 390 dark] breakdown opened and loaded by Enter
+[kb 390 dark] Space closes it: True
+[kb 390 dark] Shift+Tab stops back to Filters summary 7
+[kb 390 dark] Filters opened by Enter: True
+[kb 390 dark] theme toggle by Enter -> light
+[kb 390 dark] nav link by Enter -> http://localhost:8000/how-it-works

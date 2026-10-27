@@ -1,0 +1,17 @@
+NON-TEXT CONTRAST (>= 3:1 required). Pixel samples from screenshots with text hidden; each row is a min over every page x width x theme x (natural | worst-case backdrop). Pages: 14 states, gpu-suggest excluded for borders (its open list and focus ring cover the sample points).
+field borders (text, number inputs, select), vs outside: 3.50:1 (n=240; results-filters-open 390px dark worst)
+  invalid fields (aria-invalid, red 2px border): 6.12:1 (n=16; detail-error 1280px light worst)
+checkbox borders vs outside: 4.59:1 (n=96; results-filters-open 390px dark worst)
+button outlines (example chips, theme toggle, Clear, filter chips) vs outside: 4.30:1 (n=536; results-manual-vram 390px dark worst)
+filled buttons (Check compatibility, Recompute, Try Q4 link chips) vs outside: 5.19:1 (n=120; detail-gated 1280px light worst)
+pressed quantisation / preset fill vs neighbour: 7.34:1 (n=456; home-default 390px light worst)
+gauge bar vs surrounding pane (glow removed): 3.87:1 (n=776; bar-tight home-default 1280px light worst)
+gauge bar vs empty track: 4.20:1 (n=376; bar-tight home-default 1280px light worst)
+reserve band outline vs pane: 6.49:1 (n=776; bar-fits home-default 1280px dark worst)
+reserve band outline vs empty track: 8.41:1 (n=376; bar-fits home-default 1280px light worst)
+OBSERVATIONS (not in the criterion list): reserve outline vs the bar colour where the two overlap 1.10:1 (n=776; bar-tight home-default 390px dark natural); empty track vs pane 1.02:1 (n=376; bar-fits home-default 1280px light natural).
+markers state: glyph vs cut-out 6.42:1, glyph vs its background 6.42:1 (n=824, min over themes and backdrops)
+markers notice: glyph vs cut-out 6.49:1, glyph vs its background 6.49:1 (n=48, min over themes and backdrops)
+markers empty-status: glyph vs cut-out 15.62:1, glyph vs its background 10.06:1 (n=8, min over themes and backdrops)
+markers c-fits/c-tight/c-wont: glyph vs cut-out 7.45:1, glyph vs its background 5.78:1 (n=144, min over themes and backdrops)
+markers tag-gated (lock, no cut-out): glyph vs tag background 8.86:1 (n=72)
