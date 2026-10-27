@@ -835,6 +835,7 @@ details[open] > .pick-grid { animation: whyIn var(--dur-2) var(--ease-out); }
 /* ===== how it works (T-019): term tiles, reserve gauge, classification rules, worked example, from docs/design/build/components.css ===== */
 .doc :where(h1, h2, h3, p, ul, ol, dl, dd) { margin: 0; padding: 0; }
 .doc :where(ul, ol) { list-style: none; }
+.doc a { color: var(--accent); }
 .doc code { font-family: var(--mono); font-size: .92em; overflow-wrap: anywhere; }
 .doc { display: grid; gap: var(--gap); grid-template-columns: minmax(0, 1fr); align-items: start; }
 @media (min-width: 900px) { .doc { grid-template-columns: repeat(12, minmax(0, 1fr)); } .doc .s-12 { grid-column: span 12; } .doc .s-7 { grid-column: span 7; } .doc .s-5 { grid-column: span 5; } .doc .s-6 { grid-column: span 6; } .doc .stretch { align-self: stretch; } }
@@ -860,7 +861,7 @@ details[open] > .pick-grid { animation: whyIn var(--dur-2) var(--ease-out); }
 .kv-list dt { color: var(--muted); overflow-wrap: anywhere; } .kv-list dd { font-weight: 600; white-space: nowrap; }
 .steps { counter-reset: s; display: grid; gap: 10px; }
 .steps li { counter-increment: s; display: grid; grid-template-columns: 32px minmax(0, 1fr) auto; gap: 4px 12px; align-items: baseline; padding: 14px 16px; border-radius: 20px; background: var(--inset); border: 1px solid var(--edge); box-shadow: var(--sh-2); }
-.steps li::before { content: counter(s); grid-row: 1 / span 2; align-self: center; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--seg); border: 1px solid var(--line); font-weight: 600; font-size: var(--fs-caption); }
+.steps li::before { box-sizing: border-box; content: counter(s); grid-row: 1 / span 2; align-self: center; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--seg); border: 1px solid var(--line); font-weight: 600; font-size: var(--fs-caption); }
 .steps .what { font-weight: 600; font-size: var(--fs-small); }
 .steps .out { font-size: var(--fs-h3); font-weight: 520; letter-spacing: -.02em; grid-row: 1 / span 2; grid-column: 3; align-self: center; white-space: nowrap; }
 .steps .calc { grid-column: 2; font-size: var(--fs-caption); color: var(--muted); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }

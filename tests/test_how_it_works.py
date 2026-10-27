@@ -235,11 +235,13 @@ SOURCE_LINES = (
 )
 
 
-def test_headings_and_policy_version(app, seeded_session: Session) -> None:
+def test_headings_and_policy_version(app, seeded_session: Session, monkeypatch) -> None:
+    # a made-up version proves the heading and footer read it rather than hard-code "v0.1"
+    monkeypatch.setattr(main, "ESTIMATION_POLICY_VERSION", "v9.9")
     _, html = _page(app, seeded_session)
     assert html.count("<h1>") == 1
-    assert f"<h1>How VRAM Sherpa estimates fit (Policy {ESTIMATION_POLICY_VERSION})</h1>" in html
-    assert f"Estimation policy: {ESTIMATION_POLICY_VERSION}</span>" in html
+    assert "<h1>How VRAM Sherpa estimates fit (Policy v9.9)</h1>" in html
+    assert "Estimation policy: v9.9</span>" in html
     assert re.findall(r"<h2>(.*?)</h2>", html) == SECTIONS
 
 
@@ -271,6 +273,14 @@ def test_every_term_is_explained_in_plain_language(app, seeded_session: Session)
         assert f'<p class="src">{line}</p>' in html
 
 
+def test_reserve_gauge_reads_reserve_gb(app, seeded_session: Session, monkeypatch) -> None:
+    monkeypatch.setattr(main, "reserve_gb", lambda available: 2.5)
+    _, html = _page(app, seeded_session)
+    assert "The reserve is 2.5 GB. Up to 7.5 GB Fits, up to 10.0 GB is Tight" in html
+    assert 'class="bar bar-fits" style="width: 75%"' in html
+    assert 'class="resv" style="left: 75%; width: 25%"' in html
+
+
 def test_reserve_examples_and_gauge(app, seeded_session: Session) -> None:
     _, html = _page(app, seeded_session)
     assert "With 4 GB the reserve is 0.75 GB. With 16 GB it is 1.6 GB." in html
@@ -300,13 +310,34 @@ def test_assets_bumped_for_this_page() -> None:
     assert re.fullmatch(r"\d{8}[a-z]", main.ASSET_VERSION)
 
 
+def _css() -> str:
+    return (Path(main.__file__).parent / "static" / "css" / "styles.css").read_text("utf-8")
+
+
+def _rule(css: str, selector: str) -> str:
+    """The declaration block of the rule whose selector is exactly `selector`."""
+    match = re.search(rf"(?m)^{re.escape(selector)} \{{([^}}]*)\}}", css)
+    assert match, f"no rule for {selector}"
+    return match.group(1)
+
+
 def test_formulas_wrap_at_phone_width() -> None:
-    css = (Path(main.__file__).parent / "static" / "css" / "styles.css").read_text("utf-8")
-    assert (
-        ".doc code { font-family: var(--mono); font-size: .92em; overflow-wrap: anywhere; }" in css
-    )
-    assert ".steps .calc" in css and "overflow-wrap: anywhere" in css
-    assert "white-space: nowrap" not in css.split(".term code.formula")[1].split("\n")[0]
+    css = _css()
+    assert "overflow-wrap: anywhere" in _rule(css, ".doc code")
+    assert "overflow-wrap: anywhere" in _rule(css, ".steps .calc")
+    assert "white-space: nowrap" not in _rule(css, ".term code.formula")
+    assert "white-space: nowrap" not in _rule(css, ".rule code")
+
+
+def test_step_circles_stay_30px_and_links_use_accent() -> None:
+    css = _css()
+    circle = _rule(css, ".steps li::before")
+    # the app reset does not reach pseudo-elements, so the 1px border would add 2px
+    assert "box-sizing: border-box" in circle
+    assert "width: 30px" in circle and "height: 30px" in circle
+    # the page body link takes the mockup's accent, not the global brand colour
+    assert "color: var(--accent)" in _rule(css, ".doc a")
+    assert css.index(".doc a {") > css.index("a:hover {")
 
 
 def test_estimation_module_untouched_by_this_task() -> None:
