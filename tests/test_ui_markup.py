@@ -1511,6 +1511,16 @@ def test_detail_css_follows_the_mockup() -> None:
     assert "font-size: 16px" in _rules(css, ".recompute input[type=number], .recompute select")[0]
 
 
+def test_source_links_are_44px_targets_that_never_overlap() -> None:
+    """R-070 QA fix: block links with a 44 px floor; a negative margin made neighbours overlap."""
+    css = _css()
+    assert _declared(css, ".sources-list a", "display") == "block"
+    assert _declared(css, ".sources-list a", "min-height") == "44px"
+    rules = " ".join(_rules(css, ".sources-list a") + _rules(css, ".sources-list li"))
+    assert not re.search(r"margin[^:]*:\s*-", rules), "negative margin makes link boxes overlap"
+    assert "overflow-wrap: anywhere" in _rules(css, ".sources-list li")[0]
+
+
 def test_asset_version_moved_on_for_the_detail_page() -> None:
     assert main.ASSET_VERSION > "20261025n"
 

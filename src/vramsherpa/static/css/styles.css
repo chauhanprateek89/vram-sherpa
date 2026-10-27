@@ -548,7 +548,8 @@ span.action-chip { border: 1.5px dashed var(--line); color: var(--muted); backgr
 .sources h2 { font-size: var(--fs-lead); font-weight: 600; margin-bottom: 6px; }
 .detail .sources-list { list-style: none; padding: 0; }
 .sources-list li { padding: 3px 0; font-size: var(--fs-small); overflow-wrap: anywhere; }
-.sources-list a { display: inline-block; padding: 8px 0; margin: -8px 0; color: var(--accent); }
+/* R-070: each source link is its own 44 px tap target; no negative margins, so neighbours never overlap. */
+.sources-list a { display: block; min-height: 44px; padding: 10px 0; color: var(--accent); }
 .recompute form { display: grid; gap: 14px; }
 .recompute label { display: block; font-size: var(--fs-caption); font-weight: 560; margin-bottom: 6px; letter-spacing: .01em; padding: 0; color: var(--ink); }
 .recompute input[type=number], .recompute select { width: 100%; min-height: 52px; padding: 0 16px; border-radius: var(--r-in); border: 1.5px solid var(--line); background-color: var(--field); box-shadow: var(--sh-in); color: var(--ink); font-size: 16px; font-weight: 450; transition: border-color var(--dur-1), box-shadow var(--dur-2); }
