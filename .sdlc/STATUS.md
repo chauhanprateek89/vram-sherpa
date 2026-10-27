@@ -3,7 +3,7 @@
 | | |
 | --- | --- |
 | Track | Full: UI/UX overhaul |
-| Stage | Build |
+| Stage | QA |
 | Branch | sdlc/full-ui-overhaul |
 | Gate waiting | none |
 | Updated | 2026-10-25 |
@@ -14,9 +14,9 @@
 
 ## Next step
 
-Build T-001..T-021 in order (features.json), one builder then one reviewer per task, run by the orchestrator by hand because the sdlc:build workflow runner is not available in this session (same loop: fix after a failed review, rebuild on opus after two, stop after three or on a blocked task). Before QA: add a copy-table row in docs/design/README.md for the removed size-filter help lines (T-012). Run `docker compose -f docker-compose.yml down` so `.sdlc/init.sh` rebuilds from source (it exits early if an old stack is healthy). Then QA (sdlc:qa per requirement), Release PR (squash-merge), Gate 3.
+QA: one sdlc:qa agent per planned requirement R-067..R-081, run in sequence against the local stack (rebuilt from current code at http://localhost:8000), each comparing with the approved mockups. Order puts R-078 (wording) after the copy-table row is added. Failures go back to Build with the failing step; after one round of fixes, ask the user. Then Release PR (squash-merge) and Gate 3.
 
-Build progress: T-001 passed; T-002 passed; T-003 passed; T-004 passed; T-005 passed; T-006 passed; T-007 passed; T-008 passed; T-009 passed; T-010 passed; T-011 passed; T-012 passed; T-013 passed; T-014 passed; T-015 passed; T-016 failed; T-016 passed; T-017 passed; T-018 passed; T-019 passed; T-020 passed; T-021 passed
+Build: all 21 tasks passed review (T-010, T-018, T-019, T-021 needed a fix round; T-016 needed the user-approved retry).
 
 Follow-ups found at onboarding (not part of this track): host guard ignores APP_ENV/PUBLIC_HOSTNAME that docs/RELEASE_AND_DEPLOY.md tells the server to set (tunnel requests would get 400); release.yml pushes :latest before the smoke test; smoke test never hits /results; no Cache-Control on HTML (rule 9); local docker-compose.yml binds 8000 on all interfaces (rule 3).
 
@@ -69,3 +69,4 @@ Follow-ups found at onboarding (not part of this track): host guard ignores APP_
 | 2026-10-25 | Build | sdlc:builder (sonnet), sdlc:reviewer (inherit) | T-019 passed: commits 118014e+cefcb48, passed review 2 (review 1: step circles 32px, link colour); 0px diff vs mockup with line-height 1.5 |
 | 2026-10-25 | Build | sdlc:builder (opus), sdlc:reviewer (inherit) | T-020 passed: commit 80c9954, passed first review; 88 views match mockups (<1px); carry O-1 aria-invalid, O-2 label letter-spacing to T-021 |
 | 2026-10-25 | Build | sdlc:builder (sonnet), sdlc:reviewer (inherit) | T-021 passed: commits a64eb01+53c7b13, passed review 2 (review 1: stale aria-invalid after in-place refresh) |
+| 2026-10-27 | Build | orchestrator | All 21 tasks passed review; 348 tests; local stack rebuilt for QA |

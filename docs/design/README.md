@@ -103,6 +103,8 @@ Old is what the app renders today; new is what the mockups show; where says whic
 | Form | Start typing a GPU name (or leave blank)  (placeholder) | Start typing a GPU name  (placeholder) | `Search GPU` field. The old placeholder is the one the mockups can show in full at 390 px next to `Clear`. |
 | Form | How it works  (a link inside the form) | (removed; the header already has the same link) | Form tile, under `Check compatibility`. |
 | Form | Filters | Filters (N)  where N is the number of active filter chips; `Filters (0)` with none | Disclosure at the foot of the form tile, both widths (R-069). |
+| Filters | Lower bound on model size in billions of parameters.  (help line) | (removed; the `title` tooltip on the field keeps the wording) | Filters disclosure, under `Min params (B)` / `Max params (B)`. |
+| Filters | Upper bound on model size in billions of parameters.  (help line) | (removed; the `title` tooltip on the field keeps the wording) | Filters disclosure, under `Min params (B)` / `Max params (B)`. |
 | Answer | Summary for this query  (heading) | 71 models fit or are tight  (the headline is the heading; N and the plural come from the data) | Answer tile, top. The `Hardware:` and `Context:` lines under it are unchanged. |
 | Answer | Results  (heading) | Results  (kept for screen readers only, visually hidden) | Above the cards. |
 | Answer | 71 models fit or are tight. Pick a quantisation on any card to see how it changes. | headline `71 models fit or are tight`, then the note below | Moved to the top of the results area (R-069). Singular stays `1 model fit or are tight` as today. |
