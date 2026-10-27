@@ -22,7 +22,7 @@ from vramsherpa.estimation import FitBadge, estimate_breakdown, estimate_variant
 from vramsherpa.models import GPU, CatalogMeta, Model, Variant
 
 CONTEXT_OPTIONS = (2048, 4096, 8192)
-ASSET_VERSION = "20261027b"
+ASSET_VERSION = "20261027c"
 ESTIMATION_POLICY_VERSION = "v0.1"
 # The /how-it-works worked example (R-075, ADR-0007). The figures are computed by
 # estimate_breakdown at request time; none is typed into the template.
@@ -858,6 +858,7 @@ def _results_context(
     max_params_b: float | None,
     recommended_only: bool,
     form_errors: list[str] | None = None,
+    vram_error: bool = False,
     gpu_search_feedback: str | None = None,
     manual_vram_input: str | None = None,
     min_params_b_input: str | None = None,
@@ -921,6 +922,7 @@ def _results_context(
             ),
             "recommended_only": recommended_only,
             "form_errors": form_errors or [],
+            "vram_error": vram_error,
             "gpu_search_feedback": gpu_search_feedback,
             "summary_counts": _summary_counts(results_rows),
             "selected_hardware_label": _selected_hardware_label(
@@ -1047,6 +1049,7 @@ def _results_page_context(
         max_params_b=parsed_max_params_b,
         recommended_only=recommended_only,
         form_errors=form_errors,
+        vram_error=parsed_vram_result.error is not None,
         gpu_search_feedback=gpu_search_feedback,
         manual_vram_input=vram_gb if isinstance(vram_gb, str) else None,
         min_params_b_input=min_params_b if isinstance(min_params_b, str) else None,

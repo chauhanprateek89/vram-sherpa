@@ -1533,7 +1533,7 @@ def test_app_js_gpu_combobox_follows_adr_0005() -> None:
     # Keys and pointer.
     for key in ("ArrowDown", "ArrowUp", "Enter", "Escape"):
         assert f'event.key === "{key}"' in body, key
-    assert "event.preventDefault();\n        choose(active);" in body
+    assert re.search(r"event\.preventDefault\(\);\s*choose\(active\);", body)
     assert 'addEventListener("pointerdown"' in body
     assert 'addEventListener("blur", close)' in body
     # Choosing reuses the exact-match code through input and change; it never submits.
@@ -1565,6 +1565,29 @@ def test_home_vram_field_is_marked_only_when_the_server_rejects_it(client: TestC
     assert "aria-invalid" not in _by_id(_tree(client.get("/").text), "vram_gb").attrs
     rule = _rules(_css(), '.form-pane input[aria-invalid="true"]')
     assert rule and "border-color: var(--wont-fg)" in rule[0] and "border-width: 2px" in rule[0]
+
+
+def test_summary_partial_marks_whether_the_vram_field_is_invalid(client: TestClient) -> None:
+    # An in-place refresh never re-renders the form, so the summary carries the marker app.js reads.
+    def marker(query: str) -> str:
+        for path in ("/results/partials/summary", "/results/partials/content"):
+            tree = _tree(client.get(f"{path}?{query}", headers={"HX-Request": "true"}).text)
+            banner = _by_id(tree, "summary-banner")
+            assert banner is not None, path
+            yield banner.attrs["data-vram-invalid"]
+
+    assert set(marker("vram_gb=abc")) == {"true"}
+    assert set(marker("vram_gb=0")) == {"true"}
+    assert set(marker("vram_gb=24")) == {"false"}
+    assert set(marker("vram_gb=8&min_params_b=x")) == {"false"}
+    assert set(marker("")) == {"false"}
+    js = APP_JS.read_text(encoding="utf-8")
+    assert re.search(r'addEventListener\(\s*"htmx:afterSettle",\s*syncVramInvalid', js)
+    body = js.split("function syncVramInvalid")[1].split("function initVramInvalid")[0]
+    assert "dataset.vramInvalid" in body
+    assert 'setAttribute("aria-invalid", "true")' in body
+    assert 'removeAttribute("aria-invalid")' in body
+    assert "initVramInvalid();" in js.split('addEventListener("DOMContentLoaded"')[1]
 
 
 def test_choices_and_presets_carry_the_label_letter_spacing() -> None:

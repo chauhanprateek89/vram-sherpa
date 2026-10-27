@@ -463,8 +463,29 @@ function initFilterCount() {
   updateFilterCount();
 }
 
+// An in-place refresh swaps #results-shell but not the form, so the VRAM field's invalid state is
+// re-read from the new summary (data-vram-invalid) after each swap. Without it a fixed value
+// would stay marked and a newly rejected one would not be (R-071).
+function syncVramInvalid() {
+  var banner = document.getElementById("summary-banner");
+  var field = document.getElementById("vram_gb");
+  if (!banner || !field) {
+    return;
+  }
+  if (banner.dataset.vramInvalid === "true") {
+    field.setAttribute("aria-invalid", "true");
+  } else {
+    field.removeAttribute("aria-invalid");
+  }
+}
+
+function initVramInvalid() {
+  document.body.addEventListener("htmx:afterSettle", syncVramInvalid);
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   initThemeToggle();
+  initVramInvalid();
   initSegThumbs();
   initSheen();
   initFilterCount();

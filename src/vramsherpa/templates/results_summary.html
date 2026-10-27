@@ -5,6 +5,7 @@
 <section
   class="answer pane{% if not top_picks %} no-picks{% endif %}"
   id="summary-banner"
+  data-vram-invalid="{{ 'true' if vram_error else 'false' }}"
   aria-labelledby="ans-h"
 >
   <h2 class="headline" id="ans-h">{{ model_count }} model{{ '' if model_count == 1 else 's' }} fit or are tight</h2>
