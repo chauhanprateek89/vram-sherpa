@@ -16,7 +16,7 @@
 
 Build T-001..T-021 in order (features.json), one builder then one reviewer per task, run by the orchestrator by hand because the sdlc:build workflow runner is not available in this session (same loop: fix after a failed review, rebuild on opus after two, stop after three or on a blocked task). Before QA: add a copy-table row in docs/design/README.md for the removed size-filter help lines (T-012). Run `docker compose -f docker-compose.yml down` so `.sdlc/init.sh` rebuilds from source (it exits early if an old stack is healthy). Then QA (sdlc:qa per requirement), Release PR (squash-merge), Gate 3.
 
-Build progress: T-001 passed; T-002 passed; T-003 passed; T-004 passed; T-005 passed; T-006 passed; T-007 passed; T-008 passed; T-009 passed; T-010 passed; T-011 passed; T-012 passed; T-013 passed; T-014 passed; T-015 passed; T-016 failed
+Build progress: T-001 passed; T-002 passed; T-003 passed; T-004 passed; T-005 passed; T-006 passed; T-007 passed; T-008 passed; T-009 passed; T-010 passed; T-011 passed; T-012 passed; T-013 passed; T-014 passed; T-015 passed; T-016 failed; T-016 passed
 
 Follow-ups found at onboarding (not part of this track): host guard ignores APP_ENV/PUBLIC_HOSTNAME that docs/RELEASE_AND_DEPLOY.md tells the server to set (tunnel requests would get 400); release.yml pushes :latest before the smoke test; smoke test never hits /results; no Cache-Control on HTML (rule 9); local docker-compose.yml binds 8000 on all interfaces (rule 3).
 
@@ -63,3 +63,4 @@ Follow-ups found at onboarding (not part of this track): host guard ignores APP_
 | 2026-10-25 | Build | sdlc:builder (sonnet), sdlc:reviewer (inherit) | T-015 passed: commit f6a7641, passed first review; R-069 holds (767/837/793/877 @1280; 1357-1520 @390) |
 | 2026-10-25 | Build | sdlc:builder (opus), sdlc:reviewer (inherit) | T-016 failed: 3 reviews failed (S-1 margins fixed, S-2 pseudo box-sizing fixed; S-3: 0f0052a dropped the rows' 220 ms fade-in per a relayed nit the reviewer later withdrew). Waiting for the user |
 | 2026-10-27 | Build | user | T-016: retry with the fade-in fix |
+| 2026-10-25 | Build | sdlc:builder (opus), sdlc:reviewer (inherit) | T-016 passed: commits feefaff, 0e47186, 0f0052a, 614dba2; passed review after user-approved retry (fade-in restored) |
