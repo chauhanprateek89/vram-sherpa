@@ -539,6 +539,18 @@ def _is_htmx_fragment_request(request: Request) -> bool:
     )
 
 
+def _has_hardware_input(gpu_id: object, gpu_search: object, vram_gb: object) -> bool:
+    """True when any of the three hardware parameters holds a non-whitespace character.
+
+    Absent, empty and whitespace-only values are no hardware (R-013, ADR-0010 point 2).
+    Other parameters, such as `context_tokens` or filters, never count.
+    """
+    return any(
+        isinstance(value, str | int | float) and str(value).strip()
+        for value in (gpu_id, gpu_search, vram_gb)
+    )
+
+
 def _active_filter_chips(
     *,
     selected_gpu_id: str | None,
@@ -1107,7 +1119,21 @@ def results(
     max_params_b: str | None = Query(default=None),
     recommended_only: bool = Query(default=False),
     session: Session = Depends(get_session),
-) -> HTMLResponse:
+) -> Response:
+    if not _has_hardware_input(gpu_id, gpu_search, vram_gb) and (
+        request.headers.get("HX-Request") != "true"
+    ):
+        # A page load with no hardware belongs on the landing page. Checked first, so the
+        # redirect makes no database query; `host_guard` has already run. The `Location`
+        # is the literal path, never built from the request, and the status is explicit
+        # because Starlette defaults to 307 (rule 8, ADR-0010). No HTML body, so it sets
+        # the headers the middleware would, as the old-link redirect does (ADR-0008).
+        return RedirectResponse(
+            "/",
+            status_code=302,
+            headers={"Cache-Control": "no-cache", "Vary": ", ".join(HTML_VARY_HEADERS)},
+        )
+
     context = _results_page_context(
         request,
         session,

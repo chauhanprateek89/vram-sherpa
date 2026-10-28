@@ -67,9 +67,10 @@ def test_input_error_list_appears_once_in_one_alert(client: TestClient) -> None:
 def test_every_input_error_keeps_its_words_and_shows_once(client: TestClient) -> None:
     cases = {
         "/results?vram_gb=0": "vram_gb must be greater than or equal to 1e-06.",
-        "/results?min_params_b=abc": "Invalid value for min_params_b.",
-        "/results?max_params_b=-1": "max_params_b must be greater than or equal to 0.",
-        "/results?min_params_b=10&max_params_b=5": (
+        # The filter cases carry VRAM: with no hardware, a page load goes to `/` (R-013).
+        "/results?vram_gb=24&min_params_b=abc": "Invalid value for min_params_b.",
+        "/results?vram_gb=24&max_params_b=-1": "max_params_b must be greater than or equal to 0.",
+        "/results?vram_gb=24&min_params_b=10&max_params_b=5": (
             "min_params_b must be less than or equal to max_params_b."
         ),
     }
