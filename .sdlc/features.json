@@ -32,7 +32,7 @@
       "model": "opus",
       "dependsOn": [],
       "notes": "UI: no. Architecture: unchanged (same job, same registry, same pull-based deploy; rule 4 order now actually holds). Cost: none, no new runner, action or service (rule 2). No file under `src/` changes, so no `ASSET_VERSION` bump (rule 21). Approach: build and push only the sha tag, smoke-test by digest, then add the version and `latest` tags to that digest with `docker buildx imagetools create` (registry-side, so `latest` is exactly the bytes that were tested), then git tag and release. Tag before the git tag, so a tagging failure leaves no git tag and the run can be repeated (\"Fail if tag already exists\" still passes). Give the build step `id: build` for `steps.build.outputs.digest`. With provenance attestations on (build-push-action v6 default), the digest is an image index; `docker run` and `imagetools create` both accept it. Do not touch the smoke checks (rule 18) or the web command (rule 20). Optionally add a `latest`/version row to the Summary step. PyYAML reaches CI through `pre-commit` in `.[dev]`, as `tools/validate_catalog.py` already relies on; do not add a dependency. Do not fix the other stale parts of `docs/RELEASE_AND_DEPLOY.md` (`PUBLIC_HOSTNAME`, \"results page renders\"); they are separate follow-ups in `.sdlc/STATUS.md`. QA cannot run the release locally. The check is the first release run after merge: step order in the run log, and `docker buildx imagetools inspect` showing the same digest for `latest`, `v…` and `sha-…`.",
-      "review": null,
+      "review": "passed",
       "passes": false
     }
   ]
