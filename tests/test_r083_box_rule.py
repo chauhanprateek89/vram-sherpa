@@ -133,3 +133,12 @@ def test_summary_partial_carries_attribute(client):
     assert 'data-box-vram="0"' in response.text
     response = client.get("/results/partials/summary?vram_gb=12", headers=HX)
     assert "data-box-vram" not in response.text
+
+
+def test_app_js_copies_box_number_after_settle():
+    from pathlib import Path
+
+    js = (Path(__file__).parent.parent / "src/vramsherpa/static/js/app.js").read_text()
+    assert "boxVram" in js
+    assert "htmx:afterSettle" in js
+    assert js.index("syncVramInvalid);") < js.index("syncBoxVram);")

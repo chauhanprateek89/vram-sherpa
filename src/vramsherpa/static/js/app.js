@@ -479,8 +479,29 @@ function syncVramInvalid() {
   }
 }
 
+// A number typed in Search GPU is read by the server as VRAM (ADR-0011, R-003). The summary says
+// so with data-box-vram; copy it into the form so it matches /results?vram_gb=<n>. Runs after
+// syncVramInvalid so a box number of 0 keeps aria-invalid on the field.
+function syncBoxVram() {
+  var banner = document.getElementById("summary-banner");
+  var field = document.getElementById("vram_gb");
+  if (!banner || !field || banner.dataset.boxVram === undefined) {
+    return;
+  }
+  field.value = banner.dataset.boxVram;
+  var search = document.getElementById("gpu_search");
+  var gpuId = document.getElementById("gpu_id");
+  if (search) {
+    search.value = "";
+  }
+  if (gpuId) {
+    gpuId.value = "";
+  }
+}
+
 function initVramInvalid() {
   document.body.addEventListener("htmx:afterSettle", syncVramInvalid);
+  document.body.addEventListener("htmx:afterSettle", syncBoxVram);
 }
 
 document.addEventListener("DOMContentLoaded", function () {
