@@ -209,6 +209,14 @@ function initGpuCombobox() {
     input.dispatchEvent(new Event("change", { bubbles: true }));
     choosing = false;
     close();
+    // The landing box (R-083) submits on a pick; the results page waits for the button (R-071).
+    if (input.hasAttribute("data-submit-on-choose") && input.form) {
+      if (typeof input.form.requestSubmit === "function") {
+        input.form.requestSubmit();
+      } else {
+        input.form.submit();
+      }
+    }
   }
 
   function optionIndex(event) {
@@ -269,6 +277,21 @@ function initGpuCombobox() {
   listbox.addEventListener("click", function (event) {
     if (!listbox.hidden) {
       choose(optionIndex(event));
+    }
+  });
+}
+
+// A blank landing box does nothing: no navigation, no message, focus stays in the box (R-083).
+function initLandingForm() {
+  var form = document.getElementById("landing-form");
+  var input = document.getElementById("gpu_search");
+  if (!form || !input) {
+    return;
+  }
+  form.addEventListener("submit", function (event) {
+    if (input.value.trim() === "") {
+      event.preventDefault();
+      input.focus();
     }
   });
 }
@@ -512,6 +535,7 @@ document.addEventListener("DOMContentLoaded", function () {
   initFilterCount();
   initGpuInputs();
   initGpuCombobox();
+  initLandingForm();
   initExampleChips();
   initModelDetailInputs();
 });

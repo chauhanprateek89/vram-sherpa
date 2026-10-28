@@ -148,3 +148,15 @@ def test_landing_chips_get_the_base_chip_look():
     rule = re.search(r"^([^{}\n]*\.launch-chips \.chip[^{}\n]*)\{([^}]*)\}", css, re.M)
     assert rule, ".launch-chips .chip has no base rule"
     assert "min-height: var(--tap)" in rule.group(2)
+
+
+def test_app_js_submits_on_choose_and_guards_blank_landing_form() -> None:
+    js = (Path(main.__file__).parent / "static" / "js" / "app.js").read_text()
+    assert "data-submit-on-choose" in js
+    assert "requestSubmit" in js
+    assert "landing-form" in js
+
+
+def test_asset_version_bumped_for_landing_script() -> None:
+    assert main.ASSET_VERSION > "20261028c"
+    assert main.ASSET_VERSION != "20261027e"

@@ -1585,9 +1585,13 @@ def test_app_js_gpu_combobox_follows_adr_0005() -> None:
     assert re.search(r"event\.preventDefault\(\);\s*choose\(active\);", body)
     assert 'addEventListener("pointerdown"' in body
     assert 'addEventListener("blur", close)' in body
-    # Choosing reuses the exact-match code through input and change; it never submits.
+    # Choosing reuses the exact-match code through input and change. It submits only on an input
+    # marked data-submit-on-choose (the landing box, R-083); the results page never does.
     assert 'new Event("input"' in body and 'new Event("change"' in body
-    assert "submit" not in body
+    assert body.count("submit") == body.count("submit-on-choose") + body.count(
+        "requestSubmit"
+    ) + body.count("form.submit()")
+    assert 'input.hasAttribute("data-submit-on-choose")' in body
     assert "initGpuCombobox();" in js.split('addEventListener("DOMContentLoaded"')[1]
 
 
