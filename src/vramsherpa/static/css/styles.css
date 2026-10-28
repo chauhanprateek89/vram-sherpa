@@ -626,12 +626,18 @@ span.action-chip { border: 1.5px dashed var(--line); color: var(--muted); backgr
 
 .launch { position: relative; z-index: 5; width: min(780px, 100%); padding: 6px; display: block; margin-top: calc(-1 * clamp(0px, 17vh - 20px, 130px)); } /* lifts the card a little above the middle without adding height */
 .launch-head { display: grid; justify-items: center; gap: 14px; text-align: center; padding: 28px 16px 24px; }
+/* The app's base keeps browser margins on h1 and p (the mockup's reset zeroes them); without this the
+   help line drifts away from the h1 and the pane grows. */
+.launch h1, .launch p { margin: 0; }
 .launch h1 { font-size: var(--fs-display); line-height: 1.06; letter-spacing: -.03em; font-weight: 350; text-wrap: balance; max-width: 15ch; }
 .launch-hint { color: var(--muted); font-size: var(--fs-lead); max-width: 30ch; text-wrap: balance; }
 
 /* the box */
 .ask { position: relative; }
-.ask input[type=text] { min-height: 64px; padding: 0 70px 0 50px; border-radius: 22px; font-size: 18px; }
+/* The mockup's field look, which the app scopes to .form-pane: the box fills the form (so the submit sits
+   inside its right edge) and wears the inset field background, border and shadow in both themes. */
+.ask input[type=text] { width: 100%; min-height: 64px; padding: 0 70px 0 50px; border-radius: 22px; border: 1.5px solid var(--line); background: var(--field); box-shadow: var(--sh-in); font-size: 18px; font-weight: 450; transition: border-color var(--dur-1), box-shadow var(--dur-2); }
+.ask input::placeholder { color: var(--muted); opacity: 1; }
 .ask-icon { position: absolute; left: 18px; top: 50%; margin-top: -11px; width: 22px; height: 22px; color: var(--muted); pointer-events: none; }
 .ask .btn-primary.go { position: absolute; top: 8px; bottom: 8px; right: 8px; min-height: 0; width: 48px; padding: 0; border-radius: 16px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; margin: 0; }
 .ask .go svg { width: 22px; height: 22px; }

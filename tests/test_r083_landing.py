@@ -175,3 +175,54 @@ def test_clear_on_results_is_a_link_to_an_empty_landing(client):
 def test_app_js_has_no_clear_handler():
     js = (Path(main.__file__).parent / "static" / "js" / "app.js").read_text()
     assert "clear-gpu" not in js
+
+
+def _landing_css() -> str:
+    css = (Path(main.__file__).parent / "static" / "css" / "styles.css").read_text()
+    start = css.index("landing (T-029)")
+    return css[start : css.index("Utilities and motion", start)]
+
+
+def _rule(css: str, selector: str) -> str:
+    found = re.search(rf"^{re.escape(selector)} \{{([^}}]*)\}}", css, re.M)
+    assert found, selector
+    return found.group(1)
+
+
+def test_landing_box_has_the_inset_field_look():
+    """T-033: the box fills its form, so the submit sits inside its right edge, and wears
+    the mockup's field look; the generic field rules are scoped to the results form."""
+    box = _rule(_landing_css(), ".ask input[type=text]")
+    for decl in (
+        "width: 100%",
+        "border: 1.5px solid var(--line)",
+        "background: var(--field)",
+        "box-shadow: var(--sh-in)",
+        "border-radius: 22px",
+        "padding: 0 70px 0 50px",
+    ):
+        assert decl in box, decl
+    assert "color: var(--muted)" in _rule(_landing_css(), ".ask input::placeholder")
+
+
+def test_landing_greeting_has_no_default_margins():
+    """T-033: the mockup's reset zeroes h1 and p margins; the app's base does not, so the
+    landing pane resets its own to keep the h1-to-help-line gap and the pane height."""
+    assert "margin: 0" in _rule(_landing_css(), ".launch h1, .launch p")
+
+
+def test_landing_rules_stay_scoped_to_the_landing_page():
+    """T-033: nothing in the landing section restyles the /results form or its combobox."""
+    css = re.sub(r"/\*.*?\*/", "", _landing_css(), flags=re.S)
+    for selector in re.findall(r"([^{}@]+)\{", css):
+        for part in selector.split(","):
+            part = part.strip()
+            if not part or part.startswith("(") or part[0].isdigit():
+                continue
+            assert not re.match(r"(input|select|form|\.combo|\.form-pane|\.field-row)\b", part), (
+                part
+            )
+
+
+def test_asset_version_bumped_for_landing_fix() -> None:
+    assert main.ASSET_VERSION > "20261028e"
