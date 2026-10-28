@@ -3,9 +3,9 @@
 | | |
 | --- | --- |
 | Track | Full (centred landing box) |
-| Stage | Gate 1 |
+| Stage | Design and mockups |
 | Branch | sdlc/full-landing-box |
-| Gate waiting | Gate 1 (scope: R-083 plus changes to R-001, R-002, R-003, R-005, R-006, R-007, R-013, R-026, R-067, R-069, R-071, R-078; open Q-14 to Q-23) |
+| Gate waiting | none |
 | Updated | 2026-10-28 |
 
 ## Your actions
@@ -14,7 +14,10 @@
 
 ## Next step
 
-Gate 1: the user approves the scope and answers Q-14 to Q-23 (defaults written into the requirements). Then Design (`sdlc:architect`, mode design) and Mockups (`sdlc:uiux`, landing states L1 to L4).
+Gate 1 approved. Next session (`/sdlc:orchestrate resume`):
+1. `sdlc:product`: amend R-062 for Q-23 (smoke test adds `GET /results?vram_gb=24&context_tokens=4096`); small, docs only.
+2. In parallel: Design (`sdlc:architect`, mode design: HLD for the landing route, the `/results` redirect, the shared GPU-or-number rule, ADRs) and Mockups (`sdlc:uiux`: landing states L1 to L4 from R-083 at 390 and 1280, both themes, plus the results-page `Clear` and any R-067 states it changes; bento/glass, Outfit, per docs/design/README.md).
+3. Gate 2.
 
 Other follow-ups still open (not part of this track): theme toggle and GPU input after an htmx cache restore, incl. a stale preset radio on a cache-hit Back; host guard ignores `APP_ENV`/`PUBLIC_HOSTNAME` that docs/RELEASE_AND_DEPLOY.md tells the server to set (tunnel requests would get 400); smoke test never hits /results; local compose binds 0.0.0.0:8000 (rule 3); `/docs`, `/redoc`, `/openapi.json` are public; font URL has no `?v` and the font is served as octet-stream.
 
@@ -37,3 +40,4 @@ Older rows: `.sdlc/log.md`.
 | 2026-10-28 | Live check | sdlc:release (sonnet) | Release run 40666348177 success, v0.1.53; step order verified (build, smoke, tag, publish); only sha-2aa63d0 pushed by build; latest, v0.1.53, sha-2aa63d0 share digest sha256:c1dacb73…; live site / 200, /healthz ok (catalog 2026-10-23), styles v=20261027e. Homelab image not checkable from outside. T-022 passes; tasks archived; Quick track done |
 | 2026-10-28 | Intake | orchestrator | Full track: `/` becomes one centred GPU box (Claude new-chat style); box takes a VRAM number, context hidden on landing, no reverse lookup. Branch sdlc/full-landing-box from main 2aa63d0 |
 | 2026-10-28 | Requirements | sdlc:product | R-083 (landing box) added; R-001, R-002, R-003, R-005, R-006, R-007, R-013, R-026, R-067, R-069, R-071, R-078 changed; R-082 done. Open Q-14 to Q-23. Committed 9aacb2e |
+| 2026-10-28 | Gate 1 | user | Scope approved with defaults; Q-14 number rule on both pages; Q-17 submit + focus on load, no Clear on `/`; Q-23 add a /results smoke check in this change |

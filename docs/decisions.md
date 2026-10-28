@@ -42,6 +42,10 @@
 | 2026-10-28 | Intake | A GPU that isn't listed: the box accepts a typed VRAM number such as "12 GB" (one box, no separate VRAM link). |
 | 2026-10-28 | Intake | The context window is hidden on the landing page (default 2k) and stays changeable on the results page. |
 | 2026-10-28 | Intake | No reverse lookup (typing a model name) in this change. |
+| 2026-10-28 | 1 | Approved the scope: R-083 (centred landing box) and the changes to R-001, R-002, R-003, R-005, R-006, R-007, R-013, R-026, R-067, R-069, R-071 and R-078, with the written defaults for Q-15, Q-16 and Q-18 to Q-22. |
+| 2026-10-28 | 1 | Q-14: the GPU-or-number rule applies on both pages, including the results page's `Search GPU` (`8GB`, `12`, `24` become VRAM there). |
+| 2026-10-28 | 1 | Q-17: the landing box has a `Check compatibility` submit control (may be an icon), no `Clear`, and takes focus on load. |
+| 2026-10-28 | 1 | Q-23: add a `GET /results?vram_gb=24&context_tokens=4096` render check to the release smoke test in this change (R-062 to be amended). |
 
 ## Made during work
 
