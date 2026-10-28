@@ -5,7 +5,7 @@
 | Track | Full (centred landing box) |
 | Stage | Design and mockups |
 | Branch | sdlc/full-landing-box |
-| Gate waiting | none |
+| Gate waiting | Gate 2 (design and mockups) |
 | Updated | 2026-10-28 |
 
 ## Your actions
@@ -14,10 +14,7 @@
 
 ## Next step
 
-Gate 1 approved. Next session (`/sdlc:orchestrate resume`):
-1. `sdlc:product`: amend R-062 for Q-23 (smoke test adds `GET /results?vram_gb=24&context_tokens=4096`); small, docs only.
-2. In parallel: Design (`sdlc:architect`, mode design: HLD for the landing route, the `/results` redirect, the shared GPU-or-number rule, ADRs) and Mockups (`sdlc:uiux`: landing states L1 to L4 from R-083 at 390 and 1280, both themes, plus the results-page `Clear` and any R-067 states it changes; bento/glass, Outfit, per docs/design/README.md).
-3. Gate 2.
+Gate 2 waiting: design (HLD section "Centred landing box", ADRs 0009-0013) and mockups (artifact https://claude.ai/artifact/S8yurugqYYCy6CNtbNTSbj, `docs/design/final/landing-*`). Open points: landing copy, L3 inert chip, autofocus on phones, submit as arrow at 390, R-013 vs R-008 422, VRAM field wins over a box number on /results, no-JS native pick needs Enter. After approval: Plan (`sdlc:architect`, mode plan).
 
 Other follow-ups still open (not part of this track): theme toggle and GPU input after an htmx cache restore, incl. a stale preset radio on a cache-hit Back; host guard ignores `APP_ENV`/`PUBLIC_HOSTNAME` that docs/RELEASE_AND_DEPLOY.md tells the server to set (tunnel requests would get 400); smoke test never hits /results; local compose binds 0.0.0.0:8000 (rule 3); `/docs`, `/redoc`, `/openapi.json` are public; font URL has no `?v` and the font is served as octet-stream.
 
@@ -41,3 +38,6 @@ Older rows: `.sdlc/log.md`.
 | 2026-10-28 | Intake | orchestrator | Full track: `/` becomes one centred GPU box (Claude new-chat style); box takes a VRAM number, context hidden on landing, no reverse lookup. Branch sdlc/full-landing-box from main 2aa63d0 |
 | 2026-10-28 | Requirements | sdlc:product | R-083 (landing box) added; R-001, R-002, R-003, R-005, R-006, R-007, R-013, R-026, R-067, R-069, R-071, R-078 changed; R-082 done. Open Q-14 to Q-23. Committed 9aacb2e |
 | 2026-10-28 | Gate 1 | user | Scope approved with defaults; Q-14 number rule on both pages; Q-17 submit + focus on load, no Clear on `/`; Q-23 add a /results smoke check in this change |
+| 2026-10-28 | Requirements | sdlc:product (inherit) | R-062 amended for Q-23: smoke test also requires `GET /results?vram_gb=24&context_tokens=4096` → 200 with `id="summary-banner"` and `Manual VRAM (24 GB)`; Gate 1 answers column added to Q-14 to Q-23. Committed afaaf83 |
+| 2026-10-28 | Design | sdlc:architect (inherit) | HLD section "Centred landing box", flows 9-10; ADRs 0009 (own landing.html), 0010 (302 /results→/), 0011 (gpu_input.py rule), 0012 (plain GET form + links, Clear is a link), 0013 (smoke /results check). 4 open points for Gate 2. Committed 34589c4 |
+| 2026-10-28 | Mockups | sdlc:uiux (inherit) | L1-L4 as `final-landing-*` (6 mockups) + `final-results-from-landing`, 4 PNGs each; copy proposed; only `Clear` changes on /results; artifact https://claude.ai/artifact/S8yurugqYYCy6CNtbNTSbj. Committed 06ab377 |
