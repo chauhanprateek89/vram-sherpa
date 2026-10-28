@@ -1,3 +1,79 @@
+# Centred landing box: design (Gate 2 for R-083)
+
+`/` becomes one large box in the middle of the page, like a new chat in Claude. Type a GPU, or a VRAM number such as `12 GB`, and you go to the results page; `Clear` there brings you back. Same direction as the overhaul ("D layout + E glass", Outfit). The overhaul section further down is unchanged and still describes every other screen.
+
+**Gallery (private Artifact, new page):** https://claude.ai/artifact/S8yurugqYYCy6CNtbNTSbj
+It holds today's `/` beside the new one, every state at 390 and 1280 px in light and dark, the wording, the measurements and the decisions. Local copy: `docs/design/landing-gallery.html` (open it from this folder).
+
+## States (R-067: L1 to L4)
+
+Each has 4 renders (390 and 1280 px, light and dark). Header and footer are the ones of every page (R-076). Names and labels come from the running app (catalog 2026-10-23).
+
+| Mockup (`docs/design/mockups/final-<name>.html`) | State | R-067 | Requirements |
+|---|---|---|---|
+| `landing-empty` | `/`, empty box, focus in the box as it loads | L1 | R-083, R-067, R-077 |
+| `landing-suggest` | Styled suggestion list open after typing `4060` (replaces `gpu-suggest` as the reference for `/`) | L2 | R-071, R-083 |
+| `landing-unseeded` | Catalog unseeded: box, chips, then the two R-026 sentences in a status notice; inert `Example GPU` chip | L3 | R-026, R-083 |
+| `landing-focus-box` | Focus on the box, `12 GB` typed | L4 | R-077, R-083 |
+| `landing-focus-chip` | Focus on a chip | L4 | R-077, R-083 |
+| `landing-focus-submit` | Focus on `Check compatibility` | L4 | R-077, R-083 |
+| `results-from-landing` | Where `12 GB` leads (`/results?vram_gb=12&context_tokens=2048`); `Clear` is a link to `/` | (results) | R-001, R-003, R-013, R-083 |
+
+Renders: `docs/design/final/<name>-<390 or 1280>-<light or dark>.png`. Today's `/` for comparison: `docs/design/before-landing/home-<390 or 1280>-<light or dark>.png`.
+
+Rebuild: `build/extract_landing.py` (app up) saves the results page; `build/make_landing.py` writes the mockups from `build/landing.css`, `components.css` and `tokens.css`; `node build/render.mjs landing` (and `results-from-landing`) renders them; `node build/measure_landing.mjs` prints the numbers below; `build/make_landing_gallery.py` writes the gallery. Playwright needs Node 20 or later.
+
+### What was built to the HLD
+
+The structure follows `docs/HLD.md` ("Centred landing box") and ADR-0009 to 0013: one `h1`, the help line, `form#landing-form` (`method="get" action="/results"`) holding a visually hidden label `Search GPU`, the box `#gpu_search` (inside `.combo`, `autofocus`, `data-submit-on-choose`) and one `button type="submit"` named `Check compatibility`; then `role="group" aria-label="Examples"` holding three `a.chip` links; then, when unseeded, a `role="status"` element. No `Clear`, context control, filters or second text field. The styled list is the existing `.listbox` (`role="listbox"` under the box, 48 px options). `Clear` on `/results` is `a#clear-gpu.btn-clear` with the secondary-button look. The landing styles are in `docs/design/landing.css`, inlined in every landing mockup (to be appended to `styles.css`; `build/` is not tracked).
+
+## Results pages checked
+
+- **Changed:** only `Clear`, which is a link to `/` drawn as the same secondary button (`results-from-landing` shows it). No other look changes.
+- **Checked, unchanged:** the other 22 approved states (`results-gpu`, `results-manual-vram`, `results-gpu-ambiguous`, `results-gpu-notfound`, `results-errors`, `results-chips`, `results-filters-open`, `results-picks-hidden`, `results-tight-gated`, `why-closed`, `why-loading`, `why-loaded`, `empty-links`, `empty-inert`, `empty-mixed`, `unseeded`, `detail-gated`, `detail-ungated`, `detail-no-sources`, `detail-error`, `how-it-works`, `focus-states`). Accepting a number in `Search GPU` does not change the `/results` help line, placeholder or any message: the `Available VRAM (GB)` field is still there and the line "Pick your GPU, or enter your VRAM if it isn't listed." is still true. A box number of `0` shows the `results-errors` look with the R-008 message for 0. In those mockups the logo, `Estimator` and `Clear` still point at the old home mockup; that is a link target, not a look.
+- **Superseded for `/`:** `home-default` (state 1) and `gpu-suggest` (on `/`). They stay in the repo for `/results`.
+
+## Copy changes
+
+Three strings, all rewordable (R-078); each is also a row in the copy table below. The accessible names `Search GPU` and `Check compatibility`, the chips, `Catalog is not initialized yet.`, `Seed the catalog data, then refresh this page.` and the footer stay word for word.
+
+| Where | Old | New |
+|---|---|---|
+| Landing `h1` | Find models that fit your VRAM | Which local LLMs fit your GPU? |
+| Landing help line | Pick your GPU, or enter your VRAM if it isn't listed. | Type a GPU name, or enter its VRAM, like 12 GB. |
+| Landing box placeholder | Start typing a GPU name | Your GPU, or its VRAM |
+
+Removed from `/` (R-083, Q-17): the summary and headline, Top Picks, cards, active filter chips, the empty state, the filters, `Available VRAM (GB)`, the context window and its presets, the assumed 8 GB note, messages and errors, and `Clear`. All stay on `/results`.
+
+## Measurements QA can take (Chromium, light and dark alike)
+
+| Check | Mockup |
+|---|---|
+| Box width (`#gpu_search`) | 344 px at 390 (needs 342); 754 px at 1280 (needs 560). At 390 the pane has 6 px of padding; more padding or a thicker border breaks the 342 |
+| Box centre vs viewport centre | 0.00 px at both widths (needs within 2) |
+| Box vertical centre | L1 and L2: 416 px of 844 (49.2%) and 428 of 800 (53.5%). L3: 360 (42.6%) and 382 (47.8%). Needs 35 to 65% |
+| Box, chips, submit without scrolling | Chips end at 510 of 844 and 532 of 800; each state is exactly the viewport tall |
+| Tap targets | Submit 48 x 48 at 390, 232 x 60 at 1280; chips 44 px tall; options 48 px |
+| Contrast | Lowest text 7.07:1 light, 8.28:1 dark; 0 failures in 994 text boxes over 28 renders (the hidden 1 px submit label at 390 is excluded) |
+| Focus | Box focused on load; 3 px solid ring on box, chip and submit |
+| Inputs | 1 text input, 1 `h1` on `/` |
+
+## Decisions for you
+
+1. **Wording** of the greeting, help line and placeholder (table above). An alternative greeting is the one from your 24 October prototype, `What are you running it on?`; I picked one that names the product's job so a first-time visitor needs no other context.
+2. **`Example GPU` chip when the catalog is unseeded.** Drawn dashed and inert, as ADR-0009 says, so the row keeps three chips. A dead chip invites a tap that does nothing; the alternative is two chips in L3 only.
+3. **Submit control.** Words (`Check compatibility`) beside the arrow at desktop width, arrow only on a phone; the accessible name is the same.
+
+## Notes and conflicts
+
+- No conflict with `docs/HLD.md` or ADR-0009 to 0013. The order in the unseeded state (box, chips, notice) follows ADR-0009's content order.
+- The greeting sits inside the same glass pane as the box because on the bare background its contrast would be about 2.2:1 in the dark theme at the worst backdrop colour (R-077 needs 4.5:1).
+- `Clear` as a link is announced as a link named `Clear`, not a button (ADR-0012).
+- `autofocus` (R-083) opens the on-screen keyboard at once on Android Chrome, covering the chips; iOS Safari usually ignores it.
+- The styled-list pick and chips navigate in the live mockups to the results mockup; the mockups do not call the server.
+
+---
+
 # UI/UX overhaul: design (Gate 2, round 2 of 2)
 
 The direction you picked is **D layout + E glass**: D Bento's tile grid, built from E Glass's frosted panes, inset sheets, Outfit type, shadows and motion. This round mocks up every screen and state of R-067 in it, plus the extra states R-073 to R-077 need.
@@ -113,6 +189,9 @@ Old is what the app renders today; new is what the mockups show; where says whic
 | Top Picks | Next highest-ranked practical option by current ranking order. | Nearly as capable, and comfortable to run. | `Best balance` pick (R-069). |
 | Top Picks | Lowest-ranked viable option, usually the lightest footprint. | The lightest model that still runs on your GPU. | `Best small` pick (R-069). |
 | Empty state | There are 95 variants in Won't fit, hidden by default. | There are 95 models in Won't fit, hidden by default.  (`There is 1 model in Won't fit, hidden by default.` for one) | Empty state, under the two next-step links (R-069, Q-10). |
+| Landing (R-083) | Find models that fit your VRAM  (the `h1` on `/`) | Which local LLMs fit your GPU? | `/` only, centred above the box. `/results` keeps `Find models that fit your VRAM` as its form title. |
+| Landing (R-083) | Pick your GPU, or enter your VRAM if it isn't listed.  (help line on `/`) | Type a GPU name, or enter its VRAM, like 12 GB. | `/` only, under the `h1`. `/results` keeps the old line. |
+| Landing (R-083) | Start typing a GPU name  (placeholder on `/`) | Your GPU, or its VRAM | `/` only, in the box. `/results` keeps the old placeholder. |
 | Breakdown | weights_gb: 9.72 | Model weights   9.72 GB | How this is estimated, row 1. The figure is unchanged; the unit GB is added. |
 | Breakdown | kv_cache_gb: 3.85 | Context memory (KV cache)   3.85 GB | Row 2. |
 | Breakdown | runtime_overhead_gb: 1.79 | Runtime overhead   1.79 GB | Row 3. |
