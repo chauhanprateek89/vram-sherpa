@@ -1,23 +1,39 @@
-# QA report R-083 (T-028, T-029, T-030): FAIL
+# QA report R-083 (T-028, T-029, T-030, T-033): PASS
 
-App at http://localhost:8000 (started with .sdlc/init.sh). `pytest tests/test_r083_*.py`: pass.
-Screens: `.sdlc/qa/R-083/1-empty-*.png`, `2-suggest-*.png`, `3-pick-results-*.png`, `4-back-*.png`, and `shots/landing-<state>-<width>-<theme>.png` (24 renders, compared with `docs/design/final/`).
+Re-test after QA fix T-033. The app was rebuilt with `docker compose -f docker-compose.yml up -d --build`. GET `/` references `styles.css?v=20261028f`. Unseeded state was checked on a separate empty-SQLite instance of the same code on :8001. Renderer: Playwright headless Chromium. Screens: `.sdlc/qa/R-083/shots/landing-<state>-<width>-<theme>.png` (24), `pair-*.png` (live left, mockup right), `3-pick-results-1280-light.png`, metrics in `metrics.json`. The 1280 and 390 screens were each checked in light and dark.
 
-## Pass
-- Copy word for word (h1, help line, placeholder); title `VRAM Sherpa`; one h1; box name `Search GPU`; submit name `Check compatibility`.
-- Focus in box on load at 1280 and 390, both themes; one text input; no Clear, VRAM field or results text on `/`.
-- Chips: 3 links, 44 px tall, in order `RTX 4060 8GB`, `8GB`, `24GB`; chip click gives /results?vram_gb=24&context_tokens=2048.
-- Typing `4060` lists the four R-071 GPUs in order; click pick and ArrowDown+Enter go to /results (Hardware = NVIDIA GeForce RTX 4060 (8.0 GB), Context 2k).
-- Blank and whitespace submit stay on `/`. `12 GB` gives `Manual VRAM (12 GB)`, Available VRAM 12; Clear is `a#clear-gpu` href `/`.
-- `/?vram_gb=24&context_tokens=4096` answers 200 with no redirect.
-- Back from /results (1280 and 390): one header, box, 3 chips, submit, one footer, styled; box empty.
-- Unseeded (separate empty-DB instance on :8001): chips `Example GPU` (span, aria-disabled, dashed), `8GB`, `24GB`; status text present.
-- No console errors.
+## Previous failures: fixed
+- 1280x800: box with its inset submit is 754 px wide at x=263, so its centre is exactly the viewport centre (offset 0). The submit (x=777, w=232) sits inside the box's right edge. Input font 20 px.
+- 390x844: box is 344 px wide at x=23 (offset 0 from centre). The panes keep 16 px side gutters. Input font 18 px.
+- Inset field look: the input is white in light and rgb(10,12,38) in dark, inside a bordered ring, as in the mockup. See `pair-empty-1280-light.png` and `pair-empty-390-light.png`.
+- h1-to-help-line gap is 16 px (1280) and 14 px (390). Box vertical centre is 428 of 800 (53.5%) and 415.5 of 844 (49.2%). Both match the mockup, and both are inside the 35 to 65% range.
 
-## Fail
-1. Box centring (Q-21, needs within 2 px): box centre is 81 px left of viewport centre at 1280 (box x=263, w=592) and 4.5 px off at 390.
-2. Box width: 592 px at 1280 (mockup 754; the input is narrower than its `.combo`/form, which are 754, so the submit button sits outside the box instead of inset). At 390 the box is 381 px and the page has no side padding (pane and header flush near the edges; mockup has 16 px gutters and a 344 px box).
-3. Mockup match: pixel diff (changed pixels, threshold 24) against docs/design/final: 1280 about 9 to 14 percent, 390 about 18 to 32 percent, in every state (empty, suggest, focus-box, focus-chip, focus-submit, unseeded) and both themes. Visible differences: box background is grey/filled not the dark inset field, h1-to-help-line gap is far larger, panel sits higher (1280: box centre y 478 vs mockup 428) and is taller, 390 layout shifted left with no gutters. See `1-empty-1280-dark.png` against `docs/design/final/landing-empty-1280-dark.png`, and `shots/landing-empty-390-light.png` against `docs/design/final/landing-empty-390-light.png`.
-4. Chips and box fit without scrolling: yes (scrollHeight = viewport), so that bullet passes; vertical centre 478/800 (59.8%) and 458/844 (54.3%) are inside range.
+## Pixel diff against docs/design/final (changed pixels, threshold 24)
+| Width | Previous run | This run |
+| --- | --- | --- |
+| 1280 | 9 to 14% | 1.15 to 1.63% (empty, focus-*, unseeded); suggest 5.04 to 5.10% |
+| 390 | 18 to 32% | 2.77 to 3.94% (empty, focus-*, unseeded); suggest 8.76 to 8.84% |
 
-Tasks T-028, T-029, T-030 left `passes: false`.
+The remaining non-suggest difference is text anti-aliasing and font hinting. The diff bands fall on glyph rows only (header, h1, help line, placeholder, chips, footer), and layout is identical in the pair images.
+
+Visible differences, all in the suggest state (`pair-suggest-1280-light.png`):
+1. The mockup draws option 1 highlighted (`aria-selected`, driven by its mock script). The live list highlights nothing until Down is pressed. This is behaviour, not layout, and is not a requirement failure.
+2. In the live list the chips behind it show faintly through the list (more translucent than the mockup). Judged a small difference, not a missing element or layout change.
+
+## Criteria (every bullet of R-083), at 1280 and 390, light and dark
+- Pass: `/` returns 200. Header, box, 3 chips (`RTX 4060 8GB`, `8GB`, `24GB`), one submit and footer are present.
+- Pass: no summary, results, Top Picks, filters, Available VRAM, context, assumed-8GB note or Clear on `/`. Exactly one text input.
+- Pass: box name `Search GPU`, submit name `Check compatibility`, title `VRAM Sherpa`, one h1.
+- Pass: copy word for word. h1 `Which local LLMs fit your GPU?`, help `Type a GPU name, or enter its VRAM, like 12 GB.`, placeholder `Your GPU, or its VRAM`. These match the approved mockup.
+- Pass: no scrolling (scrollHeight minus viewport = 0 in all four combinations).
+- Pass: centre offset 0 px at both widths. Vertical centre in range. Width 754 (at least 560) and 344 (at least 342). Text 20 and 18 px (at least 16).
+- Pass: focus is in the box on load.
+- Pass: `/?vram_gb=24&context_tokens=4096` gives 200 with no redirect (curl).
+- Pass: typing `4060` shows 4 options. Clicking the first goes to `/results?gpu_search=NVIDIA+GeForce+RTX+4060+%288.0+GB%29`, and the page shows the RTX 4060 (8.0 GB) hardware. Keyboard pick passed in the previous run. Chip links carry `context_tokens=2048`.
+- Pass: a blank box and a whitespace-only box stay on `/`. `12 GB` goes to `/results?gpu_search=12+GB` and shows `Manual VRAM (12 GB)`.
+- Pass: Back shows one header, the box (empty), 3 chips and one footer.
+- Pass: unseeded shows a dashed inert `Example GPU` span (aria-disabled), chips `8GB` and `24GB`, and the note `Catalog is not initialized yet.` Footer says `unseeded`.
+- Pass: no console errors across all runs (error list empty).
+- Pass: R-083 tests `pytest tests/test_r083_*.py` passed in the previous run. They were not re-run here.
+
+T-028, T-029, T-030 and T-033 set to `passes: true`.

@@ -1,0 +1,12 @@
+== positive
+PASS: 200
+exit=0
+== negative: no query
+302 http://localhost:8000/
+FAIL: got 302, want 200 with summary
+exit=1
+== negative: marker missing (landing)
+FAIL: got 200, want 200 with summary
+exit=1
+== other checks
+evil host 400

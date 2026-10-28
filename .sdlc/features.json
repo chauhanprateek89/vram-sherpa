@@ -246,7 +246,7 @@
       ],
       "notes": "UI: yes. Markup only: the page is unstyled until T-029, which is expected; QA compares after T-029. No file under `static/` changes, so no `ASSET_VERSION` bump here. Copy the structure from `docs/design/mockups/final-landing-empty.html` and `final-landing-unseeded.html` (their chip `href`s point at mockup files; use the real `/results?…` URLs). The ids `gpu_search`, `gpu-options` and `.combo` are reused so `initGpuCombobox` starts unchanged; `initGpuInputs` and `initExampleChips` return early on `/` (no `#gpu_id`, no `.chip-example`). Check the header/footer/asset tests still pass on `/` (`test_brand.py`, `test_r076_acceptance.py`, `test_r079_asset_links.py`, `test_styles.py`). Do not rename `index.html` (ADR-0009 alternatives).",
       "review": "passed",
-      "passes": false
+      "passes": true
     },
     {
       "id": "T-029",
@@ -299,7 +299,7 @@
       ],
       "notes": "UI: yes. Append in the Page-specific section, not at the end (Utilities is last; ADR-0001 order is tested). At 390 the pane keeps 6 px padding: more padding or a thicker border breaks the 342 px minimum (design README). `.page:has(.landing)` needs `:has()`, supported by current Chromium, Safari and Firefox. `a.btn-clear` is styled here so T-031 can switch `Clear` to a link with no style work. Measurements are QA's in a real browser (`docs/design/README.md`, \"Measurements QA can take\").",
       "review": "passed",
-      "passes": false
+      "passes": true
     },
     {
       "id": "T-030",
@@ -341,7 +341,7 @@
       ],
       "notes": "UI: yes. Browser checks for QA (rule 10, R-077): focus in the box on load at both widths (`autofocus`, no script); pick by tap, click and keyboard at 390 and 1280; blank submit stays on `/`; Escape keeps the text; Back from `/results` shows the full landing page (one header, box, chips, submit, one footer). Without JavaScript a native-list pick only fills the box and needs Enter (accepted at Gate 2). `/` has no `hx-*`, so htmx never snapshots it (ADR-0012 point 9).",
       "review": "passed",
-      "passes": false
+      "passes": true
     },
     {
       "id": "T-031",
@@ -456,7 +456,7 @@
         "T-029",
         "T-030"
       ],
-      "passes": false,
+      "passes": true,
       "review": "passed"
     }
   ]

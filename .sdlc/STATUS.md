@@ -3,7 +3,7 @@
 | | |
 | --- | --- |
 | Track | Full (centred landing box) |
-| Stage | QA (re-run after fix round 1) |
+| Stage | Release |
 | Branch | sdlc/full-landing-box |
 | Gate waiting | none |
 | Updated | 2026-10-28 |
@@ -14,8 +14,8 @@
 
 ## Next step
 
-QA re-run after fix round 1 (`sdlc:qa`, 2 items: R-083 landing, marks T-028/029/030/033; R-067/069/071/078 results regressions). If R-083 still fails, ask the user (no second fix round). If this session ends first, `/sdlc:orchestrate resume`: read `passes` in `.sdlc/features.json`.
-Then Release (`sdlc:release`, mode pr), Gate 3. Review nits to list in the PR: brittle source-text asserts in the T-025/T-027/T-030 tests, `_has_hardware_input` typed `object` (T-027), duplicated chip rules in styles.css (T-029), mktemp body file not removed in release.yml (T-032).
+Release running (`sdlc:release`, mode pr): push the branch over HTTPS, open the PR, wait for CI. Then Gate 3. If this session ends first, `/sdlc:orchestrate resume`: `gh pr list --head sdlc/full-landing-box`.
+Gate 3 notes: suggest state highlights no option until Down is pressed (mockup highlights option 1) and the chips show faintly through the open list; on /results the open suggestion list covers the submit until Escape (pre-existing). Review nits to list in the PR: brittle source-text asserts in the T-025/T-027/T-030 tests, `_has_hardware_input` typed `object` (T-027), duplicated chip rules in styles.css (T-029), mktemp body file not removed in release.yml (T-032).
 
 Other follow-ups still open (not part of this track): theme toggle and GPU input after an htmx cache restore, incl. a stale preset radio on a cache-hit Back; host guard ignores `APP_ENV`/`PUBLIC_HOSTNAME` that docs/RELEASE_AND_DEPLOY.md tells the server to set (tunnel requests would get 400); local compose binds 0.0.0.0:8000 (rule 3); `/docs`, `/redoc`, `/openapi.json` are public; font URL has no `?v` and the font is served as octet-stream.
 
@@ -36,3 +36,4 @@ Older rows: `.sdlc/log.md`.
 | 2026-10-28 | Build | sdlc:builder + sdlc:reviewer (sonnet; opus for T-027, T-032) | T-023 to T-032 all passed review (T-024, T-029 on the second review; no Opus rebuilds), commits c42116a..62ab9b1. Orchestrator check: lint, catalog, full pytest pass. Nits only (brittle source-text asserts, duplicated chip CSS, unremoved mktemp file) |
 | 2026-10-28 | QA | sdlc:qa (inherit) ×5 | 4/5 pass (box rule + Clear, redirect/context/chips/unseeded, results regressions, R-062 smoke check). R-083 fails on layout: box 81 px off-centre at 1280, submit outside the box, grey filled field, no 16 px gutters at 390; 9-32% pixel diff vs approved PNGs. Behaviour, copy and focus pass. Sent back as T-033 (opus: unknown cascade cause, only fix round) |
 | 2026-10-28 | Build | sdlc:builder + sdlc:reviewer (opus) | T-033 passed first review, commit a80f5c6 (landing rules scoped under `.ask`, ASSET_VERSION 20261028f). Lint, catalog, full pytest pass. Nit: `.ask input[type=text]` repeats `.form-pane input[type=text]` (kept scoped on purpose) |
+| 2026-10-28 | QA | sdlc:qa (inherit) ×2 | Re-run after T-033: R-083 passes (box 754 px centred, submit inset, 16 px gutters and 344 px box at 390; pixel diff now 1.2-1.6% at 1280, 2.8-3.9% at 390, suggest 5-9%); results regressions 0.00% diff. All 11 tasks pass |

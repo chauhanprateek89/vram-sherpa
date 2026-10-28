@@ -1,0 +1,25 @@
+1280 filters open: False label: Filters (2)
+ no-filter label: Filters (0)
+ after click open: True False
+ first card bottom 1287.984375
+ options ['NVIDIA GeForce RTX 4060 (8.0 GB)', 'NVIDIA GeForce RTX 4060 Laptop GPU (8.0 GB)', 'NVIDIA GeForce RTX 4060 Ti (8GB) (8.0 GB)', 'NVIDIA GeForce RTX 4060 Ti (16GB) (16.0 GB)'] roles combobox true listbox option h 48
+ esc expanded false 4060
+ picked NVIDIA GeForce RTX 4060 (8.0 GB) vram: '' gpu_id gpu_nvidia_rtx_4060_8gb
+ alert before 1
+ alert after 0 http://localhost:8000/results?gpu_id=&gpu_search=&vram_gb=24&context_tokens=2048&min_params_b=&max_params_b=
+ clear -> http://localhost:8000/
+ console errs []
+390 filters open: False label: Filters (2)
+ no-filter label: Filters (0)
+ after click open: True False
+ first card bottom 1995.15625
+ options ['NVIDIA GeForce RTX 4060 (8.0 GB)', 'NVIDIA GeForce RTX 4060 Laptop GPU (8.0 GB)', 'NVIDIA GeForce RTX 4060 Ti (8GB) (8.0 GB)', 'NVIDIA GeForce RTX 4060 Ti (16GB) (16.0 GB)'] roles combobox true listbox option h 48
+ esc expanded false 4060
+ picked NVIDIA GeForce RTX 4060 (8.0 GB) vram: '' gpu_id gpu_nvidia_rtx_4060_8gb
+ alert before 1
+ alert after 0 http://localhost:8000/results?gpu_id=&gpu_search=&vram_gb=24&context_tokens=2048&min_params_b=&max_params_b=
+ clear -> http://localhost:8000/
+ console errs []
+nojs cards 71 True
+nojs filters open True
+http://localhost:8000/results?gpu_id=&gpu_search=&vram_gb=12&context_tokens=4096&min_params_b=&max_params_b=
