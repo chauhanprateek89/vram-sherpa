@@ -19,7 +19,7 @@ from sqlalchemy.orm import Session
 from vramsherpa.config import Settings, get_settings
 from vramsherpa.database import configure_engine, create_db_and_tables, get_session
 from vramsherpa.estimation import FitBadge, estimate_breakdown, estimate_variant, reserve_gb
-from vramsherpa.gpu_input import exact_gpu_match, gpu_option_label, normalize_for_match
+from vramsherpa.gpu_input import decide_box, gpu_option_label, normalize_for_match
 from vramsherpa.models import GPU, CatalogMeta, Model, Variant
 
 CONTEXT_OPTIONS = (2048, 4096, 8192)
@@ -274,9 +274,12 @@ def _resolve_available_vram(
 
     if normalized_gpu_search:
         needle = normalize_for_match(normalized_gpu_search)
-        matched_gpu = exact_gpu_match(normalized_gpu_search, gpus)
-        if matched_gpu is not None:
-            return float(matched_gpu.vram_gb), matched_gpu.id, gpus, None
+        decision = decide_box(normalized_gpu_search, gpus)
+        if decision.gpu is not None:
+            return float(decision.gpu.vram_gb), decision.gpu.id, gpus, None
+        if decision.kind == "vram" and decision.vram_text is not None:
+            box_vram = float(decision.vram_text)
+            return (box_vram if box_vram > 0 else 8.0), None, gpus, None
 
         partial_matches = [
             gpu
@@ -969,6 +972,18 @@ def _results_page_context(
     recommended_only: bool,
 ) -> dict:
     form_errors: list[str] = []
+    box_vram: str | None = None
+    if (
+        not (isinstance(gpu_id, str) and gpu_id.strip())
+        and not (isinstance(vram_gb, str) and vram_gb.strip())
+        and isinstance(gpu_search, str)
+        and gpu_search.strip()
+    ):
+        decision = decide_box(gpu_search, _load_gpus(session))
+        if decision.kind == "vram":
+            box_vram = decision.vram_text
+            vram_gb = box_vram
+            gpu_search = None
     parsed_vram_result = _safe_parse_optional_float(
         vram_gb, field_name="vram_gb", min_value=0.000001
     )
@@ -1016,7 +1031,7 @@ def _results_page_context(
         max_params_b=parsed_max_params_b,
         recommended_only=recommended_only,
     )
-    return _results_context(
+    context = _results_context(
         request,
         session,
         available_vram_gb=available_vram_gb,
@@ -1038,6 +1053,8 @@ def _results_page_context(
         min_params_b_input=min_params_b if isinstance(min_params_b, str) else None,
         max_params_b_input=max_params_b if isinstance(max_params_b, str) else None,
     )
+    context["box_vram"] = box_vram
+    return context
 
 
 def home(

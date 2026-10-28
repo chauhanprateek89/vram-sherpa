@@ -5,6 +5,7 @@
 <section
   class="answer pane{% if not top_picks %} no-picks{% endif %}"
   id="summary-banner"
+  {% if box_vram %}data-box-vram="{{ box_vram }}"{% endif %}
   data-vram-invalid="{{ 'true' if vram_error else 'false' }}"
   aria-labelledby="ans-h"
 >
