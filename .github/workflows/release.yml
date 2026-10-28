@@ -65,15 +65,16 @@ jobs:
         shell: bash
         run: echo "name=ghcr.io/$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_OUTPUT"
 
+      # Push the candidate under its sha- tag only. The version tag and :latest go on
+      # after the smoke test passes, so watchtower never sees an untested image.
       - name: Build and push
+        id: build
         uses: docker/build-push-action@v6
         with:
           context: .
           push: true
           tags: |
-            ${{ steps.image.outputs.name }}:${{ steps.version.outputs.version }}
             ${{ steps.image.outputs.name }}:${{ steps.version.outputs.sha_tag }}
-            ${{ steps.image.outputs.name }}:latest
           labels: |
             org.opencontainers.image.revision=${{ github.sha }}
             org.opencontainers.image.version=${{ steps.version.outputs.version }}
@@ -100,7 +101,7 @@ jobs:
           docker run -d --name smoke-web --network smoke-net -p 8000:8000 \
             -e DATABASE_URL="postgresql+psycopg://vramsherpa:vramsherpa@db:5432/vramsherpa" \
             -e APP_ENV=prod -e ALLOWED_HOSTS=localhost,127.0.0.1 \
-            "${{ steps.image.outputs.name }}:${{ steps.version.outputs.version }}" \
+            "${{ steps.image.outputs.name }}@${{ steps.build.outputs.digest }}" \
             sh -c "python -m vramsherpa.seed && exec uvicorn vramsherpa.main:create_app --factory --host 0.0.0.0 --port 8000 --proxy-headers --forwarded-allow-ips=*"
 
           ok=0
@@ -178,6 +179,17 @@ jobs:
           fi
           echo "Smoke test passed."
 
+      # Registry-side re-tag of the digest that just passed: no rebuild, so :latest
+      # is exactly the bytes that were tested. Runs before the git tag, so a failure
+      # here leaves no git tag and the release can be run again.
+      - name: Tag the tested image as release and latest
+        shell: bash
+        run: |
+          docker buildx imagetools create \
+            --tag "${{ steps.image.outputs.name }}:${{ steps.version.outputs.version }}" \
+            --tag "${{ steps.image.outputs.name }}:latest" \
+            "${{ steps.image.outputs.name }}@${{ steps.build.outputs.digest }}"
+
       - name: Tag and publish release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -202,6 +214,8 @@ jobs:
             echo "|---|---|"
             echo "| Image | \`${{ steps.image.outputs.name }}:${{ steps.version.outputs.version }}\` |"
             echo "| Digest tag | \`${{ steps.version.outputs.sha_tag }}\` |"
+            echo "| Digest | \`${{ steps.build.outputs.digest }}\` |"
+            echo "| Tagged after smoke test | \`${{ steps.version.outputs.version }}\`, \`latest\` |"
             echo "| Commit | ${{ github.sha }} |"
             echo
             echo "The homelab watcher pulls \`:latest\` and redeploys within ~5 minutes."

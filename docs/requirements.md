@@ -14,7 +14,7 @@ EARS forms: `THE SYSTEM SHALL …` (always) · `WHEN <trigger>, THE SYSTEM SHALL
 
 Recorded at onboarding from `main` at 96572b1 (2026-10-25). Seeded catalog at that commit: version `2026-10-23`, 35 GPUs, 95 models (81 auto-discovered, 24 gated), 380 variants, 7 families. Paths are relative to the repo root; `main.py` means `src/vramsherpa/main.py`.
 
-R-067 to R-079 (UI/UX overhaul, Full track) were added on 2026-10-25 from the user's intake answers. The user's Gate 1 answers to their open questions (Q-1 to Q-11) are folded into them, and R-080 was added from Q-9; see "Resolved at Gate 1" at the end of this file. At Gate 2 round 1 the R-075 worked example was changed to a catalog model and R-081 was added. The round 1 redo answers (direction "D layout + E glass", Q-12, Q-13 and the old-link redirect) are folded into R-067, R-068, R-075, R-081 and R-032; see "Open questions" and `docs/decisions.md` (rows dated 2026-10-25, Gate "2 (round 1 redo)"). The Gate 2 approval (the 24 approved screens and states, the copy table, filters closed at both widths, the 900 px allowance for message states and the styled GPU suggestion list) is folded into R-067, R-068, R-069, R-071 and R-078; see `docs/decisions.md` (rows dated 2026-10-25, Gate "2").
+R-082 (release ordering, Quick track) was added on 2026-10-27. R-067 to R-079 (UI/UX overhaul, Full track) were added on 2026-10-25 from the user's intake answers. The user's Gate 1 answers to their open questions (Q-1 to Q-11) are folded into them, and R-080 was added from Q-9; see "Resolved at Gate 1" at the end of this file. At Gate 2 round 1 the R-075 worked example was changed to a catalog model and R-081 was added. The round 1 redo answers (direction "D layout + E glass", Q-12, Q-13 and the old-link redirect) are folded into R-067, R-068, R-075, R-081 and R-032; see "Open questions" and `docs/decisions.md` (rows dated 2026-10-25, Gate "2 (round 1 redo)"). The Gate 2 approval (the 24 approved screens and states, the copy table, filters closed at both widths, the 900 px allowance for message states and the styled GPU suggestion list) is folded into R-067, R-068, R-069, R-071 and R-078; see `docs/decisions.md` (rows dated 2026-10-25, Gate "2").
 
 ## Hardware and context input
 
@@ -553,14 +553,14 @@ Status: as-built · Track: onboard · UI: no · Source: `.github/workflows/relea
 - WHEN a commit lands on `main` or the release is dispatched manually, THE SYSTEM SHALL run the CI checks of R-060 and release only if they pass.
 - THE SYSTEM SHALL name the release `v<major>.<minor>.<commit count on main>`, taking major and minor from `version` in `pyproject.toml`.
 - IF that tag already exists, THEN THE SYSTEM SHALL fail the release.
-- THE SYSTEM SHALL push the image to `ghcr.io/chauhanprateek89/vram-sherpa` with three tags: the version, `sha-<short commit>`, and `latest`.
+- THE SYSTEM SHALL push the image to `ghcr.io/chauhanprateek89/vram-sherpa` with three tags: the version, `sha-<short commit>`, and `latest`. R-082 (planned) sets the order: `sha-<short commit>` before the smoke test, the version and `latest` only after it passes.
 - THE SYSTEM SHALL run at most one release at a time and SHALL NOT cancel a release in progress.
 
 ### R-062 Release smoke test
 
 Status: as-built · Track: onboard · UI: no · Source: `release.yml` step "Smoke test the published image"
 
-- WHEN the image is pushed, THE SYSTEM SHALL start it with `APP_ENV=prod` and `ALLOWED_HOSTS=localhost,127.0.0.1` against a fresh Postgres 16.
+- WHEN the image is pushed (under `sha-<short commit>` only, once R-082 is built), THE SYSTEM SHALL start it with `APP_ENV=prod` and `ALLOWED_HOSTS=localhost,127.0.0.1` against a fresh Postgres 16.
 - IF `/healthz` does not return success within 30 attempts 2 s apart, THEN THE SYSTEM SHALL fail the release.
 - IF the container log lacks `Seeded catalog_version=`, THEN THE SYSTEM SHALL fail the release.
 - IF `GET /?vram_gb=24&context_tokens=4096` does not return success, THEN THE SYSTEM SHALL fail the release.
@@ -980,6 +980,27 @@ Old-form addresses:
 - WHEN a request to `/results/partials/content`, `/results/partials/summary` or `/results/partials/list` carries `HX-Request: true`, THE SYSTEM SHALL answer it as it does today: HTTP 200 with the same fragment, and no redirect.
 - THE SYSTEM SHALL NOT redirect requests to `/results/partials/summary` or `/results/partials/list`, with or without `HX-Request: true`.
 
+## Release ordering fix (Quick track)
+
+### R-082 `latest` and the version tag move only after the smoke test passes
+
+Status: planned · Track: quick · UI: no · Source: `.github/workflows/release.yml` (job `release`); "Contradictions resolved at Gate 0" (the `latest` row); `.sdlc/STATUS.md` intake 2026-10-27
+
+Added 2026-10-27 on branch `sdlc/quick-latest-after-smoke`. Today the step "Build and push" pushes `v<major>.<minor>.<count>`, `sha-<short commit>` and `latest` before the step "Smoke test the published image" runs. A failing smoke test blocks the git tag and the GitHub Release, but `latest` has already moved, and watchtower deploys it within 5 minutes (rule 4, R-063). This requirement changes the order of R-061's tag bullet and R-062's first bullet. The three tags, the smoke checks and everything else in R-061 and R-062 stay as they are.
+
+Version tag decision: the version image tag waits for the smoke test too. `docs/RELEASE_AND_DEPLOY.md` calls it "Immutable release. Pin this to roll back", and R-064 pins it. A version tag on an image that failed the smoke test, with no git tag and no GitHub Release behind it, would be a rollback trap. With this change the version image tag, the git tag and the GitHub Release all mean "passed the smoke test". The `sha-<short commit>` tag still goes up before the smoke test. It names a commit, not a release, nothing deploys from it, and it gives the smoke test a pullable candidate.
+
+- WHEN the release builds the image, THE SYSTEM SHALL push it to GHCR under the `sha-<short commit>` tag only.
+- THE SYSTEM SHALL NOT push, create or move the `latest` tag or the `v<major>.<minor>.<count>` image tag in any step of the `release` job that runs before the smoke test step.
+- THE SYSTEM SHALL run the smoke test against the image by the digest the build step pushed (`ghcr.io/chauhanprateek89/vram-sherpa@sha256:…`), so the image tested is the image later tagged.
+- WHEN the smoke test step succeeds, THE SYSTEM SHALL add the `v<major>.<minor>.<count>` and `latest` tags to that same digest in GHCR without rebuilding. It SHALL do so in one step that runs after the smoke test step and before the step that pushes the git tag and creates the GitHub Release.
+- IF the smoke test step fails, THEN THE SYSTEM SHALL push no `latest` tag and no version image tag, so `latest` keeps pointing at the previous release's image and watchtower redeploys nothing. The `sha-<short commit>` tag stays in GHCR as the failed candidate.
+- IF adding the `latest` and version tags fails, THEN THE SYSTEM SHALL push no git tag and create no GitHub Release, so the release can be run again for the same commit.
+- THE SYSTEM SHALL NOT set `continue-on-error` on the smoke test step or on the tagging step. The tagging step SHALL NOT have an `if:` condition that lets it run after an earlier step failed.
+- WHEN a release succeeds, THE SYSTEM SHALL leave the `v<major>.<minor>.<count>`, `sha-<short commit>` and `latest` tags resolving to the same manifest digest.
+- THE SYSTEM SHALL keep every smoke test check unchanged: `/healthz`, the `Seeded catalog_version=` log line, the page render, https asset URLs behind `X-Forwarded-Proto: https`, the 400 for an unknown Host, `Cache-Control` on `GET /` and the `/static/` URL fetches (rule 18). The web command it runs SHALL stay identical to `docker-compose.prod.yml` (rule 20).
+- THE SYSTEM SHALL add no new GitHub Action, runner, registry or paid service. Re-tagging uses `docker buildx imagetools create` from the buildx that `docker/setup-buildx-action` already installs (rule 2).
+
 ## Notes
 
 - Not recorded as requirements: branch `feat/tokens-per-second` (ee788b3) is unmerged work in progress. PR #19 lists three deliberately deferred items: Top Picks copy, raw Hugging Face names on discovered models, and tokens per second. At Gate 1 the Top Picks copy came into scope (R-069); the other two stay out (Q-10; tokens per second was dropped at intake).
@@ -1005,7 +1026,7 @@ Other docs against the code:
 | What the file says | What the code does |
 | --- | --- |
 | `docs/RELEASE_AND_DEPLOY.md`: "`PUBLIC_HOSTNAME` must match the DNS name exactly. Because `APP_ENV=prod`, any other `Host` is rejected with 400"; the smoke test checks "`APP_ENV=prod` rejects an unknown `Host`". | The app never reads `PUBLIC_HOSTNAME`, and `APP_ENV` does not affect host checks. Only `ALLOWED_HOSTS` does (`src/vramsherpa/config.py`; `main.py` `host_guard`). With the documented `.env` (`ALLOWED_HOSTS=localhost,127.0.0.1,web`), requests for the public hostname would get HTTP 400. |
-| `docs/RELEASE_AND_DEPLOY.md`: "A broken image therefore never gets tagged or released, so `latest` never moves to it." | "Build and push" pushes the `latest` tag before the smoke test runs (`.github/workflows/release.yml`). A failing smoke test blocks the git tag and the GitHub Release, but `:latest` has already moved, and watchtower can pull it. |
+| `docs/RELEASE_AND_DEPLOY.md`: "A broken image therefore never gets tagged or released, so `latest` never moves to it." | "Build and push" pushes the `latest` tag before the smoke test runs (`.github/workflows/release.yml`). A failing smoke test blocks the git tag and the GitHub Release, but `:latest` has already moved, and watchtower can pull it. R-082 (2026-10-27, Quick track) plans the fix. |
 | `docs/RELEASE_AND_DEPLOY.md`: the smoke test checks that "the results page renders". | It requests `/?vram_gb=24&context_tokens=4096`. `/` ignores query parameters, so the test renders the home page at the 8 GB default and never calls `/results` (`release.yml`; `main.py` `home`). |
 | `docs/constitution.md` rule 9: HTML responses send a `Cache-Control` header. | No route or middleware sets `Cache-Control` (no match in `src/`). Only the CSS and JS URLs carry a version query (R-041). R-080 plans the fix (Gate 1, Q-9). |
 | `docs/constitution.md` rule 3: app ports bind to `127.0.0.1`. | Production complies (`127.0.0.1:8000`). The local `docker-compose.yml` publishes `8000:8000` on all interfaces. |

@@ -15,7 +15,7 @@
   },
   "urls": {
     "local": "http://localhost:8000",
-    "live": "",
+    "live": "https://vramsherpa.theoverworkedgamer.com",
     "health": "http://localhost:8000/healthz"
   },
   "release": {
