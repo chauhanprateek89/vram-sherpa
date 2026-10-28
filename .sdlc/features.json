@@ -1,1 +1,416 @@
-{"version": 1, "tasks": []}
+{
+  "version": 1,
+  "tasks": [
+    {
+      "id": "T-023",
+      "title": "gpu_input.py: the pure GPU-or-number rule, with label and match helpers moved from main.py",
+      "requirements": [
+        "R-083",
+        "R-003"
+      ],
+      "track": "full",
+      "files": [
+        "src/vramsherpa/gpu_input.py",
+        "src/vramsherpa/main.py",
+        "tests/test_gpu_input.py"
+      ],
+      "acceptance": [
+        "THE SYSTEM SHALL provide `src/vramsherpa/gpu_input.py`, importing nothing from `main.py` and needing no session, with `gpu_option_label(gpu)`, `normalize_for_match(text)`, `exact_gpu_match(text, gpus)`, `parse_box_number(text)` and `decide_box(text, gpus)` returning a frozen dataclass `BoxDecision(kind, gpu, vram_text)` whose `kind` is one of `blank`, `gpu`, `vram`, `search` (ADR-0011 point 1).",
+        "THE SYSTEM SHALL move `_gpu_option_label` and `_normalize_for_match` out of `main.py`; `main.py` imports the new names so there is one definition of a GPU label and of \"case-insensitive, whitespace collapsed\" (ADR-0011).",
+        "WHEN `exact_gpu_match` is given text, THE SYSTEM SHALL return the GPU when exactly one GPU's full label, `<vendor> <name>` or `<name>` equals the normalised text, else `None`; `_resolve_available_vram` SHALL call it in place of its inline exact-match loop (R-003).",
+        "WHEN `parse_box_number` is given text, THE SYSTEM SHALL strip leading and trailing whitespace and return the numeric part as typed when the whole text matches `re.fullmatch(r\"([0-9]+(?:\\.[0-9]+)?)(?:\\s*gb)?\", text, re.IGNORECASE)`, else `None`: `12`, `12 GB`, `12gb`, `12.5 GB` (`12.5`), `24GB`, `0`, `0.0` (`0.0`), `  12  ` and `12  GB` are box numbers; `12 G`, `12 GiB`, `12,5`, `.5`, `-4`, `12 GB VRAM`, `RTX 3060 12GB`, `１２` (full-width digits), `` and `GB` are not (R-083 \"Box number\", ADR-0011).",
+        "WHEN `decide_box` runs, THE SYSTEM SHALL decide in this order: blank or whitespace-only text is `blank`; an exact GPU is `gpu` (an exact label wins even if it would also parse as a number); a box number is `vram` with `vram_text` set; anything else is `search` (R-083 \"How the box decides\", Q-14).",
+        "THE SYSTEM SHALL provide `tests/test_gpu_input.py` covering every example above with plain stub objects that have `vendor`, `name` and `vram_gb` (no database).",
+        "THE SYSTEM SHALL NOT change any page's behaviour in this task: every existing test passes unchanged, and `/results?gpu_search=8GB` still behaves as before until T-024.",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": null,
+      "model": "sonnet",
+      "dependsOn": [],
+      "notes": "UI: no. Pure refactor plus a new unit-tested module; about 60 lines. Use `[0-9]`, not `\\d` (Python's `\\d` matches other scripts' digits). No file under `src/vramsherpa/static/` changes, so no `ASSET_VERSION` bump (rule 21). `ESTIMATION_POLICY_VERSION` unchanged (rule 16).",
+      "review": null,
+      "passes": false
+    },
+    {
+      "id": "T-024",
+      "title": "/results reads a box number in gpu_search as VRAM, and the summary carries data-box-vram",
+      "requirements": [
+        "R-003",
+        "R-083",
+        "R-005",
+        "R-008",
+        "R-078"
+      ],
+      "track": "full",
+      "files": [
+        "src/vramsherpa/main.py",
+        "src/vramsherpa/templates/results_summary.html",
+        "tests/test_r083_box_rule.py"
+      ],
+      "acceptance": [
+        "WHEN `_results_page_context` runs with `gpu_id` and `vram_gb` each absent or blank and `gpu_search` non-blank, THE SYSTEM SHALL call `decide_box` once; for `vram` it SHALL set `vram_gb` to `vram_text` and `gpu_search` to `None` before `vram_gb` is parsed, so every results path (full page, `/results/partials/content`, `summary`, `list`) renders what `/results?vram_gb=<n>` renders (ADR-0011 point 2).",
+        "WHEN `/results?gpu_search=12%20GB` loads, THE SYSTEM SHALL show `Manual VRAM (12 GB)`, `value=\"12\"` on `#vram_gb`, an empty `#gpu_search`, no GPU search message and no default note (R-003).",
+        "WHEN `gpu_search` is `12.5gb`, `8GB` or `24`, THE SYSTEM SHALL show `Manual VRAM (12.5 GB)`, `Manual VRAM (8 GB)` (not `NVIDIA GeForce RTX 4060 Ti (8GB) (8.0 GB)`) and `Manual VRAM (24 GB)` (no \"matched multiple entries\") respectively (R-003, Q-14).",
+        "WHEN `gpu_search` is `0`, `0 GB` or `0.0`, THE SYSTEM SHALL answer 200 with the same R-008 inline error, 8 GB and default note that `/results?vram_gb=0` shows, and no GPU search message (R-003, Q-15).",
+        "WHEN `gpu_search` is `nvidia geforce rtx 4090 (24.0 gb)` or `GeForce RTX 4090`, THE SYSTEM SHALL show `NVIDIA GeForce RTX 4090 (24.0 GB)` as the hardware (R-083).",
+        "WHEN `gpu_search` is `RTX`, `RTX 3060 12GB` or `Quadro XYZ`, THE SYSTEM SHALL show R-003's messages word for word: the \"matched multiple entries\" message at 8 GB, `GPU \"RTX 3060 12GB\" was not found. Using 12 GB inferred from your input.`, and `GPU \"Quadro XYZ\" was not found. Select a listed GPU or enter VRAM manually.` at 8 GB (R-003, R-078).",
+        "WHEN a box number reaches `_resolve_available_vram`'s search branch another way (for example `/results?gpu_id=no_such_gpu&gpu_search=12` or `/results?vram_gb=abc&gpu_search=12`), THE SYSTEM SHALL use it as available VRAM with no GPU search message, and for a box number of 0 use 8 GB with no GPU search message; contains-match and the GB hint SHALL run only for `search` text (ADR-0011 point 3).",
+        "WHEN `vram_gb` is non-blank, THE SYSTEM SHALL keep today's precedence: `/results?vram_gb=24&gpu_search=12` computes for 24 GB (ADR-0011 consequences, Gate 2).",
+        "WHEN the hardware came from a box number (including 0), THE SYSTEM SHALL render `data-box-vram=\"<vram_text>\"` on `#summary-banner`, and SHALL NOT render that attribute otherwise; the same holds for `/results/partials/content` with `HX-Request: true` and for `/results/partials/summary` (ADR-0011 point 4).",
+        "THE SYSTEM SHALL make the filter-chip, empty-state and hardware-query links of a box-number page carry `vram_gb=<n>` and no `gpu_search` (ADR-0011 point 2).",
+        "THE SYSTEM SHALL provide `tests/test_r083_box_rule.py` with each query above on `/results` and through `/results/partials/content` with `HX-Request: true`, using the real `data/` seeds (catalog `2026-10-23`).",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": [
+        "docs/design/mockups/final-results-from-landing.html",
+        "docs/design/final/results-from-landing-*.png",
+        "docs/design/mockups/final-results-manual-vram.html",
+        "docs/design/final/results-manual-vram-*.png",
+        "docs/design/mockups/final-results-errors.html",
+        "docs/design/final/results-errors-*.png"
+      ],
+      "model": "sonnet",
+      "dependsOn": [
+        "T-023"
+      ],
+      "notes": "UI: yes only through what `/results` shows; no layout change, so the existing mockups apply (`results-from-landing` for `12 GB`, `results-errors` for `0`). Rewrite the request once in `_results_page_context`; do not special-case the label, VRAM field or chips (ADR-0011 alternatives). Pass a context flag such as `box_vram` to the template. No static change, so no `ASSET_VERSION` bump. `ESTIMATION_POLICY_VERSION` unchanged (rule 16).",
+      "review": null,
+      "passes": false
+    },
+    {
+      "id": "T-025",
+      "title": "app.js copies the server's box-number decision into the results form after an in-place refresh",
+      "requirements": [
+        "R-003",
+        "R-083",
+        "R-071"
+      ],
+      "track": "full",
+      "files": [
+        "src/vramsherpa/static/js/app.js",
+        "src/vramsherpa/main.py",
+        "tests/test_r083_box_rule.py"
+      ],
+      "acceptance": [
+        "WHEN an htmx swap settles (`htmx:afterSettle`) and `#summary-banner` carries `data-box-vram`, THE SYSTEM SHALL write that value into `#vram_gb`, empty `#gpu_search` and `#gpu_id`, so the form matches what `/results?vram_gb=<n>` shows (ADR-0011 point 4, R-003).",
+        "WHEN `#summary-banner` has no `data-box-vram`, or `#vram_gb` is absent, THE SYSTEM SHALL change no field.",
+        "THE SYSTEM SHALL register the handler beside `syncVramInvalid`/`initVramInvalid`, and run it after `syncVramInvalid` so a box number of 0 leaves `#vram_gb` marked `aria-invalid=\"true\"` (R-008, R-071).",
+        "THE SYSTEM SHALL pass `node --check` on `app.js` (existing test in `tests/test_app.py`), and a pytest SHALL assert that `app.js` reads `boxVram` (or `data-box-vram`) and listens for `htmx:afterSettle`.",
+        "WHEN this task changes any file under `src/vramsherpa/static/`, THE SYSTEM SHALL bump `ASSET_VERSION` in `src/vramsherpa/main.py` from its current value to a later value no earlier task on this branch used (build date plus next letter, for example `20261028a`, then `20261028b`); the value SHALL differ from `20261027e` (constitution rule 21, R-083 \"Assets\").",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": [
+        "docs/design/mockups/final-results-from-landing.html",
+        "docs/design/final/results-from-landing-*.png"
+      ],
+      "model": "sonnet",
+      "dependsOn": [
+        "T-024"
+      ],
+      "notes": "UI: yes (results form after typing `12` in `Search GPU` and pressing `Check compatibility`). QA checks in a real browser: type `12` in `Search GPU` on `/results?vram_gb=24&context_tokens=4096`, empty `Available VRAM (GB)`, press `Check compatibility`; the field shows 12 and `Search GPU` is empty. The pushed URL keeps the raw `gpu_search=12`, which reloads to the same page (ADR-0011).",
+      "review": null,
+      "passes": false
+    },
+    {
+      "id": "T-026",
+      "title": "Point the results and form tests at /results before / becomes the landing page",
+      "requirements": [
+        "R-013",
+        "R-005",
+        "R-069",
+        "R-070",
+        "R-071",
+        "R-078"
+      ],
+      "track": "full",
+      "files": [
+        "tests/test_app.py",
+        "tests/test_ui_markup.py",
+        "tests/test_r069_acceptance.py",
+        "tests/test_r070_acceptance.py",
+        "tests/test_r071_acceptance.py",
+        "tests/test_history.py",
+        "tests/test_r078_acceptance.py"
+      ],
+      "acceptance": [
+        "WHEN a test reads the input form, filters, filter count, summary, answer tile, Top Picks, cards, example chips, `Clear`, `Available VRAM (GB)`, context presets, `Apply filters` or the unseeded results state from `/`, THE SYSTEM SHALL make it read the same thing from `/results?vram_gb=24&context_tokens=4096` (or the state's own `/results?…` query), with the same assertions. Known places: `test_app.py` `test_home_returns_200` (default note, `Apply filters`, `<noscript>`); `test_ui_markup.py` `PAGES`, the parametrised `\"/\"` cases and `_form(\"/\", …)`, `test_unseeded_state_is_a_status_in_the_results_pane`, `test_default_8gb_note_sits_in_the_tile_under_the_context_line` and the `aria-invalid` check; `test_r069_acceptance.py` `STATES`; `test_r070_acceptance.py` `test_home_number_fields_ask_for_a_numeric_keyboard`; `test_r071_acceptance.py` `FORM_PAGES`, `test_form_keeps_both_input_paths_and_the_presets`, `test_styled_list_adds_no_library_and_no_route`; `test_history.py` `test_search_form_interface_is_unchanged` (HLD test strategy).",
+        "WHEN a test asserts the default 8 GB note, THE SYSTEM SHALL make it request `/results?gpu_id=no_such_gpu` (full page) or `/results` with `HX-Request: true`, never a bare full-page `/results`, which T-027 redirects; this includes `test_r078_acceptance.py` `test_gpu_search_messages_word_for_word` (R-005, ADR-0010 consequences).",
+        "THE SYSTEM SHALL keep `test_home_returns_200` asserting only what stays true on `/` after R-083 (200, `VRAM Sherpa`, `Catalog version:`, `Estimation policy: v0.1`), with its results assertions moved to a `/results` test, not dropped.",
+        "THE SYSTEM SHALL leave unchanged the tests that read only the header, footer, assets, sprite, fonts or cache headers on `/` (`test_brand.py`, `test_r072_acceptance.py`, `test_r076_acceptance.py`, `test_r079_asset_links.py`, `test_styles.py`, `test_cache_control.py`).",
+        "THE SYSTEM SHALL NOT change any file under `src/`, and SHALL NOT reduce the number of collected tests or delete an assertion without an equivalent one on the new URL (constitution rule 18).",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": null,
+      "model": "sonnet",
+      "dependsOn": [],
+      "notes": "UI: no. Test-only preparation, so T-027 and T-028 each stay one reviewable commit. Everything passes before and after because `/results?vram_gb=24&context_tokens=4096` renders the same `index.html` today. The reviewer should diff assertion by assertion: rule 18 lets CI checks move, never weaken.",
+      "review": null,
+      "passes": false
+    },
+    {
+      "id": "T-027",
+      "title": "A full page load of /results with no hardware gets a relative 302 to /",
+      "requirements": [
+        "R-013",
+        "R-005",
+        "R-083",
+        "R-080",
+        "R-081"
+      ],
+      "track": "full",
+      "files": [
+        "src/vramsherpa/main.py",
+        "tests/test_r083_redirect.py"
+      ],
+      "acceptance": [
+        "WHEN a request to `/results` has `HX-Request` other than exactly `true` (missing, `false`, anything else) and none of `gpu_id`, `gpu_search`, `vram_gb` contains a non-whitespace character, THE SYSTEM SHALL answer `302` with `Location: /` exactly, `Cache-Control: no-cache`, a `Vary` naming both `HX-Request` and `HX-History-Restore-Request`, and no body, before any database query, ignoring every other parameter (R-013, ADR-0010 points 1 to 3).",
+        "THE SYSTEM SHALL check this in the first statement of the `results` handler through one helper (for example `_has_hardware_input`), not in a middleware, so `host_guard` runs first; the `Location` SHALL be the literal `/`, never built from `request.url` or `Host`, and the status SHALL be passed explicitly and never be 301, 307 or 308 (rule 8, ADR-0010).",
+        "WHEN tested with `follow_redirects=False`, THE SYSTEM SHALL redirect each of `/results`, `/results?context_tokens=4096&family=qwen`, `/results?gpu_search=%20%20&vram_gb=` and `/results?gpu_id=&gpu_search=&vram_gb=&context_tokens=2048`, with no header and with `HX-Request: false` (ADR-0010 guards).",
+        "WHEN `/results` carries `HX-Request: true`, THE SYSTEM SHALL answer 200 with the fragment and the default note; with `HX-Request: true` and `HX-History-Restore-Request: true` it SHALL answer the full page (R-005, ADR-0008).",
+        "WHEN `/results?vram_gb=abc`, `/results?vram_gb=0` or `/results?gpu_id=no_such_gpu` loads, THE SYSTEM SHALL answer 200 with results at 8 GB, and the R-008 error for the first two (Q-18).",
+        "WHEN `/results?context_tokens=abc` loads with no hardware, THE SYSTEM SHALL still answer R-008's 422 (accepted at Gate 2, 2026-10-28).",
+        "WHEN `allowed_hosts` is not `*` and `/results` is requested with `Host: evil.example.com`, THE SYSTEM SHALL answer the 400 JSON with no `Location` (rule 8, rule 18).",
+        "WHEN `/results/partials/content` is opened without `HX-Request` and with no query, THE SYSTEM SHALL still answer `302 Location: /results` byte for byte (R-081), and following both hops SHALL end on `/` with 200.",
+        "THE SYSTEM SHALL keep R-080's nine check URLs passing in `tests/test_cache_control.py` unchanged.",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": null,
+      "model": "opus",
+      "dependsOn": [
+        "T-026"
+      ],
+      "notes": "UI: no (shows an existing page). Opus: routing with security implications (rule 8 relative `Location`, host guard order, permanent-redirect caching). Mirror the ADR-0008 redirect in `results_partial_content` (`RedirectResponse(..., status_code=302, headers={\"Cache-Control\": \"no-cache\", \"Vary\": \", \".join(HTML_VARY_HEADERS)})`). Until T-028 lands, the redirect target `/` still renders today's home page; the tests here check the redirect itself, not the landing markup. No static change, no `ASSET_VERSION` bump.",
+      "review": null,
+      "passes": false
+    },
+    {
+      "id": "T-028",
+      "title": "/ renders landing.html: the box, submit control, chip links and unseeded notice, with no results",
+      "requirements": [
+        "R-083",
+        "R-001",
+        "R-002",
+        "R-005",
+        "R-006",
+        "R-007",
+        "R-013",
+        "R-026",
+        "R-067",
+        "R-071",
+        "R-076",
+        "R-078"
+      ],
+      "track": "full",
+      "files": [
+        "src/vramsherpa/main.py",
+        "src/vramsherpa/templates/landing.html",
+        "src/vramsherpa/templates/gpu_options.html",
+        "src/vramsherpa/templates/index.html",
+        "tests/test_r083_landing.py",
+        "tests/test_app.py"
+      ],
+      "acceptance": [
+        "WHEN a user opens `/`, THE SYSTEM SHALL answer 200 with `landing.html` (extends `base.html`, `main_class` `landing`), page title `VRAM Sherpa`, exactly one `h1` reading `Which local LLMs fit your GPU?`, the help line `Type a GPU name, or enter its VRAM, like 12 GB.`, and the header and footer of every page (R-083, Gate 2 copy).",
+        "THE SYSTEM SHALL render `<form id=\"landing-form\" method=\"get\" action=\"/results\">` with no `hx-` attribute anywhere in `<main>`, holding a `.sr-only` `<label for=\"gpu_search\">Search GPU</label>` and, inside `.combo`, `<input id=\"gpu_search\" name=\"gpu_search\" type=\"text\" list=\"gpu-options\" autocomplete=\"off\" autofocus data-submit-on-choose placeholder=\"Your GPU, or its VRAM\">`, with no `role=\"combobox\"` in the server markup (ADR-0009 point 2, ADR-0012 points 1 and 6).",
+        "THE SYSTEM SHALL render the datalist from a new include `templates/gpu_options.html`, used by both `landing.html` and `index.html`, so `/` and `/results` emit byte-identical `<option data-gpu-id=… data-vram-gb=… value=…>` lines for all 35 GPUs in R-001's order; `/results` output SHALL otherwise be unchanged (R-001, R-071).",
+        "THE SYSTEM SHALL render exactly one `<button type=\"submit\">` in the form whose accessible name is `Check compatibility` (an `aria-hidden` arrow SVG plus a `span.go-label` holding the words) (Q-17, Gate 2).",
+        "THE SYSTEM SHALL render under the form `<div class=\"launch-chips\" role=\"group\" aria-label=\"Examples\">` with three `<a class=\"chip\">` links and no `chip-example` class or `data-*` attribute: `RTX 4060 8GB` → `/results?gpu_id=<id>&context_tokens=2048`, `8GB` → `/results?vram_gb=8&context_tokens=2048`, `24GB` → `/results?vram_gb=24&context_tokens=2048`, built with `_example_chips` and `_results_url` (R-007, ADR-0009 point 3).",
+        "WHEN each chip's `href` is followed, THE SYSTEM SHALL answer 200 with the hardware `NVIDIA GeForce RTX 4060 (8.0 GB)`, `Manual VRAM (8 GB)` and `Manual VRAM (24 GB)` respectively, `2k` selected and `Filters (0)` (R-007, R-006).",
+        "THE SYSTEM SHALL NOT render on `/`: `#summary-banner`, `#results-shell`, model cards, Top Picks, active filter chips, `details.filters`, `Apply filters`, `#vram_gb`, `#gpu_id`, any `context_tokens` input, `#clear-gpu`, any `role=\"alert\"`, or `No GPU or VRAM selected yet. Showing estimates with an assumed 8 GB baseline.`; `<main>` SHALL contain exactly one `<input>` (R-083, R-002, R-005, R-006, Q-17).",
+        "WHEN `/` is requested with query parameters (`/?vram_gb=24&context_tokens=4096`, `/?context_tokens=abc`), THE SYSTEM SHALL answer 200 with the same `<main>` markup as bare `/` and no `Location` (Q-19, R-013).",
+        "THE SYSTEM SHALL make `home(request, session)` keep its signature and not call `_resolve_available_vram`, `_build_results` or `_results_context` (a test monkeypatches `_build_results` to raise and `/` still answers 200) (ADR-0009 point 4).",
+        "WHILE the catalog is unseeded, THE SYSTEM SHALL answer 200 on `/` with the box and, after the chips, a `.launch-note` holding `<div class=\"notice\" role=\"status\">` with `Catalog is not initialized yet.` and `Seed the catalog data, then refresh this page.`; the GPU chip SHALL be `<span class=\"chip\" aria-disabled=\"true\">Example GPU</span>` and the two VRAM chips stay links (R-026, Q-22, Gate 2 L3).",
+        "THE SYSTEM SHALL follow the mockup structure so T-029's styles apply: `section.launch.pane` (`aria-labelledby` the `h1`), `.launch-head`, `p.launch-hint`, `.ask` wrapping `.combo` (with `svg.ask-icon`, `aria-hidden`) and `button.btn-primary.go` (R-067 L1 to L4).",
+        "THE SYSTEM SHALL keep the brand link and `Estimator` pointing to `/`, with `aria-current=\"page\"` on `Estimator` at `/` (R-039, R-076), and `Cache-Control: no-cache` on `/` (R-080).",
+        "THE SYSTEM SHALL rewrite `test_home_returns_200` and extend `test_home_unseeded_shows_catalog_not_initialized` in `tests/test_app.py` to the landing assertions above, and put the rest in `tests/test_r083_landing.py`.",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": [
+        "docs/design/mockups/final-landing-empty.html",
+        "docs/design/final/landing-empty-*.png",
+        "docs/design/mockups/final-landing-suggest.html",
+        "docs/design/final/landing-suggest-*.png",
+        "docs/design/mockups/final-landing-unseeded.html",
+        "docs/design/final/landing-unseeded-*.png",
+        "docs/design/mockups/final-landing-focus-box.html",
+        "docs/design/final/landing-focus-box-*.png",
+        "docs/design/mockups/final-landing-focus-chip.html",
+        "docs/design/final/landing-focus-chip-*.png",
+        "docs/design/mockups/final-landing-focus-submit.html",
+        "docs/design/final/landing-focus-submit-*.png"
+      ],
+      "model": "sonnet",
+      "dependsOn": [
+        "T-026",
+        "T-027"
+      ],
+      "notes": "UI: yes. Markup only: the page is unstyled until T-029, which is expected; QA compares after T-029. No file under `static/` changes, so no `ASSET_VERSION` bump here. Copy the structure from `docs/design/mockups/final-landing-empty.html` and `final-landing-unseeded.html` (their chip `href`s point at mockup files; use the real `/results?…` URLs). The ids `gpu_search`, `gpu-options` and `.combo` are reused so `initGpuCombobox` starts unchanged; `initGpuInputs` and `initExampleChips` return early on `/` (no `#gpu_id`, no `.chip-example`). Check the header/footer/asset tests still pass on `/` (`test_brand.py`, `test_r076_acceptance.py`, `test_r079_asset_links.py`, `test_styles.py`). Do not rename `index.html` (ADR-0009 alternatives).",
+      "review": null,
+      "passes": false
+    },
+    {
+      "id": "T-029",
+      "title": "Landing styles: centred glass pane, large box with inset submit, chip links, inert chip, link-styled Clear",
+      "requirements": [
+        "R-083",
+        "R-067",
+        "R-068",
+        "R-070",
+        "R-077",
+        "R-026",
+        "R-001"
+      ],
+      "track": "full",
+      "files": [
+        "src/vramsherpa/static/css/styles.css",
+        "src/vramsherpa/main.py",
+        "tests/test_r083_landing.py"
+      ],
+      "acceptance": [
+        "THE SYSTEM SHALL add the rules of `docs/design/landing.css` (`.page:has(.landing)`, `.landing`, `.launch*`, `.ask*`, `.go`, `.go-label`, `.launch-chips`, `a.chip`, `.launch-note`, `a.btn-clear`, `.chip[aria-disabled=\"true\"]`) to `styles.css` inside the \"Page-specific rules\" section under a `/* ===== landing (T-029) … ===== */` heading, using only existing tokens and the existing 900 px breakpoint (ADR-0001, design README).",
+        "THE SYSTEM SHALL keep `tests/test_styles.py` passing unchanged, including section order, every class used by a template or `app.js`, at most two breakpoints, no font size below 12 px, the 3 px focus ring on every control, and solid panes without blur or with reduced transparency.",
+        "WHEN `/` loads at 1280 × 800 and at 390 × 844, THE SYSTEM SHALL show the box, the three chips and the submit control without scrolling; the box's horizontal centre within 2 CSS px of the viewport centre; its vertical centre between 280 and 520 px (1280 × 800) and between 295 and 549 px (390 × 844); the box at least 560 px wide at 1280 and 342 px at 390, with text at least 16 px (R-083, Q-21; mockup measures 754 px and 344 px).",
+        "THE SYSTEM SHALL show the submit control as an arrow with words `Check compatibility` at 1280 and an arrow only at 390 (48 × 48), chips at least 44 px tall and suggestion options 48 px (R-070, Gate 2).",
+        "THE SYSTEM SHALL draw the unseeded GPU chip dashed and inert, and `a.btn-clear` and `a.chip` with the same look as today's button versions (no underline, ink colour) (Gate 2 L3, ADR-0012 consequences).",
+        "WHEN QA opens `/` in states L1 to L4 at 390 and 1280 px in light and dark, THE SYSTEM SHALL match the approved mockups and renders (constitution rule 10, R-067).",
+        "THE SYSTEM SHALL add a pytest asserting the stylesheet defines `.launch`, `.ask`, `.go-label`, `a.chip`, `a.btn-clear` and `.chip[aria-disabled=\"true\"]`.",
+        "WHEN this task changes any file under `src/vramsherpa/static/`, THE SYSTEM SHALL bump `ASSET_VERSION` in `src/vramsherpa/main.py` from its current value to a later value no earlier task on this branch used (build date plus next letter, for example `20261028a`, then `20261028b`); the value SHALL differ from `20261027e` (constitution rule 21, R-083 \"Assets\").",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": [
+        "docs/design/mockups/final-landing-empty.html",
+        "docs/design/final/landing-empty-*.png",
+        "docs/design/mockups/final-landing-suggest.html",
+        "docs/design/final/landing-suggest-*.png",
+        "docs/design/mockups/final-landing-unseeded.html",
+        "docs/design/final/landing-unseeded-*.png",
+        "docs/design/mockups/final-landing-focus-box.html",
+        "docs/design/final/landing-focus-box-*.png",
+        "docs/design/mockups/final-landing-focus-chip.html",
+        "docs/design/final/landing-focus-chip-*.png",
+        "docs/design/mockups/final-landing-focus-submit.html",
+        "docs/design/final/landing-focus-submit-*.png",
+        "docs/design/mockups/final-results-from-landing.html",
+        "docs/design/final/results-from-landing-*.png"
+      ],
+      "model": "sonnet",
+      "dependsOn": [
+        "T-028"
+      ],
+      "notes": "UI: yes. Append in the Page-specific section, not at the end (Utilities is last; ADR-0001 order is tested). At 390 the pane keeps 6 px padding: more padding or a thicker border breaks the 342 px minimum (design README). `.page:has(.landing)` needs `:has()`, supported by current Chromium, Safari and Firefox. `a.btn-clear` is styled here so T-031 can switch `Clear` to a link with no style work. Measurements are QA's in a real browser (`docs/design/README.md`, \"Measurements QA can take\").",
+      "review": null,
+      "passes": false
+    },
+    {
+      "id": "T-030",
+      "title": "Landing box script: picking a suggestion submits, and a blank box does not",
+      "requirements": [
+        "R-083",
+        "R-071",
+        "R-077"
+      ],
+      "track": "full",
+      "files": [
+        "src/vramsherpa/static/js/app.js",
+        "src/vramsherpa/main.py",
+        "tests/test_r083_landing.py"
+      ],
+      "acceptance": [
+        "WHEN the user picks a styled suggestion by tap, click, or Up/Down then Enter on an input with `data-submit-on-choose`, THE SYSTEM SHALL, after `choose()` writes the exact label, fires `input` and `change` and closes the list, call `input.form.requestSubmit()` (falling back to `form.submit()`), loading `/results?gpu_search=<exact label>` whose `Hardware` line and `Search GPU` show that label at `2k` (R-083, Q-16, ADR-0012 point 2).",
+        "WHEN the input has no `data-submit-on-choose` (the results page), THE SYSTEM SHALL keep today's behaviour: choosing fills the field and waits for `Check compatibility` (R-071).",
+        "WHEN `#landing-form` is submitted with a box that is empty after trimming, THE SYSTEM SHALL cancel the submit and keep focus in the box: the address stays `/`, no message shows and no history entry is added (R-083, ADR-0012 point 4).",
+        "WHEN the box holds text, THE SYSTEM SHALL let Enter with no active option, or the submit control, do the normal GET to `/results?gpu_search=<text>` (R-013).",
+        "THE SYSTEM SHALL keep the combobox's ARIA roles, filtering, order, Escape and 44 px options unchanged, and typing `4060` on `/` SHALL list the four GPUs R-071 names in that order (R-071, L2).",
+        "THE SYSTEM SHALL pass `node --check` on `app.js`, and a pytest SHALL assert that `app.js` references `data-submit-on-choose` (or `submitOnChoose`), `requestSubmit` and `landing-form`.",
+        "WHEN this task changes any file under `src/vramsherpa/static/`, THE SYSTEM SHALL bump `ASSET_VERSION` in `src/vramsherpa/main.py` from its current value to a later value no earlier task on this branch used (build date plus next letter, for example `20261028a`, then `20261028b`); the value SHALL differ from `20261027e` (constitution rule 21, R-083 \"Assets\").",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": [
+        "docs/design/mockups/final-landing-suggest.html",
+        "docs/design/final/landing-suggest-*.png",
+        "docs/design/mockups/final-landing-empty.html",
+        "docs/design/final/landing-empty-*.png",
+        "docs/design/mockups/final-landing-focus-box.html",
+        "docs/design/final/landing-focus-box-*.png",
+        "docs/design/mockups/final-landing-focus-submit.html",
+        "docs/design/final/landing-focus-submit-*.png"
+      ],
+      "model": "sonnet",
+      "dependsOn": [
+        "T-028"
+      ],
+      "notes": "UI: yes. Browser checks for QA (rule 10, R-077): focus in the box on load at both widths (`autofocus`, no script); pick by tap, click and keyboard at 390 and 1280; blank submit stays on `/`; Escape keeps the text; Back from `/results` shows the full landing page (one header, box, chips, submit, one footer). Without JavaScript a native-list pick only fills the box and needs Enter (accepted at Gate 2). `/` has no `hx-*`, so htmx never snapshots it (ADR-0012 point 9).",
+      "review": null,
+      "passes": false
+    },
+    {
+      "id": "T-031",
+      "title": "Clear on /results becomes a link to /",
+      "requirements": [
+        "R-001",
+        "R-083",
+        "R-071",
+        "R-078"
+      ],
+      "track": "full",
+      "files": [
+        "src/vramsherpa/templates/index.html",
+        "src/vramsherpa/static/js/app.js",
+        "src/vramsherpa/main.py",
+        "tests/test_ui_markup.py",
+        "tests/test_r083_landing.py"
+      ],
+      "acceptance": [
+        "THE SYSTEM SHALL render `Clear` on `/results` as `<a id=\"clear-gpu\" class=\"btn-clear\" href=\"/\">Clear</a>` in the same place in `.field-row`, keeping the id, the label word for word and the secondary-button look (R-001, ADR-0012 point 7).",
+        "WHEN the user follows `Clear`, with or without JavaScript, THE SYSTEM SHALL load `/` with an empty box (a test follows the `href` and gets the landing page with `value` empty or absent on `#gpu_search`) (R-001, R-083).",
+        "THE SYSTEM SHALL remove the `Clear` click handler and its `clear-gpu` lookup from `initGpuInputs`, leaving its other behaviour unchanged (ADR-0012 point 7).",
+        "THE SYSTEM SHALL update the existing `Clear` assertions in `tests/test_ui_markup.py` (and any in `test_r071_acceptance.py` or `test_history.py`) from a `type=\"button\"` to the link above; `#clear-gpu` stays inside `#search-form`.",
+        "THE SYSTEM SHALL pass `node --check` on `app.js`.",
+        "WHEN this task changes any file under `src/vramsherpa/static/`, THE SYSTEM SHALL bump `ASSET_VERSION` in `src/vramsherpa/main.py` from its current value to a later value no earlier task on this branch used (build date plus next letter, for example `20261028a`, then `20261028b`); the value SHALL differ from `20261027e` (constitution rule 21, R-083 \"Assets\").",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": [
+        "docs/design/mockups/final-results-from-landing.html",
+        "docs/design/final/results-from-landing-*.png"
+      ],
+      "model": "sonnet",
+      "dependsOn": [
+        "T-028",
+        "T-029"
+      ],
+      "notes": "UI: yes. The `a.btn-clear` styles come from T-029. A screen reader now announces a link named `Clear` (design README notes). QA compares `Clear` with `results-from-landing` at 390 and 1280 in both themes; the rest of `/results` should match the 22 unchanged approved states.",
+      "review": null,
+      "passes": false
+    },
+    {
+      "id": "T-032",
+      "title": "Release smoke test adds a /results render check that expects exactly 200 and the 24 GB summary",
+      "requirements": [
+        "R-062",
+        "R-083"
+      ],
+      "track": "full",
+      "files": [
+        ".github/workflows/release.yml",
+        "tests/test_r082_release_order.py",
+        "docs/RELEASE_AND_DEPLOY.md"
+      ],
+      "acceptance": [
+        "THE SYSTEM SHALL add to \"Smoke test the published image\", after the existing `/?vram_gb=24&context_tokens=4096` request and before the asset checks, one check of `http://127.0.0.1:8000/results?vram_gb=24&context_tokens=4096` read with `curl -sS -m 10 -o <file> -w '%{http_code}'` and without `-L`/`--location`, that fails the release unless the status is exactly `200` and the body contains both `id=\"summary-banner\"` and `Manual VRAM (24 GB)` (fixed-string match) (R-062, ADR-0013 point 2).",
+        "WHEN that check fails, THE SYSTEM SHALL print `::error::Results page did not render.` with the status and exit 1, before any tagging step (R-062, R-082 order unchanged).",
+        "THE SYSTEM SHALL keep every other line of the smoke step byte for byte, including the web command shared with `docker-compose.prod.yml`; only the old `/` check's error text may change to `Home page did not render.` (rules 18 and 20, ADR-0013 points 1 and 3).",
+        "THE SYSTEM SHALL use no new action, runner, registry, secret or permission, and SHALL NOT add `if:` or `continue-on-error` to the smoke step (rules 2 and 4).",
+        "THE SYSTEM SHALL extend `test_smoke_checks_unchanged` in `tests/test_r082_release_order.py` with the needles `/results?vram_gb=24&context_tokens=4096`, `summary-banner` and `Manual VRAM (24 GB)`, and assert that the line requesting `/results` uses neither `-L` nor `--location` (ADR-0013 point 4).",
+        "WHEN `python -c \"import yaml; yaml.safe_load(open('.github/workflows/release.yml'))\"` runs, THE SYSTEM SHALL exit 0; if `actionlint` is installed it SHALL report nothing.",
+        "THE SYSTEM SHALL update the \"What gates a release\" list in `docs/RELEASE_AND_DEPLOY.md` so \"the results page renders\" says `/` renders and `/results?vram_gb=24&context_tokens=4096` answers 200 with the summary for `Manual VRAM (24 GB)`; no other section changes.",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": null,
+      "model": "opus",
+      "dependsOn": [],
+      "notes": "UI: no. Opus: CI and deploy config. Cost: none (same job and runner; rule 2). The new check passes on today's code too (`/results?vram_gb=24…` carries hardware, so T-027's redirect does not apply). `id=\"summary-banner\"` contains double quotes: use `grep -F` with single-quoted patterns. Write the body to a temp file (`mktemp`) and do not use `curl -f` for this check (it hides the status and passes a 3xx). QA cannot run the release locally; the real check is the first release run after merge (rule 6). Leave the other stale parts of `docs/RELEASE_AND_DEPLOY.md` (`PUBLIC_HOSTNAME`) alone; they are separate follow-ups in `.sdlc/STATUS.md`.",
+      "review": null,
+      "passes": false
+    }
+  ]
+}
