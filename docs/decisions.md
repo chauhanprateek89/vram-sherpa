@@ -36,6 +36,12 @@
 | 2026-10-27 | QA (R-077) | Accept the phone header focus order (brand, nav links, then the theme toggle drawn on row 1) as it is in the approved mockup. Amend R-077 to record it as an agreed exception at 390 px. |
 | 2026-10-27 | 3 | Merge PR #22 now (squash), which deploys. |
 | 2026-10-27 | 3 | Fix the `CLAUDE.md` `ASSET_VERSION` line in this PR to match amended rule 21 (all of `static/`). |
+| 2026-10-28 | 3 | Merge PR #23 now (squash), which releases and deploys. |
+| 2026-10-28 | 3 | Keep R-082 as built: the version tag (`vX.Y.N`) waits for the smoke test too, not only `latest`. |
+| 2026-10-28 | Intake | Full track: `/` becomes one large centred GPU text box, "like what claude's own app has when you click on new chat". Entering a GPU "takes you to the page which is in the screenshot" (the current results page), and "if you click clear you go back to that one big text box". First proposed 2026-10-24 (prototype https://claude.ai/artifact/D8FbLLJP2qdx9v3Btbemnz) but not carried into the 2026-10-25 overhaul intake. |
+| 2026-10-28 | Intake | A GPU that isn't listed: the box accepts a typed VRAM number such as "12 GB" (one box, no separate VRAM link). |
+| 2026-10-28 | Intake | The context window is hidden on the landing page (default 2k) and stays changeable on the results page. |
+| 2026-10-28 | Intake | No reverse lookup (typing a model name) in this change. |
 
 ## Made during work
 
