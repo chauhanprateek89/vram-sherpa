@@ -46,6 +46,10 @@
 | 2026-10-28 | 1 | Q-14: the GPU-or-number rule applies on both pages, including the results page's `Search GPU` (`8GB`, `12`, `24` become VRAM there). |
 | 2026-10-28 | 1 | Q-17: the landing box has a `Check compatibility` submit control (may be an icon), no `Clear`, and takes focus on load. |
 | 2026-10-28 | 1 | Q-23: add a `GET /results?vram_gb=24&context_tokens=4096` render check to the release smoke test in this change (R-062 to be amended). |
+| 2026-10-28 | 2 | Approved the design: HLD section "Centred landing box", ADRs 0009-0013, and the mockups `final-landing-{empty,suggest,unseeded,focus-box,focus-chip,focus-submit}` and `final-results-from-landing` (renders in `docs/design/final/`, page https://claude.ai/artifact/S8yurugqYYCy6CNtbNTSbj). These are QA's reference for L1 to L4 and `Clear` (rule 10). Points accepted as written: submit is an arrow at 390 and words at 1280; R-008's 422 stays for `/results?context_tokens=abc` with no hardware; a filled `Available VRAM (GB)` wins over a number in `Search GPU`; without JavaScript a native-list pick needs Enter. |
+| 2026-10-28 | 2 | Landing copy: `h1` `Which local LLMs fit your GPU?`, help line `Type a GPU name, or enter its VRAM, like 12 GB.`, placeholder `Your GPU, or its VRAM`. |
+| 2026-10-28 | 2 | Unseeded catalog (L3): three chips, the GPU chip drawn dashed and inert as `Example GPU`. |
+| 2026-10-28 | 2 | Focus on load stays at every width, as decided for Q-17, even though Android's keyboard then covers the chips on phones. |
 
 ## Made during work
 

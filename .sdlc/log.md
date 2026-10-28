@@ -51,3 +51,4 @@
 | 2026-10-27 | QA | sdlc:qa (sonnet), sdlc:builder, sdlc:reviewer, sdlc:product | All 15 requirements pass; 2 QA fixes (secondary button, source-link targets); R-070/R-077 amended by user |
 | 2026-10-27 | Release | sdlc:release (sonnet) | PR #22 opened, CI test passed |
 | 2026-10-27 | Gate 3 | user | Merge now (squash); fix CLAUDE.md ASSET_VERSION line first |
+| 2026-10-27 | Release | sdlc:release (sonnet) | PR #22 squash-merged as dc40346; release v0.1.52 passed (verify, build, smoke test incl. Cache-Control and static URLs, publish); live check not possible (no live URL); Full track done |

@@ -3,9 +3,9 @@
 | | |
 | --- | --- |
 | Track | Full (centred landing box) |
-| Stage | Design and mockups |
+| Stage | Plan |
 | Branch | sdlc/full-landing-box |
-| Gate waiting | Gate 2 (design and mockups) |
+| Gate waiting | none |
 | Updated | 2026-10-28 |
 
 ## Your actions
@@ -14,7 +14,9 @@
 
 ## Next step
 
-Gate 2 waiting: design (HLD section "Centred landing box", ADRs 0009-0013) and mockups (artifact https://claude.ai/artifact/S8yurugqYYCy6CNtbNTSbj, `docs/design/final/landing-*`). Open points: landing copy, L3 inert chip, autofocus on phones, submit as arrow at 390, R-013 vs R-008 422, VRAM field wins over a box number on /results, no-JS native pick needs Enter. After approval: Plan (`sdlc:architect`, mode plan).
+Gate 2 approved. Next session (`/sdlc:orchestrate resume`):
+1. Plan: `sdlc:architect`, mode plan. Tasks from R-083 and the changed requirements (incl. R-062 smoke check, ADRs 0009-0013) into `.sdlc/features.json`, a model on each; UI tasks name their mockup (`docs/design/mockups/final-landing-*.html`, `final-results-from-landing.html`). Approved copy and choices: `docs/decisions.md` Gate 2 rows (2026-10-28).
+2. Build (`sdlc:build` workflow), QA (`sdlc:qa`, compare with the approved mockups), Release, Gate 3.
 
 Other follow-ups still open (not part of this track): theme toggle and GPU input after an htmx cache restore, incl. a stale preset radio on a cache-hit Back; host guard ignores `APP_ENV`/`PUBLIC_HOSTNAME` that docs/RELEASE_AND_DEPLOY.md tells the server to set (tunnel requests would get 400); smoke test never hits /results; local compose binds 0.0.0.0:8000 (rule 3); `/docs`, `/redoc`, `/openapi.json` are public; font URL has no `?v` and the font is served as octet-stream.
 
@@ -24,7 +26,6 @@ Older rows: `.sdlc/log.md`.
 
 | Date | Stage | Agents (model) | Outcome |
 | --- | --- | --- | --- |
-| 2026-10-27 | Release | sdlc:release (sonnet) | PR #22 squash-merged as dc40346; release v0.1.52 passed (verify, build, smoke test incl. Cache-Control and static URLs, publish); live check not possible (no live URL); Full track done |
 | 2026-10-27 | Intake | orchestrator | Quick track: push `:latest` only after the smoke test passes; branch sdlc/quick-latest-after-smoke from main dc40346; UI overhaul tasks archived to .sdlc/archive/sdlc-full-ui-overhaul.json; live URL recorded in project.json |
 | 2026-10-27 | Plan | sdlc:architect (inherit) | R-082 added (track: quick): `latest` and the version tag move only after the smoke test; `sha-` pushed before; tag the tested digest with `imagetools create`. T-022 (opus). No UI, architecture or cost flags. Committed 4de1e2b |
 | 2026-10-28 | Build | sdlc:builder (opus), sdlc:reviewer (opus) | T-022 passed: commit b7452ed, passed first review; nits: test's version-tag regex is line-bound (build tags checked exactly, so not blocking), watchtower arrow off-centre in the deploy doc diagram |
@@ -39,3 +40,4 @@ Older rows: `.sdlc/log.md`.
 | 2026-10-28 | Requirements | sdlc:product (inherit) | R-062 amended for Q-23: smoke test also requires `GET /results?vram_gb=24&context_tokens=4096` → 200 with `id="summary-banner"` and `Manual VRAM (24 GB)`; Gate 1 answers column added to Q-14 to Q-23. Committed afaaf83 |
 | 2026-10-28 | Design | sdlc:architect (inherit) | HLD section "Centred landing box", flows 9-10; ADRs 0009 (own landing.html), 0010 (302 /results→/), 0011 (gpu_input.py rule), 0012 (plain GET form + links, Clear is a link), 0013 (smoke /results check). 4 open points for Gate 2. Committed 34589c4 |
 | 2026-10-28 | Mockups | sdlc:uiux (inherit) | L1-L4 as `final-landing-*` (6 mockups) + `final-results-from-landing`, 4 PNGs each; copy proposed; only `Clear` changes on /results; artifact https://claude.ai/artifact/S8yurugqYYCy6CNtbNTSbj. Committed 06ab377 |
+| 2026-10-28 | Gate 2 | user | Design approved; proposed landing copy; L3 dashed inert GPU chip; focus on load at every width (kept despite Android keyboard) |
