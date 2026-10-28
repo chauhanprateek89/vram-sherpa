@@ -19,7 +19,7 @@ STYLES = ROOT / "src" / "vramsherpa" / "static" / "css" / "styles.css"
 TEMPLATES = ROOT / "src" / "vramsherpa" / "templates"
 
 PAGES = {
-    "/": "Estimator",
+    "/results?gpu_id=no_such_gpu": "Estimator",
     "/results?vram_gb=24&context_tokens=4096": "Estimator",
     "/models/model_qwen25_7b_instruct": "Estimator",
     "/how-it-works": "How it works",
@@ -263,7 +263,9 @@ def _by_id(root: _Node, node_id: str) -> _Node:
     return found[0]
 
 
-@pytest.mark.parametrize("url", ["/", "/results?vram_gb=24&context_tokens=4096"])
+@pytest.mark.parametrize(
+    "url", ["/results?gpu_id=no_such_gpu", "/results?vram_gb=24&context_tokens=4096"]
+)
 def test_form_tile_uses_the_approved_wording(client: TestClient, url: str) -> None:
     form = _form(url, client)
     assert {"form-pane", "pane"} <= set(form.classes())
@@ -285,7 +287,9 @@ def test_form_tile_uses_the_approved_wording(client: TestClient, url: str) -> No
     assert _by_id(form, "gpu_search").attrs["placeholder"] == "Start typing a GPU name"
 
 
-@pytest.mark.parametrize("url", ["/", "/results?vram_gb=24&context_tokens=4096"])
+@pytest.mark.parametrize(
+    "url", ["/results?gpu_id=no_such_gpu", "/results?vram_gb=24&context_tokens=4096"]
+)
 def test_form_tile_has_no_how_it_works_link(client: TestClient, url: str) -> None:
     root = _tree(client.get(url).text)
     form = _one(root, "form")
@@ -297,7 +301,7 @@ def test_form_tile_has_no_how_it_works_link(client: TestClient, url: str) -> Non
 
 
 def test_form_tile_keeps_labels_ids_and_behaviour_hooks(client: TestClient) -> None:
-    form = _form("/", client)
+    form = _form("/results?vram_gb=24&context_tokens=4096", client)
     labels = {n.attrs.get("for"): n.all_text() for n in form.walk() if n.tag == "label"}
     assert labels["gpu_search"] == "Search GPU"
     assert labels["vram_gb"] == "Available VRAM (GB)"
@@ -307,7 +311,8 @@ def test_form_tile_keeps_labels_ids_and_behaviour_hooks(client: TestClient) -> N
     assert search.attrs["list"] == "gpu-options"
     assert search.attrs["name"] == "gpu_search"
     clear = _by_id(form, "clear-gpu")
-    assert clear.tag == "button" and clear.attrs["type"] == "button"
+    assert clear.tag == "a" and clear.attrs["href"] == "/"
+    assert clear.classes() == ["btn-clear"]
     assert clear.all_text() == "Clear"
     options = _by_id(form, "gpu-options")
     assert options.tag == "datalist"
@@ -321,7 +326,7 @@ def test_form_tile_keeps_labels_ids_and_behaviour_hooks(client: TestClient) -> N
 
 
 def test_example_chips_keep_their_labels_and_data_attributes(client: TestClient) -> None:
-    form = _form("/", client)
+    form = _form("/results?vram_gb=24&context_tokens=4096", client)
     chips = [n for n in form.walk() if "chip-example" in n.classes()]
     assert [n.all_text() for n in chips] == ["RTX 4060 8GB", "8GB", "24GB"]
     assert all(n.tag == "button" and n.attrs["type"] == "button" for n in chips)
@@ -331,14 +336,14 @@ def test_example_chips_keep_their_labels_and_data_attributes(client: TestClient)
 
 
 def test_gpu_search_sits_in_a_combo_wrapper(client: TestClient) -> None:
-    form = _form("/", client)
+    form = _form("/results?vram_gb=24&context_tokens=4096", client)
     combos = [n for n in form.walk() if "combo" in n.classes()]
     assert len(combos) == 1
     assert [n.attrs.get("id") for n in combos[0].walk() if n.tag == "input"] == ["gpu_search"]
 
 
 def test_vram_field_is_a_number_input_with_a_decimal_keypad(client: TestClient) -> None:
-    vram = _by_id(_form("/", client), "vram_gb")
+    vram = _by_id(_form("/results?vram_gb=24&context_tokens=4096", client), "vram_gb")
     assert vram.attrs["type"] == "number"
     assert vram.attrs["inputmode"] == "decimal"
     assert vram.attrs["min"] == "1"
@@ -370,7 +375,9 @@ def _filters(url: str, client: TestClient) -> tuple[_Node, _Node]:
     return form, found[0]
 
 
-@pytest.mark.parametrize("url", ["/", "/results?vram_gb=24&context_tokens=4096", FILTERED])
+@pytest.mark.parametrize(
+    "url", ["/results?gpu_id=no_such_gpu", "/results?vram_gb=24&context_tokens=4096", FILTERED]
+)
 def test_filters_are_a_closed_disclosure_at_the_foot_of_the_form(
     client: TestClient, url: str
 ) -> None:
@@ -387,7 +394,7 @@ def test_filters_are_a_closed_disclosure_at_the_foot_of_the_form(
 @pytest.mark.parametrize(
     ("url", "expected"),
     [
-        ("/", 0),
+        ("/results?gpu_id=no_such_gpu", 0),
         ("/results?vram_gb=24&context_tokens=4096", 0),
         (FILTERED, 2),
         (FILTERED + "&min_params_b=3&max_params_b=14&recommended_only=true", 5),
@@ -412,7 +419,7 @@ def test_filters_summary_has_the_funnel_icon_and_the_count(client: TestClient) -
     assert summary.all_text().replace(" ", "") == "Filters()2"
 
 
-@pytest.mark.parametrize("url", ["/", FILTERED])
+@pytest.mark.parametrize("url", ["/results?vram_gb=24&context_tokens=4096", FILTERED])
 def test_filters_keep_every_control_label_and_title(client: TestClient, url: str) -> None:
     form, filters = _filters(url, client)
     legends = {n.all_text(): n for n in filters.walk() if n.tag == "legend"}
@@ -451,7 +458,7 @@ def test_checked_filters_are_checked_in_the_markup(client: TestClient) -> None:
     assert checked == [("family", "qwen"), ("quant_bucket", "Q4")]
 
 
-@pytest.mark.parametrize("url", ["/", FILTERED])
+@pytest.mark.parametrize("url", ["/results?vram_gb=24&context_tokens=4096", FILTERED])
 def test_param_bounds_are_decimal_number_fields_that_still_auto_refresh(
     client: TestClient, url: str
 ) -> None:
@@ -471,10 +478,13 @@ def test_param_bounds_are_decimal_number_fields_that_still_auto_refresh(
 def test_apply_filters_button_sits_in_a_noscript_inside_the_disclosure(
     client: TestClient,
 ) -> None:
-    _, filters = _filters("/", client)
+    _, filters = _filters("/results?vram_gb=24&context_tokens=4096", client)
     noscripts = [n for n in filters.walk() if n.tag == "noscript"]
     assert len(noscripts) == 1
-    assert 'type="submit" class="btn-secondary">Apply filters</button>' in client.get("/").text
+    assert (
+        'type="submit" class="btn-secondary">Apply filters</button>'
+        in client.get("/results?vram_gb=24&context_tokens=4096").text
+    )
 
 
 def test_filters_have_no_legacy_sidebar_markup(client: TestClient) -> None:
@@ -517,7 +527,7 @@ def test_legacy_filter_rules_are_gone() -> None:
 
 
 def test_main_is_the_bento_layout_on_the_home_page(client: TestClient) -> None:
-    main_node = _one(_tree(client.get("/").text), "main")
+    main_node = _one(_tree(client.get("/results?vram_gb=24&context_tokens=4096").text), "main")
     assert main_node.classes() == ["bento"]
 
 
@@ -708,7 +718,7 @@ def test_sprite_symbols_for_the_count_icons_are_in_the_page(client: TestClient) 
 
 
 def test_default_8gb_note_sits_in_the_tile_under_the_context_line(client: TestClient) -> None:
-    answer = _answer(client.get("/").text)
+    answer = _answer(client.get("/results?gpu_id=no_such_gpu").text)
     notice = next(n for n in answer.walk() if "notice" in n.classes())
     assert notice.all_text() == (
         "No GPU or VRAM selected yet. Showing estimates with an assumed 8 GB baseline."
@@ -764,7 +774,11 @@ def test_active_filter_chips_are_links_inside_the_tile(client: TestClient) -> No
 
 
 def test_old_headings_and_sentences_are_gone(client: TestClient) -> None:
-    for url in (REFERENCE, "/", "/results?vram_gb=1&context_tokens=4096&quant_bucket=Q8"):
+    for url in (
+        REFERENCE,
+        "/results?gpu_id=no_such_gpu",
+        "/results?vram_gb=1&context_tokens=4096&quant_bucket=Q8",
+    ):
         html = client.get(url).text
         assert "Summary for this query" not in html
         assert "Showing only Fits and Tight models" not in html
@@ -1334,7 +1348,7 @@ def test_empty_state_next_steps_are_links_or_inert_text(
 
 
 def test_unseeded_state_is_a_status_in_the_results_pane(app, db_session: Session) -> None:
-    html = TestClient(app).get("/").text
+    html = TestClient(app).get("/results?vram_gb=24&context_tokens=4096").text
     empty = _empty(html)
     status = next(n for n in empty.walk() if n.attrs.get("role") == "status")
     assert [p.all_text() for p in status.children if p.tag == "p"] == [
@@ -1531,7 +1545,7 @@ def test_asset_version_moved_on_for_the_detail_page() -> None:
 def test_gpu_field_keeps_the_native_list_for_the_no_javascript_path(
     client: TestClient, seeded_session: Session
 ) -> None:
-    root = _tree(client.get("/").text)
+    root = _tree(client.get("/results?vram_gb=24&context_tokens=4096").text)
     search = _by_id(root, "gpu_search")
     assert search.attrs["list"] == "gpu-options"
     assert "combo" in search.parent.classes()
@@ -1572,9 +1586,13 @@ def test_app_js_gpu_combobox_follows_adr_0005() -> None:
     assert re.search(r"event\.preventDefault\(\);\s*choose\(active\);", body)
     assert 'addEventListener("pointerdown"' in body
     assert 'addEventListener("blur", close)' in body
-    # Choosing reuses the exact-match code through input and change; it never submits.
+    # Choosing reuses the exact-match code through input and change. It submits only on an input
+    # marked data-submit-on-choose (the landing box, R-083); the results page never does.
     assert 'new Event("input"' in body and 'new Event("change"' in body
-    assert "submit" not in body
+    assert body.count("submit") == body.count("submit-on-choose") + body.count(
+        "requestSubmit"
+    ) + body.count("form.submit()")
+    assert 'input.hasAttribute("data-submit-on-choose")' in body
     assert "initGpuCombobox();" in js.split('addEventListener("DOMContentLoaded"')[1]
 
 
@@ -1598,7 +1616,12 @@ def test_home_vram_field_is_marked_only_when_the_server_rejects_it(client: TestC
     assert _by_id(bad, "vram_gb").attrs["aria-invalid"] == "true"
     other = _tree(client.get("/results?vram_gb=8&min_params_b=x").text)
     assert "aria-invalid" not in _by_id(other, "vram_gb").attrs
-    assert "aria-invalid" not in _by_id(_tree(client.get("/").text), "vram_gb").attrs
+    assert (
+        "aria-invalid"
+        not in _by_id(
+            _tree(client.get("/results?vram_gb=24&context_tokens=4096").text), "vram_gb"
+        ).attrs
+    )
     rule = _rules(_css(), '.form-pane input[aria-invalid="true"]')
     assert rule and "border-color: var(--wont-fg)" in rule[0] and "border-width: 2px" in rule[0]
 

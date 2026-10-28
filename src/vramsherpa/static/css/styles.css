@@ -619,6 +619,59 @@ span.action-chip { border: 1.5px dashed var(--line); color: var(--muted); backgr
 .steps li.final .calc { color: inherit; opacity: .9; }
 .steps li.final .out { font-size: 34px; font-weight: 500; }
 
+/* ===== landing (T-029): the glass pane at `/`, the large box with its inset submit, chip links, the inert chip (R-083) ===== */
+
+.page:has(.landing) { min-height: 100vh; min-height: 100svh; display: flex; flex-direction: column; }
+.landing { flex: 1; display: grid; place-items: center; padding: 8px 0 20px; }
+
+.launch { position: relative; z-index: 5; width: min(780px, 100%); padding: 6px; display: block; margin-top: calc(-1 * clamp(0px, 17vh - 20px, 130px)); } /* lifts the card a little above the middle without adding height */
+.launch-head { display: grid; justify-items: center; gap: 14px; text-align: center; padding: 28px 16px 24px; }
+/* The app's base keeps browser margins on h1 and p (the mockup's reset zeroes them); without this the
+   help line drifts away from the h1 and the pane grows. */
+.launch h1, .launch p { margin: 0; }
+.launch h1 { font-size: var(--fs-display); line-height: 1.06; letter-spacing: -.03em; font-weight: 350; text-wrap: balance; max-width: 15ch; }
+.launch-hint { color: var(--muted); font-size: var(--fs-lead); max-width: 30ch; text-wrap: balance; }
+
+/* the box */
+.ask { position: relative; }
+/* The mockup's field look, which the app scopes to .form-pane: the box fills the form (so the submit sits
+   inside its right edge) and wears the inset field background, border and shadow in both themes. */
+.ask input[type=text] { width: 100%; min-height: 64px; padding: 0 70px 0 50px; border-radius: 22px; border: 1.5px solid var(--line); background: var(--field); box-shadow: var(--sh-in); font-size: 18px; font-weight: 450; transition: border-color var(--dur-1), box-shadow var(--dur-2); }
+.ask input::placeholder { color: var(--muted); opacity: 1; }
+.ask-icon { position: absolute; left: 18px; top: 50%; margin-top: -11px; width: 22px; height: 22px; color: var(--muted); pointer-events: none; }
+.ask .btn-primary.go { position: absolute; top: 8px; bottom: 8px; right: 8px; min-height: 0; width: 48px; padding: 0; border-radius: 16px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; margin: 0; }
+.ask .go svg { width: 22px; height: 22px; }
+.go-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+.launch-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; padding: 18px 8px 14px; }
+.launch-chips .chip { min-height: var(--tap); padding: 0 16px; border-radius: var(--r-pill); border: 1.5px solid var(--line); background: var(--seg); color: var(--ink); font-weight: 520; font-size: var(--fs-small); transition: background var(--dur-1), transform var(--dur-1) var(--ease-out); }
+.launch-chips .chip:hover { background: var(--inset); }
+.launch-chips .chip:active { transform: scale(.95); }
+a.chip { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; color: var(--ink); }
+.launch-note { padding: 16px 4px 0; }
+.launch-note .notice { flex-direction: row; }
+.launch-note .notice p + p { margin-top: 2px; font-weight: 450; }
+
+@media (min-width: 900px) {
+  .launch { padding: 12px; margin-top: calc(-1 * clamp(0px, 12vh - 20px, 90px)); }
+  .launch-head { gap: 16px; padding: 44px 32px 34px; }
+  .launch h1 { max-width: 18ch; }
+  .launch-hint { font-size: 18px; max-width: 44ch; }
+  .ask input[type=text] { min-height: 76px; padding: 0 244px 0 58px; border-radius: 26px; font-size: 20px; }
+  .ask-icon { left: 22px; margin-top: -12px; width: 24px; height: 24px; }
+  .ask .btn-primary.go { width: auto; padding: 0 22px 0 26px; border-radius: 19px; }
+  .go-label { position: static; width: auto; height: auto; overflow: visible; clip: auto; }
+  .launch-chips { padding: 22px 12px 16px; gap: 10px; }
+  .launch-note { padding: 18px 8px 0; }
+}
+
+/* Clear on /results is a link to / (R-001) drawn as the same secondary button */
+a.btn-clear { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; color: var(--ink); }
+
+/* inert example chip (unseeded catalog: no GPU to bind, R-007): the same dashed look as an inert next step */
+.chip[aria-disabled="true"] { border-style: dashed; background: transparent; color: var(--muted); cursor: default; display: inline-flex; align-items: center; }
+.chip[aria-disabled="true"]:hover { background: transparent; } .chip[aria-disabled="true"]:active { transform: none; }
+
 /* ======================================================================
    Utilities and motion
    ====================================================================== */

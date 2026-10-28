@@ -29,7 +29,7 @@ def _input_tag(html: str, field_id: str) -> str:
 
 @pytest.mark.parametrize("field_id", ["vram_gb", "min_params_b", "max_params_b"])
 def test_home_number_fields_ask_for_a_numeric_keyboard(client: TestClient, field_id: str) -> None:
-    tag = _input_tag(client.get("/").text, field_id)
+    tag = _input_tag(client.get("/results?vram_gb=24&context_tokens=4096").text, field_id)
     assert 'type="number"' in tag
     mode = re.search(r'inputmode="([^"]+)"', tag)
     assert mode and mode.group(1) in NUMERIC

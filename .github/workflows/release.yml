@@ -119,7 +119,19 @@ jobs:
           docker logs smoke-web 2>&1 | grep -E "Seeded catalog_version=" \
             || { echo "::error::Image started but seeded no catalog."; exit 1; }
           curl -fsS -m 10 "http://127.0.0.1:8000/?vram_gb=24&context_tokens=4096" >/dev/null \
-            || { echo "::error::Results page did not render."; exit 1; }
+            || { echo "::error::Home page did not render."; exit 1; }
+
+          # / is the landing page and computes no results (R-083), so /results is
+          # checked on its own. Exactly 200, no -f and no -L: a redirect to / must
+          # fail here, not pass as a rendered page (ADR-0013).
+          results_body="$(mktemp)"
+          code="$(curl -sS -m 10 -o "$results_body" -w '%{http_code}' "http://127.0.0.1:8000/results?vram_gb=24&context_tokens=4096" || true)"
+          if [ "$code" != "200" ] \
+              || ! grep -qF 'id="summary-banner"' "$results_body" \
+              || ! grep -qF 'Manual VRAM (24 GB)' "$results_body"; then
+            echo "::error::Results page did not render. GET /results got ${code}, want 200 with the summary for Manual VRAM (24 GB)."
+            exit 1
+          fi
 
           # Behind HTTPS the app must emit https:// asset URLs. If it emits
           # http:// the page still returns 200 but the browser blocks the CSS

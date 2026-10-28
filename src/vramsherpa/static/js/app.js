@@ -60,7 +60,6 @@ function initGpuInputs() {
   var gpuSearch = document.getElementById("gpu_search");
   var gpuIdInput = document.getElementById("gpu_id");
   var vramInput = document.getElementById("vram_gb");
-  var clearButton = document.getElementById("clear-gpu");
   if (!gpuSearch || !gpuIdInput) {
     return;
   }
@@ -87,14 +86,6 @@ function initGpuInputs() {
       if (vramInput.value) {
         gpuIdInput.value = "";
       }
-    });
-  }
-
-  if (clearButton) {
-    clearButton.addEventListener("click", function () {
-      gpuSearch.value = "";
-      gpuIdInput.value = "";
-      gpuSearch.focus();
     });
   }
 }
@@ -209,6 +200,14 @@ function initGpuCombobox() {
     input.dispatchEvent(new Event("change", { bubbles: true }));
     choosing = false;
     close();
+    // The landing box (R-083) submits on a pick; the results page waits for the button (R-071).
+    if (input.hasAttribute("data-submit-on-choose") && input.form) {
+      if (typeof input.form.requestSubmit === "function") {
+        input.form.requestSubmit();
+      } else {
+        input.form.submit();
+      }
+    }
   }
 
   function optionIndex(event) {
@@ -269,6 +268,21 @@ function initGpuCombobox() {
   listbox.addEventListener("click", function (event) {
     if (!listbox.hidden) {
       choose(optionIndex(event));
+    }
+  });
+}
+
+// A blank landing box does nothing: no navigation, no message, focus stays in the box (R-083).
+function initLandingForm() {
+  var form = document.getElementById("landing-form");
+  var input = document.getElementById("gpu_search");
+  if (!form || !input) {
+    return;
+  }
+  form.addEventListener("submit", function (event) {
+    if (input.value.trim() === "") {
+      event.preventDefault();
+      input.focus();
     }
   });
 }
@@ -479,8 +493,29 @@ function syncVramInvalid() {
   }
 }
 
+// A number typed in Search GPU is read by the server as VRAM (ADR-0011, R-003). The summary says
+// so with data-box-vram; copy it into the form so it matches /results?vram_gb=<n>. Runs after
+// syncVramInvalid so a box number of 0 keeps aria-invalid on the field.
+function syncBoxVram() {
+  var banner = document.getElementById("summary-banner");
+  var field = document.getElementById("vram_gb");
+  if (!banner || !field || banner.dataset.boxVram === undefined) {
+    return;
+  }
+  field.value = banner.dataset.boxVram;
+  var search = document.getElementById("gpu_search");
+  var gpuId = document.getElementById("gpu_id");
+  if (search) {
+    search.value = "";
+  }
+  if (gpuId) {
+    gpuId.value = "";
+  }
+}
+
 function initVramInvalid() {
   document.body.addEventListener("htmx:afterSettle", syncVramInvalid);
+  document.body.addEventListener("htmx:afterSettle", syncBoxVram);
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -491,6 +526,7 @@ document.addEventListener("DOMContentLoaded", function () {
   initFilterCount();
   initGpuInputs();
   initGpuCombobox();
+  initLandingForm();
   initExampleChips();
   initModelDetailInputs();
 });

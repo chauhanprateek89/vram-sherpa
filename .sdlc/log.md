@@ -49,3 +49,14 @@
 | 2026-10-25 | Build | sdlc:builder (sonnet), sdlc:reviewer (inherit) | T-021 passed: commits a64eb01+53c7b13, passed review 2 (review 1: stale aria-invalid after in-place refresh) |
 | 2026-10-27 | Build | orchestrator | All 21 tasks passed review; 348 tests; local stack rebuilt for QA |
 | 2026-10-27 | QA | sdlc:qa (sonnet), sdlc:builder, sdlc:reviewer, sdlc:product | All 15 requirements pass; 2 QA fixes (secondary button, source-link targets); R-070/R-077 amended by user |
+| 2026-10-27 | Release | sdlc:release (sonnet) | PR #22 opened, CI test passed |
+| 2026-10-27 | Gate 3 | user | Merge now (squash); fix CLAUDE.md ASSET_VERSION line first |
+| 2026-10-27 | Release | sdlc:release (sonnet) | PR #22 squash-merged as dc40346; release v0.1.52 passed (verify, build, smoke test incl. Cache-Control and static URLs, publish); live check not possible (no live URL); Full track done |
+| 2026-10-27 | Intake | orchestrator | Quick track: push `:latest` only after the smoke test passes; branch sdlc/quick-latest-after-smoke from main dc40346; UI overhaul tasks archived to .sdlc/archive/sdlc-full-ui-overhaul.json; live URL recorded in project.json |
+| 2026-10-27 | Plan | sdlc:architect (inherit) | R-082 added (track: quick): `latest` and the version tag move only after the smoke test; `sha-` pushed before; tag the tested digest with `imagetools create`. T-022 (opus). No UI, architecture or cost flags. Committed 4de1e2b |
+| 2026-10-28 | Build | sdlc:builder (opus), sdlc:reviewer (opus) | T-022 passed: commit b7452ed, passed first review; nits: test's version-tag regex is line-bound (build tags checked exactly, so not blocking), watchtower arrow off-centre in the deploy doc diagram |
+| 2026-10-28 | QA | orchestrator | Browser QA skipped (R-082 has nothing visible in the app). Local checks: YAML parses, lint, catalog, full pytest pass; new test 6/6 on the fix, 4/6 fail on the old workflow. Real proof is the first release run |
+| 2026-10-28 | Release | sdlc:release (sonnet) | PR #23 opened (pushed over HTTPS), CI `test` passed; `gh pr edit` fails on the Projects (classic) GraphQL deprecation, body updated via `gh api` |
+| 2026-10-28 | Gate 3 | user | Merge now (squash); version tag waits for the smoke test too (kept as built) |
+| 2026-10-28 | Merge | orchestrator | PR #23 squash-merged as 2aa63d0; release run 40666348177 started |
+| 2026-10-28 | Live check | sdlc:release (sonnet) | Release run 40666348177 success, v0.1.53; step order verified (build, smoke, tag, publish); only sha-2aa63d0 pushed by build; latest, v0.1.53, sha-2aa63d0 share digest sha256:c1dacb73…; live site / 200, /healthz ok (catalog 2026-10-23), styles v=20261027e. Homelab image not checkable from outside. T-022 passes; tasks archived; Quick track done |

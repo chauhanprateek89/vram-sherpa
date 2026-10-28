@@ -14,34 +14,46 @@ EARS forms: `THE SYSTEM SHALL …` (always) · `WHEN <trigger>, THE SYSTEM SHALL
 
 Recorded at onboarding from `main` at 96572b1 (2026-10-25). Seeded catalog at that commit: version `2026-10-23`, 35 GPUs, 95 models (81 auto-discovered, 24 gated), 380 variants, 7 families. Paths are relative to the repo root; `main.py` means `src/vramsherpa/main.py`.
 
-R-082 (release ordering, Quick track) was added on 2026-10-27. R-067 to R-079 (UI/UX overhaul, Full track) were added on 2026-10-25 from the user's intake answers. The user's Gate 1 answers to their open questions (Q-1 to Q-11) are folded into them, and R-080 was added from Q-9; see "Resolved at Gate 1" at the end of this file. At Gate 2 round 1 the R-075 worked example was changed to a catalog model and R-081 was added. The round 1 redo answers (direction "D layout + E glass", Q-12, Q-13 and the old-link redirect) are folded into R-067, R-068, R-075, R-081 and R-032; see "Open questions" and `docs/decisions.md` (rows dated 2026-10-25, Gate "2 (round 1 redo)"). The Gate 2 approval (the 24 approved screens and states, the copy table, filters closed at both widths, the 900 px allowance for message states and the styled GPU suggestion list) is folded into R-067, R-068, R-069, R-071 and R-078; see `docs/decisions.md` (rows dated 2026-10-25, Gate "2").
+R-083 (centred landing box, Full track) was added on 2026-10-28 from the user's intake answers; it changes R-001, R-002, R-003, R-005, R-006, R-007, R-013, R-026, R-067, R-069, R-071 and R-078, each marked "Change (R-083)" with the old wording under "Was". Its open questions are Q-14 to Q-23 at the end of this file. R-082 (release ordering, Quick track) was added on 2026-10-27 and released in v0.1.53 on 2026-10-28. R-067 to R-079 (UI/UX overhaul, Full track) were added on 2026-10-25 from the user's intake answers. The user's Gate 1 answers to their open questions (Q-1 to Q-11) are folded into them, and R-080 was added from Q-9; see "Resolved at Gate 1" at the end of this file. At Gate 2 round 1 the R-075 worked example was changed to a catalog model and R-081 was added. The round 1 redo answers (direction "D layout + E glass", Q-12, Q-13 and the old-link redirect) are folded into R-067, R-068, R-075, R-081 and R-032; see "Open questions" and `docs/decisions.md` (rows dated 2026-10-25, Gate "2 (round 1 redo)"). The Gate 2 approval (the 24 approved screens and states, the copy table, filters closed at both widths, the 900 px allowance for message states and the styled GPU suggestion list) is folded into R-067, R-068, R-069, R-071 and R-078; see `docs/decisions.md` (rows dated 2026-10-25, Gate "2").
 
 ## Hardware and context input
 
 ### R-001 GPU search field
 
-Status: as-built · Track: onboard · UI: yes · Source: `src/vramsherpa/templates/index.html`, `src/vramsherpa/static/js/app.js` (`initGpuInputs`), `main.py` (`_load_gpus`, `_gpu_option_label`)
+Status: planned (changed by R-083; was as-built) · Track: full (was onboard) · UI: yes · Source: `src/vramsherpa/templates/index.html`, `src/vramsherpa/static/js/app.js` (`initGpuInputs`), `main.py` (`_load_gpus`, `_gpu_option_label`); change: R-083, intake 2026-10-28 ("if you click clear you go back to that one big text box")
 
-- THE SYSTEM SHALL show a "Search GPU" text field whose suggestion list holds every catalog GPU, ordered by VRAM ascending, then by name.
+Change (R-083): the field appears as the one box on `/` and as `Search GPU` on `/results`, and `Clear` on the results page now goes back to `/`. Was: "WHEN the user presses "Clear" beside the field, THE SYSTEM SHALL empty the field, clear the selected GPU and move focus to the field."
+
+- THE SYSTEM SHALL show a "Search GPU" text field, on `/` as the one box of R-083 and on `/results` in the input form, whose suggestion list holds every catalog GPU, ordered by VRAM ascending, then by name.
 - THE SYSTEM SHALL label each suggestion as `<vendor> <name> (<vram to 1 decimal> GB)`, for example `NVIDIA GeForce RTX 4090 (24.0 GB)`.
-- WHEN the user's text exactly equals a suggestion, THE SYSTEM SHALL set that GPU as the selected GPU and empty the "Available VRAM (GB)" field.
+- WHEN the user's text exactly equals a suggestion, THE SYSTEM SHALL set that GPU as the selected GPU and, on `/results`, empty the "Available VRAM (GB)" field.
 - WHEN the user's text stops matching a suggestion exactly, THE SYSTEM SHALL clear the selected GPU.
-- WHEN the user presses "Clear" beside the field, THE SYSTEM SHALL empty the field, clear the selected GPU and move focus to the field.
+- Changed (R-083): WHEN the user presses `Clear` beside `Search GPU` on `/results`, THE SYSTEM SHALL load `/`, with or without JavaScript, and show the landing page of R-083 with an empty box.
+- Changed (R-083): THE SYSTEM SHALL keep the label `Clear` word for word and the secondary-button look R-068 gives it on `/results`.
 
 ### R-002 Manual VRAM field
 
-Status: as-built · Track: onboard · UI: yes · Source: `index.html`, `app.js` (`initGpuInputs`)
+Status: planned (changed by R-083; was as-built) · Track: full (was onboard) · UI: yes · Source: `index.html`, `app.js` (`initGpuInputs`); change: R-083, intake 2026-10-28 ("accept the number": one box, no separate VRAM field on the landing page)
 
-- THE SYSTEM SHALL show an "Available VRAM (GB)" number field with minimum 1 and step 0.1.
+Change (R-083): the field is shown on `/results` only; on `/` a VRAM number is typed into the one box (R-003, R-083). Was: "THE SYSTEM SHALL show an "Available VRAM (GB)" number field with minimum 1 and step 0.1." (on `/` and `/results`).
+
+- THE SYSTEM SHALL show an "Available VRAM (GB)" number field with minimum 1 and step 0.1 on `/results`.
+- Changed (R-083): THE SYSTEM SHALL NOT show an "Available VRAM (GB)" field, or a link to one, on `/`.
 - WHEN the user types a value into "Available VRAM (GB)", THE SYSTEM SHALL clear the selected GPU.
 - WHEN the user changes the GPU search text or the VRAM field, THE SYSTEM SHALL NOT recompute results until the user submits the form with "Check compatibility".
 
 ### R-003 Free-text GPU search resolution
 
-Status: as-built · Track: onboard · UI: yes · Source: `main.py` (`_resolve_available_vram`, `_extract_vram_hint`); tests `test_results_gpu_search_does_not_auto_pick_ambiguous_match`, `test_results_gpu_search_shows_not_found_feedback`, `test_results_gpu_search_uses_vram_hint_from_text`
+Status: planned (changed by R-083; was as-built) · Track: full (was onboard) · UI: yes · Source: `main.py` (`_resolve_available_vram`, `_extract_vram_hint`); tests `test_results_gpu_search_does_not_auto_pick_ambiguous_match`, `test_results_gpu_search_shows_not_found_feedback`, `test_results_gpu_search_uses_vram_hint_from_text`; change: R-083, intake 2026-10-28 ("accept the number"); `data/seed_gpus.json` (catalog `2026-10-23`)
+
+Change (R-083): a GPU search text that is a *box number* (defined in R-083, for example `12`, `12 GB`, `8GB`) is now read as VRAM, after the exact-match check and before the contains-match checks. Was: such text went through the contains-match checks, so with catalog `2026-10-23` `8GB` selected `NVIDIA GeForce RTX 4060 Ti (8GB) (8.0 GB)`, `12` and `24` gave the "matched multiple entries" message at 8 GB, and `12 GB` gave `GPU "12 GB" was not found. Using 12 GB inferred from your input.` The rule applies to every `gpu_search` that `/results` receives, from the landing box and from `Search GPU` on the results page alike (Q-14). The messages below stay word for word (R-078).
 
 - WHEN `/results` receives `gpu_search` text and no `gpu_id` or `vram_gb`, THE SYSTEM SHALL compare it case-insensitively, with whitespace collapsed, against each GPU's full label, `<vendor> <name>` and `<name>`.
 - WHEN exactly one GPU matches one of those forms exactly, THE SYSTEM SHALL use that GPU's VRAM and mark it as the selected GPU.
+- Changed (R-083): WHEN no GPU matches exactly and the text is a box number greater than 0, THE SYSTEM SHALL use that number as available VRAM, leave the selected GPU empty, show no GPU search message and no default note (R-005), and label the hardware `Manual VRAM (<n> GB)` (R-004).
+- Changed (R-083): WHEN the results page shows hardware taken from a box number, THE SYSTEM SHALL show the number in `Available VRAM (GB)` and leave `Search GPU` empty, so the page shows what `/results?vram_gb=<n>` shows. For example `/results?gpu_search=12%20GB` shows `Manual VRAM (12 GB)` and `12` in `Available VRAM (GB)`; `gpu_search=12.5gb` shows `Manual VRAM (12.5 GB)`; `gpu_search=8GB` shows `Manual VRAM (8 GB)`, not `NVIDIA GeForce RTX 4060 Ti (8GB) (8.0 GB)`; `gpu_search=24` shows `Manual VRAM (24 GB)`, not the "matched multiple entries" message.
+- Changed (R-083): IF the text is a box number equal to 0 (for example `0`, `0 GB` or `0.0`), THEN THE SYSTEM SHALL show the page as `/results?vram_gb=0` shows it: HTTP 200, the inline error R-008 gives for that value, 8 GB with the default note (R-005), and no GPU search message (Q-15).
+- Changed (R-083): THE SYSTEM SHALL apply the contains-match criteria below only to text that is not a box number.
 - WHEN no exact match exists and exactly one GPU contains the text, THE SYSTEM SHALL use that GPU's VRAM and mark it as the selected GPU.
 - WHEN more than one GPU contains the text (for example `RTX`), THE SYSTEM SHALL use 8 GB, leave the selected GPU empty, and show `GPU search "<text>" matched multiple entries (<up to 3 labels>). Select an exact GPU from the list or enter VRAM manually.`
 - WHEN no GPU contains the text and the text includes a positive number followed by `GB` (for example `RTX 3060 12GB`), THE SYSTEM SHALL use that number as available VRAM and show `GPU "<text>" was not found. Using 12 GB inferred from your input.`
@@ -58,28 +70,38 @@ Status: as-built · Track: onboard · UI: yes · Source: `main.py` (`_resolve_av
 
 ### R-005 Default 8 GB assumption
 
-Status: as-built · Track: onboard · UI: yes · Source: `main.py` (`home`, `_results_context`), `results_summary.html`; test `test_home_returns_200`
+Status: planned (changed by R-083; was as-built) · Track: full (was onboard) · UI: yes · Source: `main.py` (`home`, `_results_context` `using_default_vram_assumption`), `results_summary.html`; test `test_home_returns_200`; change: R-083, intake 2026-10-28 (accepted shape: "no results and no assumed-8 GB note on `/`")
 
-- WHEN a user opens `/` or `/results` with no GPU, no VRAM and no GPU search text, THE SYSTEM SHALL compute results for 8 GB at 2048 tokens.
+Change (R-083): `/` no longer shows results or the note, and a full page load of `/results` with no hardware goes to `/` (R-013). The 8 GB assumption and the note stay for the `/results` cases where hardware was supplied but cannot be used, and for in-place refreshes. Was: "WHEN a user opens `/` or `/results` with no GPU, no VRAM and no GPU search text, THE SYSTEM SHALL compute results for 8 GB at 2048 tokens."
+
+- Changed (R-083): WHEN a user opens `/`, THE SYSTEM SHALL NOT compute or show results and SHALL NOT show `No GPU or VRAM selected yet. Showing estimates with an assumed 8 GB baseline.`
+- Changed (R-083): WHEN `/results` resolves no GPU, no valid VRAM and no GPU search text, and is not redirected to `/` by R-013 (for example `/results?vram_gb=abc`, `/results?gpu_id=no_such_gpu`, or an in-place refresh after the user empties `Search GPU` and `Available VRAM (GB)`), THE SYSTEM SHALL compute results for 8 GB at the requested context (2048 tokens when none is given).
 - WHILE that default is in use, THE SYSTEM SHALL show `No GPU or VRAM selected yet. Showing estimates with an assumed 8 GB baseline.`
-- WHEN a GPU, a VRAM value or GPU search text is supplied, THE SYSTEM SHALL NOT show that sentence.
+- WHEN a GPU, a valid VRAM value or GPU search text is supplied, THE SYSTEM SHALL NOT show that sentence, except for a box number equal to 0 (R-003).
 
 ### R-006 Context window presets
 
-Status: as-built · Track: onboard · UI: yes · Source: `main.py` (`CONTEXT_OPTIONS`, `_context_label`), `index.html`
+Status: planned (changed by R-083; was as-built) · Track: full (was onboard) · UI: yes · Source: `main.py` (`CONTEXT_OPTIONS`, `_context_label`), `index.html`; change: R-083, intake 2026-10-28 ("hide it": the context window is hidden on the landing page, default 2048 tokens, and stays changeable on the results page)
 
-- THE SYSTEM SHALL offer exactly three context presets, 2048, 4096 and 8192 tokens, shown as `2k`, `4k` and `8k`.
+Change (R-083): the presets are shown on `/results` only. Was: shown in the input form on `/` and `/results`.
+
+- THE SYSTEM SHALL offer on `/results` exactly three context presets, 2048, 4096 and 8192 tokens, shown as `2k`, `4k` and `8k`.
+- Changed (R-083): THE SYSTEM SHALL NOT show the context presets, or any other context control, on `/`.
+- Changed (R-083): WHEN the user goes from `/` to `/results` (R-083), THE SYSTEM SHALL compute for 2048 tokens and show `2k` selected, and the user SHALL be able to change it there as on any results page.
 - THE SYSTEM SHALL select 2048 tokens by default.
 - IF `context_tokens` is an integer other than 2048, 4096 or 8192, THEN THE SYSTEM SHALL use 2048.
 
 ### R-007 Example hardware chips
 
-Status: as-built · Track: onboard · UI: yes · Source: `main.py` (`_example_chips`), `app.js` (`initExampleChips`)
+Status: planned (changed by R-083; was as-built) · Track: full (was onboard) · UI: yes · Source: `main.py` (`_example_chips`), `app.js` (`initExampleChips`); change: R-083, intake 2026-10-28 (accepted shape: "with the presets (`RTX 4060 8GB`, `8GB`, `24GB`) as suggestion chips underneath")
 
-- THE SYSTEM SHALL show three example chips below the inputs: a GPU chip, `8GB` and `24GB`.
+Change (R-083): on `/` the chips sit under the box and go straight to the results (Q-16). On `/results` they behave as before. Was: the chips filled the form on `/` and waited for `Check compatibility`.
+
+- THE SYSTEM SHALL show three example chips below the inputs on `/results`, and below the box on `/`: a GPU chip, `8GB` and `24GB`.
 - WHERE the catalog holds a GPU whose name contains `4060` with at most 8.1 GB, THE SYSTEM SHALL label the GPU chip `RTX 4060 8GB` and bind it to that GPU; otherwise it SHALL label it `Example GPU` and bind it to the first GPU in VRAM order.
-- WHEN the user presses the GPU chip, THE SYSTEM SHALL fill the GPU search with that GPU's label, select it, and empty the VRAM field.
-- WHEN the user presses `8GB` or `24GB`, THE SYSTEM SHALL put 8 or 24 in the VRAM field and clear the selected GPU.
+- WHEN the user presses the GPU chip on `/results`, THE SYSTEM SHALL fill the GPU search with that GPU's label, select it, and empty the VRAM field.
+- WHEN the user presses `8GB` or `24GB` on `/results`, THE SYSTEM SHALL put 8 or 24 in the VRAM field and clear the selected GPU.
+- Changed (R-083): WHEN the user presses a chip on `/`, THE SYSTEM SHALL load `/results` for it at 2048 tokens, with or without JavaScript: the GPU chip shows the hardware `NVIDIA GeForce RTX 4060 (8.0 GB)` with catalog `2026-10-23`, `8GB` shows `Manual VRAM (8 GB)` and `24GB` shows `Manual VRAM (24 GB)`.
 
 ### R-008 Input validation on results
 
@@ -131,11 +153,17 @@ Status: as-built · Track: onboard · UI: yes · Source: `estimation.py` (`estim
 
 ### R-013 Results on the home page and at /results
 
-Status: as-built · Track: onboard · UI: yes · Source: `main.py` (`home`, `results`); tests `test_home_returns_200`, `test_results_with_manual_vram_returns_200_and_rows`
+Status: planned (changed by R-083; was as-built) · Track: full (was onboard) · UI: yes · Source: `main.py` (`home`, `results`); tests `test_home_returns_200`, `test_results_with_manual_vram_returns_200_and_rows`; change: R-083, intake 2026-10-28 (accepted shape: "`/results` with no GPU, VRAM or search text also goes to `/`")
 
-- WHEN a user opens `/`, THE SYSTEM SHALL render the input form and results for the default 8 GB, 2048 tokens and no filters, ignoring any query parameters.
-- WHEN a user opens `/results` with query parameters, THE SYSTEM SHALL render the same page with results for those parameters.
-- WHEN the form is submitted without JavaScript, THE SYSTEM SHALL send a GET to `/results` carrying every field as a query parameter.
+Change (R-083): `/` becomes the landing page and shows no results; results live only at `/results`, and a full page load of `/results` with no hardware goes to `/`. The heading keeps its old name so the number reads the same; read it as "Landing page at `/`, results at `/results`". Was: "WHEN a user opens `/`, THE SYSTEM SHALL render the input form and results for the default 8 GB, 2048 tokens and no filters, ignoring any query parameters."
+
+- Changed (R-083): WHEN a user opens `/`, with or without query parameters, THE SYSTEM SHALL render the landing page of R-083 and no results, ignoring any query parameters (Q-19).
+- WHEN a user opens `/results` with query parameters, THE SYSTEM SHALL render the results page with results for those parameters.
+- Changed (R-083): WHEN a request to `/results` without `HX-Request: true` has `gpu_id`, `gpu_search` and `vram_gb` each absent, empty or only whitespace, THE SYSTEM SHALL answer with an HTTP redirect, status 302, 303 or 307, with `Location: /`, whatever other parameters it carries (for example `/results`, `/results?context_tokens=4096&family=qwen` and `/results?gpu_search=%20%20&vram_gb=`) (Q-18).
+- Changed (R-083): THE SYSTEM SHALL send that `Location` as a path with no scheme and no host (constitution rule 8), and SHALL NOT answer that redirect with status 301 or 308.
+- Changed (R-083): WHEN a request to `/results` carries `HX-Request: true`, THE SYSTEM SHALL answer it as R-032 and R-081 state, without that redirect, even when it carries no hardware.
+- WHEN the form on `/results` is submitted without JavaScript, THE SYSTEM SHALL send a GET to `/results` carrying every field as a query parameter.
+- Changed (R-083): WHEN the landing form on `/` is submitted, with or without JavaScript, THE SYSTEM SHALL send a GET to `/results` carrying the box's text as `gpu_search`.
 
 ### R-014 One card per model, usable models only
 
@@ -241,9 +269,12 @@ Status: as-built · Track: onboard · UI: yes · Source: `results_list.html`, `m
 
 ### R-026 Unseeded catalog state
 
-Status: as-built · Track: onboard · UI: yes · Source: `results_list.html`, `main.py` (`_catalog_version`); test `test_home_unseeded_shows_catalog_not_initialized`
+Status: planned (changed by R-083; was as-built) · Track: full (was onboard) · UI: yes · Source: `results_list.html`, `main.py` (`_catalog_version`); test `test_home_unseeded_shows_catalog_not_initialized`; change: R-083 (the landing page shows no results, so the message needs a place on `/`; Q-22)
 
-- WHILE the catalog has no `catalog_version` record, THE SYSTEM SHALL show `Catalog is not initialized yet.` and `Seed the catalog data, then refresh this page.` in place of results, and SHALL NOT show `No models currently fit this setup.`
+Change (R-083): the message also shows on the landing page. Was: shown only in place of results, which `/` showed at the assumed 8 GB.
+
+- WHILE the catalog has no `catalog_version` record, THE SYSTEM SHALL show `Catalog is not initialized yet.` and `Seed the catalog data, then refresh this page.` in place of results on `/results`, and SHALL NOT show `No models currently fit this setup.`
+- Changed (R-083): WHILE the catalog has no `catalog_version` record, THE SYSTEM SHALL show on `/` the box and, under it, `Catalog is not initialized yet.` and `Seed the catalog data, then refresh this page.`, answering HTTP 200.
 
 ## Filters
 
@@ -553,17 +584,20 @@ Status: as-built · Track: onboard · UI: no · Source: `.github/workflows/relea
 - WHEN a commit lands on `main` or the release is dispatched manually, THE SYSTEM SHALL run the CI checks of R-060 and release only if they pass.
 - THE SYSTEM SHALL name the release `v<major>.<minor>.<commit count on main>`, taking major and minor from `version` in `pyproject.toml`.
 - IF that tag already exists, THEN THE SYSTEM SHALL fail the release.
-- THE SYSTEM SHALL push the image to `ghcr.io/chauhanprateek89/vram-sherpa` with three tags: the version, `sha-<short commit>`, and `latest`. R-082 (planned) sets the order: `sha-<short commit>` before the smoke test, the version and `latest` only after it passes.
+- THE SYSTEM SHALL push the image to `ghcr.io/chauhanprateek89/vram-sherpa` with three tags: the version, `sha-<short commit>`, and `latest`. R-082 (done, v0.1.53) sets the order: `sha-<short commit>` before the smoke test, the version and `latest` only after it passes.
 - THE SYSTEM SHALL run at most one release at a time and SHALL NOT cancel a release in progress.
 
 ### R-062 Release smoke test
 
-Status: as-built · Track: onboard · UI: no · Source: `release.yml` step "Smoke test the published image"
+Status: planned (changed by R-083; was as-built) · Track: full (was onboard) · UI: no · Source: `release.yml` step "Smoke test the published image"; change: R-083, Gate 1 answer Q-23 (`docs/decisions.md`, 2026-10-28: "add a `GET /results?vram_gb=24&context_tokens=4096` render check to the release smoke test in this change"); `results_summary.html` (`id="summary-banner"`, `Hardware:` line), test `test_r078_acceptance.py` (`Hardware: Manual VRAM (24 GB)`)
 
-- WHEN the image is pushed (under `sha-<short commit>` only, once R-082 is built), THE SYSTEM SHALL start it with `APP_ENV=prod` and `ALLOWED_HOSTS=localhost,127.0.0.1` against a fresh Postgres 16.
+Change (R-083, Q-23): changed 2026-10-28 on branch `sdlc/full-landing-box`. After R-083, `GET /?vram_gb=24&context_tokens=4096` renders the landing page, which computes no results, so the release adds a render check of `/results`. Every existing check stays (rule 18). Was: no check requested `/results`.
+
+- WHEN the image is pushed (under `sha-<short commit>` only, since R-082 in v0.1.53), THE SYSTEM SHALL start it with `APP_ENV=prod` and `ALLOWED_HOSTS=localhost,127.0.0.1` against a fresh Postgres 16.
 - IF `/healthz` does not return success within 30 attempts 2 s apart, THEN THE SYSTEM SHALL fail the release.
 - IF the container log lacks `Seeded catalog_version=`, THEN THE SYSTEM SHALL fail the release.
-- IF `GET /?vram_gb=24&context_tokens=4096` does not return success, THEN THE SYSTEM SHALL fail the release.
+- IF `GET /?vram_gb=24&context_tokens=4096` does not return success, THEN THE SYSTEM SHALL fail the release. After R-083 this request renders the landing page (R-083, Q-19); the check stays as it is.
+- Changed (R-083, Q-23): IF `GET /results?vram_gb=24&context_tokens=4096`, requested against the published image, does not return HTTP 200 with a body containing both `id="summary-banner"` and `Manual VRAM (24 GB)`, THEN THE SYSTEM SHALL fail the release.
 - IF any static asset URL on `/`, requested with `X-Forwarded-Proto: https`, starts with `http://`, THEN THE SYSTEM SHALL fail the release.
 - IF a request with `Host: evil.example.com` returns anything other than HTTP 400, THEN THE SYSTEM SHALL fail the release.
 - WHEN the smoke test passes, THE SYSTEM SHALL push the git tag and create a GitHub Release with generated notes.
@@ -619,9 +653,18 @@ Requirements R-001 to R-066 stay in force unless a requirement in this section c
 
 ### R-067 Screens and states in scope
 
-Status: done · Track: full · UI: yes · Source: intake 2026-10-25 and Gate 2 approval (`docs/decisions.md`); `docs/design/README.md` ("Screens and states"); `docs/design/final/`, `docs/design/mockups/final-*.html`; `templates/base.html`, `index.html`, `results_summary.html`, `results_list.html`, `results_why.html`, `model_detail.html`, `how_it_works.html`
+Status: planned (changed by R-083; was done) · Track: full · UI: yes · Source: intake 2026-10-25 and Gate 2 approval (`docs/decisions.md`); `docs/design/README.md` ("Screens and states"); `docs/design/final/`, `docs/design/mockups/final-*.html`; `templates/base.html`, `index.html`, `results_summary.html`, `results_list.html`, `results_why.html`, `model_detail.html`, `how_it_works.html`; change: R-083, intake 2026-10-28
 
-Asked: "UI/UX overhaul". Screens: "Whole app, incl. mobile" (offered as "every page, with the 390 px phone layout treated as a first-class design") and "How it works" (offered as "the /how-it-works explainer page"). Gate 2: "Approved the design: all 24 screens and states in `docs/design/final/` and `docs/design/mockups/final-*.html`, the copy table in `docs/design/README.md`, and ADRs 0001-0008. These are QA's reference (rule 10)."
+Change (R-083): `/` is no longer a results screen. State 1 ("`/` with no input, showing the assumed 8 GB note") and its mockup `home-default` stop being QA's reference for `/`; the landing page takes its place, in the same direction "D layout + E glass", with these states, each at phone and desktop width in the light and the dark theme, mocked up and approved at this change's Gate 2 (constitution rule 10):
+
+- L1. `/`, empty box (R-083);
+- L2. `/` with the styled suggestion list open after typing `4060` (R-071, R-083); this replaces the `gpu-suggest` mockup, which was drawn on the old `/`, as the reference for the list on `/`; on `/results` the list keeps the `gpu-suggest` look;
+- L3. `/` with the catalog unseeded (R-026);
+- L4. `/` with keyboard focus on the box, on a chip and on the submit control (R-077).
+
+Every other state below keeps its approved mockup. Where a list below says "`/` and `/results`", read `/results` for the input form, filters, messages, summary, Top Picks, chips, cards, empty state and unseeded results.
+
+Asked: "UI/UX overhaul". Change: "the landing page is going to be one big text box in the middle of the page, where you input your GPU and then it takes you to the page which is in the screenshot" (2026-10-28). Screens: "Whole app, incl. mobile" (offered as "every page, with the 390 px phone layout treated as a first-class design") and "How it works" (offered as "the /how-it-works explainer page"). Gate 2: "Approved the design: all 24 screens and states in `docs/design/final/` and `docs/design/mockups/final-*.html`, the copy table in `docs/design/README.md`, and ADRs 0001-0008. These are QA's reference (rule 10)."
 
 - THE SYSTEM SHALL render these screens in the visual direction chosen at Gate 2, "D layout + E glass" (R-068):
   - the header and footer on every page;
@@ -630,7 +673,7 @@ Asked: "UI/UX overhaul". Screens: "Whole app, incl. mobile" (offered as "every p
   - `/models/<model_id>`;
   - `/how-it-works`.
 - WHEN QA opens any state below at phone width (390 px) and at desktop width (1280 px), in the light and the dark theme, THE SYSTEM SHALL match the approved mockup for that state (constitution rule 10; Gate 1, Q-5 and Q-11; Gate 2; R-068). The states are:
-  1. `/` with no input, showing the assumed 8 GB note (R-005);
+  1. `/` with no input, showing the assumed 8 GB note (R-005). Superseded by R-083: replaced by states L1 to L4 above;
   2. a GPU selected;
   3. manual VRAM entered;
   4. ambiguous GPU search feedback (R-003, search text `RTX`);
@@ -648,7 +691,7 @@ Asked: "UI/UX overhaul". Screens: "Whole app, incl. mobile" (offered as "every p
 
   | # | Approved mockup `<name>` | State | R-067 state |
   | --- | --- | --- | --- |
-  | 1 | `home-default` | Home, no input | 1 |
+  | 1 | `home-default` | Home, no input (superseded by R-083; no longer QA's reference) | 1 |
   | 2 | `results-gpu` | A GPU selected | 2 |
   | 3 | `results-manual-vram` | Manual VRAM: the reference query | 3, 8 |
   | 4 | `results-gpu-ambiguous` | Ambiguous GPU search | 4 |
@@ -658,7 +701,7 @@ Asked: "UI/UX overhaul". Screens: "Whole app, incl. mobile" (offered as "every p
   | 8 | `results-filters-open` | Filters open | 7 |
   | 9 | `results-picks-hidden` | Top Picks hidden | 8 |
   | 10 | `results-tight-gated` | A Tight card, struck-through quantisations, Gated | 9 |
-  | 11 | `gpu-suggest` | GPU suggestions (the styled list of R-071) | (R-071) |
+  | 11 | `gpu-suggest` | GPU suggestions (the styled list of R-071); on `/` replaced by state L2 (R-083) | (R-071) |
   | 12 | `why-closed` | Breakdown before it loads | 10 |
   | 13 | `why-loading` | Breakdown loading | 10 |
   | 14 | `why-loaded` | Breakdown loaded | 10 |
@@ -704,9 +747,11 @@ Asked: "Looks generic/dated" (offered as "no visual identity; it should look lik
 
 ### R-069 The answer leads the results
 
-Status: done · Track: full · UI: yes · Source: intake 2026-10-25; Gate 1 answers Q-1, Q-2, Q-3, Q-4 and Q-10, Gate 2 approval (`docs/decisions.md`); `docs/design/README.md` (R-069 measurements, "Where a requirement pushed back", "Decisions for you" item 3, copy table); ADR-0006; `index.html` (filters `<details open>` between the form and the results), `results_summary.html`, `results_list.html` (count sentence after Top Picks and filter chips; `There are <n> variants in Won't fit` line), `main.py` (`_top_picks` descriptions); PR #19 (Top Picks copy deferred)
+Status: planned (changed by R-083; was done) · Track: full · UI: yes · Source: intake 2026-10-25; Gate 1 answers Q-1, Q-2, Q-3, Q-4 and Q-10, Gate 2 approval (`docs/decisions.md`); change: R-083 (`/` shows no results or filters); `docs/design/README.md` (R-069 measurements, "Where a requirement pushed back", "Decisions for you" item 3, copy table); ADR-0006; `index.html` (filters `<details open>` between the form and the results), `results_summary.html`, `results_list.html` (count sentence after Top Picks and filter chips; `There are <n> variants in Won't fit` line), `main.py` (`_top_picks` descriptions); PR #19 (Top Picks copy deferred)
 
 Asked: "Too dense" (offered as "too much information at once; the answer gets lost"). Gate 1: "the designer shows Top Picks placement options at Gate 2"; "filters start collapsed on a phone with an active-filter count"; "fix only the two copy quirks (empty state "variants" vs models, Top Picks copy)". Gate 2: "Filters start closed at both widths (not opened on desktop by script). The 800 px desktop target (R-069) applies to the normal results view; states that show a message (ambiguous GPU, input errors) may end around 840-880 px." The Gate 2 dispatch set the ceiling for those states at 900 px, added the GPU-not-found state to them, and kept 1688 px at phone width for every state.
+
+Change (R-083): `/` shows no results and no filters, so the two criteria that named `/` now name `/results` only. Was: "WHEN any state of `/` or `/results` that shows at least one model card loads at phone width …" and "WHEN `/` or `/results` loads at phone width or at desktop width, with or without JavaScript, THE SYSTEM SHALL show the filters closed …". The figures are unchanged.
 
 - THE SYSTEM SHALL place the result headline first in the results area, before Top Picks, active filter chips and the cards. Today the hardware and the counts sit at the top, but the "N models fit or are tight" sentence comes after Top Picks and the filter chips.
 - Process at Gate 2 (not system behaviour): the designer shows options for where Top Picks sit relative to the cards, and the user picks one (Q-1).
@@ -717,8 +762,8 @@ Asked: "Too dense" (offered as "too much information at once; the answer gets lo
   - ambiguous GPU search, `/results?gpu_search=RTX`;
   - GPU not found, `/results?gpu_search=RTX%203060%2012GB` (search text `RTX 3060 12GB`);
   - input errors, `/results?vram_gb=abc`.
-- WHEN any state of `/` or `/results` that shows at least one model card loads at phone width, including the reference query and the three message states above, THE SYSTEM SHALL end the result headline, and the first card's model name, verdict and margin, within the first 1688 CSS px of the page, which is two phone screens (Q-4; Gate 2).
-- WHEN `/` or `/results` loads at phone width or at desktop width, with or without JavaScript, THE SYSTEM SHALL show the filters closed, behind one disclosure control (Q-3; Gate 2).
+- Changed (R-083): WHEN any state of `/results` that shows at least one model card loads at phone width, including the reference query and the three message states above, THE SYSTEM SHALL end the result headline, and the first card's model name, verdict and margin, within the first 1688 CSS px of the page, which is two phone screens (Q-4; Gate 2).
+- Changed (R-083): WHEN `/results` loads at phone width or at desktop width, with or without JavaScript, THE SYSTEM SHALL show the filters closed, behind one disclosure control (Q-3; Gate 2).
 - THE SYSTEM SHALL NOT open the filters by script on page load at any width (Gate 2).
 - THE SYSTEM SHALL label that control `Filters (N)`, where N is the number of active filter chips (R-031): for example `Filters (2)` for `/results?vram_gb=24&context_tokens=4096&family=qwen&quant_bucket=Q4`.
 - WHEN no filter is active, THE SYSTEM SHALL label that control `Filters (0)`.
@@ -758,22 +803,24 @@ Asked: "Bad on mobile" (offered as "the layout breaks or is cramped on a phone")
 
 ### R-071 Input form on `/` and `/results`
 
-Status: done · Track: full · UI: yes · Source: intake 2026-10-25; `index.html` (form errors and `gpu_search_feedback` rendered in the form), `results_summary.html` (the same messages rendered again above the summary), `index.html` `hx-target="#results-shell"` (the form is not re-rendered on in-place refresh); Gate 1 answers Q-2, Q-4 and Q-8, Gate 2 approval (`docs/decisions.md`); ADR-0005 (`docs/adr/0005-gpu-suggestions-progressive-combobox.md`); approved mockup `gpu-suggest` (`docs/design/mockups/final-gpu-suggest.html`)
+Status: planned (changed by R-083; was done) · Track: full · UI: yes · Source: change: R-083, intake 2026-10-28; intake 2026-10-25; `index.html` (form errors and `gpu_search_feedback` rendered in the form), `results_summary.html` (the same messages rendered again above the summary), `index.html` `hx-target="#results-shell"` (the form is not re-rendered on in-place refresh); Gate 1 answers Q-2, Q-4 and Q-8, Gate 2 approval (`docs/decisions.md`); ADR-0005 (`docs/adr/0005-gpu-suggestions-progressive-combobox.md`); approved mockup `gpu-suggest` (`docs/design/mockups/final-gpu-suggest.html`)
 
 Asked: "Too dense"; "Bad on mobile"; "Looks generic/dated". Gate 1: "restyle the controls only, but the native GPU suggestion list may be replaced if it works badly on phones". Gate 2: "Build the styled GPU suggestion list (the `gpu-suggest` mockup): a small vanilla JS combobox over the native list at every width (ADR-0005), keeping R-001's behaviour and the no-JavaScript path."
 
-- WHEN `/` loads at phone width or at desktop width, THE SYSTEM SHALL show `Search GPU`, `Available VRAM (GB)`, the three context presets and `Check compatibility` without scrolling (Q-4).
-- THE SYSTEM SHALL keep both input paths, GPU search (R-001, R-003) and manual VRAM (R-002), the example chips (R-007) and the context presets (R-006), with the behaviour those requirements state.
+Change (R-083): the full input form is on `/results` only; `/` has the one box of R-083, which uses the styled suggestion list below. `Clear` now loads `/` (R-001). Read the heading as "Input form on `/results`; suggestion list on `/` and `/results`". Was: "WHEN `/` loads at phone width or at desktop width, THE SYSTEM SHALL show `Search GPU`, `Available VRAM (GB)`, the three context presets and `Check compatibility` without scrolling (Q-4)." and "… and `Clear` empties the field, clears the selected GPU and moves focus to the field."
+
+- Changed (R-083): WHEN `/results?vram_gb=24&context_tokens=4096` loads at phone width or at desktop width, THE SYSTEM SHALL show `Search GPU`, `Available VRAM (GB)`, the three context presets and `Check compatibility` without scrolling (Q-4).
+- THE SYSTEM SHALL keep on `/results` both input paths, GPU search (R-001, R-003) and manual VRAM (R-002), the example chips (R-007) and the context presets (R-006), with the behaviour those requirements state.
 - THE SYSTEM SHALL show the input error messages of R-008 word for word (protected text, Q-2). The form's headings and help text may change only to the wording of the copy table (R-078).
 - Styled GPU suggestion list (Gate 2: chosen, not conditional). Every other control is restyled only (Q-8).
-- WHILE JavaScript is enabled, at phone width and at desktop width, THE SYSTEM SHALL show the `Search GPU` suggestions in a styled list under the field, as the approved mockup `gpu-suggest` shows, in place of the browser's native suggestion list.
+- WHILE JavaScript is enabled, at phone width and at desktop width, THE SYSTEM SHALL show the `Search GPU` suggestions, on `/results` and in the box on `/` (R-083), in a styled list under the field, as the approved mockup `gpu-suggest` shows (on `/`, as the approved state L2 of R-067 shows), in place of the browser's native suggestion list.
 - WHILE the styled list is in use, THE SYSTEM SHALL NOT show the browser's native suggestion list for `Search GPU` at the same time.
 - WHEN `Search GPU` is empty and the styled list opens, THE SYSTEM SHALL list every catalog GPU, in the order and with the labels R-001 states (VRAM ascending, then name; `<vendor> <name> (<vram to 1 decimal> GB)`).
 - WHEN the user types into `Search GPU`, THE SYSTEM SHALL list only the GPUs whose label contains the typed text, compared case-insensitively with whitespace collapsed, in the order R-001 states. For example, typing `4060` lists `NVIDIA GeForce RTX 4060 (8.0 GB)`, `NVIDIA GeForce RTX 4060 Laptop GPU (8.0 GB)`, `NVIDIA GeForce RTX 4060 Ti (8GB) (8.0 GB)` and `NVIDIA GeForce RTX 4060 Ti (16GB) (16.0 GB)`, in that order, with catalog `2026-10-23`.
 - WHEN the user picks a suggestion by tap or click, THE SYSTEM SHALL put that suggestion's exact label in `Search GPU`, set that GPU as the selected GPU and empty `Available VRAM (GB)`, as R-001 states.
 - WHEN the user moves through the suggestions with the Up and Down arrow keys and presses Enter, THE SYSTEM SHALL put the highlighted suggestion's exact label in `Search GPU`, set that GPU as the selected GPU and empty `Available VRAM (GB)`, as R-001 states.
 - WHEN the user presses Escape while the styled list is open, THE SYSTEM SHALL close the list and keep the text in `Search GPU` unchanged.
-- THE SYSTEM SHALL keep R-001's other behaviour with the styled list in use: a selected GPU is cleared when the text stops matching a suggestion exactly, and `Clear` empties the field, clears the selected GPU and moves focus to the field.
+- Changed (R-083): THE SYSTEM SHALL keep R-001's other behaviour with the styled list in use: a selected GPU is cleared when the text stops matching a suggestion exactly, and `Clear` on `/results` loads `/` (R-001).
 - THE SYSTEM SHALL give each suggestion in the styled list a tap target of at least 44 CSS px tall at phone width (R-070).
 - THE SYSTEM SHALL expose the styled list to assistive technology with `role="combobox"` and `aria-expanded` on `Search GPU`, `role="listbox"` on the list and `role="option"` on each suggestion, as the approved mockup `gpu-suggest` marks it up (R-077).
 - THE SYSTEM SHALL build the styled list in the site's own JavaScript, adding no third-party library, no new request and no new route (ADR-0005; R-042).
@@ -882,7 +929,7 @@ Asked: "UI/UX overhaul".
 
 ### R-078 Behaviour the overhaul keeps
 
-Status: done · Track: full · UI: yes · Source: intake 2026-10-25 (the user did not pick "Hard to use"); Gate 1 answers Q-2 and Q-8, Gate 2 approval (`docs/decisions.md`); `docs/design/README.md` (section "Copy table (Q-2): what changed" and its list "Word for word (R-078)"); constitution rules 11 and 16; R-001 to R-066
+Status: planned (changed by R-083; was done) · Track: full · UI: yes · Source: change: R-083, intake 2026-10-28; intake 2026-10-25 (the user did not pick "Hard to use"); Gate 1 answers Q-2 and Q-8, Gate 2 approval (`docs/decisions.md`); `docs/design/README.md` (section "Copy table (Q-2): what changed" and its list "Word for word (R-078)"); constitution rules 11 and 16; R-001 to R-066
 
 Asked: "UI/UX overhaul". The user did not name the flow as a problem. Gate 1: "headings, help text, notes and raw labels (such as `weights_gb`) may be reworded and repeats merged. Error messages, verdict labels and figures stay. New wording is approved in the Gate 2 mockups."; "restyle the controls only, but the native GPU suggestion list may be replaced if it works badly on phones". Gate 2: "Approved the design: all 24 screens and states …, the copy table in `docs/design/README.md`, and ADRs 0001-0008. These are QA's reference (rule 10)."; "Build the styled GPU suggestion list (the `gpu-suggest` mockup) …".
 
@@ -891,7 +938,9 @@ Asked: "UI/UX overhaul". The user did not name the flow as a problem. Gate 1: "h
 - WHEN either query below loads after the overhaul, THE SYSTEM SHALL show the same models in the same order as `main` at f2ad2d8, with the same verdicts and the same required VRAM, available VRAM and margin figures:
   - the reference query;
   - `/results?vram_gb=12&context_tokens=8192&family=qwen&quant_bucket=Q4`.
-- THE SYSTEM SHALL keep every route, query parameter and fragment of R-013, R-032 and R-042, so a URL that worked before the overhaul shows the same results after it. The one change is R-081: `/results/partials/content?<query>` opened as a normal page load redirects to `/results?<query>`, which shows the same results on the full page.
+Change (R-083): the landing page changes the flow this requirement kept: `/` no longer shows the input form and results, `Clear` loads `/`, a box number in `gpu_search` is read as VRAM, and `/results` with no hardware redirects to `/`. Every other criterion here stays. Was: the bullet below without its last two sentences.
+
+- THE SYSTEM SHALL keep every route, query parameter and fragment of R-013, R-032 and R-042, so a URL that worked before the overhaul shows the same results after it. The one change is R-081: `/results/partials/content?<query>` opened as a normal page load redirects to `/results?<query>`, which shows the same results on the full page. Changed (R-083): `/` with query parameters shows the landing page, as it ignored them before; a full page load of `/results` with no `gpu_id`, `gpu_search` or `vram_gb` redirects to `/` (R-013); a `gpu_search` that is a box number shows that VRAM (R-003).
 - THE SYSTEM SHALL keep the inputs, filters and live refresh (R-001 to R-008, R-027 to R-032), the three context presets (R-006) and the model detail form with its GPU dropdown and hardware precedence (R-035), with the same controls, fields and steps; these are restyled only (Q-8). The one replacement is the styled GPU suggestion list of R-071, built over the native list, which stays as the no-JavaScript path.
 - THE SYSTEM SHALL show the required VRAM, the available VRAM and the margin with every verdict (constitution rule 16).
 - THE SYSTEM SHALL keep protected text word for word: every error message R-001 to R-066 specify, the verdict labels `Fits`, `Tight` and `Won't fit`, and every figure (Q-2).
@@ -984,7 +1033,7 @@ Old-form addresses:
 
 ### R-082 `latest` and the version tag move only after the smoke test passes
 
-Status: planned · Track: quick · UI: no · Source: `.github/workflows/release.yml` (job `release`); "Contradictions resolved at Gate 0" (the `latest` row); `.sdlc/STATUS.md` intake 2026-10-27
+Status: done · Track: quick · UI: no · Source: `.github/workflows/release.yml` (job `release`); "Contradictions resolved at Gate 0" (the `latest` row); `.sdlc/STATUS.md` intake 2026-10-27; PR #23 (squash-merged as 2aa63d0), released in v0.1.53 on 2026-10-28 (release run 40666348177: build pushed only `sha-2aa63d0`; `latest`, `v0.1.53` and `sha-2aa63d0` share one digest)
 
 Added 2026-10-27 on branch `sdlc/quick-latest-after-smoke`. Today the step "Build and push" pushes `v<major>.<minor>.<count>`, `sha-<short commit>` and `latest` before the step "Smoke test the published image" runs. A failing smoke test blocks the git tag and the GitHub Release, but `latest` has already moved, and watchtower deploys it within 5 minutes (rule 4, R-063). This requirement changes the order of R-061's tag bullet and R-062's first bullet. The three tags, the smoke checks and everything else in R-061 and R-062 stay as they are.
 
@@ -1000,6 +1049,71 @@ Version tag decision: the version image tag waits for the smoke test too. `docs/
 - WHEN a release succeeds, THE SYSTEM SHALL leave the `v<major>.<minor>.<count>`, `sha-<short commit>` and `latest` tags resolving to the same manifest digest.
 - THE SYSTEM SHALL keep every smoke test check unchanged: `/healthz`, the `Seeded catalog_version=` log line, the page render, https asset URLs behind `X-Forwarded-Proto: https`, the 400 for an unknown Host, `Cache-Control` on `GET /` and the `/static/` URL fetches (rule 18). The web command it runs SHALL stay identical to `docker-compose.prod.yml` (rule 20).
 - THE SYSTEM SHALL add no new GitHub Action, runner, registry or paid service. Re-tagging uses `docker buildx imagetools create` from the buildx that `docker/setup-buildx-action` already installs (rule 2).
+
+## Landing page (Full track)
+
+Added 2026-10-28 for the Full-track change "centred landing box" (branch `sdlc/full-landing-box`). The user's words are recorded in `docs/decisions.md` (Intake rows dated 2026-10-28). Choices the user did not make are listed as Q-14 to Q-23 under "Open questions" and in `docs/decisions.md` ("Made during work", 2026-10-28). Out of scope: reverse lookup by model name ("leave reverse lookup for now"), and any change to the results page beyond `Clear` (R-001) and the box-number rule (R-003).
+
+### R-083 Landing page: one centred GPU box at `/`
+
+Status: planned · Track: full · UI: yes · Source: intake 2026-10-28 (`docs/decisions.md`), the user's screenshot of today's `/` (the bento form pane, summary, Top Picks and model cards at the assumed 8 GB); first proposed 2026-10-24 (prototype https://claude.ai/artifact/D8FbLLJP2qdx9v3Btbemnz); `main.py` (`home` renders the form and 8 GB results; `results`; `_example_chips`; `_resolve_available_vram`), `index.html`, `app.js` (`initGpuInputs`, `initGpuCombobox`, `initExampleChips`); `data/seed_gpus.json` (catalog `2026-10-23`)
+
+Asked: "the landing page is going to be one big text box in the middle of the page, where you input your GPU and then it takes you to the page which is in the screenshot, and if you click clear you go back to that one big text box. something like what claude's own app has when you click on new chat in the application." Follow-up answers: "1. accept the number 2. hide it 3. leave reverse lookup for now", meaning: (1) a GPU that isn't listed is entered as a VRAM number such as "12 GB" in the same box, with no separate VRAM field or link on the landing page; (2) the context window is hidden on the landing page (2048 tokens) and stays changeable on the results page; (3) no reverse lookup in this change. Accepted shape: "`/` shows the header and one large centred GPU box with the styled GPU suggestion list (R-071's combobox), with the presets (`RTX 4060 8GB`, `8GB`, `24GB`) as suggestion chips underneath; no results and no assumed-8 GB note on `/`. Choosing a GPU (or entering a number) goes to `/results?…`, the current bento results page, otherwise unchanged. `Clear` on the results page and the logo go back to `/`. `/results` with no GPU, VRAM or search text also goes to `/`."
+
+Terms:
+
+- *The box*: the one text field on `/`.
+- *Box number* (proposal, Q-14): text that, with leading and trailing whitespace removed, is one or more digits, optionally a decimal point and one or more digits, then optionally any spaces and `GB` in any letter case, and nothing else. Box numbers: `12`, `12 GB`, `12gb`, `12.5 GB`, `24GB`, `0`. Not box numbers: `12 G`, `12 GiB`, `12,5`, `.5`, `-4`, `12 GB VRAM`, `RTX 3060 12GB`.
+- *How the box decides* (proposal, Q-14), in this order: (1) text that equals a suggestion label, or a GPU's `<vendor> <name>` or `<name>`, compared case-insensitively with whitespace collapsed, is that GPU; (2) otherwise a box number is VRAM; (3) anything else non-blank is GPU search text and goes through R-003's contains-match and messages. `/results` applies this rule (R-003), so it holds with and without JavaScript.
+
+What `/` shows:
+
+- WHEN a user opens `/`, THE SYSTEM SHALL answer HTTP 200 and show the header (R-076), the box, the three example chips of R-007 under the box, one submit control, and the footer (R-038).
+- THE SYSTEM SHALL NOT show on `/` any of: the summary, the result headline, Top Picks, model cards, active filter chips, the empty state, the filters, `Available VRAM (GB)`, the context presets, the note `No GPU or VRAM selected yet. Showing estimates with an assumed 8 GB baseline.`, any GPU search message or input error, or a `Clear` control (Q-17).
+- THE SYSTEM SHALL show exactly one text field on `/` (the theme toggle and links are not text fields).
+- THE SYSTEM SHALL give the box the accessible name `Search GPU`; the label may be visually hidden (Q-20).
+- THE SYSTEM SHALL give the submit control the accessible name `Check compatibility`; it may be drawn as an icon (Q-17).
+- THE SYSTEM SHALL give `/` the page title `VRAM Sherpa` and exactly one `h1`. Its wording, the help line and the box's placeholder are rewordable text (R-078) set by the mockup approved at this change's Gate 2; until then they are today's `Find models that fit your VRAM`, `Pick your GPU, or enter your VRAM if it isn't listed.` and `Start typing a GPU name` (Q-20).
+- WHEN `/` loads at desktop width (1280 × 800) and at phone width (390 × 844), THE SYSTEM SHALL show the box, the three chips and the submit control without scrolling.
+- WHEN `/` loads at either width, THE SYSTEM SHALL place the box's horizontal centre within 2 CSS px of the viewport's horizontal centre (Q-21).
+- WHEN `/` loads at either width, THE SYSTEM SHALL place the box's vertical centre between 35% and 65% of the viewport height: between 280 and 520 CSS px from the top at 1280 × 800, and between 295 and 549 CSS px at 390 × 844 (Q-21).
+- THE SYSTEM SHALL render the box at least 560 CSS px wide at desktop width and at least 342 CSS px wide at phone width (Q-21), with its text at least 16 CSS px (R-070).
+- WHEN `/` loads, THE SYSTEM SHALL put keyboard focus in the box (Q-17).
+- WHEN `/` is requested with query parameters (for example `/?vram_gb=24&context_tokens=4096`), THE SYSTEM SHALL show the same landing page as without them, with HTTP 200 and no redirect (Q-19).
+- THE SYSTEM SHALL serve the landing page at `/` with GET only and add no route (R-042, constitution rule 11).
+- THE SYSTEM SHALL render `/` in the direction "D layout + E glass" (R-068) and, at phone and desktop width in both themes, match the approved mockups for states L1 to L4 of R-067 (constitution rule 10).
+
+Suggestions:
+
+- WHILE JavaScript is enabled, THE SYSTEM SHALL show under the box the styled suggestion list of R-071, with R-071's contents, order, filtering, keyboard behaviour, Escape, 44 CSS px options and ARIA roles. For example, typing `4060` lists the four GPUs R-071 names, in that order.
+- WHILE JavaScript is disabled, THE SYSTEM SHALL offer the native suggestion list of R-001 on the box.
+
+Going to the results:
+
+- WHEN the user picks a suggestion by tap, click, or Up or Down then Enter, THE SYSTEM SHALL load `/results` for that GPU without a further press (Q-16): the summary's `Hardware` line shows that suggestion's label, `Search GPU` on the results page holds it, and the context is `2k`.
+- WHEN the user submits the box with Enter or the submit control, THE SYSTEM SHALL send a GET to `/results` carrying the box's text as `gpu_search`, with or without JavaScript (R-013).
+- WHEN the submitted text equals a GPU as the rule above defines it (for example `nvidia geforce rtx 4090 (24.0 gb)` or `GeForce RTX 4090`), THE SYSTEM SHALL show the results for that GPU, with `NVIDIA GeForce RTX 4090 (24.0 GB)` as the hardware.
+- WHEN the submitted text is a box number greater than 0, THE SYSTEM SHALL show the results for that VRAM as R-003 states: `12 GB` shows `Manual VRAM (12 GB)` and `12` in `Available VRAM (GB)`.
+- WHEN the submitted text is a box number equal to 0, THE SYSTEM SHALL show the results page as R-003 states for it (R-008's inline error, 8 GB, the default note) (Q-15).
+- WHEN the submitted text is any other non-blank text, THE SYSTEM SHALL show the results page with R-003's resolution and messages, word for word: `RTX` gives the "matched multiple entries" message at 8 GB, `RTX 3060 12GB` gives `GPU "RTX 3060 12GB" was not found. Using 12 GB inferred from your input.`, and `Quadro XYZ` gives `GPU "Quadro XYZ" was not found. Select a listed GPU or enter VRAM manually.` at 8 GB.
+- WHEN the user submits an empty or whitespace-only box, THE SYSTEM SHALL show `/` again, with the address `/` and no message, with or without JavaScript (through R-013's redirect without it).
+- WHEN the user arrives at `/results` from `/` by any of the ways above, THE SYSTEM SHALL compute for 2048 tokens, show `2k` selected, and apply no filters; the results page is otherwise the one R-067 to R-081 describe.
+- WHEN the user presses a chip on `/`, THE SYSTEM SHALL load the results R-007 states for it, with or without JavaScript (Q-16).
+
+Back to `/`:
+
+- WHEN the user presses `Clear` on `/results`, THE SYSTEM SHALL load `/` with an empty box (R-001).
+- WHEN the user follows the logo mark or the `VRAM Sherpa` wordmark (R-076), or `Estimator` (R-039), from any page, THE SYSTEM SHALL load `/` with an empty box.
+- WHEN the user goes from `/` to `/results` through the box or a chip and presses Back, THE SYSTEM SHALL show the full landing page: one header, the box, the chips, the submit control and one footer, styled by the site stylesheet.
+- WHEN a full page load of `/results` carries no hardware, THE SYSTEM SHALL redirect to `/` as R-013 states.
+
+Unseeded catalog:
+
+- WHILE the catalog is unseeded, THE SYSTEM SHALL show on `/` the box and the two sentences of R-026, with HTTP 200 (Q-22).
+
+Assets:
+
+- WHERE this change alters any file under `src/vramsherpa/static/`, THE SYSTEM SHALL request its CSS and JS with an asset version other than `20261027e` (constitution rule 21, R-041).
 
 ## Notes
 
@@ -1051,9 +1165,26 @@ The user answered Q-1 to Q-11 at Gate 1 on 2026-10-25. The answers are recorded 
 
 ## Open questions
 
-None open. Q-12 and Q-13 were raised while applying the Gate 2 round 1 decisions and closed by the user at Gate 2 round 1 redo (2026-10-25); the answers are in `docs/decisions.md` (rows dated 2026-10-25, Gate "2 (round 1 redo)"). Neither conflicts with `docs/constitution.md`. Applying the Gate 2 approval (R-067, R-068, R-069, R-071, R-078) raised no new question, and none of those changes conflicts with the constitution; the styled GPU suggestion list adds JavaScript under `static/`, so rule 21 applies through R-079.
+Q-14 to Q-23 (R-083) were answered at Gate 1 on 2026-10-28; see the table at the end and `docs/decisions.md` (rows dated 2026-10-28, Gate 1). Earlier: Q-12 and Q-13 were raised while applying the Gate 2 round 1 decisions and closed by the user at Gate 2 round 1 redo (2026-10-25); the answers are in `docs/decisions.md` (rows dated 2026-10-25, Gate "2 (round 1 redo)"). Neither conflicts with `docs/constitution.md`. Applying the Gate 2 approval (R-067, R-068, R-069, R-071, R-078) raised no new question, and none of those changes conflicts with the constitution; the styled GPU suggestion list adds JavaScript under `static/`, so rule 21 applies through R-079.
 
 | # | Requirement | Question | Status and answer |
 | --- | --- | --- | --- |
 | Q-12 | R-075 | If `Llama 3.1 8B Instruct` or its Q4 variant ever leaves the catalog, should `/how-it-works` keep the worked example with the last known inputs (unnamed), or drop the worked example section? | Closed 2026-10-25. Keep it, unnamed ("an 8B model at Q4"), from the fixed inputs params_b 8, bits_effective 4.5, kv_gb_per_1k_ctx 0.48 and 2048 tokens (7.33 GB). Folded into R-075. See `docs/decisions.md`. |
 | Q-13 | R-081, R-032 | Each in-place refresh puts `/results/partials/content?…` in the address bar, so reloading the page or sharing that address also shows the bare results fragment. The decision names only back navigation. Should R-081 also cover reload and opening the pushed address directly (which R-032's "reproduces the same results when opened directly" would suggest)? | Closed 2026-10-25, resolved by ADR-0008. Yes: reload and shared links show the full page, and old `/results/partials/content?…` links opened as a normal page redirect to `/results?…`. Folded into R-081; R-032's as-built note corrected. See `docs/decisions.md`. |
+
+### Open for Gate 1: centred landing box (R-083, 2026-10-28)
+
+Each row is a choice the user's words did not settle. The requirements above carry the proposed answer, and `docs/decisions.md` ("Made during work", 2026-10-28) records each one. Constitution check: R-083 and the changed requirements add no route and only GET (rule 11), keep `Cache-Control` on `/` (rule 9, R-080), send a relative redirect (rule 8), need approved mockups and browser QA (rule 10, R-067 states L1 to L4) and an asset version bump (rule 21). The one rule they touch is rule 18, in Q-23.
+
+| # | Requirement | Question | Proposed answer | Gate 1 answer (2026-10-28) |
+| --- | --- | --- | --- | --- |
+| Q-14 | R-083, R-003 | How does the one box tell a GPU from a VRAM number? | In order: text equal to a GPU's label, `<vendor> <name>` or `<name>` is that GPU; else a bare number with an optional `GB` (`12`, `12 GB`, `12.5gb`) is VRAM; else R-003's search and messages. The server applies it to every `gpu_search`, so it also works without JavaScript and in `Search GPU` on the results page. That changes three results-page cases with catalog `2026-10-23`: `8GB` no longer selects `RTX 4060 Ti (8GB)`, and `12` and `24` no longer give the "matched multiple entries" message. | Approved as proposed: the rule applies on both pages, including `Search GPU` on `/results` (`8GB`, `12`, `24` become VRAM there). |
+| Q-15 | R-083, R-003 | What happens to `0`, `0 GB` and other numbers that can't be used? | `0` shows the results page as `/results?vram_gb=0` does (R-008's inline error, 8 GB, the default note). Text that isn't a box number (`-4`, `12,5`, `12 GiB`) goes through R-003 as GPU search text. No upper limit, as today. `/` itself never shows a message; every message appears on the results page. | Approved as proposed. |
+| Q-16 | R-083, R-007 | Does picking a suggestion or a chip on `/` go straight to the results, or only fill the box? | Straight to the results, with no second press. Chips work without JavaScript (for example as plain links). On `/results` the chips keep filling the form (R-007). | Approved as proposed. |
+| Q-17 | R-083 | Which controls sit with the box? | A submit control named `Check compatibility` (it may be an icon; it is needed without JavaScript and on phones). No `Clear` on `/`. The box has keyboard focus on load, as in Claude's new chat; on a phone this may open the keyboard. | Approved as proposed: a `Check compatibility` submit control (may be an icon), no `Clear` on `/`, and the box takes focus on load. |
+| Q-18 | R-013, R-005 | What does `/results` do with no GPU, VRAM or search text? | A full page load redirects (302, relative `Location: /`) and drops any context or filters it carried. In-place refreshes (`HX-Request: true`) keep today's 8 GB results with the default note. Unusable hardware (`vram_gb=abc`, an unknown `gpu_id`) still shows the results page at 8 GB with its error or note. | Approved as proposed. |
+| Q-19 | R-013, R-083 | What about old links to `/` with parameters, such as `/?vram_gb=24&context_tokens=4096`? | Show the landing page and ignore them, as `/` already ignores them today; no redirect to `/results`. | Approved as proposed. |
+| Q-20 | R-083, R-039, R-076 | Title, heading, label and placeholder copy on `/`; where `Estimator` goes. | Title `VRAM Sherpa`; one `h1`, today's `Find models that fit your VRAM` and help line until the Gate 2 mockup approves other wording; the box's accessible name stays `Search GPU`, visible or not as the designer proposes; placeholder reworded at Gate 2 to mention a VRAM number. `Estimator` and the logo keep linking to `/`. | Approved as proposed. |
+| Q-21 | R-083 | What do "big" and "in the middle" mean, testably? | Box centred horizontally within 2 px; its vertical centre between 35% and 65% of the viewport height; at least 560 px wide at 1280 and 342 px at 390; box, chips and submit visible without scrolling. The designer may propose other numbers at Gate 2. | Approved as proposed. |
+| Q-22 | R-026, R-083 | What does `/` show with an unseeded catalog? | The box with the two R-026 sentences under it, HTTP 200. | Approved as proposed. |
+| Q-23 | R-062, rule 18 | The release smoke test's page render requests `/?vram_gb=24&context_tokens=4096`. Today that renders 8 GB results; after this change it renders the landing page, which computes no results. The check is not removed, but it covers less. | Add a check that `GET /results?vram_gb=24&context_tokens=4096` returns success to the smoke test in this change (adding checks is allowed by rule 18). Not yet written into R-062; say yes and it will be. | Yes. Written into R-062: `GET /results?vram_gb=24&context_tokens=4096` must return 200 with `id="summary-banner"` and `Manual VRAM (24 GB)`. |

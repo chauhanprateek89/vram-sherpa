@@ -2,21 +2,22 @@
 
 | | |
 | --- | --- |
-| Track | Quick: push `:latest` only after the smoke test passes |
-| Stage | Release PR |
-| Branch | sdlc/quick-latest-after-smoke |
+| Track | Full (centred landing box) |
+| Stage | Release |
+| Branch | sdlc/full-landing-box |
 | Gate waiting | none |
 | Updated | 2026-10-28 |
 
 ## Your actions
 
-- none for this track. Still open from the last track: let the homelab pull v0.1.52 (watchtower does this once the server is set up).
+- Confirm the homelab runs v0.1.53 (digest `sha256:c1dacb73…`), e.g. `docker inspect` on the server; it can't be seen from outside because this release changes no app code.
 
 ## Next step
 
-sdlc:release (mode pr) pushes the branch and opens the PR, then waits for CI. Then Gate 3 (repo merges squash). Open point for Gate 3: the version tag also waits for the smoke test (`docs/decisions.md`, 2026-10-27 Plan). After "Merge now": live check confirms the release run's step order (smoke test before "Tag the tested image as release and latest") and that `latest`, `v…` and `sha-…` share one digest, then flip T-022 `passes`.
+Release running (`sdlc:release`, mode pr): push the branch over HTTPS, open the PR, wait for CI. Then Gate 3. If this session ends first, `/sdlc:orchestrate resume`: `gh pr list --head sdlc/full-landing-box`.
+Gate 3 notes: suggest state highlights no option until Down is pressed (mockup highlights option 1) and the chips show faintly through the open list; on /results the open suggestion list covers the submit until Escape (pre-existing). Review nits to list in the PR: brittle source-text asserts in the T-025/T-027/T-030 tests, `_has_hardware_input` typed `object` (T-027), duplicated chip rules in styles.css (T-029), mktemp body file not removed in release.yml (T-032).
 
-Other follow-ups still open (not part of this track): theme toggle and GPU input after an htmx cache restore, incl. a stale preset radio on a cache-hit Back; host guard ignores `APP_ENV`/`PUBLIC_HOSTNAME` that docs/RELEASE_AND_DEPLOY.md tells the server to set (tunnel requests would get 400); smoke test never hits /results; local compose binds 0.0.0.0:8000 (rule 3); `/docs`, `/redoc`, `/openapi.json` are public; font URL has no `?v` and the font is served as octet-stream.
+Other follow-ups still open (not part of this track): theme toggle and GPU input after an htmx cache restore, incl. a stale preset radio on a cache-hit Back; host guard ignores `APP_ENV`/`PUBLIC_HOSTNAME` that docs/RELEASE_AND_DEPLOY.md tells the server to set (tunnel requests would get 400); local compose binds 0.0.0.0:8000 (rule 3); `/docs`, `/redoc`, `/openapi.json` are public; font URL has no `?v` and the font is served as octet-stream.
 
 ## Log
 
@@ -24,10 +25,15 @@ Older rows: `.sdlc/log.md`.
 
 | Date | Stage | Agents (model) | Outcome |
 | --- | --- | --- | --- |
-| 2026-10-27 | Release | sdlc:release (sonnet) | PR #22 opened, CI test passed |
-| 2026-10-27 | Gate 3 | user | Merge now (squash); fix CLAUDE.md ASSET_VERSION line first |
-| 2026-10-27 | Release | sdlc:release (sonnet) | PR #22 squash-merged as dc40346; release v0.1.52 passed (verify, build, smoke test incl. Cache-Control and static URLs, publish); live check not possible (no live URL); Full track done |
-| 2026-10-27 | Intake | orchestrator | Quick track: push `:latest` only after the smoke test passes; branch sdlc/quick-latest-after-smoke from main dc40346; UI overhaul tasks archived to .sdlc/archive/sdlc-full-ui-overhaul.json; live URL recorded in project.json |
-| 2026-10-27 | Plan | sdlc:architect (inherit) | R-082 added (track: quick): `latest` and the version tag move only after the smoke test; `sha-` pushed before; tag the tested digest with `imagetools create`. T-022 (opus). No UI, architecture or cost flags. Committed 4de1e2b |
-| 2026-10-28 | Build | sdlc:builder (opus), sdlc:reviewer (opus) | T-022 passed: commit b7452ed, passed first review; nits: test's version-tag regex is line-bound (build tags checked exactly, so not blocking), watchtower arrow off-centre in the deploy doc diagram |
-| 2026-10-28 | QA | orchestrator | Browser QA skipped (R-082 has nothing visible in the app). Local checks: YAML parses, lint, catalog, full pytest pass; new test 6/6 on the fix, 4/6 fail on the old workflow. Real proof is the first release run |
+| 2026-10-28 | Intake | orchestrator | Full track: `/` becomes one centred GPU box (Claude new-chat style); box takes a VRAM number, context hidden on landing, no reverse lookup. Branch sdlc/full-landing-box from main 2aa63d0 |
+| 2026-10-28 | Requirements | sdlc:product | R-083 (landing box) added; R-001, R-002, R-003, R-005, R-006, R-007, R-013, R-026, R-067, R-069, R-071, R-078 changed; R-082 done. Open Q-14 to Q-23. Committed 9aacb2e |
+| 2026-10-28 | Gate 1 | user | Scope approved with defaults; Q-14 number rule on both pages; Q-17 submit + focus on load, no Clear on `/`; Q-23 add a /results smoke check in this change |
+| 2026-10-28 | Requirements | sdlc:product (inherit) | R-062 amended for Q-23: smoke test also requires `GET /results?vram_gb=24&context_tokens=4096` → 200 with `id="summary-banner"` and `Manual VRAM (24 GB)`; Gate 1 answers column added to Q-14 to Q-23. Committed afaaf83 |
+| 2026-10-28 | Design | sdlc:architect (inherit) | HLD section "Centred landing box", flows 9-10; ADRs 0009 (own landing.html), 0010 (302 /results→/), 0011 (gpu_input.py rule), 0012 (plain GET form + links, Clear is a link), 0013 (smoke /results check). 4 open points for Gate 2. Committed 34589c4 |
+| 2026-10-28 | Mockups | sdlc:uiux (inherit) | L1-L4 as `final-landing-*` (6 mockups) + `final-results-from-landing`, 4 PNGs each; copy proposed; only `Clear` changes on /results; artifact https://claude.ai/artifact/S8yurugqYYCy6CNtbNTSbj. Committed 06ab377 |
+| 2026-10-28 | Gate 2 | user | Design approved; proposed landing copy; L3 dashed inert GPU chip; focus on load at every width (kept despite Android keyboard) |
+| 2026-10-28 | Plan | sdlc:architect (inherit) | T-023 to T-032 (opus: T-027 302 redirect, T-032 release smoke check; rest sonnet); UI tasks name their `final-landing-*` / `final-results-from-landing` mockups; static tasks bump ASSET_VERSION. No constitution conflicts, no cost. Committed 692c87f |
+| 2026-10-28 | Build | sdlc:builder + sdlc:reviewer (sonnet; opus for T-027, T-032) | T-023 to T-032 all passed review (T-024, T-029 on the second review; no Opus rebuilds), commits c42116a..62ab9b1. Orchestrator check: lint, catalog, full pytest pass. Nits only (brittle source-text asserts, duplicated chip CSS, unremoved mktemp file) |
+| 2026-10-28 | QA | sdlc:qa (inherit) ×5 | 4/5 pass (box rule + Clear, redirect/context/chips/unseeded, results regressions, R-062 smoke check). R-083 fails on layout: box 81 px off-centre at 1280, submit outside the box, grey filled field, no 16 px gutters at 390; 9-32% pixel diff vs approved PNGs. Behaviour, copy and focus pass. Sent back as T-033 (opus: unknown cascade cause, only fix round) |
+| 2026-10-28 | Build | sdlc:builder + sdlc:reviewer (opus) | T-033 passed first review, commit a80f5c6 (landing rules scoped under `.ask`, ASSET_VERSION 20261028f). Lint, catalog, full pytest pass. Nit: `.ask input[type=text]` repeats `.form-pane input[type=text]` (kept scoped on purpose) |
+| 2026-10-28 | QA | sdlc:qa (inherit) ×2 | Re-run after T-033: R-083 passes (box 754 px centred, submit inset, 16 px gutters and 344 px box at 390; pixel diff now 1.2-1.6% at 1280, 2.8-3.9% at 390, suggest 5-9%); results regressions 0.00% diff. All 11 tasks pass |
