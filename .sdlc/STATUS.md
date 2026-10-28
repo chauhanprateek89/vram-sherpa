@@ -3,7 +3,7 @@
 | | |
 | --- | --- |
 | Track | Full (centred landing box) |
-| Stage | Build |
+| Stage | QA |
 | Branch | sdlc/full-landing-box |
 | Gate waiting | none |
 | Updated | 2026-10-28 |
@@ -14,8 +14,8 @@
 
 ## Next step
 
-Build running (`sdlc:build` workflow, T-023 to T-032 on sdlc/full-landing-box). If this session ends before it reports, run `/sdlc:orchestrate resume`: check `git log` for commits starting `T-0xx:` and `.sdlc/reviews/`, set each task's `review` in `.sdlc/features.json`, and re-launch the build for the tasks not yet passed.
-Then QA (`sdlc:qa`, compare with the approved `final-landing-*` and `final-results-from-landing` mockups; T-030/T-028 notes list the focus, picking and Back checks), Release, Gate 3.
+QA running (`sdlc:qa` workflow, 5 items: R-083 landing; R-001/002/003/005 box rule and Clear; R-013/006/007/026 redirect, context, chips, unseeded; R-067/069/071/078 results regressions; R-062 smoke check). If this session ends before it reports, run `/sdlc:orchestrate resume`: read `passes` in `.sdlc/features.json` and re-run QA for items whose tasks don't pass.
+Then Release (`sdlc:release`, mode pr), Gate 3. Review nits to list in the PR: brittle source-text asserts in the T-025/T-027/T-030 tests, `_has_hardware_input` typed `object` (T-027), duplicated chip rules in styles.css (T-029), mktemp body file not removed in release.yml (T-032).
 
 Other follow-ups still open (not part of this track): theme toggle and GPU input after an htmx cache restore, incl. a stale preset radio on a cache-hit Back; host guard ignores `APP_ENV`/`PUBLIC_HOSTNAME` that docs/RELEASE_AND_DEPLOY.md tells the server to set (tunnel requests would get 400); local compose binds 0.0.0.0:8000 (rule 3); `/docs`, `/redoc`, `/openapi.json` are public; font URL has no `?v` and the font is served as octet-stream.
 
@@ -33,3 +33,4 @@ Older rows: `.sdlc/log.md`.
 | 2026-10-28 | Mockups | sdlc:uiux (inherit) | L1-L4 as `final-landing-*` (6 mockups) + `final-results-from-landing`, 4 PNGs each; copy proposed; only `Clear` changes on /results; artifact https://claude.ai/artifact/S8yurugqYYCy6CNtbNTSbj. Committed 06ab377 |
 | 2026-10-28 | Gate 2 | user | Design approved; proposed landing copy; L3 dashed inert GPU chip; focus on load at every width (kept despite Android keyboard) |
 | 2026-10-28 | Plan | sdlc:architect (inherit) | T-023 to T-032 (opus: T-027 302 redirect, T-032 release smoke check; rest sonnet); UI tasks name their `final-landing-*` / `final-results-from-landing` mockups; static tasks bump ASSET_VERSION. No constitution conflicts, no cost. Committed 692c87f |
+| 2026-10-28 | Build | sdlc:builder + sdlc:reviewer (sonnet; opus for T-027, T-032) | T-023 to T-032 all passed review (T-024, T-029 on the second review; no Opus rebuilds), commits c42116a..62ab9b1. Orchestrator check: lint, catalog, full pytest pass. Nits only (brittle source-text asserts, duplicated chip CSS, unremoved mktemp file) |

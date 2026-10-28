@@ -28,7 +28,7 @@
       "model": "sonnet",
       "dependsOn": [],
       "notes": "UI: no. Pure refactor plus a new unit-tested module; about 60 lines. Use `[0-9]`, not `\\d` (Python's `\\d` matches other scripts' digits). No file under `src/vramsherpa/static/` changes, so no `ASSET_VERSION` bump (rule 21). `ESTIMATION_POLICY_VERSION` unchanged (rule 16).",
-      "review": null,
+      "review": "passed",
       "passes": false
     },
     {
@@ -74,7 +74,7 @@
         "T-023"
       ],
       "notes": "UI: yes only through what `/results` shows; no layout change, so the existing mockups apply (`results-from-landing` for `12 GB`, `results-errors` for `0`). Rewrite the request once in `_results_page_context`; do not special-case the label, VRAM field or chips (ADR-0011 alternatives). Pass a context flag such as `box_vram` to the template. No static change, so no `ASSET_VERSION` bump. `ESTIMATION_POLICY_VERSION` unchanged (rule 16).",
-      "review": null,
+      "review": "passed",
       "passes": false
     },
     {
@@ -108,7 +108,7 @@
         "T-024"
       ],
       "notes": "UI: yes (results form after typing `12` in `Search GPU` and pressing `Check compatibility`). QA checks in a real browser: type `12` in `Search GPU` on `/results?vram_gb=24&context_tokens=4096`, empty `Available VRAM (GB)`, press `Check compatibility`; the field shows 12 and `Search GPU` is empty. The pushed URL keeps the raw `gpu_search=12`, which reloads to the same page (ADR-0011).",
-      "review": null,
+      "review": "passed",
       "passes": false
     },
     {
@@ -144,7 +144,7 @@
       "model": "sonnet",
       "dependsOn": [],
       "notes": "UI: no. Test-only preparation, so T-027 and T-028 each stay one reviewable commit. Everything passes before and after because `/results?vram_gb=24&context_tokens=4096` renders the same `index.html` today. The reviewer should diff assertion by assertion: rule 18 lets CI checks move, never weaken.",
-      "review": null,
+      "review": "passed",
       "passes": false
     },
     {
@@ -180,7 +180,7 @@
         "T-026"
       ],
       "notes": "UI: no (shows an existing page). Opus: routing with security implications (rule 8 relative `Location`, host guard order, permanent-redirect caching). Mirror the ADR-0008 redirect in `results_partial_content` (`RedirectResponse(..., status_code=302, headers={\"Cache-Control\": \"no-cache\", \"Vary\": \", \".join(HTML_VARY_HEADERS)})`). Until T-028 lands, the redirect target `/` still renders today's home page; the tests here check the redirect itself, not the landing markup. No static change, no `ASSET_VERSION` bump.",
-      "review": null,
+      "review": "passed",
       "passes": false
     },
     {
@@ -245,7 +245,7 @@
         "T-027"
       ],
       "notes": "UI: yes. Markup only: the page is unstyled until T-029, which is expected; QA compares after T-029. No file under `static/` changes, so no `ASSET_VERSION` bump here. Copy the structure from `docs/design/mockups/final-landing-empty.html` and `final-landing-unseeded.html` (their chip `href`s point at mockup files; use the real `/results?…` URLs). The ids `gpu_search`, `gpu-options` and `.combo` are reused so `initGpuCombobox` starts unchanged; `initGpuInputs` and `initExampleChips` return early on `/` (no `#gpu_id`, no `.chip-example`). Check the header/footer/asset tests still pass on `/` (`test_brand.py`, `test_r076_acceptance.py`, `test_r079_asset_links.py`, `test_styles.py`). Do not rename `index.html` (ADR-0009 alternatives).",
-      "review": null,
+      "review": "passed",
       "passes": false
     },
     {
@@ -298,7 +298,7 @@
         "T-028"
       ],
       "notes": "UI: yes. Append in the Page-specific section, not at the end (Utilities is last; ADR-0001 order is tested). At 390 the pane keeps 6 px padding: more padding or a thicker border breaks the 342 px minimum (design README). `.page:has(.landing)` needs `:has()`, supported by current Chromium, Safari and Firefox. `a.btn-clear` is styled here so T-031 can switch `Clear` to a link with no style work. Measurements are QA's in a real browser (`docs/design/README.md`, \"Measurements QA can take\").",
-      "review": null,
+      "review": "passed",
       "passes": false
     },
     {
@@ -340,7 +340,7 @@
         "T-028"
       ],
       "notes": "UI: yes. Browser checks for QA (rule 10, R-077): focus in the box on load at both widths (`autofocus`, no script); pick by tap, click and keyboard at 390 and 1280; blank submit stays on `/`; Escape keeps the text; Back from `/results` shows the full landing page (one header, box, chips, submit, one footer). Without JavaScript a native-list pick only fills the box and needs Enter (accepted at Gate 2). `/` has no `hx-*`, so htmx never snapshots it (ADR-0012 point 9).",
-      "review": null,
+      "review": "passed",
       "passes": false
     },
     {
@@ -379,7 +379,7 @@
         "T-029"
       ],
       "notes": "UI: yes. The `a.btn-clear` styles come from T-029. A screen reader now announces a link named `Clear` (design README notes). QA compares `Clear` with `results-from-landing` at 390 and 1280 in both themes; the rest of `/results` should match the 22 unchanged approved states.",
-      "review": null,
+      "review": "passed",
       "passes": false
     },
     {
@@ -409,7 +409,7 @@
       "model": "opus",
       "dependsOn": [],
       "notes": "UI: no. Opus: CI and deploy config. Cost: none (same job and runner; rule 2). The new check passes on today's code too (`/results?vram_gb=24…` carries hardware, so T-027's redirect does not apply). `id=\"summary-banner\"` contains double quotes: use `grep -F` with single-quoted patterns. Write the body to a temp file (`mktemp`) and do not use `curl -f` for this check (it hides the status and passes a 3xx). QA cannot run the release locally; the real check is the first release run after merge (rule 6). Leave the other stale parts of `docs/RELEASE_AND_DEPLOY.md` (`PUBLIC_HOSTNAME`) alone; they are separate follow-ups in `.sdlc/STATUS.md`.",
-      "review": null,
+      "review": "passed",
       "passes": false
     }
   ]
