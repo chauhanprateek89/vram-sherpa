@@ -29,7 +29,7 @@
       "dependsOn": [],
       "notes": "UI: no. Pure refactor plus a new unit-tested module; about 60 lines. Use `[0-9]`, not `\\d` (Python's `\\d` matches other scripts' digits). No file under `src/vramsherpa/static/` changes, so no `ASSET_VERSION` bump (rule 21). `ESTIMATION_POLICY_VERSION` unchanged (rule 16).",
       "review": "passed",
-      "passes": false
+      "passes": true
     },
     {
       "id": "T-024",
@@ -75,7 +75,7 @@
       ],
       "notes": "UI: yes only through what `/results` shows; no layout change, so the existing mockups apply (`results-from-landing` for `12 GB`, `results-errors` for `0`). Rewrite the request once in `_results_page_context`; do not special-case the label, VRAM field or chips (ADR-0011 alternatives). Pass a context flag such as `box_vram` to the template. No static change, so no `ASSET_VERSION` bump. `ESTIMATION_POLICY_VERSION` unchanged (rule 16).",
       "review": "passed",
-      "passes": false
+      "passes": true
     },
     {
       "id": "T-025",
@@ -109,7 +109,7 @@
       ],
       "notes": "UI: yes (results form after typing `12` in `Search GPU` and pressing `Check compatibility`). QA checks in a real browser: type `12` in `Search GPU` on `/results?vram_gb=24&context_tokens=4096`, empty `Available VRAM (GB)`, press `Check compatibility`; the field shows 12 and `Search GPU` is empty. The pushed URL keeps the raw `gpu_search=12`, which reloads to the same page (ADR-0011).",
       "review": "passed",
-      "passes": false
+      "passes": true
     },
     {
       "id": "T-026",
@@ -145,7 +145,7 @@
       "dependsOn": [],
       "notes": "UI: no. Test-only preparation, so T-027 and T-028 each stay one reviewable commit. Everything passes before and after because `/results?vram_gb=24&context_tokens=4096` renders the same `index.html` today. The reviewer should diff assertion by assertion: rule 18 lets CI checks move, never weaken.",
       "review": "passed",
-      "passes": false
+      "passes": true
     },
     {
       "id": "T-027",
@@ -181,7 +181,7 @@
       ],
       "notes": "UI: no (shows an existing page). Opus: routing with security implications (rule 8 relative `Location`, host guard order, permanent-redirect caching). Mirror the ADR-0008 redirect in `results_partial_content` (`RedirectResponse(..., status_code=302, headers={\"Cache-Control\": \"no-cache\", \"Vary\": \", \".join(HTML_VARY_HEADERS)})`). Until T-028 lands, the redirect target `/` still renders today's home page; the tests here check the redirect itself, not the landing markup. No static change, no `ASSET_VERSION` bump.",
       "review": "passed",
-      "passes": false
+      "passes": true
     },
     {
       "id": "T-028",
@@ -380,7 +380,7 @@
       ],
       "notes": "UI: yes. The `a.btn-clear` styles come from T-029. A screen reader now announces a link named `Clear` (design README notes). QA compares `Clear` with `results-from-landing` at 390 and 1280 in both themes; the rest of `/results` should match the 22 unchanged approved states.",
       "review": "passed",
-      "passes": false
+      "passes": true
     },
     {
       "id": "T-032",
@@ -410,7 +410,54 @@
       "dependsOn": [],
       "notes": "UI: no. Opus: CI and deploy config. Cost: none (same job and runner; rule 2). The new check passes on today's code too (`/results?vram_gb=24…` carries hardware, so T-027's redirect does not apply). `id=\"summary-banner\"` contains double quotes: use `grep -F` with single-quoted patterns. Write the body to a temp file (`mktemp`) and do not use `curl -f` for this check (it hides the status and passes a 3xx). QA cannot run the release locally; the real check is the first release run after merge (rule 6). Leave the other stale parts of `docs/RELEASE_AND_DEPLOY.md` (`PUBLIC_HOSTNAME`) alone; they are separate follow-ups in `.sdlc/STATUS.md`.",
       "review": "passed",
-      "passes": false
+      "passes": true
+    },
+    {
+      "id": "T-033",
+      "track": "full",
+      "title": "QA fix: the landing box matches the approved mockups (centred, submit inset, inset field look, spacing, 390 px gutters)",
+      "requirements": [
+        "R-083",
+        "R-067",
+        "R-070"
+      ],
+      "files": [
+        "src/vramsherpa/static/css/styles.css",
+        "src/vramsherpa/templates/landing.html",
+        "src/vramsherpa/main.py (ASSET_VERSION only)",
+        "tests/test_r083_landing.py"
+      ],
+      "acceptance": [
+        "At 1280x800 the box (the visible field, including its inset submit) is 754 px wide and its horizontal centre is within 2 px of the viewport centre; the submit control sits inside the box's right edge, as in final-landing-empty, not beside it.",
+        "At 390x844 the page has 16 px side gutters, the box is 344 px wide and centred within 2 px; header and pane are not flush to the edges.",
+        "The box uses the mockup's inset field look (background, border, radius, padding) in light and dark, not the grey filled input of the generic form rules.",
+        "The h1-to-help-line gap, the pane height and the vertical position match the mockup (box centre near y=428 at 1280x800, within the R-083 35-65% band at both widths).",
+        "No change to the /results page: the landing rules are scoped to the landing page so the results form, Search GPU combobox and Clear keep their current look.",
+        "ASSET_VERSION in main.py is bumped to a fresh value (constitution rule 21); stylesheet section order tests still pass; full pytest and lint pass."
+      ],
+      "mockup": [
+        "docs/design/mockups/final-landing-empty.html",
+        "docs/design/final/landing-empty-*.png",
+        "docs/design/mockups/final-landing-suggest.html",
+        "docs/design/final/landing-suggest-*.png",
+        "docs/design/mockups/final-landing-unseeded.html",
+        "docs/design/final/landing-unseeded-*.png",
+        "docs/design/mockups/final-landing-focus-box.html",
+        "docs/design/final/landing-focus-box-*.png",
+        "docs/design/mockups/final-landing-focus-chip.html",
+        "docs/design/final/landing-focus-chip-*.png",
+        "docs/design/mockups/final-landing-focus-submit.html",
+        "docs/design/final/landing-focus-submit-*.png"
+      ],
+      "notes": "Sent back from QA (first and only fix round before the user is asked). Read .sdlc/qa/R-083/report.md, section Fail. Screenshot pairs: .sdlc/qa/R-083/1-empty-1280-dark.png vs docs/design/final/landing-empty-1280-dark.png; .sdlc/qa/R-083/shots/landing-empty-390-light.png vs docs/design/final/landing-empty-390-light.png (other states in .sdlc/qa/R-083/shots/). QA measured: input 592 px wide at x=263 while its .combo/form is 754 wide, so the submit sits outside the box; at 390 the box is 381 px with no gutters. Likely cause: generic form/input/.combo rules earlier in styles.css win over the landing rules, or the landing.html structure differs from the mockup's. Source of truth for the CSS is docs/design/landing.css and the <style> in the final-landing-*.html mockups; port it faithfully, scoped to the landing page, inside the 'Page-specific rules' section (decisions.md, Made during work 2026-10-28). Do not render pages or take screenshots; QA re-measures. Commit messages start 'T-033:'.",
+      "model": "opus",
+      "dependsOn": [
+        "T-028",
+        "T-029",
+        "T-030"
+      ],
+      "passes": false,
+      "review": null
     }
   ]
 }
