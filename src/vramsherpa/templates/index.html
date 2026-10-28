@@ -36,11 +36,7 @@
       </div>
       <button id="clear-gpu" type="button" class="btn-clear">Clear</button>
     </div>
-    <datalist id="gpu-options">
-      {% for gpu in gpus %}
-        <option data-gpu-id="{{ gpu.id }}" data-vram-gb="{{ '%.1f'|format(gpu.vram_gb) }}" value="{{ gpu.vendor }} {{ gpu.name }} ({{ '%.1f'|format(gpu.vram_gb) }} GB)"></option>
-      {% endfor %}
-    </datalist>
+    {% include "gpu_options.html" %}
   </div>
 
   <div class="f-pair">

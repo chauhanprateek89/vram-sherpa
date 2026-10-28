@@ -56,9 +56,23 @@ def test_home_returns_200(app, seeded_session: Session) -> None:
     response = home(_request(app, "/"), session=seeded_session)
     assert response.status_code == 200
     response_text = _response_text(response)
-    assert "VRAM Sherpa" in response_text
+    assert "Which local LLMs fit your GPU?" in response_text
+    assert 'id="landing-form"' in response_text
+    assert "Check compatibility" in response_text
     assert "Catalog version:" in response_text
     assert "Estimation policy: v0.1" in response_text
+    assert "summary-banner" not in response_text
+    assert "results-shell" not in response_text
+
+
+def test_home_unseeded_shows_catalog_not_initialized(app, db_session: Session) -> None:
+    response = home(_request(app, "/"), session=db_session)
+    assert response.status_code == 200
+    response_text = _response_text(response)
+    assert "Catalog is not initialized yet." in response_text
+    assert "Seed the catalog data, then refresh this page." in response_text
+    assert 'id="landing-form"' in response_text
+    assert 'aria-disabled="true">Example GPU' in response_text
 
 
 def test_results_default_state_shows_note_and_form_controls(app, seeded_session: Session) -> None:

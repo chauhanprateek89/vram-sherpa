@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}VRAM Sherpa{% endblock %}
+
+{% block main_class %}landing{% endblock %}
+
+{% block content %}
+<section class="launch pane" aria-labelledby="launch-h">
+  <div class="launch-head">
+    <h1 id="launch-h">Which local LLMs fit your GPU?</h1>
+    <p class="launch-hint">Type a GPU name, or enter its VRAM, like 12 GB.</p>
+  </div>
+  <form id="landing-form" method="get" action="/results">
+    <label for="gpu_search" class="sr-only">Search GPU</label>
+    <div class="ask">
+      <div class="combo">
+        <svg class="ask-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M15.5 15.5L20 20" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+        <input id="gpu_search" name="gpu_search" type="text" list="gpu-options" autocomplete="off" autofocus data-submit-on-choose placeholder="Your GPU, or its VRAM" />
+      </div>
+      <button type="submit" class="btn-primary go">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="go-label">Check compatibility</span>
+      </button>
+    </div>
+    {% include "gpu_options.html" %}
+  </form>
+  <div class="launch-chips" role="group" aria-label="Examples">
+    {% for label, href in landing_chips %}
+      {% if href %}<a class="chip" href="{{ href }}">{{ label }}</a>{% else %}<span class="chip" aria-disabled="true">{{ label }}</span>{% endif %}
+    {% endfor %}
+  </div>
+  {% if not catalog_seeded %}
+  <div class="launch-note">
+    <div class="notice" role="status">
+      <svg width="18" height="18" aria-hidden="true"><use href="#i-info"/></svg>
+      <div>
+        <p><strong>Catalog is not initialized yet.</strong></p>
+        <p>Seed the catalog data, then refresh this page.</p>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</section>
+{% endblock %}

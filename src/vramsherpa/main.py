@@ -1073,38 +1073,24 @@ def home(
     request: Request,
     session: Session = Depends(get_session),
 ) -> HTMLResponse:
-    families: list[str] = []
-    quant_buckets: list[str] = []
-    available_vram_gb, selected_gpu_id, gpus, _ = _resolve_available_vram(
-        session, gpu_id=None, vram_gb=None, gpu_search=None
-    )
-    results = _build_results(
-        session,
-        available_vram_gb=available_vram_gb,
-        context_tokens=2048,
-        families=families,
-        quant_buckets=quant_buckets,
-        min_params_b=None,
-        max_params_b=None,
-        recommended_only=False,
-    )
-    context = _results_context(
-        request,
-        session,
-        available_vram_gb=available_vram_gb,
-        gpus=gpus,
-        results_rows=results,
-        selected_gpu_id=selected_gpu_id,
-        gpu_search=None,
-        manual_vram=None,
-        selected_context=2048,
-        selected_families=families,
-        selected_quant_buckets=quant_buckets,
-        min_params_b=None,
-        max_params_b=None,
-        recommended_only=False,
-    )
-    return templates.TemplateResponse(request, "index.html", context)
+    """The landing page: a box and example links, no estimate (R-083, ADR-0009)."""
+    gpus = _load_gpus(session)
+    chips = [
+        (
+            chip.label,
+            _results_url(
+                [("gpu_id", chip.gpu_id), ("context_tokens", "2048")]
+                if chip.gpu_id
+                else [("vram_gb", f"{chip.vram_gb:g}"), ("context_tokens", "2048")]
+            )
+            if chip.gpu_id or chip.vram_gb is not None
+            else None,
+        )
+        for chip in _example_chips(gpus)
+    ]
+    context = _base_context(request, session)
+    context.update({"gpus": gpus, "landing_chips": chips})
+    return templates.TemplateResponse(request, "landing.html", context)
 
 
 def results(
