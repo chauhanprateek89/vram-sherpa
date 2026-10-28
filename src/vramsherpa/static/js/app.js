@@ -60,7 +60,6 @@ function initGpuInputs() {
   var gpuSearch = document.getElementById("gpu_search");
   var gpuIdInput = document.getElementById("gpu_id");
   var vramInput = document.getElementById("vram_gb");
-  var clearButton = document.getElementById("clear-gpu");
   if (!gpuSearch || !gpuIdInput) {
     return;
   }
@@ -87,14 +86,6 @@ function initGpuInputs() {
       if (vramInput.value) {
         gpuIdInput.value = "";
       }
-    });
-  }
-
-  if (clearButton) {
-    clearButton.addEventListener("click", function () {
-      gpuSearch.value = "";
-      gpuIdInput.value = "";
-      gpuSearch.focus();
     });
   }
 }

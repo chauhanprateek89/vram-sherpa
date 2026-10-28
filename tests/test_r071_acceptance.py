@@ -165,7 +165,7 @@ def test_form_keeps_both_input_paths_and_the_presets(client: TestClient) -> None
     html = client.get("/results?vram_gb=24&context_tokens=4096").text
     assert 'id="vram_gb"' in html and 'min="1"' in html and 'step="0.1"' in html
     assert len(re.findall(r'name="context_tokens"', html)) == 3
-    assert 'id="clear-gpu"' in html
+    assert '<a id="clear-gpu" class="btn-clear" href="/">Clear</a>' in html
     assert len(re.findall(r'class="chip chip-example"', html)) == 3
 
 

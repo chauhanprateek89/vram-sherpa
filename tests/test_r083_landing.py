@@ -160,3 +160,18 @@ def test_app_js_submits_on_choose_and_guards_blank_landing_form() -> None:
 def test_asset_version_bumped_for_landing_script() -> None:
     assert main.ASSET_VERSION > "20261028c"
     assert main.ASSET_VERSION != "20261027e"
+
+
+def test_clear_on_results_is_a_link_to_an_empty_landing(client):
+    html_ = client.get("/results?vram_gb=24").text
+    assert '<a id="clear-gpu" class="btn-clear" href="/">Clear</a>' in html_
+    page = client.get("/")
+    assert page.status_code == 200
+    assert '<form id="landing-form"' in page.text
+    field = re.search(r"<input[^>]*id=\"gpu_search\"[^>]*>", page.text, re.S).group(0)
+    assert not re.search(r'value="[^"]+"', field)
+
+
+def test_app_js_has_no_clear_handler():
+    js = (Path(main.__file__).parent / "static" / "js" / "app.js").read_text()
+    assert "clear-gpu" not in js

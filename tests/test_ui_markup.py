@@ -311,7 +311,8 @@ def test_form_tile_keeps_labels_ids_and_behaviour_hooks(client: TestClient) -> N
     assert search.attrs["list"] == "gpu-options"
     assert search.attrs["name"] == "gpu_search"
     clear = _by_id(form, "clear-gpu")
-    assert clear.tag == "button" and clear.attrs["type"] == "button"
+    assert clear.tag == "a" and clear.attrs["href"] == "/"
+    assert clear.classes() == ["btn-clear"]
     assert clear.all_text() == "Clear"
     options = _by_id(form, "gpu-options")
     assert options.tag == "datalist"
