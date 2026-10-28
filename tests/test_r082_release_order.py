@@ -101,6 +101,23 @@ def test_smoke_checks_unchanged(steps):
         "X-Forwarded-Proto: https",
         "evil.example.com",
         "/static/",
+        "/results?vram_gb=24&context_tokens=4096",
+        "summary-banner",
+        "Manual VRAM (24 GB)",
     ):
         assert needle in run, f"smoke test lost the {needle!r} check"
     assert "cache-control" in run.lower()
+
+    # The /results check must see the real status: a redirect is a failure, not a pass
+    # (ADR-0013 point 4).
+    results_lines = [line for line in run.splitlines() if "/results" in line and "curl" in line]
+    assert results_lines, "no curl line requests /results"
+    for line in results_lines:
+        words = line.split()
+        assert "-L" not in words and "--location" not in line, (
+            f"the /results request follows redirects: {line.strip()!r}"
+        )
+        assert "-f" not in words and "-fsS" not in words, (
+            f"the /results request uses curl -f, which hides the status: {line.strip()!r}"
+        )
+        assert "%{http_code}" in line, f"the /results request does not read the status: {line!r}"

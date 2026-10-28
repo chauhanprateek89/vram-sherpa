@@ -46,7 +46,8 @@ release if any of these do not hold:
 
 - `/healthz` responds
 - the catalog actually seeds (`Seeded catalog_version=` in the logs)
-- the results page renders
+- `/` renders, and `/results?vram_gb=24&context_tokens=4096` answers exactly 200 with the
+  summary for `Manual VRAM (24 GB)`
 - `APP_ENV=prod` rejects an unknown `Host` header with 400
 
 A broken image therefore never gets tagged or released, so `latest` never moves to it.
