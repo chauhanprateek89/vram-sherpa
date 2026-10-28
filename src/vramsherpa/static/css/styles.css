@@ -638,6 +638,9 @@ span.action-chip { border: 1.5px dashed var(--line); color: var(--muted); backgr
 .go-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 
 .launch-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; padding: 18px 8px 14px; }
+.launch-chips .chip { min-height: var(--tap); padding: 0 16px; border-radius: var(--r-pill); border: 1.5px solid var(--line); background: var(--seg); color: var(--ink); font-weight: 520; font-size: var(--fs-small); transition: background var(--dur-1), transform var(--dur-1) var(--ease-out); }
+.launch-chips .chip:hover { background: var(--inset); }
+.launch-chips .chip:active { transform: scale(.95); }
 a.chip { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; color: var(--ink); }
 .launch-note { padding: 16px 4px 0; }
 .launch-note .notice { flex-direction: row; }

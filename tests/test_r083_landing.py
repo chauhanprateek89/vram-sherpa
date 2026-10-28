@@ -141,3 +141,10 @@ def test_stylesheet_defines_the_landing_rules():
         assert re.search(rf"(^|[\s,}}]){re.escape(selector)}[\s,{{:.\[]", css, re.M), selector
     assert '.chip[aria-disabled="true"]' in css
     assert css.index("landing (T-029)") < css.index("Utilities and motion")
+
+
+def test_landing_chips_get_the_base_chip_look():
+    css = (Path(main.__file__).parent / "static" / "css" / "styles.css").read_text()
+    rule = re.search(r"^([^{}\n]*\.launch-chips \.chip[^{}\n]*)\{([^}]*)\}", css, re.M)
+    assert rule, ".launch-chips .chip has no base rule"
+    assert "min-height: var(--tap)" in rule.group(2)
