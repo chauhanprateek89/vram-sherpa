@@ -19,6 +19,7 @@ from sqlalchemy.orm import Session
 from vramsherpa.config import Settings, get_settings
 from vramsherpa.database import configure_engine, create_db_and_tables, get_session
 from vramsherpa.estimation import FitBadge, estimate_breakdown, estimate_variant, reserve_gb
+from vramsherpa.gpu_input import exact_gpu_match, gpu_option_label, normalize_for_match
 from vramsherpa.models import GPU, CatalogMeta, Model, Variant
 
 CONTEXT_OPTIONS = (2048, 4096, 8192)
@@ -272,34 +273,24 @@ def _resolve_available_vram(
         return float(selected_gpu.vram_gb), selected_gpu.id, gpus, None
 
     if normalized_gpu_search:
-        needle = _normalize_for_match(normalized_gpu_search)
-        exact_matches = [
-            gpu
-            for gpu in gpus
-            if needle
-            in {
-                _normalize_for_match(_gpu_option_label(gpu)),
-                _normalize_for_match(f"{gpu.vendor} {gpu.name}"),
-                _normalize_for_match(gpu.name),
-            }
-        ]
-        if len(exact_matches) == 1:
-            matched_gpu = exact_matches[0]
+        needle = normalize_for_match(normalized_gpu_search)
+        matched_gpu = exact_gpu_match(normalized_gpu_search, gpus)
+        if matched_gpu is not None:
             return float(matched_gpu.vram_gb), matched_gpu.id, gpus, None
 
         partial_matches = [
             gpu
             for gpu in gpus
-            if needle in _normalize_for_match(_gpu_option_label(gpu))
-            or needle in _normalize_for_match(f"{gpu.vendor} {gpu.name}")
-            or needle in _normalize_for_match(gpu.name)
+            if needle in normalize_for_match(gpu_option_label(gpu))
+            or needle in normalize_for_match(f"{gpu.vendor} {gpu.name}")
+            or needle in normalize_for_match(gpu.name)
         ]
         if len(partial_matches) == 1:
             matched_gpu = partial_matches[0]
             return float(matched_gpu.vram_gb), matched_gpu.id, gpus, None
 
         if len(partial_matches) > 1:
-            suggestions = ", ".join(_gpu_option_label(gpu) for gpu in partial_matches[:3])
+            suggestions = ", ".join(gpu_option_label(gpu) for gpu in partial_matches[:3])
             return (
                 8.0,
                 None,
@@ -417,7 +408,7 @@ def _selected_gpu_label(gpus: list[GPU], selected_gpu_id: str | None) -> str:
         return ""
     for gpu in gpus:
         if gpu.id == selected_gpu_id:
-            return _gpu_option_label(gpu)
+            return gpu_option_label(gpu)
     return ""
 
 
@@ -437,14 +428,6 @@ def _selected_hardware_label(
     if manual_vram is not None:
         return f"Manual VRAM ({manual_vram:g} GB)"
     return f"Assumed VRAM ({available_vram_gb:g} GB)"
-
-
-def _gpu_option_label(gpu: GPU) -> str:
-    return f"{gpu.vendor} {gpu.name} ({gpu.vram_gb:.1f} GB)"
-
-
-def _normalize_for_match(value: str) -> str:
-    return " ".join(value.lower().split())
 
 
 def _extract_vram_hint(value: str) -> float | None:
