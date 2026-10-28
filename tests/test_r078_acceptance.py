@@ -41,7 +41,7 @@ def _body(client: TestClient, url: str) -> str:
     return response.text
 
 
-@pytest.mark.parametrize("url", [REF, "/"])
+@pytest.mark.parametrize("url", [REF, "/results?gpu_id=no_such_gpu"])
 def test_copy_table_old_strings_are_gone(client: TestClient, url: str) -> None:
     page = _text(_body(client, url))
     page_raw = _body(client, url)
@@ -169,7 +169,7 @@ def test_gpu_search_messages_word_for_word(client: TestClient) -> None:
     inferred = _text(_body(client, "/results?gpu_search=RTX 3060 12GB"))
     assert 'GPU "RTX 3060 12GB" was not found. Using 12 GB inferred from your input.' in inferred
 
-    default = _text(_body(client, "/results"))
+    default = _text(_body(client, "/results?gpu_id=no_such_gpu"))
     assert (
         "No GPU or VRAM selected yet. Showing estimates with an assumed 8 GB baseline." in default
     )

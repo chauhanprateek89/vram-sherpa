@@ -425,7 +425,7 @@ def test_old_partial_link_with_unknown_host_is_rejected_before_redirect(
 # R-078, ADR-0006 point 1: the frozen form interface.
 
 
-@pytest.mark.parametrize("url", ["/", f"/results?{QUERY}"])
+@pytest.mark.parametrize("url", ["/results?gpu_id=no_such_gpu", f"/results?{QUERY}"])
 def test_search_form_interface_is_unchanged(client: TestClient, url: str) -> None:
     tree = _parse(client.get(url).text)
 

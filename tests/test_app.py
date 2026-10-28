@@ -59,6 +59,24 @@ def test_home_returns_200(app, seeded_session: Session) -> None:
     assert "VRAM Sherpa" in response_text
     assert "Catalog version:" in response_text
     assert "Estimation policy: v0.1" in response_text
+
+
+def test_results_default_state_shows_note_and_form_controls(app, seeded_session: Session) -> None:
+    response = results(
+        _request(app, "/results"),
+        gpu_id="no_such_gpu",
+        gpu_search="",
+        vram_gb="",
+        context_tokens=4096,
+        family=[],
+        quant_bucket=[],
+        min_params_b="",
+        max_params_b="",
+        recommended_only=False,
+        session=seeded_session,
+    )
+    assert response.status_code == 200
+    response_text = _response_text(response)
     assert (
         "No GPU or VRAM selected yet. Showing estimates with an assumed 8 GB baseline."
         in response_text
@@ -424,8 +442,20 @@ def test_healthz_returns_503_when_catalog_unseeded(db_session: Session) -> None:
     assert '"ready":false' in payload
 
 
-def test_home_unseeded_shows_catalog_not_initialized(app, db_session: Session) -> None:
-    response = home(_request(app, "/"), session=db_session)
+def test_results_unseeded_shows_catalog_not_initialized(app, db_session: Session) -> None:
+    response = results(
+        _request(app, "/results"),
+        gpu_id="",
+        gpu_search="",
+        vram_gb=24,
+        context_tokens=4096,
+        family=[],
+        quant_bucket=[],
+        min_params_b=None,
+        max_params_b=None,
+        recommended_only=False,
+        session=db_session,
+    )
     assert response.status_code == 200
     response_text = _response_text(response)
     assert "Catalog is not initialized yet." in response_text

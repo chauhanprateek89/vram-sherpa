@@ -18,7 +18,11 @@ from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
 DATA = Path(__file__).resolve().parents[1] / "data"
-FORM_PAGES = ["/", "/results?gpu_search=RTX", "/results?vram_gb=abc"]
+FORM_PAGES = [
+    "/results?vram_gb=24&context_tokens=4096",
+    "/results?gpu_search=RTX",
+    "/results?vram_gb=abc",
+]
 REMOVED_FORM_COPY = [
     "Choose either your exact GPU or enter available VRAM directly.",
     "I know my GPU",
@@ -157,7 +161,7 @@ def test_form_wording_follows_the_copy_table(client: TestClient, url: str) -> No
 
 
 def test_form_keeps_both_input_paths_and_the_presets(client: TestClient) -> None:
-    html = client.get("/").text
+    html = client.get("/results?vram_gb=24&context_tokens=4096").text
     assert 'id="vram_gb"' in html and 'min="1"' in html and 'step="0.1"' in html
     assert len(re.findall(r'name="context_tokens"', html)) == 3
     assert 'id="clear-gpu"' in html
@@ -165,7 +169,7 @@ def test_form_keeps_both_input_paths_and_the_presets(client: TestClient) -> None
 
 
 def test_styled_list_adds_no_library_and_no_route(client: TestClient) -> None:
-    html = client.get("/").text
+    html = client.get("/results?vram_gb=24&context_tokens=4096").text
     scripts = re.findall(r'<script[^>]*\ssrc="([^"]+)"', html)
     assert len(scripts) == 2
     assert any("unpkg.com/htmx.org@1.9.12" in s for s in scripts)

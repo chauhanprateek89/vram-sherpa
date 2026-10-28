@@ -16,7 +16,7 @@ from sqlalchemy.orm import Session
 
 REF = "/results?vram_gb=24&context_tokens=4096"
 STATES = [
-    "/",
+    "/results?gpu_id=no_such_gpu",
     REF,
     "/results?gpu_search=RTX",
     "/results?gpu_search=" + quote("RTX 3060 12GB"),
