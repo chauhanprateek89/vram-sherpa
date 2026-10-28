@@ -99,15 +99,25 @@ def test_search_messages_kept(client):
         assert "data-box-vram" not in page
 
 
-def test_box_number_with_other_hardware_inputs(client):
-    page = _get(client, "gpu_id=no_such_gpu&gpu_search=12")
-    assert "Manual VRAM" not in page or "was not found" not in page
-    assert "matched multiple entries" not in page and "was not found" not in page
-    assert "data-box-vram" not in page
-    page = _get(client, "vram_gb=abc&gpu_search=12")
-    assert "matched multiple entries" not in page and "was not found" not in page
-    page = _get(client, "gpu_id=no_such_gpu&gpu_search=0")
-    assert "was not found" not in page
+def _hardware(page: str) -> str:
+    return page.split("Hardware:")[1].split("</span>")[0].replace("</b>", "").strip()
+
+
+@pytest.mark.parametrize(
+    ("query", "hardware"),
+    [
+        ("gpu_id=no_such_gpu&gpu_search=12", "Assumed VRAM (12 GB)"),
+        ("vram_gb=abc&gpu_search=12", "Assumed VRAM (12 GB)"),
+        ("gpu_id=no_such_gpu&gpu_search=0", "Assumed VRAM (8 GB)"),
+        ("vram_gb=abc&gpu_search=0", "Assumed VRAM (8 GB)"),
+    ],
+)
+def test_box_number_with_other_hardware_inputs(client, query, hardware):
+    for page in (_get(client, query), _get(client, query, htmx=True)):
+        assert _hardware(page) == hardware
+        assert "matched multiple entries" not in page
+        assert "was not found" not in page
+        assert "inferred from your input" not in page
 
 
 def test_vram_gb_wins_over_box_number(client):
