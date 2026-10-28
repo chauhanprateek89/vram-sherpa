@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import html
 import re
+from pathlib import Path
 
 import pytest
 from fastapi import FastAPI
@@ -132,3 +133,11 @@ def test_unseeded_landing(unseeded_client):
         "/results?vram_gb=8&context_tokens=2048",
         "/results?vram_gb=24&context_tokens=2048",
     ]
+
+
+def test_stylesheet_defines_the_landing_rules():
+    css = (Path(main.__file__).parent / "static" / "css" / "styles.css").read_text()
+    for selector in (".launch", ".ask", ".go-label", "a.chip", "a.btn-clear"):
+        assert re.search(rf"(^|[\s,}}]){re.escape(selector)}[\s,{{:.\[]", css, re.M), selector
+    assert '.chip[aria-disabled="true"]' in css
+    assert css.index("landing (T-029)") < css.index("Utilities and motion")
