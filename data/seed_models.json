@@ -1,5 +1,5 @@
 {
-  "catalog_version": "2026-10-23",
+  "catalog_version": "2026-11-01",
   "items": [
     {
       "id": "model_llama_31_8b_instruct",
@@ -735,6 +735,23 @@
       "discovered": true
     },
     {
+      "id": "model_gemma_7b",
+      "name": "gemma-7b",
+      "canonical_identifier": "google/gemma-7b",
+      "family": "gemma",
+      "params_b": 7.0,
+      "model_type": "base",
+      "license": "gemma",
+      "kv_gb_per_1k_ctx": 0.42,
+      "notes": "Auto-discovered from HuggingFace (135,516 downloads). Gated repo: license acceptance required to download weights. kv_gb_per_1k_ctx heuristic: round(0.06 * params_b, 2).",
+      "sources": [
+        "https://huggingface.co/google/gemma-7b",
+        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
+      ],
+      "gated": true,
+      "discovered": true
+    },
+    {
       "id": "model_llama_2_13b_chat_hf",
       "name": "Llama-2-13b-chat-hf",
       "canonical_identifier": "meta-llama/Llama-2-13b-chat-hf",
@@ -1109,6 +1126,23 @@
       "gated": false
     },
     {
+      "id": "model_qwen2_5_0_5b_instruct_gguf",
+      "name": "Qwen2.5-0.5B-Instruct-GGUF",
+      "canonical_identifier": "Qwen/Qwen2.5-0.5B-Instruct-GGUF",
+      "family": "qwen",
+      "params_b": 0.5,
+      "model_type": "instruct",
+      "license": "apache-2.0",
+      "kv_gb_per_1k_ctx": 0.03,
+      "notes": "Auto-discovered from HuggingFace (399,704 downloads). kv_gb_per_1k_ctx heuristic: round(0.06 * params_b, 2).",
+      "sources": [
+        "https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct-GGUF",
+        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
+      ],
+      "gated": false,
+      "discovered": true
+    },
+    {
       "id": "model_qwen2_5_1_5b",
       "name": "Qwen2.5-1.5B",
       "canonical_identifier": "Qwen/Qwen2.5-1.5B",
@@ -1143,6 +1177,23 @@
       "gated": false
     },
     {
+      "id": "model_qwen2_5_1_5b_instruct_gguf",
+      "name": "Qwen2.5-1.5B-Instruct-GGUF",
+      "canonical_identifier": "Qwen/Qwen2.5-1.5B-Instruct-GGUF",
+      "family": "qwen",
+      "params_b": 1.5,
+      "model_type": "instruct",
+      "license": "apache-2.0",
+      "kv_gb_per_1k_ctx": 0.09,
+      "notes": "Auto-discovered from HuggingFace (426,120 downloads). kv_gb_per_1k_ctx heuristic: round(0.06 * params_b, 2).",
+      "sources": [
+        "https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF",
+        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
+      ],
+      "gated": false,
+      "discovered": true
+    },
+    {
       "id": "model_qwen2_5_32b_instruct",
       "name": "Qwen2.5-32B-Instruct",
       "canonical_identifier": "Qwen/Qwen2.5-32B-Instruct",
@@ -1175,6 +1226,23 @@
       ],
       "discovered": true,
       "gated": false
+    },
+    {
+      "id": "model_qwen2_5_7b_instruct_gguf",
+      "name": "Qwen2.5-7B-Instruct-GGUF",
+      "canonical_identifier": "Qwen/Qwen2.5-7B-Instruct-GGUF",
+      "family": "qwen",
+      "params_b": 7.0,
+      "model_type": "instruct",
+      "license": "apache-2.0",
+      "kv_gb_per_1k_ctx": 0.42,
+      "notes": "Auto-discovered from HuggingFace (691,536 downloads). kv_gb_per_1k_ctx heuristic: round(0.06 * params_b, 2).",
+      "sources": [
+        "https://huggingface.co/Qwen/Qwen2.5-7B-Instruct-GGUF",
+        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
+      ],
+      "gated": false,
+      "discovered": true
     },
     {
       "id": "model_qwen2_5_coder_14b_instruct",
@@ -1260,6 +1328,23 @@
       ],
       "discovered": true,
       "gated": false
+    },
+    {
+      "id": "model_qwen2_5_coder_7b",
+      "name": "Qwen2.5-Coder-7B",
+      "canonical_identifier": "Qwen/Qwen2.5-Coder-7B",
+      "family": "qwen",
+      "params_b": 7.0,
+      "model_type": "base",
+      "license": "apache-2.0",
+      "kv_gb_per_1k_ctx": 0.42,
+      "notes": "Auto-discovered from HuggingFace (385,079 downloads). kv_gb_per_1k_ctx heuristic: round(0.06 * params_b, 2).",
+      "sources": [
+        "https://huggingface.co/Qwen/Qwen2.5-Coder-7B",
+        "heuristic: kv_gb_per_1k_ctx = round(0.06 * params_b, 2)"
+      ],
+      "gated": false,
+      "discovered": true
     },
     {
       "id": "model_qwen2_5_coder_7b_instruct",
