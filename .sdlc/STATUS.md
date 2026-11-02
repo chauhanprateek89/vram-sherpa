@@ -3,7 +3,7 @@
 | | |
 | --- | --- |
 | Track | Full (results gist first, then paginated by verdict) |
-| Stage | Requirements |
+| Stage | Design (next) |
 | Branch | sdlc/full-results-gist |
 | Gate waiting | none |
 | Updated | 2026-11-02 |
@@ -14,7 +14,7 @@
 
 ## Next step
 
-Gate 1 approved. sdlc:product is applying Q-31 (closest to fitting first) and Q-42 (smoke check) to docs/requirements.md. Then Design (sdlc:architect) and Mockups (sdlc:uiux), then Gate 2.
+Gate 1 approved and requirements updated. Next: run Design (sdlc:architect, mode design) for R-084 to R-092, then Mockups (sdlc:uiux) for states G1 to G13 in R-067, then Gate 2. The UI depends on design decisions (how the partial route carries verdict, page and size), so run Mockups after Design.
 
 Other follow-ups still open (not part of this track): theme toggle and GPU input after an htmx cache restore, incl. a stale preset radio on a cache-hit Back; host guard ignores `APP_ENV`/`PUBLIC_HOSTNAME` that docs/RELEASE_AND_DEPLOY.md tells the server to set (tunnel requests would get 400); local compose binds 0.0.0.0:8000 (rule 3); `/docs`, `/redoc`, `/openapi.json` are public; font URL has no `?v` and the font is served as octet-stream; live 302 from `/results` arrives with an absolute https Location although the app sends a relative `/` (proxy rewrite, harmless); on `/results` the open suggestion list covers the submit until Escape; review nits from T-025/027/029/030/032 listed in PR #24; R-083 and the requirements it changed still read `planned` in docs/requirements.md although v0.1.54 shipped them.
 
@@ -24,7 +24,6 @@ Older rows: `.sdlc/log.md`.
 
 | Date | Stage | Agents (model) | Outcome |
 | --- | --- | --- | --- |
-| 2026-10-28 | Requirements | sdlc:product (inherit) | R-062 amended for Q-23: smoke test also requires `GET /results?vram_gb=24&context_tokens=4096` → 200 with `id="summary-banner"` and `Manual VRAM (24 GB)`; Gate 1 answers column added to Q-14 to Q-23. Committed afaaf83 |
 | 2026-10-28 | Design | sdlc:architect (inherit) | HLD section "Centred landing box", flows 9-10; ADRs 0009 (own landing.html), 0010 (302 /results→/), 0011 (gpu_input.py rule), 0012 (plain GET form + links, Clear is a link), 0013 (smoke /results check). 4 open points for Gate 2. Committed 34589c4 |
 | 2026-10-28 | Mockups | sdlc:uiux (inherit) | L1-L4 as `final-landing-*` (6 mockups) + `final-results-from-landing`, 4 PNGs each; copy proposed; only `Clear` changes on /results; artifact https://claude.ai/artifact/S8yurugqYYCy6CNtbNTSbj. Committed 06ab377 |
 | 2026-10-28 | Gate 2 | user | Design approved; proposed landing copy; L3 dashed inert GPU chip; focus on load at every width (kept despite Android keyboard) |
@@ -39,3 +38,4 @@ Older rows: `.sdlc/log.md`.
 | 2026-10-28 | Live check | sdlc:release (sonnet) | Release run 40781009484 success, v0.1.54; order held (build, smoke incl. new /results check, tag, publish); latest, v0.1.54, sha-410e516 share digest sha256:b358058f…; live `/` shows styles v=20261028f about 14 min after the run; landing box centred with focus at 1280 and 390, `12 GB` gives Manual VRAM (12 GB), empty /results 302 to /, Clear links to /, /healthz ok. Tasks archived; Full track done |
 | 2026-11-02 | Requirements | sdlc:product (inherit) | R-084 to R-092 added (gist first, verdict controls, verdict lists, pages and size, address, filters, in-place loading, accessibility, Top Picks figures); R-013, 014, 016, 019, 022, 023, 024, 025, 031, 032, 067, 069, 078, 080, 081 changed. Open Q-24 to Q-42; rules 16 and 18 need rulings (Q-39, Q-42). Committed 93eca4f |
 | 2026-11-02 | Gate 1 | user | Scope approved; Q-28 sizes 5 and 10, default 5; Q-29 Previous, numbers, Next; Q-31 changed to closest to fitting first; Q-39 and Q-42 yes; other proposals stand |
+| 2026-11-02 | Requirements | sdlc:product (inherit) | Gate 1 answers applied: R-019, R-086 `Won't fit` closest to fitting first (overage, then parameter count descending, then name); R-062 gains the `verdict=fits` smoke check; Q-24 to Q-42 answered. Committed 920bbe0 |
