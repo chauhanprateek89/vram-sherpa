@@ -5,7 +5,7 @@
 | Track | Full (results gist first, then paginated by verdict) |
 | Stage | Requirements |
 | Branch | sdlc/full-results-gist |
-| Gate waiting | none |
+| Gate waiting | Gate 1 (scope of R-084 to R-092; open Q-24 to Q-42) |
 | Updated | 2026-11-02 |
 
 ## Your actions
@@ -14,9 +14,9 @@
 
 ## Next step
 
-Requirements running (sdlc:product) for the results-page change; then Gate 1. The previous track (landing box) finished with v0.1.54 live; its post-merge state files are now on this branch.
+Waiting at Gate 1. After the answer: record it in docs/decisions.md; if an answer differs from the proposal (or Q-42 is yes), send it to sdlc:product to update docs/requirements.md; then Design (sdlc:architect) and Mockups (sdlc:uiux), then Gate 2.
 
-Other follow-ups still open (not part of this track): theme toggle and GPU input after an htmx cache restore, incl. a stale preset radio on a cache-hit Back; host guard ignores `APP_ENV`/`PUBLIC_HOSTNAME` that docs/RELEASE_AND_DEPLOY.md tells the server to set (tunnel requests would get 400); local compose binds 0.0.0.0:8000 (rule 3); `/docs`, `/redoc`, `/openapi.json` are public; font URL has no `?v` and the font is served as octet-stream; live 302 from `/results` arrives with an absolute https Location although the app sends a relative `/` (proxy rewrite, harmless); on `/results` the open suggestion list covers the submit until Escape; review nits from T-025/027/029/030/032 listed in PR #24.
+Other follow-ups still open (not part of this track): theme toggle and GPU input after an htmx cache restore, incl. a stale preset radio on a cache-hit Back; host guard ignores `APP_ENV`/`PUBLIC_HOSTNAME` that docs/RELEASE_AND_DEPLOY.md tells the server to set (tunnel requests would get 400); local compose binds 0.0.0.0:8000 (rule 3); `/docs`, `/redoc`, `/openapi.json` are public; font URL has no `?v` and the font is served as octet-stream; live 302 from `/results` arrives with an absolute https Location although the app sends a relative `/` (proxy rewrite, harmless); on `/results` the open suggestion list covers the submit until Escape; review nits from T-025/027/029/030/032 listed in PR #24; R-083 and the requirements it changed still read `planned` in docs/requirements.md although v0.1.54 shipped them.
 
 ## Log
 
@@ -24,7 +24,6 @@ Older rows: `.sdlc/log.md`.
 
 | Date | Stage | Agents (model) | Outcome |
 | --- | --- | --- | --- |
-| 2026-10-28 | Requirements | sdlc:product | R-083 (landing box) added; R-001, R-002, R-003, R-005, R-006, R-007, R-013, R-026, R-067, R-069, R-071, R-078 changed; R-082 done. Open Q-14 to Q-23. Committed 9aacb2e |
 | 2026-10-28 | Gate 1 | user | Scope approved with defaults; Q-14 number rule on both pages; Q-17 submit + focus on load, no Clear on `/`; Q-23 add a /results smoke check in this change |
 | 2026-10-28 | Requirements | sdlc:product (inherit) | R-062 amended for Q-23: smoke test also requires `GET /results?vram_gb=24&context_tokens=4096` → 200 with `id="summary-banner"` and `Manual VRAM (24 GB)`; Gate 1 answers column added to Q-14 to Q-23. Committed afaaf83 |
 | 2026-10-28 | Design | sdlc:architect (inherit) | HLD section "Centred landing box", flows 9-10; ADRs 0009 (own landing.html), 0010 (302 /results→/), 0011 (gpu_input.py rule), 0012 (plain GET form + links, Clear is a link), 0013 (smoke /results check). 4 open points for Gate 2. Committed 34589c4 |
@@ -39,3 +38,4 @@ Older rows: `.sdlc/log.md`.
 | 2026-10-28 | Gate 3 | user | Merge now (squash); ship as is: no first-option highlight in the landing suggestion list, chips showing through the open list |
 | 2026-10-28 | Merge | orchestrator | PR #24 squash-merged as 410e516; release run 40781009484 started |
 | 2026-10-28 | Live check | sdlc:release (sonnet) | Release run 40781009484 success, v0.1.54; order held (build, smoke incl. new /results check, tag, publish); latest, v0.1.54, sha-410e516 share digest sha256:b358058f…; live `/` shows styles v=20261028f about 14 min after the run; landing box centred with focus at 1280 and 390, `12 GB` gives Manual VRAM (12 GB), empty /results 302 to /, Clear links to /, /healthz ok. Tasks archived; Full track done |
+| 2026-11-02 | Requirements | sdlc:product (inherit) | R-084 to R-092 added (gist first, verdict controls, verdict lists, pages and size, address, filters, in-place loading, accessibility, Top Picks figures); R-013, 014, 016, 019, 022, 023, 024, 025, 031, 032, 067, 069, 078, 080, 081 changed. Open Q-24 to Q-42; rules 16 and 18 need rulings (Q-39, Q-42). Committed 93eca4f |
