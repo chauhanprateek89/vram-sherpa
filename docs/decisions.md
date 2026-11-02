@@ -50,6 +50,9 @@
 | 2026-10-28 | 2 | Landing copy: `h1` `Which local LLMs fit your GPU?`, help line `Type a GPU name, or enter its VRAM, like 12 GB.`, placeholder `Your GPU, or its VRAM`. |
 | 2026-10-28 | 2 | Unseeded catalog (L3): three chips, the GPU chip drawn dashed and inert as `Example GPU`. |
 | 2026-10-28 | 2 | Focus on load stays at every width, as decided for Q-17, even though Android's keyboard then covers the chips on phones. |
+| 2026-10-28 | 3 | Merge PR #24 now (squash), which deploys the centred landing box. |
+| 2026-10-28 | 3 | Ship the suggestion list on `/` as is: no option highlighted until Down is pressed (the mockup highlights the first). |
+| 2026-10-28 | 3 | Ship as is: the example chips show faintly through the open suggestion list on `/`. |
 
 ## Made during work
 

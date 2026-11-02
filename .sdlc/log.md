@@ -60,3 +60,4 @@
 | 2026-10-28 | Gate 3 | user | Merge now (squash); version tag waits for the smoke test too (kept as built) |
 | 2026-10-28 | Merge | orchestrator | PR #23 squash-merged as 2aa63d0; release run 40666348177 started |
 | 2026-10-28 | Live check | sdlc:release (sonnet) | Release run 40666348177 success, v0.1.53; step order verified (build, smoke, tag, publish); only sha-2aa63d0 pushed by build; latest, v0.1.53, sha-2aa63d0 share digest sha256:c1dacb73…; live site / 200, /healthz ok (catalog 2026-10-23), styles v=20261027e. Homelab image not checkable from outside. T-022 passes; tasks archived; Quick track done |
+| 2026-10-28 | Intake | orchestrator | Full track: `/` becomes one centred GPU box (Claude new-chat style); box takes a VRAM number, context hidden on landing, no reverse lookup. Branch sdlc/full-landing-box from main 2aa63d0 |
