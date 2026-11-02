@@ -53,6 +53,12 @@
 | 2026-10-28 | 3 | Merge PR #24 now (squash), which deploys the centred landing box. |
 | 2026-10-28 | 3 | Ship the suggestion list on `/` as is: no option highlighted until Down is pressed (the mockup highlights the first). |
 | 2026-10-28 | 3 | Ship as is: the example chips show faintly through the open suggestion list on `/`. |
+| 2026-11-02 | 1 | Approved the scope: R-084 to R-092 (results gist first, then one verdict's models in pages) and the changes to R-013, R-014, R-016, R-019, R-022, R-023, R-024, R-025, R-031, R-032, R-067, R-069, R-078, R-080 and R-081, with the written proposals for Q-24 to Q-42 except where noted below. |
+| 2026-11-02 | 1 | Q-28: page sizes `5` and `10`, default 5, as proposed. |
+| 2026-11-02 | 1 | Q-29: `Previous`, page numbers and `Next`; a new page replaces the cards, as proposed. |
+| 2026-11-02 | 1 | Q-31: the `Won't fit` list shows closest to fitting first, not largest first as written (a new ordering rule for that list; R-086 and R-019 to be amended). The rest of Q-31 stands as proposed. |
+| 2026-11-02 | 1 | Q-39 (rule 16): each Top Pick shows its verdict label, required VRAM, available VRAM and margin, with no gauge and no breakdown, as proposed. |
+| 2026-11-02 | 1 | Q-42 (rule 18): add a release smoke check that `GET /results?vram_gb=24&context_tokens=4096&verdict=fits` returns 200 with `data-model-card` in the body (R-062 to be amended). |
 
 ## Made during work
 
