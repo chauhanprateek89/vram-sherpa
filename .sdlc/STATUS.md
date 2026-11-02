@@ -3,7 +3,7 @@
 | | |
 | --- | --- |
 | Track | Full (results gist first, then paginated by verdict) |
-| Stage | Design (next) |
+| Stage | Mockups (in progress) |
 | Branch | sdlc/full-results-gist |
 | Gate waiting | none |
 | Updated | 2026-11-02 |
@@ -14,7 +14,7 @@
 
 ## Next step
 
-Gate 1 approved and requirements updated. Next: run Design (sdlc:architect, mode design) for R-084 to R-092, then Mockups (sdlc:uiux) for states G1 to G13 in R-067, then Gate 2. The UI depends on design decisions (how the partial route carries verdict, page and size), so run Mockups after Design.
+Design done (e56d9b6, ADRs 0014 to 0019). Next: finish Mockups (sdlc:uiux) for states G1 to G13 in R-067, then Gate 2. Two open points for Gate 2: (1) Back and Forward within results become a full page load, because the design sets htmx `historyCacheSize: 0` (ADR-0017, amends ADR-0008); (2) `Loading models` and the failure message show on every results refresh, including ones that end on the gist. The design assumes yes to both.
 
 Other follow-ups still open (not part of this track): theme toggle and GPU input after an htmx cache restore, incl. a stale preset radio on a cache-hit Back; host guard ignores `APP_ENV`/`PUBLIC_HOSTNAME` that docs/RELEASE_AND_DEPLOY.md tells the server to set (tunnel requests would get 400); local compose binds 0.0.0.0:8000 (rule 3); `/docs`, `/redoc`, `/openapi.json` are public; font URL has no `?v` and the font is served as octet-stream; live 302 from `/results` arrives with an absolute https Location although the app sends a relative `/` (proxy rewrite, harmless); on `/results` the open suggestion list covers the submit until Escape; review nits from T-025/027/029/030/032 listed in PR #24; R-083 and the requirements it changed still read `planned` in docs/requirements.md although v0.1.54 shipped them.
 
@@ -24,12 +24,6 @@ Older rows: `.sdlc/log.md`.
 
 | Date | Stage | Agents (model) | Outcome |
 | --- | --- | --- | --- |
-| 2026-10-28 | Design | sdlc:architect (inherit) | HLD section "Centred landing box", flows 9-10; ADRs 0009 (own landing.html), 0010 (302 /results→/), 0011 (gpu_input.py rule), 0012 (plain GET form + links, Clear is a link), 0013 (smoke /results check). 4 open points for Gate 2. Committed 34589c4 |
-| 2026-10-28 | Mockups | sdlc:uiux (inherit) | L1-L4 as `final-landing-*` (6 mockups) + `final-results-from-landing`, 4 PNGs each; copy proposed; only `Clear` changes on /results; artifact https://claude.ai/artifact/S8yurugqYYCy6CNtbNTSbj. Committed 06ab377 |
-| 2026-10-28 | Gate 2 | user | Design approved; proposed landing copy; L3 dashed inert GPU chip; focus on load at every width (kept despite Android keyboard) |
-| 2026-10-28 | Plan | sdlc:architect (inherit) | T-023 to T-032 (opus: T-027 302 redirect, T-032 release smoke check; rest sonnet); UI tasks name their `final-landing-*` / `final-results-from-landing` mockups; static tasks bump ASSET_VERSION. No constitution conflicts, no cost. Committed 692c87f |
-| 2026-10-28 | Build | sdlc:builder + sdlc:reviewer (sonnet; opus for T-027, T-032) | T-023 to T-032 all passed review (T-024, T-029 on the second review; no Opus rebuilds), commits c42116a..62ab9b1. Orchestrator check: lint, catalog, full pytest pass. Nits only (brittle source-text asserts, duplicated chip CSS, unremoved mktemp file) |
-| 2026-10-28 | QA | sdlc:qa (inherit) ×5 | 4/5 pass (box rule + Clear, redirect/context/chips/unseeded, results regressions, R-062 smoke check). R-083 fails on layout: box 81 px off-centre at 1280, submit outside the box, grey filled field, no 16 px gutters at 390; 9-32% pixel diff vs approved PNGs. Behaviour, copy and focus pass. Sent back as T-033 (opus: unknown cascade cause, only fix round) |
 | 2026-10-28 | Build | sdlc:builder + sdlc:reviewer (opus) | T-033 passed first review, commit a80f5c6 (landing rules scoped under `.ask`, ASSET_VERSION 20261028f). Lint, catalog, full pytest pass. Nit: `.ask input[type=text]` repeats `.form-pane input[type=text]` (kept scoped on purpose) |
 | 2026-10-28 | QA | sdlc:qa (inherit) ×2 | Re-run after T-033: R-083 passes (box 754 px centred, submit inset, 16 px gutters and 344 px box at 390; pixel diff now 1.2-1.6% at 1280, 2.8-3.9% at 390, suggest 5-9%); results regressions 0.00% diff. All 11 tasks pass |
 | 2026-10-28 | Release | sdlc:release (sonnet) | PR #24 opened (pushed over HTTPS), CI `test` passed in 2m30s, head 632992f; `gh pr create` worked, no fallback needed |
@@ -39,3 +33,4 @@ Older rows: `.sdlc/log.md`.
 | 2026-11-02 | Requirements | sdlc:product (inherit) | R-084 to R-092 added (gist first, verdict controls, verdict lists, pages and size, address, filters, in-place loading, accessibility, Top Picks figures); R-013, 014, 016, 019, 022, 023, 024, 025, 031, 032, 067, 069, 078, 080, 081 changed. Open Q-24 to Q-42; rules 16 and 18 need rulings (Q-39, Q-42). Committed 93eca4f |
 | 2026-11-02 | Gate 1 | user | Scope approved; Q-28 sizes 5 and 10, default 5; Q-29 Previous, numbers, Next; Q-31 changed to closest to fitting first; Q-39 and Q-42 yes; other proposals stand |
 | 2026-11-02 | Requirements | sdlc:product (inherit) | Gate 1 answers applied: R-019, R-086 `Won't fit` closest to fitting first (overage, then parameter count descending, then name); R-062 gains the `verdict=fits` smoke check; Q-24 to Q-42 answered. Committed 920bbe0 |
+| 2026-11-02 | Design | sdlc:architect (inherit) | HLD section "Results gist and verdict lists", flows 11-14, `results_view.py`; ADRs 0014 (view in query string), 0015 (one card list, sorted on the server), 0016 (form keeps view, `apply_view` 302 without JS), 0017 (htmx history cache off, amends 0008), 0018 (links refreshed in place, feedback outside swap), 0019 (`verdict=fits` smoke check). No formula change, no cost, no constitution conflict. 2 open points for Gate 2. Committed e56d9b6 |
