@@ -59,6 +59,12 @@
 | 2026-11-02 | 1 | Q-31: the `Won't fit` list shows closest to fitting first, not largest first as written (a new ordering rule for that list; R-086 and R-019 to be amended). The rest of Q-31 stands as proposed. |
 | 2026-11-02 | 1 | Q-39 (rule 16): each Top Pick shows its verdict label, required VRAM, available VRAM and margin, with no gauge and no breakdown, as proposed. |
 | 2026-11-02 | 1 | Q-42 (rule 18): add a release smoke check that `GET /results?vram_gb=24&context_tokens=4096&verdict=fits` returns 200 with `data-model-card` in the body (R-062 to be amended). |
+| 2026-11-03 | 2 | Approved the design (HLD "Results gist and verdict lists", ADR-0014 to 0019) and the mockups for G1 to G13 (`final-gist-*`, gallery https://claude.ai/artifact/6WMqjKd79PuxAuKagxBWZA). |
+| 2026-11-03 | 2 | Back and Forward within results reload the whole page: htmx's history cache is off (ADR-0017, amends ADR-0008). |
+| 2026-11-03 | 2 | `Loading models` and the failure message show on every results refresh, including refreshes that end on the gist (ADR-0018). |
+| 2026-11-03 | 2 | Counts and Top Picks may disagree, as drawn: counts use the variant each card opens on, picks can be any variant. A `Tight` pick can sit beside a `Tight` count of 0. R-024 is unchanged. |
+| 2026-11-03 | 2 | Accepted as drawn: feedback at the top of the viewport; failure message with no dismiss or retry, clearing when the next request starts; 3 px ink border on the selected tile; phone page controls wrap naturally. |
+| 2026-11-03 | 2 | Q-41 wording final as written, including `Choose Fits, Tight or Won't fit to see the models.` under two inert tiles at `vram_gb=1`. |
 
 ## Made during work
 
