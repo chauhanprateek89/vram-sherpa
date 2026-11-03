@@ -170,7 +170,8 @@ def test_pager_css_values_are_pinned() -> None:
 
     css = (Path(__file__).parents[1] / "src/vramsherpa/static/css/styles.css").read_text()
     for rule in (
-        "justify-content: center; align-items: center; gap: 6px; margin: 0; padding: 0; }",
+        "justify-content: center; align-items: center; gap: 6px; margin: 0; padding: 0; "
+        "list-style: none; }",
         "min-height: 44px; min-width: 44px;",
         ".pager .pg-cur { background: var(--pressed);",
         ".pager .pg-off { color: var(--muted); border: 1.5px dashed var(--line); }",
