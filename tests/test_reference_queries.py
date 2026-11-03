@@ -148,7 +148,7 @@ def extract_cards(html: str) -> list[dict]:
     return cards
 
 
-def _request(app, path: str) -> Request:
+def _request(app, path: str, query: str = "") -> Request:
     return Request(
         {
             "type": "http",
@@ -157,7 +157,7 @@ def _request(app, path: str) -> Request:
             "scheme": "http",
             "path": path,
             "raw_path": path.encode("utf-8"),
-            "query_string": b"",
+            "query_string": query.encode("ascii"),
             "headers": [(b"host", b"testserver")],
             "client": ("testclient", 50000),
             "server": ("testserver", 80),
@@ -167,8 +167,8 @@ def _request(app, path: str) -> Request:
     )
 
 
-def computed_cards(app, session: Session, url: str) -> list[dict]:
-    """The cards the app computes for ``url``, in the extractor's shape."""
+def _computed_page(app, session: Session, url: str, verdict: str, page: int) -> list[dict]:
+    """The cards of one page of one verdict at ``page_size=10``, from the page context."""
     parts = urlsplit(url)
     query = parse_qs(parts.query)
 
@@ -176,7 +176,7 @@ def computed_cards(app, session: Session, url: str) -> list[dict]:
         return query[name][0] if name in query else None
 
     context = _results_page_context(
-        _request(app, parts.path),
+        _request(app, parts.path, f"verdict={verdict}&page_size=10&page={page}"),
         session,
         gpu_id=first("gpu_id"),
         gpu_search=first("gpu_search"),
@@ -213,9 +213,37 @@ def computed_cards(app, session: Session, url: str) -> list[dict]:
     return cards
 
 
+def computed_cards(app, session: Session, url: str) -> list[dict]:
+    """The cards the app computes for ``url``, walking Fits then Tight a page of 10 at a time."""
+    cards: list[dict] = []
+    for verdict in ("fits", "tight"):
+        previous: list[dict] | None = None
+        page = 1
+        while True:
+            chunk = _computed_page(app, session, url, verdict, page)
+            if chunk == previous:
+                break
+            cards.extend(chunk)
+            if len(chunk) < 10:
+                break
+            previous = chunk
+            page += 1
+    return cards
+
+
 @pytest.fixture()
 def client(app, seeded_session: Session) -> TestClient:
     return TestClient(app)
+
+
+def _walk_rendered(client: TestClient, walk_verdict, url: str) -> list[dict]:
+    """Every card of the Fits pages, then the Tight pages, in the extractor's shape."""
+    query = urlsplit(url).query
+    cards: list[dict] = []
+    for verdict in ("fits", "tight"):
+        for body in walk_verdict(client, query, verdict):
+            cards.extend(extract_cards(body))
+    return cards
 
 
 def _load_fixture() -> dict:
@@ -232,7 +260,7 @@ def test_fixture_covers_both_reference_queries() -> None:
 
 @pytest.mark.parametrize("url", REFERENCE_QUERIES)
 def test_rendered_cards_match_the_f2ad2d8_fixture(
-    client: TestClient, seeded_session: Session, url: str
+    client: TestClient, seeded_session: Session, walk_verdict, url: str
 ) -> None:
     fixture = _load_fixture()
     seeded_version = _catalog_version(seeded_session)
@@ -243,19 +271,15 @@ def test_rendered_cards_match_the_f2ad2d8_fixture(
             "the computed comparison still runs"
         )
 
-    response = client.get(url)
+    rendered = _walk_rendered(client, walk_verdict, url)
 
-    assert response.status_code == 200
-    assert extract_cards(response.text) == fixture["queries"][url]
+    assert rendered == fixture["queries"][url]
 
 
 @pytest.mark.parametrize("url", REFERENCE_QUERIES)
 def test_rendered_cards_match_the_computed_model_cards(
-    app, client: TestClient, seeded_session: Session, url: str
+    app, client: TestClient, seeded_session: Session, walk_verdict, url: str
 ) -> None:
-    response = client.get(url)
-
-    assert response.status_code == 200
-    rendered = extract_cards(response.text)
+    rendered = _walk_rendered(client, walk_verdict, url)
     assert rendered, "the reference query rendered no cards"
     assert rendered == computed_cards(app, seeded_session, url)

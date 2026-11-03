@@ -787,7 +787,7 @@ def test_old_headings_and_sentences_are_gone(client: TestClient) -> None:
 
 
 def test_results_heading_is_visually_hidden_above_the_cards(client: TestClient) -> None:
-    html = client.get(REFERENCE).text
+    html = client.get(REFERENCE + "&verdict=fits").text
     heading = next(n for n in _tree(html).walk() if n.tag == "h2" and n.all_text() == "Results")
     assert heading.classes() == ["sr-only"]
     assert html.index(">Results</h2>") < html.index('id="results-cards"')
@@ -798,7 +798,7 @@ def test_results_heading_is_visually_hidden_above_the_cards(client: TestClient) 
 def test_frozen_ids_and_partial_endpoints_still_render_their_templates(
     client: TestClient,
 ) -> None:
-    html = client.get(REFERENCE).text
+    html = client.get(REFERENCE + "&verdict=fits").text
     for ident in (
         "results-shell",
         "results-summary-shell",
@@ -809,7 +809,7 @@ def test_frozen_ids_and_partial_endpoints_still_render_their_templates(
         assert html.count(f'id="{ident}"') == 1, ident
     summary = client.get("/results/partials/summary?vram_gb=24").text
     assert 'id="summary-banner"' in summary and 'id="results-cards"' not in summary
-    listing = client.get("/results/partials/list?vram_gb=24").text
+    listing = client.get("/results/partials/list?vram_gb=24&verdict=fits").text
     assert 'id="results-cards"' in listing and 'id="summary-banner"' not in listing
     content = client.get("/results/partials/content?vram_gb=24", headers=HX).text
     assert 'id="results-summary-shell"' in content and 'id="results-list-shell"' in content
@@ -848,7 +848,7 @@ def _picks(html: str) -> _Node:
 def test_top_picks_is_a_closed_disclosure_after_the_tile_with_an_opening_script(
     client: TestClient,
 ) -> None:
-    html = client.get(REFERENCE).text
+    html = client.get(REFERENCE + "&verdict=fits").text
     picks = _picks(html)
     assert picks.tag == "details" and "open" not in picks.attrs
     assert "data-open-wide" in picks.attrs
@@ -979,7 +979,7 @@ def test_sprite_carries_every_icon_the_cards_use(client: TestClient) -> None:
 
 
 def test_cards_sit_in_one_glass_pane_as_a_grid_of_inset_cards(client: TestClient) -> None:
-    html = client.get(GATED_QUERY).text
+    html = client.get(GATED_QUERY + "&verdict=fits").text
     section = next(n for n in _tree(html).walk() if n.attrs.get("id") == "results-cards")
     assert section.tag == "section" and {"results", "pane", "lite"} <= set(section.classes())
     grid = next(n for n in section.children if n.tag == "div")
@@ -990,7 +990,7 @@ def test_cards_sit_in_one_glass_pane_as_a_grid_of_inset_cards(client: TestClient
 
 
 def test_every_pane_has_one_gauge_and_the_verdict_before_the_margin(client: TestClient) -> None:
-    html = client.get(GATED_QUERY).text
+    html = client.get(GATED_QUERY + "&verdict=fits").text
     cards = _cards(html)
     assert cards
     for card in cards:
@@ -1014,7 +1014,7 @@ def test_every_pane_has_one_gauge_and_the_verdict_before_the_margin(client: Test
 
 
 def test_bar_class_follows_the_verdict(client: TestClient) -> None:
-    html = client.get(GATED_QUERY).text
+    html = client.get(GATED_QUERY + "&verdict=fits").text
     seen = set()
     for card in _cards(html):
         for pane in (n for n in card.walk() if "data-variant-pane" in n.attrs):
@@ -1048,7 +1048,7 @@ def test_switcher_is_one_row_of_four_with_a_thumb_hook_and_struck_wont_fit(
 
 
 def test_gated_models_carry_the_marker_inside_the_heading(client: TestClient) -> None:
-    html = client.get(GATED_QUERY).text
+    html = client.get(GATED_QUERY + "&verdict=fits").text
     gated = [c for c in _cards(html) if any("tag-gated" in n.classes() for n in c.walk())]
     assert gated
     for card in gated:
@@ -1057,7 +1057,7 @@ def test_gated_models_carry_the_marker_inside_the_heading(client: TestClient) ->
 
 
 def test_card_meta_keeps_params_and_family(client: TestClient) -> None:
-    html = client.get(GATED_QUERY).text
+    html = client.get(GATED_QUERY + "&verdict=fits").text
     meta = next(n for n in _tree(html).walk() if "model-meta" in n.classes())
     spans = [n for n in meta.children if n.tag == "span"]
     assert re.fullmatch(r"\d+(\.\d+)?B params", spans[0].all_text())
@@ -1142,7 +1142,7 @@ def _why_summary(pane: _Node) -> _Node:
 def test_breakdown_is_a_definition_list_with_the_total_ruled_off_before_the_reserve(
     client: TestClient,
 ) -> None:
-    url = _why_summary(_first_pane(client.get(REFERENCE).text)).attrs["hx-get"]
+    url = _why_summary(_first_pane(client.get(REFERENCE + "&verdict=fits").text)).attrs["hx-get"]
     root = _tree(client.get(url).text)
     title = next(n for n in root.walk() if "why-title" in n.classes())
     assert re.fullmatch(r"\S+ on .+", title.all_text())
@@ -1158,7 +1158,7 @@ def test_breakdown_is_a_definition_list_with_the_total_ruled_off_before_the_rese
 
 
 def test_total_needed_equals_the_gb_needed_caption_of_the_same_pane(client: TestClient) -> None:
-    html = client.get(REFERENCE).text
+    html = client.get(REFERENCE + "&verdict=fits").text
     checked = 0
     for pane in (n for n in _tree(html).walk() if "data-variant-pane" in n.attrs):
         caption = next(n for n in pane.walk() if "scale" in n.classes())
@@ -1178,7 +1178,7 @@ def test_total_needed_equals_the_gb_needed_caption_of_the_same_pane(client: Test
 def test_breakdown_stays_collapsed_and_fetched_once_with_its_placeholder(
     client: TestClient,
 ) -> None:
-    pane = _first_pane(client.get(REFERENCE).text)
+    pane = _first_pane(client.get(REFERENCE + "&verdict=fits").text)
     panel = next(n for n in pane.walk() if "why-panel" in n.classes())
     assert panel.tag == "details" and "open" not in panel.attrs
     summary = _why_summary(pane)
@@ -1194,7 +1194,7 @@ def test_breakdown_stays_collapsed_and_fetched_once_with_its_placeholder(
 def test_loading_state_is_five_shimmer_rows_in_markup_and_shown_by_htmx_request(
     client: TestClient,
 ) -> None:
-    pane = _first_pane(client.get(REFERENCE).text)
+    pane = _first_pane(client.get(REFERENCE + "&verdict=fits").text)
     loading = next(n for n in pane.walk() if "why-loading" in n.classes())
     assert "Loading the breakdown" in loading.all_text()
     rows = [n for n in loading.walk() if n.tag == "i"]
@@ -1257,7 +1257,7 @@ def test_breakdown_pseudo_elements_are_border_box_like_the_mockup() -> None:
 
 
 def test_breakdown_fragment_has_no_unstyled_wrapper(client: TestClient) -> None:
-    url = _why_summary(_first_pane(client.get(REFERENCE).text)).attrs["hx-get"]
+    url = _why_summary(_first_pane(client.get(REFERENCE + "&verdict=fits").text)).attrs["hx-get"]
     html = client.get(url).text
     assert "why-breakdown" not in html
     assert html.lstrip().startswith('<p class="why-title">')

@@ -175,10 +175,17 @@ def test_gpu_search_messages_word_for_word(client: TestClient) -> None:
     )
 
 
-def test_every_verdict_pane_shows_required_available_and_margin(client: TestClient) -> None:
+def test_every_verdict_pane_shows_required_available_and_margin(
+    client: TestClient, walk_verdict
+) -> None:
     """Rule 16: each variant pane carries its verdict, needed, available and margin figures."""
     for url in [REF, REF2, "/results?vram_gb=2&context_tokens=4096"]:
-        markup = _body(client, url)
+        query = url.split("?", 1)[1]
+        markup = "".join(
+            body
+            for verdict in ("fits", "tight", "wont-fit")
+            for body in walk_verdict(client, query, verdict)
+        )
         panes = re.split(r"data-variant-pane=", markup)[1:]
         assert panes, url
         for pane in panes:
@@ -230,16 +237,17 @@ def test_form_fields_and_steps_are_kept(client: TestClient) -> None:
     assert markup.count('<option value="gpu_') >= 35 or markup.count("<option") >= 35
 
 
-def test_no_javascript_markup(client: TestClient) -> None:
+def test_no_javascript_markup(client: TestClient, walk_verdict) -> None:
     """With JavaScript off: Apply filters is a real button, and collapsed sections are <details>."""
     markup = _body(client, REF)
+    pages = walk_verdict(client, REF.split("?", 1)[1])
 
     assert re.search(r"<noscript>\s*<button[^>]*type=\"submit\"[^>]*>\s*Apply filters", markup)
     filters = re.search(r"<details class=\"filters[^>]*>", markup)
     assert filters and "hidden" not in filters.group(0)
     picks = re.search(r"<details class=\"picks[^>]*>", markup)
     assert picks and "hidden" not in picks.group(0)
-    assert markup.count('<details class="why-panel"') >= 70
+    assert sum(page.count('<details class="why-panel"') for page in pages) >= 70
     assert 'method="get"' in markup
     # Server-rendered gauge widths, no script needed.
-    assert re.search(r'class="bar bar-fits" style="width: [\d.]+%;"', markup)
+    assert re.search(r'class="bar bar-fits" style="width: [\d.]+%;"', "".join(pages))

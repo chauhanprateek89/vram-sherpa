@@ -191,7 +191,7 @@ def test_history_restore_without_hardware_gets_the_full_page(client: TestClient)
 def test_unusable_hardware_still_renders_results_at_8gb(
     client: TestClient, url: str, error: str | None
 ) -> None:
-    response = client.get(url, follow_redirects=False)
+    response = client.get(url + "&verdict=fits", follow_redirects=False)
 
     assert response.status_code == 200
     assert "location" not in response.headers

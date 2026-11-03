@@ -235,7 +235,7 @@ def test_results_shell_sits_after_the_search_form(client: TestClient) -> None:
 
 
 def test_breakdown_triggers_have_no_push_url_ancestor(client: TestClient) -> None:
-    response = client.get(f"/results?{QUERY}")
+    response = client.get(f"/results?{QUERY}&verdict=fits")
     tree = _parse(response.text)
 
     triggers = [

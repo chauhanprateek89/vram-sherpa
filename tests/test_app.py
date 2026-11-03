@@ -26,7 +26,7 @@ from vramsherpa.main import (
 from vramsherpa.models import Variant
 
 
-def _request(app, path: str, *, hx: bool = False) -> Request:
+def _request(app, path: str, *, hx: bool = False, query: str = "") -> Request:
     headers = [(b"host", b"testserver")]
     if hx:
         headers.append((b"hx-request", b"true"))
@@ -38,7 +38,7 @@ def _request(app, path: str, *, hx: bool = False) -> Request:
             "scheme": "http",
             "path": path,
             "raw_path": path.encode("utf-8"),
-            "query_string": b"",
+            "query_string": query.encode("ascii"),
             "headers": headers,
             "client": ("testclient", 50000),
             "server": ("testserver", 80),
@@ -101,7 +101,7 @@ def test_results_default_state_shows_note_and_form_controls(app, seeded_session:
 
 def test_results_with_manual_vram_returns_200_and_rows(app, seeded_session: Session) -> None:
     response = results(
-        _request(app, "/results"),
+        _request(app, "/results", query="verdict=fits&page_size=10"),
         vram_gb=16,
         context_tokens=2048,
         family=[],
@@ -234,7 +234,7 @@ def test_results_gpu_search_shows_not_found_feedback(app, seeded_session: Sessio
 
 def test_results_gpu_search_uses_vram_hint_from_text(app, seeded_session: Session) -> None:
     response = results(
-        _request(app, "/results"),
+        _request(app, "/results", query="verdict=fits&page_size=10"),
         gpu_id="",
         gpu_search="RTX 3060 12GB",
         vram_gb="",
@@ -298,7 +298,7 @@ def test_variant_breakdown_returns_html_partial(app, seeded_session: Session) ->
 
 def test_results_filters_change_output_deterministically(app, seeded_session: Session) -> None:
     llama_response = results(
-        _request(app, "/results"),
+        _request(app, "/results", query="verdict=fits&page_size=10"),
         vram_gb=24,
         context_tokens=2048,
         family=["llama"],
@@ -309,7 +309,7 @@ def test_results_filters_change_output_deterministically(app, seeded_session: Se
         session=seeded_session,
     )
     qwen_response = results(
-        _request(app, "/results"),
+        _request(app, "/results", query="verdict=fits&page_size=10"),
         vram_gb=24,
         context_tokens=2048,
         family=["qwen"],
@@ -346,7 +346,7 @@ def test_results_partials_return_summary_and_results_sections(app, seeded_sessio
         session=seeded_session,
     )
     list_response = results_partial_list(
-        _request(app, "/results/partials/list", hx=True),
+        _request(app, "/results/partials/list", hx=True, query="verdict=fits&page_size=10"),
         vram_gb="16",
         context_tokens=4096,
         family=[],
@@ -357,7 +357,7 @@ def test_results_partials_return_summary_and_results_sections(app, seeded_sessio
         session=seeded_session,
     )
     content_response = results_partial_content(
-        _request(app, "/results/partials/content", hx=True),
+        _request(app, "/results/partials/content", hx=True, query="verdict=fits&page_size=10"),
         vram_gb="16",
         context_tokens=4096,
         family=[],

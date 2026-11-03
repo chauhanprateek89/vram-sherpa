@@ -202,9 +202,9 @@ def client(app: FastAPI, seeded_session: Session) -> TestClient:
 
 
 def test_quantisation_buttons_carry_exactly_one_aria_pressed_true_per_card(
-    client: TestClient,
+    client: TestClient, walk_verdict
 ) -> None:
-    page = client.get("/results?vram_gb=24&context_tokens=4096").text
+    page = "".join(walk_verdict(client, "vram_gb=24&context_tokens=4096"))
     groups = re.findall(r'<div class="quants"[^>]*role="group"[^>]*>(.*?)</div>', page, re.S)
     assert len(groups) > 10
     for group in groups:
@@ -212,8 +212,10 @@ def test_quantisation_buttons_carry_exactly_one_aria_pressed_true_per_card(
         assert states.count("true") == 1 and len(states) >= 2
 
 
-def test_every_gauge_is_an_image_with_the_needs_of_gigabytes_label(client: TestClient) -> None:
-    page = client.get("/results?vram_gb=24&context_tokens=4096").text
+def test_every_gauge_is_an_image_with_the_needs_of_gigabytes_label(
+    client: TestClient, walk_verdict
+) -> None:
+    page = "".join(walk_verdict(client, "vram_gb=24&context_tokens=4096"))
     tracks = re.findall(r'<div\s+class="track"\s+role="img"\s+aria-label="([^"]+)"', page)
     assert len(tracks) > 40
     for label in tracks:

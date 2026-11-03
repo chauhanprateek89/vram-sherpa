@@ -135,7 +135,14 @@ def test_worked_example_names_the_catalog_model_and_matches_its_card_and_row(
         "7.33 GB",
     ]
     results = client.get(
-        "/results", params={"vram_gb": 24, "context_tokens": 2048, "family": "llama"}
+        "/results",
+        params={
+            "vram_gb": 24,
+            "context_tokens": 2048,
+            "family": "llama",
+            "verdict": "fits",
+            "page_size": 10,
+        },
     ).text
     card = results.split("Llama 3.1 8B Instruct", 1)[1].split("</article>", 1)[0]
     assert "7.33 GB" in _text(card)

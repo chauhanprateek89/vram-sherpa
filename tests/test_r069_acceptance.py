@@ -42,7 +42,7 @@ def client(app: FastAPI, seeded_session: Session) -> TestClient:
 
 @pytest.mark.parametrize("url", STATES)
 def test_headline_precedes_chips_picks_and_cards(client: TestClient, url: str) -> None:
-    html = client.get(url).text
+    html = client.get(url + "&verdict=fits").text
     headline = html.index('id="ans-h"')
     picks = html.index('class="picks')
     first_card = html.index('<article class="model-card')
