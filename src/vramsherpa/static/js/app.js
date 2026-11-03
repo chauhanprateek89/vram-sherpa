@@ -518,9 +518,38 @@ function initVramInvalid() {
   document.body.addEventListener("htmx:afterSettle", syncBoxVram);
 }
 
+// A filter change keeps the view on screen; `Check compatibility` and Enter are a `submit`, add
+// nothing and land on the gist (R-089, ADR-0016). The view comes only from the answer tile, which
+// holds canonical values and belongs to the history entry on screen, never from the address. The
+// form has no page field, so the request is page 1. `parameters` is a plain object in htmx 1.9.
+function addFormView(event) {
+  if (event.target.id !== "search-form") {
+    return;
+  }
+  var detail = event.detail;
+  if (detail.triggeringEvent && detail.triggeringEvent.type === "submit") {
+    return;
+  }
+  var banner = document.getElementById("summary-banner");
+  if (!banner) {
+    return;
+  }
+  if (banner.dataset.verdict) {
+    detail.parameters["verdict"] = banner.dataset.verdict;
+  }
+  if (banner.dataset.pageSize) {
+    detail.parameters["page_size"] = banner.dataset.pageSize;
+  }
+}
+
+function initFormView() {
+  document.body.addEventListener("htmx:configRequest", addFormView);
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   initThemeToggle();
   initVramInvalid();
+  initFormView();
   initSegThumbs();
   initSheen();
   initFilterCount();
