@@ -3,7 +3,7 @@
 | | |
 | --- | --- |
 | Track | Full (results gist first, then paginated by verdict) |
-| Stage | Build (running) |
+| Stage | QA (running) |
 | Branch | sdlc/full-results-gist |
 | Gate waiting | none |
 | Updated | 2026-11-03 |
@@ -14,7 +14,7 @@
 
 ## Next step
 
-Plan done: T-035 to T-051 in `.sdlc/features.json`, commit ff23691. T-035 to T-049 passed review. The `sdlc:build` workflow stopped on the usage limit during T-050 and is resuming T-050 and T-051 (run wf_fd36e84d-f55, script in the session scratchpad). If this session ended before it reported back: commits start `T-0NN:` and verdicts are in `.sdlc/reviews/`, so re-run Build for the tasks without a passing review. Set each task's `review` field from the results. Then QA (`sdlc:qa` workflow, one item per requirement touched, with its `final-gist-*` mockups), Release, Gate 3.
+Build done: T-035 to T-051 all passed review. The `sdlc:qa` workflow is running one item per requirement touched (25). A task's `passes` counts only if every requirement it serves passed, so reconcile `.sdlc/features.json` from the results. Reports are in `.sdlc/qa/<R-id>/`. Then Release (`sdlc:release`, mode pr; list the review nits in the PR), Gate 3.
 
 Other follow-ups still open (not part of this track): theme toggle and GPU input after an htmx cache restore, incl. a stale preset radio on a cache-hit Back; host guard ignores `APP_ENV`/`PUBLIC_HOSTNAME` that docs/RELEASE_AND_DEPLOY.md tells the server to set (tunnel requests would get 400); local compose binds 0.0.0.0:8000 (rule 3); `/docs`, `/redoc`, `/openapi.json` are public; font URL has no `?v` and the font is served as octet-stream; live 302 from `/results` arrives with an absolute https Location although the app sends a relative `/` (proxy rewrite, harmless); on `/results` the open suggestion list covers the submit until Escape; review nits from T-025/027/029/030/032 listed in PR #24; R-083 and the requirements it changed still read `planned` in docs/requirements.md although v0.1.54 shipped them.
 
@@ -38,3 +38,4 @@ Older rows: `.sdlc/log.md`.
 | 2026-11-03 | Gate 2 | user | Design and mockups approved; Back and Forward reload (history cache off); feedback on every refresh; counts and picks left as drawn; points 4 to 8 accepted as drawn |
 | 2026-11-03 | Plan | sdlc:architect (inherit) | 17 tasks, T-035 to T-051 (13 sonnet; opus for T-046 `apply_view` redirect, T-048 and T-049 request ordering, T-051 `release.yml`). Every listed requirement maps to a task; no constitution conflict, no cost, no formula change. Committed ff23691 |
 | 2026-11-03 | Build | sdlc:builder + sdlc:reviewer (sonnet, opus) | T-035 to T-049 passed review (T-044 rebuilt on Opus after two failed reviews; T-043 and T-046 took a second review). Usage limit stopped T-050 mid-build; its uncommitted partial work was set aside as a patch and T-050 restarts clean |
+| 2026-11-03 | Build | sdlc:builder + sdlc:reviewer (sonnet, opus) | T-050 and T-051 passed first review after the resume; all 17 tasks passed. Worth a QA probe: Enter with key rollover on a slow response (T-048 review) |

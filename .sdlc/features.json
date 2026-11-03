@@ -705,7 +705,7 @@
         "T-049"
       ],
       "notes": "From ADR-0018's findings in htmx 1.9.12: `htmx:afterSettle` fires once for each new top-level element in the swap, and `#results-shell` swaps two children, so the focus step needs a one-shot flag set at `beforeRequest` (T-049 notes the kind there). `htmx:afterSettle` is shared with breakdown requests: filter on `detail.target.id`. For a non-boosted `<a hx-get>`, htmx calls `preventDefault()` before evaluating any trigger filter, so `click[!ctrlKey]` would leave a modified click doing nothing; that is why this is a capture-phase listener on `document`. Pass `behavior` explicitly: the stylesheet's reduced-motion rule does not cover `scrollIntoView({behavior: \"smooth\"})`. `prefersReducedMotion` already exists in `app.js`. If no `#list-heading` exists after a settle, do nothing. The heading's text is the announcement, so add no live region for it. `scroll-margin-top` is in T-043. Do not render pages or take screenshots; QA measures and compares (rule 10). Your proof is pytest and the code.",
-      "review": "pending",
+      "review": "passed",
       "passes": false
     },
     {
@@ -733,7 +733,7 @@
         "T-037"
       ],
       "notes": "UI: no. CI and deploy config, so Opus. Copy the shape of the ADR-0013 block at `release.yml` lines 124 to 134, with its own `mktemp`. Rule 18 lets checks be added, never removed or weakened; the user asked for this one (Gate 1, Q-42). Do not match a model name or a count: the catalog changes weekly, and `data-model-card` is what `app.js` reads (ADR-0019). Nothing here costs money: it runs in the existing free GitHub Actions workflow on a public repo. Merging needs the user's sign-off (rule 6). Do not run the workflow. No file under `static/`, so no `ASSET_VERSION` bump.",
-      "review": "pending",
+      "review": "passed",
       "passes": false
     }
   ]
