@@ -184,12 +184,23 @@ class ModelCard:
         return self.variants[0]
 
 
-def _group_results_by_model(rows: list[ResultRow]) -> list[ModelCard]:
-    """Collapse variant rows into one card per model.
+def _default_variant(variants: list[ResultRow]) -> ResultRow:
+    """Pick the variant a card opens on (R-016).
 
-    A model appears when at least one of its variants fits or is tight. The card
-    opens on the recommended bucket when that one is usable, because opening on the
-    highest precision that fits makes every gauge look full and hides the headroom.
+    `variants` come in Q4, Q5, Q8, FP16 order. The recommended variant wins when it is
+    usable, else the first usable one. With none usable the card still needs a variant,
+    so the recommended one, else the first.
+    """
+    usable = [row for row in variants if row.classification != FitBadge.WONT_FIT.value]
+    pool = usable or variants
+    return next((row for row in pool if row.recommended), pool[0])
+
+
+def _group_results_by_model(rows: list[ResultRow]) -> list[ModelCard]:
+    """Collapse variant rows into one card per model, skipping none.
+
+    Opening on the recommended bucket when usable keeps gauges from all reading full.
+    A model with no usable variant still gets a card; it lands under Won't fit.
     """
     grouped: dict[str, list[ResultRow]] = {}
     for row in rows:
@@ -198,12 +209,6 @@ def _group_results_by_model(rows: list[ResultRow]) -> list[ModelCard]:
     cards: list[ModelCard] = []
     for model_id, variants in grouped.items():
         variants.sort(key=lambda row: QUANT_ORDER.get(row.quant_bucket, 99))
-        usable = [row for row in variants if row.classification != FitBadge.WONT_FIT.value]
-        if not usable:
-            continue
-
-        recommended = next((row for row in usable if row.recommended), None)
-        default = recommended or usable[0]
         first = variants[0]
         cards.append(
             ModelCard(
@@ -213,19 +218,35 @@ def _group_results_by_model(rows: list[ResultRow]) -> list[ModelCard]:
                 params_b=first.params_b,
                 gated=first.gated,
                 variants=variants,
-                default_variant_id=default.variant_id,
+                default_variant_id=_default_variant(variants).variant_id,
             )
         )
-
-    rank = {FitBadge.FITS.value: 0, FitBadge.TIGHT.value: 1, FitBadge.WONT_FIT.value: 2}
-    cards.sort(
-        key=lambda card: (
-            rank[card.default_variant.classification],
-            -card.params_b,
-            card.model_name,
-        )
-    )
     return cards
+
+
+def _verdict_cards(cards: list[ModelCard], label: str) -> list[ModelCard]:
+    """The cards whose open variant has this verdict, in list order (R-019).
+
+    Fits and Tight: largest model first. Won't fit: smallest shortfall first, taken
+    unrounded from the open variant. Names compare by code point.
+    """
+    chosen = [card for card in cards if card.default_variant.classification == label]
+    if label == FitBadge.WONT_FIT.value:
+
+        def key(card: ModelCard) -> tuple:
+            row = card.default_variant
+            return (
+                row.required_vram_gb - row.available_vram_gb,
+                -card.params_b,
+                card.model_name,
+                card.model_id,
+            )
+    else:
+
+        def key(card: ModelCard) -> tuple:
+            return (-card.params_b, card.model_name, card.model_id)
+
+    return sorted(chosen, key=key)
 
 
 def _catalog_version(session: Session) -> str:
@@ -650,33 +671,12 @@ def _active_filter_chips(
     return chips
 
 
-def _summary_counts(rows: list[ResultRow]) -> dict[str, int]:
-    """Count models, not variants.
-
-    The list below these tiles shows one card per model, so counting every
-    quantisation here reported 267 against a list of 71 and read as a bug.
-
-    Each model counts under the variant its card actually opens on. Counting by a
-    model's *best* variant instead left "Tight" permanently at zero, since a model
-    is only tight then when even Q4 is tight.
-    """
-    grouped: dict[str, list[ResultRow]] = {}
-    for row in rows:
-        grouped.setdefault(row.model_id, []).append(row)
-
-    outcomes: list[str] = []
-    for variants in grouped.values():
-        variants.sort(key=lambda row: QUANT_ORDER.get(row.quant_bucket, 99))
-        usable = [row for row in variants if row.classification != FitBadge.WONT_FIT.value]
-        if not usable:
-            outcomes.append(FitBadge.WONT_FIT.value)
-            continue
-        shown = next((row for row in usable if row.recommended), usable[0])
-        outcomes.append(shown.classification)
+def _summary_counts(cards: list[ModelCard]) -> dict[str, int]:
+    """Count models, not variants, each under the variant its card opens on."""
+    outcomes = [card.default_variant.classification for card in cards]
     return {
-        FitBadge.FITS.value: sum(1 for value in outcomes if value == FitBadge.FITS.value),
-        FitBadge.TIGHT.value: sum(1 for value in outcomes if value == FitBadge.TIGHT.value),
-        FitBadge.WONT_FIT.value: sum(1 for value in outcomes if value == FitBadge.WONT_FIT.value),
+        label.value: sum(1 for value in outcomes if value == label.value)
+        for label in (FitBadge.FITS, FitBadge.TIGHT, FitBadge.WONT_FIT)
     }
 
 
@@ -886,12 +886,14 @@ def _results_context(
         max_params_b=None,
         recommended_only=False,
     )
+    all_cards = _group_results_by_model(results_rows)
     context = _base_context(request, session)
     context.update(
         {
             "gpus": gpus,
             "results": visible_results,
-            "model_cards": _group_results_by_model(results_rows),
+            "model_cards": _verdict_cards(all_cards, FitBadge.FITS.value)
+            + _verdict_cards(all_cards, FitBadge.TIGHT.value),
             "families": _all_families(session),
             "quant_options": _all_quant_buckets(session),
             "selected_gpu_id": selected_gpu_id,
@@ -922,7 +924,7 @@ def _results_context(
             "form_errors": form_errors or [],
             "vram_error": vram_error,
             "gpu_search_feedback": gpu_search_feedback,
-            "summary_counts": _summary_counts(results_rows),
+            "summary_counts": _summary_counts(all_cards),
             "selected_hardware_label": _selected_hardware_label(
                 selected_gpu_label=selected_gpu_label,
                 manual_vram=manual_vram,
