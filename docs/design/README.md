@@ -1,3 +1,118 @@
+# Results gist and verdict lists: design (Gate 2 for R-084 to R-092)
+
+`/results` opens on the gist: the answer tile, three verdict controls and Top Picks (each pick with its figures), with no card. Pressing `Fits`, `Tight` or `Won't fit` shows that verdict's models, 5 or 10 per page. Same direction as the rest of the app ("D layout + E glass", Outfit); this is not a restyle. The sections below this one are unchanged and still describe every other screen.
+
+**Gallery (private Artifact, new page):** https://claude.ai/artifact/6WMqjKd79PuxAuKagxBWZA
+It holds today's page beside the new one, every state at 390 and 1280 px in light and dark, what did not work once drawn, the open points, the wording and the measurements. Local copy: `docs/design/gallery.html` (open it from this folder). The round 2 gallery that used this name is now `docs/design/overhaul-gallery.html`.
+
+## States (R-067: G1 to G13)
+
+26 mockups, each with 4 renders (390 and 1280 px, light and dark). Header and footer are the ones of every page. Figures, names, order and page windows come from the app's own functions on the real `data/` seeds (catalog 2026-10-23); the extract script checks itself against every worked example in R-086 and R-087 and the counts the requirements quote.
+
+| Mockup (`docs/design/mockups/final-gist-<name>.html`) | R-067 | State | Requirements | Built from |
+|---|---|---|---|---|
+| `reference` | G1 | Gist, Top Picks open, `Tight` inert at 0 | R-084, R-085, R-091, R-092, R-069 | `/results?vram_gb=24&context_tokens=4096` |
+| `all-three` | G2 | Gist, all three counts above 0 | R-084, R-085, R-023 | `/results?vram_gb=8&context_tokens=2048` |
+| `list-fits` | G3 | `Fits` selected, page 1 at size 5 | R-085, R-086, R-087, R-091 | `…&verdict=fits` |
+| `list-fits-middle` | G4 | A middle page, window `1 … 5 6 7 … 15` | R-087, R-091 | `…&verdict=fits&page=6` |
+| `list-fits-last` | G5 | The last page, one card | R-087 | `…&verdict=fits&page=15` |
+| `list-fits-size10` | G5 | Size 10 | R-087 | `…&verdict=fits&page_size=10` |
+| `list-tight` | G6 | `Tight` selected, 9 models | R-085, R-086, R-087 | `/results?vram_gb=8&context_tokens=2048&verdict=tight` |
+| `list-tight-short` | G6 (R-087) | 4 models: no sizes, no page controls | R-087 | `…&family=llama&verdict=tight` |
+| `list-tight-size10` | G6 (R-087) | 9 models at size 10: sizes, no page controls | R-087 | `…&verdict=tight&page_size=10` |
+| `list-wont-fit` | G7 | `Won't fit`, struck-through buttons, `GB over`, full gauge | R-086, R-017, R-018, R-019 | `…&verdict=wont-fit` |
+| `list-wont-fit-page10` | G7 (R-091) | Page 10 of 19, window `1 … 9 10 11 … 19` | R-091, R-087 | `/results?vram_gb=1&verdict=wont-fit&page=10` |
+| `verdict-zero` | G8 | A verdict with a count of 0, with its message | R-085, R-089 | `…&verdict=tight` |
+| `message-ambiguous` | G9 | Gist with the ambiguous GPU message | R-084, R-003, R-022, R-069 | `/results?gpu_search=RTX` |
+| `message-notfound` | G9 | Gist with the GPU-not-found message | R-084, R-003, R-022, R-069 | `/results?gpu_search=RTX%203060%2012GB` |
+| `message-invalid` | G9 | Gist with the input error and the 8 GB note | R-084, R-008, R-069 | `/results?vram_gb=abc` |
+| `empty-wont-link` | G10 | Empty state, `Won't fit` a link | R-025, R-084, R-085 | `/results?vram_gb=1` |
+| `empty-all-inert` | G10 | Empty state, all three inert | R-025, R-084 | `/results?vram_gb=24&min_params_b=5&max_params_b=1` |
+| `unseeded` | G11 | Catalog unseeded | R-026, R-084 | (empty database) |
+| `loading-from-gist` | G12 | `Loading models`, a verdict pressed on the gist | R-090, R-091 | viewport capture |
+| `loading-next-page` | G12 | `Loading models` after `Next`, top of the results off-screen | R-090 | viewport capture |
+| `failed-from-gist` | G12 | `Could not load the models. Try again.` from the gist | R-090 | viewport capture |
+| `failed-next-page` | G12 | The same over a list | R-090 | viewport capture |
+| `focus-verdict` | G13 | Focus on a verdict control | R-091, R-077 | |
+| `focus-size` | G13 | Focus on a page size | R-091, R-077 | viewport capture |
+| `focus-page` | G13 | Focus on a page number | R-091, R-077 | viewport capture |
+| `focus-heading` | G13 | Focus on the list's heading | R-091, R-077, R-090 | viewport capture |
+
+Renders: `docs/design/final/gist-<name>-<390 or 1280>-<light or dark>.png`. Today's page for comparison: `docs/design/current/` (the reference query, a query with all three counts, the empty state and the ambiguous GPU, at 390 and 1280, light and dark; `crop-ref-*.webp` are the cropped copies the gallery shows).
+
+Rebuild (app up for `current/`; the rest needs no server): `python3 build/shoot_current.py`; `python3 build/extract_gist.py` (writes `build/data/gist.json`); `python3 build/make_gist.py` (mockups, from `build/gist.css`, `components.css` and `tokens.css`); `python3 build/render_gist.py [filter]` (renders and layout metrics; `--quick` for metrics only, `--contrast` for the rendered contrast check); `python3 build/make_gist_gallery.py`. These use Python Playwright; the Node tools in `build/` need Node 20 and the machine has 18.
+
+Viewport-capture states are not whole pages on purpose: the feedback message is `position: fixed`, so a whole-page capture would put it at the top of a 3000 px image. They are scrolled to where the user would be.
+
+## What was built to the HLD
+
+Structure follows `docs/HLD.md` ("Results gist and verdict lists") and ADR-0014 to ADR-0019.
+
+- **Controls:** `div role="group" aria-label="Show models by verdict"` holding three `a.vt` links, or `span.vt` when the count is 0 (or the catalog is unseeded). Each tile is the verdict's tint with its icon, count and label; the selected one is a link with `aria-current="true"` and a 3 px ink border (1.5 px on the others, padding reduced by the difference so nothing moves). Selecting the selected one links to the gist. Inert tiles are dashed and muted, out of the tab order, and keep their icon shape.
+- **Layout:** `#results-summary-shell` and `#results-list-shell` are `display: contents`, and the grid has two rows, so a gist has no empty third row and no gap under the picks (measured 0 px). Today `styles.css` makes `#results-list-shell` a grid item in row 3, which leaves 14 px and an empty row; that rule must change. `Filters (N)` is pinned to the bottom of the form tile.
+- **Top Picks:** `<details open>` on the gist; with a verdict selected `data-open-wide`, closed on a phone. Each pick adds a verdict pill, `<spare> GB spare`, `<needed> GB needed` and `<available> GB`, laid out like the card's pane without the gauge.
+- **List:** `section.results.list-pane` with `h2#list-heading tabindex="-1"` (the verdict's icon, the label in bold, then the rest) and `Models per page` (`role="group"`, `aria-labelledby`) on the same row, the card grid, then `nav aria-label="Pages"` holding a `ul`. The current page is a `span aria-current="page"`, `Previous` and `Next` at the ends are `span`s when inert, `…` is `li aria-hidden`, numbers are `aria-label="Page <n>"`.
+- **Feedback:** `#results-feedback` fixed to the top of the viewport (under the sticky header at 900 px and up), outside `#results-shell`, holding a `role="status"` paragraph and a `role="alert"` paragraph, both `hidden` until used. `pointer-events: none` for the status, auto for the alert. The pressed control shows a ring.
+- **Heading focus:** `#list-heading` needs `scroll-margin-top` of about 96 px at 900 px and up, or the sticky header covers it when it is brought into view.
+- **Won't fit cards:** the open button is struck through and filled. `components.css` mutes struck buttons, which left it unreadable; `gist.css` ends with the rule that fixes it (`.quants button[data-oversize][aria-pressed="true"]`). The build needs the same rule.
+
+## Requirement coverage
+
+| Requirement | Where it is designed |
+|---|---|
+| R-067 G1 to G13 | Table above |
+| R-084 gist first | `reference`, `all-three`; no card in any gist mockup; Top Picks `open` |
+| R-085 controls | `reference` (inert `Tight`), `list-fits` (selected), `verdict-zero` (message) |
+| R-086 list contents and order | `list-fits`, `list-tight`, `list-wont-fit` (order from the app's own sort; checked against every worked example) |
+| R-087 pages and sizes | `list-fits-middle`, `list-fits-last`, `list-fits-size10`, `list-tight-short`, `list-tight-size10`, `list-wont-fit-page10` |
+| R-089 filters and context | `empty-all-inert` (chips under the controls, `Filters (2)`); the form is unchanged |
+| R-090 in place and without JavaScript | G12 mockups; without JavaScript every control is a plain link (markup note above) |
+| R-091 accessibility and phone | G13 mockups; 3 px ink border on the selected control; tap targets 44 px and up; `scrollWidth` 390 everywhere |
+| R-092 Top Picks figures | every gist mockup |
+| R-069 limits | table below |
+| R-013, R-014, R-016, R-019, R-022, R-023, R-024, R-025, R-031, R-032, R-078 | headline sums `Fits` and `Tight`; counts are tallies without figures; picks unchanged apart from figures; empty state below the controls |
+
+## Measurements QA can take (Chromium, light and dark alike)
+
+| Check | Mockups |
+|---|---|
+| Gist ends, 1280 (limit 800) | Reference 644, 8 GB 644 (third pick's bottom edge) |
+| Gist with a message, 1280 (limit 900) | Ambiguous GPU 748, not found 703, input error 788 |
+| Gist, 390: headline and controls end (limit 1688) | 949 (input error 1138) |
+| First card's verdict and margin end, 1280 (limit 900) | `Fits` 896, `Tight` 871, `Won't fit` 871 |
+| First card's verdict and margin end, 390 (limit 1688) | `Fits` 1471, `Won't fit` 1446 |
+| Horizontal scroll at 390 | None, 26 mockups |
+| Page controls at 390 | 1 row for `1 2 … 15` and `1 … 14 15`, 2 rows for `1 … 5 6 7 … 15` and `1 … 9 10 11 … 19` |
+| Text contrast | Lowest 5.96:1 (light) and 6.25:1 (dark); 0 failures in 10,640 text boxes |
+| Smallest text | 14 px |
+| Tap targets at 390 | None under 44 x 44 px |
+
+## What did not work once drawn
+
+1. **R-069's 900 px with `verdict=fits`.** The first drawing measured 918 px. It now measures 896 after tightening the list pane's top padding, the size control (44 px) and the pick figures. 4 px of room: anything added above the first card breaks it.
+2. **Won't fit's open button was unreadable** (struck through and muted on its own fill, about 1.2:1). Fixed in `gist.css`; the build needs the rule.
+3. **Counts and Top Picks can disagree.** On the reference query `Tight` is 0, yet `Best small` is `Yi-1.5 9B Chat` at FP16, `Tight`, `0.5 GB spare`: counts place a model by the variant its card opens on, picks can be any variant. Both are right. See open point 3.
+4. **The empty grid row** (`#results-list-shell` in row 3, above). Fixed with `display: contents` and two rows.
+5. **Slack in the form tile** on a gist, about 100 px at 1280, above `Filters (N)`.
+6. **Phone page controls wrap raggedly** (`…` starts the second row). R-091 allows it; reordering `Previous` and `Next` would break the keyboard order.
+7. **R-084's note under two inert controls** (`/results?vram_gb=1`) reads oddly: `Choose Fits, Tight or Won't fit to see the models.`
+
+## Copy
+
+No new words were needed. Every string is given by R-084 to R-092 or the approved copy table, drawn as written: the two notes, `No models in <verdict> with these settings.`, the list heading, `Models per page`, `Previous`, `Next`, `Page <n>`, `Loading models` and `Could not load the models. Try again.`. The empty state keeps its approved `models` in `There are 95 models in Won't fit, hidden by default.` (R-025's text still says `variants`; the shipped copy table says `models`).
+
+## Decisions for you (open points for Gate 2)
+
+1. **Back and Forward reload the page** (HLD open point 1, ADR-0017). The design assumes yes.
+2. **Loading and failure feedback on every results refresh**, including refreshes that end on the gist (HLD open point 2, ADR-0018). Drawn (`loading-from-gist`, `failed-from-gist`).
+3. **Counts and Top Picks disagreeing** (item 3 above). Options: leave as drawn (recommended); name the quantisation in a pick's verdict (`Tight at FP16`); or take picks only from each model's open variant, which changes R-024.
+4. **Where the feedback sits.** Top of the viewport, because a bottom message would cover the page controls after `Next`. Say if you want it at the bottom.
+5. **The failure message has no dismiss and no retry** (R-090 asks for neither). Proposal for the build: it goes when the next request starts.
+6. **The selected-control cue.** A 3 px ink border. Any other shape cue is fine if it keeps 3:1 in both themes without relying on hue.
+7. **Phone page controls.** Natural wrap, as drawn, or a three-row stack (50 px taller).
+
+---
+
 # Centred landing box: design (Gate 2 for R-083)
 
 `/` becomes one large box in the middle of the page, like a new chat in Claude. Type a GPU, or a VRAM number such as `12 GB`, and you go to the results page; `Clear` there brings you back. Same direction as the overhaul ("D layout + E glass", Outfit). The overhaul section further down is unchanged and still describes every other screen.
@@ -79,7 +194,7 @@ Removed from `/` (R-083, Q-17): the summary and headline, Top Picks, cards, acti
 The direction you picked is **D layout + E glass**: D Bento's tile grid, built from E Glass's frosted panes, inset sheets, Outfit type, shadows and motion. This round mocks up every screen and state of R-067 in it, plus the extra states R-073 to R-077 need.
 
 **Gallery (private Artifact, republished to the same link):** https://claude.ai/artifact/GpFFFNrx4duQTg63MYdQQQ
-It holds the before screenshots, every state at 390 and 1280 px in light and dark, the live mockups (hover, press and focus work), the spec sheet and the copy table. Local copy: `docs/design/gallery.html` (open it from this folder).
+It holds the before screenshots, every state at 390 and 1280 px in light and dark, the live mockups (hover, press and focus work), the spec sheet and the copy table. Local copy: `docs/design/overhaul-gallery.html` (open it from this folder; it was `gallery.html` until the results gist round).
 
 ## What you are asked to approve
 
