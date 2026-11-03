@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass, field
 from html.parser import HTMLParser
+from pathlib import Path
 
 import pytest
 from fastapi import FastAPI
@@ -211,7 +213,7 @@ def test_full_pages_set_refresh_on_history_miss_before_htmx(client: TestClient, 
         node for node in in_head if node.tag == "meta" and node.attrs.get("name") == "htmx-config"
     ]
     assert len(metas) == 1
-    assert metas[0].attrs["content"] == '{"refreshOnHistoryMiss":true}'
+    assert metas[0].attrs["content"] == '{"refreshOnHistoryMiss":true,"historyCacheSize":0}'
 
     htmx_scripts = [
         node for node in in_head if node.tag == "script" and "htmx.org" in node.attrs.get("src", "")
@@ -461,3 +463,18 @@ def test_search_form_interface_is_unchanged(client: TestClient, url: str) -> Non
         assert any(node.attrs.get("name") == name for node in in_form), name
     assert len(_by_id(tree, "theme-toggle")) == 1
     assert len(_by_id(tree, "results-shell")) == 1
+
+
+# ADR-0017: the view stays out of cookies and localStorage (R-088, rule 11).
+
+
+def test_only_localstorage_key_is_the_theme() -> None:
+    root = Path(__file__).resolve().parent.parent / "src" / "vramsherpa"
+    sources = [root / "templates" / "base.html", root / "static" / "js" / "app.js"]
+    keys: set[str] = set()
+    for path in sources:
+        text = path.read_text(encoding="utf-8")
+        keys.update(re.findall(r"localStorage\.(?:get|set|remove)Item\(\s*[\"']([^\"']+)", text))
+        assert "localStorage[" not in text
+        assert "document.cookie" not in text
+    assert keys == {"vramsherpa-theme"}

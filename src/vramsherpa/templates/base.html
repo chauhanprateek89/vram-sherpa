@@ -33,7 +33,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', path='img/apple-touch-icon.png') }}?v={{ asset_version }}" />
     <link rel="stylesheet" href="{{ url_for('static', path='css/styles.css') }}?v={{ asset_version }}" />
     {# Read by htmx when it loads: a history-cache miss reloads the page (ADR-0008). #}
-    <meta name="htmx-config" content='{"refreshOnHistoryMiss":true}' />
+    <meta name="htmx-config" content='{"refreshOnHistoryMiss":true,"historyCacheSize":0}' />
     <script src="https://unpkg.com/htmx.org@1.9.12"></script>
     <script src="{{ url_for('static', path='js/app.js') }}?v={{ asset_version }}" defer></script>
   </head>
