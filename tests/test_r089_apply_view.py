@@ -15,7 +15,7 @@ from vramsherpa.config import Settings
 from vramsherpa.main import create_app
 
 BASE = "vram_gb=8&context_tokens=4096"
-ZERO_WONT_FIT = "vram_gb=24&context_tokens=4096&family=qwen"
+ZERO_TIGHT = "vram_gb=24&context_tokens=4096&family=qwen"  # no Tight models; Won't fit has 8
 PAGE_LOAD_HEADERS = [
     pytest.param({}, id="no-hx-request"),
     pytest.param({"HX-Request": "false"}, id="hx-request-false"),
@@ -61,7 +61,7 @@ def _form_submit_buttons(text: str) -> list[str]:
         (f"{BASE}&verdict=tight&page=3", "tight:5"),
         (f"{BASE}&verdict=tight&page_size=10", "tight:10"),
         (f"{BASE}&verdict=fits&page_size=7", "fits:5"),
-        (f"{ZERO_WONT_FIT}&verdict=wont-fit&page_size=10", "wont-fit:10"),
+        (f"{ZERO_TIGHT}&verdict=wont-fit&page_size=10", "wont-fit:10"),
     ],
 )
 def test_button_names_the_view_when_a_valid_verdict_is_in_the_query(
@@ -71,6 +71,16 @@ def test_button_names_the_view_when_a_valid_verdict_is_in_the_query(
 
     assert _noscript_button(response.text) == (
         f'<button type="submit" name="apply_view" value="{value}" class="btn-secondary">'
+        "Apply filters</button>"
+    )
+
+
+def test_button_names_the_view_when_the_verdict_has_no_models(client: TestClient) -> None:
+    response = client.get(f"/results?{ZERO_TIGHT}&verdict=tight&page_size=10")
+
+    assert "No models in Tight with these settings." in response.text
+    assert _noscript_button(response.text) == (
+        '<button type="submit" name="apply_view" value="tight:10" class="btn-secondary">'
         "Apply filters</button>"
     )
 
