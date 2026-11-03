@@ -88,13 +88,13 @@ def test_last_verdict_wins(client: TestClient) -> None:
 def test_bad_verdict_selects_nothing(client: TestClient, verdict: str) -> None:
     r = client.get(f"/results?{REF}&verdict={verdict}")
     assert r.status_code == 200
-    assert "data-verdict" not in r.text
+    assert "data-verdict=" not in r.text
 
 
 def test_script_verdict_is_not_echoed(client: TestClient) -> None:
     r = client.get("/results?vram_gb=24&verdict=%3Cscript%3E")
     assert r.status_code == 200
-    assert "data-verdict" not in r.text
+    assert "data-verdict=" not in r.text
     assert "alert" not in r.text
     assert r.text.count("<script>") == client.get("/results?vram_gb=24").text.count("<script>")
 

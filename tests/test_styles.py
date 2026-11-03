@@ -264,7 +264,7 @@ def test_one_three_px_focus_ring_on_every_control() -> None:
     for value in re.findall(r"(?<![\w-])outline\s*:\s*([^;}]+)", css):
         assert value.strip() in {"3px solid var(--focus)", "none"}, value
     for value in re.findall(r"outline-offset\s*:\s*([^;}]+)", css):
-        assert value.strip() in {"1px", "2px"}, value
+        assert value.strip() in {"1px", "2px", "3px"}, value
     assert "outline: 2px" not in css
 
 
@@ -367,9 +367,9 @@ def test_every_class_and_id_in_the_stylesheet_is_used() -> None:
     sources = _template_sources()
     # htmx adds htmx-request itself; the verdict and bar classes are built from a slug.
     composed = {"htmx-request"} | {
-        f"{p}-{k}" for p in ("state", "bar") for k in ("fits", "tight", "wont")
+        f"{p}-{k}" for p in ("state", "bar", "vt") for k in ("fits", "tight", "wont")
     }
-    assert "state-{{" in sources and "bar-{{" in sources
+    assert "state-{{" in sources and "bar-{{" in sources and "vt-{{" in sources
     for name in set(re.findall(r"\.([a-zA-Z][\w-]*)", selectors)) - composed:
         assert re.search(r"(?<![\w-])" + re.escape(name) + r"(?![\w-])", sources), name
     for name in set(re.findall(r"#([a-zA-Z][\w-]*)", selectors)):

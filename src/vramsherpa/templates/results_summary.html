@@ -1,3 +1,4 @@
+{% from "components.html" import view_link %}
 {# The answer tile leads the results (R-069). Messages live here, not in the form, so an in-place
    refresh replaces them and shows only the current query's (R-071, ADR-0006 points 2 and 3).
    `no-picks` keys the layout on markup inside #results-shell, which a refresh re-renders (point 9). #}
@@ -51,23 +52,20 @@
     </div>
   {% endif %}
 
-  <ul class="counts">
-    <li class="c-fits">
-      <svg width="18" height="18" aria-hidden="true"><use href="#i-fits"/></svg>
-      <b class="num">{{ summary_counts["Fits"] }}</b>
-      <span>Fits</span>
-    </li>
-    <li class="c-tight">
-      <svg width="18" height="18" aria-hidden="true"><use href="#i-tight"/></svg>
-      <b class="num">{{ summary_counts["Tight"] }}</b>
-      <span>Tight</span>
-    </li>
-    <li class="c-wont">
-      <svg width="18" height="18" aria-hidden="true"><use href="#i-wont"/></svg>
-      <b class="num">{{ summary_counts["Won't fit"] }}</b>
-      <span>Won't fit</span>
-    </li>
-  </ul>
+  <div class="verdicts" role="group" aria-label="Show models by verdict">
+    {% for c in verdict_controls %}
+      {% set tile %}
+        <svg width="18" height="18" aria-hidden="true"><use href="#i-{{ c.icon }}"/></svg>
+        <b class="num">{{ c.count }}</b>
+        <span class="vt-label">{{ c.label }}</span>
+      {% endset %}
+      {% if c.query is none %}
+        <span class="vt vt-{{ c.icon }}">{{ tile }}</span>
+      {% else %}
+        {% call view_link(c.query, "collapse" if c.selected else "verdict", css="vt vt-" ~ c.icon, control=c.slug, current=c.selected) %}{{ tile }}{% endcall %}
+      {% endif %}
+    {% endfor %}
+  </div>
 
   {% if selected_verdict or summary_counts["Fits"] + summary_counts["Tight"] + summary_counts["Won't fit"] > 0 %}
     <p

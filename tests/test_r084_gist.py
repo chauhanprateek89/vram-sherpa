@@ -69,7 +69,7 @@ def test_zero_count_verdict_message(client: TestClient) -> None:
     msg = "No models in Tight with these settings."
     assert msg in body
     assert 'class="notice" role="status"' in body
-    assert body.index(msg) < body.index('class="counts"')
+    assert body.index(msg) < body.index('class="verdicts"')
     assert "data-model-card" not in body
     wont = _get(client, "/results?vram_gb=1&verdict=fits")
     assert "No models in Fits with these settings." in wont

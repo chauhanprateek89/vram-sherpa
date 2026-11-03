@@ -21,10 +21,10 @@ from vramsherpa.database import configure_engine, create_db_and_tables, get_sess
 from vramsherpa.estimation import FitBadge, estimate_breakdown, estimate_variant, reserve_gb
 from vramsherpa.gpu_input import decide_box, gpu_option_label, normalize_for_match
 from vramsherpa.models import GPU, CatalogMeta, Model, Variant
-from vramsherpa.results_view import paginate, parse_results_view
+from vramsherpa.results_view import ResultsView, paginate, parse_results_view, view_query
 
 CONTEXT_OPTIONS = (2048, 4096, 8192)
-ASSET_VERSION = "20261028f"
+ASSET_VERSION = "20261103a"
 ESTIMATION_POLICY_VERSION = "v0.1"
 # The /how-it-works worked example (R-075, ADR-0007). The figures are computed by
 # estimate_breakdown at request time; none is typed into the template.
@@ -230,6 +230,43 @@ _VERDICT_LABELS = {
     "tight": FitBadge.TIGHT.value,
     "wont-fit": FitBadge.WONT_FIT.value,
 }
+
+
+_VERDICT_ICONS = {"fits": "fits", "tight": "tight", "wont-fit": "wont"}
+
+
+def _verdict_controls(
+    raw_query: str,
+    view: ResultsView,
+    counts: dict[str, int],
+    selected: str | None,
+    *,
+    seeded: bool,
+) -> list[dict]:
+    """The three counts as verdict controls (R-085, R-091). A link needs a count above 0; the
+    selected one links back to the gist. Links keep the raw query, as ADR-0014 requires."""
+    controls = []
+    for slug, label in _VERDICT_LABELS.items():
+        count = counts[label]
+        is_selected = slug == selected
+        query = None
+        if seeded and count > 0:
+            query = (
+                view_query(raw_query)
+                if is_selected
+                else view_query(raw_query, slug, page_size=view.page_size)
+            )
+        controls.append(
+            {
+                "slug": slug,
+                "label": label,
+                "icon": _VERDICT_ICONS[slug],
+                "count": count,
+                "query": query,
+                "selected": is_selected,
+            }
+        )
+    return controls
 
 
 def _verdict_cards(cards: list[ModelCard], label: str) -> list[ModelCard]:
@@ -914,6 +951,13 @@ def _results_context(
     context = _base_context(request, session)
     context.update(
         {
+            "verdict_controls": _verdict_controls(
+                request.url.query,
+                view,
+                summary_counts,
+                selected_verdict,
+                seeded=context["catalog_seeded"],
+            ),
             "gpus": gpus,
             "results": visible_results,
             "model_cards": model_cards,

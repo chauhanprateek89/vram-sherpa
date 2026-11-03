@@ -686,8 +686,8 @@ def test_answer_tile_holds_the_context_line_counts_and_note(client: TestClient) 
     ctx = next(n for n in answer.walk() if "ctx-line" in n.classes())
     spans = [" ".join((b.all_text(), s.text.strip())) for s in ctx.children for b in s.children]
     assert spans == ["Hardware: Manual VRAM (24 GB)", "Context: 4k"]
-    counts = next(n for n in answer.walk() if "counts" in n.classes())
-    items = [c for c in counts.children if c.tag == "li"]
+    counts = next(n for n in answer.walk() if "verdicts" in n.classes())
+    items = [c for c in counts.children if "vt" in c.classes()]
     labels = [next(n for n in li.children if n.tag == "span").all_text() for li in items]
     assert labels == ["Fits", "Tight", "Won't fit"]
     # Each count carries a distinct shape cue, not only a colour.
@@ -728,7 +728,7 @@ def test_default_8gb_note_sits_in_the_tile_under_the_context_line(client: TestCl
     )
     assert notice.attrs["role"] == "status"
     kids = [c.classes()[0] if c.classes() else c.tag for c in answer.children]
-    assert kids.index("ctx-line") < kids.index("notice") < kids.index("counts")
+    assert kids.index("ctx-line") < kids.index("notice") < kids.index("verdicts")
 
 
 def test_messages_render_in_the_tile_between_the_context_line_and_the_counts(
@@ -742,7 +742,7 @@ def test_messages_render_in_the_tile_between_the_context_line_and_the_counts(
         "Invalid value for vram_gb."
     ]
     kids = [c.classes()[0] if c.classes() else c.tag for c in answer.children]
-    assert kids.index("ctx-line") < kids.index("notice") < kids.index("counts")
+    assert kids.index("ctx-line") < kids.index("notice") < kids.index("verdicts")
 
     html = client.get("/results?gpu_search=RTX").text
     answer = _answer(html)
@@ -772,7 +772,8 @@ def test_active_filter_chips_are_links_inside_the_tile(client: TestClient) -> No
     chips = [n for n in block.children if n.tag == "a"]
     assert [c.all_text() for c in chips] == ["Family: qwen ×", "Quant: Q4 ×"]
     assert all(c.attrs["href"].startswith("/results") for c in chips)
-    assert not [n for n in _answer(client.get(REFERENCE).text).walk() if n.tag == "a"]
+    links = [n for n in _answer(client.get(REFERENCE).text).walk() if n.tag == "a"]
+    assert all("vt" in n.classes() for n in links)
     assert "Active filters:" not in client.get(REFERENCE).text
 
 
@@ -831,7 +832,7 @@ def test_no_picks_layout_is_keyed_on_markup_inside_the_results_shell(client: Tes
 def test_answer_tile_css_matches_the_mockup_tokens() -> None:
     css = _css()
     assert "var(--fs-display)" in _rules(css, ".headline")[0]
-    assert "repeat(3, 1fr)" in _rules(css, ".counts")[0]
+    assert "repeat(3, minmax(0, 1fr))" in _rules(css, ".verdicts")[0]
     assert "var(--tap)" in _rules(css, ".chip-link")[0]
     assert "var(--wont-bg)" in _rules(css, ".notice.is-alert")[0]
     assert "grid-row: 1 / 3" in _rules(css, ".answer.no-picks")[0]
