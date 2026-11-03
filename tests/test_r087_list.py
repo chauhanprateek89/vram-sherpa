@@ -163,3 +163,17 @@ def test_page_links_keep_size_and_drop_page_one(client: TestClient) -> None:
 def test_no_pager_with_one_page(client: TestClient) -> None:
     html = _get(client, "/results?vram_gb=8&context_tokens=2048&verdict=tight&page_size=10")
     assert 'class="sizes"' in html and "<nav" not in html.split('id="results-cards"')[1]
+
+
+def test_pager_css_values_are_pinned() -> None:
+    from pathlib import Path
+
+    css = (Path(__file__).parents[1] / "src/vramsherpa/static/css/styles.css").read_text()
+    for rule in (
+        "justify-content: center; align-items: center; gap: 6px; margin: 0; padding: 0; }",
+        "min-height: 44px; min-width: 44px;",
+        ".pager .pg-cur { background: var(--pressed);",
+        ".pager .pg-off { color: var(--muted); border: 1.5px dashed var(--line); }",
+        ".pager a:focus-visible { outline: 3px solid var(--focus);",
+    ):
+        assert rule in css, rule

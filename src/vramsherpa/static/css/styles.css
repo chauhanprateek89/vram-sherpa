@@ -465,7 +465,7 @@ details[open] > .pick-grid { animation: whyIn var(--dur-2) var(--ease-out); }
 .sizes-seg [aria-current="true"] { background: var(--pressed); color: var(--on-pressed); }
 .sizes-seg a:focus-visible { outline: 3px solid var(--focus); outline-offset: 1px; border-radius: var(--r-pill); }
 .pager { margin-top: 14px; padding: 0 4px; }
-.pager ul { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px; }
+.pager ul { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px; margin: 0; padding: 0; }
 .pager a, .pager .pg { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; padding: 0 12px; border-radius: var(--r-pill); font-weight: 560; font-size: var(--fs-small); text-decoration: none; color: var(--ink); position: relative; }
 .pager a { background: var(--seg); border: 1.5px solid var(--line); transition: background var(--dur-1), transform var(--dur-1) var(--ease-out); }
 .pager a:hover { background: var(--inset); } .pager a:active { transform: scale(.95); }
