@@ -166,7 +166,7 @@ def test_list_pane_children(client: TestClient) -> None:
     html = client.get(REF + "&verdict=fits").text
     kids = _children(html, 'id="results-cards"')
     assert kids[:2] == ["div.list-head", "div.card-grid"]
-    assert set(kids[2:]) <= {"nav"}
+    assert set(kids[2:]) <= {"nav.pager"}
 
 
 def test_list_css_values_are_pinned() -> None:

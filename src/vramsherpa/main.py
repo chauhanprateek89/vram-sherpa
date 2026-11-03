@@ -23,14 +23,16 @@ from vramsherpa.gpu_input import decide_box, gpu_option_label, normalize_for_mat
 from vramsherpa.models import GPU, CatalogMeta, Model, Variant
 from vramsherpa.results_view import (
     PAGE_SIZES,
+    Pagination,
     ResultsView,
+    page_window,
     paginate,
     parse_results_view,
     view_query,
 )
 
 CONTEXT_OPTIONS = (2048, 4096, 8192)
-ASSET_VERSION = "20261103d"
+ASSET_VERSION = "20261103e"
 ESTIMATION_POLICY_VERSION = "v0.1"
 # The /how-it-works worked example (R-075, ADR-0007). The figures are computed by
 # estimate_breakdown at request time; none is typed into the template.
@@ -285,6 +287,25 @@ def _size_controls(raw_query: str, slug: str, view: ResultsView) -> list[dict]:
         }
         for size in PAGE_SIZES
     ]
+
+
+def _page_controls(raw_query: str, slug: str, pagination: Pagination) -> list[dict]:
+    """Previous, the page window and Next (R-087). Each link keeps the verdict, a non-default
+    size and every other parameter; page 1 omits page. Inert ends and the current page have
+    no query."""
+    page, last = pagination.page, pagination.last_page
+
+    def query(n: int) -> str:
+        return view_query(raw_query, slug, page=n, page_size=pagination.page_size)
+
+    items: list[dict] = [{"kind": "prev", "query": query(page - 1) if page > 1 else None}]
+    for n in page_window(page, last):
+        if n is None:
+            items.append({"kind": "gap"})
+        else:
+            items.append({"kind": "page", "n": n, "current": n == page, "query": query(n)})
+    items.append({"kind": "next", "query": query(page + 1) if page < last else None})
+    return items
 
 
 def _verdict_cards(cards: list[ModelCard], label: str) -> list[ModelCard]:
@@ -988,6 +1009,11 @@ def _results_context(
             "size_controls": (
                 _size_controls(request.url.query, selected_verdict, view)
                 if selected_verdict and pagination and pagination.total > 5
+                else []
+            ),
+            "page_controls": (
+                _page_controls(request.url.query, selected_verdict, pagination)
+                if selected_verdict and pagination and pagination.last_page > 1
                 else []
             ),
             "families": _all_families(session),

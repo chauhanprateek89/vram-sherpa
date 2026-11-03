@@ -16,8 +16,8 @@
 
 {# One link that changes the view in place (ADR-0018 point 1): the same query for the address and
    the partial, no hx-push-url. `kind` is verdict, collapse, size or page. #}
-{% macro view_link(query, kind, css="", control=none, current=false) -%}
+{% macro view_link(query, kind, css="", control=none, current=false, rel=none, label=none) -%}
   <a class="{{ css }}" href="/results?{{ query }}"
      hx-get="/results/partials/content?{{ query }}" hx-target="#results-shell" hx-sync="#results-shell:replace"
-     data-view-link="{{ kind }}"{% if control %} data-verdict-control="{{ control }}"{% endif %}{% if current %} aria-current="true"{% endif %}>{{ caller() }}</a>
+     data-view-link="{{ kind }}"{% if control %} data-verdict-control="{{ control }}"{% endif %}{% if rel %} rel="{{ rel }}"{% endif %}{% if label %} aria-label="{{ label }}"{% endif %}{% if current %} aria-current="true"{% endif %}>{{ caller() }}</a>
 {%- endmacro %}

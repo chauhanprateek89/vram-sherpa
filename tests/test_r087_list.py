@@ -93,3 +93,73 @@ def test_no_sizes_at_five_or_fewer_but_shown_at_size_10(client: TestClient) -> N
 def test_empty_state_keeps_its_label_and_has_no_heading(client: TestClient) -> None:
     html = _get(client, "/results?vram_gb=1&context_tokens=4096&quant_bucket=Q8")
     assert 'aria-label="Models"' in html and "list-heading" not in html
+
+
+# ---- page controls (T-044) ----
+
+
+def _pager(html: str) -> str:
+    match = re.search(r'<nav class="pager" aria-label="Pages">.*?</nav>', html, re.S)
+    assert match, "no pager"
+    return match.group(0)
+
+
+def _window(html: str) -> str:
+    nav = _pager(html)
+    items = re.findall(r"<li[^>]*>(.*?)</li>", nav, re.S)
+    out = []
+    for item in items:
+        text = _words(item)
+        if text not in ("Previous", "Next"):
+            out.append(text)
+    return " ".join(out)
+
+
+@pytest.mark.parametrize(
+    ("url", "expected"),
+    [
+        (REF + "&verdict=fits", "1 2 … 15"),
+        (REF + "&verdict=fits&page=6", "1 … 5 6 7 … 15"),
+        (REF + "&verdict=fits&page=15", "1 … 14 15"),
+        (REF + "&verdict=fits&page=99", "1 … 14 15"),
+        ("/results?vram_gb=1&verdict=wont-fit&page=10", "1 … 9 10 11 … 19"),
+    ],
+)
+def test_page_windows(client: TestClient, url: str, expected: str) -> None:
+    assert _window(_get(client, url)) == expected
+
+
+def test_pager_markup_in_the_middle(client: TestClient) -> None:
+    html = _get(client, REF + "&verdict=fits&page=6")
+    assert html.index("data-model-card") < html.index('class="pager"')
+    assert html.index('class="pager"') < html.index("</section>", html.index("data-model-card"))
+    nav = _pager(html)
+    assert '<span class="pg pg-cur" aria-current="page">6</span>' in nav
+    assert nav.count('<li class="gap" aria-hidden="true">…</li>') == 2
+    assert 'aria-label="Page 5"' in nav and 'aria-label="Page 6"' not in nav
+    assert 'rel="prev"' in nav and 'rel="next"' in nav
+    links = re.findall(r"<a [^>]*>", nav)
+    assert len(links) == 6 and all('data-view-link="page"' in a for a in links)
+
+
+def test_inert_ends_are_spans(client: TestClient) -> None:
+    first = _pager(_get(client, REF + "&verdict=fits"))
+    assert '<span class="pg pg-off">Previous</span>' in first
+    assert 'rel="prev"' not in first and 'rel="next"' in first
+    last = _pager(_get(client, REF + "&verdict=fits&page=15"))
+    assert '<span class="pg pg-off">Next</span>' in last
+    assert 'rel="next"' not in last and 'rel="prev"' in last
+
+
+def test_page_links_keep_size_and_drop_page_one(client: TestClient) -> None:
+    nav = _pager(_get(client, REF + "&verdict=fits&page=2&page_size=10"))
+    prev = htmllib.unescape(re.search(r'<a [^>]*rel="prev"[^>]*>', nav).group(0))
+    assert f'href="{REF}&verdict=fits&page_size=10"' in prev
+    assert "page=1" not in prev.replace("page_size", "")
+    nxt = htmllib.unescape(re.search(r'<a [^>]*rel="next"[^>]*>', nav).group(0))
+    assert f'href="{REF}&verdict=fits&page=3&page_size=10"' in nxt
+
+
+def test_no_pager_with_one_page(client: TestClient) -> None:
+    html = _get(client, "/results?vram_gb=8&context_tokens=2048&verdict=tight&page_size=10")
+    assert 'class="sizes"' in html and "<nav" not in html.split('id="results-cards"')[1]

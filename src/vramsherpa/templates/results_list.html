@@ -108,6 +108,27 @@
         </article>
       {% endfor %}
     </div>
+    {% if page_controls %}
+      <nav class="pager" aria-label="Pages">
+        <ul>
+          {%- for c in page_controls %}
+            {%- if c.kind == "gap" %}
+              <li class="gap" aria-hidden="true">…</li>
+            {%- elif c.kind == "page" %}
+              {%- if c.current %}
+                <li><span class="pg pg-cur" aria-current="page">{{ c.n }}</span></li>
+              {%- else %}
+                <li>{% call view_link(c.query, "page", label="Page " ~ c.n) %}{{ c.n }}{% endcall %}</li>
+              {%- endif %}
+            {%- elif c.query %}
+              <li>{% call view_link(c.query, "page", rel=c.kind) %}{{ "Previous" if c.kind == "prev" else "Next" }}{% endcall %}</li>
+            {%- else %}
+              <li><span class="pg pg-off">{{ "Previous" if c.kind == "prev" else "Next" }}</span></li>
+            {%- endif %}
+          {%- endfor %}
+        </ul>
+      </nav>
+    {% endif %}
   </section>
 {% elif show_empty %}
   {# Empty and unseeded states (R-025, R-026): one inset sheet in the results pane, docs/design/mockups/final-empty-*.html. #}
