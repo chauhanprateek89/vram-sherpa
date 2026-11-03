@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 import re
-from collections.abc import AsyncGenerator
+from collections.abc import AsyncGenerator, Sequence
 from contextlib import asynccontextmanager
 from dataclasses import dataclass
 from pathlib import Path
@@ -22,6 +22,7 @@ from vramsherpa.estimation import FitBadge, estimate_breakdown, estimate_variant
 from vramsherpa.gpu_input import decide_box, gpu_option_label, normalize_for_match
 from vramsherpa.models import GPU, CatalogMeta, Model, Variant
 from vramsherpa.results_view import (
+    DEFAULT_PAGE_SIZE,
     PAGE_SIZES,
     Pagination,
     ResultsView,
@@ -621,6 +622,16 @@ def _query_items(
     return items
 
 
+def _view_items(view: ResultsView) -> list[tuple[str, str]]:
+    """The verdict and a non-default page size for the canonical links; never the page (R-089)."""
+    if view.verdict is None:
+        return []
+    items = [("verdict", view.verdict)]
+    if view.page_size != DEFAULT_PAGE_SIZE:
+        items.append(("page_size", str(view.page_size)))
+    return items
+
+
 def _results_url(items: list[tuple[str, str]]) -> str:
     encoded = urlencode(items, doseq=True)
     return f"/results?{encoded}" if encoded else "/results"
@@ -667,6 +678,7 @@ def _active_filter_chips(
     min_params_b: float | None,
     max_params_b: float | None,
     recommended_only: bool,
+    view_items: Sequence[tuple[str, str]] = (),
 ) -> list[ActiveFilterChip]:
     chips: list[ActiveFilterChip] = []
 
@@ -683,7 +695,11 @@ def _active_filter_chips(
             max_params_b=max_params_b,
             recommended_only=recommended_only,
         )
-        chips.append(ActiveFilterChip(label=f"Family: {family}", remove_url=_results_url(items)))
+        chips.append(
+            ActiveFilterChip(
+                label=f"Family: {family}", remove_url=_results_url([*items, *view_items])
+            )
+        )
 
     for index, quant in enumerate(selected_quant_buckets):
         updated_quant = selected_quant_buckets[:index] + selected_quant_buckets[index + 1 :]
@@ -698,7 +714,11 @@ def _active_filter_chips(
             max_params_b=max_params_b,
             recommended_only=recommended_only,
         )
-        chips.append(ActiveFilterChip(label=f"Quant: {quant}", remove_url=_results_url(items)))
+        chips.append(
+            ActiveFilterChip(
+                label=f"Quant: {quant}", remove_url=_results_url([*items, *view_items])
+            )
+        )
 
     if min_params_b is not None:
         items = _query_items(
@@ -715,7 +735,7 @@ def _active_filter_chips(
         chips.append(
             ActiveFilterChip(
                 label=f"Min params >= {min_params_b:g}B",
-                remove_url=_results_url(items),
+                remove_url=_results_url([*items, *view_items]),
             )
         )
 
@@ -734,7 +754,7 @@ def _active_filter_chips(
         chips.append(
             ActiveFilterChip(
                 label=f"Max params <= {max_params_b:g}B",
-                remove_url=_results_url(items),
+                remove_url=_results_url([*items, *view_items]),
             )
         )
 
@@ -750,7 +770,11 @@ def _active_filter_chips(
             max_params_b=max_params_b,
             recommended_only=False,
         )
-        chips.append(ActiveFilterChip(label="Recommended only", remove_url=_results_url(items)))
+        chips.append(
+            ActiveFilterChip(
+                label="Recommended only", remove_url=_results_url([*items, *view_items])
+            )
+        )
 
     return chips
 
@@ -846,6 +870,7 @@ def _empty_state_suggestions(
     min_params_b: float | None,
     max_params_b: float | None,
     recommended_only: bool,
+    view_items: Sequence[tuple[str, str]] = (),
 ) -> dict[str, str | None]:
     q4_url: str | None = None
     if selected_quant_buckets != ["Q4"]:
@@ -860,7 +885,7 @@ def _empty_state_suggestions(
             max_params_b=max_params_b,
             recommended_only=recommended_only,
         )
-        q4_url = _results_url(q4_items)
+        q4_url = _results_url([*q4_items, *view_items])
 
     lower_context_values = [value for value in CONTEXT_OPTIONS if value < selected_context]
     lower_context_url: str | None = None
@@ -877,7 +902,7 @@ def _empty_state_suggestions(
             max_params_b=max_params_b,
             recommended_only=recommended_only,
         )
-        lower_context_url = _results_url(lower_context_items)
+        lower_context_url = _results_url([*lower_context_items, *view_items])
 
     return {
         "q4_url": q4_url,
@@ -948,6 +973,8 @@ def _results_context(
 ) -> dict:
     visible_results = [row for row in results_rows if row.classification != FitBadge.WONT_FIT.value]
     selected_gpu_label = _selected_gpu_label(gpus, selected_gpu_id)
+    view = parse_results_view(request.query_params)
+    view_items = _view_items(view)
     empty_state_suggestions = _empty_state_suggestions(
         selected_gpu_id=selected_gpu_id,
         gpu_search=gpu_search,
@@ -958,6 +985,7 @@ def _results_context(
         min_params_b=min_params_b,
         max_params_b=max_params_b,
         recommended_only=recommended_only,
+        view_items=view_items,
     )
     hardware_items = _query_items(
         selected_gpu_id=selected_gpu_id,
@@ -972,7 +1000,6 @@ def _results_context(
     )
     all_cards = _group_results_by_model(results_rows)
     # The whole list is built and counted first; only the cards shown are cut (Q-35).
-    view = parse_results_view(request.query_params)
     summary_counts = _summary_counts(all_cards)
     selected_verdict: str | None = None
     pagination = None
@@ -1069,6 +1096,7 @@ def _results_context(
                 min_params_b=min_params_b,
                 max_params_b=max_params_b,
                 recommended_only=recommended_only,
+                view_items=view_items,
             ),
             "hardware_query_string": urlencode(hardware_items, doseq=True),
             "example_chips": _example_chips(gpus),
