@@ -224,14 +224,23 @@ def test_every_gauge_is_an_image_with_the_needs_of_gigabytes_label(
         )
 
 
+def _without_feedback(html: str) -> str:
+    """The page less `#results-feedback`, whose two live regions are always there and hold no
+    message until a script fills them (T-049, ADR-0018 point 4). Every message is counted as before.
+    """
+    kept, removed = re.subn(r'<div id="results-feedback">.*?</div>', "", html, flags=re.S)
+    assert removed == 1
+    return kept
+
+
 def test_input_errors_are_one_alert_and_gpu_feedback_is_one_status(client: TestClient) -> None:
-    errors = client.get("/results?vram_gb=abc").text
+    errors = _without_feedback(client.get("/results?vram_gb=abc").text)
     assert errors.count('role="alert"') == 1
     assert re.search(r'role="alert">.*?Please fix the following input issues:', errors, re.S)
     assert 'aria-invalid="true"' in errors
     detail = client.get("/models/model_qwen25_7b_instruct?vram_gb=abc").text
     assert detail.count('role="alert"') == 1
-    feedback = html.unescape(client.get("/results?gpu_search=RTX").text)
+    feedback = html.unescape(_without_feedback(client.get("/results?gpu_search=RTX").text))
     assert re.search(
         r'role="status">\s*<svg[^>]*>.*?</svg>\s*<p>GPU search "RTX" matched', feedback, re.S
     )

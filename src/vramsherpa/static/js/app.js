@@ -546,10 +546,65 @@ function initFormView() {
   document.body.addEventListener("htmx:configRequest", addFormView);
 }
 
+// Loading and failure feedback outside the swap (ADR-0018 points 4 and 6, R-090). Every listener is
+// on document.body, because after a swap the link has left the document and htmx fires afterRequest
+// on the closest ancestor as well, so it can run twice. A breakdown has another target and changes
+// nothing here. A failed response is not swapped or pushed, so the view and address stay. Under
+// hx-sync replace the aborted request's afterRequest fires before the new beforeRequest, and
+// htmx:sendAbort is left out, because an aborted request is not a failure.
+var pendingViewKind = null; // The data-view-link kind of the latest refresh, null from the form.
+
+function isShellRequest(event) {
+  return !!event.detail.target && event.detail.target.id === "results-shell";
+}
+
+function setFeedback(id, filled) {
+  var element = document.getElementById(id);
+  if (!element) {
+    return;
+  }
+  element.querySelector("[data-fb-text]").textContent = filled ? element.dataset.text : "";
+  element.classList.toggle("is-on", filled);
+  element.classList.toggle("fb-alert", filled && id === "results-error");
+}
+
+function initResultsFeedback() {
+  document.body.addEventListener("htmx:beforeRequest", function (event) {
+    if (!isShellRequest(event)) {
+      return;
+    }
+    event.detail.target.setAttribute("aria-busy", "true");
+    setFeedback("results-loading", true);
+    setFeedback("results-error", false);
+    pendingViewKind = event.target.getAttribute("data-view-link");
+    if (pendingViewKind) {
+      event.target.classList.add("is-pending");
+    }
+  });
+  document.body.addEventListener("htmx:afterRequest", function (event) {
+    if (!isShellRequest(event)) {
+      return;
+    }
+    event.detail.target.removeAttribute("aria-busy");
+    setFeedback("results-loading", false);
+    document.querySelectorAll(".is-pending").forEach(function (element) {
+      element.classList.remove("is-pending");
+    });
+  });
+  function showFailure(event) {
+    if (isShellRequest(event)) {
+      setFeedback("results-error", true);
+    }
+  }
+  document.body.addEventListener("htmx:responseError", showFailure);
+  document.body.addEventListener("htmx:sendError", showFailure);
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   initThemeToggle();
   initVramInvalid();
   initFormView();
+  initResultsFeedback();
   initSegThumbs();
   initSheen();
   initFilterCount();

@@ -149,5 +149,11 @@
   <div id="results-shell">
     {% include "results_content.html" %}
   </div>
+  {# Outside the swap, and present and empty, because a live region has to exist before its text
+     changes (ADR-0018 point 4). app.js fills the inner span from data-text and adds .is-on. #}
+  <div id="results-feedback">
+    <p id="results-loading" role="status" data-text="Loading models"><span class="fb-spin" aria-hidden="true"></span><span data-fb-text></span></p>
+    <p id="results-error" role="alert" data-text="Could not load the models. Try again."><svg width="18" height="18" aria-hidden="true"><use href="#i-wont"/></svg><span data-fb-text></span></p>
+  </div>
 </section>
 {% endblock %}

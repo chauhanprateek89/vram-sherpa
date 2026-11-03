@@ -532,8 +532,17 @@ def test_main_is_the_bento_layout_on_the_home_page(client: TestClient) -> None:
     assert main_node.classes() == ["bento"]
 
 
+def _without_feedback(html: str) -> str:
+    """The page less `#results-feedback`, whose two live regions are always there and hold no
+    message until a script fills them (T-049, ADR-0018 point 4). Every message is counted as before.
+    """
+    kept, removed = re.subn(r'<div id="results-feedback">.*?</div>', "", html, flags=re.S)
+    assert removed == 1
+    return kept
+
+
 def test_input_errors_are_not_rendered_inside_the_form(client: TestClient) -> None:
-    html = client.get("/results?vram_gb=abc").text
+    html = _without_feedback(client.get("/results?vram_gb=abc").text)
     assert html.count('role="alert"') == 1
     assert html.count("Invalid value for vram_gb.") == 1
     assert html.count("Please fix the following input issues:") == 1
@@ -543,7 +552,7 @@ def test_input_errors_are_not_rendered_inside_the_form(client: TestClient) -> No
 
 
 def test_gpu_search_feedback_is_not_rendered_inside_the_form(client: TestClient) -> None:
-    html = client.get("/results?gpu_search=RTX").text
+    html = _without_feedback(client.get("/results?gpu_search=RTX").text)
     assert html.count("matched multiple entries") == 1
     root = _tree(html)
     status = [n for n in root.walk() if n.attrs.get("role") == "status"]

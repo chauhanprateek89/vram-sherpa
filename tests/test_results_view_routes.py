@@ -91,11 +91,20 @@ def test_bad_verdict_selects_nothing(client: TestClient, verdict: str) -> None:
     assert "data-verdict=" not in r.text
 
 
+def _without_feedback(html: str) -> str:
+    """The page less `#results-feedback`, whose two live regions are always there and hold no
+    message until a script fills them (T-049, ADR-0018 point 4). Every message is counted as before.
+    """
+    kept, removed = re.subn(r'<div id="results-feedback">.*?</div>', "", html, flags=re.S)
+    assert removed == 1
+    return kept
+
+
 def test_script_verdict_is_not_echoed(client: TestClient) -> None:
     r = client.get("/results?vram_gb=24&verdict=%3Cscript%3E")
     assert r.status_code == 200
     assert "data-verdict=" not in r.text
-    assert "alert" not in r.text
+    assert "alert" not in _without_feedback(r.text)
     assert r.text.count("<script>") == client.get("/results?vram_gb=24").text.count("<script>")
 
 
