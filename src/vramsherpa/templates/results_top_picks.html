@@ -1,8 +1,14 @@
-{# Top Picks (R-024, R-069): a disclosure under the answer tile, rendered closed. The script right
-   after it opens it from 900 px; without JavaScript it stays closed and can still be opened
+{# Top Picks (R-024, R-069): a disclosure under the answer tile. On the gist it is open (R-084). With a
+   verdict selected it is closed and the script right after it opens it from 900 px (R-085);
+   without JavaScript it stays closed there and can still be opened
    (R-078, ADR-0006 point 2). It sits inside #results-shell, so htmx runs it after each refresh. #}
+{% from "components.html" import verdict %}
 {% if top_picks %}
+  {% if selected_verdict %}
   <details class="picks pane lite" data-open-wide>
+  {% else %}
+  <details class="picks pane lite" open>
+  {% endif %}
     <summary><span>Top Picks for you</span></summary>
     <div class="pick-grid">
       {% for pick in top_picks %}
@@ -11,6 +17,16 @@
           <h3><a href="/models/{{ pick.row.model_id }}?{{ hardware_query_string }}">{{ pick.row.model_name }}</a></h3>
           <p class="pick-meta num">{{ '%.1f'|format(pick.row.params_b) }}B · {{ pick.row.quant_label }}</p>
           <p class="pick-desc">{{ pick.description }}</p>
+          <div class="pick-fig">
+            <div class="fit-top">
+              {{ verdict(pick.row.classification) }}
+              <span class="headroom"><b class="num">{{ '%.1f'|format(pick.row.margin_gb) }} GB</b> spare</span>
+            </div>
+            <div class="scale">
+              <span class="num">{{ '%.2f'|format(pick.row.required_vram_gb) }} GB needed</span>
+              <span class="num">{{ '%.1f'|format(pick.row.available_vram_gb) }} GB</span>
+            </div>
+          </div>
         </article>
       {% endfor %}
     </div>

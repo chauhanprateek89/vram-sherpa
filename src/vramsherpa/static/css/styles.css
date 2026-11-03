@@ -429,6 +429,15 @@ details[open] > .pick-grid { animation: whyIn var(--dur-2) var(--ease-out); }
 .pick-title { font-size: var(--fs-caption); font-weight: 560; color: var(--accent); }
 .pick-meta { font-size: var(--fs-caption); color: var(--muted); }
 .pick-desc { font-size: var(--fs-caption); margin: 6px 0 0; line-height: 1.35; }
+.pick .pick-desc { margin-top: 4px; }
+/* Figures on a pick (R-092): the card's verdict, spare margin and needed/available, no gauge. */
+.pick-fig { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--hair); }
+.pick-fig .fit-top { margin-bottom: 6px; gap: 8px; flex-wrap: nowrap; }
+.pick .state { min-height: 32px; padding: 0 10px 0 8px; gap: 6px; font-size: var(--fs-caption); }
+.pick .headroom { font-size: var(--fs-caption); white-space: nowrap; }
+.pick .headroom b { font-size: 20px; }
+.pick .scale { margin-top: 0; }
+.pick h3 a::after { z-index: 0; }
 .pick:hover { transform: translateY(-2px); box-shadow: var(--sh-2h); }
 .pick:active { transform: scale(.98); box-shadow: var(--sh-in); transition-duration: 70ms; }
 

@@ -204,6 +204,7 @@ NOWRAP_ALLOWED = {
     ".vtable td.vl",
     ".kv-list dd",
     ".steps .out",
+    ".pick .headroom",
 }
 
 

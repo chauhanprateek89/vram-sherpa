@@ -857,6 +857,9 @@ def test_top_picks_is_a_closed_disclosure_after_the_tile_with_an_opening_script(
     assert picks.tag == "details" and "open" not in picks.attrs
     assert "data-open-wide" in picks.attrs
     assert {"pane", "lite"} <= set(picks.classes())
+    # On the gist it is open for everyone and carries no opening hook (R-084).
+    gist = _picks(client.get(REFERENCE).text)
+    assert "open" in gist.attrs and "data-open-wide" not in gist.attrs
     summary = picks.children[0]
     assert summary.tag == "summary" and summary.all_text() == "Top Picks for you"
     # Shell order: answer tile, Top Picks, then the cards.
@@ -874,7 +877,7 @@ def test_top_picks_is_a_closed_disclosure_after_the_tile_with_an_opening_script(
 
 
 def test_top_picks_script_also_ships_in_an_in_place_refresh(client: TestClient) -> None:
-    html = client.get(REFERENCE, headers=HX).text
+    html = client.get(REFERENCE + "&verdict=fits", headers=HX).text
     assert html.count("data-open-wide") >= 2  # the attribute and the script that reads it
     assert "(min-width: 900px)" in html
 
@@ -1084,11 +1087,11 @@ def test_card_css_shapes_reserve_and_strike_through() -> None:
 
 def test_verdict_and_margin_are_no_smaller_than_other_card_text() -> None:
     css = _css()
-    assert "var(--fs-lead)" in _rules(css, ".state")[0]
-    assert "var(--fs-lead)" in _rules(css, ".headroom")[0]
-    assert "34px" in _rules(css, ".headroom b")[0]
+    assert "var(--fs-lead)" in _rules(css, "\n.state")[0]
+    assert "var(--fs-lead)" in _rules(css, "\n.headroom")[0]
+    assert "34px" in _rules(css, "\n.headroom b")[0]
     # Everything else in a pane (captions, breakdown link) is the caption or small size.
-    assert "var(--fs-caption)" in _rules(css, ".scale")[0]
+    assert "var(--fs-caption)" in _rules(css, "\n.scale")[0]
 
 
 def test_old_card_rules_are_gone() -> None:
