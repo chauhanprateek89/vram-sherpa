@@ -144,8 +144,12 @@ def _children(html: str, open_tag: str) -> list[str]:
 
 def test_answer_tile_children_and_document_order(client: TestClient) -> None:
     html = client.get(REF + "&verdict=fits").text
-    tile = html.split('id="ans-h"', 1)[0].rsplit("<", 1)[0]
-    assert tile  # the headline exists
+    assert _children(html, 'id="summary-banner"') == [
+        "h2.headline",
+        "p.ctx-line",
+        "div.verdicts",
+        "p.note",
+    ]
     order = [
         html.index('id="ans-h"'),
         html.index('class="verdicts'),
