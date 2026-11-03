@@ -13,6 +13,7 @@ from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
 from vramsherpa import main
+from vramsherpa.results_view import ResultsView
 
 ROOT = Path(__file__).resolve().parents[1]
 STYLES = ROOT / "src" / "vramsherpa" / "static" / "css" / "styles.css"
@@ -668,9 +669,9 @@ def test_answer_tile_is_the_first_content_of_the_results_shell(client: TestClien
     headline = first.children[0]
     assert (headline.tag, headline.attrs["id"]) == ("h2", "ans-h")
     assert headline.all_text() == "71 models fit or are tight"
-    # Top Picks and the cards come after the tile.
+    # Top Picks come after the tile; the gist holds no card (R-084).
     assert html.index('id="summary-banner"') < html.index("Top Picks for you")
-    assert html.index("Top Picks for you") < html.index('id="results-cards"')
+    assert 'id="results-cards"' not in html
 
 
 def test_headline_counts_model_cards_and_keeps_the_singular(client: TestClient) -> None:
@@ -694,21 +695,23 @@ def test_answer_tile_holds_the_context_line_counts_and_note(client: TestClient) 
     assert symbols == ["#i-fits", "#i-tight", "#i-wont"]
     assert [next(n for n in li.children if n.tag == "b").all_text() for li in items][0] == "71"
     note = next(n for n in answer.walk() if "note" in n.classes())
-    assert note.all_text() == (
-        "Only Fits and Tight models are listed. "
-        "Pick a quantisation on any card to see how it changes."
-    )
+    assert note.all_text() == "Choose Fits, Tight or Won't fit to see the models."
     assert note.attrs["title"] == (
         "Fits leaves reserve headroom. Tight can run, but is close to your VRAM limit."
     )
     assert "assumed 8 GB baseline" not in answer.all_text()
 
 
-def test_empty_state_note_keeps_only_the_first_sentence(client: TestClient) -> None:
+def test_note_follows_the_selection(client: TestClient) -> None:
+    # Fits and Tight are 0 but Won't fit is not, so the gist still says what to choose (Q-41).
     answer = _answer(client.get("/results?vram_gb=1&context_tokens=4096&quant_bucket=Q8").text)
     note = next(n for n in answer.walk() if "note" in n.classes())
-    assert note.all_text() == "Only Fits and Tight models are listed."
+    assert note.all_text() == "Choose Fits, Tight or Won't fit to see the models."
     assert note.attrs["title"].startswith("Fits leaves reserve headroom.")
+    picked = _answer(client.get(REFERENCE + "&verdict=fits").text)
+    note = next(n for n in picked.walk() if "note" in n.classes())
+    assert note.all_text() == "Pick a quantisation on any card to see how it changes."
+    assert "Only Fits and Tight models are listed." not in client.get(REFERENCE).text
 
 
 def test_sprite_symbols_for_the_count_icons_are_in_the_page(client: TestClient) -> None:
@@ -1277,6 +1280,7 @@ def _empty(html: str) -> _Node:
 def _render_list(**context: object) -> str:
     base = {
         "model_cards": [],
+        "view": ResultsView(),
         "catalog_seeded": True,
         "empty_state_q4_url": None,
         "empty_state_lower_context_url": None,

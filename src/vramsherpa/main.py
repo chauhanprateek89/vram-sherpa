@@ -900,9 +900,8 @@ def _results_context(
     summary_counts = _summary_counts(all_cards)
     selected_verdict: str | None = None
     pagination = None
-    model_cards = _verdict_cards(all_cards, FitBadge.FITS.value) + _verdict_cards(
-        all_cards, FitBadge.TIGHT.value
-    )
+    model_cards: list[ModelCard] = []  # the gist passes no card (R-084, Q-35)
+    zero_verdict_label: str | None = None
     if view.verdict is not None:
         label = _VERDICT_LABELS[view.verdict]
         if summary_counts[label] > 0:
@@ -911,7 +910,7 @@ def _results_context(
             pagination = paginate(len(verdict_cards), view)
             model_cards = verdict_cards[pagination.first - 1 : pagination.last]
         else:
-            model_cards = []
+            zero_verdict_label = label
     context = _base_context(request, session)
     context.update(
         {
@@ -920,6 +919,7 @@ def _results_context(
             "model_cards": model_cards,
             "view": view,
             "selected_verdict": selected_verdict,
+            "zero_verdict_label": zero_verdict_label,
             "pagination": pagination,
             "families": _all_families(session),
             "quant_options": _all_quant_buckets(session),

@@ -1,5 +1,7 @@
 {% from "components.html" import verdict, gated_tag %}
-<h2 class="sr-only">Results</h2>
+{# Cards only with a selected verdict; the empty state only on the gist (R-084, R-025). #}
+{% set show_empty = not catalog_seeded or (not view.verdict and summary_counts["Fits"] + summary_counts["Tight"] == 0) %}
+{% if model_cards or show_empty %}<h2 class="sr-only">Results</h2>{% endif %}
 
 {% if model_cards %}
   <section class="results pane lite" id="results-cards" aria-label="Models">
@@ -90,7 +92,7 @@
       {% endfor %}
     </div>
   </section>
-{% else %}
+{% elif show_empty %}
   {# Empty and unseeded states (R-025, R-026): one inset sheet in the results pane, docs/design/mockups/final-empty-*.html. #}
   <section class="results pane lite" aria-label="Models">
     <div class="empty inset">

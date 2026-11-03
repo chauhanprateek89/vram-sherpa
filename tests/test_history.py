@@ -266,6 +266,12 @@ PARTIAL_MARKERS = {
     "/results/partials/summary": 'id="summary-banner"',
     "/results/partials/list": 'class="sr-only">Results<',
 }
+# The list partial is empty on the gist (R-084), so it needs a verdict to render its marker.
+PARTIAL_QUERIES = {
+    "/results/partials/content": QUERY,
+    "/results/partials/summary": QUERY,
+    "/results/partials/list": f"{QUERY}&verdict=fits",
+}
 
 
 def _vary_names(response) -> list[str]:
@@ -377,7 +383,7 @@ def test_old_partial_link_with_malformed_value_gets_the_same_422_as_results(
 def test_partials_with_hx_request_return_their_fragment_without_location(
     client: TestClient, path: str
 ) -> None:
-    response = client.get(f"{path}?{QUERY}", headers=HX, follow_redirects=False)
+    response = client.get(f"{path}?{PARTIAL_QUERIES[path]}", headers=HX, follow_redirects=False)
 
     assert response.status_code == 200
     assert "location" not in response.headers
@@ -390,7 +396,9 @@ def test_partials_with_hx_request_return_their_fragment_without_location(
 def test_summary_and_list_partials_never_redirect(
     client: TestClient, path: str, headers: dict[str, str]
 ) -> None:
-    response = client.get(f"{path}?{QUERY}", headers=headers, follow_redirects=False)
+    response = client.get(
+        f"{path}?{PARTIAL_QUERIES[path]}", headers=headers, follow_redirects=False
+    )
 
     assert response.status_code == 200
     assert "location" not in response.headers

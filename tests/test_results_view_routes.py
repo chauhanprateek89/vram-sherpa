@@ -46,8 +46,8 @@ def test_card_counts(client: TestClient, url: str, expected: int) -> None:
     assert _cards(client, url) == expected
 
 
-def test_no_verdict_keeps_today_cards(client: TestClient) -> None:
-    assert _cards(client, f"/results?{REF}") > 5
+def test_no_verdict_passes_no_cards(client: TestClient) -> None:
+    assert _cards(client, f"/results?{REF}") == 0
 
 
 @pytest.mark.parametrize("page", ["abc", "0", "-1", "1.5"])
