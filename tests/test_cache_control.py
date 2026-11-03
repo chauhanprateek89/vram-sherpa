@@ -15,7 +15,7 @@ from vramsherpa.main import create_app
 QUERY = "vram_gb=24&context_tokens=4096"
 HX = {"HX-Request": "true"}
 
-# The nine R-080 check URLs, with the extra headers each one is requested with.
+# The thirteen R-080 check URLs, with the extra headers each one is requested with.
 R080_CHECK_URLS = [
     ("/", {}),
     (f"/results?{QUERY}", {}),
@@ -26,6 +26,10 @@ R080_CHECK_URLS = [
     (f"/results/why/variant_model_qwen25_7b_instruct_q4?{QUERY}", {}),
     (f"/models/model_qwen25_7b_instruct?{QUERY}", {}),
     ("/how-it-works", {}),
+    (f"/results?{QUERY}&verdict=fits", {}),
+    (f"/results?{QUERY}&verdict=fits&page=2&page_size=10", {}),
+    (f"/results/partials/content?{QUERY}&verdict=fits&page=2", HX),
+    (f"/results/partials/list?{QUERY}&verdict=fits", {}),
 ]
 
 

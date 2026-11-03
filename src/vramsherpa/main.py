@@ -21,6 +21,7 @@ from vramsherpa.database import configure_engine, create_db_and_tables, get_sess
 from vramsherpa.estimation import FitBadge, estimate_breakdown, estimate_variant, reserve_gb
 from vramsherpa.gpu_input import decide_box, gpu_option_label, normalize_for_match
 from vramsherpa.models import GPU, CatalogMeta, Model, Variant
+from vramsherpa.results_view import paginate, parse_results_view
 
 CONTEXT_OPTIONS = (2048, 4096, 8192)
 ASSET_VERSION = "20261028f"
@@ -222,6 +223,13 @@ def _group_results_by_model(rows: list[ResultRow]) -> list[ModelCard]:
             )
         )
     return cards
+
+
+_VERDICT_LABELS = {
+    "fits": FitBadge.FITS.value,
+    "tight": FitBadge.TIGHT.value,
+    "wont-fit": FitBadge.WONT_FIT.value,
+}
 
 
 def _verdict_cards(cards: list[ModelCard], label: str) -> list[ModelCard]:
@@ -887,13 +895,32 @@ def _results_context(
         recommended_only=False,
     )
     all_cards = _group_results_by_model(results_rows)
+    # The whole list is built and counted first; only the cards shown are cut (Q-35).
+    view = parse_results_view(request.query_params)
+    summary_counts = _summary_counts(all_cards)
+    selected_verdict: str | None = None
+    pagination = None
+    model_cards = _verdict_cards(all_cards, FitBadge.FITS.value) + _verdict_cards(
+        all_cards, FitBadge.TIGHT.value
+    )
+    if view.verdict is not None:
+        label = _VERDICT_LABELS[view.verdict]
+        if summary_counts[label] > 0:
+            selected_verdict = view.verdict
+            verdict_cards = _verdict_cards(all_cards, label)
+            pagination = paginate(len(verdict_cards), view)
+            model_cards = verdict_cards[pagination.first - 1 : pagination.last]
+        else:
+            model_cards = []
     context = _base_context(request, session)
     context.update(
         {
             "gpus": gpus,
             "results": visible_results,
-            "model_cards": _verdict_cards(all_cards, FitBadge.FITS.value)
-            + _verdict_cards(all_cards, FitBadge.TIGHT.value),
+            "model_cards": model_cards,
+            "view": view,
+            "selected_verdict": selected_verdict,
+            "pagination": pagination,
             "families": _all_families(session),
             "quant_options": _all_quant_buckets(session),
             "selected_gpu_id": selected_gpu_id,
@@ -924,7 +951,7 @@ def _results_context(
             "form_errors": form_errors or [],
             "vram_error": vram_error,
             "gpu_search_feedback": gpu_search_feedback,
-            "summary_counts": _summary_counts(all_cards),
+            "summary_counts": summary_counts,
             "selected_hardware_label": _selected_hardware_label(
                 selected_gpu_label=selected_gpu_label,
                 manual_vram=manual_vram,

@@ -1,11 +1,12 @@
 {# The answer tile leads the results (R-069). Messages live here, not in the form, so an in-place
    refresh replaces them and shows only the current query's (R-071, ADR-0006 points 2 and 3).
    `no-picks` keys the layout on markup inside #results-shell, which a refresh re-renders (point 9). #}
-{% set model_count = model_cards|length %}
+{% set model_count = summary_counts["Fits"] + summary_counts["Tight"] %}
 <section
   class="answer pane{% if not top_picks %} no-picks{% endif %}"
   id="summary-banner"
   {% if box_vram %}data-box-vram="{{ box_vram }}"{% endif %}
+  {% if view.verdict %}data-verdict="{{ view.verdict }}"{% if view.page_size != 5 %} data-page-size="{{ view.page_size }}"{% endif %}{% endif %}
   data-vram-invalid="{{ 'true' if vram_error else 'false' }}"
   aria-labelledby="ans-h"
 >
