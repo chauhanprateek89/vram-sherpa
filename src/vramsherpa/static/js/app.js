@@ -477,10 +477,28 @@ function initFilterCount() {
   updateFilterCount();
 }
 
+// State of the latest results refresh, set at htmx:beforeRequest (see initResultsFeedback).
+var pendingViewKind = null; // The data-view-link kind of the latest refresh, null from the form.
+var pendingControl = null; // Its data-verdict-control value, for a collapse link.
+var focusPending = false; // One-shot: htmx:afterSettle fires once per new top-level element.
+
+function isShellRequest(event) {
+  return !!event.detail.target && event.detail.target.id === "results-shell";
+}
+
+// A view link's answer leaves the form alone, so text typed there and not submitted stays
+// (R-090, ADR-0018 point 8). A form refresh and a breakdown still sync it.
+function isViewLinkSettle(event) {
+  return !!event && !!event.detail && isShellRequest(event) && !!pendingViewKind;
+}
+
 // An in-place refresh swaps #results-shell but not the form, so the VRAM field's invalid state is
 // re-read from the new summary (data-vram-invalid) after each swap. Without it a fixed value
 // would stay marked and a newly rejected one would not be (R-071).
-function syncVramInvalid() {
+function syncVramInvalid(event) {
+  if (isViewLinkSettle(event)) {
+    return;
+  }
   var banner = document.getElementById("summary-banner");
   var field = document.getElementById("vram_gb");
   if (!banner || !field) {
@@ -496,7 +514,10 @@ function syncVramInvalid() {
 // A number typed in Search GPU is read by the server as VRAM (ADR-0011, R-003). The summary says
 // so with data-box-vram; copy it into the form so it matches /results?vram_gb=<n>. Runs after
 // syncVramInvalid so a box number of 0 keeps aria-invalid on the field.
-function syncBoxVram() {
+function syncBoxVram(event) {
+  if (isViewLinkSettle(event)) {
+    return;
+  }
   var banner = document.getElementById("summary-banner");
   var field = document.getElementById("vram_gb");
   if (!banner || !field || banner.dataset.boxVram === undefined) {
@@ -552,12 +573,6 @@ function initFormView() {
 // nothing here. A failed response is not swapped or pushed, so the view and address stay. Under
 // hx-sync replace the aborted request's afterRequest fires before the new beforeRequest, and
 // htmx:sendAbort is left out, because an aborted request is not a failure.
-var pendingViewKind = null; // The data-view-link kind of the latest refresh, null from the form.
-
-function isShellRequest(event) {
-  return !!event.detail.target && event.detail.target.id === "results-shell";
-}
-
 function setFeedback(id, filled) {
   var element = document.getElementById(id);
   if (!element) {
@@ -577,6 +592,8 @@ function initResultsFeedback() {
     setFeedback("results-loading", true);
     setFeedback("results-error", false);
     pendingViewKind = event.target.getAttribute("data-view-link");
+    pendingControl = event.target.getAttribute("data-verdict-control");
+    focusPending = !!pendingViewKind;
     if (pendingViewKind) {
       event.target.classList.add("is-pending");
     }
@@ -586,6 +603,9 @@ function initResultsFeedback() {
       return;
     }
     event.detail.target.removeAttribute("aria-busy");
+    if (!event.detail.successful) {
+      focusPending = false; // Failed or aborted: move no focus, scroll nothing.
+    }
     setFeedback("results-loading", false);
     document.querySelectorAll(".is-pending").forEach(function (element) {
       element.classList.remove("is-pending");
@@ -593,6 +613,7 @@ function initResultsFeedback() {
   });
   function showFailure(event) {
     if (isShellRequest(event)) {
+      focusPending = false;
       setFeedback("results-error", true);
     }
   }
@@ -600,11 +621,55 @@ function initResultsFeedback() {
   document.body.addEventListener("htmx:sendError", showFailure);
 }
 
+// After a view link's refresh (R-091, ADR-0018 points 7 and 9): a verdict, size or page link moves
+// focus to #list-heading and scrolls it into view; a collapse link keeps focus on its control.
+// Form refreshes, failures and aborts move nothing. No live region: the heading text is announced.
+function focusAfterViewLink(event) {
+  if (!focusPending || !isShellRequest(event)) {
+    return;
+  }
+  focusPending = false;
+  if (pendingViewKind === "collapse") {
+    var controls = document.querySelectorAll("[data-view-link][data-verdict-control]");
+    for (var i = 0; i < controls.length; i += 1) {
+      if (controls[i].getAttribute("data-verdict-control") === pendingControl) {
+        controls[i].focus();
+        return;
+      }
+    }
+    return;
+  }
+  var heading = document.getElementById("list-heading");
+  if (!heading) {
+    return;
+  }
+  heading.focus({ preventScroll: true });
+  heading.scrollIntoView({ block: "start", behavior: prefersReducedMotion() ? "auto" : "smooth" });
+}
+
+// Ctrl, Cmd or Shift on a view link is the browser's: capture on document runs before htmx's
+// listener on the link, and stopping there means htmx never calls preventDefault, so the href opens
+// in a new tab or window. The check cannot be an hx-trigger filter, as htmx prevents default first.
+function initViewLinkModifiers() {
+  document.addEventListener(
+    "click",
+    function (event) {
+      var link = event.target.closest ? event.target.closest("[data-view-link]") : null;
+      if (link && (event.ctrlKey || event.metaKey || event.shiftKey)) {
+        event.stopPropagation();
+      }
+    },
+    true,
+  );
+  document.body.addEventListener("htmx:afterSettle", focusAfterViewLink);
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   initThemeToggle();
   initVramInvalid();
   initFormView();
   initResultsFeedback();
+  initViewLinkModifiers();
   initSegThumbs();
   initSheen();
   initFilterCount();
