@@ -24,7 +24,7 @@ from vramsherpa.models import GPU, CatalogMeta, Model, Variant
 from vramsherpa.results_view import ResultsView, paginate, parse_results_view, view_query
 
 CONTEXT_OPTIONS = (2048, 4096, 8192)
-ASSET_VERSION = "20261103a"
+ASSET_VERSION = "20261103b"
 ESTIMATION_POLICY_VERSION = "v0.1"
 # The /how-it-works worked example (R-075, ADR-0007). The figures are computed by
 # estimate_breakdown at request time; none is typed into the template.

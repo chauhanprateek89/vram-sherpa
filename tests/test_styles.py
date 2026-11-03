@@ -427,3 +427,30 @@ def test_unseeded_info_icon_cuts_out_the_sheet_colour() -> None:
 
 def test_asset_version_moved_on_for_t020() -> None:
     assert main.ASSET_VERSION > "20261025r"
+
+
+def _rule_bodies(selector: str) -> list[str]:
+    css = (ROOT / "src/vramsherpa/static/css/styles.css").read_text()
+    return re.findall(re.escape(selector) + r"\s*\{([^}]*)\}", css)
+
+
+def test_results_shells_make_no_grid_row_t041() -> None:
+    css = (ROOT / "src/vramsherpa/static/css/styles.css").read_text()
+    assert "#results-summary-shell, #results-list-shell { display: contents; }" in css
+    assert "#results-list-shell { min-width" not in css
+    assert "#results-list-shell { grid" not in css
+    assert "grid-template-rows: auto 1fr; }" in css
+    assert "grid-template-rows: auto 1fr auto" not in css
+    assert any("grid-column: 1 / -1" in b and "grid-row: 3" in b for b in _rule_bodies(".results"))
+    assert any("min-width: 0" in b for b in _rule_bodies(".results"))
+    assert any("margin-top: auto" in b for b in _rule_bodies(".form-pane .filters"))
+    assert any(
+        "grid-row: 1 / 3" in b and "align-self: stretch" in b
+        for b in _rule_bodies(".answer.no-picks")
+    )
+    wide = css.index("@media (min-width: 900px) {\n  .bento")
+    assert css.index(".results { grid-column", wide) < css.index("Utilities and motion")
+
+
+def test_asset_version_moved_on_for_t041() -> None:
+    assert main.ASSET_VERSION > "20261028f"
