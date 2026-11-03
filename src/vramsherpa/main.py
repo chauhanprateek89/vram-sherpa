@@ -28,8 +28,10 @@ from vramsherpa.results_view import (
     ResultsView,
     page_window,
     paginate,
+    parse_apply_view,
     parse_results_view,
     view_query,
+    without_apply_view,
 )
 
 CONTEXT_OPTIONS = (2048, 4096, 8192)
@@ -1272,6 +1274,18 @@ def results(
             headers={"Cache-Control": "no-cache", "Vary": ", ".join(HTML_VARY_HEADERS)},
         )
 
+    if "apply_view" in request.query_params and request.headers.get("HX-Request") != "true":
+        # The no-JavaScript `Apply filters`: one value becomes the real parameters, before any
+        # database work. The path is literal and the query keeps the request's raw bytes, so the
+        # `Location` stays relative (rule 8). An invalid value gives the gist (ADR-0016 point 6).
+        apply_view = parse_apply_view(request.query_params.getlist("apply_view"))
+        verdict, page_size = apply_view or (None, DEFAULT_PAGE_SIZE)
+        return RedirectResponse(
+            _results_page_url(view_query(request.url.query, verdict, page_size=page_size)),
+            status_code=302,
+            headers={"Cache-Control": "no-cache", "Vary": ", ".join(HTML_VARY_HEADERS)},
+        )
+
     context = _results_page_context(
         request,
         session,
@@ -1335,7 +1349,7 @@ def results_partial_content(
         request,
         "results_content.html",
         context,
-        headers={"HX-Push-Url": _results_page_url(request.url.query)},
+        headers={"HX-Push-Url": _results_page_url(without_apply_view(request.url.query))},
     )
 
 

@@ -5,8 +5,10 @@ from vramsherpa.results_view import (
     ResultsView,
     page_window,
     paginate,
+    parse_apply_view,
     parse_results_view,
     view_query,
+    without_apply_view,
 )
 
 
@@ -133,3 +135,59 @@ def test_view_query_decodes_keys_but_keeps_bytes():
     assert view_query("%76erdict=fits&pa+ge=1&page%5Fsize=10&x%20y=%41", "fits") == (
         "pa+ge=1&x%20y=%41&verdict=fits"
     )
+
+
+@pytest.mark.parametrize(
+    ("value", "expected"),
+    [
+        ("fits:5", ("fits", 5)),
+        ("fits:10", ("fits", 10)),
+        ("tight:5", ("tight", 5)),
+        ("wont-fit:10", ("wont-fit", 10)),
+    ],
+)
+def test_parse_apply_view_accepts_every_verdict_and_size(value, expected):
+    assert parse_apply_view(value) == expected
+
+
+@pytest.mark.parametrize(
+    "value",
+    [
+        None,
+        "",
+        ":",
+        "fits",
+        "fits:",
+        ":5",
+        "green:5",
+        "fits:7",
+        "fits:05",
+        "fits:5:5",
+        "FITS:5",
+        " fits:5",
+        "fits:5 ",
+        "fits:5\n",
+        "fits:\u0665",
+        "wont_fit:5",
+    ],
+)
+def test_parse_apply_view_rejects_everything_else(value):
+    assert parse_apply_view(value) is None
+
+
+def test_parse_apply_view_takes_the_last_of_repeated_values():
+    assert parse_apply_view(["green:5", "tight:10"]) == ("tight", 10)
+    assert parse_apply_view(["tight:10", "green:5"]) is None
+    assert parse_apply_view([]) is None
+    assert parse_apply_view(
+        QueryParams("apply_view=a&apply_view=fits:5").getlist("apply_view")
+    ) == (
+        "fits",
+        5,
+    )
+
+
+def test_without_apply_view_drops_only_that_key_and_keeps_bytes():
+    raw = "a=%41&&%61pply_view=fits:5&b=x+y&apply_view&verdict=fits&page=2"
+    assert without_apply_view(raw) == "a=%41&&b=x+y&verdict=fits&page=2"
+    assert without_apply_view("") == ""

@@ -4,6 +4,7 @@ Pure functions: no session, no request, nothing imported from main.py.
 """
 
 import re
+from collections.abc import Sequence
 from dataclasses import dataclass
 from urllib.parse import unquote_plus
 
@@ -55,6 +56,22 @@ def parse_results_view(params) -> ResultsView:
     return ResultsView(verdict, _parse_page(_last(params, "page")), page_size)
 
 
+def parse_apply_view(value: str | Sequence[str] | None) -> tuple[str, int] | None:
+    """Read the no-JavaScript `Apply filters` value, `<verdict>:<size>` (ADR-0016 point 5).
+
+    Pass the `getlist` of a repeated parameter and the last value decides. Anything but an
+    exact verdict and size is `None`.
+    """
+    if value is not None and not isinstance(value, str):
+        value = value[-1] if value else None
+    if value is None:
+        return None
+    verdict, _, size = value.partition(":")
+    if verdict not in VERDICTS or size not in ("5", "10"):
+        return None
+    return verdict, int(size)
+
+
 def paginate(total: int, view: ResultsView) -> Pagination:
     size = view.page_size
     last_page = max(1, -(-total // size))
@@ -89,3 +106,10 @@ def view_query(
         if page_size != DEFAULT_PAGE_SIZE:
             kept.append(f"page_size={page_size}")
     return "&".join(kept)
+
+
+def without_apply_view(raw_query: str) -> str:
+    """The raw query minus `apply_view`, every other part byte for byte and in order."""
+    return "&".join(
+        part for part in raw_query.split("&") if unquote_plus(part.split("=", 1)[0]) != "apply_view"
+    )

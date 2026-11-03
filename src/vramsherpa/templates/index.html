@@ -10,6 +10,7 @@
   class="form-pane pane"
   method="get"
   action="/results"
+  autocomplete="off"
   hx-get="/results/partials/content"
   hx-target="#results-shell"
   hx-push-url="true"
@@ -137,7 +138,7 @@
       </div>
     </div>
     <noscript>
-      <button type="submit" class="btn-secondary">Apply filters</button>
+      <button type="submit"{% if view.verdict %} name="apply_view" value="{{ view.verdict }}:{{ view.page_size }}"{% endif %} class="btn-secondary">Apply filters</button>
     </noscript>
   </details>
 </form>
