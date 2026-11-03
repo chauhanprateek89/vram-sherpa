@@ -1,10 +1,27 @@
-{% from "components.html" import verdict, gated_tag %}
+{% from "components.html" import verdict, gated_tag, view_link %}
 {# Cards only with a selected verdict; the empty state only on the gist (R-084, R-025). #}
 {% set show_empty = not catalog_seeded or (not view.verdict and summary_counts["Fits"] + summary_counts["Tight"] == 0) %}
 {% if model_cards or show_empty %}<h2 class="sr-only">Results</h2>{% endif %}
 
 {% if model_cards %}
-  <section class="results pane lite" id="results-cards" aria-label="Models">
+  {% set pg = pagination %}
+  <section class="results list-pane pane lite" id="results-cards" aria-labelledby="list-heading">
+    <div class="list-head">
+      <h2 id="list-heading" tabindex="-1" class="lh-{{ list_icon }}">
+        <svg width="22" height="22" aria-hidden="true"><use href="#i-{{ list_icon }}"/></svg>
+        <span><b>{{ list_label }}</b>: showing {% if pg.first == pg.last %}{{ pg.first }}{% else %}{{ pg.first }}-{{ pg.last }}{% endif %} of {{ pg.total }} {{ "model" if pg.total == 1 else "models" }}</span>
+      </h2>
+      {% if size_controls %}
+        <div class="sizes" role="group" aria-labelledby="sizes-l">
+          <span class="sizes-l" id="sizes-l">Models per page</span>
+          <div class="sizes-seg">
+            {%- for c in size_controls %}
+              {% call view_link(c.query, "size", current=c.current) %}{{ c.size }}{% endcall %}
+            {%- endfor %}
+          </div>
+        </div>
+      {% endif %}
+    </div>
     <div class="card-grid">
       {% for card in model_cards %}
         {# --i staggers the gauge fill after a refresh (styles.css); capped so late cards do not wait. #}

@@ -989,8 +989,7 @@ def test_cards_sit_in_one_glass_pane_as_a_grid_of_inset_cards(client: TestClient
     html = client.get(GATED_QUERY + "&verdict=fits").text
     section = next(n for n in _tree(html).walk() if n.attrs.get("id") == "results-cards")
     assert section.tag == "section" and {"results", "pane", "lite"} <= set(section.classes())
-    grid = next(n for n in section.children if n.tag == "div")
-    assert grid.classes() == ["card-grid"]
+    grid = next(n for n in section.children if n.classes() == ["card-grid"])
     cards = [n for n in grid.children if n.tag == "article"]
     assert cards and all({"model-card", "inset"} <= set(c.classes()) for c in cards)
     assert len(cards) == len(_cards(html))

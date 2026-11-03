@@ -21,10 +21,16 @@ from vramsherpa.database import configure_engine, create_db_and_tables, get_sess
 from vramsherpa.estimation import FitBadge, estimate_breakdown, estimate_variant, reserve_gb
 from vramsherpa.gpu_input import decide_box, gpu_option_label, normalize_for_match
 from vramsherpa.models import GPU, CatalogMeta, Model, Variant
-from vramsherpa.results_view import ResultsView, paginate, parse_results_view, view_query
+from vramsherpa.results_view import (
+    PAGE_SIZES,
+    ResultsView,
+    paginate,
+    parse_results_view,
+    view_query,
+)
 
 CONTEXT_OPTIONS = (2048, 4096, 8192)
-ASSET_VERSION = "20261103c"
+ASSET_VERSION = "20261103d"
 ESTIMATION_POLICY_VERSION = "v0.1"
 # The /how-it-works worked example (R-075, ADR-0007). The figures are computed by
 # estimate_breakdown at request time; none is typed into the template.
@@ -267,6 +273,18 @@ def _verdict_controls(
             }
         )
     return controls
+
+
+def _size_controls(raw_query: str, slug: str, view: ResultsView) -> list[dict]:
+    """Models per page: each link keeps the verdict and every other parameter and drops page."""
+    return [
+        {
+            "size": size,
+            "query": view_query(raw_query, slug, page_size=size),
+            "current": size == view.page_size,
+        }
+        for size in PAGE_SIZES
+    ]
 
 
 def _verdict_cards(cards: list[ModelCard], label: str) -> list[ModelCard]:
@@ -965,6 +983,13 @@ def _results_context(
             "selected_verdict": selected_verdict,
             "zero_verdict_label": zero_verdict_label,
             "pagination": pagination,
+            "list_label": _VERDICT_LABELS.get(selected_verdict or ""),
+            "list_icon": _VERDICT_ICONS.get(selected_verdict or ""),
+            "size_controls": (
+                _size_controls(request.url.query, selected_verdict, view)
+                if selected_verdict and pagination and pagination.total > 5
+                else []
+            ),
             "families": _all_families(session),
             "quant_options": _all_quant_buckets(session),
             "selected_gpu_id": selected_gpu_id,

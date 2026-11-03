@@ -446,6 +446,26 @@ details[open] > .pick-grid { animation: whyIn var(--dur-2) var(--ease-out); }
 @media (min-width: 900px) { .results { padding: 12px; } }
 .card-grid { display: grid; gap: 10px; grid-template-columns: minmax(0, 1fr); }
 @media (min-width: 900px) { .card-grid { gap: 14px; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; } }
+
+/* The list under a selected verdict (R-087, R-091): after .results, which has equal specificity. */
+.list-pane { padding: 14px 10px 12px; }
+@media (min-width: 900px) { .list-pane { padding: 10px 14px 14px; } }
+.list-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 20px; padding: 0 6px 8px; }
+.list-head h2 { display: flex; align-items: center; gap: 10px; font-size: 24px; line-height: 1.15; letter-spacing: -.02em; font-weight: 500; padding: 4px 6px; margin: -4px -6px; border-radius: 14px; }
+.list-head h2 svg { color: var(--tone); }
+.list-head h2 b { font-weight: 650; }
+.list-head h2.lh-fits { --tone: var(--fits-fg); } .list-head h2.lh-tight { --tone: var(--tight-fg); } .list-head h2.lh-wont { --tone: var(--wont-fg); }
+.list-head h2:focus { outline: none; }
+.list-head h2:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: 14px; }
+.sizes { display: flex; align-items: center; gap: 12px; }
+.sizes-l { font-size: var(--fs-small); font-weight: 560; }
+.sizes-seg { display: inline-grid; grid-auto-flow: column; grid-auto-columns: 1fr; padding: 2px; border-radius: var(--r-pill); background: var(--seg); box-shadow: var(--sh-in); border: 1px solid var(--edge); }
+.sizes-seg a, .sizes-seg span { display: flex; align-items: center; justify-content: center; min-height: 44px; min-width: 52px; padding: 0 14px; border-radius: var(--r-pill); font-weight: 560; font-size: var(--fs-small); color: var(--ink); text-decoration: none; transition: background var(--dur-1); }
+.sizes-seg a:hover { background: var(--hair); }
+.sizes-seg [aria-current="true"] { background: var(--pressed); color: var(--on-pressed); }
+.sizes-seg a:focus-visible { outline: 3px solid var(--focus); outline-offset: 1px; border-radius: var(--r-pill); }
+.list-pane .card-grid { padding: 0; }
+@media (min-width: 900px) { #list-heading { scroll-margin-top: 96px; } }
 .model-card { --i: 0; --mx: 50%; --my: 0px; position: relative; padding: 18px; transition: box-shadow var(--dur-2) var(--ease-out), border-color var(--dur-2); }
 /* The 21 px title here loses to the .model-card h3 rule below, as in components.css, so titles are 22 px as the approved renders show. */
 @media (min-width: 900px) { .model-card { padding: 18px 20px 10px; } .model-card h3 { font-size: 21px; } }
