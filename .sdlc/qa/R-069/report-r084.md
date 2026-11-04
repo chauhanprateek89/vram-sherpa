@@ -17,3 +17,9 @@ Measured in Chromium, light and dark identical. Bottom edges in CSS px from page
 Other: no horizontal scroll (scrollWidth equals viewport everywhere); no console errors. Mockup pixel diff (top 1100 px): under 0.4 percent of pixels differ by more than 40 in light, up to 1.0 percent dark at 1280; 390 light about 1 percent, dark 2.3 to 3.9 percent (not a layout difference; mockups are viewport crops so heights differ).
 
 The input-error fits state is 14 px over: the invalid gist is 1 px taller than the mockup (789 vs 788) and the mockup never drew this state with a card.
+
+## Re-test after T-053 (1280, light and dark identical)
+- invalid+fits: verdict top 994, margin 996 (limit 1000; was 1014/1016). Pass.
+- Unchanged: invalid gist picks 788, ambiguous 748, not found 703, reference 644; reference+fits verdict 896, margin 897 (first card box bottom 1025); ambiguous+fits 964/966; notfound+fits 919/921.
+- Phone 390: head 804, verdicts max 1143; +fits margin max 1630 (limit 1688). No console errors.
+- Notices readable: gist/invalid-fits-notices-1280-dark.png, gist/invalid+fits-1280.png, gist/invalid-fits-notices-390-dark.png.

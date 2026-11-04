@@ -325,7 +325,7 @@
       ],
       "notes": "Today `#results-list-shell` is a grid item in row 3, which leaves 14 px and an empty row on a gist; that rule must change. Measured in the mockups: gist ends at 644 px at 1280 (limit 800), message states 748, 703, 788 (limit 900). The `sr-only` `Results` heading is absolutely positioned and the picks' `<script>` has no box, so neither takes a grid cell once the shells are `display: contents`. Slack of about 100 px above `Filters (N)` in the form tile is accepted, as drawn. In the mockups `no-picks` sits on `.bento`; in the app it stays on `.answer`, which a refresh re-renders (ADR-0006 point 9), so do not move it. R-069: the `verdict=fits` first card ends at 896 px against a 900 px limit at 1280 px (T-043 has the detail). This task sits above that card: anything taller than the mockup breaks the limit. CSS source of truth: the `<style>` block inlined in every `final-gist-*` mockup (`docs/design/build/gist.css` is a local, untracked copy of the same rules). Copy values exactly. Place rules in the matching `styles.css` section, never after `Utilities and motion`: `tests/test_styles.py` fixes the section order, and the reduced-motion rule must stay last (decisions.md, 2026-10-28). `test_every_class_and_id_in_the_stylesheet_is_used` fails on any class no template or `app.js` names, so leave out the mockups' `.is-focus` stand-ins (`:focus-visible` is the real rule) and remove a rule in the same task that removes its last use. Do not render pages or take screenshots; QA measures and compares (rule 10). Your proof is pytest and the code.",
       "review": "passed",
-      "passes": false
+      "passes": true
     },
     {
       "id": "T-042",
@@ -374,7 +374,7 @@
       ],
       "notes": "README \"What did not work\" item 3 and Gate 2: counts and picks may disagree, as drawn. On the reference query `Tight` is 0, yet `Best small` is `Yi-1.5 9B Chat` at FP16, `Tight`, `0.5 GB spare`. Counts place a model by the variant its card opens on; picks can be any variant. Do not \"fix\" it, and do not write a test that assumes they agree. A pick is always usable, so `GB over` cannot occur. README note: Top Picks are `<details open>` on the gist; with a verdict selected `data-open-wide`, closed on a phone. Import `verdict` from `components.html` in this template. Update `test_top_picks_is_a_closed_disclosure_after_the_tile_with_an_opening_script` so it holds for a `verdict=fits` URL, and add the gist's open case. `.pick h3 a::after { z-index: 0; }` is in the mockup CSS; keep it. R-069: the `verdict=fits` first card ends at 896 px against a 900 px limit at 1280 px (T-043 has the detail). This task sits above that card: anything taller than the mockup breaks the limit. The pick figures were tightened to reach 896 px; their sizes are not free. CSS source of truth: the `<style>` block inlined in every `final-gist-*` mockup (`docs/design/build/gist.css` is a local, untracked copy of the same rules). Copy values exactly. Place rules in the matching `styles.css` section, never after `Utilities and motion`: `tests/test_styles.py` fixes the section order, and the reduced-motion rule must stay last (decisions.md, 2026-10-28). `test_every_class_and_id_in_the_stylesheet_is_used` fails on any class no template or `app.js` names, so leave out the mockups' `.is-focus` stand-ins (`:focus-visible` is the real rule) and remove a rule in the same task that removes its last use. Do not render pages or take screenshots; QA measures and compares (rule 10). Your proof is pytest and the code.",
       "review": "passed",
-      "passes": false
+      "passes": true
     },
     {
       "id": "T-043",
@@ -434,7 +434,7 @@
       ],
       "notes": "R-069 LIMIT, 4 PX OF ROOM. At 1280 px, `/results?vram_gb=24&context_tokens=4096&verdict=fits` must end the headline and the first card's model name, verdict and margin within 900 CSS px. The approved mockup `final-gist-list-fits` measures 896 px. The first drawing measured 918; it reached 896 only by tightening the list pane's top padding, the size control and the pick figures. What would eat the 4 px: any element or line added above the first card (a new note, another line in the answer tile, in-flow feedback, the `Results` heading losing `.sr-only`); the list heading or size control wrapping or growing (`.list-head` padding `0 6px 8px`, heading 24 px, `.sizes-seg a` min-height 44 px); `.list-pane` top padding above 10 px at 900 px and up; taller pick tiles (`.pick-fig` margin-top and padding-top 8 px, `.pick-fig .fit-top` margin-bottom 6 px, `.pick .state` min-height 32 px, `.pick .headroom b` 20 px, `.pick .pick-desc` margin-top 4 px, `.pick .scale` margin-top 0); a larger `--gap`; or a taller card head above the verdict row. The form tile has about 100 px of slack at this width, so it is not the constraint while `Filters (N)` is closed. Other limits QA measures: `Tight` 871 and `Won't fit` 871 (limit 900); with a message limit 1000; at 390 px `Fits` 1471 and `Won't fit` 1446 (limit 1688). Markup from README \"What was built to the HLD\" (List): `section.results.list-pane` with `h2#list-heading tabindex=\"-1\"` (the verdict's icon, the label in bold, then the rest) and `Models per page` (`role=\"group\"`, `aria-labelledby`) on the same row, then the card grid. Keep `id=\"results-cards\"` on the section (test_ui_markup freezes it) and `<h2 class=\"sr-only\">Results</h2>` above it (T-039). `scroll-margin-top` is in the README, not in `gist.css`, so it is easy to miss. `.list-pane` and `.results` have equal specificity, and `.results` sets `padding: 12px` at 900 px and up, so the `.list-pane` rules must come after them, or 12 px wins and takes 2 of the 4 px. `lh-<key>` classes need literal names or `composed` in test_styles, as in T-040. The verdict label and figures are protected; the rest of the heading was approved at Gate 2. CSS source of truth: the `<style>` block inlined in every `final-gist-*` mockup (`docs/design/build/gist.css` is a local, untracked copy of the same rules). Copy values exactly. Place rules in the matching `styles.css` section, never after `Utilities and motion`: `tests/test_styles.py` fixes the section order, and the reduced-motion rule must stay last (decisions.md, 2026-10-28). `test_every_class_and_id_in_the_stylesheet_is_used` fails on any class no template or `app.js` names, so leave out the mockups' `.is-focus` stand-ins (`:focus-visible` is the real rule) and remove a rule in the same task that removes its last use. Do not render pages or take screenshots; QA measures and compares (rule 10). Your proof is pytest and the code.",
       "review": "passed",
-      "passes": false
+      "passes": true
     },
     {
       "id": "T-044",
@@ -512,7 +512,7 @@
       ],
       "notes": "UI: no new look; a link target changes. `_query_items` remains for these canonical links; they do not use `view_query` (ADR-0014 point 6). Thread the view through `_active_filter_chips` and `_empty_state_suggestions`, or append after `_results_url`'s items, but keep `_query_items` itself view-free, because `hardware_query_string` is built from it. Depends on T-043 only for the heading text this task's test reads. No file under `static/`, so no `ASSET_VERSION` bump.",
       "review": "passed",
-      "passes": false
+      "passes": true
     },
     {
       "id": "T-046",
@@ -550,7 +550,7 @@
       ],
       "notes": "UI: no; the `<noscript>` button keeps its label and style (ADR-0016). Opus, as T-027 was: a new redirect built from user input, with rule 8's relative `Location` and middleware order to get right. `RedirectResponse` quotes the URL; `%`, `&`, `=`, `+` survive (ADR-0008 fix 4), and a test should show an encoded `gpu_search` passes through unchanged. `tests/test_r083_redirect.py` inspects `results`'s source for the no-hardware check coming first: keep that order. Existing `test_no_javascript_markup` regex for the button must still match. Plain HTML cannot make one button send both `verdict` and `page_size` while another sends neither, which is why this one parameter exists. No file under `static/`, so no `ASSET_VERSION` bump.",
       "review": "passed",
-      "passes": false
+      "passes": true
     },
     {
       "id": "T-047",
@@ -614,7 +614,7 @@
       ],
       "notes": "UI: no. Opus: this decides which in-flight request wins and which view a filter change belongs to, and pytest cannot run it; QA drives it in a browser. Checked at plan time against htmx 1.9.12's `dist/htmx.js`: `triggeringEvent` is on the request config, `detail.parameters` is a plain object in this version, so assign keys (`detail.parameters[\"verdict\"] = v`) rather than call `.set`, and values added go into the GET's URL. Enter pressed within 350 ms of typing is safe: any trigger on the form clears its pending delayed trigger (`elementData.delayed`), so a stale `keyup` cannot follow the `submit` and restore the verdict. `HX-Push-Url` already repeats the raw query, so the address carries `verdict=tight` and no `page` with no server change. `data-page-size` is absent at size 5, which is correct: leave `page_size` out then. Example chips only set field values and send nothing. T-037 added the data attributes; a zero-count verdict keeps `data-verdict`, so a later change can bring the list back (R-089). Do not render pages or take screenshots; QA measures and compares (rule 10). Your proof is pytest and the code.",
       "review": "passed",
-      "passes": false
+      "passes": true
     },
     {
       "id": "T-049",
@@ -663,7 +663,7 @@
       ],
       "notes": "Opus: request lifecycle and ordering under `hx-sync` replace. Checked in ADR-0018 against htmx 1.9.12: the aborted request's `afterRequest` fires inside `xhr.abort()`, before the new request's `beforeRequest`, so the order holds; after a swap the link that made the request has left the document, and htmx fires `afterRequest` on the closest ancestor still present, so a listener on `document.body` hears it; a 4xx or 5xx is not swapped or pushed, so the address stays with no extra code. MARKUP CONFLICT, resolved here: the README and mockups show both paragraphs with `hidden`, and ADR-0018 point 4 has them present and empty because a live region must exist before its text changes. Follow the ADR: no `hidden`. The mockups' `#results-feedback p` has padding, border and background, so an empty one would draw an empty pill: put the look on a filled state (for example `.is-on`, toggled by the script with the text in an inner `<span>`) and hide `.fb-spin` and the icon until then. The look when filled is the mockup's. The README places the element after `</main>` and ADR-0018 as a sibling of `#results-shell`; `.results-main` is `display: contents` and nothing on `main` makes a containing block, so either renders alike: follow the ADR. Use `.fb-spin`, `.fb-alert` and `.is-pending` from the mockup CSS, including `.pager .is-pending` and `[aria-busy=\"true\"] .card-grid`. The reduced-motion rule already stops the spinner. CSS source of truth: the `<style>` block inlined in every `final-gist-*` mockup (`docs/design/build/gist.css` is a local, untracked copy of the same rules). Copy values exactly. Place rules in the matching `styles.css` section, never after `Utilities and motion`: `tests/test_styles.py` fixes the section order, and the reduced-motion rule must stay last (decisions.md, 2026-10-28). `test_every_class_and_id_in_the_stylesheet_is_used` fails on any class no template or `app.js` names, so leave out the mockups' `.is-focus` stand-ins (`:focus-visible` is the real rule) and remove a rule in the same task that removes its last use. Do not render pages or take screenshots; QA measures and compares (rule 10). Your proof is pytest and the code.",
       "review": "passed",
-      "passes": false
+      "passes": true
     },
     {
       "id": "T-050",
@@ -764,7 +764,7 @@
         "T-048",
         "T-049"
       ],
-      "passes": false,
+      "passes": true,
       "review": "passed"
     },
     {
@@ -795,7 +795,7 @@
         "T-043",
         "T-049"
       ],
-      "passes": false,
+      "passes": true,
       "review": "passed"
     }
   ]

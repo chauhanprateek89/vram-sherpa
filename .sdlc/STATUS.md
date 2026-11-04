@@ -3,7 +3,7 @@
 | | |
 | --- | --- |
 | Track | Full (results gist first, then paginated by verdict) |
-| Stage | QA (re-test of R-089 and R-069, running) |
+| Stage | Release (PR, running) |
 | Branch | sdlc/full-results-gist |
 | Gate waiting | none |
 | Updated | 2026-11-03 |
@@ -14,7 +14,7 @@
 
 ## Next step
 
-QA: 23 of 25 passed; R-089 and R-069 failed. Fix tasks T-052 and T-053 passed review, and QA is re-running R-089 and R-069 only (their tasks stay `passes: false` until then). This is the one fix round. If either still fails, ask the user instead of looping. If both pass: Release (`sdlc:release`, mode pr; list the review nits and QA notes in the PR), Gate 3. QA notes for Gate 3: changed requirements were tested on their changed criteria only; the pending page-size spinner touches the `0` at 390 (cosmetic, no mockup).
+QA passed: all 25 requirements and all 19 tasks (T-035 to T-053), after one fix round. `sdlc:release` (mode pr) is opening the PR and waiting for CI; then Gate 3. Say at Gate 3: changed requirements were tested in the browser on their changed criteria only; after the fix round only R-089 and R-069 were re-tested; the pending page-size spinner touches the `0` at 390 (cosmetic, no mockup); the new `verdict=fits` smoke check first runs for real on merge.
 
 Other follow-ups still open (not part of this track): theme toggle and GPU input after an htmx cache restore, incl. a stale preset radio on a cache-hit Back; host guard ignores `APP_ENV`/`PUBLIC_HOSTNAME` that docs/RELEASE_AND_DEPLOY.md tells the server to set (tunnel requests would get 400); local compose binds 0.0.0.0:8000 (rule 3); `/docs`, `/redoc`, `/openapi.json` are public; font URL has no `?v` and the font is served as octet-stream; live 302 from `/results` arrives with an absolute https Location although the app sends a relative `/` (proxy rewrite, harmless); on `/results` the open suggestion list covers the submit until Escape; review nits from T-025/027/029/030/032 listed in PR #24; R-083 and the requirements it changed still read `planned` in docs/requirements.md although v0.1.54 shipped them.
 
@@ -24,7 +24,6 @@ Older rows: `.sdlc/log.md`.
 
 | Date | Stage | Agents (model) | Outcome |
 | --- | --- | --- | --- |
-| 2026-10-28 | Release | sdlc:release (sonnet) | PR #24 opened (pushed over HTTPS), CI `test` passed in 2m30s, head 632992f; `gh pr create` worked, no fallback needed |
 | 2026-10-28 | Gate 3 | user | Merge now (squash); ship as is: no first-option highlight in the landing suggestion list, chips showing through the open list |
 | 2026-10-28 | Merge | orchestrator | PR #24 squash-merged as 410e516; release run 40781009484 started |
 | 2026-10-28 | Live check | sdlc:release (sonnet) | Release run 40781009484 success, v0.1.54; order held (build, smoke incl. new /results check, tag, publish); latest, v0.1.54, sha-410e516 share digest sha256:b358058f…; live `/` shows styles v=20261028f about 14 min after the run; landing box centred with focus at 1280 and 390, `12 GB` gives Manual VRAM (12 GB), empty /results 302 to /, Clear links to /, /healthz ok. Tasks archived; Full track done |
@@ -39,3 +38,4 @@ Older rows: `.sdlc/log.md`.
 | 2026-11-03 | Build | sdlc:builder + sdlc:reviewer (sonnet, opus) | T-050 and T-051 passed first review after the resume; all 17 tasks passed. Worth a QA probe: Enter with key rollover on a slow response (T-048 review) |
 | 2026-11-04 | QA | sdlc:qa (inherit) ×25 | 23 of 25 pass. R-089: Enter in Min or Max params with the key still down lands on the list, not the gist (the T-048 review's probe, reproduced). R-069: input error with `verdict=fits` ends 1014/1016 against 1000. Fits first card 896 as drawn. Fix tasks T-052 (opus), T-053 (sonnet) |
 | 2026-11-04 | Build | sdlc:builder + sdlc:reviewer (opus, sonnet) | QA fix round: T-052 (opus) and T-053 (sonnet) passed first review. T-052 also made the committed QA scripts pass lint (52b69c5) |
+| 2026-11-04 | QA | sdlc:qa (inherit) ×2 | Re-test after T-052 and T-053: R-089 passes (gist with one request at 100 and 1500 ms, key held or not; loading clears; typing without Enter still refreshes). R-069 passes (input error with `verdict=fits` 994/996, all other states unchanged). All 19 tasks pass |

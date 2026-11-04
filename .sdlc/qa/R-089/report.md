@@ -24,3 +24,12 @@ Browser: Playwright (python, chromium-1247) against http://localhost:8000. Scrip
 
 Tasks T-045, T-046, T-048 not marked passed: the Enter-submits-gist criterion fails in the keyup-after-submit race on Min/Max params fields.
 Suggested fix: when a submit happens, cancel or ignore the pending `keyup ... delay:350ms` trigger (for example an `hx-sync` that drops, or checking a flag set on submit).
+
+## Re-test after T-052
+
+- `pytest tests/test_r089_*.py`: 100 passed.
+- p6.py: min_params 6, Enter 100 ms later: gist, no verdict/page/page_size.
+- p5.py: `#vram_gb` and `#min_params_b`, response 100 and 1500 ms, key held 0 and 500 ms: gist, no verdict, one request only.
+- scripts/p8.py: `#vram_gb`, `#min_params_b`, `#max_params_b` x 100/1500 ms, last key's keyup after Enter: gist, no verdict/page/page_size, `Loading models` gone, no `aria-busy`, no `Could not load the models`, no console errors.
+- Typing in Min/Max without Enter from page 2: refreshes after delay keeping `verdict=tight&page_size=10`, page dropped; a further edit refreshes again. Edit after a landed submit refreshes (stays on gist).
+- Criterion 8 now PASS. All criteria pass. T-045, T-046, T-048, T-052 marked passes: true.
