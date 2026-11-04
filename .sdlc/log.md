@@ -73,3 +73,4 @@
 | 2026-10-28 | Build | sdlc:builder + sdlc:reviewer (opus) | T-033 passed first review, commit a80f5c6 (landing rules scoped under `.ask`, ASSET_VERSION 20261028f). Lint, catalog, full pytest pass. Nit: `.ask input[type=text]` repeats `.form-pane input[type=text]` (kept scoped on purpose) |
 | 2026-10-28 | QA | sdlc:qa (inherit) ×2 | Re-run after T-033: R-083 passes (box 754 px centred, submit inset, 16 px gutters and 344 px box at 390; pixel diff now 1.2-1.6% at 1280, 2.8-3.9% at 390, suggest 5-9%); results regressions 0.00% diff. All 11 tasks pass |
 | 2026-10-28 | Release | sdlc:release (sonnet) | PR #24 opened (pushed over HTTPS), CI `test` passed in 2m30s, head 632992f; `gh pr create` worked, no fallback needed |
+| 2026-10-28 | Gate 3 | user | Merge now (squash); ship as is: no first-option highlight in the landing suggestion list, chips showing through the open list |

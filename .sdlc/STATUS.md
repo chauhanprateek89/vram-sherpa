@@ -3,9 +3,9 @@
 | | |
 | --- | --- |
 | Track | Full (results gist first, then paginated by verdict) |
-| Stage | Release (PR, running) |
+| Stage | Gate 3 |
 | Branch | sdlc/full-results-gist |
-| Gate waiting | none |
+| Gate waiting | Gate 3: merge PR #26 |
 | Updated | 2026-11-03 |
 
 ## Your actions
@@ -14,7 +14,7 @@
 
 ## Next step
 
-QA passed: all 25 requirements and all 19 tasks (T-035 to T-053), after one fix round. `sdlc:release` (mode pr) is opening the PR and waiting for CI; then Gate 3. Say at Gate 3: changed requirements were tested in the browser on their changed criteria only; after the fix round only R-089 and R-069 were re-tested; the pending page-size spinner touches the `0` at 390 (cosmetic, no mockup); the new `verdict=fits` smoke check first runs for real on merge.
+PR #26 is open, head f54a8f8, CI `test` passed in 2m12s. Waiting for the user at Gate 3. On "Merge now": squash-merge with `gh pr merge`, then `sdlc:release` mode live-check, then archive the tasks. Follow-ups from this track: T-051's guard test needle (`tests/test_r082_release_order.py:104`) is now a prefix of the new verdict URL; the pending page-size spinner touches the `0` at 390.
 
 Other follow-ups still open (not part of this track): theme toggle and GPU input after an htmx cache restore, incl. a stale preset radio on a cache-hit Back; host guard ignores `APP_ENV`/`PUBLIC_HOSTNAME` that docs/RELEASE_AND_DEPLOY.md tells the server to set (tunnel requests would get 400); local compose binds 0.0.0.0:8000 (rule 3); `/docs`, `/redoc`, `/openapi.json` are public; font URL has no `?v` and the font is served as octet-stream; live 302 from `/results` arrives with an absolute https Location although the app sends a relative `/` (proxy rewrite, harmless); on `/results` the open suggestion list covers the submit until Escape; review nits from T-025/027/029/030/032 listed in PR #24; R-083 and the requirements it changed still read `planned` in docs/requirements.md although v0.1.54 shipped them.
 
@@ -24,7 +24,6 @@ Older rows: `.sdlc/log.md`.
 
 | Date | Stage | Agents (model) | Outcome |
 | --- | --- | --- | --- |
-| 2026-10-28 | Gate 3 | user | Merge now (squash); ship as is: no first-option highlight in the landing suggestion list, chips showing through the open list |
 | 2026-10-28 | Merge | orchestrator | PR #24 squash-merged as 410e516; release run 40781009484 started |
 | 2026-10-28 | Live check | sdlc:release (sonnet) | Release run 40781009484 success, v0.1.54; order held (build, smoke incl. new /results check, tag, publish); latest, v0.1.54, sha-410e516 share digest sha256:b358058f…; live `/` shows styles v=20261028f about 14 min after the run; landing box centred with focus at 1280 and 390, `12 GB` gives Manual VRAM (12 GB), empty /results 302 to /, Clear links to /, /healthz ok. Tasks archived; Full track done |
 | 2026-11-02 | Requirements | sdlc:product (inherit) | R-084 to R-092 added (gist first, verdict controls, verdict lists, pages and size, address, filters, in-place loading, accessibility, Top Picks figures); R-013, 014, 016, 019, 022, 023, 024, 025, 031, 032, 067, 069, 078, 080, 081 changed. Open Q-24 to Q-42; rules 16 and 18 need rulings (Q-39, Q-42). Committed 93eca4f |
@@ -36,6 +35,7 @@ Older rows: `.sdlc/log.md`.
 | 2026-11-03 | Plan | sdlc:architect (inherit) | 17 tasks, T-035 to T-051 (13 sonnet; opus for T-046 `apply_view` redirect, T-048 and T-049 request ordering, T-051 `release.yml`). Every listed requirement maps to a task; no constitution conflict, no cost, no formula change. Committed ff23691 |
 | 2026-11-03 | Build | sdlc:builder + sdlc:reviewer (sonnet, opus) | T-035 to T-049 passed review (T-044 rebuilt on Opus after two failed reviews; T-043 and T-046 took a second review). Usage limit stopped T-050 mid-build; its uncommitted partial work was set aside as a patch and T-050 restarts clean |
 | 2026-11-03 | Build | sdlc:builder + sdlc:reviewer (sonnet, opus) | T-050 and T-051 passed first review after the resume; all 17 tasks passed. Worth a QA probe: Enter with key rollover on a slow response (T-048 review) |
-| 2026-11-04 | QA | sdlc:qa (inherit) ×25 | 23 of 25 pass. R-089: Enter in Min or Max params with the key still down lands on the list, not the gist (the T-048 review's probe, reproduced). R-069: input error with `verdict=fits` ends 1014/1016 against 1000. Fits first card 896 as drawn. Fix tasks T-052 (opus), T-053 (sonnet) |
+| 2026-11-04 | QA | sdlc:qa (sonnet) ×25 | 23 of 25 pass. R-089: Enter in Min or Max params with the key still down lands on the list, not the gist (the T-048 review's probe, reproduced). R-069: input error with `verdict=fits` ends 1014/1016 against 1000. Fits first card 896 as drawn. Fix tasks T-052 (opus), T-053 (sonnet) |
 | 2026-11-04 | Build | sdlc:builder + sdlc:reviewer (opus, sonnet) | QA fix round: T-052 (opus) and T-053 (sonnet) passed first review. T-052 also made the committed QA scripts pass lint (52b69c5) |
-| 2026-11-04 | QA | sdlc:qa (inherit) ×2 | Re-test after T-052 and T-053: R-089 passes (gist with one request at 100 and 1500 ms, key held or not; loading clears; typing without Enter still refreshes). R-069 passes (input error with `verdict=fits` 994/996, all other states unchanged). All 19 tasks pass |
+| 2026-11-04 | QA | sdlc:qa (sonnet) ×2 | Re-test after T-052 and T-053: R-089 passes (gist with one request at 100 and 1500 ms, key held or not; loading clears; typing without Enter still refreshes). R-069 passes (input error with `verdict=fits` 994/996, all other states unchanged). All 19 tasks pass |
+| 2026-11-04 | Release | sdlc:release (sonnet) | PR #26 opened over HTTPS, head f54a8f8, CI `test` passed in 2m12s. Checked against the remote main: `release.yml` only adds 12 lines (rule 18), no change to the formula, schema or `/how-it-works`, no test deleted |
