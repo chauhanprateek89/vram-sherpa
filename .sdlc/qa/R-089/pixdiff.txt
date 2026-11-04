@@ -1,0 +1,6 @@
+1280 light size (1280, 922) diffpct=6.29 errors []
+1280 dark size (1280, 922) diffpct=7.56 errors []
+390 light size (390, 1579) (390, 1472)
+390 light size (390, 1472) diffpct=17.79 errors []
+390 dark size (390, 1579) (390, 1472)
+390 dark size (390, 1472) diffpct=27.56 errors []

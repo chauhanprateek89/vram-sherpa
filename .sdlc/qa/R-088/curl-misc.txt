@@ -1,0 +1,67 @@
+--- repeat verdict at 8GB
+aria-current="true"> aria-current="true">  <= verdict=fits&verdict=tight
+aria-current="true"> aria-current="true">  <= verdict=tight&verdict=fits
+aria-current="true"> aria-current="true">  <= verdict=tight
+--- redirects
+302 http://localhost:8000/
+200 
+partials/content: 302 http://localhost:8000/results?vram_gb=8&family=llama&family=qwen&verdict=fits&page=2&page_size=10
+summary HX: 200
+list HX: 200
+content HX: 200
+--- XSS
+2
+0
+3
+--- cookies
+--- links carry family order
+href="/results?context_tokens=2048&amp;vram_gb=8&amp;family=llama&amp;quant_bucket=q8&amp;quant_bucket=q4&amp;verdict=fits"
+href="/results?context_tokens=2048&amp;vram_gb=8&amp;family=qwen&amp;family=llama&amp;quant_bucket=q4&amp;verdict=fits"
+href="/results?context_tokens=2048&amp;vram_gb=8&amp;family=qwen&amp;family=llama&amp;quant_bucket=q8&amp;verdict=fits"
+href="/results?context_tokens=2048&amp;vram_gb=8&amp;family=qwen&amp;quant_bucket=q8&amp;quant_bucket=q4&amp;verdict=fits"
+vram_gb=abc ['', '', ''] ['Hardware:']
+vram_gb=abc&verdict=fits ['', '', ''] ['Hardware:']
+gpu_id=no_such_gpu ['', '', ''] ['Hardware:']
+gpu_id=no_such_gpu&verdict=fits ['', '', ''] ['Hardware:']
+gpu_search=RTX ['', '', ''] ['Hardware:']
+gpu_search=RTX&verdict=fits ['', '', ''] ['Hardware:']
+<string>:4: SyntaxWarning: "\)" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\)"? A raw string is also an option.
+<string>:4: SyntaxWarning: "\." is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\."? A raw string is also an option.
+<string>:4: SyntaxWarning: "\." is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\."? A raw string is also an option.
+<string>:4: SyntaxWarning: "\." is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\."? A raw string is also an option.
+vram_gb=abc    Hardware: [^ ['Hardware: Assumed VRAM (8 GB)']
+vram_gb=abc    [^.]*8 GB[^. [' Search GPU Clear Available VRAM (GB) Context window 2k 4k 8k RTX 4060 8GB 8GB 24GB Check compatibility Filters ( 0 ) Family deepseek gemma llama mistral phi qwen yi Quantization FP16 Q4 Q5 Q8 Min params (B) Max params (B) Recommended only Apply filters 58 models fit or
+vram_gb=abc    No GPU[^.]*\ ['No GPU or VRAM selected yet.']
+<string>:4: SyntaxWarning: "\)" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\)"? A raw string is also an option.
+<string>:4: SyntaxWarning: "\." is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\."? A raw string is also an option.
+<string>:4: SyntaxWarning: "\." is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\."? A raw string is also an option.
+<string>:4: SyntaxWarning: "\." is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\."? A raw string is also an option.
+vram_gb=abcverdict=fits    Hardware: [^ ['Hardware: Assumed VRAM (8 GB)']
+vram_gb=abcverdict=fits    [^.]*8 GB[^. [' Search GPU Clear Available VRAM (GB) Context window 2k 4k 8k RTX 4060 8GB 8GB 24GB Check compatibility Filters ( 0 ) Family deepseek gemma llama mistral phi qwen yi Quantization FP16 Q4 Q5 Q8 Min params (B) Max params (B) Recommended only Apply filters 58 m
+vram_gb=abcverdict=fits    No GPU[^.]*\ ['No GPU or VRAM selected yet.']
+<string>:4: SyntaxWarning: "\)" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\)"? A raw string is also an option.
+<string>:4: SyntaxWarning: "\." is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\."? A raw string is also an option.
+<string>:4: SyntaxWarning: "\." is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\."? A raw string is also an option.
+<string>:4: SyntaxWarning: "\." is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\."? A raw string is also an option.
+gpu_id=no_such_gpu    Hardware: [^ ['Hardware: Assumed VRAM (8 GB)']
+gpu_id=no_such_gpu    [^.]*8 GB[^. [' Search GPU Clear Available VRAM (GB) Context window 2k 4k 8k RTX 4060 8GB 8GB 24GB Check compatibility Filters ( 0 ) Family deepseek gemma llama mistral phi qwen yi Quantization FP16 Q4 Q5 Q8 Min params (B) Max params (B) Recommended only Apply filters 58 models
+gpu_id=no_such_gpu    No GPU[^.]*\ ['No GPU or VRAM selected yet.']
+<string>:4: SyntaxWarning: "\)" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\)"? A raw string is also an option.
+<string>:4: SyntaxWarning: "\." is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\."? A raw string is also an option.
+<string>:4: SyntaxWarning: "\." is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\."? A raw string is also an option.
+<string>:4: SyntaxWarning: "\." is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\."? A raw string is also an option.
+gpu_id=no_such_gpuverdict=fits    Hardware: [^ ['Hardware: Assumed VRAM (8 GB)']
+gpu_id=no_such_gpuverdict=fits    [^.]*8 GB[^. [' Search GPU Clear Available VRAM (GB) Context window 2k 4k 8k RTX 4060 8GB 8GB 24GB Check compatibility Filters ( 0 ) Family deepseek gemma llama mistral phi qwen yi Quantization FP16 Q4 Q5 Q8 Min params (B) Max params (B) Recommended only Apply filte
+gpu_id=no_such_gpuverdict=fits    No GPU[^.]*\ ['No GPU or VRAM selected yet.']
+<string>:4: SyntaxWarning: "\)" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\)"? A raw string is also an option.
+<string>:4: SyntaxWarning: "\." is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\."? A raw string is also an option.
+<string>:4: SyntaxWarning: "\." is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\."? A raw string is also an option.
+<string>:4: SyntaxWarning: "\." is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\."? A raw string is also an option.
+gpu_search=RTX    Hardware: [^ ['Hardware: Assumed VRAM (8 GB)']
+gpu_search=RTX    [^.]*8 GB[^. [' Search GPU Clear Available VRAM (GB) Context window 2k 4k 8k RTX 4060 8GB 8GB 24GB Check compatibility Filters ( 0 ) Family deepseek gemma llama mistral phi qwen yi Quantization FP16 Q4 Q5 Q8 Min params (B) Max params (B) Recommended only Apply filters 58 models fit
+<string>:4: SyntaxWarning: "\)" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\)"? A raw string is also an option.
+<string>:4: SyntaxWarning: "\." is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\."? A raw string is also an option.
+<string>:4: SyntaxWarning: "\." is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\."? A raw string is also an option.
+<string>:4: SyntaxWarning: "\." is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\."? A raw string is also an option.
+gpu_search=RTXverdict=fits    Hardware: [^ ['Hardware: Assumed VRAM (8 GB)']
+gpu_search=RTXverdict=fits    [^.]*8 GB[^. [' Search GPU Clear Available VRAM (GB) Context window 2k 4k 8k RTX 4060 8GB 8GB 24GB Check compatibility Filters ( 0 ) Family deepseek gemma llama mistral phi qwen yi Quantization FP16 Q4 Q5 Q8 Min params (B) Max params (B) Recommended only Apply filters 5

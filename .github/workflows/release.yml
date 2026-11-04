@@ -133,6 +133,18 @@ jobs:
             exit 1
           fi
 
+          # /results with no verdict is the gist, which holds no card (R-084), so a
+          # verdict list is checked on its own. Exactly 200, no -f and no -L, as above.
+          # data-model-card, not a model name or a count: the catalog changes weekly
+          # and app.js reads this attribute (ADR-0019).
+          verdict_body="$(mktemp)"
+          code="$(curl -sS -m 10 -o "$verdict_body" -w '%{http_code}' "http://127.0.0.1:8000/results?vram_gb=24&context_tokens=4096&verdict=fits" || true)"
+          if [ "$code" != "200" ] \
+              || ! grep -qF 'data-model-card' "$verdict_body"; then
+            echo "::error::Verdict list did not render. GET /results?verdict=fits got ${code}, want 200 with a model card."
+            exit 1
+          fi
+
           # Behind HTTPS the app must emit https:// asset URLs. If it emits
           # http:// the page still returns 200 but the browser blocks the CSS
           # and JS as mixed content, so this is invisible to a status check.

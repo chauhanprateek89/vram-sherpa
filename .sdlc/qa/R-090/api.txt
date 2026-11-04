@@ -1,0 +1,40 @@
+== /results?vram_gb=24&context_tokens=4096&verdict=fits
+HTTP/1.1 200 OK
+content-type: text/html; charset=utf-8
+cache-control: no-cache
+cards=11 aria-current=2 answer=1
+== /results?vram_gb=24&context_tokens=4096&verdict=fits&page=2&page_size=10
+HTTP/1.1 200 OK
+content-type: text/html; charset=utf-8
+cache-control: no-cache
+cards=21 aria-current=2 answer=1
+== /results/partials/content?vram_gb=24&context_tokens=4096&verdict=fits&page=2
+HTTP/1.1 200 OK
+content-type: text/html; charset=utf-8
+cache-control: no-cache
+cards=11 aria-current=2 answer=1
+== /results/partials/list?vram_gb=24&context_tokens=4096&verdict=fits
+HTTP/1.1 200 OK
+content-type: text/html; charset=utf-8
+cache-control: no-cache
+cards=11 aria-current=1 answer=0
+== /results/partials/list?vram_gb=24&context_tokens=4096
+HTTP/1.1 200 OK
+content-type: text/html; charset=utf-8
+cache-control: no-cache
+cards=0 aria-current=0 answer=0
+== /results/partials/summary?vram_gb=24&context_tokens=4096
+HTTP/1.1 200 OK
+content-type: text/html; charset=utf-8
+cache-control: no-cache
+cards=0 aria-current=0 answer=1
+== /results/partials/summary?vram_gb=24&context_tokens=4096&verdict=fits
+HTTP/1.1 200 OK
+content-type: text/html; charset=utf-8
+cache-control: no-cache
+cards=0 aria-current=1 answer=1
+== /results/partials/content?vram_gb=24&context_tokens=4096&verdict=fits
+HTTP/1.1 200 OK
+content-type: text/html; charset=utf-8
+cache-control: no-cache
+cards=11 aria-current=2 answer=1

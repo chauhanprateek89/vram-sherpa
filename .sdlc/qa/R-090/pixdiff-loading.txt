@@ -1,0 +1,205 @@
+loading-from-gist 1280 light [('0.32', 'loading-from-gist-1280-light.png')]
+Error occurred in event listener
+Traceback (most recent call last):
+  File "/home/pc/miniconda3/envs/exp01/lib/python3.14/site-packages/playwright/_impl/_page.py", line 312, in _on_route
+    handled = await route_handler.handle(route)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pc/miniconda3/envs/exp01/lib/python3.14/site-packages/playwright/_impl/_helper.py", line 456, in handle
+    raise e
+  File "/home/pc/miniconda3/envs/exp01/lib/python3.14/site-packages/playwright/_impl/_helper.py", line 443, in handle
+    return await self._handle_internal(route)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pc/miniconda3/envs/exp01/lib/python3.14/site-packages/playwright/_impl/_helper.py", line 479, in _handle_internal
+    await handler_finished_future
+  File "/home/pc/miniconda3/envs/exp01/lib/python3.14/site-packages/playwright/_impl/_helper.py", line 470, in _handler
+    self.handler(route, route.request)  # type: ignore
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pc/miniconda3/envs/exp01/lib/python3.14/site-packages/playwright/_impl/_impl_to_api_mapping.py", line 140, in wrapper_func
+    return handler(
+        *list(map(lambda a: self.from_maybe_impl(a), args))[:arg_count]
+    )
+  File "/home/pc/src/vram-sherpa/.sdlc/qa/R-090/scripts/states.py", line 23, in <lambda>
+    else: pg.route("**/results/partials/content*",lambda r:(pg.wait_for_timeout(5000),r.continue_()))
+                                                                                      ~~~~~~~~~~~^^
+  File "/home/pc/miniconda3/envs/exp01/lib/python3.14/site-packages/playwright/sync_api/_generated.py", line 22486, in continue_
+    self._sync(
+    ~~~~~~~~~~^
+        self._impl_obj.continue_(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+        )
+        ^
+    )
+    ^
+  File "/home/pc/miniconda3/envs/exp01/lib/python3.14/site-packages/playwright/_impl/_sync_base.py", line 111, in _sync
+    return task.result()
+           ~~~~~~~~~~~^^
+  File "/home/pc/miniconda3/envs/exp01/lib/python3.14/site-packages/playwright/_impl/_network.py", line 558, in continue_
+    return await self._handle_route(_inner)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pc/miniconda3/envs/exp01/lib/python3.14/site-packages/playwright/_impl/_network.py", line 508, in _handle_route
+    raise e
+  File "/home/pc/miniconda3/envs/exp01/lib/python3.14/site-packages/playwright/_impl/_network.py", line 504, in _handle_route
+    await callback()
+  File "/home/pc/miniconda3/envs/exp01/lib/python3.14/site-packages/playwright/_impl/_network.py", line 556, in _inner
+    await self._inner_continue(False)
+  File "/home/pc/miniconda3/envs/exp01/lib/python3.14/site-packages/playwright/_impl/_network.py", line 562, in _inner_continue
+    await self._race_with_page_close(
+    ...<17 lines>...
+    )
+  File "/home/pc/miniconda3/envs/exp01/lib/python3.14/site-packages/playwright/_impl/_network.py", line 604, in _race_with_page_close
+    raise cast(BaseException, fut.exception())
+  File "/home/pc/miniconda3/envs/exp01/lib/python3.14/site-packages/playwright/_impl/_connection.py", line 78, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "/home/pc/miniconda3/envs/exp01/lib/python3.14/site-packages/playwright/_impl/_connection.py", line 636, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Route.continue_: Route is already handled!
+Exception in callback Connection.dispatch.<locals>._done_callback() at /home/pc/miniconda3/envs/exp01/lib/python3.14/site-packages/playwright/_impl/_connection.py:546
+handle: <Handle Connection.dispatch.<locals>._done_callback() at /home/pc/miniconda3/envs/exp01/lib/python3.14/site-packages/playwright/_impl/_connection.py:546>
+Traceback (most recent call last):
+  File "/home/pc/src/vram-sherpa/.sdlc/qa/R-090/scripts/states.py", line 52, in <module>
+    r=run(pg,st,w,th)
+  File "/home/pc/src/vram-sherpa/.sdlc/qa/R-090/scripts/states.py", line 40, in run
+    pg.screenshot(path=f)
+    ~~~~~~~~~~~~~^^^^^^^^
+  File "/home/pc/miniconda3/envs/exp01/lib/python3.14/site-packages/playwright/sync_api/_generated.py", line 20239, in screenshot
+    self._sync(
+    ~~~~~~~~~~^
+        self._impl_obj.screenshot(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<13 lines>...
+        )
+        ^
+    )
+    ^
+  File "/home/pc/miniconda3/envs/exp01/lib/python3.14/site-packages/playwright/_impl/_sync_base.py", line 111, in _sync
+    return task.result()
+           ~~~~~~~~~~~^^
+  File "/home/pc/miniconda3/envs/exp01/lib/python3.14/site-packages/playwright/_impl/_page.py", line 832, in screenshot
+    encoded_binary = await self._channel.send(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+        "screenshot", self._timeout_settings.timeout, params
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/pc/miniconda3/envs/exp01/lib/python3.14/site-packages/playwright/_impl/_connection.py", line 78, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "/home/pc/miniconda3/envs/exp01/lib/python3.14/site-packages/playwright/_impl/_connection.py", line 636, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.screenshot: Route.continue_: Route is already handled!
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/pc/miniconda3/envs/exp01/lib/python3.14/asyncio/events.py", line 94, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pc/miniconda3/envs/exp01/lib/python3.14/site-packages/playwright/_impl/_connection.py", line 547, in _done_callback
+    exc = future.exception()
+  File "/home/pc/miniconda3/envs/exp01/lib/python3.14/site-packages/playwright/_impl/_page.py", line 312, in _on_route
+    handled = await route_handler.handle(route)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pc/miniconda3/envs/exp01/lib/python3.14/site-packages/playwright/_impl/_helper.py", line 443, in handle
+    return await self._handle_internal(route)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pc/miniconda3/envs/exp01/lib/python3.14/site-packages/playwright/_impl/_helper.py", line 479, in _handle_internal
+    await handler_finished_future
+asyncio.exceptions.CancelledError
+Exception in callback Connection.dispatch.<locals>._done_callback() at /home/pc/miniconda3/envs/exp01/lib/python3.14/site-packages/playwright/_impl/_connection.py:546
+handle: <Handle Connection.dispatch.<locals>._done_callback() at /home/pc/miniconda3/envs/exp01/lib/python3.14/site-packages/playwright/_impl/_connection.py:546>
+Traceback (most recent call last):
+  File "/home/pc/src/vram-sherpa/.sdlc/qa/R-090/scripts/states.py", line 52, in <module>
+    r=run(pg,st,w,th)
+  File "/home/pc/src/vram-sherpa/.sdlc/qa/R-090/scripts/states.py", line 40, in run
+    pg.screenshot(path=f)
+    ~~~~~~~~~~~~~^^^^^^^^
+  File "/home/pc/miniconda3/envs/exp01/lib/python3.14/site-packages/playwright/sync_api/_generated.py", line 20239, in screenshot
+    self._sync(
+    ~~~~~~~~~~^
+        self._impl_obj.screenshot(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<13 lines>...
+        )
+        ^
+    )
+    ^
+  File "/home/pc/miniconda3/envs/exp01/lib/python3.14/site-packages/playwright/_impl/_sync_base.py", line 111, in _sync
+    return task.result()
+           ~~~~~~~~~~~^^
+  File "/home/pc/miniconda3/envs/exp01/lib/python3.14/site-packages/playwright/_impl/_page.py", line 832, in screenshot
+    encoded_binary = await self._channel.send(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+        "screenshot", self._timeout_settings.timeout, params
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/pc/miniconda3/envs/exp01/lib/python3.14/site-packages/playwright/_impl/_connection.py", line 78, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "/home/pc/miniconda3/envs/exp01/lib/python3.14/site-packages/playwright/_impl/_connection.py", line 636, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.screenshot: Route.continue_: Route is already handled!
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/pc/miniconda3/envs/exp01/lib/python3.14/asyncio/events.py", line 94, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pc/miniconda3/envs/exp01/lib/python3.14/site-packages/playwright/_impl/_connection.py", line 547, in _done_callback
+    exc = future.exception()
+  File "/home/pc/miniconda3/envs/exp01/lib/python3.14/site-packages/playwright/_impl/_page.py", line 312, in _on_route
+    handled = await route_handler.handle(route)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pc/miniconda3/envs/exp01/lib/python3.14/site-packages/playwright/_impl/_helper.py", line 443, in handle
+    return await self._handle_internal(route)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pc/miniconda3/envs/exp01/lib/python3.14/site-packages/playwright/_impl/_helper.py", line 479, in _handle_internal
+    await handler_finished_future
+asyncio.exceptions.CancelledError
+Traceback (most recent call last):
+  File "/home/pc/src/vram-sherpa/.sdlc/qa/R-090/scripts/states.py", line 52, in <module>
+    r=run(pg,st,w,th)
+  File "/home/pc/src/vram-sherpa/.sdlc/qa/R-090/scripts/states.py", line 40, in run
+    pg.screenshot(path=f)
+    ~~~~~~~~~~~~~^^^^^^^^
+  File "/home/pc/miniconda3/envs/exp01/lib/python3.14/site-packages/playwright/sync_api/_generated.py", line 20239, in screenshot
+    self._sync(
+    ~~~~~~~~~~^
+        self._impl_obj.screenshot(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<13 lines>...
+        )
+        ^
+    )
+    ^
+  File "/home/pc/miniconda3/envs/exp01/lib/python3.14/site-packages/playwright/_impl/_sync_base.py", line 111, in _sync
+    return task.result()
+           ~~~~~~~~~~~^^
+  File "/home/pc/miniconda3/envs/exp01/lib/python3.14/site-packages/playwright/_impl/_page.py", line 832, in screenshot
+    encoded_binary = await self._channel.send(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+        "screenshot", self._timeout_settings.timeout, params
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/pc/miniconda3/envs/exp01/lib/python3.14/site-packages/playwright/_impl/_connection.py", line 78, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "/home/pc/miniconda3/envs/exp01/lib/python3.14/site-packages/playwright/_impl/_connection.py", line 636, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.screenshot: Route.continue_: Route is already handled!

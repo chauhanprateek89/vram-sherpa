@@ -13,6 +13,7 @@ from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
 from vramsherpa import main
+from vramsherpa.results_view import ResultsView
 
 ROOT = Path(__file__).resolve().parents[1]
 STYLES = ROOT / "src" / "vramsherpa" / "static" / "css" / "styles.css"
@@ -531,8 +532,17 @@ def test_main_is_the_bento_layout_on_the_home_page(client: TestClient) -> None:
     assert main_node.classes() == ["bento"]
 
 
+def _without_feedback(html: str) -> str:
+    """The page less `#results-feedback`, whose two live regions are always there and hold no
+    message until a script fills them (T-049, ADR-0018 point 4). Every message is counted as before.
+    """
+    kept, removed = re.subn(r'<div id="results-feedback">.*?</div>', "", html, flags=re.S)
+    assert removed == 1
+    return kept
+
+
 def test_input_errors_are_not_rendered_inside_the_form(client: TestClient) -> None:
-    html = client.get("/results?vram_gb=abc").text
+    html = _without_feedback(client.get("/results?vram_gb=abc").text)
     assert html.count('role="alert"') == 1
     assert html.count("Invalid value for vram_gb.") == 1
     assert html.count("Please fix the following input issues:") == 1
@@ -542,7 +552,7 @@ def test_input_errors_are_not_rendered_inside_the_form(client: TestClient) -> No
 
 
 def test_gpu_search_feedback_is_not_rendered_inside_the_form(client: TestClient) -> None:
-    html = client.get("/results?gpu_search=RTX").text
+    html = _without_feedback(client.get("/results?gpu_search=RTX").text)
     assert html.count("matched multiple entries") == 1
     root = _tree(html)
     status = [n for n in root.walk() if n.attrs.get("role") == "status"]
@@ -668,9 +678,9 @@ def test_answer_tile_is_the_first_content_of_the_results_shell(client: TestClien
     headline = first.children[0]
     assert (headline.tag, headline.attrs["id"]) == ("h2", "ans-h")
     assert headline.all_text() == "71 models fit or are tight"
-    # Top Picks and the cards come after the tile.
+    # Top Picks come after the tile; the gist holds no card (R-084).
     assert html.index('id="summary-banner"') < html.index("Top Picks for you")
-    assert html.index("Top Picks for you") < html.index('id="results-cards"')
+    assert 'id="results-cards"' not in html
 
 
 def test_headline_counts_model_cards_and_keeps_the_singular(client: TestClient) -> None:
@@ -685,8 +695,8 @@ def test_answer_tile_holds_the_context_line_counts_and_note(client: TestClient) 
     ctx = next(n for n in answer.walk() if "ctx-line" in n.classes())
     spans = [" ".join((b.all_text(), s.text.strip())) for s in ctx.children for b in s.children]
     assert spans == ["Hardware: Manual VRAM (24 GB)", "Context: 4k"]
-    counts = next(n for n in answer.walk() if "counts" in n.classes())
-    items = [c for c in counts.children if c.tag == "li"]
+    counts = next(n for n in answer.walk() if "verdicts" in n.classes())
+    items = [c for c in counts.children if "vt" in c.classes()]
     labels = [next(n for n in li.children if n.tag == "span").all_text() for li in items]
     assert labels == ["Fits", "Tight", "Won't fit"]
     # Each count carries a distinct shape cue, not only a colour.
@@ -694,21 +704,23 @@ def test_answer_tile_holds_the_context_line_counts_and_note(client: TestClient) 
     assert symbols == ["#i-fits", "#i-tight", "#i-wont"]
     assert [next(n for n in li.children if n.tag == "b").all_text() for li in items][0] == "71"
     note = next(n for n in answer.walk() if "note" in n.classes())
-    assert note.all_text() == (
-        "Only Fits and Tight models are listed. "
-        "Pick a quantisation on any card to see how it changes."
-    )
+    assert note.all_text() == "Choose Fits, Tight or Won't fit to see the models."
     assert note.attrs["title"] == (
         "Fits leaves reserve headroom. Tight can run, but is close to your VRAM limit."
     )
     assert "assumed 8 GB baseline" not in answer.all_text()
 
 
-def test_empty_state_note_keeps_only_the_first_sentence(client: TestClient) -> None:
+def test_note_follows_the_selection(client: TestClient) -> None:
+    # Fits and Tight are 0 but Won't fit is not, so the gist still says what to choose (Q-41).
     answer = _answer(client.get("/results?vram_gb=1&context_tokens=4096&quant_bucket=Q8").text)
     note = next(n for n in answer.walk() if "note" in n.classes())
-    assert note.all_text() == "Only Fits and Tight models are listed."
+    assert note.all_text() == "Choose Fits, Tight or Won't fit to see the models."
     assert note.attrs["title"].startswith("Fits leaves reserve headroom.")
+    picked = _answer(client.get(REFERENCE + "&verdict=fits").text)
+    note = next(n for n in picked.walk() if "note" in n.classes())
+    assert note.all_text() == "Pick a quantisation on any card to see how it changes."
+    assert "Only Fits and Tight models are listed." not in client.get(REFERENCE).text
 
 
 def test_sprite_symbols_for_the_count_icons_are_in_the_page(client: TestClient) -> None:
@@ -725,7 +737,7 @@ def test_default_8gb_note_sits_in_the_tile_under_the_context_line(client: TestCl
     )
     assert notice.attrs["role"] == "status"
     kids = [c.classes()[0] if c.classes() else c.tag for c in answer.children]
-    assert kids.index("ctx-line") < kids.index("notice") < kids.index("counts")
+    assert kids.index("ctx-line") < kids.index("notice") < kids.index("verdicts")
 
 
 def test_messages_render_in_the_tile_between_the_context_line_and_the_counts(
@@ -739,7 +751,7 @@ def test_messages_render_in_the_tile_between_the_context_line_and_the_counts(
         "Invalid value for vram_gb."
     ]
     kids = [c.classes()[0] if c.classes() else c.tag for c in answer.children]
-    assert kids.index("ctx-line") < kids.index("notice") < kids.index("counts")
+    assert kids.index("ctx-line") < kids.index("notice") < kids.index("verdicts")
 
     html = client.get("/results?gpu_search=RTX").text
     answer = _answer(html)
@@ -769,7 +781,8 @@ def test_active_filter_chips_are_links_inside_the_tile(client: TestClient) -> No
     chips = [n for n in block.children if n.tag == "a"]
     assert [c.all_text() for c in chips] == ["Family: qwen ×", "Quant: Q4 ×"]
     assert all(c.attrs["href"].startswith("/results") for c in chips)
-    assert not [n for n in _answer(client.get(REFERENCE).text).walk() if n.tag == "a"]
+    links = [n for n in _answer(client.get(REFERENCE).text).walk() if n.tag == "a"]
+    assert all("vt" in n.classes() for n in links)
     assert "Active filters:" not in client.get(REFERENCE).text
 
 
@@ -787,7 +800,7 @@ def test_old_headings_and_sentences_are_gone(client: TestClient) -> None:
 
 
 def test_results_heading_is_visually_hidden_above_the_cards(client: TestClient) -> None:
-    html = client.get(REFERENCE).text
+    html = client.get(REFERENCE + "&verdict=fits").text
     heading = next(n for n in _tree(html).walk() if n.tag == "h2" and n.all_text() == "Results")
     assert heading.classes() == ["sr-only"]
     assert html.index(">Results</h2>") < html.index('id="results-cards"')
@@ -798,7 +811,7 @@ def test_results_heading_is_visually_hidden_above_the_cards(client: TestClient) 
 def test_frozen_ids_and_partial_endpoints_still_render_their_templates(
     client: TestClient,
 ) -> None:
-    html = client.get(REFERENCE).text
+    html = client.get(REFERENCE + "&verdict=fits").text
     for ident in (
         "results-shell",
         "results-summary-shell",
@@ -809,7 +822,7 @@ def test_frozen_ids_and_partial_endpoints_still_render_their_templates(
         assert html.count(f'id="{ident}"') == 1, ident
     summary = client.get("/results/partials/summary?vram_gb=24").text
     assert 'id="summary-banner"' in summary and 'id="results-cards"' not in summary
-    listing = client.get("/results/partials/list?vram_gb=24").text
+    listing = client.get("/results/partials/list?vram_gb=24&verdict=fits").text
     assert 'id="results-cards"' in listing and 'id="summary-banner"' not in listing
     content = client.get("/results/partials/content?vram_gb=24", headers=HX).text
     assert 'id="results-summary-shell"' in content and 'id="results-list-shell"' in content
@@ -828,7 +841,7 @@ def test_no_picks_layout_is_keyed_on_markup_inside_the_results_shell(client: Tes
 def test_answer_tile_css_matches_the_mockup_tokens() -> None:
     css = _css()
     assert "var(--fs-display)" in _rules(css, ".headline")[0]
-    assert "repeat(3, 1fr)" in _rules(css, ".counts")[0]
+    assert "repeat(3, minmax(0, 1fr))" in _rules(css, ".verdicts")[0]
     assert "var(--tap)" in _rules(css, ".chip-link")[0]
     assert "var(--wont-bg)" in _rules(css, ".notice.is-alert")[0]
     assert "grid-row: 1 / 3" in _rules(css, ".answer.no-picks")[0]
@@ -848,11 +861,14 @@ def _picks(html: str) -> _Node:
 def test_top_picks_is_a_closed_disclosure_after_the_tile_with_an_opening_script(
     client: TestClient,
 ) -> None:
-    html = client.get(REFERENCE).text
+    html = client.get(REFERENCE + "&verdict=fits").text
     picks = _picks(html)
     assert picks.tag == "details" and "open" not in picks.attrs
     assert "data-open-wide" in picks.attrs
     assert {"pane", "lite"} <= set(picks.classes())
+    # On the gist it is open for everyone and carries no opening hook (R-084).
+    gist = _picks(client.get(REFERENCE).text)
+    assert "open" in gist.attrs and "data-open-wide" not in gist.attrs
     summary = picks.children[0]
     assert summary.tag == "summary" and summary.all_text() == "Top Picks for you"
     # Shell order: answer tile, Top Picks, then the cards.
@@ -870,7 +886,7 @@ def test_top_picks_is_a_closed_disclosure_after_the_tile_with_an_opening_script(
 
 
 def test_top_picks_script_also_ships_in_an_in_place_refresh(client: TestClient) -> None:
-    html = client.get(REFERENCE, headers=HX).text
+    html = client.get(REFERENCE + "&verdict=fits", headers=HX).text
     assert html.count("data-open-wide") >= 2  # the attribute and the script that reads it
     assert "(min-width: 900px)" in html
 
@@ -979,18 +995,17 @@ def test_sprite_carries_every_icon_the_cards_use(client: TestClient) -> None:
 
 
 def test_cards_sit_in_one_glass_pane_as_a_grid_of_inset_cards(client: TestClient) -> None:
-    html = client.get(GATED_QUERY).text
+    html = client.get(GATED_QUERY + "&verdict=fits").text
     section = next(n for n in _tree(html).walk() if n.attrs.get("id") == "results-cards")
     assert section.tag == "section" and {"results", "pane", "lite"} <= set(section.classes())
-    grid = next(n for n in section.children if n.tag == "div")
-    assert grid.classes() == ["card-grid"]
+    grid = next(n for n in section.children if n.classes() == ["card-grid"])
     cards = [n for n in grid.children if n.tag == "article"]
     assert cards and all({"model-card", "inset"} <= set(c.classes()) for c in cards)
     assert len(cards) == len(_cards(html))
 
 
 def test_every_pane_has_one_gauge_and_the_verdict_before_the_margin(client: TestClient) -> None:
-    html = client.get(GATED_QUERY).text
+    html = client.get(GATED_QUERY + "&verdict=fits").text
     cards = _cards(html)
     assert cards
     for card in cards:
@@ -1014,7 +1029,7 @@ def test_every_pane_has_one_gauge_and_the_verdict_before_the_margin(client: Test
 
 
 def test_bar_class_follows_the_verdict(client: TestClient) -> None:
-    html = client.get(GATED_QUERY).text
+    html = client.get(GATED_QUERY + "&verdict=fits").text
     seen = set()
     for card in _cards(html):
         for pane in (n for n in card.walk() if "data-variant-pane" in n.attrs):
@@ -1048,7 +1063,7 @@ def test_switcher_is_one_row_of_four_with_a_thumb_hook_and_struck_wont_fit(
 
 
 def test_gated_models_carry_the_marker_inside_the_heading(client: TestClient) -> None:
-    html = client.get(GATED_QUERY).text
+    html = client.get(GATED_QUERY + "&verdict=fits").text
     gated = [c for c in _cards(html) if any("tag-gated" in n.classes() for n in c.walk())]
     assert gated
     for card in gated:
@@ -1057,7 +1072,7 @@ def test_gated_models_carry_the_marker_inside_the_heading(client: TestClient) ->
 
 
 def test_card_meta_keeps_params_and_family(client: TestClient) -> None:
-    html = client.get(GATED_QUERY).text
+    html = client.get(GATED_QUERY + "&verdict=fits").text
     meta = next(n for n in _tree(html).walk() if "model-meta" in n.classes())
     spans = [n for n in meta.children if n.tag == "span"]
     assert re.fullmatch(r"\d+(\.\d+)?B params", spans[0].all_text())
@@ -1080,11 +1095,11 @@ def test_card_css_shapes_reserve_and_strike_through() -> None:
 
 def test_verdict_and_margin_are_no_smaller_than_other_card_text() -> None:
     css = _css()
-    assert "var(--fs-lead)" in _rules(css, ".state")[0]
-    assert "var(--fs-lead)" in _rules(css, ".headroom")[0]
-    assert "34px" in _rules(css, ".headroom b")[0]
+    assert "var(--fs-lead)" in _rules(css, "\n.state")[0]
+    assert "var(--fs-lead)" in _rules(css, "\n.headroom")[0]
+    assert "34px" in _rules(css, "\n.headroom b")[0]
     # Everything else in a pane (captions, breakdown link) is the caption or small size.
-    assert "var(--fs-caption)" in _rules(css, ".scale")[0]
+    assert "var(--fs-caption)" in _rules(css, "\n.scale")[0]
 
 
 def test_old_card_rules_are_gone() -> None:
@@ -1142,7 +1157,7 @@ def _why_summary(pane: _Node) -> _Node:
 def test_breakdown_is_a_definition_list_with_the_total_ruled_off_before_the_reserve(
     client: TestClient,
 ) -> None:
-    url = _why_summary(_first_pane(client.get(REFERENCE).text)).attrs["hx-get"]
+    url = _why_summary(_first_pane(client.get(REFERENCE + "&verdict=fits").text)).attrs["hx-get"]
     root = _tree(client.get(url).text)
     title = next(n for n in root.walk() if "why-title" in n.classes())
     assert re.fullmatch(r"\S+ on .+", title.all_text())
@@ -1158,7 +1173,7 @@ def test_breakdown_is_a_definition_list_with_the_total_ruled_off_before_the_rese
 
 
 def test_total_needed_equals_the_gb_needed_caption_of_the_same_pane(client: TestClient) -> None:
-    html = client.get(REFERENCE).text
+    html = client.get(REFERENCE + "&verdict=fits").text
     checked = 0
     for pane in (n for n in _tree(html).walk() if "data-variant-pane" in n.attrs):
         caption = next(n for n in pane.walk() if "scale" in n.classes())
@@ -1178,7 +1193,7 @@ def test_total_needed_equals_the_gb_needed_caption_of_the_same_pane(client: Test
 def test_breakdown_stays_collapsed_and_fetched_once_with_its_placeholder(
     client: TestClient,
 ) -> None:
-    pane = _first_pane(client.get(REFERENCE).text)
+    pane = _first_pane(client.get(REFERENCE + "&verdict=fits").text)
     panel = next(n for n in pane.walk() if "why-panel" in n.classes())
     assert panel.tag == "details" and "open" not in panel.attrs
     summary = _why_summary(pane)
@@ -1194,7 +1209,7 @@ def test_breakdown_stays_collapsed_and_fetched_once_with_its_placeholder(
 def test_loading_state_is_five_shimmer_rows_in_markup_and_shown_by_htmx_request(
     client: TestClient,
 ) -> None:
-    pane = _first_pane(client.get(REFERENCE).text)
+    pane = _first_pane(client.get(REFERENCE + "&verdict=fits").text)
     loading = next(n for n in pane.walk() if "why-loading" in n.classes())
     assert "Loading the breakdown" in loading.all_text()
     rows = [n for n in loading.walk() if n.tag == "i"]
@@ -1257,7 +1272,7 @@ def test_breakdown_pseudo_elements_are_border_box_like_the_mockup() -> None:
 
 
 def test_breakdown_fragment_has_no_unstyled_wrapper(client: TestClient) -> None:
-    url = _why_summary(_first_pane(client.get(REFERENCE).text)).attrs["hx-get"]
+    url = _why_summary(_first_pane(client.get(REFERENCE + "&verdict=fits").text)).attrs["hx-get"]
     html = client.get(url).text
     assert "why-breakdown" not in html
     assert html.lstrip().startswith('<p class="why-title">')
@@ -1277,6 +1292,7 @@ def _empty(html: str) -> _Node:
 def _render_list(**context: object) -> str:
     base = {
         "model_cards": [],
+        "view": ResultsView(),
         "catalog_seeded": True,
         "empty_state_q4_url": None,
         "empty_state_lower_context_url": None,

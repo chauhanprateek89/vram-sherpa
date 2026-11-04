@@ -1,0 +1,12 @@
+verdict=fits&verdict=tight 200 ['id="list-heading"', 'tabindex="-1"', 'class="lh-tight">', 'Tight:', 'showing', '1-5', 'of', '9', 'models']
+verdict=tight&verdict=fits 200 ['id="list-heading"', 'tabindex="-1"', 'class="lh-fits">', 'Fits:', 'showing', '1-5', 'of', '49', 'models']
+xss scripts: ['<script>', '<script src="https://unpkg.com/htmx.org@1.9.12">', '<script src="http://localhost:8000/static/js/app.js?v=20261103i" defer>', '<script>'] contains encoded: False False True
+-- links on page 1 of fits with filters, sizes etc
+/results?context_tokens=2048&vram_gb=8&family=llama&quant_bucket=q8&quant_bucket=q4&verdict=fits&page_size=10
+/results?context_tokens=2048&vram_gb=8&family=qwen&family=llama&quant_bucket=q4&verdict=fits&page_size=10
+/results?context_tokens=2048&vram_gb=8&family=qwen&family=llama&quant_bucket=q8&verdict=fits&page_size=10
+/results?context_tokens=2048&vram_gb=8&family=qwen&quant_bucket=q8&quant_bucket=q4&verdict=fits&page_size=10
+-- unusable hardware pages
+vram_gb=abc 200 200 links: ['/results?vram_gb=abc&verdict=fits', '/results?vram_gb=abc&verdict=tight', '/results?vram_gb=abc&verdict=wont-fit']
+gpu_id=no_such_gpu 200 200 links: ['/results?gpu_id=no_such_gpu&verdict=fits', '/results?gpu_id=no_such_gpu&verdict=tight', '/results?gpu_id=no_such_gpu&verdict=wont-fit']
+gpu_search=RTX 200 200 links: ['/results?gpu_search=RTX&verdict=fits', '/results?gpu_search=RTX&verdict=tight', '/results?gpu_search=RTX&verdict=wont-fit']

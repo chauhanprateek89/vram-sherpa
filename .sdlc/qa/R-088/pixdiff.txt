@@ -1,0 +1,4 @@
+1280 light app (1280, 1732) mock (1280, 1732) diff%=0.08
+1280 dark app (1280, 1732) mock (1280, 1732) diff%=3.61
+390 light app (390, 3214) mock (390, 3214) diff%=0.11
+390 dark app (390, 3214) mock (390, 3214) diff%=2.34

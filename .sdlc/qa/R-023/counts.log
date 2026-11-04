@@ -1,0 +1,17 @@
+vram_gb=8&context_tokens=2048 {'fits': 49, 'tight': 9, 'wont-fit': 37} headline 58 cards on gist 0
+  ok-so-far, bad= 0
+vram_gb=24&context_tokens=4096 {'fits': 71, 'wont-fit': 24} headline 71 cards on gist 0
+  ok-so-far, bad= 0
+vram_gb=1 {'wont-fit': 95} headline 0 cards on gist 0
+  ok-so-far, bad= 0
+vram_gb=8&context_tokens=2048&family=llama {'fits': 6, 'tight': 4, 'wont-fit': 4} headline 10 cards on gist 0
+  ok-so-far, bad= 0
+vram_gb=12 {'fits': 62, 'tight': 1, 'wont-fit': 32} headline 63 cards on gist 0
+  ok-so-far, bad= 0
+gpu_search=RTX%204090 {'fits': 49, 'tight': 9, 'wont-fit': 37} headline 58 cards on gist 0
+  ok-so-far, bad= 0
+vram_gb=24&min_params_b=5&max_params_b=1 {} headline 0 cards on gist 0
+  ok-so-far, bad= 0
+vram_gb=6&context_tokens=8192&min_params_b=3 {'fits': 4, 'tight': 9, 'wont-fit': 60} headline 13 cards on gist 0
+  ok-so-far, bad= 0
+BAD 0

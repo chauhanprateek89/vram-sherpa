@@ -1,0 +1,17 @@
+verdict=fits => 200  articles=8 cardsmd5=bda4504e695b416461bc10b6173c5a28  - gist=6 cur=aria-current="page">1
+verdict=green => 200  articles=3 cardsmd5=59a71c586d3b8c0471090d7c7552b034  - gist=6 cur=
+verdict=FITS => 200  articles=3 cardsmd5=59a71c586d3b8c0471090d7c7552b034  - gist=6 cur=
+verdict= => 200  articles=3 cardsmd5=59a71c586d3b8c0471090d7c7552b034  - gist=6 cur=
+page_size=7&verdict=fits => 200  articles=8 cardsmd5=bda4504e695b416461bc10b6173c5a28  - gist=6 cur=aria-current="page">1
+page_size=abc&verdict=fits => 200  articles=8 cardsmd5=bda4504e695b416461bc10b6173c5a28  - gist=6 cur=aria-current="page">1
+page_size=1000&verdict=fits => 200  articles=8 cardsmd5=bda4504e695b416461bc10b6173c5a28  - gist=6 cur=aria-current="page">1
+page_size=&verdict=fits => 200  articles=8 cardsmd5=bda4504e695b416461bc10b6173c5a28  - gist=6 cur=aria-current="page">1
+verdict=fits&page=abc => 200  articles=8 cardsmd5=bda4504e695b416461bc10b6173c5a28  - gist=6 cur=aria-current="page">1
+verdict=fits&page=0 => 200  articles=8 cardsmd5=bda4504e695b416461bc10b6173c5a28  - gist=6 cur=aria-current="page">1
+verdict=fits&page=-1 => 200  articles=8 cardsmd5=bda4504e695b416461bc10b6173c5a28  - gist=6 cur=aria-current="page">1
+verdict=fits&page=1.5 => 200  articles=8 cardsmd5=bda4504e695b416461bc10b6173c5a28  - gist=6 cur=aria-current="page">1
+verdict=fits&page=99 => 200  articles=4 cardsmd5=fb003d1880407f614af693a0b8918a2a  - gist=6 cur=aria-current="page">15
+verdict=fits&page=15 => 200  articles=4 cardsmd5=fb003d1880407f614af693a0b8918a2a  - gist=6 cur=aria-current="page">15
+verdict=tight&verdict=fits => 200  articles=8 cardsmd5=bda4504e695b416461bc10b6173c5a28  - gist=6 cur=aria-current="page">1
+verdict=fits&verdict=tight => 200  articles=3 cardsmd5=59a71c586d3b8c0471090d7c7552b034  - gist=6 cur=
+page=2&page_size=10 => 200  articles=3 cardsmd5=59a71c586d3b8c0471090d7c7552b034  - gist=6 cur=

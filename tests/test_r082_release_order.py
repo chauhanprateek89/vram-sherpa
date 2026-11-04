@@ -104,6 +104,8 @@ def test_smoke_checks_unchanged(steps):
         "/results?vram_gb=24&context_tokens=4096",
         "summary-banner",
         "Manual VRAM (24 GB)",
+        "verdict=fits",
+        "data-model-card",
     ):
         assert needle in run, f"smoke test lost the {needle!r} check"
     assert "cache-control" in run.lower()
@@ -121,3 +123,22 @@ def test_smoke_checks_unchanged(steps):
             f"the /results request uses curl -f, which hides the status: {line.strip()!r}"
         )
         assert "%{http_code}" in line, f"the /results request does not read the status: {line!r}"
+
+
+def test_verdict_list_check_follows_results_check_and_fails_the_step(steps):
+    run = steps[_smoke_index(steps)]["run"]
+    verdict_url = "http://127.0.0.1:8000/results?vram_gb=24&context_tokens=4096&verdict=fits"
+    curl_lines = [line for line in run.splitlines() if verdict_url in line]
+    assert len(curl_lines) == 1, "want exactly one request for the verdict list"
+    assert "curl -sS -m 10 -o " in curl_lines[0]
+
+    # Directly after ADR-0013's check, and before the next existing check.
+    assert run.index("Manual VRAM (24 GB)") < run.index(verdict_url)
+    assert run.index(verdict_url) < run.index("X-Forwarded-Proto: https")
+
+    # Exactly 200 and the card marker, or the step fails naming the status (ADR-0019).
+    check = run[run.index(verdict_url) : run.index("X-Forwarded-Proto: https")]
+    assert '"$code" != "200"' in check
+    assert "! grep -qF 'data-model-card'" in check
+    assert "::error::" in check and "${code}" in check
+    assert "exit 1" in check

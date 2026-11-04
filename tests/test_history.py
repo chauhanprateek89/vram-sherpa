@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass, field
 from html.parser import HTMLParser
+from pathlib import Path
 
 import pytest
 from fastapi import FastAPI
@@ -211,7 +213,7 @@ def test_full_pages_set_refresh_on_history_miss_before_htmx(client: TestClient, 
         node for node in in_head if node.tag == "meta" and node.attrs.get("name") == "htmx-config"
     ]
     assert len(metas) == 1
-    assert metas[0].attrs["content"] == '{"refreshOnHistoryMiss":true}'
+    assert metas[0].attrs["content"] == '{"refreshOnHistoryMiss":true,"historyCacheSize":0}'
 
     htmx_scripts = [
         node for node in in_head if node.tag == "script" and "htmx.org" in node.attrs.get("src", "")
@@ -235,7 +237,7 @@ def test_results_shell_sits_after_the_search_form(client: TestClient) -> None:
 
 
 def test_breakdown_triggers_have_no_push_url_ancestor(client: TestClient) -> None:
-    response = client.get(f"/results?{QUERY}")
+    response = client.get(f"/results?{QUERY}&verdict=fits")
     tree = _parse(response.text)
 
     triggers = [
@@ -265,6 +267,12 @@ PARTIAL_MARKERS = {
     "/results/partials/content": 'id="results-summary-shell"',
     "/results/partials/summary": 'id="summary-banner"',
     "/results/partials/list": 'class="sr-only">Results<',
+}
+# The list partial is empty on the gist (R-084), so it needs a verdict to render its marker.
+PARTIAL_QUERIES = {
+    "/results/partials/content": QUERY,
+    "/results/partials/summary": QUERY,
+    "/results/partials/list": f"{QUERY}&verdict=fits",
 }
 
 
@@ -377,7 +385,7 @@ def test_old_partial_link_with_malformed_value_gets_the_same_422_as_results(
 def test_partials_with_hx_request_return_their_fragment_without_location(
     client: TestClient, path: str
 ) -> None:
-    response = client.get(f"{path}?{QUERY}", headers=HX, follow_redirects=False)
+    response = client.get(f"{path}?{PARTIAL_QUERIES[path]}", headers=HX, follow_redirects=False)
 
     assert response.status_code == 200
     assert "location" not in response.headers
@@ -390,7 +398,9 @@ def test_partials_with_hx_request_return_their_fragment_without_location(
 def test_summary_and_list_partials_never_redirect(
     client: TestClient, path: str, headers: dict[str, str]
 ) -> None:
-    response = client.get(f"{path}?{QUERY}", headers=headers, follow_redirects=False)
+    response = client.get(
+        f"{path}?{PARTIAL_QUERIES[path]}", headers=headers, follow_redirects=False
+    )
 
     assert response.status_code == 200
     assert "location" not in response.headers
@@ -453,3 +463,18 @@ def test_search_form_interface_is_unchanged(client: TestClient, url: str) -> Non
         assert any(node.attrs.get("name") == name for node in in_form), name
     assert len(_by_id(tree, "theme-toggle")) == 1
     assert len(_by_id(tree, "results-shell")) == 1
+
+
+# ADR-0017: the view stays out of cookies and localStorage (R-088, rule 11).
+
+
+def test_only_localstorage_key_is_the_theme() -> None:
+    root = Path(__file__).resolve().parent.parent / "src" / "vramsherpa"
+    sources = [root / "templates" / "base.html", root / "static" / "js" / "app.js"]
+    keys: set[str] = set()
+    for path in sources:
+        text = path.read_text(encoding="utf-8")
+        keys.update(re.findall(r"localStorage\.(?:get|set|remove)Item\(\s*[\"']([^\"']+)", text))
+        assert "localStorage[" not in text
+        assert "document.cookie" not in text
+    assert keys == {"vramsherpa-theme"}

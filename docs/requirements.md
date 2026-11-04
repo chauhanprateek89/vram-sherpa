@@ -14,7 +14,7 @@ EARS forms: `THE SYSTEM SHALL …` (always) · `WHEN <trigger>, THE SYSTEM SHALL
 
 Recorded at onboarding from `main` at 96572b1 (2026-10-25). Seeded catalog at that commit: version `2026-10-23`, 35 GPUs, 95 models (81 auto-discovered, 24 gated), 380 variants, 7 families. Paths are relative to the repo root; `main.py` means `src/vramsherpa/main.py`.
 
-R-083 (centred landing box, Full track) was added on 2026-10-28 from the user's intake answers; it changes R-001, R-002, R-003, R-005, R-006, R-007, R-013, R-026, R-067, R-069, R-071 and R-078, each marked "Change (R-083)" with the old wording under "Was". Its open questions are Q-14 to Q-23 at the end of this file. R-082 (release ordering, Quick track) was added on 2026-10-27 and released in v0.1.53 on 2026-10-28. R-067 to R-079 (UI/UX overhaul, Full track) were added on 2026-10-25 from the user's intake answers. The user's Gate 1 answers to their open questions (Q-1 to Q-11) are folded into them, and R-080 was added from Q-9; see "Resolved at Gate 1" at the end of this file. At Gate 2 round 1 the R-075 worked example was changed to a catalog model and R-081 was added. The round 1 redo answers (direction "D layout + E glass", Q-12, Q-13 and the old-link redirect) are folded into R-067, R-068, R-075, R-081 and R-032; see "Open questions" and `docs/decisions.md` (rows dated 2026-10-25, Gate "2 (round 1 redo)"). The Gate 2 approval (the 24 approved screens and states, the copy table, filters closed at both widths, the 900 px allowance for message states and the styled GPU suggestion list) is folded into R-067, R-068, R-069, R-071 and R-078; see `docs/decisions.md` (rows dated 2026-10-25, Gate "2").
+R-084 to R-092 (results gist and verdict lists, Full track) were added on 2026-11-02 from the user's words; they change R-013, R-014, R-016, R-019, R-022, R-023, R-024, R-025, R-031, R-032, R-062, R-067, R-069, R-078, R-080 and R-081, each marked "Change (R-084)" or similar with the old wording under "Was". Their questions, Q-24 to Q-42 at the end of this file, were answered at Gate 1 on 2026-11-02. R-083 (centred landing box, Full track) was added on 2026-10-28 from the user's intake answers; it changes R-001, R-002, R-003, R-005, R-006, R-007, R-013, R-026, R-067, R-069, R-071 and R-078, each marked "Change (R-083)" with the old wording under "Was". Its open questions are Q-14 to Q-23 at the end of this file. R-082 (release ordering, Quick track) was added on 2026-10-27 and released in v0.1.53 on 2026-10-28. R-067 to R-079 (UI/UX overhaul, Full track) were added on 2026-10-25 from the user's intake answers. The user's Gate 1 answers to their open questions (Q-1 to Q-11) are folded into them, and R-080 was added from Q-9; see "Resolved at Gate 1" at the end of this file. At Gate 2 round 1 the R-075 worked example was changed to a catalog model and R-081 was added. The round 1 redo answers (direction "D layout + E glass", Q-12, Q-13 and the old-link redirect) are folded into R-067, R-068, R-075, R-081 and R-032; see "Open questions" and `docs/decisions.md` (rows dated 2026-10-25, Gate "2 (round 1 redo)"). The Gate 2 approval (the 24 approved screens and states, the copy table, filters closed at both widths, the 900 px allowance for message states and the styled GPU suggestion list) is folded into R-067, R-068, R-069, R-071 and R-078; see `docs/decisions.md` (rows dated 2026-10-25, Gate "2").
 
 ## Hardware and context input
 
@@ -153,25 +153,30 @@ Status: as-built · Track: onboard · UI: yes · Source: `estimation.py` (`estim
 
 ### R-013 Results on the home page and at /results
 
-Status: planned (changed by R-083; was as-built) · Track: full (was onboard) · UI: yes · Source: `main.py` (`home`, `results`); tests `test_home_returns_200`, `test_results_with_manual_vram_returns_200_and_rows`; change: R-083, intake 2026-10-28 (accepted shape: "`/results` with no GPU, VRAM or search text also goes to `/`")
+Status: planned (changed by R-083 and R-084; was as-built) · Track: full (was onboard) · UI: yes · Source: `main.py` (`home`, `results`); tests `test_home_returns_200`, `test_results_with_manual_vram_returns_200_and_rows`; change: R-083, intake 2026-10-28 (accepted shape: "`/results` with no GPU, VRAM or search text also goes to `/`"); change: R-084, R-089, intake 2026-11-02
 
 Change (R-083): `/` becomes the landing page and shows no results; results live only at `/results`, and a full page load of `/results` with no hardware goes to `/`. The heading keeps its old name so the number reads the same; read it as "Landing page at `/`, results at `/results`". Was: "WHEN a user opens `/`, THE SYSTEM SHALL render the input form and results for the default 8 GB, 2048 tokens and no filters, ignoring any query parameters."
 
+Change (R-084): `/results` opens on the gist, and shows cards only with a selected verdict. Was: "WHEN a user opens `/results` with query parameters, THE SYSTEM SHALL render the results page with results for those parameters." and "WHEN the form on `/results` is submitted without JavaScript, THE SYSTEM SHALL send a GET to `/results` carrying every field as a query parameter."
+
 - Changed (R-083): WHEN a user opens `/`, with or without query parameters, THE SYSTEM SHALL render the landing page of R-083 and no results, ignoring any query parameters (Q-19).
-- WHEN a user opens `/results` with query parameters, THE SYSTEM SHALL render the results page with results for those parameters.
+- Changed (R-084): WHEN a user opens `/results` with query parameters, THE SYSTEM SHALL render the results page for those parameters: the gist (R-084), or the verdict list when they name a selected verdict (R-085).
 - Changed (R-083): WHEN a request to `/results` without `HX-Request: true` has `gpu_id`, `gpu_search` and `vram_gb` each absent, empty or only whitespace, THE SYSTEM SHALL answer with an HTTP redirect, status 302, 303 or 307, with `Location: /`, whatever other parameters it carries (for example `/results`, `/results?context_tokens=4096&family=qwen` and `/results?gpu_search=%20%20&vram_gb=`) (Q-18).
 - Changed (R-083): THE SYSTEM SHALL send that `Location` as a path with no scheme and no host (constitution rule 8), and SHALL NOT answer that redirect with status 301 or 308.
 - Changed (R-083): WHEN a request to `/results` carries `HX-Request: true`, THE SYSTEM SHALL answer it as R-032 and R-081 state, without that redirect, even when it carries no hardware.
-- WHEN the form on `/results` is submitted without JavaScript, THE SYSTEM SHALL send a GET to `/results` carrying every field as a query parameter.
+- Changed (R-089): WHEN the form on `/results` is submitted without JavaScript, THE SYSTEM SHALL send a GET to `/results` carrying every field as a query parameter, and SHALL carry `verdict` and `page_size` only through `Apply filters`, not `Check compatibility` (R-089).
 - Changed (R-083): WHEN the landing form on `/` is submitted, with or without JavaScript, THE SYSTEM SHALL send a GET to `/results` carrying the box's text as `gpu_search`.
 
 ### R-014 One card per model, usable models only
 
-Status: as-built · Track: onboard · UI: yes · Source: `main.py` (`_group_results_by_model`), `results_list.html`; PR #19
+Status: planned (changed by R-084, R-086; was as-built) · Track: full (was onboard) · UI: yes · Source: `main.py` (`_group_results_by_model`), `results_list.html`; PR #19; change: R-084, R-086, intake 2026-11-02
+
+Change (R-084, R-086): no card shows until a verdict is selected, and `Won't fit` models now get cards in their own list (Q-31). The heading keeps its old name; read "usable models only" as today's rule for the `Fits` and `Tight` lists. Was: "THE SYSTEM SHALL show a model's card only when at least one of its variants (after filters) is `Fits` or `Tight`." and "THE SYSTEM SHALL state above the cards `<N> model(s) fit or are tight. Pick a quantisation on any card to see how it changes.`, using `model` when N is 1."
 
 - THE SYSTEM SHALL show one card per model, not one per variant.
-- THE SYSTEM SHALL show a model's card only when at least one of its variants (after filters) is `Fits` or `Tight`.
-- THE SYSTEM SHALL state above the cards `<N> model(s) fit or are tight. Pick a quantisation on any card to see how it changes.`, using `model` when N is 1.
+- Changed (R-084): WHILE no verdict is selected, THE SYSTEM SHALL show no card.
+- Changed (R-086): WHILE a verdict is selected, THE SYSTEM SHALL show a card only for a model counted under that verdict (R-023), so a model with no `Fits` or `Tight` variant (after filters) gets a card only under `Won't fit`.
+- Changed (R-084): THE SYSTEM SHALL state in the answer tile's headline `<N> model(s) fit or are tight`, using `model` when N is 1, where N is the sum of the `Fits` and `Tight` counts, whichever view shows.
 
 ### R-015 Card contents
 
@@ -183,10 +188,13 @@ Status: as-built · Track: onboard · UI: yes · Source: `results_list.html`, `m
 
 ### R-016 Card default quantisation
 
-Status: as-built · Track: onboard · UI: yes · Source: `main.py` (`_group_results_by_model`)
+Status: planned (changed by R-086; was as-built) · Track: full (was onboard) · UI: yes · Source: `main.py` (`_group_results_by_model`); change: R-086, intake 2026-11-02
+
+Change (R-086): a model with no usable variant has had no card, so this rule did not cover it; it now gets a card under `Won't fit` (Q-31). The two rules below for usable models are unchanged.
 
 - WHEN the model's recommended variant is `Fits` or `Tight`, THE SYSTEM SHALL open the card on that variant.
 - WHEN the recommended variant is absent or `Won't fit`, THE SYSTEM SHALL open the card on the first usable variant in Q4, Q5, Q8, FP16 order.
+- Changed (R-086): WHEN a model has no usable variant, THE SYSTEM SHALL open the card on its recommended variant, or, when none is left after filters, on the first variant in Q4, Q5, Q8, FP16 order (Q-31).
 - THE SYSTEM SHALL mark the open variant's button with `aria-pressed="true"` and the others with `aria-pressed="false"`.
 
 ### R-017 Quantisation switcher
@@ -209,9 +217,17 @@ Status: as-built · Track: onboard · UI: yes · Source: `results_list.html`, `m
 
 ### R-019 Card ordering
 
-Status: as-built · Track: onboard · UI: yes · Source: `main.py` (`_group_results_by_model`)
+Status: planned (changed by R-086; was as-built) · Track: full (was onboard) · UI: yes · Source: `main.py` (`_group_results_by_model`); change: R-086, intake 2026-11-02; Gate 1 answer Q-31 (`docs/decisions.md`, 2026-11-02: "closest to fitting first, not largest first as written")
 
-- THE SYSTEM SHALL order cards by the open variant's classification (`Fits` before `Tight`), then by parameter count descending, then by model name ascending.
+Change (R-086): each list now holds one verdict, so within the `Fits` list or the `Tight` list only the last two keys decide. Was: the first bullet below without its last sentence.
+
+Change (R-086, Q-31, Gate 1, 2026-11-02): the `Won't fit` list gets its own order, closest to fitting first; `Fits` and `Tight` keep the order in the first bullet. Was: "Changed (R-086): THE SYSTEM SHALL apply this order within each verdict list, including `Won't fit`, before cutting the list into pages.", which put the largest model first.
+
+- THE SYSTEM SHALL order cards by the open variant's classification (`Fits` before `Tight`), then by parameter count descending, then by model name ascending. Changed (R-086, Q-31): THE SYSTEM SHALL apply this order within the `Fits` list and within the `Tight` list, before cutting the list into pages.
+- Changed (R-086, Q-31): WHILE `Won't fit` is selected, THE SYSTEM SHALL order the cards by overage ascending, then by parameter count descending, then by model name ascending, before cutting the list into pages.
+- Changed (R-086, Q-31): THE SYSTEM SHALL take a card's overage as `required_vram_gb - available_vram_gb` of the variant the card opens on under R-016, compared unrounded, so two cards that both show `603.0 GB over` can differ in order.
+- THE SYSTEM SHALL compare model names by Unicode code point, case-sensitively, as it does today, so `Llama-3.2-1B-Instruct` sorts before `gemma-3-1b-it`.
+- WHEN the user presses a quantisation button, THE SYSTEM SHALL leave the order of the cards unchanged, because the order uses the variant the card opens on.
 
 ### R-020 "How this is estimated" breakdown
 
@@ -234,35 +250,46 @@ Status: as-built · Track: onboard · UI: yes · Source: `results_list.html`, `s
 
 ### R-022 Summary banner
 
-Status: as-built · Track: onboard · UI: yes · Source: `results_summary.html`, `main.py` (`_results_context`)
+Status: planned (changed by R-084; was as-built) · Track: full (was onboard) · UI: yes · Source: `results_summary.html`, `main.py` (`_results_context`); change: R-084, R-085, intake 2026-11-02
+
+Change (R-084): the note about what is listed no longer holds, since the gist lists nothing and `Won't fit` can now be listed. Was: "THE SYSTEM SHALL state `Showing only Fits and Tight models in the list below.`", worded `Only Fits and Tight models are listed. Pick a quantisation on any card to see how it changes.` since the overhaul's copy table.
 
 - THE SYSTEM SHALL show `Summary for this query` with `Hardware: <label>` (R-004) and `Context: <2k|4k|8k>`.
-- THE SYSTEM SHALL state `Showing only Fits and Tight models in the list below.`
+- Changed (R-084, R-085): THE SYSTEM SHALL state the note R-084 gives in the gist and the note R-085 gives with a selected verdict.
 - WHEN GPU search produced feedback (R-003), THE SYSTEM SHALL show it in an element with `role="status"`.
 
 ### R-023 Summary counts per model
 
-Status: as-built · Track: onboard · UI: yes · Source: `main.py` (`_summary_counts`); PR #19
+Status: planned (changed by R-085, R-086; was as-built) · Track: full (was onboard) · UI: yes · Source: `main.py` (`_summary_counts`); PR #19; change: R-085, R-086, intake 2026-11-02
+
+Change (R-085, R-086): the counts are now the verdict controls, and no cards show with no verdict selected. Was: "THE SYSTEM SHALL make the `Fits` and `Tight` counts sum to the number of cards shown."
 
 - THE SYSTEM SHALL show three counts, `Fits`, `Tight` and `Won't fit`, counting models, not variants.
 - THE SYSTEM SHALL count each model under the classification of the variant its card opens on (R-016).
 - THE SYSTEM SHALL count a model with no usable variant under `Won't fit`.
-- THE SYSTEM SHALL make the `Fits` and `Tight` counts sum to the number of cards shown.
+- Changed (R-086): THE SYSTEM SHALL make the `Fits` and `Tight` counts sum to the N in the headline (R-014).
+- Changed (R-086): THE SYSTEM SHALL make each count equal the total of that verdict's list across all its pages.
+- Changed (R-085): THE SYSTEM SHALL NOT change the counts with the selected verdict, the page or the page size.
 
 ### R-024 Top picks
 
-Status: as-built · Track: onboard · UI: yes · Source: `main.py` (`_top_picks`, `_build_results`), `results_summary.html`
+Status: planned (changed by R-092; was as-built) · Track: full (was onboard) · UI: yes · Source: `main.py` (`_top_picks`, `_build_results`), `results_summary.html`; change: R-092, constitution rule 16, intake 2026-11-02
+
+Change (R-092): each pick also shows its verdict and the three figures of rule 16 (Q-39). The selection rules stay. Was: the last bullet below without its last sentence.
 
 - THE SYSTEM SHALL rank usable variants by: recommended first, then `Fits` before `Tight`, then parameter count descending, then bits_effective descending, then model name.
 - WHEN at least one variant is `Fits` and at least three variants are `Fits` or `Tight`, THE SYSTEM SHALL show `Top Picks for you` with three cards: `Best quality that fits` (the top-ranked `Fits` variant), `Best balance` (the top-ranked usable variant other than the first) and `Best small` (the lowest-ranked usable variant not already picked).
 - WHEN fewer than three usable variants exist or none is `Fits`, THE SYSTEM SHALL hide the Top Picks section.
-- THE SYSTEM SHALL show on each pick the model name linked to its detail page, `<params, 1 decimal>B · <quant label>`, and a one-line description.
+- THE SYSTEM SHALL show on each pick the model name linked to its detail page, `<params, 1 decimal>B · <quant label>`, and a one-line description. Changed (R-092): THE SYSTEM SHALL also show the verdict label and the required VRAM, available VRAM and margin, as R-092 states.
 
 ### R-025 Empty state
 
-Status: as-built · Track: onboard · UI: yes · Source: `results_list.html`, `main.py` (`_empty_state_suggestions`); test `test_results_invalid_range_returns_empty_state`
+Status: planned (changed by R-084; was as-built) · Track: full (was onboard) · UI: yes · Source: `results_list.html`, `main.py` (`_empty_state_suggestions`); test `test_results_invalid_range_returns_empty_state`; change: R-084, R-089, intake 2026-11-02
 
-- WHEN the catalog is seeded and no card is shown, THE SYSTEM SHALL show `No models currently fit this setup.` and `Try one of these next steps:`.
+Change (R-084): the gist shows no cards for every search, so "no card is shown" can no longer trigger the empty state. Was: "WHEN the catalog is seeded and no card is shown, THE SYSTEM SHALL show `No models currently fit this setup.` and `Try one of these next steps:`."
+
+- Changed (R-084): WHEN the catalog is seeded, no verdict is selected, and the `Fits` and `Tight` counts are both 0, THE SYSTEM SHALL show `No models currently fit this setup.` and `Try one of these next steps:`. `/results?vram_gb=1` and `/results?vram_gb=24&min_params_b=5&max_params_b=1` show it; the reference query does not.
+- Changed (R-084): WHILE `Won't fit` is selected, THE SYSTEM SHALL show its list instead of the empty state, even when the `Fits` and `Tight` counts are both 0.
 - WHEN the quantisation filter is anything other than exactly `Q4`, THE SYSTEM SHALL make `Try Q4` a link to the same query with the quantisation filter set to `Q4` only; otherwise it SHALL show `Try Q4` as inert text.
 - WHEN a smaller context preset exists, THE SYSTEM SHALL make `Lower context` a link to the same query at the next smaller preset; at 2048 tokens it SHALL show `Lower context` as inert text.
 - WHEN the `Won't fit` count is above 0, THE SYSTEM SHALL add `There are <n> variants in Won't fit, hidden by default.`
@@ -308,14 +335,18 @@ Status: as-built · Track: onboard · UI: yes · Source: `main.py` (`_variant_qu
 
 ### R-031 Active filter chips
 
-Status: as-built · Track: onboard · UI: yes · Source: `main.py` (`_active_filter_chips`), `results_summary.html`
+Status: planned (changed by R-089; was as-built) · Track: full (was onboard) · UI: yes · Source: `main.py` (`_active_filter_chips`), `results_summary.html`; change: R-089, intake 2026-11-02
+
+Change (R-089): a chip also keeps the selected verdict and page size, and goes to page 1 (Q-34). Was: the second bullet below without its last sentence.
 
 - WHEN any filter is active, THE SYSTEM SHALL show `Active filters:` followed by one chip per active value: `Family: <f>`, `Quant: <q>`, `Min params >= <n>B`, `Max params <= <n>B`, `Recommended only`.
-- WHEN the user follows a chip, THE SYSTEM SHALL load `/results` with that one value removed and every other filter, the hardware and the context unchanged.
+- WHEN the user follows a chip, THE SYSTEM SHALL load `/results` with that one value removed and every other filter, the hardware and the context unchanged. Changed (R-089): THE SYSTEM SHALL also keep `verdict` and `page_size` and drop `page`.
 
 ### R-032 Live filtering and shareable URLs
 
-Status: as-built · Track: onboard · UI: yes · Source: `index.html` (`hx-get`, `hx-trigger`, `hx-push-url`), `main.py` (`results`, `results_partial_*`); test `test_results_partials_return_summary_and_results_sections`
+Status: planned (changed by R-088, R-090; was as-built) · Track: full (was onboard) · UI: yes · Source: `index.html` (`hx-get`, `hx-trigger`, `hx-push-url`), `main.py` (`results`, `results_partial_*`); test `test_results_partials_return_summary_and_results_sections`; change: R-088, R-090, intake 2026-11-02
+
+Change (R-088, R-090): verdict, page and page size are three more parameters, and selecting them is one more kind of in-place refresh. The existing bullets stay; the last two are new.
 
 - WHEN JavaScript is available and the user changes a context preset, a family or quantisation checkbox, or `Recommended only`, THE SYSTEM SHALL refresh the summary and results in place without a full page load.
 - WHEN the user types in `Min params (B)` or `Max params (B)`, THE SYSTEM SHALL refresh results 350 ms after the last keystroke.
@@ -323,6 +354,8 @@ Status: as-built · Track: onboard · UI: yes · Source: `index.html` (`hx-get`,
 - WHEN a request to `/results` carries `HX-Request: true`, THE SYSTEM SHALL return only the results fragment.
 - THE SYSTEM SHALL serve fragments at `/results/partials/content`, `/results/partials/summary` and `/results/partials/list`, accepting the same parameters as `/results`. Today this holds with or without `HX-Request: true`; R-081 plans a redirect for `/results/partials/content` when it is opened as a normal page load.
 - WHILE JavaScript is disabled, THE SYSTEM SHALL show an `Apply filters` button that submits the form.
+- Changed (R-090): WHEN JavaScript is available and the user selects a verdict, a page or a page size, THE SYSTEM SHALL refresh the results area in place without a full page load.
+- Changed (R-088): THE SYSTEM SHALL accept `verdict`, `page` and `page_size` on `/results` and on all three fragments, as R-088 states.
 
 ## Model detail
 
@@ -589,15 +622,18 @@ Status: as-built · Track: onboard · UI: no · Source: `.github/workflows/relea
 
 ### R-062 Release smoke test
 
-Status: planned (changed by R-083; was as-built) · Track: full (was onboard) · UI: no · Source: `release.yml` step "Smoke test the published image"; change: R-083, Gate 1 answer Q-23 (`docs/decisions.md`, 2026-10-28: "add a `GET /results?vram_gb=24&context_tokens=4096` render check to the release smoke test in this change"); `results_summary.html` (`id="summary-banner"`, `Hardware:` line), test `test_r078_acceptance.py` (`Hardware: Manual VRAM (24 GB)`)
+Status: planned (changed by R-083, R-084; was as-built) · Track: full (was onboard) · UI: no · Source: `release.yml` step "Smoke test the published image"; change: R-083, Gate 1 answer Q-23 (`docs/decisions.md`, 2026-10-28: "add a `GET /results?vram_gb=24&context_tokens=4096` render check to the release smoke test in this change"); change: R-084, Gate 1 answer Q-42 (`docs/decisions.md`, 2026-11-02: "add a release smoke check that `GET /results?vram_gb=24&context_tokens=4096&verdict=fits` returns 200 with `data-model-card` in the body"); `results_summary.html` (`id="summary-banner"`, `Hardware:` line), test `test_r078_acceptance.py` (`Hardware: Manual VRAM (24 GB)`)
 
 Change (R-083, Q-23): changed 2026-10-28 on branch `sdlc/full-landing-box`. After R-083, `GET /?vram_gb=24&context_tokens=4096` renders the landing page, which computes no results, so the release adds a render check of `/results`. Every existing check stays (rule 18). Was: no check requested `/results`.
+
+Change (R-084, Q-42): changed 2026-11-02 on branch `sdlc/full-results-gist`. After R-084, `/results` with no verdict shows the gist, which holds no card, so the `/results` check above no longer exercises card rendering, and the release adds a render check of a verdict list. The `/results` check above stays exactly as it is, and every other check stays (rule 18: checks may be added, never removed or weakened). Was: no check requested a verdict list or looked for `data-model-card`.
 
 - WHEN the image is pushed (under `sha-<short commit>` only, since R-082 in v0.1.53), THE SYSTEM SHALL start it with `APP_ENV=prod` and `ALLOWED_HOSTS=localhost,127.0.0.1` against a fresh Postgres 16.
 - IF `/healthz` does not return success within 30 attempts 2 s apart, THEN THE SYSTEM SHALL fail the release.
 - IF the container log lacks `Seeded catalog_version=`, THEN THE SYSTEM SHALL fail the release.
 - IF `GET /?vram_gb=24&context_tokens=4096` does not return success, THEN THE SYSTEM SHALL fail the release. After R-083 this request renders the landing page (R-083, Q-19); the check stays as it is.
 - Changed (R-083, Q-23): IF `GET /results?vram_gb=24&context_tokens=4096`, requested against the published image, does not return HTTP 200 with a body containing both `id="summary-banner"` and `Manual VRAM (24 GB)`, THEN THE SYSTEM SHALL fail the release.
+- Changed (R-084, Q-42): IF `GET /results?vram_gb=24&context_tokens=4096&verdict=fits`, requested against the published image, does not return HTTP 200 with a body containing `data-model-card`, THEN THE SYSTEM SHALL fail the release.
 - IF any static asset URL on `/`, requested with `X-Forwarded-Proto: https`, starts with `http://`, THEN THE SYSTEM SHALL fail the release.
 - IF a request with `Host: evil.example.com` returns anything other than HTTP 400, THEN THE SYSTEM SHALL fail the release.
 - WHEN the smoke test passes, THE SYSTEM SHALL push the git tag and create a GitHub Release with generated notes.
@@ -653,7 +689,7 @@ Requirements R-001 to R-066 stay in force unless a requirement in this section c
 
 ### R-067 Screens and states in scope
 
-Status: planned (changed by R-083; was done) · Track: full · UI: yes · Source: intake 2026-10-25 and Gate 2 approval (`docs/decisions.md`); `docs/design/README.md` ("Screens and states"); `docs/design/final/`, `docs/design/mockups/final-*.html`; `templates/base.html`, `index.html`, `results_summary.html`, `results_list.html`, `results_why.html`, `model_detail.html`, `how_it_works.html`; change: R-083, intake 2026-10-28
+Status: planned (changed by R-083, R-084; was done) · Track: full · UI: yes · Source: change: R-084 to R-092, intake 2026-11-02; intake 2026-10-25 and Gate 2 approval (`docs/decisions.md`); `docs/design/README.md` ("Screens and states"); `docs/design/final/`, `docs/design/mockups/final-*.html`; `templates/base.html`, `index.html`, `results_summary.html`, `results_list.html`, `results_why.html`, `model_detail.html`, `how_it_works.html`; change: R-083, intake 2026-10-28
 
 Change (R-083): `/` is no longer a results screen. State 1 ("`/` with no input, showing the assumed 8 GB note") and its mockup `home-default` stop being QA's reference for `/`; the landing page takes its place, in the same direction "D layout + E glass", with these states, each at phone and desktop width in the light and the dark theme, mocked up and approved at this change's Gate 2 (constitution rule 10):
 
@@ -664,7 +700,23 @@ Change (R-083): `/` is no longer a results screen. State 1 ("`/` with no input, 
 
 Every other state below keeps its approved mockup. Where a list below says "`/` and `/results`", read `/results` for the input form, filters, messages, summary, Top Picks, chips, cards, empty state and unseeded results.
 
-Asked: "UI/UX overhaul". Change: "the landing page is going to be one big text box in the middle of the page, where you input your GPU and then it takes you to the page which is in the screenshot" (2026-10-28). Screens: "Whole app, incl. mobile" (offered as "every page, with the 390 px phone layout treated as a first-class design") and "How it works" (offered as "the /how-it-works explainer page"). Gate 2: "Approved the design: all 24 screens and states in `docs/design/final/` and `docs/design/mockups/final-*.html`, the copy table in `docs/design/README.md`, and ADRs 0001-0008. These are QA's reference (rule 10)."
+Change (R-084): `/results` no longer opens with cards, so the approved mockups of `/results` (rows 2 to 10 and 15 to 18 below) stop being QA's reference for the whole first view. They stay QA's reference for the form, the card, the fit gauge, the messages, the empty and unseeded sheets and the visual direction. These states take their place, in the same direction "D layout + E glass", each at phone and desktop width in the light and the dark theme, mocked up and approved at this change's Gate 2 (constitution rule 10):
+
+- G1. Gist of the reference query: Top Picks open, `Tight` inert at `0`;
+- G2. Gist with all three counts above 0, `/results?vram_gb=8&context_tokens=2048`;
+- G3. `Fits` selected, page 1 at size 5, `/results?vram_gb=24&context_tokens=4096&verdict=fits`;
+- G4. A middle page with its number window, `…&verdict=fits&page=6`;
+- G5. The last page with one card, `…&verdict=fits&page=15`, and size 10, `…&verdict=fits&page_size=10`;
+- G6. `Tight` selected, `/results?vram_gb=8&context_tokens=2048&verdict=tight`;
+- G7. `Won't fit` selected, `…&verdict=wont-fit`, with its struck-through buttons;
+- G8. A link naming a verdict with a count of 0, `…&verdict=tight`, with its message;
+- G9. Gist with each message: `/results?gpu_search=RTX`, `/results?gpu_search=RTX%203060%2012GB`, `/results?vram_gb=abc`;
+- G10. Gist with the empty state: `/results?vram_gb=1` (`Won't fit` a link) and `/results?vram_gb=24&min_params_b=5&max_params_b=1` (all three inert);
+- G11. Gist with the catalog unseeded (R-026);
+- G12. A list loading, and a list that failed to load (R-090);
+- G13. Keyboard focus on a verdict control, a page size, a page number and the list's heading (R-091).
+
+Asked: "UI/UX overhaul". Change: "the landing page is going to be one big text box in the middle of the page, where you input your GPU and then it takes you to the page which is in the screenshot" (2026-10-28). Screens: "Whole app, incl. mobile" (offered as "every page, with the 390 px phone layout treated as a first-class design") and "How it works" (offered as "the /how-it-works explainer page"). Gate 2: "Approved the design: all 24 screens and states in `docs/design/final/` and `docs/design/mockups/final-*.html`, the copy table in `docs/design/README.md`, and ADRs 0001-0008. These are QA's reference (rule 10)." Change: "I think the user should be given only the gist first" (2026-11-02).
 
 - THE SYSTEM SHALL render these screens in the visual direction chosen at Gate 2, "D layout + E glass" (R-068):
   - the header and footer on every page;
@@ -716,7 +768,8 @@ Asked: "UI/UX overhaul". Change: "the landing page is going to be one big text b
   | 23 | `how-it-works` | How it works | 14 |
   | 24 | `focus-states` | Focus ring on every control | (R-077) |
 
-- WHEN QA opens the state of any row above at phone width and at desktop width, in the light and the dark theme, THE SYSTEM SHALL match that row's approved mockup and renders.
+- Changed (R-084): WHEN QA opens the state of any row above at phone width and at desktop width, in the light and the dark theme, THE SYSTEM SHALL match that row's approved mockup and renders; for rows 2 to 10 and 15 to 18, in the parts "Change (R-084)" above names.
+- Changed (R-084): WHEN QA opens any of states G1 to G13 at phone width and at desktop width, in the light and the dark theme, THE SYSTEM SHALL match the mockup approved for it at this change's Gate 2 (constitution rule 10).
 - `docs/design/mockups/final-spec.html` is the designer's spec sheet, a document and not a screen; it is not one of the 24.
 
 ### R-068 One visual identity, applied everywhere
@@ -747,29 +800,33 @@ Asked: "Looks generic/dated" (offered as "no visual identity; it should look lik
 
 ### R-069 The answer leads the results
 
-Status: planned (changed by R-083; was done) · Track: full · UI: yes · Source: intake 2026-10-25; Gate 1 answers Q-1, Q-2, Q-3, Q-4 and Q-10, Gate 2 approval (`docs/decisions.md`); change: R-083 (`/` shows no results or filters); `docs/design/README.md` (R-069 measurements, "Where a requirement pushed back", "Decisions for you" item 3, copy table); ADR-0006; `index.html` (filters `<details open>` between the form and the results), `results_summary.html`, `results_list.html` (count sentence after Top Picks and filter chips; `There are <n> variants in Won't fit` line), `main.py` (`_top_picks` descriptions); PR #19 (Top Picks copy deferred)
+Status: planned (changed by R-083, R-084; was done) · Track: full · UI: yes · Source: intake 2026-10-25; Gate 1 answers Q-1, Q-2, Q-3, Q-4 and Q-10, Gate 2 approval (`docs/decisions.md`); change: R-083 (`/` shows no results or filters); change: R-084, R-085, R-092, intake 2026-11-02; `docs/design/README.md` (R-069 measurements, "Where a requirement pushed back", "Decisions for you" item 3, copy table); ADR-0006; `index.html` (filters `<details open>` between the form and the results), `results_summary.html`, `results_list.html` (count sentence after Top Picks and filter chips; `There are <n> variants in Won't fit` line), `main.py` (`_top_picks` descriptions); PR #19 (Top Picks copy deferred)
 
 Asked: "Too dense" (offered as "too much information at once; the answer gets lost"). Gate 1: "the designer shows Top Picks placement options at Gate 2"; "filters start collapsed on a phone with an active-filter count"; "fix only the two copy quirks (empty state "variants" vs models, Top Picks copy)". Gate 2: "Filters start closed at both widths (not opened on desktop by script). The 800 px desktop target (R-069) applies to the normal results view; states that show a message (ambiguous GPU, input errors) may end around 840-880 px." The Gate 2 dispatch set the ceiling for those states at 900 px, added the GPU-not-found state to them, and kept 1688 px at phone width for every state.
 
 Change (R-083): `/` shows no results and no filters, so the two criteria that named `/` now name `/results` only. Was: "WHEN any state of `/` or `/results` that shows at least one model card loads at phone width …" and "WHEN `/` or `/results` loads at phone width or at desktop width, with or without JavaScript, THE SYSTEM SHALL show the filters closed …". The figures are unchanged.
 
+Change (R-084): the first view has no card, so the limits that named the first card now apply with a verdict selected, and the first view has limits of its own (Q-41). Top Picks and the list's heading add height, so the desktop limits rise by 100 px. Was: "WHEN the reference query loads at desktop width, THE SYSTEM SHALL end the result headline, and the first card's model name, verdict and margin, within the first 800 CSS px of the page", 900 CSS px for the message states, and 1688 CSS px at phone width for any state with a card.
+
 - THE SYSTEM SHALL place the result headline first in the results area, before Top Picks, active filter chips and the cards. Today the hardware and the counts sit at the top, but the "N models fit or are tight" sentence comes after Top Picks and the filter chips.
 - Process at Gate 2 (not system behaviour): the designer shows options for where Top Picks sit relative to the cards, and the user picks one (Q-1).
-- THE SYSTEM SHALL place Top Picks where the mockup approved at Gate 2 places them (Q-1).
+- Changed (R-084): THE SYSTEM SHALL place Top Picks after the verdict controls and before any list, where this change's approved mockups place them.
 - In the criteria below, a position "ends within N CSS px" when the bottom edge of the element's box is at most N CSS px from the top of the page, measured on first load with the filters closed.
-- WHEN the reference query loads at desktop width, THE SYSTEM SHALL end the result headline, and the first card's model name, verdict and margin, within the first 800 CSS px of the page, so they are visible without scrolling (Q-4).
-- WHEN any of these message states loads at desktop width, THE SYSTEM SHALL end the result headline, and the first card's model name, verdict and margin, within the first 900 CSS px of the page (Gate 2):
+- Changed (R-084): WHEN the reference query loads at desktop width, THE SYSTEM SHALL end the result headline, the three verdict controls and all three Top Picks within the first 800 CSS px of the page, so they are visible without scrolling (Q-4, Q-41).
+- Changed (R-084): WHEN the reference query with `&verdict=fits` loads at desktop width, THE SYSTEM SHALL end the result headline, and the first card's model name, verdict and margin, within the first 900 CSS px of the page (Q-41).
+- Changed (R-084): WHEN any of these message states loads at desktop width, THE SYSTEM SHALL end the result headline, the three verdict controls and all three Top Picks within the first 900 CSS px of the page; with `&verdict=fits` added, it SHALL end the result headline, and the first card's model name, verdict and margin, within the first 1000 CSS px (Gate 2, Q-41):
   - ambiguous GPU search, `/results?gpu_search=RTX`;
   - GPU not found, `/results?gpu_search=RTX%203060%2012GB` (search text `RTX 3060 12GB`);
   - input errors, `/results?vram_gb=abc`.
-- Changed (R-083): WHEN any state of `/results` that shows at least one model card loads at phone width, including the reference query and the three message states above, THE SYSTEM SHALL end the result headline, and the first card's model name, verdict and margin, within the first 1688 CSS px of the page, which is two phone screens (Q-4; Gate 2).
+- Changed (R-083, R-084): WHEN any state of `/results` with a selected verdict loads at phone width, including the reference query and the three message states above with `&verdict=fits`, THE SYSTEM SHALL end the result headline, and the first card's model name, verdict and margin, within the first 1688 CSS px of the page, which is two phone screens (Q-4; Gate 2; Q-41).
+- Changed (R-084): WHEN any gist loads at phone width, including the reference query and the three message states above, THE SYSTEM SHALL end the result headline and the three verdict controls within the first 1688 CSS px of the page (Q-41).
 - Changed (R-083): WHEN `/results` loads at phone width or at desktop width, with or without JavaScript, THE SYSTEM SHALL show the filters closed, behind one disclosure control (Q-3; Gate 2).
 - THE SYSTEM SHALL NOT open the filters by script on page load at any width (Gate 2).
 - THE SYSTEM SHALL label that control `Filters (N)`, where N is the number of active filter chips (R-031): for example `Filters (2)` for `/results?vram_gb=24&context_tokens=4096&family=qwen&quant_bucket=Q4`.
 - WHEN no filter is active, THE SYSTEM SHALL label that control `Filters (0)`.
 - WHEN the user activates that control, THE SYSTEM SHALL show every filter control of R-027 to R-030, with or without JavaScript.
 - THE SYSTEM SHALL render each fit pane's verdict and margin at a font size no smaller than any other text in that pane.
-- THE SYSTEM SHALL NOT add any figure or text to a model card beyond what R-015 to R-021 specify.
+- THE SYSTEM SHALL NOT add any figure or text to a model card beyond what R-015 to R-021 specify. A Top Pick is not a model card; R-092 adds its figures.
 - THE SYSTEM SHALL keep the summary's hardware label, context, default 8 GB note, `Fits`, `Tight` and `Won't fit` counts and GPU feedback (R-005, R-022, R-023), the active filter chips (R-031) and Top Picks (R-024), with the values, links and selection rules those requirements state. Where facts appear twice today (for example the `Fits`/`Tight` counts and the "N models fit or are tight" sentence), the designer may merge them (Q-2), but each value SHALL still appear at least once.
 - WHEN the empty state shows and the `Won't fit` count is above 0, THE SYSTEM SHALL describe that count as models, not variants, because it counts models (R-023); the sentence SHALL NOT contain the word `variants`. Today it reads `There are <n> variants in Won't fit, hidden by default.` (Q-10 (i)). The approved wording (copy table) is `There are <n> models in Won't fit, hidden by default.`, and `There is 1 model in Won't fit, hidden by default.` when the count is 1.
 - THE SYSTEM SHALL give each Top Pick a one-line description that says what the pick offers the user, not how the ranking works (Q-10 (ii)). No description SHALL contain `ranked` or `ranking`, and none SHALL equal today's `Highest-ranked variant that remains in the Fits band.`, `Next highest-ranked practical option by current ranking order.` or `Lowest-ranked viable option, usually the lightest footprint.` The approved wording (copy table) is `The strongest model that still leaves room to spare.` for `Best quality that fits`, `Nearly as capable, and comfortable to run.` for `Best balance`, and `The lightest model that still runs on your GPU.` for `Best small`. The selection rules of R-024 stay.
@@ -929,26 +986,28 @@ Asked: "UI/UX overhaul".
 
 ### R-078 Behaviour the overhaul keeps
 
-Status: planned (changed by R-083; was done) · Track: full · UI: yes · Source: change: R-083, intake 2026-10-28; intake 2026-10-25 (the user did not pick "Hard to use"); Gate 1 answers Q-2 and Q-8, Gate 2 approval (`docs/decisions.md`); `docs/design/README.md` (section "Copy table (Q-2): what changed" and its list "Word for word (R-078)"); constitution rules 11 and 16; R-001 to R-066
+Status: planned (changed by R-083, R-084; was done) · Track: full · UI: yes · Source: change: R-084 to R-092, intake 2026-11-02; change: R-083, intake 2026-10-28; intake 2026-10-25 (the user did not pick "Hard to use"); Gate 1 answers Q-2 and Q-8, Gate 2 approval (`docs/decisions.md`); `docs/design/README.md` (section "Copy table (Q-2): what changed" and its list "Word for word (R-078)"); constitution rules 11 and 16; R-001 to R-066
 
 Asked: "UI/UX overhaul". The user did not name the flow as a problem. Gate 1: "headings, help text, notes and raw labels (such as `weights_gb`) may be reworded and repeats merged. Error messages, verdict labels and figures stay. New wording is approved in the Gate 2 mockups."; "restyle the controls only, but the native GPU suggestion list may be replaced if it works badly on phones". Gate 2: "Approved the design: all 24 screens and states …, the copy table in `docs/design/README.md`, and ADRs 0001-0008. These are QA's reference (rule 10)."; "Build the styled GPU suggestion list (the `gpu-suggest` mockup) …".
 
 *Copy table*: the table under "Copy table (Q-2): what changed" in `docs/design/README.md`, approved at Gate 2. Each row gives an Old string (what the app rendered before the overhaul), a New string and a Where column. It is the wording reference for this change.
 
-- WHEN either query below loads after the overhaul, THE SYSTEM SHALL show the same models in the same order as `main` at f2ad2d8, with the same verdicts and the same required VRAM, available VRAM and margin figures:
-  - the reference query;
-  - `/results?vram_gb=12&context_tokens=8192&family=qwen&quant_bucket=Q4`.
+Change (R-084): the first view shows no cards, so the reference comparison walks the pages. An old link shows the gist, and `Only Fits and Tight models are listed. …` gives way to the notes of R-084 and R-085. Was: "WHEN either query below loads after the overhaul, THE SYSTEM SHALL show the same models in the same order as `main` at f2ad2d8, with the same verdicts and the same required VRAM, available VRAM and margin figures".
+
+- Changed (R-084): WHEN either query below is opened with `verdict=fits` and then `verdict=tight`, at `page_size=10`, and every page of each is read in turn, THE SYSTEM SHALL show the same models in the same order as `main` at f2ad2d8 showed on one page, with the same verdicts and the same required VRAM, available VRAM and margin figures:
+  - the reference query (71 models, all `Fits`);
+  - `/results?vram_gb=12&context_tokens=8192&family=qwen&quant_bucket=Q4` (23 models, all `Fits`).
 Change (R-083): the landing page changes the flow this requirement kept: `/` no longer shows the input form and results, `Clear` loads `/`, a box number in `gpu_search` is read as VRAM, and `/results` with no hardware redirects to `/`. Every other criterion here stays. Was: the bullet below without its last two sentences.
 
-- THE SYSTEM SHALL keep every route, query parameter and fragment of R-013, R-032 and R-042, so a URL that worked before the overhaul shows the same results after it. The one change is R-081: `/results/partials/content?<query>` opened as a normal page load redirects to `/results?<query>`, which shows the same results on the full page. Changed (R-083): `/` with query parameters shows the landing page, as it ignored them before; a full page load of `/results` with no `gpu_id`, `gpu_search` or `vram_gb` redirects to `/` (R-013); a `gpu_search` that is a box number shows that VRAM (R-003).
+- THE SYSTEM SHALL keep every route, query parameter and fragment of R-013, R-032 and R-042, so a URL that worked before the overhaul shows the same results after it. The one change is R-081: `/results/partials/content?<query>` opened as a normal page load redirects to `/results?<query>`, which shows the same results on the full page. Changed (R-083): `/` with query parameters shows the landing page, as it ignored them before; a full page load of `/results` with no `gpu_id`, `gpu_search` or `vram_gb` redirects to `/` (R-013); a `gpu_search` that is a box number shows that VRAM (R-003). Changed (R-084, R-088): a URL with no `verdict` shows the gist for the same results, with the same counts and Top Picks, and its cards one verdict at a time.
 - THE SYSTEM SHALL keep the inputs, filters and live refresh (R-001 to R-008, R-027 to R-032), the three context presets (R-006) and the model detail form with its GPU dropdown and hardware precedence (R-035), with the same controls, fields and steps; these are restyled only (Q-8). The one replacement is the styled GPU suggestion list of R-071, built over the native list, which stays as the no-JavaScript path.
 - THE SYSTEM SHALL show the required VRAM, the available VRAM and the margin with every verdict (constitution rule 16).
 - THE SYSTEM SHALL keep protected text word for word: every error message R-001 to R-066 specify, the verdict labels `Fits`, `Tight` and `Won't fit`, and every figure (Q-2).
-- WHERE a string appears in the copy table's Old column, THE SYSTEM SHALL show the row's New wording in the place its Where column names, or remove the string where the New column says `(removed …)` or `(merged …)`.
+- WHERE a string appears in the copy table's Old column, THE SYSTEM SHALL show the row's New wording in the place its Where column names, or remove the string where the New column says `(removed …)` or `(merged …)`. Changed (R-084): the row whose New wording is `Only Fits and Tight models are listed. …` gives way to the notes of R-084 and R-085.
 - WHERE the copy table's New column adds a string that had no Old wording (for example `Loading the breakdown`, `Kept free, not part of the total` and the visually hidden headings `Recompute for other hardware` and `Variants`), THE SYSTEM SHALL show that string word for word in the place its Where column names.
 - THE SYSTEM SHALL keep word for word every string the app rendered before the overhaul that is not in the copy table's Old column, including every error message, GPU search message, verdict label, figure, field label, button label, link text and tag that R-001 to R-066 specify and that the list "Word for word (R-078)" in `docs/design/README.md` names.
 - Repeated facts may be merged as the copy table and the approved mockups (R-067) merge them, so long as each value still appears at least once (Q-2).
-- WHILE JavaScript is disabled, THE SYSTEM SHALL still submit the form and render results, cards and gauges, and show `Apply filters` (R-013, R-018, R-032).
+- Changed (R-090): WHILE JavaScript is disabled, THE SYSTEM SHALL still submit the form, render the gist, render cards and gauges through the verdict, page and page-size links, and show `Apply filters` (R-013, R-018, R-032, R-090).
 - WHILE JavaScript is disabled, THE SYSTEM SHALL let the user open any section the redesign collapses.
 
 ### R-079 New styles reach returning visitors
@@ -961,9 +1020,11 @@ Asked: "UI/UX overhaul".
 
 ### R-080 HTML responses carry `Cache-Control`
 
-Status: done · Track: full · UI: no · Source: Gate 1 answer Q-9 (`docs/decisions.md`); constitution rule 9; `main.py` (no route or middleware sets `Cache-Control` today; see "Other docs against the code" below)
+Status: planned (changed by R-090; was done) · Track: full · UI: no · Source: change: R-090, intake 2026-11-02; Gate 1 answer Q-9 (`docs/decisions.md`); constitution rule 9; `main.py` (no route or middleware sets `Cache-Control` today; see "Other docs against the code" below)
 
 Asked: "the overhaul ships with a `Cache-Control` header on HTML responses (a new UI: no requirement in this change)."
+
+Change (R-090): URLs 10 to 13 are new; the criteria are unchanged. Was: URLs 1 to 9.
 
 Check URLs, each requested with `GET` against a running app (for example `http://localhost:8000`) and a `Host` the allowlist accepts (R-043):
 
@@ -976,8 +1037,12 @@ Check URLs, each requested with `GET` against a running app (for example `http:/
 7. `/results/why/variant_model_qwen25_7b_instruct_q4?vram_gb=24&context_tokens=4096`
 8. `/models/model_qwen25_7b_instruct?vram_gb=24&context_tokens=4096`
 9. `/how-it-works`
+10. `/results?vram_gb=24&context_tokens=4096&verdict=fits`
+11. `/results?vram_gb=24&context_tokens=4096&verdict=fits&page=2&page_size=10`
+12. `/results/partials/content?vram_gb=24&context_tokens=4096&verdict=fits&page=2` with the request header `HX-Request: true`
+13. `/results/partials/list?vram_gb=24&context_tokens=4096&verdict=fits`
 
-QA can read the headers with `curl -s -o /dev/null -D - '<base><url>'` (add `-H 'HX-Request: true'` for URLs 3 and 4). The routes accept `GET` only, so use `-D -` rather than `curl -I`, which sends `HEAD`.
+QA can read the headers with `curl -s -o /dev/null -D - '<base><url>'` (add `-H 'HX-Request: true'` for URLs 3, 4 and 12). The routes accept `GET` only, so use `-D -` rather than `curl -I`, which sends `HEAD`.
 
 - WHEN a client requests any check URL, THE SYSTEM SHALL answer HTTP 200 with a `Content-Type` that starts with `text/html` and exactly one `Cache-Control` header.
 - WHEN a client requests any check URL, THE SYSTEM SHALL send a `Cache-Control` value that contains the directive `no-cache` or the directive `no-store`, so the browser fetches or revalidates the HTML on every load and a deploy shows on the next page load (constitution rule 9).
@@ -987,18 +1052,20 @@ Out of scope: `/static/…` files, whose freshness comes from the asset version 
 
 ### R-081 Back, forward, reload and shared links show the full page
 
-Status: done · Track: full · UI: no (no new screen or state: every page this requirement shows is the results state of R-067) · Source: Gate 2 round 1 and round 1 redo, Q-13 (`docs/decisions.md`); ADR-0008 (`docs/adr/0008-htmx-history-restores-full-page.md`); `index.html` (`hx-get="/results/partials/content"` with `hx-push-url="true"`, so each in-place refresh pushes a fragment URL); `main.py` (`results_partial_content` always returns `results_content.html`; `results` returns it for any `HX-Request: true`); `base.html` (htmx 1.9.12, default history cache)
+Status: planned (changed by R-084, R-088; was done) · Track: full · UI: no (no new screen or state: every page this requirement shows is the results state of R-067) · Source: change: R-084, R-088, intake 2026-11-02; Gate 2 round 1 and round 1 redo, Q-13 (`docs/decisions.md`); ADR-0008 (`docs/adr/0008-htmx-history-restores-full-page.md`); `index.html` (`hx-get="/results/partials/content"` with `hx-push-url="true"`, so each in-place refresh pushes a fragment URL); `main.py` (`results_partial_content` always returns `results_content.html`; `results` returns it for any `HX-Request: true`); `base.html` (htmx 1.9.12, default history cache)
 
 Asked: "Fix the htmx history-miss bug (a back navigation replaces the page with the bare results fragment) in this change." Gate 2 round 1 redo: "Q-13 resolved by ADR-0008: reload and shared links show the full page, so R-081 covers reload and share as well as Back/Forward."; "Old saved or shared links to `/results/partials/content?…`, opened as a normal page, redirect to `/results?…`."
 
 Today, each in-place refresh puts `/results/partials/content?<query>` in the address bar and in the browser history (R-032). When htmx has no cached copy of a history entry, it fetches that URL and puts the response in place of the page. The response is the results fragment, so the header, the form and the footer disappear. Reloading the page or opening the copied address shows the same bare fragment, without the stylesheet.
 
+Change (R-084, R-088): the steps open a verdict list, because "the same models in the same order" needs cards to compare; the gist's own history is in R-088. Was: Steps A and B opened `/results?vram_gb=24&context_tokens=4096`; *Full page* named "the summary and the model cards (or the empty state)"; the old-form example carried no `verdict`.
+
 Test setup, in a real browser with JavaScript enabled, at desktop width and again at phone width:
 
-- *Steps A*: open `/results?vram_gb=24&context_tokens=4096`, select the `8k` preset (the results refresh in place), then select the `2k` preset.
-- *Steps B*: open `/results?vram_gb=24&context_tokens=4096` and tick the `qwen` and `llama` family checkboxes (the results refresh in place after each).
+- *Steps A*: open `/results?vram_gb=24&context_tokens=4096&verdict=fits`, select the `8k` preset (the results refresh in place), then select the `2k` preset.
+- *Steps B*: open `/results?vram_gb=24&context_tokens=4096&verdict=fits` and tick the `qwen` and `llama` family checkboxes (the results refresh in place after each).
 - *Forcing a history miss*: in the browser console run `localStorage.removeItem('htmx-history-cache')`. The 12-refresh criterion forces misses without the console.
-- *Full page*: exactly one header with the `VRAM Sherpa` link, `Estimator`, `How it works` and the theme toggle; exactly one input form with `Search GPU`, `Available VRAM (GB)`, the context presets and `Check compatibility`; the filters; the summary and the model cards (or the empty state); and exactly one footer with `Catalog version`, `Estimation policy` and `Last updated`; all styled by the site stylesheet.
+- *Full page*: exactly one header with the `VRAM Sherpa` link, `Estimator`, `How it works` and the theme toggle; exactly one input form with `Search GPU`, `Available VRAM (GB)`, the context presets and `Check compatibility`; the filters; the summary with its verdict controls, and the model cards of the selected verdict (or, with no selected verdict, no cards, and the empty state where R-025 shows it); and exactly one footer with `Catalog version`, `Estimation policy` and `Last updated`; all styled by the site stylesheet.
 - *Old-form address*: `/results/partials/content?<query>`, the address an in-place refresh put in the address bar before this change, as found in old bookmarks, shared links and browser history.
 
 Back and forward:
@@ -1013,7 +1080,7 @@ Back and forward:
 
 Address bar, reload and shared links:
 
-- WHEN results refresh in place, THE SYSTEM SHALL put in the address bar an address whose path is `/results` and whose query string is the query string of that refresh's request. After Steps A the address SHALL have the path `/results` and carry `vram_gb=24` and `context_tokens=2048`.
+- WHEN results refresh in place, THE SYSTEM SHALL put in the address bar an address whose path is `/results` and whose query string is the query string of that refresh's request. After Steps A the address SHALL have the path `/results` and carry `vram_gb=24`, `context_tokens=2048` and `verdict=fits`.
 - WHEN the user completes Steps A and reloads the page, THE SYSTEM SHALL show the full page with the `2k` preset selected, the summary's context stating `2k`, and the same models in the same order with the same verdicts and figures as before the reload.
 - WHEN the user completes Steps B and reloads the page, THE SYSTEM SHALL show the full page with `qwen` and `llama` ticked and the same models in the same order with the same verdicts and figures as before the reload.
 - WHEN the user completes Steps B, copies the address from the address bar and opens it in a new private window (empty cache and storage), THE SYSTEM SHALL show the full page with `qwen` and `llama` ticked and the same models in the same order with the same verdicts and figures as the original tab.
@@ -1024,7 +1091,8 @@ Old-form addresses:
 - WHEN such a request has no query string, THE SYSTEM SHALL send `Location: /results`.
 - THE SYSTEM SHALL send that `Location` as a path with no scheme and no host, so behind the tunnel the browser stays on `https` (constitution rule 8, R-045).
 - THE SYSTEM SHALL NOT answer that redirect with status 301 or 308. Browsers cache permanent redirects, and a cached one would also catch the in-place refreshes, which still request `/results/partials/content` with the same queries.
-- WHEN a browser opens `/results/partials/content?vram_gb=24&context_tokens=4096&family=qwen&family=llama` as a normal page load, THE SYSTEM SHALL end at the address `/results?vram_gb=24&context_tokens=4096&family=qwen&family=llama` and show the full page with the same models in the same order, with the same verdicts and figures, as that `/results` address opened directly.
+- Changed (R-088): WHEN a browser opens `/results/partials/content?vram_gb=24&context_tokens=4096&family=qwen&family=llama&verdict=fits` as a normal page load, THE SYSTEM SHALL end at the address `/results?vram_gb=24&context_tokens=4096&family=qwen&family=llama&verdict=fits` and show the full page with the same models in the same order, with the same verdicts and figures, as that `/results` address opened directly.
+- Changed (R-084): WHEN a browser opens such an address with no `verdict`, as every old link is, THE SYSTEM SHALL end at the `/results` address and show the full page with the gist of R-084.
 - WHEN the user has opened an old-form address as above and then selects the `8k` preset, THE SYSTEM SHALL refresh the summary and results in place without a full page load, as R-032 states.
 - WHEN a request to `/results/partials/content`, `/results/partials/summary` or `/results/partials/list` carries `HX-Request: true`, THE SYSTEM SHALL answer it as it does today: HTTP 200 with the same fragment, and no redirect.
 - THE SYSTEM SHALL NOT redirect requests to `/results/partials/summary` or `/results/partials/list`, with or without `HX-Request: true`.
@@ -1115,6 +1183,227 @@ Assets:
 
 - WHERE this change alters any file under `src/vramsherpa/static/`, THE SYSTEM SHALL request its CSS and JS with an asset version other than `20261027e` (constitution rule 21, R-041).
 
+## Results gist and verdict lists (Full track)
+
+Added 2026-11-02 for the Full-track change "results gist" (branch `sdlc/full-results-gist`). The user's words, which are the source:
+
+> "I have another improvement, when the user clicks on the searhc option and we get to the result page, in an instant the page is overloaded with a lot of results. I think the user should be given only the gist first i.e. the window that shows hom many modesl fit or are tight and then the green yello and blue. and then the top picks for you. Only after the user selects either of the 3 options i.e. green (fits), yellow (tight), red (won't fit). The remaining results should be loaded and that too in a paginated way like 5-10 at a time which the user can select."
+
+The user wrote "green yello and blue" once and then "green (fits), yellow (tight), red (won't fit)". These requirements read the second as what the user means: there is no blue verdict.
+
+Every choice the user's words did not settle is a row in Q-24 to Q-42 under "Open questions" and in `docs/decisions.md` ("Made during work", 2026-11-02). The requirements below carry the answer, marked with its Q number. Gate 1 answered them on 2026-11-02: approved as proposed, with the `Won't fit` order changed (Q-31) and the smoke check added (Q-42).
+
+Out of scope: the estimate and its formula (`ESTIMATION_POLICY_VERSION` stays), the landing page, `/models/<id>`, `/how-it-works`, a sort control (none exists today; the order is fixed by R-019) and `results_table.html`, which no route renders (Notes, quirk (d)).
+
+Terms:
+
+- *Verdict*: `Fits`, `Tight` or `Won't fit`. In the address they are `verdict=fits`, `verdict=tight` and `verdict=wont-fit`.
+- *Count*: a verdict's number of models (R-023).
+- *Selected verdict*: the verdict named by a request's `verdict` parameter, when its count is above 0.
+- *Gist*: the results page, or its fragment, with no selected verdict.
+- *Verdict list*: the cards of the selected verdict, one page at a time.
+- *Reference query*: as in the UI/UX overhaul terms, `/results?vram_gb=24&context_tokens=4096`.
+
+Worked figures below use catalog `2026-10-23`. Counts: the reference query gives 71 `Fits`, 0 `Tight`, 24 `Won't fit`; `/results?vram_gb=8&context_tokens=2048` gives 49, 9, 37; the same at `context_tokens=4096` gives 36, 13, 46, and at `context_tokens=8192` gives 35, 0, 60; `/results?vram_gb=8&context_tokens=2048&family=llama` gives 6, 4, 4; `/results?vram_gb=1` gives 0, 0, 95; `/results?vram_gb=24&min_params_b=5&max_params_b=1` gives 0, 0, 0. After a catalog refresh QA takes the counts from the page and checks the same rules.
+
+### R-084 The results page shows the gist first
+
+Status: planned · Track: full · UI: yes · Source: intake 2026-11-02 (quoted above); `index.html`, `results_content.html`, `results_summary.html`, `results_top_picks.html`, `results_list.html`; `main.py` (`results`, `results_partial_content`, `_results_page_context`)
+
+Asked: "when the user clicks on the searhc option and we get to the result page, in an instant the page is overloaded with a lot of results. I think the user should be given only the gist first i.e. the window that shows hom many modesl fit or are tight and then the green yello and blue. and then the top picks for you." ("blue" read as red; see above.)
+
+- WHEN a request to `/results` with hardware (R-013) has no selected verdict, THE SYSTEM SHALL answer HTTP 200 with the gist, whose results area holds, in this document order: the answer tile's headline, `Hardware:` and `Context:` lines; any input error, GPU search message and default note (R-005, R-008, R-022); the three verdict controls (R-085); any active filter chips (R-031); and Top Picks where R-024 shows them (Q-24).
+- THE SYSTEM SHALL keep the input form with `Filters (N)` closed beside or above the gist, as R-069 and R-071 state (Q-24).
+- THE SYSTEM SHALL NOT include any model card in a gist response: for the reference query the body SHALL contain `id="summary-banner"` and `Manual VRAM (24 GB)`, and SHALL NOT contain `data-model-card` or `How this is estimated`, whether or not the request carries `HX-Request: true` (Q-35).
+- THE SYSTEM SHALL render the cards only in the response that names a selected verdict, and SHALL NOT send them hidden in the gist (Q-35).
+- WHILE the gist shows, THE SYSTEM SHALL render Top Picks open at phone and desktop width, with or without JavaScript (Q-24).
+- WHILE the gist shows and at least one count is above 0, THE SYSTEM SHALL show under the verdict controls the note `Choose Fits, Tight or Won't fit to see the models.`, and SHALL NOT show `Only Fits and Tight models are listed.` This is rewordable text, approved at this change's Gate 2 (Q-41).
+- WHILE the gist shows and the `Fits` and `Tight` counts are both 0 on a seeded catalog, THE SYSTEM SHALL show the empty state of R-025 under the gist: `/results?vram_gb=1` shows the empty state with `Won't fit` available as a control.
+- WHILE the catalog is unseeded, THE SYSTEM SHALL show the two sentences of R-026 and no verdict control as a link.
+- THE SYSTEM SHALL keep the `#summary-banner` element in every results response, so the release smoke test's render check still holds (R-062, constitution rule 18).
+- THE SYSTEM SHALL add no route and only GET handling for this change (R-042, constitution rule 11).
+- WHERE this change alters any file under `src/vramsherpa/static/`, THE SYSTEM SHALL request its CSS and JS with an asset version other than `20261028f` (constitution rule 21, R-041).
+
+### R-085 Three verdict controls
+
+Status: planned · Track: full · UI: yes · Source: intake 2026-11-02; `results_summary.html` (`.counts`), `styles.css` (`--fits-*`, `--tight-*`, `--wont-*`), `main.py` (`_summary_counts`)
+
+Asked: "Only after the user selects either of the 3 options i.e. green (fits), yellow (tight), red (won't fit)."
+
+- THE SYSTEM SHALL make the three counts of R-023 the controls, in the order `Fits`, `Tight`, `Won't fit`, each showing its count and its verdict label, and SHALL NOT show a second set of counts on the page (Q-25).
+- THE SYSTEM SHALL draw each control with that verdict's existing colour tokens: green `--fits-*` for `Fits`, amber `--tight-*` for `Tight`, red `--wont-*` for `Won't fit`, plus the verdict's icon shape as the non-colour cue (R-072).
+- WHEN the user selects a control whose count is above 0, THE SYSTEM SHALL show that verdict's list (R-086) on page 1.
+- THE SYSTEM SHALL allow one selected verdict at a time (Q-26).
+- WHEN the user selects a second verdict while one is selected, THE SYSTEM SHALL replace the list with the second verdict's, on page 1, keeping the page size.
+- WHEN the user selects the control of the selected verdict, THE SYSTEM SHALL return to the gist, with no `verdict`, `page` or `page_size` in the address (Q-26).
+- WHILE a verdict is selected, THE SYSTEM SHALL mark its control as selected by more than colour.
+- WHEN a verdict, page or page size is selected, THE SYSTEM SHALL keep all three counts at the values the gist shows.
+- WHILE a verdict's count is 0, THE SYSTEM SHALL show its control as inert text showing `0`, not a link and not focusable: for the reference query, `Tight` (Q-27).
+- IF a request names a verdict whose count is 0, for example `/results?vram_gb=24&context_tokens=4096&verdict=tight`, THEN THE SYSTEM SHALL answer HTTP 200 with the gist and, in an element with `role="status"`, `No models in Tight with these settings.`, with that verdict's label in place of `Tight` (Q-27, Q-41).
+- WHILE a verdict is selected, THE SYSTEM SHALL show Top Picks as today: rendered closed, opened by script from 900 px wide (R-069), and showing the same three picks as the gist (Q-40).
+- WHILE a verdict is selected, THE SYSTEM SHALL show under the verdict controls the note `Pick a quantisation on any card to see how it changes.`
+
+### R-086 What a verdict list holds
+
+Status: planned · Track: full · UI: yes · Source: intake 2026-11-02; `main.py` (`_group_results_by_model`, `_summary_counts`), `results_list.html`; constitution rule 16; R-014 to R-021; Gate 1 answer Q-31 (`docs/decisions.md`, 2026-11-02: "closest to fitting first, not largest first as written")
+
+Asked: "The remaining results should be loaded".
+
+Change (Q-31, Gate 1, 2026-11-02): the `Won't fit` list shows closest to fitting first. Was: all three lists used one order, so `Won't fit` listed the largest model first, then by name. The examples below use catalog `2026-10-23`; after a catalog refresh QA computes the order from the same rule.
+
+- WHILE a verdict is selected, THE SYSTEM SHALL list exactly the models counted under it (R-023), so the list's total equals the count on its control: the reference query lists 71 models under `Fits` and 24 under `Won't fit`.
+- THE SYSTEM SHALL keep a model in the list even when it also appears in Top Picks (Q-30).
+- THE SYSTEM SHALL order the list as R-019 states, then cut it into pages: page 1 of the reference query's `Fits` list starts with `DeepSeek-Coder-V2-Lite-Instruct`, `DeepSeek-V2-Lite`, `DeepSeek-V2-Lite-Chat`, `Qwen2.5 14B Instruct`, `DeepSeek-R1-Distill-Qwen-14B` (Q-31).
+- Changed (Q-31): WHILE `Won't fit` is selected, THE SYSTEM SHALL list first the model whose open variant is the smallest amount over the available VRAM, using the order and tie-break R-019 states.
+- Changed (Q-31): WHEN `/results?vram_gb=24&context_tokens=4096&verdict=wont-fit` loads, THE SYSTEM SHALL show these cards on page 1, in this order: `Qwen3-30B-A3B` (`4.4 GB over`), `Qwen3-30B-A3B-Instruct-2507` (`4.4 GB over`), `Qwen3-Coder-30B-A3B-Instruct` (`4.4 GB over`), `DeepSeek-R1-Distill-Qwen-32B` (`6.3 GB over`), `Qwen2.5-32B-Instruct` (`6.3 GB over`).
+- Changed (Q-31): WHEN the same query loads with `page=5`, THE SYSTEM SHALL show `DeepSeek-V3.1` (`603.0 GB over`), `DeepSeek-V3.2` (`603.8 GB over`), `DeepSeek-V4-Pro` (`1439.2 GB over`), `DeepSeek-V4-Pro-0813` (`1486.4 GB over`), in this order, so the largest model comes last.
+- Changed (Q-31): WHEN the same query loads with `page=4`, THE SYSTEM SHALL show `DeepSeek-V4-Flash-0731` (`255.2 GB over`), then `DeepSeek-R1`, `DeepSeek-V3`, `DeepSeek-R1-0528`, `DeepSeek-V3-0324`, all four showing `603.0 GB over`, because the first two are 602.9754 GB over and the last two 603.0022 GB over before rounding.
+- Changed (Q-31): WHEN `/results?vram_gb=1&verdict=wont-fit&page=2` loads, THE SYSTEM SHALL show `Qwen3-0.6B-Base` (`0.5 GB over`), `Llama-3.2-1B` (`0.8 GB over`), `Llama-3.2-1B-Instruct` (`0.8 GB over`), `gemma-3-1b-it` (`0.8 GB over`), `phi-1_5` (`1.1 GB over`), in this order, the three at the same overage ordered by name.
+- Changed (Q-31): WHEN `/results?vram_gb=24&context_tokens=4096&quant_bucket=Q8&verdict=wont-fit` loads, THE SYSTEM SHALL measure each card's overage on its open `Q8` variant, so page 1 starts with `Qwen3-30B-A3B` at `20.9 GB over`.
+- THE SYSTEM SHALL show each card with the contents and behaviour of R-015 to R-021, whichever verdict is selected.
+- WHILE `Won't fit` is selected, THE SYSTEM SHALL show one card per model with no usable variant, opening on its variant as R-016 states, with `<x> GB over`, its gauge, `<required> GB needed`, `<available> GB`, every quantisation button struck through (R-017) and `How this is estimated` working as on other cards (Q-31).
+- THE SYSTEM SHALL show, for every model in every list, the required VRAM, the available VRAM and the margin of the open variant and of each variant the user switches to (constitution rule 16).
+- WHEN the user presses a quantisation button on a card, THE SYSTEM SHALL switch the pane as R-017 states, without a network request, and SHALL NOT move the card to another list or change any count, even when the pane now shows another verdict.
+- WHEN the user comes back to a card after moving to another page, THE SYSTEM SHALL open it on its default variant (R-016).
+- THE SYSTEM SHALL compute the same required VRAM, available VRAM, margin and verdict as before this change, and `/how-it-works` and `ESTIMATION_POLICY_VERSION` SHALL NOT change.
+
+### R-087 Pages and page size
+
+Status: planned · Track: full · UI: yes · Source: intake 2026-11-02
+
+Asked: "in a paginated way like 5-10 at a time which the user can select."
+
+Page size:
+
+- WHILE a verdict is selected and its count is above 5, THE SYSTEM SHALL offer exactly two page sizes above the cards, `5` and `10`, as links in a group named `Models per page`, with the current size marked `aria-current="true"` (Q-28).
+- WHEN no `page_size` is given, THE SYSTEM SHALL show 5 cards per page (Q-28).
+- WHEN the user selects a page size, THE SYSTEM SHALL show page 1 of the same verdict at that size.
+- WHILE a verdict's count is 5 or fewer, THE SYSTEM SHALL show neither the page sizes nor the page controls: `Tight` at `/results?vram_gb=8&context_tokens=2048&family=llama` shows its 4 cards alone.
+
+The list's heading:
+
+- WHILE a verdict is selected, THE SYSTEM SHALL head the list with `<verdict>: showing <first>-<last> of <total> models`, for example `Fits: showing 6-10 of 71 models`; when `<first>` equals `<last>`, `Fits: showing 71 of 71 models`; when the total is 1, `<verdict>: showing 1 of 1 model`. The verdict label and figures are protected text; the rest is rewordable at this change's Gate 2 (Q-41).
+
+Moving between pages:
+
+- WHILE the list has more than one page, THE SYSTEM SHALL show under the cards `Previous`, page numbers and `Next` as links (Q-29).
+- THE SYSTEM SHALL show the numbers of the first page, the last page, the current page and the pages on either side of it, with `…` wherever numbers are left out: of 15 pages, page 1 shows `1 2 … 15`, page 6 shows `1 … 5 6 7 … 15` and page 15 shows `1 … 14 15`.
+- THE SYSTEM SHALL mark the current page `aria-current="page"` and SHALL NOT make it a link.
+- WHILE on page 1, THE SYSTEM SHALL show `Previous` as inert text.
+- WHILE on the last page, THE SYSTEM SHALL show `Next` as inert text.
+- WHEN the user moves to a page, THE SYSTEM SHALL replace the cards with that page's cards, and SHALL NOT append to them (Q-29).
+- WHEN a page is requested, THE SYSTEM SHALL send only that page's cards: `/results?vram_gb=24&context_tokens=4096&verdict=fits` holds 5 `data-model-card` elements, `…&verdict=fits&page=15` holds 1, `…&verdict=fits&page_size=10` holds 10 and `…&verdict=fits&page_size=10&page=8` holds 1 (Q-35).
+- WHEN `/results?vram_gb=8&context_tokens=2048&verdict=tight` loads, THE SYSTEM SHALL show 2 pages at size 5 (5 cards, then 4).
+- WHEN `/results?vram_gb=8&context_tokens=2048&verdict=tight&page_size=10` loads, THE SYSTEM SHALL show the 9 cards on one page, with the page sizes and no page controls.
+
+### R-088 Address, reload, Back and shared links
+
+Status: planned · Track: full · UI: no (no screen of its own; the views are those of R-084 to R-087) · Source: intake 2026-11-02; R-032, R-081; `main.py` (`_query_items`, `_results_url`, `_results_page_url`); constitution rules 8 and 11
+
+Asked: the user's words do not address it; it follows from "The remaining results should be loaded and that too in a paginated way" and the shareable links of R-032 and R-081 (Q-33).
+
+- THE SYSTEM SHALL read the view from the query parameters `verdict` (`fits`, `tight`, `wont-fit`), `page` (a whole number from 1) and `page_size` (`5` or `10`) on `/results`, `/results/partials/content`, `/results/partials/summary` and `/results/partials/list`.
+- WHEN the user selects a verdict, a page or a page size, THE SYSTEM SHALL put those values in the address, whose path is `/results`, as `verdict=fits`, `page=2` and `page_size=10`, omitting `page` when it is 1 and `page_size` when it is 5, and SHALL add one browser history entry.
+- THE SYSTEM SHALL build each verdict, page and page-size link from the current address, so it carries every other parameter unchanged, including repeated `family` and `quant_bucket`, in their order.
+- WHEN the user follows such a link from a page opened with unusable hardware (`/results?vram_gb=abc`, `/results?gpu_id=no_such_gpu`, `/results?gpu_search=RTX`), THE SYSTEM SHALL stay on `/results` at the same 8 GB with the same message, and SHALL NOT redirect to `/` (R-013).
+- WHEN the user reloads, or opens the copied address in a new private window, THE SYSTEM SHALL show the same verdict, page, page size, models, order, verdicts and figures, on the full page (R-081).
+- WHEN the user selects `Fits`, moves to page 2, then presses Back twice, THE SYSTEM SHALL show page 1 of `Fits`, then the gist; pressing Forward SHALL restore them in turn, with or without a history miss (R-081).
+- WHEN the user follows a model name from a list to `/models/<id>` and presses Back, THE SYSTEM SHALL show the same verdict, page and page size.
+- WHEN an address carries no `verdict`, including every link shared before this change, THE SYSTEM SHALL show the gist for its other parameters, and SHALL ignore any `page` or `page_size` on it (Q-33).
+- WHEN `/results/partials/content?<query>` is opened as a normal page load, THE SYSTEM SHALL redirect as R-081 states, keeping `verdict`, `page` and `page_size` in the query unchanged.
+- WHEN `/results?verdict=fits` carries no hardware and no `HX-Request: true`, THE SYSTEM SHALL redirect to `/` as R-013 states.
+- IF `verdict` is any other value (for example `green`, `FITS` or empty), THEN THE SYSTEM SHALL answer HTTP 200 with the gist (Q-33).
+- IF `page_size` is any other value (for example `7`, `abc`, `1000` or empty), THEN THE SYSTEM SHALL answer HTTP 200 at 5 cards per page (Q-33).
+- IF `page` is not a whole number of at least 1 (for example `abc`, `0`, `-1` or `1.5`), THEN THE SYSTEM SHALL answer HTTP 200 with page 1 (Q-33).
+- IF `page` is above the last page, THEN THE SYSTEM SHALL answer HTTP 200 with the last page and no redirect: `…&verdict=fits&page=99` shows the same cards as `…&verdict=fits&page=15` (Q-33).
+- IF a request repeats `verdict`, THEN THE SYSTEM SHALL use the last value.
+- THE SYSTEM SHALL NOT write an invalid `verdict`, `page` or `page_size` value into the page: `/results?vram_gb=24&verdict=%3Cscript%3E` has no `<script>` from that value in its body and no link carrying it.
+- THE SYSTEM SHALL keep the verdict, page and page size in the address only, and SHALL NOT store them in a cookie, `localStorage` or on the server (constitution rule 11).
+
+### R-089 Filters, context and hardware with a verdict
+
+Status: planned · Track: full · UI: yes · Source: intake 2026-11-02; `index.html` (`hx-trigger`, `Filters (N)`), `main.py` (`_active_filter_chips`, `_empty_state_suggestions`, `_variant_query`); R-027 to R-032
+
+Asked: the user's words do not address it; the filters and context exist today, and "when the user clicks on the searhc option" is the moment the user wants the gist (Q-32, Q-34).
+
+Where they live and what they change:
+
+- THE SYSTEM SHALL keep the filters and context presets in the input form, in both the gist and a verdict list, and SHALL add no sort control (Q-32).
+- THE SYSTEM SHALL apply the filters and context before counting, so the counts, the headline, Top Picks and the list all follow them: `/results?vram_gb=8&context_tokens=2048&family=llama` shows `6`, `4` and `4` on the controls.
+- THE SYSTEM SHALL NOT count the selected verdict in `Filters (N)` or show it as an active filter chip.
+
+What keeps the verdict (Q-34):
+
+- WHEN the user changes a context preset, a family or quantisation checkbox, `Min params (B)`, `Max params (B)` or `Recommended only`, presses `Apply filters`, follows an active filter chip (R-031) or follows `Try Q4` or `Lower context` (R-025), THE SYSTEM SHALL keep `verdict` and `page_size` and show page 1.
+- WHEN the user selects `Tight` at `/results?vram_gb=8&context_tokens=4096` (13 models), moves to page 3 and selects `2k`, THE SYSTEM SHALL show page 1 of `Tight` with `Tight: showing 1-5 of 9 models` and an address carrying `verdict=tight` and no `page`.
+- WHEN such a change leaves the selected verdict's count at 0, THE SYSTEM SHALL show the gist with the message of R-085, keep `verdict` in the address, and show that verdict's list again if a later change raises its count: from `Tight` at 4k, `8k` shows `No models in Tight with these settings.`, and then `4k` shows `Tight: showing 1-5 of 13 models`.
+- WHEN no verdict is selected and the user makes such a change, THE SYSTEM SHALL stay on the gist.
+
+What returns to the gist (Q-34):
+
+- WHEN the user presses `Check compatibility`, or presses Enter in a form field, THE SYSTEM SHALL show the gist for the submitted values, with no `verdict`, `page` or `page_size` in the address, with or without JavaScript.
+- WHEN the user presses `Clear`, THE SYSTEM SHALL load `/` (R-083).
+
+History:
+
+- WHEN the user presses Back to any view and then changes a filter or context preset, THE SYSTEM SHALL apply the change to the verdict that view shows, not to the verdict of the entry the user came from: after `Fits`, then Back to the gist, `8k` stays on the gist.
+
+### R-090 In-place loading, and working without JavaScript
+
+Status: planned · Track: full · UI: yes · Source: intake 2026-11-02; `index.html`, `base.html` (htmx 1.9.12), `results_content.html`, `main.py` (`results_partial_*`), `static/js/app.js`; R-032, R-078, R-080, R-081
+
+Asked: "The remaining results should be loaded".
+
+With JavaScript:
+
+- WHEN JavaScript is available and the user selects a verdict, a page or a page size, THE SYSTEM SHALL refresh the results area in place through `/results/partials/content`, without a full page load, and SHALL leave the input form's fields as they are, including text typed and not submitted (Q-36).
+- WHEN that text was typed and not submitted, THE SYSTEM SHALL compute the list for the address's values, not the typed text.
+- WHILE a verdict list is being fetched, THE SYSTEM SHALL keep the current view in place, mark the results area `aria-busy="true"`, and show `Loading models` (Q-37).
+- IF that fetch fails (a network failure or a status of 400 or above), THEN THE SYSTEM SHALL keep the current view and address and show `Could not load the models. Try again.` in an element with `role="alert"` (Q-37, Q-41).
+- WHEN `/results/partials/list` is requested with no selected verdict, THE SYSTEM SHALL answer HTTP 200 with no model card.
+- WHEN `/results/partials/list` is requested with a selected verdict, THE SYSTEM SHALL answer HTTP 200 with that verdict's page of cards.
+- WHEN `/results/partials/summary` is requested, THE SYSTEM SHALL answer HTTP 200 with the answer tile and Top Picks and no model card, with the control of any selected verdict marked (R-032).
+
+Without JavaScript:
+
+- WHILE JavaScript is disabled, THE SYSTEM SHALL render every verdict control, page size, page number, `Previous` and `Next` as a plain link that loads the same view as a full page (Q-36).
+- WHILE JavaScript is disabled, THE SYSTEM SHALL let the user reach every view of R-084 to R-089, open Top Picks, and keep the verdict through `Apply filters` (R-069, R-078, R-089).
+
+Headers:
+
+- THE SYSTEM SHALL send every response of this change with `Cache-Control` as R-080 states (constitution rule 9).
+
+### R-091 Accessibility and phone width
+
+Status: planned · Track: full · UI: yes · Source: intake 2026-11-02; R-070, R-072, R-077; `styles.css` (`.counts`)
+
+Asked: the user's words do not address it; R-070 and R-077 apply to every screen (Q-38).
+
+- THE SYSTEM SHALL group the verdict controls under the accessible name `Show models by verdict`, and name each control with its count and verdict label, for example `71 Fits`.
+- THE SYSTEM SHALL mark the selected verdict's control `aria-current="true"` and no other control so.
+- THE SYSTEM SHALL mark the selected control in a way that is not colour alone, with a contrast of at least 3:1 against adjacent colours, in both themes (R-077).
+- THE SYSTEM SHALL put the page controls in a `nav` named `Pages`, name each number `Page <n>`, and hide `…` from assistive technology.
+- THE SYSTEM SHALL let the user operate every verdict control, page size, page number, `Previous` and `Next` by keyboard alone, with the visible focus indicator of R-077, in on-screen order, and SHALL NOT place inert text in the tab order.
+- WHEN a selected verdict, page or page size loads in place, THE SYSTEM SHALL move keyboard focus to the list's heading.
+- WHEN a selected verdict, page or page size loads in place, THE SYSTEM SHALL bring the list's heading into view.
+- WHEN the user selects the selected verdict again and returns to the gist in place, THE SYSTEM SHALL keep keyboard focus on that control.
+- WHILE the visitor's system requests reduced motion, THE SYSTEM SHALL bring the heading into view without animation.
+- WHILE at phone width, THE SYSTEM SHALL give each verdict control, page size, page number, `Previous` and `Next` a tap target of at least 44 × 44 CSS px, with no two overlapping (R-070).
+- WHILE at phone width, THE SYSTEM SHALL show the three verdict controls on one row.
+- WHEN any of these loads at phone width, THE SYSTEM SHALL keep `document.documentElement.scrollWidth` at 390 (R-070): the gist of the reference query; `…&verdict=fits&page=6`, with its window `1 … 5 6 7 … 15`; `/results?vram_gb=1&verdict=wont-fit&page=10`, with its window `1 … 9 10 11 … 19`. The page controls MAY wrap onto a second row.
+- THE SYSTEM SHALL meet R-077's contrast, R-070's 12 px minimum and R-072's non-colour verdict cue on all of these, in both themes.
+
+### R-092 Top Picks show the figures behind the verdict
+
+Status: planned · Track: full · UI: yes · Source: constitution rule 16; intake 2026-11-02; `results_top_picks.html` and R-024 (a pick shows name, size, quantisation and description, and no figures); `main.py` (`_top_picks`), `components.html` (`verdict`)
+
+Asked: "and then the top picks for you." The figures come from constitution rule 16, not from the user's words: Top Picks are now the only models on the first view, and their titles state a verdict (Q-39).
+
+- THE SYSTEM SHALL show on each pick, in addition to R-024's content, the variant's verdict label (`Fits` or `Tight`), `<required, 2 decimals> GB needed`, `<available, 1 decimal> GB` and `<margin, 1 decimal> GB spare`. For the reference query, `Best quality that fits` shows `DeepSeek-Coder-V2-Lite-Instruct`, `15.7B · Q4`, `Fits`, `15.36 GB needed`, `24.0 GB` and `8.6 GB spare`.
+- THE SYSTEM SHALL show the pick's figures with the same values as that variant's fit pane on its card.
+- THE SYSTEM SHALL NOT change which variants R-024 selects, or add a gauge or a breakdown to a pick (Q-39).
+- THE SYSTEM SHALL treat the numbers on the verdict controls as counts of models, not verdicts on a model, so rule 16's figures are not shown on them (Q-39).
+
 ## Notes
 
 - Not recorded as requirements: branch `feat/tokens-per-second` (ee788b3) is unmerged work in progress. PR #19 lists three deliberately deferred items: Top Picks copy, raw Hugging Face names on discovered models, and tokens per second. At Gate 1 the Top Picks copy came into scope (R-069); the other two stay out (Q-10; tokens per second was dropped at intake).
@@ -1165,7 +1454,7 @@ The user answered Q-1 to Q-11 at Gate 1 on 2026-10-25. The answers are recorded 
 
 ## Open questions
 
-Q-14 to Q-23 (R-083) were answered at Gate 1 on 2026-10-28; see the table at the end and `docs/decisions.md` (rows dated 2026-10-28, Gate 1). Earlier: Q-12 and Q-13 were raised while applying the Gate 2 round 1 decisions and closed by the user at Gate 2 round 1 redo (2026-10-25); the answers are in `docs/decisions.md` (rows dated 2026-10-25, Gate "2 (round 1 redo)"). Neither conflicts with `docs/constitution.md`. Applying the Gate 2 approval (R-067, R-068, R-069, R-071, R-078) raised no new question, and none of those changes conflicts with the constitution; the styled GPU suggestion list adds JavaScript under `static/`, so rule 21 applies through R-079.
+Q-24 to Q-42 (R-084 to R-092) were answered at Gate 1 on 2026-11-02; see the last table and `docs/decisions.md` (rows dated 2026-11-02, Gate 1). Q-14 to Q-23 (R-083) were answered at Gate 1 on 2026-10-28; see the table above it and `docs/decisions.md` (rows dated 2026-10-28, Gate 1). Earlier: Q-12 and Q-13 were raised while applying the Gate 2 round 1 decisions and closed by the user at Gate 2 round 1 redo (2026-10-25); the answers are in `docs/decisions.md` (rows dated 2026-10-25, Gate "2 (round 1 redo)"). Neither conflicts with `docs/constitution.md`. Applying the Gate 2 approval (R-067, R-068, R-069, R-071, R-078) raised no new question, and none of those changes conflicts with the constitution; the styled GPU suggestion list adds JavaScript under `static/`, so rule 21 applies through R-079.
 
 | # | Requirement | Question | Status and answer |
 | --- | --- | --- | --- |
@@ -1188,3 +1477,29 @@ Each row is a choice the user's words did not settle. The requirements above car
 | Q-21 | R-083 | What do "big" and "in the middle" mean, testably? | Box centred horizontally within 2 px; its vertical centre between 35% and 65% of the viewport height; at least 560 px wide at 1280 and 342 px at 390; box, chips and submit visible without scrolling. The designer may propose other numbers at Gate 2. | Approved as proposed. |
 | Q-22 | R-026, R-083 | What does `/` show with an unseeded catalog? | The box with the two R-026 sentences under it, HTTP 200. | Approved as proposed. |
 | Q-23 | R-062, rule 18 | The release smoke test's page render requests `/?vram_gb=24&context_tokens=4096`. Today that renders 8 GB results; after this change it renders the landing page, which computes no results. The check is not removed, but it covers less. | Add a check that `GET /results?vram_gb=24&context_tokens=4096` returns success to the smoke test in this change (adding checks is allowed by rule 18). Not yet written into R-062; say yes and it will be. | Yes. Written into R-062: `GET /results?vram_gb=24&context_tokens=4096` must return 200 with `id="summary-banner"` and `Manual VRAM (24 GB)`. |
+
+### Open for Gate 1: results gist and verdict lists (R-084 to R-092, 2026-11-02)
+
+Each row is a choice the user's words did not settle. All were answered at Gate 1 on 2026-11-02 (`docs/decisions.md`, "Decided by you"), as the last column shows. The requirements above carry the answers, and `docs/decisions.md` ("Made during work", 2026-11-02) records the reasoning behind each proposal. Constitution check: the change adds no route and only GET (rule 11, R-042); nothing a visitor picks is stored (rule 11, R-088); every new HTML response keeps `Cache-Control` (rule 9, R-080); redirects stay relative (rule 8, R-081); it adds no column (rule 17); and it needs approved mockups and browser QA (rule 10, R-067 states G1 to G13) and an asset version bump (rule 21). Two rules needed a ruling: rule 16 in Q-39, where Top Picks today break it once they are the first view's only models, and rule 18 in Q-42. Gate 1 accepted both proposals, so neither is a conflict. The changed `Won't fit` order alters no figure and no formula, so it conflicts with no rule.
+
+| # | Requirement | Question | Proposed answer | Gate 1 answer (2026-11-02) |
+| --- | --- | --- | --- | --- |
+| Q-24 | R-084, R-069 | What exactly shows before a verdict is chosen? | The input form with `Filters (N)` closed stays, because the context and filters live there. The answer tile keeps its headline, hardware, context, messages and chips, with the three verdict controls in it; Top Picks follow, open at both widths. No cards and no `How this is estimated` (it lives on cards). The empty state still shows when `Fits` and `Tight` are both 0. | Approved as proposed. |
+| Q-25 | R-085 | Are the three controls new, or are they today's three counts? | Today's three count tiles become the controls, so the counts aren't shown twice. | Approved as proposed. |
+| Q-26 | R-085 | One verdict at a time, or several together? Does selecting again collapse? | One at a time. Selecting another replaces the list; selecting the same one again returns to the gist. | Approved as proposed. |
+| Q-27 | R-085 | What does a count of 0 do? | The control is inert text showing `0`. A link naming that verdict shows the gist with `No models in Tight with these settings.` | Approved as proposed. |
+| Q-28 | R-087 | What does "5-10 at a time which the user can select" mean? | Two sizes, `5` and `10`, as links above the cards, default 5 (the smaller one, since the complaint is overload). Hidden when a verdict has 5 models or fewer. The other reading, any number from 5 to 10, adds choice without use. | Approved as proposed. |
+| Q-29 | R-087 | How does the user move through pages? | `Previous`, page numbers and `Next` under the cards, with a window such as `1 … 5 6 7 … 15`. A new page replaces the cards; no "load more", since the user said "paginated". | Approved as proposed. |
+| Q-30 | R-086 | "The remaining results": does the list leave out models already in Top Picks? | No. The list holds every model the count names, so a count of 71 lists 71. A pick's model can also appear in the list. | Approved as proposed. |
+| Q-31 | R-086, R-014, R-016, R-019 | `Won't fit` models have had no card until now. How do they look, and in what order? | Same card as the others, opening on the recommended variant (else the first in Q4, Q5, Q8, FP16 order), with `<x> GB over`, the gauge and the breakdown, all buttons struck through. Same order as R-019: largest first, then name, so one rule covers all three lists. The alternative is closest to fitting first, which needs a new rule; say so if you prefer it. | Changed. `Won't fit` lists closest to fitting first, not largest first: smallest overage of the open variant first (R-019, R-086). The rest stands as proposed. `Fits` and `Tight` keep R-019's order. |
+| Q-32 | R-089 | Do the filters and sort still apply, and where do they live? | Filters stay in the form pane and apply before counting, so counts, headline, Top Picks and list all follow them. There is no sort control today (R-019 fixes the order), and none is added. | Approved as proposed. |
+| Q-33 | R-088 | Do the verdict, page and page size go in the address? What about old links and bad values? | Yes, as `verdict`, `page` and `page_size`, so reload, Back, Forward and shared links reproduce the view. Links without `verdict`, including all old ones, show the gist. Bad values never give an error: an unknown verdict gives the gist, a bad page gives page 1, a bad size gives 5, and a page past the end gives the last page. | Approved as proposed. |
+| Q-34 | R-089 | What does a change of context, filter or hardware do to the verdict and page? | Context presets, filters, chips and `Apply filters` keep the verdict and page size and go to page 1, which also settles a page that no longer exists. If the verdict's count falls to 0, the gist shows with Q-27's message, and the list returns if the count rises again. `Check compatibility` or Enter is a new search, so it returns to the gist, as the user's words describe. | Approved as proposed. |
+| Q-35 | R-084, R-087 | Does "loaded" mean the first response really leaves the list out, or only hides it? | Really leaves it out: no `data-model-card` in a gist response, and only the current page's cards after that. The server still computes every model to get the counts. | Approved as proposed. |
+| Q-36 | R-090, R-088 | Must it work without JavaScript? What happens to in-place refreshes? | Yes: every control is a plain link, so each view also works as a full page. With JavaScript they refresh in place through the existing `/results/partials/content`, no new route. The quantisation switcher stays client-side (R-017). | Approved as proposed. |
+| Q-37 | R-090 | A list now loads on request, so a click can wait or fail. What does the user see? | The current view stays with `Loading models` while it waits. On failure, the view and address stay and `Could not load the models. Try again.` shows. | Approved as proposed. |
+| Q-38 | R-091 | Accessibility and 390 px? | Controls grouped as `Show models by verdict`; `aria-current` on the selected verdict, page and size; focus moves to the list heading on load and stays on the control on collapse; 44 px tap targets; no horizontal scroll, with the three controls on one row and the page controls allowed to wrap. | Approved as proposed. |
+| Q-39 | R-092, R-024, rule 16 | Top Picks show no required VRAM, available VRAM or margin today, and rule 16 asks for them with every verdict. | Add the verdict label and the three figures to each pick, using the card's format, with no gauge and no breakdown. Picks get a little taller. The counts on the controls are tallies, not verdicts on a model, so they carry no figures. | Approved as proposed. |
+| Q-40 | R-085, R-069 | Does Top Picks stay once a verdict is selected? | Yes, as it behaves today: closed on a phone so the list sits close to the controls, open from 900 px. The picks don't change with the verdict. | Approved as proposed. |
+| Q-41 | R-069, R-084, R-085, R-087, R-090 | New wording, and the layout limits. | Wording, final at Gate 2: `Choose Fits, Tight or Won't fit to see the models.`, `No models in Tight with these settings.`, `Fits: showing 6-10 of 71 models`, `Loading models`, `Could not load the models. Try again.` Limits at 1280 px: the gist's headline, controls and all picks end within 800 px (900 with a message). The first card's verdict and margin end within 900 px with a verdict selected (1000 with a message), raised from 800 and 900 because picks and the list heading add height. At 390 px, 1688 px stays. The designer may propose other numbers at Gate 2. | Approved as proposed. |
+| Q-42 | R-062, rule 18 | The release smoke test's `/results` check still passes, since `id="summary-banner"` and `Manual VRAM (24 GB)` stay in the gist, but it no longer exercises any card rendering. The check is not removed, but it covers less. | Add a check that `GET /results?vram_gb=24&context_tokens=4096&verdict=fits` returns 200 with `data-model-card` in the body (adding checks is allowed by rule 18). Not yet written into R-062; say yes and it will be. | Yes. Written into R-062: `GET /results?vram_gb=24&context_tokens=4096&verdict=fits` must return 200 with `data-model-card` in the body. The existing `/results` check stays (rule 18). |

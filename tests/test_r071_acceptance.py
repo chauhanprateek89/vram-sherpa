@@ -57,8 +57,17 @@ def _catalog_labels() -> list[str]:
     return [f"{g['vendor']} {g['name']} ({g['vram_gb']:.1f} GB)" for g in items]
 
 
+def _without_feedback(html: str) -> str:
+    """The page less `#results-feedback`, whose two live regions are always there and hold no
+    message until a script fills them (T-049, ADR-0018 point 4). Every message is counted as before.
+    """
+    kept, removed = re.subn(r'<div id="results-feedback">.*?</div>', "", html, flags=re.S)
+    assert removed == 1
+    return kept
+
+
 def test_input_error_list_appears_once_in_one_alert(client: TestClient) -> None:
-    html = client.get("/results?vram_gb=abc").text
+    html = _without_feedback(client.get("/results?vram_gb=abc").text)
     assert html.count('role="alert"') == 1
     assert html.count("Please fix the following input issues:") == 1
     assert html.count("Invalid value for vram_gb.") == 1
@@ -75,7 +84,7 @@ def test_every_input_error_keeps_its_words_and_shows_once(client: TestClient) ->
         ),
     }
     for url, message in cases.items():
-        html = client.get(url).text
+        html = _without_feedback(client.get(url).text)
         assert html.count('role="alert"') == 1, url
         assert html.count(message) == 1, (url, message)
 
@@ -114,11 +123,11 @@ def test_gpu_feedback_wording_is_the_protected_text(client: TestClient) -> None:
 
 
 def test_in_place_refresh_fragment_carries_only_the_current_messages(client: TestClient) -> None:
-    clean = client.get("/results/partials/content?vram_gb=24").text
+    clean = _without_feedback(client.get("/results/partials/content?vram_gb=24").text)
     assert 'role="alert"' not in clean
     assert "Please fix the following input issues:" not in clean
     assert "matched multiple entries" not in clean
-    bad = client.get("/results/partials/content?vram_gb=abc").text
+    bad = _without_feedback(client.get("/results/partials/content?vram_gb=abc").text)
     assert bad.count('role="alert"') == 1
     assert 'data-vram-invalid="true"' in bad
     assert 'data-vram-invalid="false"' in clean

@@ -1,0 +1,6 @@
+fixture 2026-10-23 main at f2ad2d8; the extractor output was identical on that tree and on the T-003 tree
+/results?vram_gb=24&context_tokens=4096 71 71 pages 9 IDENTICAL 284
+ gist cards: 0
+/results?vram_gb=12&context_tokens=8192&family=qwen&quant_bucket=Q4 23 23 pages 4 IDENTICAL 23
+ gist cards: 0
+ALL OK

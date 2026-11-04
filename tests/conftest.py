@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from pathlib import Path
 
 import pytest
@@ -47,3 +48,36 @@ def db_session(app) -> Session:
 def seeded_session(db_session: Session, data_dir: Path) -> Session:
     seed_catalog(db_session, data_dir=data_dir)
     return db_session
+
+
+_CARD_NAMES = re.compile(r"(?s)data-model-card.*?<h3>\s*<a [^>]*>([^<]+)")
+
+
+@pytest.fixture()
+def walk_verdict():
+    """Read every page of one verdict at ``page_size=10``; return the page bodies (R-078).
+
+    Stops at a page with fewer than 10 cards, or one whose cards equal the previous page's
+    (a page past the end shows the last page, so an exact multiple of 10 would never stop).
+    """
+
+    def walk(client, query: str, verdict: str = "fits", path: str = "/results") -> list[str]:
+        query = query.removeprefix("?").removeprefix(f"{path}?")
+        bodies: list[str] = []
+        previous: list[str] | None = None
+        page = 1
+        while True:
+            url = f"{path}?{query}&verdict={verdict}&page_size=10&page={page}"
+            response = client.get(url)
+            assert response.status_code == 200, url
+            names = _CARD_NAMES.findall(response.text)
+            if names == previous:
+                break
+            bodies.append(response.text)
+            if response.text.count("data-model-card") < 10:
+                break
+            previous = names
+            page += 1
+        return bodies
+
+    return walk

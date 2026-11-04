@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 import re
-from collections.abc import AsyncGenerator
+from collections.abc import AsyncGenerator, Sequence
 from contextlib import asynccontextmanager
 from dataclasses import dataclass
 from pathlib import Path
@@ -21,9 +21,21 @@ from vramsherpa.database import configure_engine, create_db_and_tables, get_sess
 from vramsherpa.estimation import FitBadge, estimate_breakdown, estimate_variant, reserve_gb
 from vramsherpa.gpu_input import decide_box, gpu_option_label, normalize_for_match
 from vramsherpa.models import GPU, CatalogMeta, Model, Variant
+from vramsherpa.results_view import (
+    DEFAULT_PAGE_SIZE,
+    PAGE_SIZES,
+    Pagination,
+    ResultsView,
+    page_window,
+    paginate,
+    parse_apply_view,
+    parse_results_view,
+    view_query,
+    without_apply_view,
+)
 
 CONTEXT_OPTIONS = (2048, 4096, 8192)
-ASSET_VERSION = "20261028f"
+ASSET_VERSION = "20261104b"
 ESTIMATION_POLICY_VERSION = "v0.1"
 # The /how-it-works worked example (R-075, ADR-0007). The figures are computed by
 # estimate_breakdown at request time; none is typed into the template.
@@ -184,12 +196,23 @@ class ModelCard:
         return self.variants[0]
 
 
-def _group_results_by_model(rows: list[ResultRow]) -> list[ModelCard]:
-    """Collapse variant rows into one card per model.
+def _default_variant(variants: list[ResultRow]) -> ResultRow:
+    """Pick the variant a card opens on (R-016).
 
-    A model appears when at least one of its variants fits or is tight. The card
-    opens on the recommended bucket when that one is usable, because opening on the
-    highest precision that fits makes every gauge look full and hides the headroom.
+    `variants` come in Q4, Q5, Q8, FP16 order. The recommended variant wins when it is
+    usable, else the first usable one. With none usable the card still needs a variant,
+    so the recommended one, else the first.
+    """
+    usable = [row for row in variants if row.classification != FitBadge.WONT_FIT.value]
+    pool = usable or variants
+    return next((row for row in pool if row.recommended), pool[0])
+
+
+def _group_results_by_model(rows: list[ResultRow]) -> list[ModelCard]:
+    """Collapse variant rows into one card per model, skipping none.
+
+    Opening on the recommended bucket when usable keeps gauges from all reading full.
+    A model with no usable variant still gets a card; it lands under Won't fit.
     """
     grouped: dict[str, list[ResultRow]] = {}
     for row in rows:
@@ -198,12 +221,6 @@ def _group_results_by_model(rows: list[ResultRow]) -> list[ModelCard]:
     cards: list[ModelCard] = []
     for model_id, variants in grouped.items():
         variants.sort(key=lambda row: QUANT_ORDER.get(row.quant_bucket, 99))
-        usable = [row for row in variants if row.classification != FitBadge.WONT_FIT.value]
-        if not usable:
-            continue
-
-        recommended = next((row for row in usable if row.recommended), None)
-        default = recommended or usable[0]
         first = variants[0]
         cards.append(
             ModelCard(
@@ -213,19 +230,110 @@ def _group_results_by_model(rows: list[ResultRow]) -> list[ModelCard]:
                 params_b=first.params_b,
                 gated=first.gated,
                 variants=variants,
-                default_variant_id=default.variant_id,
+                default_variant_id=_default_variant(variants).variant_id,
             )
         )
-
-    rank = {FitBadge.FITS.value: 0, FitBadge.TIGHT.value: 1, FitBadge.WONT_FIT.value: 2}
-    cards.sort(
-        key=lambda card: (
-            rank[card.default_variant.classification],
-            -card.params_b,
-            card.model_name,
-        )
-    )
     return cards
+
+
+_VERDICT_LABELS = {
+    "fits": FitBadge.FITS.value,
+    "tight": FitBadge.TIGHT.value,
+    "wont-fit": FitBadge.WONT_FIT.value,
+}
+
+
+_VERDICT_ICONS = {"fits": "fits", "tight": "tight", "wont-fit": "wont"}
+
+
+def _verdict_controls(
+    raw_query: str,
+    view: ResultsView,
+    counts: dict[str, int],
+    selected: str | None,
+    *,
+    seeded: bool,
+) -> list[dict]:
+    """The three counts as verdict controls (R-085, R-091). A link needs a count above 0; the
+    selected one links back to the gist. Links keep the raw query, as ADR-0014 requires."""
+    controls = []
+    for slug, label in _VERDICT_LABELS.items():
+        count = counts[label]
+        is_selected = slug == selected
+        query = None
+        if seeded and count > 0:
+            query = (
+                view_query(raw_query)
+                if is_selected
+                else view_query(raw_query, slug, page_size=view.page_size)
+            )
+        controls.append(
+            {
+                "slug": slug,
+                "label": label,
+                "icon": _VERDICT_ICONS[slug],
+                "count": count,
+                "query": query,
+                "selected": is_selected,
+            }
+        )
+    return controls
+
+
+def _size_controls(raw_query: str, slug: str, view: ResultsView) -> list[dict]:
+    """Models per page: each link keeps the verdict and every other parameter and drops page."""
+    return [
+        {
+            "size": size,
+            "query": view_query(raw_query, slug, page_size=size),
+            "current": size == view.page_size,
+        }
+        for size in PAGE_SIZES
+    ]
+
+
+def _page_controls(raw_query: str, slug: str, pagination: Pagination) -> list[dict]:
+    """Previous, the page window and Next (R-087). Each link keeps the verdict, a non-default
+    size and every other parameter; page 1 omits page. Inert ends and the current page have
+    no query."""
+    page, last = pagination.page, pagination.last_page
+
+    def query(n: int) -> str:
+        return view_query(raw_query, slug, page=n, page_size=pagination.page_size)
+
+    items: list[dict] = [{"kind": "prev", "query": query(page - 1) if page > 1 else None}]
+    for n in page_window(page, last):
+        if n is None:
+            items.append({"kind": "gap"})
+        else:
+            items.append({"kind": "page", "n": n, "current": n == page, "query": query(n)})
+    items.append({"kind": "next", "query": query(page + 1) if page < last else None})
+    return items
+
+
+def _verdict_cards(cards: list[ModelCard], label: str) -> list[ModelCard]:
+    """The cards whose open variant has this verdict, in list order (R-019).
+
+    Fits and Tight: largest model first. Won't fit: smallest shortfall first, taken
+    unrounded from the open variant. Names compare by code point.
+    """
+    chosen = [card for card in cards if card.default_variant.classification == label]
+    if label == FitBadge.WONT_FIT.value:
+
+        def key(card: ModelCard) -> tuple:
+            row = card.default_variant
+            return (
+                row.required_vram_gb - row.available_vram_gb,
+                -card.params_b,
+                card.model_name,
+                card.model_id,
+            )
+    else:
+
+        def key(card: ModelCard) -> tuple:
+            return (-card.params_b, card.model_name, card.model_id)
+
+    return sorted(chosen, key=key)
 
 
 def _catalog_version(session: Session) -> str:
@@ -516,6 +624,16 @@ def _query_items(
     return items
 
 
+def _view_items(view: ResultsView) -> list[tuple[str, str]]:
+    """The verdict and a non-default page size for the canonical links; never the page (R-089)."""
+    if view.verdict is None:
+        return []
+    items = [("verdict", view.verdict)]
+    if view.page_size != DEFAULT_PAGE_SIZE:
+        items.append(("page_size", str(view.page_size)))
+    return items
+
+
 def _results_url(items: list[tuple[str, str]]) -> str:
     encoded = urlencode(items, doseq=True)
     return f"/results?{encoded}" if encoded else "/results"
@@ -562,6 +680,7 @@ def _active_filter_chips(
     min_params_b: float | None,
     max_params_b: float | None,
     recommended_only: bool,
+    view_items: Sequence[tuple[str, str]] = (),
 ) -> list[ActiveFilterChip]:
     chips: list[ActiveFilterChip] = []
 
@@ -578,7 +697,11 @@ def _active_filter_chips(
             max_params_b=max_params_b,
             recommended_only=recommended_only,
         )
-        chips.append(ActiveFilterChip(label=f"Family: {family}", remove_url=_results_url(items)))
+        chips.append(
+            ActiveFilterChip(
+                label=f"Family: {family}", remove_url=_results_url([*items, *view_items])
+            )
+        )
 
     for index, quant in enumerate(selected_quant_buckets):
         updated_quant = selected_quant_buckets[:index] + selected_quant_buckets[index + 1 :]
@@ -593,7 +716,11 @@ def _active_filter_chips(
             max_params_b=max_params_b,
             recommended_only=recommended_only,
         )
-        chips.append(ActiveFilterChip(label=f"Quant: {quant}", remove_url=_results_url(items)))
+        chips.append(
+            ActiveFilterChip(
+                label=f"Quant: {quant}", remove_url=_results_url([*items, *view_items])
+            )
+        )
 
     if min_params_b is not None:
         items = _query_items(
@@ -610,7 +737,7 @@ def _active_filter_chips(
         chips.append(
             ActiveFilterChip(
                 label=f"Min params >= {min_params_b:g}B",
-                remove_url=_results_url(items),
+                remove_url=_results_url([*items, *view_items]),
             )
         )
 
@@ -629,7 +756,7 @@ def _active_filter_chips(
         chips.append(
             ActiveFilterChip(
                 label=f"Max params <= {max_params_b:g}B",
-                remove_url=_results_url(items),
+                remove_url=_results_url([*items, *view_items]),
             )
         )
 
@@ -645,38 +772,21 @@ def _active_filter_chips(
             max_params_b=max_params_b,
             recommended_only=False,
         )
-        chips.append(ActiveFilterChip(label="Recommended only", remove_url=_results_url(items)))
+        chips.append(
+            ActiveFilterChip(
+                label="Recommended only", remove_url=_results_url([*items, *view_items])
+            )
+        )
 
     return chips
 
 
-def _summary_counts(rows: list[ResultRow]) -> dict[str, int]:
-    """Count models, not variants.
-
-    The list below these tiles shows one card per model, so counting every
-    quantisation here reported 267 against a list of 71 and read as a bug.
-
-    Each model counts under the variant its card actually opens on. Counting by a
-    model's *best* variant instead left "Tight" permanently at zero, since a model
-    is only tight then when even Q4 is tight.
-    """
-    grouped: dict[str, list[ResultRow]] = {}
-    for row in rows:
-        grouped.setdefault(row.model_id, []).append(row)
-
-    outcomes: list[str] = []
-    for variants in grouped.values():
-        variants.sort(key=lambda row: QUANT_ORDER.get(row.quant_bucket, 99))
-        usable = [row for row in variants if row.classification != FitBadge.WONT_FIT.value]
-        if not usable:
-            outcomes.append(FitBadge.WONT_FIT.value)
-            continue
-        shown = next((row for row in usable if row.recommended), usable[0])
-        outcomes.append(shown.classification)
+def _summary_counts(cards: list[ModelCard]) -> dict[str, int]:
+    """Count models, not variants, each under the variant its card opens on."""
+    outcomes = [card.default_variant.classification for card in cards]
     return {
-        FitBadge.FITS.value: sum(1 for value in outcomes if value == FitBadge.FITS.value),
-        FitBadge.TIGHT.value: sum(1 for value in outcomes if value == FitBadge.TIGHT.value),
-        FitBadge.WONT_FIT.value: sum(1 for value in outcomes if value == FitBadge.WONT_FIT.value),
+        label.value: sum(1 for value in outcomes if value == label.value)
+        for label in (FitBadge.FITS, FitBadge.TIGHT, FitBadge.WONT_FIT)
     }
 
 
@@ -762,6 +872,7 @@ def _empty_state_suggestions(
     min_params_b: float | None,
     max_params_b: float | None,
     recommended_only: bool,
+    view_items: Sequence[tuple[str, str]] = (),
 ) -> dict[str, str | None]:
     q4_url: str | None = None
     if selected_quant_buckets != ["Q4"]:
@@ -776,7 +887,7 @@ def _empty_state_suggestions(
             max_params_b=max_params_b,
             recommended_only=recommended_only,
         )
-        q4_url = _results_url(q4_items)
+        q4_url = _results_url([*q4_items, *view_items])
 
     lower_context_values = [value for value in CONTEXT_OPTIONS if value < selected_context]
     lower_context_url: str | None = None
@@ -793,7 +904,7 @@ def _empty_state_suggestions(
             max_params_b=max_params_b,
             recommended_only=recommended_only,
         )
-        lower_context_url = _results_url(lower_context_items)
+        lower_context_url = _results_url([*lower_context_items, *view_items])
 
     return {
         "q4_url": q4_url,
@@ -864,6 +975,8 @@ def _results_context(
 ) -> dict:
     visible_results = [row for row in results_rows if row.classification != FitBadge.WONT_FIT.value]
     selected_gpu_label = _selected_gpu_label(gpus, selected_gpu_id)
+    view = parse_results_view(request.query_params)
+    view_items = _view_items(view)
     empty_state_suggestions = _empty_state_suggestions(
         selected_gpu_id=selected_gpu_id,
         gpu_search=gpu_search,
@@ -874,6 +987,7 @@ def _results_context(
         min_params_b=min_params_b,
         max_params_b=max_params_b,
         recommended_only=recommended_only,
+        view_items=view_items,
     )
     hardware_items = _query_items(
         selected_gpu_id=selected_gpu_id,
@@ -886,12 +1000,51 @@ def _results_context(
         max_params_b=None,
         recommended_only=False,
     )
+    all_cards = _group_results_by_model(results_rows)
+    # The whole list is built and counted first; only the cards shown are cut (Q-35).
+    summary_counts = _summary_counts(all_cards)
+    selected_verdict: str | None = None
+    pagination = None
+    model_cards: list[ModelCard] = []  # the gist passes no card (R-084, Q-35)
+    zero_verdict_label: str | None = None
+    if view.verdict is not None:
+        label = _VERDICT_LABELS[view.verdict]
+        if summary_counts[label] > 0:
+            selected_verdict = view.verdict
+            verdict_cards = _verdict_cards(all_cards, label)
+            pagination = paginate(len(verdict_cards), view)
+            model_cards = verdict_cards[pagination.first - 1 : pagination.last]
+        else:
+            zero_verdict_label = label
     context = _base_context(request, session)
     context.update(
         {
+            "verdict_controls": _verdict_controls(
+                request.url.query,
+                view,
+                summary_counts,
+                selected_verdict,
+                seeded=context["catalog_seeded"],
+            ),
             "gpus": gpus,
             "results": visible_results,
-            "model_cards": _group_results_by_model(results_rows),
+            "model_cards": model_cards,
+            "view": view,
+            "selected_verdict": selected_verdict,
+            "zero_verdict_label": zero_verdict_label,
+            "pagination": pagination,
+            "list_label": _VERDICT_LABELS.get(selected_verdict or ""),
+            "list_icon": _VERDICT_ICONS.get(selected_verdict or ""),
+            "size_controls": (
+                _size_controls(request.url.query, selected_verdict, view)
+                if selected_verdict and pagination and pagination.total > 5
+                else []
+            ),
+            "page_controls": (
+                _page_controls(request.url.query, selected_verdict, pagination)
+                if selected_verdict and pagination and pagination.last_page > 1
+                else []
+            ),
             "families": _all_families(session),
             "quant_options": _all_quant_buckets(session),
             "selected_gpu_id": selected_gpu_id,
@@ -922,7 +1075,7 @@ def _results_context(
             "form_errors": form_errors or [],
             "vram_error": vram_error,
             "gpu_search_feedback": gpu_search_feedback,
-            "summary_counts": _summary_counts(results_rows),
+            "summary_counts": summary_counts,
             "selected_hardware_label": _selected_hardware_label(
                 selected_gpu_label=selected_gpu_label,
                 manual_vram=manual_vram,
@@ -945,6 +1098,7 @@ def _results_context(
                 min_params_b=min_params_b,
                 max_params_b=max_params_b,
                 recommended_only=recommended_only,
+                view_items=view_items,
             ),
             "hardware_query_string": urlencode(hardware_items, doseq=True),
             "example_chips": _example_chips(gpus),
@@ -1120,6 +1274,18 @@ def results(
             headers={"Cache-Control": "no-cache", "Vary": ", ".join(HTML_VARY_HEADERS)},
         )
 
+    if "apply_view" in request.query_params and request.headers.get("HX-Request") != "true":
+        # The no-JavaScript `Apply filters`: one value becomes the real parameters, before any
+        # database work. The path is literal and the query keeps the request's raw bytes, so the
+        # `Location` stays relative (rule 8). An invalid value gives the gist (ADR-0016 point 6).
+        apply_view = parse_apply_view(request.query_params.getlist("apply_view"))
+        verdict, page_size = apply_view or (None, DEFAULT_PAGE_SIZE)
+        return RedirectResponse(
+            _results_page_url(view_query(request.url.query, verdict, page_size=page_size)),
+            status_code=302,
+            headers={"Cache-Control": "no-cache", "Vary": ", ".join(HTML_VARY_HEADERS)},
+        )
+
     context = _results_page_context(
         request,
         session,
@@ -1183,7 +1349,7 @@ def results_partial_content(
         request,
         "results_content.html",
         context,
-        headers={"HX-Push-Url": _results_page_url(request.url.query)},
+        headers={"HX-Push-Url": _results_page_url(without_apply_view(request.url.query))},
     )
 
 

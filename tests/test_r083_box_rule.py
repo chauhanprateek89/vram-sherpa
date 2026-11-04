@@ -13,10 +13,12 @@ from sqlalchemy.orm import Session
 
 HX = {"HX-Request": "true"}
 BOX_ATTR = re.compile(r'data-box-vram="[^"]*"')
+# A verdict control keeps the visitor's raw query (ADR-0014), so its links differ by design.
+VIEW_URLS = re.compile(r'(href|hx-get)="/results[^"]*"(?=[^>]*data-view-link)')
 
 
 def _norm(markup: str) -> str:
-    return " ".join(BOX_ATTR.sub("", markup).split())
+    return " ".join(VIEW_URLS.sub("", BOX_ATTR.sub("", markup)).split())
 
 
 @pytest.fixture()
@@ -65,7 +67,7 @@ def test_box_number_page_equals_vram_gb_page(client):
     plain = _get(client, "vram_gb=12&family=qwen")
     assert _norm(box) == _norm(plain)
     assert "data-box-vram" not in plain
-    assert "gpu_search=" not in box.split('id="results-shell"')[1]
+    assert "gpu_search=" not in VIEW_URLS.sub("", box.split('id="results-shell"')[1])
 
 
 @pytest.mark.parametrize("search", ["0", "0 GB", "0.0"])

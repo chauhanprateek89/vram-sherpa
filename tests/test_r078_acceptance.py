@@ -71,24 +71,26 @@ def test_copy_table_new_strings_are_present(client: TestClient) -> None:
     for new in [
         "Pick your GPU, or enter your VRAM if it isn't listed.",
         "71 models fit or are tight",
-        "Only Fits and Tight models are listed. Pick a quantisation on any card to see how it "
-        "changes.",
+        "Choose Fits, Tight or Won't fit to see the models.",
         "The strongest model that still leaves room to spare.",
         "Nearly as capable, and comfortable to run.",
         "The lightest model that still runs on your GPU.",
-        "Loading the breakdown",
-        "Open to load the breakdown.",
         "Filters (0)",
     ]:
         assert new in page, new
     assert 'placeholder="Start typing a GPU name"' in _body(client, REF)
+    # The breakdown placeholders live on the cards, which a verdict URL shows (R-084).
+    cards = _text(_body(client, REF + "&verdict=fits"))
+    for new in ["Loading the breakdown", "Open to load the breakdown."]:
+        assert new in cards, new
 
 
 def test_empty_state_wording(client: TestClient) -> None:
     page = _text(_body(client, EMPTY))
 
     assert "0 models fit or are tight" in page
-    assert "Only Fits and Tight models are listed." in page
+    assert "Only Fits and Tight models are listed." not in page
+    assert "Choose Fits, Tight or Won't fit to see the models." in page
     assert "Pick a quantisation on any card" not in page
     assert "There are 95 models in Won't fit, hidden by default." in page
     assert "variants in Won't fit" not in page
@@ -142,7 +144,6 @@ def test_protected_text_is_kept(client: TestClient) -> None:
         "Best quality that fits",
         "Best balance",
         "Best small",
-        "How this is estimated",
         "Catalog version: 2026-10-23",
         "Estimation policy: v0.1",
         "Last updated: 2026-10-23",
@@ -150,6 +151,9 @@ def test_protected_text_is_kept(client: TestClient) -> None:
         assert kept in page, kept
     for label in ["Fits", "Tight", "Won't fit"]:
         assert label in page
+    # The cards, and so their estimate link, appear once a verdict is chosen (R-084).
+    assert "How this is estimated" not in page
+    assert "How this is estimated" in _text(_body(client, REF + "&verdict=fits"))
 
     errors = _text(_body(client, "/results?vram_gb=abc"))
     assert "Please fix the following input issues:" in errors
@@ -175,10 +179,17 @@ def test_gpu_search_messages_word_for_word(client: TestClient) -> None:
     )
 
 
-def test_every_verdict_pane_shows_required_available_and_margin(client: TestClient) -> None:
+def test_every_verdict_pane_shows_required_available_and_margin(
+    client: TestClient, walk_verdict
+) -> None:
     """Rule 16: each variant pane carries its verdict, needed, available and margin figures."""
     for url in [REF, REF2, "/results?vram_gb=2&context_tokens=4096"]:
-        markup = _body(client, url)
+        query = url.split("?", 1)[1]
+        markup = "".join(
+            body
+            for verdict in ("fits", "tight", "wont-fit")
+            for body in walk_verdict(client, query, verdict)
+        )
         panes = re.split(r"data-variant-pane=", markup)[1:]
         assert panes, url
         for pane in panes:
@@ -230,16 +241,17 @@ def test_form_fields_and_steps_are_kept(client: TestClient) -> None:
     assert markup.count('<option value="gpu_') >= 35 or markup.count("<option") >= 35
 
 
-def test_no_javascript_markup(client: TestClient) -> None:
+def test_no_javascript_markup(client: TestClient, walk_verdict) -> None:
     """With JavaScript off: Apply filters is a real button, and collapsed sections are <details>."""
     markup = _body(client, REF)
+    pages = walk_verdict(client, REF.split("?", 1)[1])
 
     assert re.search(r"<noscript>\s*<button[^>]*type=\"submit\"[^>]*>\s*Apply filters", markup)
     filters = re.search(r"<details class=\"filters[^>]*>", markup)
     assert filters and "hidden" not in filters.group(0)
     picks = re.search(r"<details class=\"picks[^>]*>", markup)
     assert picks and "hidden" not in picks.group(0)
-    assert markup.count('<details class="why-panel"') >= 70
+    assert sum(page.count('<details class="why-panel"') for page in pages) >= 70
     assert 'method="get"' in markup
     # Server-rendered gauge widths, no script needed.
-    assert re.search(r'class="bar bar-fits" style="width: [\d.]+%;"', markup)
+    assert re.search(r'class="bar bar-fits" style="width: [\d.]+%;"', "".join(pages))

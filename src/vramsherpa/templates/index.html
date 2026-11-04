@@ -10,10 +10,12 @@
   class="form-pane pane"
   method="get"
   action="/results"
+  autocomplete="off"
   hx-get="/results/partials/content"
   hx-target="#results-shell"
   hx-push-url="true"
   hx-trigger="submit, change from:.js-auto-filter, keyup changed delay:350ms from:.js-auto-filter-text"
+  hx-sync="#results-shell:replace"
 >
   <h1 class="title">Find models that fit your VRAM</h1>
   <p class="hint">Pick your GPU, or enter your VRAM if it isn't listed.</p>
@@ -137,7 +139,7 @@
       </div>
     </div>
     <noscript>
-      <button type="submit" class="btn-secondary">Apply filters</button>
+      <button type="submit"{% if view.verdict %} name="apply_view" value="{{ view.verdict }}:{{ view.page_size }}"{% endif %} class="btn-secondary">Apply filters</button>
     </noscript>
   </details>
 </form>
@@ -146,6 +148,12 @@
 <section class="results-main">
   <div id="results-shell">
     {% include "results_content.html" %}
+  </div>
+  {# Outside the swap, and present and empty, because a live region has to exist before its text
+     changes (ADR-0018 point 4). app.js fills the inner span from data-text and adds .is-on. #}
+  <div id="results-feedback">
+    <p id="results-loading" role="status" data-text="Loading models"><span class="fb-spin" aria-hidden="true"></span><span data-fb-text></span></p>
+    <p id="results-error" role="alert" data-text="Could not load the models. Try again."><svg width="18" height="18" aria-hidden="true"><use href="#i-wont"/></svg><span data-fb-text></span></p>
   </div>
 </section>
 {% endblock %}

@@ -42,7 +42,7 @@ def client(app: FastAPI, seeded_session: Session) -> TestClient:
 
 @pytest.mark.parametrize("url", STATES)
 def test_headline_precedes_chips_picks_and_cards(client: TestClient, url: str) -> None:
-    html = client.get(url).text
+    html = client.get(url + "&verdict=fits").text
     headline = html.index('id="ans-h"')
     picks = html.index('class="picks')
     first_card = html.index('<article class="model-card')
@@ -108,3 +108,94 @@ def test_empty_state_counts_models_and_keeps_the_singular(
     html = client.get("/results?" + query).text
     assert line + ", hidden by default." in html
     assert "variants" not in html.split('id="results-list-shell"', 1)[1]
+
+
+def _children(html: str, open_tag: str) -> list[str]:
+    from html.parser import HTMLParser
+
+    class P(HTMLParser):
+        def __init__(self) -> None:
+            super().__init__()
+            self.depth = 0
+            self.target = -1
+            self.out: list[str] = []
+
+        def handle_starttag(self, tag, attrs):
+            if self.target < 0 and open_tag in self.get_starttag_text():
+                self.target = self.depth
+            elif self.depth == self.target + 1 and self.target >= 0:
+                cls = dict(attrs).get("class", "").split()
+                self.out.append(tag + ("." + cls[0] if cls and tag != "article" else ""))
+            if tag not in ("br", "img", "input", "meta", "link", "use", "path"):
+                self.depth += 1
+
+        def handle_startendtag(self, tag, attrs):
+            pass
+
+        def handle_endtag(self, tag):
+            self.depth -= 1
+            if self.target >= 0 and self.depth == self.target:
+                self.target = 10**9
+
+    p = P()
+    p.feed(html)
+    return p.out
+
+
+def test_answer_tile_children_and_document_order(client: TestClient) -> None:
+    html = client.get(REF + "&verdict=fits").text
+    assert _children(html, 'id="summary-banner"') == [
+        "h2.headline",
+        "p.ctx-line",
+        "div.verdicts",
+        "p.note",
+    ]
+    order = [
+        html.index('id="ans-h"'),
+        html.index('class="verdicts'),
+        html.index('class="note'),
+        html.index('class="picks'),
+        html.index('id="list-heading"'),
+        html.index('class="sizes"'),
+        html.index("data-model-card"),
+    ]
+    assert order == sorted(order)
+
+
+def test_list_pane_children(client: TestClient) -> None:
+    html = client.get(REF + "&verdict=fits").text
+    kids = _children(html, 'id="results-cards"')
+    assert kids[:2] == ["div.list-head", "div.card-grid"]
+    assert set(kids[2:]) <= {"nav.pager"}
+
+
+def test_list_css_values_are_pinned() -> None:
+    from pathlib import Path
+
+    css = (Path(__file__).parents[1] / "src/vramsherpa/static/css/styles.css").read_text()
+    for rule in (
+        ".list-pane { padding: 14px 10px 12px; }",
+        "@media (min-width: 900px) { .list-pane { padding: 10px 14px 14px; } }",
+        "padding: 0 6px 8px; }",
+        "font-size: 24px; line-height: 1.15;",
+        "min-height: 44px; min-width: 52px;",
+        ".list-pane .card-grid { padding: 0; }",
+        "#list-heading { scroll-margin-top: 96px; }",
+        ".list-head h2:focus { outline: none; }",
+        ".list-head h2:focus-visible { outline: 3px solid var(--focus);",
+    ):
+        assert rule in css, rule
+    assert css.index(".results { padding: 10px;") < css.index(".list-pane { padding")
+    assert css.index("@media (min-width: 900px) { .results { padding: 12px; } }") < css.index(
+        "@media (min-width: 900px) { .list-pane"
+    )
+
+
+def test_notices_tighten_only_while_a_verdict_is_selected() -> None:
+    from pathlib import Path
+
+    css = (Path(__file__).parents[1] / "src/vramsherpa/static/css/styles.css").read_text()
+    base = ".notice { display: flex; gap: 12px; align-items: flex-start; padding: 12px 16px;"
+    tight = ".answer[data-verdict] .notice { padding: 7px 16px; }"
+    assert base in css and tight in css
+    assert css.index(base) < css.index(tight)

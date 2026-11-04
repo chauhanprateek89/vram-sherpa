@@ -33,7 +33,7 @@ def _rule(selector: str) -> str:
 def test_every_card_has_ordered_buttons_one_pressed_and_a_gauge_per_pane(
     client: TestClient,
 ) -> None:
-    html = client.get(URL).text
+    html = client.get(URL + "&verdict=tight").text
     cards = html.split("data-model-card")[1:]
     assert cards
     for card in cards:
@@ -44,7 +44,7 @@ def test_every_card_has_ordered_buttons_one_pressed_and_a_gauge_per_pane(
 
 
 def test_won_t_fit_buttons_carry_tooltip_and_strike_through_rule(client: TestClient) -> None:
-    html = client.get(URL).text
+    html = client.get(URL + "&verdict=tight").text
     assert re.search(r'data-oversize="true" title="Does not fit in 8 GB"', html)
     assert "line-through" in _rule(".quants button[data-oversize]")
 
@@ -57,7 +57,7 @@ def test_phone_switcher_is_a_four_column_single_row_grid() -> None:
 
 
 def test_verdicts_use_three_distinct_shapes_plus_the_label(client: TestClient) -> None:
-    html = client.get(URL).text
+    html = client.get(URL + "&verdict=tight").text
     assert re.search(r'<use href="#i-tight"/></svg>Tight', html)
     sprite = client.get("/").text
     shapes = {

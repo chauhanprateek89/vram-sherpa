@@ -283,14 +283,13 @@ button { cursor: pointer; }
 /* ===== the bento grid ===== */
 .bento { display: grid; gap: var(--gap); grid-template-columns: minmax(0, 1fr); align-items: start; }
 #results-shell { display: contents; }
-.results-main, #results-summary-shell { display: contents; }
-#results-list-shell { min-width: 0; }
+.results-main, #results-summary-shell, #results-list-shell { display: contents; }
 @media (min-width: 900px) {
-  .bento { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); grid-template-rows: auto 1fr auto; }
+  .bento { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); grid-template-rows: auto 1fr; }
   .form-pane { grid-column: 1; grid-row: 1 / 3; align-self: stretch; }
   .answer { grid-column: 2; grid-row: 1; }
   .picks { grid-column: 2; grid-row: 2; align-self: stretch; }
-  #results-list-shell { grid-column: 1 / -1; grid-row: 3; }
+  .results { grid-column: 1 / -1; grid-row: 3; }
   /* Keyed on the answer tile, which a refresh re-renders (ADR-0006 point 9). */
   .answer.no-picks { grid-row: 1 / 3; align-self: stretch; }
 }
@@ -349,6 +348,7 @@ h1.title { font-size: var(--fs-h1); line-height: 1.1; letter-spacing: -.025em; f
 
 /* ===== filters (T-012): a disclosure at the foot of the form tile, closed at every width ===== */
 .filters { border-radius: 22px; padding: 0 6px; }
+.form-pane .filters { margin-top: auto; }
 .filters > summary { list-style: none; display: flex; align-items: center; gap: 10px; min-height: 52px; padding: 0 14px; cursor: pointer; font-weight: 560; font-size: var(--fs-body); }
 .filters > summary::-webkit-details-marker { display: none; }
 .filters > summary svg { color: var(--accent); flex: none; }
@@ -370,18 +370,31 @@ details[open] > .filter-fields { animation: whyIn var(--dur-2) var(--ease-out); 
 .frange .field { min-width: 0; }
 .choice-solo { grid-column: 1 / -1; justify-self: start; }
 
-/* ===== answer tile (T-013): headline, messages, counts, note and active filters ===== */
+/* ===== answer tile (T-013): headline, messages, verdict controls, note and active filters ===== */
 .answer { padding: var(--pad-pane); display: flex; flex-direction: column; gap: 10px; }
 .answer h2, .answer p, .answer ul { margin: 0; }
 .headline { font-size: var(--fs-display); line-height: 1.05; letter-spacing: -.03em; font-weight: 350; }
 .ctx-line { display: flex; flex-wrap: wrap; gap: 4px 20px; color: var(--muted); font-size: var(--fs-small); }
 .ctx-line b { color: var(--ink); font-weight: 560; }
-.counts { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-.counts li { display: grid; grid-template-columns: auto 1fr; column-gap: 8px; align-items: center; padding: 8px 14px 10px; border-radius: 22px; background: var(--inset); border: 1px solid var(--edge); box-shadow: var(--sh-2); --pill-bg: var(--pill-icon-cut); }
-.counts .c-fits { color: var(--fits-fg); } .counts .c-tight { color: var(--tight-fg); } .counts .c-wont { color: var(--wont-fg); }
-.counts b { font-size: var(--fs-stat); line-height: 1; letter-spacing: -.03em; font-weight: 500; color: var(--ink); }
-.counts span { grid-column: 1 / -1; font-size: var(--fs-small); font-weight: 560; margin-top: 2px; color: var(--ink); }
-.answer.no-picks .counts { margin-top: auto; }
+.verdicts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.vt { --tone: var(--fits-fg); --tint: var(--fits-bg); --pill-bg: var(--tint); position: relative; display: grid; grid-template-columns: auto 1fr; column-gap: 8px; align-items: center; align-content: center;
+  min-height: 74px; padding: 8px 12.5px 10px; border-radius: 22px; border: 1.5px solid color-mix(in srgb, var(--tone) 50%, transparent); background: var(--tint); color: var(--ink); text-decoration: none; box-shadow: var(--sh-2);
+  transition: transform var(--dur-1) var(--ease-out), box-shadow var(--dur-2) var(--ease-out); }
+.vt-tight { --tone: var(--tight-fg); --tint: var(--tight-bg); }
+.vt-wont { --tone: var(--wont-fg); --tint: var(--wont-bg); }
+.vt svg { color: var(--tone); }
+.vt b { font-size: var(--fs-stat); line-height: 1; letter-spacing: -.03em; font-weight: 500; }
+.vt .vt-label { grid-column: 1 / -1; margin-top: 2px; font-size: var(--fs-small); font-weight: 560; }
+a.vt:hover { transform: translateY(-2px); box-shadow: var(--sh-2h); }
+a.vt:active { transform: scale(.97); transition-duration: 60ms; }
+a.vt:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: 22px; }
+/* selected: a 3 px ink border against the 1.5 px tone border of the others (shape and weight, not hue; kept in forced-colours mode),
+   padding reduced by the same 1.5 px so nothing inside moves */
+a.vt[aria-current="true"] { border: 3px solid var(--ink); padding: 6.5px 11px 8.5px; box-shadow: var(--sh-2h); }
+/* inert at 0 (or unseeded): the same tile, dashed, muted, no link */
+span.vt { background: var(--inset); border: 1.5px dashed var(--line); color: var(--muted); box-shadow: none; --pill-bg: var(--pill-icon-cut); }
+span.vt svg, span.vt b { color: var(--muted); }
+.is-pending::after { content: ""; position: absolute; top: 10px; right: 10px; width: 14px; height: 14px; border-radius: 50%; border: 2px solid currentColor; border-top-color: transparent; animation: spin .8s linear infinite; }
 .note { color: var(--muted); font-size: var(--fs-small); }
 .notice { display: flex; gap: 12px; align-items: flex-start; padding: 12px 16px; border-radius: 18px; background: var(--info-bg); color: var(--info-fg); border: 1px solid color-mix(in srgb, currentColor 22%, transparent); font-size: var(--fs-small); font-weight: 480; --pill-bg: var(--info-bg); }
 .notice svg { flex: none; margin-top: 2px; }
@@ -390,6 +403,8 @@ details[open] > .filter-fields { animation: whyIn var(--dur-2) var(--ease-out); 
 .notice strong { font-weight: 600; }
 .notice ul { list-style: none; padding: 0; }
 .notice li::before { content: "\2022"; margin-right: 8px; }
+/* A message with a verdict selected pushes the first card down; trim 5px top and bottom per notice so it ends within 1000px at 1280 (T-053). */
+.answer[data-verdict] .notice { padding: 7px 16px; }
 .active-filters { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: var(--fs-small); }
 .active-filters > span { color: var(--muted); font-weight: 520; margin-right: 2px; }
 .chip-link { display: inline-flex; align-items: center; gap: 8px; min-height: var(--tap); padding: 0 14px 0 16px; border-radius: var(--r-pill); border: 1.5px solid var(--line); background: var(--seg); color: var(--ink); text-decoration: none; font-weight: 520; transition: background var(--dur-1), transform var(--dur-1) var(--ease-out); }
@@ -417,14 +432,68 @@ details[open] > .pick-grid { animation: whyIn var(--dur-2) var(--ease-out); }
 .pick-title { font-size: var(--fs-caption); font-weight: 560; color: var(--accent); }
 .pick-meta { font-size: var(--fs-caption); color: var(--muted); }
 .pick-desc { font-size: var(--fs-caption); margin: 6px 0 0; line-height: 1.35; }
+.pick .pick-desc { margin-top: 4px; }
+/* Figures on a pick (R-092): the card's verdict, spare margin and needed/available, no gauge. */
+.pick-fig { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--hair); }
+.pick-fig .fit-top { margin-bottom: 6px; gap: 8px; flex-wrap: nowrap; }
+.pick .state { min-height: 32px; padding: 0 10px 0 8px; gap: 6px; font-size: var(--fs-caption); }
+.pick .headroom { font-size: var(--fs-caption); white-space: nowrap; }
+.pick .headroom b { font-size: 20px; }
+.pick .scale { margin-top: 0; }
+.pick h3 a::after { z-index: 0; }
 .pick:hover { transform: translateY(-2px); box-shadow: var(--sh-2h); }
 .pick:active { transform: scale(.98); box-shadow: var(--sh-in); transition-duration: 70ms; }
 
 /* ===== results pane and model cards (T-015) ===== */
-.results { padding: 10px; }
+.results { padding: 10px; min-width: 0; }
 @media (min-width: 900px) { .results { padding: 12px; } }
 .card-grid { display: grid; gap: 10px; grid-template-columns: minmax(0, 1fr); }
 @media (min-width: 900px) { .card-grid { gap: 14px; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; } }
+
+/* The list under a selected verdict (R-087, R-091): after .results, which has equal specificity. */
+.list-pane { padding: 14px 10px 12px; }
+@media (min-width: 900px) { .list-pane { padding: 10px 14px 14px; } }
+.list-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 20px; padding: 0 6px 8px; }
+.list-head h2 { display: flex; align-items: center; gap: 10px; font-size: 24px; line-height: 1.15; letter-spacing: -.02em; font-weight: 500; padding: 4px 6px; margin: -4px -6px; border-radius: 14px; }
+.list-head h2 svg { color: var(--tone); }
+.list-head h2 b { font-weight: 650; }
+.list-head h2.lh-fits { --tone: var(--fits-fg); } .list-head h2.lh-tight { --tone: var(--tight-fg); } .list-head h2.lh-wont { --tone: var(--wont-fg); }
+.list-head h2:focus { outline: none; }
+.list-head h2:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: 14px; }
+.sizes { display: flex; align-items: center; gap: 12px; }
+.sizes-l { font-size: var(--fs-small); font-weight: 560; }
+.sizes-seg { display: inline-grid; grid-auto-flow: column; grid-auto-columns: 1fr; padding: 2px; border-radius: var(--r-pill); background: var(--seg); box-shadow: var(--sh-in); border: 1px solid var(--edge); }
+.sizes-seg a, .sizes-seg span { display: flex; align-items: center; justify-content: center; min-height: 44px; min-width: 52px; padding: 0 14px; border-radius: var(--r-pill); font-weight: 560; font-size: var(--fs-small); color: var(--ink); text-decoration: none; transition: background var(--dur-1); }
+.sizes-seg a:hover { background: var(--hair); }
+.sizes-seg [aria-current="true"] { background: var(--pressed); color: var(--on-pressed); }
+.sizes-seg a:focus-visible { outline: 3px solid var(--focus); outline-offset: 1px; border-radius: var(--r-pill); }
+/* The mockups draw no pending size. Unlike .vt and .pager a it is not positioned, and at 52 px wide the spinner has to sit in the corner, off the digits. */
+.sizes-seg .is-pending { position: relative; } .sizes-seg .is-pending::after { top: 15px; right: 4px; }
+.pager { margin-top: 14px; padding: 0 4px; }
+.pager ul { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.pager a, .pager .pg { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; padding: 0 12px; border-radius: var(--r-pill); font-weight: 560; font-size: var(--fs-small); text-decoration: none; color: var(--ink); position: relative; }
+.pager a { background: var(--seg); border: 1.5px solid var(--line); transition: background var(--dur-1), transform var(--dur-1) var(--ease-out); }
+.pager a:hover { background: var(--inset); } .pager a:active { transform: scale(.95); }
+.pager a:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: var(--r-pill); }
+.pager .pg-cur { background: var(--pressed); color: var(--on-pressed); border: 1.5px solid transparent; }
+.pager .pg-off { color: var(--muted); border: 1.5px dashed var(--line); }
+.pager .gap { display: inline-flex; align-items: center; justify-content: center; min-width: 22px; color: var(--muted); font-weight: 560; }
+.pager .is-pending { padding-right: 34px; } .pager .is-pending::after { top: 15px; right: 12px; }
+
+/* ===== feedback: anchored to the viewport, outside the page flow, so it never pushes the headline (G12, ADR-0018 point 5) ===== */
+#results-feedback { position: fixed; z-index: 60; left: 0; right: 0; top: 12px; display: grid; justify-items: center; gap: 8px; padding: 0 16px; pointer-events: none; }
+@media (min-width: 900px) { #results-feedback { top: 80px; } }   /* hangs from the sticky header: at the top of the page it ends where the headline begins */
+/* Empty: no box, and off the grid so it adds no gap above the other one, yet still in the accessibility tree, because a live region has to exist before its text changes (ADR-0018 point 4). */
+#results-feedback p { position: absolute; margin: 0; }
+#results-feedback p:not(.is-on) .fb-spin, #results-feedback p:not(.is-on) svg { display: none; }
+#results-feedback .is-on { position: static; display: flex; align-items: center; gap: 10px; max-width: min(100%, 440px); padding: 8px 16px 8px 12px; min-height: 40px; border-radius: 20px; background: var(--panel-solid); color: var(--ink);
+  border: 1px solid var(--line); box-shadow: var(--sh-3); font-size: var(--fs-small); font-weight: 560; }
+#results-feedback .fb-spin { width: 16px; height: 16px; border-radius: 50%; border: 2.5px solid var(--accent); border-top-color: transparent; animation: spin .8s linear infinite; flex: none; }
+#results-feedback .fb-alert { background: var(--wont-bg); color: var(--wont-fg); border-color: color-mix(in srgb, var(--wont-fg) 45%, transparent); --pill-bg: var(--wont-bg); pointer-events: auto; }
+[aria-busy="true"] .card-grid { cursor: progress; }
+
+.list-pane .card-grid { padding: 0; }
+@media (min-width: 900px) { #list-heading { scroll-margin-top: 96px; } }
 .model-card { --i: 0; --mx: 50%; --my: 0px; position: relative; padding: 18px; transition: box-shadow var(--dur-2) var(--ease-out), border-color var(--dur-2); }
 /* The 21 px title here loses to the .model-card h3 rule below, as in components.css, so titles are 22 px as the approved renders show. */
 @media (min-width: 900px) { .model-card { padding: 18px 20px 10px; } .model-card h3 { font-size: 21px; } }
