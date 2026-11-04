@@ -1,0 +1,42 @@
+NAV http://localhost:8000/results?vram_gb=24&context_tokens=4096&verdict=fits&page=6
+TABORDER [["A", "VRAM Sherpa", 25, 121], ["A", "Estimator", 25, 618], ["A", "How it works", 25, 734], ["BUTTON", "Dark mode", 25, 1191], ["INPUT", "", 220, 125], ["A", "Clear", 220, 510], ["INPUT", "", 315, 125], ["INPUT", "", 317, 490], ["BUTTON", "RTX 4060 8GB", 381, 125], ["BUTTON", "8GB", 381, 267], ["BUTTON", "24GB", 381, 338], ["BUTTON", "Check compatibility", 441, 125], ["SUMMARY", "Filters (0)", 580, 132], ["A", "71 Fits", 210, 650], ["A", "24 Won't fit", 210, 1100], ["SUMMARY", "Top Picks for you", 364, 636], ["A", "DeepSeek-Coder-V2-Lite-In", 448, 651], ["A", "DeepSeek-V2-Lite", 448, 885], ["A", "Yi-1.5 9B Chat", 448, 1120], ["A", "5", 686, 1212], ["A", "10", 686, 1264], ["A", "Llama-2-7b-hf", 752, 136], ["BUTTON", "Q4", 764, 480], ["BUTTON", "Q5", 764, 532], ["BUTTON", "Q8", 764, 584], ["BUTTON", "FP16", 764, 636], ["SUMMARY", "How this is estimated", 943, 136], ["A", "Mistral 7B Instruct v0.3", 750, 748], ["BUTTON", "Q4", 764, 1092], ["BUTTON", "Q5", 764, 1144], ["BUTTON", "Q8", 764, 1196], ["BUTTON", "FP16", 764, 1248], ["SUMMARY", "How this is estimated", 941, 748], ["A", "Mistral 7B v0.3", 1025, 136], ["BUTTON", "Q4", 1039, 480], ["BUTTON", "Q5", 1039, 532], ["BUTTON", "Q8", 1039, 584], ["BUTTON", "FP16", 1039, 636], ["SUMMARY", "How this is estimated", 1215, 136], ["A", "Mistral-7B-Instruct-v0.1", 1025, 748], ["BUTTON", "Q4", 1039, 1092], ["BUTTON", "Q5", 1039, 1144], ["BUTTON", "Q8", 1039, 1196], ["BUTTON", "FP16", 1039, 1248], ["SUMMARY", "How this is estimated", 1215, 748], ["A", "Mistral-7B-Instruct-v0.2", 1297, 136], ["BUTTON", "Q4", 1311, 480], ["BUTTON", "Q5", 1311, 532], ["BUTTON", "Q8", 1311, 584], ["BUTTON", "FP16", 1311, 636], ["SUMMARY", "How this is estimated", 1487, 136], ["A", "Previous", 1560, 493], ["A", "1", 1560, 583], ["A", "5", 1560, 661], ["A", "7", 1560, 761], ["A", "15", 1560, 839], ["A", "Next", 1560, 889], ["A", "VRAM Sherpa", 829, 121], ["A", "Estimator", 829, 618], ["A", "How it works", 829, 734], ["BUTTON", "Dark mode", 829, 1191], ["INPUT", "", 220, 125], ["A", "Clear", 220, 510], ["INPUT", "", 315, 125], ["INPUT", "", 317, 490], ["BUTTON", "RTX 4060 8GB", 381, 125], ["BUTTON", "8GB", 381, 267], ["BUTTON", "24GB", 381, 338], ["BUTTON", "Check compatibility", 441, 125], ["SUMMARY", "Filters (0)", 580, 132], ["A", "71 Fits", 210, 650], ["A", "24 Won't fit", 210, 1100], ["SUMMARY", "Top Picks for you", 364, 636], ["A", "DeepSeek-Coder-V2-Lite-In", 448, 651], ["A", "DeepSeek-V2-Lite", 448, 885], ["A", "Yi-1.5 9B Chat", 448, 1120], ["A", "5", 686, 1212], ["A", "10", 686, 1264], ["A", "Llama-2-7b-hf", 752, 136]]
+NAV http://localhost:8000/results?vram_gb=24&context_tokens=4096&verdict=fits&page=6
+FOCUS .verdicts a.vt >> nth=1 ['solid', '3px', 'rgb(74, 23, 184)', '3px', 'rgba(255, 255, 255, 0.85) 0px 1px 0px 0px inset, rgba(60, 40, 160, 0.16) 0px 2px 8px -2px']
+FOCUS .sizes-seg a >> nth=1 ['solid', '3px', 'rgb(74, 23, 184)', '1px', 'none']
+FOCUS nav.pager a >> nth=2 ['solid', '3px', 'rgb(74, 23, 184)', '2px', 'none']
+NAV http://localhost:8000/results?vram_gb=24&context_tokens=4096&verdict=fits&page=6
+NAV http://localhost:8000/results?vram_gb=24&context_tokens=4096&verdict=fits&page=6
+NAV http://localhost:8000/results?vram_gb=24&context_tokens=4096&verdict=fits&page=7
+NEXT {"id": "list-heading", "tag": "H2", "t": "Fits: showing 31-35 ", "lbl": null, "cur": null, "y": 595, "url": "/results?vram_gb=24&context_tokens=4096&verdict=fits&page=7", "hy": 96} 1
+NAV http://localhost:8000/results?vram_gb=24&context_tokens=4096&verdict=fits&page=7
+NAV http://localhost:8000/results?vram_gb=24&context_tokens=4096&verdict=fits
+PAGE1 {"id": "list-heading", "tag": "H2", "t": "Fits: showing 1-5 of", "lbl": null, "cur": null, "y": 595, "url": "/results?vram_gb=24&context_tokens=4096&verdict=fits", "hy": 96}
+NAV http://localhost:8000/results?vram_gb=24&context_tokens=4096&verdict=fits
+NAV http://localhost:8000/results?vram_gb=24&context_tokens=4096&verdict=fits&page_size=10
+SIZE10 {"id": "list-heading", "tag": "H2", "t": "Fits: showing 1-10 o", "lbl": null, "cur": null, "y": 595, "url": "/results?vram_gb=24&context_tokens=4096&verdict=fits&page_size=10", "hy": 96}
+NAV http://localhost:8000/results?vram_gb=24&context_tokens=4096&verdict=fits&page_size=10
+NAV http://localhost:8000/results?vram_gb=24&context_tokens=4096&verdict=wont-fit&page_size=10
+WONT {"id": "list-heading", "tag": "H2", "t": "Won't fit: showing 1", "lbl": null, "cur": null, "y": 595, "url": "/results?vram_gb=24&context_tokens=4096&verdict=wont-fit&page_size=10", "hy": 96}
+NAV http://localhost:8000/results?vram_gb=24&context_tokens=4096
+NAV http://localhost:8000/results?vram_gb=24&context_tokens=4096
+NAV http://localhost:8000/results?vram_gb=24&context_tokens=4096&verdict=fits
+GIST->FITS {"id": "list-heading", "tag": "H2", "t": "Fits: showing 1-5 of", "lbl": null, "cur": null, "y": 595, "url": "/results?vram_gb=24&context_tokens=4096&verdict=fits", "hy": 96} 1
+NAV http://localhost:8000/results?vram_gb=24&context_tokens=4096&verdict=fits
+NAV http://localhost:8000/results?vram_gb=24&context_tokens=4096
+COLLAPSE {"tag": "A", "t": "71\nFits", "cur": null, "cls": "vt vt-fits", "url": "?vram_gb=24&context_tokens=4096", "list": false, "y": 0} 1
+NAV http://localhost:8000/results?vram_gb=24&context_tokens=4096
+NAV http://localhost:8000/results?vram_gb=24&context_tokens=4096&verdict=fits
+NAV http://localhost:8000/results?vram_gb=24&context_tokens=4096&verdict=fits
+NAV http://localhost:8000/results?vram_gb=24&context_tokens=4096
+COLLAPSE-MOUSE {"t": "71\nFits", "cls": "vt vt-fits", "list": false}
+NAV http://localhost:8000/results?vram_gb=24&context_tokens=4096
+MOD Control newtab http://localhost:8000/results?vram_gb=24&context_tokens=4096&verdict=fits
+MOD Shift newtab http://localhost:8000/results?vram_gb=24&context_tokens=4096&verdict=fits
+NAV http://localhost:8000/results?vram_gb=24&context_tokens=4096&verdict=fits
+MOD Meta no new page Timeout 3000ms exceeded while waiting for event "page"
+same page unchanged: http://localhost:8000/results?vram_gb=24&context_tokens=4096&verdict=fits partial reqs added: 0 heading: True
+MIDDLE http://localhost:8000/results?vram_gb=24&context_tokens=4096
+REDUCED scroll changes [738, 595] behavior css: auto {"id": "list-heading", "tag": "H2", "t": "Fits: showing 11-15 ", "lbl": null, "cur": null, "y": 595, "url": "/results?vram_gb=24&context_tokens=4096&verdict=fits&page=3", "hy": 96}
+NORMAL scroll changes [643, 600, 595]
+PHONE FITS {"id": "list-heading", "tag": "H2", "t": "Fits: showing 1-5 of", "lbl": null, "cur": null, "y": 1123, "url": "/results?vram_gb=24&context_tokens=4096&verdict=fits", "hy": 0} 390
+PHONE NEXT {"id": "list-heading", "tag": "H2", "t": "Fits: showing 6-10 o", "lbl": null, "cur": null, "y": 1123, "url": "/results?vram_gb=24&context_tokens=4096&verdict=fits&page=2", "hy": 0} 390

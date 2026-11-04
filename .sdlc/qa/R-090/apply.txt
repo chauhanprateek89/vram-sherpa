@@ -1,0 +1,2 @@
+http://localhost:8000/results?gpu_id=&gpu_search=&vram_gb=24&context_tokens=4096&min_params_b=&max_params_b=&verdict=wont-fit&page_size=10
+selected: 24 Won't fit

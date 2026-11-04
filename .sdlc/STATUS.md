@@ -3,7 +3,7 @@
 | | |
 | --- | --- |
 | Track | Full (results gist first, then paginated by verdict) |
-| Stage | QA (running) |
+| Stage | Build (QA fix round, running) |
 | Branch | sdlc/full-results-gist |
 | Gate waiting | none |
 | Updated | 2026-11-03 |
@@ -14,7 +14,7 @@
 
 ## Next step
 
-Build done: T-035 to T-051 all passed review. The `sdlc:qa` workflow is running one item per requirement touched (25). A task's `passes` counts only if every requirement it serves passed, so reconcile `.sdlc/features.json` from the results. Reports are in `.sdlc/qa/<R-id>/`. Then Release (`sdlc:release`, mode pr; list the review nits in the PR), Gate 3.
+QA: 23 of 25 passed; R-089 and R-069 failed. Fix tasks T-052 and T-053 are in Build. This is the one fix round: next re-run QA for R-089 and R-069 only (their tasks stay `passes: false` until then). If either still fails, ask the user instead of looping. If both pass: Release (`sdlc:release`, mode pr; list the review nits and QA notes in the PR), Gate 3. QA notes for Gate 3: changed requirements were tested on their changed criteria only; the pending page-size spinner touches the `0` at 390 (cosmetic, no mockup).
 
 Other follow-ups still open (not part of this track): theme toggle and GPU input after an htmx cache restore, incl. a stale preset radio on a cache-hit Back; host guard ignores `APP_ENV`/`PUBLIC_HOSTNAME` that docs/RELEASE_AND_DEPLOY.md tells the server to set (tunnel requests would get 400); local compose binds 0.0.0.0:8000 (rule 3); `/docs`, `/redoc`, `/openapi.json` are public; font URL has no `?v` and the font is served as octet-stream; live 302 from `/results` arrives with an absolute https Location although the app sends a relative `/` (proxy rewrite, harmless); on `/results` the open suggestion list covers the submit until Escape; review nits from T-025/027/029/030/032 listed in PR #24; R-083 and the requirements it changed still read `planned` in docs/requirements.md although v0.1.54 shipped them.
 
@@ -24,7 +24,6 @@ Older rows: `.sdlc/log.md`.
 
 | Date | Stage | Agents (model) | Outcome |
 | --- | --- | --- | --- |
-| 2026-10-28 | Build | sdlc:builder + sdlc:reviewer (opus) | T-033 passed first review, commit a80f5c6 (landing rules scoped under `.ask`, ASSET_VERSION 20261028f). Lint, catalog, full pytest pass. Nit: `.ask input[type=text]` repeats `.form-pane input[type=text]` (kept scoped on purpose) |
 | 2026-10-28 | QA | sdlc:qa (inherit) ×2 | Re-run after T-033: R-083 passes (box 754 px centred, submit inset, 16 px gutters and 344 px box at 390; pixel diff now 1.2-1.6% at 1280, 2.8-3.9% at 390, suggest 5-9%); results regressions 0.00% diff. All 11 tasks pass |
 | 2026-10-28 | Release | sdlc:release (sonnet) | PR #24 opened (pushed over HTTPS), CI `test` passed in 2m30s, head 632992f; `gh pr create` worked, no fallback needed |
 | 2026-10-28 | Gate 3 | user | Merge now (squash); ship as is: no first-option highlight in the landing suggestion list, chips showing through the open list |
@@ -39,3 +38,4 @@ Older rows: `.sdlc/log.md`.
 | 2026-11-03 | Plan | sdlc:architect (inherit) | 17 tasks, T-035 to T-051 (13 sonnet; opus for T-046 `apply_view` redirect, T-048 and T-049 request ordering, T-051 `release.yml`). Every listed requirement maps to a task; no constitution conflict, no cost, no formula change. Committed ff23691 |
 | 2026-11-03 | Build | sdlc:builder + sdlc:reviewer (sonnet, opus) | T-035 to T-049 passed review (T-044 rebuilt on Opus after two failed reviews; T-043 and T-046 took a second review). Usage limit stopped T-050 mid-build; its uncommitted partial work was set aside as a patch and T-050 restarts clean |
 | 2026-11-03 | Build | sdlc:builder + sdlc:reviewer (sonnet, opus) | T-050 and T-051 passed first review after the resume; all 17 tasks passed. Worth a QA probe: Enter with key rollover on a slow response (T-048 review) |
+| 2026-11-04 | QA | sdlc:qa (inherit) ×25 | 23 of 25 pass. R-089: Enter in Min or Max params with the key still down lands on the list, not the gist (the T-048 review's probe, reproduced). R-069: input error with `verdict=fits` ends 1014/1016 against 1000. Fits first card 896 as drawn. Fix tasks T-052 (opus), T-053 (sonnet) |

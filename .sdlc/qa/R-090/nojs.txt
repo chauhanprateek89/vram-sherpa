@@ -1,0 +1,20 @@
+1440 nojs: vt links 2 spans 1 sizes a 2 page a 6 buttons in nav/sizes 0 hx attrs 31 cards 8 picks open 0
+ next -> http://localhost:8000/results?vram_gb=24&context_tokens=4096&verdict=fits&page=7
+ size10 -> http://localhost:8000/results?vram_gb=24&context_tokens=4096&verdict=fits&page_size=10
+ wont -> http://localhost:8000/results?vram_gb=24&context_tokens=4096&verdict=wont-fit&page_size=10
+ apply -> http://localhost:8000/results?gpu_id=&gpu_search=&vram_gb=24&context_tokens=4096&min_params_b=&max_params_b=
+ gist->fits http://localhost:8000/results?vram_gb=24&context_tokens=4096&verdict=fits
+ reselect -> http://localhost:8000/results?vram_gb=24&context_tokens=4096
+ picks open: 0
+390 nojs: vt links 2 spans 1 sizes a 2 page a 6 buttons in nav/sizes 0 hx attrs 31 cards 8 picks open 0
+ next -> http://localhost:8000/results?vram_gb=24&context_tokens=4096&verdict=fits&page=7
+ size10 -> http://localhost:8000/results?vram_gb=24&context_tokens=4096&verdict=fits&page_size=10
+ wont -> http://localhost:8000/results?vram_gb=24&context_tokens=4096&verdict=wont-fit&page_size=10
+ apply -> http://localhost:8000/results?gpu_id=&gpu_search=&vram_gb=24&context_tokens=4096&min_params_b=&max_params_b=
+ gist->fits http://localhost:8000/results?vram_gb=24&context_tokens=4096&verdict=fits
+ reselect -> http://localhost:8000/results?vram_gb=24&context_tokens=4096
+ picks open: 0
+1440 light pending 1
+1440 dark pending 1
+390 light pending 1
+390 dark pending 1

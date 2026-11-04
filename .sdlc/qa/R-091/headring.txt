@@ -1,0 +1,4 @@
+light keyboard ['list-heading', True, 'solid', '3px', 'rgb(74, 23, 184)', 'none']
+light mouse ['list-heading', False, 'none', '3px', 'rgb(20, 17, 43)', 'none']
+dark keyboard ['list-heading', True, 'solid', '3px', 'rgb(205, 185, 255)', 'none']
+dark mouse ['list-heading', False, 'none', '3px', 'rgb(243, 241, 255)', 'none']

@@ -1,0 +1,28 @@
+reference 1280 light size (1280, 900) (1280, 800)
+reference 1280 light diff>40: 0.100%
+list-fits 1280 light diff>40: 0.283%
+message-ambiguous 1280 light size (1280, 900) (1280, 850)
+message-ambiguous 1280 light diff>40: 0.094%
+message-notfound 1280 light size (1280, 900) (1280, 805)
+message-notfound 1280 light diff>40: 0.099%
+message-invalid 1280 light size (1280, 900) (1280, 890)
+message-invalid 1280 light diff>40: 0.090%
+reference 1280 dark size (1280, 900) (1280, 800)
+reference 1280 dark diff>40: 0.373%
+list-fits 1280 dark diff>40: 1.036%
+message-ambiguous 1280 dark size (1280, 900) (1280, 850)
+message-ambiguous 1280 dark diff>40: 0.089%
+message-notfound 1280 dark size (1280, 900) (1280, 805)
+message-notfound 1280 dark diff>40: 0.094%
+message-invalid 1280 dark size (1280, 900) (1280, 890)
+message-invalid 1280 dark diff>40: 0.085%
+reference 390 light diff>40: 0.948%
+list-fits 390 light diff>40: 1.024%
+message-ambiguous 390 light diff>40: 0.948%
+message-notfound 390 light diff>40: 0.948%
+message-invalid 390 light diff>40: 0.948%
+reference 390 dark diff>40: 2.285%
+list-fits 390 dark diff>40: 3.873%
+message-ambiguous 390 dark diff>40: 2.281%
+message-notfound 390 dark diff>40: 2.281%
+message-invalid 390 dark diff>40: 2.281%

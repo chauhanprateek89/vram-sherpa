@@ -32,7 +32,7 @@
       "dependsOn": [],
       "notes": "UI: no. Pure module, no wiring (T-037 wires it). Use `[0-9]`, not `\\d` (Python's `\\d` matches other scripts' digits). Python's `int()` raises above 4300 digits, so check the length before converting (HLD test strategy names the 5000-digit page). Decode keys with `urllib.parse.unquote_plus`, compare decoded, but keep the original bytes in the output. No file under `static/`, so no `ASSET_VERSION` bump.",
       "review": "passed",
-      "passes": false
+      "passes": true
     },
     {
       "id": "T-036",
@@ -67,7 +67,7 @@
       "dependsOn": [],
       "notes": "UI: no in this task. ADR-0015 checked this key against catalog `2026-10-23`; if a worked example fails, the key is wrong, not the example. `model_id` is a last key R-019 does not name: it changes nothing today and keeps pages stable if a duplicate name ever appears. No existing test calls `_summary_counts` or `_group_results_by_model` directly. Rule 12: no new database state. No file under `static/`, so no `ASSET_VERSION` bump.",
       "review": "passed",
-      "passes": false
+      "passes": true
     },
     {
       "id": "T-037",
@@ -113,7 +113,7 @@
       ],
       "notes": "UI: no new look; additive, so every existing test still passes while no-verdict pages keep their cards. The whole list is computed before cutting (Q-35); top picks and counts must not read the slice. The Won't fit rule (README \"What did not work\" item 2) is already in `styles.css`; the build's duty is to keep it, and this task's test holds it, so `static/` does not change here. A zero-count verdict falls into the existing empty-state branch of `results_list.html` until T-039; that is transient and untested. No file under `static/`, so no `ASSET_VERSION` bump.",
       "review": "passed",
-      "passes": false
+      "passes": true
     },
     {
       "id": "T-038",
@@ -150,7 +150,7 @@
       ],
       "notes": "UI: no. Same shape as T-026 in the landing track: tests move first, so T-039's diff shows only what the gist changes. A plan-time trial on a scratch copy (no cards without a verdict, headline from counts) failed these, so start here and confirm: test_app (`test_results_with_manual_vram_returns_200_and_rows`, `test_results_gpu_search_uses_vram_hint_from_text`, `test_results_filters_change_output_deterministically`, `test_results_partials_return_summary_and_results_sections`); test_history (`test_breakdown_triggers_have_no_push_url_ancestor`); test_r069 (`test_headline_precedes_chips_picks_and_cards`, all 6 URLs); test_r072 (3 card tests); test_r075 (`test_worked_example_names_the_catalog_model_and_matches_its_card_and_row`); test_r077 (2 card tests); test_r078 (`test_every_verdict_pane_shows_required_available_and_margin`, `test_no_javascript_markup`); test_r083_redirect (`test_unusable_hardware_still_renders_results_at_8gb`, 3 URLs); test_reference_queries (4 cases); test_ui_markup (`test_results_heading_is_visually_hidden_above_the_cards`, `test_frozen_ids_and_partial_endpoints_still_render_their_templates`, `test_top_picks_is_a_closed_disclosure_after_the_tile_with_an_opening_script`, `test_cards_sit_in_one_glass_pane_as_a_grid_of_inset_cards`, `test_every_pane_has_one_gauge_and_the_verdict_before_the_margin`, `test_bar_class_follows_the_verdict`, `test_gated_models_carry_the_marker_inside_the_heading`, `test_card_meta_keeps_params_and_family`, and the 5 breakdown and loading tests). `computed_cards` in test_reference_queries reads `context[\"model_cards\"]`, which is now one page: walk it too. Tests that assert gist wording (`Only Fits and Tight`, the empty-state note) are T-039's. A test wanting a model past the first five needs `page_size=10` or the fixture. No file under `static/`.",
       "review": "passed",
-      "passes": false
+      "passes": true
     },
     {
       "id": "T-039",
@@ -218,7 +218,7 @@
       ],
       "notes": "UI: yes, but this commit only changes what is rendered; the look arrives in T-040 to T-044, so the page is transiently unstyled in places on the branch. Expect to update the wording and shape tests T-038 left: test_r078 (`test_copy_table_new_strings_are_present`, `test_empty_state_wording`, `test_protected_text_is_kept`), test_ui_markup (`test_answer_tile_is_the_first_content_of_the_results_shell`, `test_answer_tile_holds_the_context_line_counts_and_note`, `test_empty_state_note_keeps_only_the_first_sentence`, `test_empty_state_counts_models_not_variants`), and test_history's `PARTIAL_MARKERS` (the list partial's `Results` marker needs a `verdict=fits` query); replace, never drop (rule 18). `<verdict>` in the message is HTML-escaped (`Won&#x27;t fit`), so unescape in tests. README \"What did not work\" item 7: the note under two inert tiles reads oddly at `vram_gb=1`; the user kept it at Gate 2, so do not special-case it. R-025's text still says `variants`; R-069 and the copy table win, as today's template does. `.note` keeps its `title` attribute. Items 3 and 5 of that list are T-042 and T-041. No file under `static/`, so no `ASSET_VERSION` bump. Do not render pages or take screenshots; QA measures and compares (rule 10). Your proof is pytest and the code.",
       "review": "passed",
-      "passes": false
+      "passes": true
     },
     {
       "id": "T-040",
@@ -279,7 +279,7 @@
       ],
       "notes": "Markup from README \"What was built to the HLD\" (Controls): `div role=\"group\" aria-label=\"Show models by verdict\"` holding `a.vt`, or `span.vt` at 0 or unseeded; each tile is the verdict's tint with icon, count and label; selected is a link with `aria-current=\"true\"` and a 3 px ink border (1.5 px on the others); selecting the selected one links to the gist; inert tiles keep their icon shape. Links come from `view_query(request.url.query, ...)`, not `_query_items`, which drops unusable hardware (ADR-0014). Build a `verdict_controls` list in the context so all routes agree. Slug `wont-fit` maps to the label `Won't fit` and the icon `i-wont`. `test_every_class_and_id_in_the_stylesheet_is_used` needs literal class names: write `vt-fits`, `vt-tight`, `vt-wont`, or add the prefix to its `composed` set as `state` and `bar` are. Update test_ui_markup lines 688, 728, 742, 831, which read `.counts`. R-069: the `verdict=fits` first card ends at 896 px against a 900 px limit at 1280 px (T-043 has the detail). This task sits above that card: anything taller than the mockup breaks the limit. The tile is 74 px in the mockup; do not grow it. CSS source of truth: the `<style>` block inlined in every `final-gist-*` mockup (`docs/design/build/gist.css` is a local, untracked copy of the same rules). Copy values exactly. Place rules in the matching `styles.css` section, never after `Utilities and motion`: `tests/test_styles.py` fixes the section order, and the reduced-motion rule must stay last (decisions.md, 2026-10-28). `test_every_class_and_id_in_the_stylesheet_is_used` fails on any class no template or `app.js` names, so leave out the mockups' `.is-focus` stand-ins (`:focus-visible` is the real rule) and remove a rule in the same task that removes its last use. Do not render pages or take screenshots; QA measures and compares (rule 10). Your proof is pytest and the code.",
       "review": "passed",
-      "passes": false
+      "passes": true
     },
     {
       "id": "T-041",
@@ -481,7 +481,7 @@
       ],
       "notes": "Markup from README \"What was built to the HLD\" (List): `nav aria-label=\"Pages\"` holding a `ul`; the current page is a `span aria-current=\"page\"`; `Previous` and `Next` at the ends are `span`s when inert; `…` is `li aria-hidden`; numbers are `aria-label=\"Page <n>\"`. README \"What did not work\" item 6, Gate 2: phone page controls wrap naturally (`…` may start the second row); R-091 allows it, and reordering `Previous` and `Next` would break keyboard order, so do not fix it. `1 2 … 15` and `1 … 14 15` take one row at 390 px, the two wider windows take two. The pager sits below the cards, so it does not affect R-069's limit. `.pager .is-pending` belongs to T-049. CSS source of truth: the `<style>` block inlined in every `final-gist-*` mockup (`docs/design/build/gist.css` is a local, untracked copy of the same rules). Copy values exactly. Place rules in the matching `styles.css` section, never after `Utilities and motion`: `tests/test_styles.py` fixes the section order, and the reduced-motion rule must stay last (decisions.md, 2026-10-28). `test_every_class_and_id_in_the_stylesheet_is_used` fails on any class no template or `app.js` names, so leave out the mockups' `.is-focus` stand-ins (`:focus-visible` is the real rule) and remove a rule in the same task that removes its last use. Do not render pages or take screenshots; QA measures and compares (rule 10). Your proof is pytest and the code.",
       "review": "passed",
-      "passes": false
+      "passes": true
     },
     {
       "id": "T-045",
@@ -578,7 +578,7 @@
       "dependsOn": [],
       "notes": "UI: no. Gate 2 decision (2026-11-03): each Back and Forward within results is a full page load; a brief repaint is accepted. ADR-0017 checked this against htmx 1.9.12's source, so do not add `htmx:beforeHistorySave` cleanup; the existing `htmx:historyRestore` listeners in `app.js` become unused but harmless and may stay. `app.js` does not change. The Back and Forward walks, and `localStorage` holding no `htmx-history-cache`, are QA's in a real browser. No file under `static/`, so no `ASSET_VERSION` bump.",
       "review": "passed",
-      "passes": false
+      "passes": true
     },
     {
       "id": "T-048",
@@ -706,7 +706,7 @@
       ],
       "notes": "From ADR-0018's findings in htmx 1.9.12: `htmx:afterSettle` fires once for each new top-level element in the swap, and `#results-shell` swaps two children, so the focus step needs a one-shot flag set at `beforeRequest` (T-049 notes the kind there). `htmx:afterSettle` is shared with breakdown requests: filter on `detail.target.id`. For a non-boosted `<a hx-get>`, htmx calls `preventDefault()` before evaluating any trigger filter, so `click[!ctrlKey]` would leave a modified click doing nothing; that is why this is a capture-phase listener on `document`. Pass `behavior` explicitly: the stylesheet's reduced-motion rule does not cover `scrollIntoView({behavior: \"smooth\"})`. `prefersReducedMotion` already exists in `app.js`. If no `#list-heading` exists after a settle, do nothing. The heading's text is the announcement, so add no live region for it. `scroll-margin-top` is in T-043. Do not render pages or take screenshots; QA measures and compares (rule 10). Your proof is pytest and the code.",
       "review": "passed",
-      "passes": false
+      "passes": true
     },
     {
       "id": "T-051",
@@ -734,7 +734,69 @@
       ],
       "notes": "UI: no. CI and deploy config, so Opus. Copy the shape of the ADR-0013 block at `release.yml` lines 124 to 134, with its own `mktemp`. Rule 18 lets checks be added, never removed or weakened; the user asked for this one (Gate 1, Q-42). Do not match a model name or a count: the catalog changes weekly, and `data-model-card` is what `app.js` reads (ADR-0019). Nothing here costs money: it runs in the existing free GitHub Actions workflow on a public repo. Merging needs the user's sign-off (rule 6). Do not run the workflow. No file under `static/`, so no `ASSET_VERSION` bump.",
       "review": "passed",
-      "passes": false
+      "passes": true
+    },
+    {
+      "id": "T-052",
+      "track": "full",
+      "title": "QA fix: Enter in Min or Max params lands on the gist even when the last key comes up after the submit",
+      "requirements": [
+        "R-089"
+      ],
+      "files": [
+        "src/vramsherpa/static/js/app.js",
+        "src/vramsherpa/main.py (ASSET_VERSION only)",
+        "tests/test_r089_form_view.py"
+      ],
+      "acceptance": [
+        "WHILE a verdict list is shown, WHEN the user types in `#min_params_b` or `#max_params_b` and presses Enter with the last character's key still down, so its keyup arrives after the submit, THE SYSTEM SHALL end on the gist: an address with no `verdict`, `page` or `page_size`, and no card, whether the response takes 100 ms or 1500 ms.",
+        "IF a keyup arrives after a submit and the field values are the ones just submitted, THEN THE SYSTEM SHALL send no request carrying `verdict` or `page_size` from that keyup.",
+        "WHILE a verdict list is shown, WHEN the user types in Min or Max params without pressing Enter, THE SYSTEM SHALL still refresh after the 350 ms delay, keep the verdict and page size, and go to page 1 (R-089, unchanged).",
+        "WHEN the user changes a filter field's value again after a submit has landed, THE SYSTEM SHALL refresh as usual, keeping whatever view is then shown.",
+        "`Check compatibility`, and Enter with the key already up, behave as today; the page without JavaScript is unchanged.",
+        "The fix is in the form's request handling only: no change to `hx-sync`, no new route, no change to view links, and `app.js` still parses (`test_app_js_has_valid_syntax`).",
+        "`ASSET_VERSION` in `src/vramsherpa/main.py` is bumped (constitution rule 21). `pytest` and the lint command in `CLAUDE.md` pass."
+      ],
+      "mockup": "",
+      "notes": "Sent back from QA (first and only fix round before the user is asked). Read `.sdlc/qa/R-089/report.md`, rows 8 and `Probe variant`; the failing step is `.sdlc/qa/R-089/scripts/p5.py`, which QA re-runs. Observed: key down, Enter, key up on `#min_params_b` sends two requests; the first (submit) has no verdict, the second (keyup, `js-auto-filter-text`, `changed delay:350ms`, `src/vramsherpa/templates/index.html:17`) carries `verdict=tight&page_size=10` and the list is shown. In htmx 1.9.12 the `changed` check compares with `lastValue`, which only a keyup updates, so the late keyup passes it. `addFormView` in `app.js` adds the view from the banner on `htmx:configRequest`. One way: remember the values of the last submit and cancel a keyup request whose values match them; `event.preventDefault()` on `htmx:configRequest` cancels a request. Pick what is simplest and holds. pytest cannot run htmx, so test the decision as the existing tests of `app.js` do; QA exercises the real browser.",
+      "model": "opus",
+      "dependsOn": [
+        "T-048",
+        "T-049"
+      ],
+      "passes": false,
+      "review": null
+    },
+    {
+      "id": "T-053",
+      "track": "full",
+      "title": "QA fix: with an input error and a verdict selected, the first card's verdict and margin end within 1000 px at 1280",
+      "requirements": [
+        "R-069"
+      ],
+      "files": [
+        "src/vramsherpa/static/css/styles.css",
+        "src/vramsherpa/templates/results_summary.html (only if a class is needed)",
+        "src/vramsherpa/main.py (ASSET_VERSION only)",
+        "tests/test_r069_acceptance.py"
+      ],
+      "acceptance": [
+        "WHEN `/results?vram_gb=abc&verdict=fits` is shown at 1280 px in light or dark, THE SYSTEM SHALL end the first card's name, verdict and margin figure within 1000 px. Today the verdict ends at 1014 and the margin at 1016; take out at least 16 px, and aim for 20.",
+        "The room comes only from the states that show a message with a verdict selected. These stay as measured: the gist `message-invalid` 788, `message-ambiguous` 748, `message-notfound` 703, reference 644, and reference with `verdict=fits` 896 (margin 897), and no other approved mockup moves.",
+        "No wording changes, no message is removed, and both notices stay readable, in the same order, inside the answer tile, with `role=\"alert\"` and `role=\"status\"` unchanged (R-008, R-071).",
+        "At 390 px the limit of 1688 px still holds and nothing scrolls sideways.",
+        "A test pins the CSS values the fix relies on, as `tests/test_r069_acceptance.py` does for the first-card limit.",
+        "`ASSET_VERSION` in `src/vramsherpa/main.py` is bumped (constitution rule 21). `pytest` and the lint command in `CLAUDE.md` pass."
+      ],
+      "mockup": "docs/design/mockups/final-gist-message-invalid.html (gist, must not move; no mockup draws an input error with a verdict)",
+      "notes": "Sent back from QA (first and only fix round before the user is asked). Read `.sdlc/qa/R-069/report.md` and `.sdlc/qa/R-069/measure_r084.json`, key `invalid+fits|1280|light`; QA re-runs `.sdlc/qa/R-069/measure_r084.py`. This state shows two notices, the input error and the assumed 8 GB note, each with `.notice` padding of 12 px top and bottom (`styles.css:399`), which is why it runs 40 px past the ambiguous GPU state (974). Tightening the notices only while a verdict is selected is one way; do not change `.notice` for every state. T-043's note applies: `.list-pane` comes after `.results` in the stylesheet. Rendering belongs to QA, so work from the CSS values.",
+      "model": "sonnet",
+      "dependsOn": [
+        "T-043",
+        "T-049"
+      ],
+      "passes": false,
+      "review": null
     }
   ]
 }
