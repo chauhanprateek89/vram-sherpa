@@ -189,3 +189,13 @@ def test_list_css_values_are_pinned() -> None:
     assert css.index("@media (min-width: 900px) { .results { padding: 12px; } }") < css.index(
         "@media (min-width: 900px) { .list-pane"
     )
+
+
+def test_notices_tighten_only_while_a_verdict_is_selected() -> None:
+    from pathlib import Path
+
+    css = (Path(__file__).parents[1] / "src/vramsherpa/static/css/styles.css").read_text()
+    base = ".notice { display: flex; gap: 12px; align-items: flex-start; padding: 12px 16px;"
+    tight = ".answer[data-verdict] .notice { padding: 7px 16px; }"
+    assert base in css and tight in css
+    assert css.index(base) < css.index(tight)

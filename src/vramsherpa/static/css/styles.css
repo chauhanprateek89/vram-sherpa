@@ -403,6 +403,8 @@ span.vt svg, span.vt b { color: var(--muted); }
 .notice strong { font-weight: 600; }
 .notice ul { list-style: none; padding: 0; }
 .notice li::before { content: "\2022"; margin-right: 8px; }
+/* A message with a verdict selected pushes the first card down; trim 5px top and bottom per notice so it ends within 1000px at 1280 (T-053). */
+.answer[data-verdict] .notice { padding: 7px 16px; }
 .active-filters { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: var(--fs-small); }
 .active-filters > span { color: var(--muted); font-weight: 520; margin-right: 2px; }
 .chip-link { display: inline-flex; align-items: center; gap: 8px; min-height: var(--tap); padding: 0 14px 0 16px; border-radius: var(--r-pill); border: 1.5px solid var(--line); background: var(--seg); color: var(--ink); text-decoration: none; font-weight: 520; transition: background var(--dur-1), transform var(--dur-1) var(--ease-out); }
