@@ -1,0 +1,802 @@
+{
+  "version": 1,
+  "tasks": [
+    {
+      "id": "T-035",
+      "title": "results_view.py: the pure parser, pager, page window and link builder for the results view",
+      "requirements": [
+        "R-088",
+        "R-087",
+        "R-032"
+      ],
+      "track": "full",
+      "files": [
+        "src/vramsherpa/results_view.py",
+        "tests/test_results_view.py"
+      ],
+      "acceptance": [
+        "THE SYSTEM SHALL provide `src/vramsherpa/results_view.py`, importing nothing from `main.py` and needing no session or request, with a frozen dataclass `ResultsView(verdict, page, page_size)`, `parse_results_view(params)` (`params` has `getlist`, as Starlette's `QueryParams` does), `paginate(total, view)` giving page, first, last, total, last_page and page_size, `page_window(page, last_page)` and `view_query(raw_query, verdict=None, page=1, page_size=5)` (ADR-0014 point 1).",
+        "WHEN `parse_results_view` reads `verdict`, THE SYSTEM SHALL use the last value if repeated and accept exactly `fits`, `tight` or `wont-fit`; anything else, including `FITS`, `green`, empty and `<script>`, SHALL be no verdict (R-088).",
+        "WHEN `parse_results_view` reads `page_size`, THE SYSTEM SHALL use the last value and accept exactly `5` or `10`; anything else, including `7`, `abc`, `1000` and empty, SHALL be 5 (R-088).",
+        "WHEN `parse_results_view` reads `page`, THE SYSTEM SHALL use the last value and accept only `re.fullmatch(\"[0-9]+\")` values of at least 1; `abc`, `0`, `-1`, `1.5`, `+2`, `1_000` and non-ASCII digits SHALL be page 1, and a value too long for a 64-bit integer, such as 5000 digits, SHALL count as above the last page without raising (ADR-0014 point 3).",
+        "WHEN there is no valid verdict, THE SYSTEM SHALL return page 1 and size 5, ignoring `page` and `page_size` (R-088).",
+        "WHEN `paginate` runs, THE SYSTEM SHALL lower a page above the last page to the last page and give 1-based first and last card numbers: 71 at size 5 page 2 is 6 to 10 of 15 pages; 71 at size 5 page 99 is 71 to 71 on page 15; 71 at size 10 page 8 is 71 to 71; 9 at size 5 has 2 pages; 9 at size 10 has 1 (R-087, ADR-0014 point 4).",
+        "WHEN `page_window` runs, THE SYSTEM SHALL return numbers with `None` for each gap: page 1 of 15 is `1 2 … 15`; page 6 of 15 is `1 … 5 6 7 … 15`; page 15 of 15 is `1 … 14 15`; page 10 of 19 is `1 … 9 10 11 … 19`; page 3 of 15 is `1 2 3 4 … 15`, with no gap where no number is left out; page 1 of 1 is `1` (R-087).",
+        "WHEN `view_query` runs, THE SYSTEM SHALL split the raw query on `&`, drop empty parts and parts whose percent-decoded key is `verdict`, `page`, `page_size` or `apply_view`, keep every other part byte for byte and in order, then append `verdict`, `page` and `page_size`, leaving out `page` at 1 and `page_size` at 5; with `verdict=None` it SHALL append none of them (R-088, ADR-0014 point 5).",
+        "THE SYSTEM SHALL provide `tests/test_results_view.py` covering every example above, repeated `family=a&family=b` kept in order, `vram_gb=abc` kept, and percent-encoding unchanged.",
+        "THE SYSTEM SHALL NOT change any page in this task: every existing test passes unchanged.",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": null,
+      "model": "sonnet",
+      "dependsOn": [],
+      "notes": "UI: no. Pure module, no wiring (T-037 wires it). Use `[0-9]`, not `\\d` (Python's `\\d` matches other scripts' digits). Python's `int()` raises above 4300 digits, so check the length before converting (HLD test strategy names the 5000-digit page). Decode keys with `urllib.parse.unquote_plus`, compare decoded, but keep the original bytes in the output. No file under `static/`, so no `ASSET_VERSION` bump.",
+      "review": "passed",
+      "passes": true
+    },
+    {
+      "id": "T-036",
+      "title": "One card list: every model becomes a card, counts tally the cards, verdict lists sort on the server",
+      "requirements": [
+        "R-014",
+        "R-016",
+        "R-019",
+        "R-023",
+        "R-086"
+      ],
+      "track": "full",
+      "files": [
+        "src/vramsherpa/main.py",
+        "tests/test_verdict_lists.py"
+      ],
+      "acceptance": [
+        "THE SYSTEM SHALL provide `_default_variant(variants)` in `main.py`, taking a model's variants in Q4, Q5, Q8, FP16 order: the recommended variant if usable, else the first usable; with none usable, the recommended variant, else the first (R-016, ADR-0015 point 1).",
+        "THE SYSTEM SHALL make `_group_results_by_model(rows)` return one `ModelCard` for every model left after filters, skipping none, with `default_variant_id` from `_default_variant` (R-014, ADR-0015 point 2).",
+        "THE SYSTEM SHALL make `_summary_counts(cards)` tally `card.default_variant.classification`, so one rule places a model and a model with no usable variant counts under `Won't fit`: the reference query gives 71, 0, 24; `vram_gb=1` gives 0, 0, 95; `vram_gb=8&context_tokens=2048&family=llama` gives 6, 4, 4 (R-023, ADR-0015 point 3, R-089).",
+        "THE SYSTEM SHALL provide `_verdict_cards(cards, label)`: `Fits` and `Tight` sorted by `(-params_b, model_name, model_id)`; `Won't fit` by `(required_vram_gb - available_vram_gb of the open variant, -params_b, model_name, model_id)`, unrounded, with `model_name` compared by code point, so `Llama-3.2-1B-Instruct` sorts before `gemma-3-1b-it` (R-019, ADR-0015 point 4).",
+        "WHEN `_verdict_cards` runs on `data/` seeds for the reference query, THE SYSTEM SHALL start `Fits` with `DeepSeek-Coder-V2-Lite-Instruct`, `DeepSeek-V2-Lite`, `DeepSeek-V2-Lite-Chat`, `Qwen2.5 14B Instruct`, `DeepSeek-R1-Distill-Qwen-14B` (R-086).",
+        "WHEN `_verdict_cards` runs for `Won't fit` on the reference query, THE SYSTEM SHALL give positions 1 to 5 `Qwen3-30B-A3B`, `Qwen3-30B-A3B-Instruct-2507`, `Qwen3-Coder-30B-A3B-Instruct`, `DeepSeek-R1-Distill-Qwen-32B`, `Qwen2.5-32B-Instruct`; positions 16 to 20 `DeepSeek-V4-Flash-0731`, `DeepSeek-R1`, `DeepSeek-V3`, `DeepSeek-R1-0528`, `DeepSeek-V3-0324`; and positions 21 to 24 `DeepSeek-V3.1`, `DeepSeek-V3.2`, `DeepSeek-V4-Pro`, `DeepSeek-V4-Pro-0813` (R-086).",
+        "WHEN `_verdict_cards` runs for `Won't fit` at `vram_gb=1`, THE SYSTEM SHALL give positions 6 to 10 `Qwen3-0.6B-Base`, `Llama-3.2-1B`, `Llama-3.2-1B-Instruct`, `gemma-3-1b-it`, `phi-1_5`; with `quant_bucket=Q8` on the reference query the first SHALL be `Qwen3-30B-A3B` at 20.9 GB over (R-086).",
+        "THE SYSTEM SHALL keep every page as it renders today in this task: `model_cards` in `_results_context` stays the `Fits` cards then the `Tight` cards, in today's order, so every existing test passes unchanged.",
+        "THE SYSTEM SHALL cover R-016's no-usable branch in `tests/test_verdict_lists.py`, with a recommended variant and with none left after filters.",
+        "THE SYSTEM SHALL NOT change `estimation.py`, `/how-it-works` or `ESTIMATION_POLICY_VERSION` (R-086, rule 16).",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": null,
+      "model": "sonnet",
+      "dependsOn": [],
+      "notes": "UI: no in this task. ADR-0015 checked this key against catalog `2026-10-23`; if a worked example fails, the key is wrong, not the example. `model_id` is a last key R-019 does not name: it changes nothing today and keeps pages stable if a duplicate name ever appears. No existing test calls `_summary_counts` or `_group_results_by_model` directly. Rule 12: no new database state. No file under `static/`, so no `ASSET_VERSION` bump.",
+      "review": "passed",
+      "passes": true
+    },
+    {
+      "id": "T-037",
+      "title": "Read the view on all four routes: a valid verdict gets its sorted page of cards; no verdict stays as today",
+      "requirements": [
+        "R-086",
+        "R-087",
+        "R-088",
+        "R-032",
+        "R-019",
+        "R-080",
+        "R-081"
+      ],
+      "track": "full",
+      "files": [
+        "src/vramsherpa/main.py",
+        "src/vramsherpa/templates/results_summary.html",
+        "tests/test_results_view_routes.py",
+        "tests/test_cache_control.py",
+        "tests/test_history.py"
+      ],
+      "acceptance": [
+        "THE SYSTEM SHALL read the view with `parse_results_view(request.query_params)` in `_results_page_context`; no handler SHALL declare `verdict`, `page` or `page_size`, so no value can produce a 422, on `/results` and all three partials (ADR-0014 point 2, R-088).",
+        "WHEN a valid verdict has a count above 0, THE SYSTEM SHALL set `model_cards` to only that page of `_verdict_cards`, and pass the view and the `paginate` result to the template (R-087, ADR-0015 point 5).",
+        "WHEN a valid verdict has a count of 0, THE SYSTEM SHALL pass no cards and treat no verdict as selected. WHEN there is no valid verdict, THE SYSTEM SHALL keep today's `model_cards` in this task (T-039 removes them).",
+        "THE SYSTEM SHALL put `data-verdict` on `#summary-banner` for a valid verdict, including one whose count is 0, and `data-page-size` when the size is not 5, writing only canonical values (ADR-0016 point 1).",
+        "WHEN these load, THE SYSTEM SHALL send this many `data-model-card` elements: reference query `&verdict=fits` 5; `&verdict=fits&page=15` 1; `&verdict=fits&page_size=10` 10; `&verdict=fits&page_size=10&page=8` 1; `/results?vram_gb=8&context_tokens=2048&verdict=tight` 5, with `page=2` 4, with `page_size=10` 9; `…&family=llama&verdict=tight` 4; `/results/partials/list?…&verdict=fits` 5 (R-087, R-090).",
+        "IF `page`, `page_size` or `verdict` is invalid, THEN THE SYSTEM SHALL answer 200 as R-088 states: `page=abc`, `0`, `-1`, `1.5` show page 1; `page=99` and a 5000-digit page show the same cards as `page=15` with no `Location`; `page_size=7`, `abc`, `1000` and empty show 5 cards; `verdict=tight&verdict=fits` uses `fits`; `verdict=green`, `FITS` and empty select nothing.",
+        "WHEN `/results?vram_gb=24&verdict=%3Cscript%3E` loads, THE SYSTEM SHALL write no `<script>` from that value and no `data-verdict` into the body (R-088).",
+        "WHEN `…&verdict=wont-fit` loads, THE SYSTEM SHALL show R-086's cards through the route, each with `<x> GB over`, `bar-wont` at `width: 100.0%`, `<required> GB needed`, `<available> GB`, `data-oversize` on every quantisation button and `How this is estimated`; page 1 of the reference query starts `Qwen3-30B-A3B` at `4.4 GB over`, `page=5` ends `DeepSeek-V4-Pro-0813` at `1486.4 GB over` (R-086).",
+        "THE SYSTEM SHALL guard in a test that `.quants button[data-oversize][aria-pressed=\"true\"]` sets `color: var(--on-pressed)` after the `.quants button[data-oversize]` rule in `styles.css` (design README, \"What did not work\" item 2).",
+        "WHEN `/results/partials/summary?…&verdict=fits` is requested, THE SYSTEM SHALL answer 200 with no model card (R-090).",
+        "THE SYSTEM SHALL add URLs 10 to 13 of R-080 to `tests/test_cache_control.py`: 200, `text/html`, exactly one `Cache-Control` with `no-cache` or `no-store` (rule 9).",
+        "WHEN `/results/partials/content?vram_gb=24&context_tokens=4096&family=qwen&family=llama&verdict=fits` has no `HX-Request`, THE SYSTEM SHALL answer 302 to `/results?` plus the same query byte for byte; with `HX-Request: true` it SHALL send the same string in `HX-Push-Url`; `/results?verdict=fits` with no hardware and no `HX-Request` SHALL still redirect to `/` (R-081, R-088, R-013).",
+        "THE SYSTEM SHALL NOT change `estimation.py`, `/how-it-works` or `ESTIMATION_POLICY_VERSION` (R-086, rule 16).",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": null,
+      "model": "sonnet",
+      "dependsOn": [
+        "T-035",
+        "T-036"
+      ],
+      "notes": "UI: no new look; additive, so every existing test still passes while no-verdict pages keep their cards. The whole list is computed before cutting (Q-35); top picks and counts must not read the slice. The Won't fit rule (README \"What did not work\" item 2) is already in `styles.css`; the build's duty is to keep it, and this task's test holds it, so `static/` does not change here. A zero-count verdict falls into the existing empty-state branch of `results_list.html` until T-039; that is transient and untested. No file under `static/`, so no `ASSET_VERSION` bump.",
+      "review": "passed",
+      "passes": true
+    },
+    {
+      "id": "T-038",
+      "title": "Move the tests that read cards to verdict URLs, before /results stops showing cards",
+      "requirements": [
+        "R-078"
+      ],
+      "track": "full",
+      "files": [
+        "tests/conftest.py",
+        "tests/test_app.py",
+        "tests/test_history.py",
+        "tests/test_r069_acceptance.py",
+        "tests/test_r072_acceptance.py",
+        "tests/test_r075_acceptance.py",
+        "tests/test_r077_acceptance.py",
+        "tests/test_r078_acceptance.py",
+        "tests/test_r083_redirect.py",
+        "tests/test_reference_queries.py",
+        "tests/test_ui_markup.py"
+      ],
+      "acceptance": [
+        "THE SYSTEM SHALL change nothing under `src/` in this task.",
+        "THE SYSTEM SHALL provide a fixture in `tests/conftest.py` that reads every page of one verdict for a query at `page_size=10` and returns the page bodies, stopping at a page with fewer than 10 cards or a page whose cards equal the previous page's (a page past the end shows the last page, so 70 models would otherwise never stop).",
+        "WHEN `tests/test_reference_queries.py` reads the reference query and `/results?vram_gb=12&context_tokens=8192&family=qwen&quant_bucket=Q4`, THE SYSTEM SHALL walk `verdict=fits` then `verdict=tight` at `page_size=10` and match the `f2ad2d8` fixture exactly: 71 and 23 models, same order, verdicts and figures (R-078).",
+        "WHEN any test in the listed files reads a model card, a gauge, a breakdown or `data-model-card`, THE SYSTEM SHALL have it read a `verdict=fits` URL or the fixture above, asserting the same things it asserts today; `test_no_javascript_markup`'s 70 or more `why-panel` count SHALL be summed over the walked pages.",
+        "THE SYSTEM SHALL NOT delete a test or weaken an assertion, and the number of tests pytest collects SHALL NOT fall (rule 18).",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": null,
+      "model": "sonnet",
+      "dependsOn": [
+        "T-037"
+      ],
+      "notes": "UI: no. Same shape as T-026 in the landing track: tests move first, so T-039's diff shows only what the gist changes. A plan-time trial on a scratch copy (no cards without a verdict, headline from counts) failed these, so start here and confirm: test_app (`test_results_with_manual_vram_returns_200_and_rows`, `test_results_gpu_search_uses_vram_hint_from_text`, `test_results_filters_change_output_deterministically`, `test_results_partials_return_summary_and_results_sections`); test_history (`test_breakdown_triggers_have_no_push_url_ancestor`); test_r069 (`test_headline_precedes_chips_picks_and_cards`, all 6 URLs); test_r072 (3 card tests); test_r075 (`test_worked_example_names_the_catalog_model_and_matches_its_card_and_row`); test_r077 (2 card tests); test_r078 (`test_every_verdict_pane_shows_required_available_and_margin`, `test_no_javascript_markup`); test_r083_redirect (`test_unusable_hardware_still_renders_results_at_8gb`, 3 URLs); test_reference_queries (4 cases); test_ui_markup (`test_results_heading_is_visually_hidden_above_the_cards`, `test_frozen_ids_and_partial_endpoints_still_render_their_templates`, `test_top_picks_is_a_closed_disclosure_after_the_tile_with_an_opening_script`, `test_cards_sit_in_one_glass_pane_as_a_grid_of_inset_cards`, `test_every_pane_has_one_gauge_and_the_verdict_before_the_margin`, `test_bar_class_follows_the_verdict`, `test_gated_models_carry_the_marker_inside_the_heading`, `test_card_meta_keeps_params_and_family`, and the 5 breakdown and loading tests). `computed_cards` in test_reference_queries reads `context[\"model_cards\"]`, which is now one page: walk it too. Tests that assert gist wording (`Only Fits and Tight`, the empty-state note) are T-039's. A test wanting a model past the first five needs `page_size=10` or the fixture. No file under `static/`.",
+      "review": "passed",
+      "passes": true
+    },
+    {
+      "id": "T-039",
+      "title": "/results opens on the gist: no card without a selected verdict, headline from the counts, the notes and the zero-count message",
+      "requirements": [
+        "R-084",
+        "R-013",
+        "R-014",
+        "R-022",
+        "R-023",
+        "R-025",
+        "R-078",
+        "R-085",
+        "R-090"
+      ],
+      "track": "full",
+      "files": [
+        "src/vramsherpa/main.py",
+        "src/vramsherpa/templates/results_summary.html",
+        "src/vramsherpa/templates/results_list.html",
+        "tests/test_r084_gist.py",
+        "tests/test_r078_acceptance.py",
+        "tests/test_ui_markup.py",
+        "tests/test_history.py",
+        "tests/test_app.py"
+      ],
+      "acceptance": [
+        "WHEN a request has no selected verdict, THE SYSTEM SHALL pass no cards: for the reference query the body SHALL contain `id=\"summary-banner\"` and `Manual VRAM (24 GB)` and SHALL NOT contain `data-model-card` or `How this is estimated`, with or without `HX-Request: true`, on `/results`, `/results/partials/content` and `/results/partials/list` (R-084, Q-35).",
+        "THE SYSTEM SHALL state the headline as `<N> model(s) fit or are tight` with N the sum of the `Fits` and `Tight` counts in every view, using `model` when N is 1: `71 models` for the reference query on its gist, on `&verdict=fits&page=6` and on `&verdict=wont-fit&page=2` (R-014, R-023).",
+        "WHILE no verdict is selected and at least one count is above 0, THE SYSTEM SHALL show `Choose Fits, Tight or Won't fit to see the models.` under the counts; WHILE a verdict is selected, `Pick a quantisation on any card to see how it changes.`; WHILE all counts are 0, no note. `Only Fits and Tight models are listed.` SHALL NOT appear anywhere (R-084, R-085, R-022). `/results?vram_gb=1` keeps the note as drawn (Gate 2, Q-41).",
+        "IF a request names a valid verdict whose count is 0, THEN THE SYSTEM SHALL answer 200 with the gist and `No models in <label> with these settings.` in a `div.notice` with `role=\"status\"`, after the tile's other notices and before the counts: `…&verdict=tight` on the reference query names `Tight`; `data-verdict` stays on the tile (R-085, R-089).",
+        "WHILE the catalog is seeded, no verdict is selected and `Fits` and `Tight` are both 0, THE SYSTEM SHALL show the empty state under the gist: `/results?vram_gb=1` and `/results?vram_gb=24&min_params_b=5&max_params_b=1` show it; the reference query does not. WHILE `Won't fit` is selected, `/results?vram_gb=1&verdict=wont-fit` SHALL show its list instead (R-025, R-084).",
+        "WHILE the empty state shows, THE SYSTEM SHALL keep `There are <n> models in Won't fit, hidden by default.` and `There is 1 model in Won't fit, hidden by default.` as written, with the word `models` (R-069, copy table).",
+        "WHILE the catalog is unseeded, THE SYSTEM SHALL show R-026's two sentences and no note; a request naming a verdict SHALL also show R-085's message (HLD \"The view\").",
+        "WHILE a gist with a count above 0 shows, THE SYSTEM SHALL render nothing in the list area; `<h2 class=\"sr-only\">Results</h2>` SHALL render only above a list or the empty state (R-078's copy table keeps it above the cards).",
+        "THE SYSTEM SHALL still compute every model on each request, so a no-verdict `page` or `page_size` changes nothing: `/results?vram_gb=24&context_tokens=4096&page=3&page_size=10` equals the gist (R-088).",
+        "WHEN `/results/partials/content?vram_gb=24&context_tokens=4096` opens as a normal page load, THE SYSTEM SHALL end at `/results?…` showing the gist (R-081, R-078).",
+        "THE SYSTEM SHALL hold ADR-0014 point 7 in a test: for the reference query, `vram_gb=8&context_tokens=2048`, and the reference query with `verdict=fits`, `verdict=fits&page=6`, `verdict=fits&page=15`, `verdict=fits&page_size=10`, `verdict=wont-fit` and `verdict=tight`, plus `vram_gb=8&context_tokens=2048&verdict=tight`, the exact body of `/results/partials/content?<q>` with `HX-Request: true` SHALL appear inside the body of `/results?<q>` (R-084, R-090).",
+        "THE SYSTEM SHALL NOT change `estimation.py`, `/how-it-works` or `ESTIMATION_POLICY_VERSION` (R-086, rule 16).",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": [
+        "docs/design/mockups/final-gist-reference.html",
+        "docs/design/final/gist-reference-*.png",
+        "docs/design/mockups/final-gist-all-three.html",
+        "docs/design/final/gist-all-three-*.png",
+        "docs/design/mockups/final-gist-verdict-zero.html",
+        "docs/design/final/gist-verdict-zero-*.png",
+        "docs/design/mockups/final-gist-message-ambiguous.html",
+        "docs/design/final/gist-message-ambiguous-*.png",
+        "docs/design/mockups/final-gist-message-notfound.html",
+        "docs/design/final/gist-message-notfound-*.png",
+        "docs/design/mockups/final-gist-message-invalid.html",
+        "docs/design/final/gist-message-invalid-*.png",
+        "docs/design/mockups/final-gist-empty-wont-link.html",
+        "docs/design/final/gist-empty-wont-link-*.png",
+        "docs/design/mockups/final-gist-empty-all-inert.html",
+        "docs/design/final/gist-empty-all-inert-*.png",
+        "docs/design/mockups/final-gist-unseeded.html",
+        "docs/design/final/gist-unseeded-*.png"
+      ],
+      "model": "sonnet",
+      "dependsOn": [
+        "T-038"
+      ],
+      "notes": "UI: yes, but this commit only changes what is rendered; the look arrives in T-040 to T-044, so the page is transiently unstyled in places on the branch. Expect to update the wording and shape tests T-038 left: test_r078 (`test_copy_table_new_strings_are_present`, `test_empty_state_wording`, `test_protected_text_is_kept`), test_ui_markup (`test_answer_tile_is_the_first_content_of_the_results_shell`, `test_answer_tile_holds_the_context_line_counts_and_note`, `test_empty_state_note_keeps_only_the_first_sentence`, `test_empty_state_counts_models_not_variants`), and test_history's `PARTIAL_MARKERS` (the list partial's `Results` marker needs a `verdict=fits` query); replace, never drop (rule 18). `<verdict>` in the message is HTML-escaped (`Won&#x27;t fit`), so unescape in tests. README \"What did not work\" item 7: the note under two inert tiles reads oddly at `vram_gb=1`; the user kept it at Gate 2, so do not special-case it. R-025's text still says `variants`; R-069 and the copy table win, as today's template does. `.note` keeps its `title` attribute. Items 3 and 5 of that list are T-042 and T-041. No file under `static/`, so no `ASSET_VERSION` bump. Do not render pages or take screenshots; QA measures and compares (rule 10). Your proof is pytest and the code.",
+      "review": "passed",
+      "passes": true
+    },
+    {
+      "id": "T-040",
+      "title": "The three counts become the verdict controls: view_link macro, links, inert tiles, selected state and their styles",
+      "requirements": [
+        "R-085",
+        "R-091",
+        "R-088",
+        "R-090",
+        "R-032",
+        "R-023",
+        "R-067"
+      ],
+      "track": "full",
+      "files": [
+        "src/vramsherpa/main.py",
+        "src/vramsherpa/templates/components.html",
+        "src/vramsherpa/templates/results_summary.html",
+        "src/vramsherpa/static/css/styles.css",
+        "tests/test_r085_controls.py",
+        "tests/test_ui_markup.py",
+        "tests/test_styles.py"
+      ],
+      "acceptance": [
+        "THE SYSTEM SHALL provide one `view_link` macro in `components.html` emitting `href=\"/results?<q>\"`, `hx-get=\"/results/partials/content?<q>\"` with the same `<q>`, `hx-target=\"#results-shell\"`, `hx-sync=\"#results-shell:replace\"` and `data-view-link=\"verdict|collapse|size|page\"`, with no `hx-push-url` (ADR-0018 point 1).",
+        "THE SYSTEM SHALL replace `ul.counts` with `div.verdicts role=\"group\" aria-label=\"Show models by verdict\"` in the order `Fits`, `Tight`, `Won't fit`, each tile holding the verdict's icon, `<b class=\"num\">` count and `<span class=\"vt-label\">`, so its accessible name reads like `71 Fits`, with no second set of counts on the page (R-085, R-091).",
+        "WHILE a verdict's count is above 0, THE SYSTEM SHALL render an `a.vt` through `view_link` carrying `data-verdict-control=\"<slug>\"`; WHILE it is 0, or the catalog is unseeded, a `span.vt` that is not a link and not focusable: on the reference query `Tight` is a `span` showing `0` (R-085, R-091).",
+        "WHILE a verdict is selected, THE SYSTEM SHALL mark only its control `aria-current=\"true\"`, and that link SHALL drop all three parameters with `data-view-link=\"collapse\"`; a request naming a zero-count verdict SHALL mark none (R-085, R-091).",
+        "WHEN `…&verdict=fits&page_size=10&page=2` loads, THE SYSTEM SHALL link `Won't fit` with `verdict=wont-fit&page_size=10` and no `page`; from the gist, `Fits` SHALL link `verdict=fits` with no `page` or `page_size` (R-085, R-088).",
+        "WHEN the query is `/results?vram_gb=abc`, `/results?gpu_id=no_such_gpu` or `/results?gpu_search=RTX`, THE SYSTEM SHALL keep that hardware in each control's link, and following the link SHALL answer 200 at the same 8 GB with the same message and no redirect; `family=a&family=b` SHALL stay in order; `verdict=%3Cscript%3E` SHALL appear in no link (R-088).",
+        "WHEN a verdict, page or page size changes, THE SYSTEM SHALL show the same three counts: 71, 0, 24 on the reference query's gist, `&verdict=fits&page=6` and `&verdict=wont-fit&page_size=10` (R-085, R-023).",
+        "THE SYSTEM SHALL style the controls as `final-gist-reference`: `.verdicts` is `repeat(3, minmax(0, 1fr))` at every width; `.vt` has `min-height: 74px`; the selected tile a 3 px `var(--ink)` border with padding reduced by the same 1.5 px so nothing moves; inert tiles dashed and muted; `a.vt:focus-visible` the 3 px focus ring (R-085, R-091, R-077). The `.counts` rules, including `.answer.no-picks .counts`, SHALL go.",
+        "THE SYSTEM SHALL bump `ASSET_VERSION` in `src/vramsherpa/main.py` to a fresh `YYYYMMDD<letter>` value, later in string order than the one before this task and never `20261028f`, because this task changes a file under `src/vramsherpa/static/` (constitution rule 21, R-084).",
+        "THE SYSTEM SHALL NOT change `estimation.py`, `/how-it-works` or `ESTIMATION_POLICY_VERSION` (R-086, rule 16).",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": [
+        "docs/design/mockups/final-gist-reference.html",
+        "docs/design/final/gist-reference-*.png",
+        "docs/design/mockups/final-gist-all-three.html",
+        "docs/design/final/gist-all-three-*.png",
+        "docs/design/mockups/final-gist-list-fits.html",
+        "docs/design/final/gist-list-fits-*.png",
+        "docs/design/mockups/final-gist-verdict-zero.html",
+        "docs/design/final/gist-verdict-zero-*.png",
+        "docs/design/mockups/final-gist-empty-wont-link.html",
+        "docs/design/final/gist-empty-wont-link-*.png",
+        "docs/design/mockups/final-gist-empty-all-inert.html",
+        "docs/design/final/gist-empty-all-inert-*.png",
+        "docs/design/mockups/final-gist-unseeded.html",
+        "docs/design/final/gist-unseeded-*.png",
+        "docs/design/mockups/final-gist-focus-verdict.html",
+        "docs/design/final/gist-focus-verdict-*.png"
+      ],
+      "model": "sonnet",
+      "dependsOn": [
+        "T-039"
+      ],
+      "notes": "Markup from README \"What was built to the HLD\" (Controls): `div role=\"group\" aria-label=\"Show models by verdict\"` holding `a.vt`, or `span.vt` at 0 or unseeded; each tile is the verdict's tint with icon, count and label; selected is a link with `aria-current=\"true\"` and a 3 px ink border (1.5 px on the others); selecting the selected one links to the gist; inert tiles keep their icon shape. Links come from `view_query(request.url.query, ...)`, not `_query_items`, which drops unusable hardware (ADR-0014). Build a `verdict_controls` list in the context so all routes agree. Slug `wont-fit` maps to the label `Won't fit` and the icon `i-wont`. `test_every_class_and_id_in_the_stylesheet_is_used` needs literal class names: write `vt-fits`, `vt-tight`, `vt-wont`, or add the prefix to its `composed` set as `state` and `bar` are. Update test_ui_markup lines 688, 728, 742, 831, which read `.counts`. R-069: the `verdict=fits` first card ends at 896 px against a 900 px limit at 1280 px (T-043 has the detail). This task sits above that card: anything taller than the mockup breaks the limit. The tile is 74 px in the mockup; do not grow it. CSS source of truth: the `<style>` block inlined in every `final-gist-*` mockup (`docs/design/build/gist.css` is a local, untracked copy of the same rules). Copy values exactly. Place rules in the matching `styles.css` section, never after `Utilities and motion`: `tests/test_styles.py` fixes the section order, and the reduced-motion rule must stay last (decisions.md, 2026-10-28). `test_every_class_and_id_in_the_stylesheet_is_used` fails on any class no template or `app.js` names, so leave out the mockups' `.is-focus` stand-ins (`:focus-visible` is the real rule) and remove a rule in the same task that removes its last use. Do not render pages or take screenshots; QA measures and compares (rule 10). Your proof is pytest and the code.",
+      "review": "passed",
+      "passes": true
+    },
+    {
+      "id": "T-041",
+      "title": "Results layout: the shells make no grid row, so a gist has no empty row and no stray gap",
+      "requirements": [
+        "R-084",
+        "R-067",
+        "R-069"
+      ],
+      "track": "full",
+      "files": [
+        "src/vramsherpa/static/css/styles.css",
+        "src/vramsherpa/main.py",
+        "tests/test_styles.py"
+      ],
+      "acceptance": [
+        "THE SYSTEM SHALL set `#results-summary-shell, #results-list-shell { display: contents; }` and drop `#results-list-shell`'s `min-width` and grid placement (design README, \"What did not work\" item 4).",
+        "THE SYSTEM SHALL set, at 900 px and up, `.bento { grid-template-rows: auto 1fr; }` in place of `auto 1fr auto`, and `.results { grid-column: 1 / -1; grid-row: 3; }`, so the third row and its gap exist only when a list or the empty state does (R-084, measured 0 px under the picks).",
+        "THE SYSTEM SHALL give `.results` `min-width: 0`, which `#results-list-shell` provided, so R-070's 390 px `scrollWidth` holds.",
+        "THE SYSTEM SHALL set `.form-pane .filters { margin-top: auto; }`, pinning `Filters (N)` to the bottom of the form tile (design README, \"What did not work\" item 5).",
+        "THE SYSTEM SHALL keep `.answer.no-picks { grid-row: 1 / 3; align-self: stretch; }` at 900 px and up (R-024's hidden picks).",
+        "THE SYSTEM SHALL hold these rules in `tests/test_styles.py`, and `.results` SHALL be placed only at 900 px and up.",
+        "THE SYSTEM SHALL bump `ASSET_VERSION` in `src/vramsherpa/main.py` to a fresh `YYYYMMDD<letter>` value, later in string order than the one before this task and never `20261028f`, because this task changes a file under `src/vramsherpa/static/` (constitution rule 21, R-084).",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": [
+        "docs/design/mockups/final-gist-reference.html",
+        "docs/design/final/gist-reference-*.png",
+        "docs/design/mockups/final-gist-all-three.html",
+        "docs/design/final/gist-all-three-*.png",
+        "docs/design/mockups/final-gist-list-fits.html",
+        "docs/design/final/gist-list-fits-*.png",
+        "docs/design/mockups/final-gist-empty-wont-link.html",
+        "docs/design/final/gist-empty-wont-link-*.png",
+        "docs/design/mockups/final-gist-empty-all-inert.html",
+        "docs/design/final/gist-empty-all-inert-*.png",
+        "docs/design/mockups/final-gist-unseeded.html",
+        "docs/design/final/gist-unseeded-*.png"
+      ],
+      "model": "sonnet",
+      "dependsOn": [
+        "T-039"
+      ],
+      "notes": "Today `#results-list-shell` is a grid item in row 3, which leaves 14 px and an empty row on a gist; that rule must change. Measured in the mockups: gist ends at 644 px at 1280 (limit 800), message states 748, 703, 788 (limit 900). The `sr-only` `Results` heading is absolutely positioned and the picks' `<script>` has no box, so neither takes a grid cell once the shells are `display: contents`. Slack of about 100 px above `Filters (N)` in the form tile is accepted, as drawn. In the mockups `no-picks` sits on `.bento`; in the app it stays on `.answer`, which a refresh re-renders (ADR-0006 point 9), so do not move it. R-069: the `verdict=fits` first card ends at 896 px against a 900 px limit at 1280 px (T-043 has the detail). This task sits above that card: anything taller than the mockup breaks the limit. CSS source of truth: the `<style>` block inlined in every `final-gist-*` mockup (`docs/design/build/gist.css` is a local, untracked copy of the same rules). Copy values exactly. Place rules in the matching `styles.css` section, never after `Utilities and motion`: `tests/test_styles.py` fixes the section order, and the reduced-motion rule must stay last (decisions.md, 2026-10-28). `test_every_class_and_id_in_the_stylesheet_is_used` fails on any class no template or `app.js` names, so leave out the mockups' `.is-focus` stand-ins (`:focus-visible` is the real rule) and remove a rule in the same task that removes its last use. Do not render pages or take screenshots; QA measures and compares (rule 10). Your proof is pytest and the code.",
+      "review": "passed",
+      "passes": true
+    },
+    {
+      "id": "T-042",
+      "title": "Top Picks: open on the gist, and each pick shows its verdict and the three figures",
+      "requirements": [
+        "R-092",
+        "R-024",
+        "R-084",
+        "R-085",
+        "R-069",
+        "R-067"
+      ],
+      "track": "full",
+      "files": [
+        "src/vramsherpa/templates/results_top_picks.html",
+        "src/vramsherpa/static/css/styles.css",
+        "src/vramsherpa/main.py",
+        "tests/test_r092_top_picks.py",
+        "tests/test_ui_markup.py",
+        "tests/test_styles.py"
+      ],
+      "acceptance": [
+        "THE SYSTEM SHALL show on each pick, after its description, a `.pick-fig` holding the `verdict` macro, `<margin, 1 decimal> GB` then `spare`, `<required, 2 decimals> GB needed` and `<available, 1 decimal> GB`: the reference query's `Best quality that fits` shows `DeepSeek-Coder-V2-Lite-Instruct`, `15.7B · Q4`, `Fits`, `15.36 GB needed`, `24.0 GB`, `8.6 GB` `spare` (R-092, rule 16).",
+        "THE SYSTEM SHALL read those figures from `pick.row`, the same `ResultRow` a card's pane uses, so a test finding that variant's pane through the `verdict=fits` pages SHALL read the same three figures (R-092).",
+        "THE SYSTEM SHALL NOT add a gauge or a breakdown to a pick, and SHALL NOT change `_top_picks` or which variants it selects (R-024, Q-39).",
+        "WHILE no verdict is selected, THE SYSTEM SHALL render `<details class=\"picks …\" open>` with no `data-open-wide`, with or without JavaScript (R-084). WHILE a verdict is selected, it SHALL render closed with `data-open-wide` and the existing inline script (R-085).",
+        "THE SYSTEM SHALL show the same three picks in every view of a query, whichever verdict or page is selected, and SHALL hide them where R-024 says so (Q-40).",
+        "THE SYSTEM SHALL style the figures as `final-gist-reference`: `.pick-fig` margin-top and padding-top 8 px with a `--hair` top rule, `.pick .state` min-height 32 px, `.pick .headroom b` 20 px, `.pick .pick-desc` margin-top 4 px, `.pick .scale` margin-top 0. `.pick .headroom` keeps `white-space: nowrap`, added to `NOWRAP_ALLOWED` in `tests/test_styles.py` (a short figure, R-070).",
+        "THE SYSTEM SHALL bump `ASSET_VERSION` in `src/vramsherpa/main.py` to a fresh `YYYYMMDD<letter>` value, later in string order than the one before this task and never `20261028f`, because this task changes a file under `src/vramsherpa/static/` (constitution rule 21, R-084).",
+        "THE SYSTEM SHALL NOT change `estimation.py`, `/how-it-works` or `ESTIMATION_POLICY_VERSION` (R-086, rule 16).",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": [
+        "docs/design/mockups/final-gist-reference.html",
+        "docs/design/final/gist-reference-*.png",
+        "docs/design/mockups/final-gist-all-three.html",
+        "docs/design/final/gist-all-three-*.png",
+        "docs/design/mockups/final-gist-list-fits.html",
+        "docs/design/final/gist-list-fits-*.png",
+        "docs/design/mockups/final-gist-message-invalid.html",
+        "docs/design/final/gist-message-invalid-*.png"
+      ],
+      "model": "sonnet",
+      "dependsOn": [
+        "T-039"
+      ],
+      "notes": "README \"What did not work\" item 3 and Gate 2: counts and picks may disagree, as drawn. On the reference query `Tight` is 0, yet `Best small` is `Yi-1.5 9B Chat` at FP16, `Tight`, `0.5 GB spare`. Counts place a model by the variant its card opens on; picks can be any variant. Do not \"fix\" it, and do not write a test that assumes they agree. A pick is always usable, so `GB over` cannot occur. README note: Top Picks are `<details open>` on the gist; with a verdict selected `data-open-wide`, closed on a phone. Import `verdict` from `components.html` in this template. Update `test_top_picks_is_a_closed_disclosure_after_the_tile_with_an_opening_script` so it holds for a `verdict=fits` URL, and add the gist's open case. `.pick h3 a::after { z-index: 0; }` is in the mockup CSS; keep it. R-069: the `verdict=fits` first card ends at 896 px against a 900 px limit at 1280 px (T-043 has the detail). This task sits above that card: anything taller than the mockup breaks the limit. The pick figures were tightened to reach 896 px; their sizes are not free. CSS source of truth: the `<style>` block inlined in every `final-gist-*` mockup (`docs/design/build/gist.css` is a local, untracked copy of the same rules). Copy values exactly. Place rules in the matching `styles.css` section, never after `Utilities and motion`: `tests/test_styles.py` fixes the section order, and the reduced-motion rule must stay last (decisions.md, 2026-10-28). `test_every_class_and_id_in_the_stylesheet_is_used` fails on any class no template or `app.js` names, so leave out the mockups' `.is-focus` stand-ins (`:focus-visible` is the real rule) and remove a rule in the same task that removes its last use. Do not render pages or take screenshots; QA measures and compares (rule 10). Your proof is pytest and the code.",
+      "review": "passed",
+      "passes": true
+    },
+    {
+      "id": "T-043",
+      "title": "The verdict list's heading and Models per page, with R-069's first-card limit held",
+      "requirements": [
+        "R-087",
+        "R-091",
+        "R-069",
+        "R-086",
+        "R-067",
+        "R-090"
+      ],
+      "track": "full",
+      "files": [
+        "src/vramsherpa/main.py",
+        "src/vramsherpa/templates/results_list.html",
+        "src/vramsherpa/static/css/styles.css",
+        "tests/test_r087_list.py",
+        "tests/test_r069_acceptance.py",
+        "tests/test_ui_markup.py"
+      ],
+      "acceptance": [
+        "WHILE a verdict is selected, THE SYSTEM SHALL render `section#results-cards.results.list-pane.pane.lite aria-labelledby=\"list-heading\"` whose first child is `.list-head` holding `<h2 id=\"list-heading\" tabindex=\"-1\" class=\"lh-<key>\">` with the verdict's icon and `<b>Fits</b>: showing 6-10 of 71 models` (R-087, R-091, ADR-0018 point 7).",
+        "WHEN first equals last, THE SYSTEM SHALL state `Fits: showing 71 of 71 models`; WHEN the total is 1, `<verdict>: showing 1 of 1 model` (R-087). The empty state's section keeps `aria-label=\"Models\"` and no heading.",
+        "WHILE the verdict's count is above 5, THE SYSTEM SHALL render on the same row `div.sizes role=\"group\" aria-labelledby=\"sizes-l\"` with `span#sizes-l` reading `Models per page` and `5` and `10` as `view_link` links with `data-view-link=\"size\"`, the current one still a link marked `aria-current=\"true\"` (R-087, ADR-0018 point 3).",
+        "WHILE the count is 5 or fewer, THE SYSTEM SHALL show no sizes: `…&family=llama&verdict=tight` shows its 4 cards alone. `…&verdict=tight&page_size=10` at `vram_gb=8&context_tokens=2048` SHALL show the sizes (R-087).",
+        "WHEN a size link is built, THE SYSTEM SHALL keep the verdict and every other parameter and drop `page`, leaving out `page_size` at 5 (R-087, R-088).",
+        "WHEN the reference query with `verdict=fits` loads at 1280 px, THE SYSTEM SHALL end the headline and the first card's model name, verdict and margin within 900 CSS px (the approved mockup measures 896 px, 4 px of room; QA measures the build) (R-069). THE SYSTEM SHALL hold in `tests/test_r069_acceptance.py` what code can hold: the answer tile's element children are exactly `h2`, `p.ctx-line`, `div.verdicts`, `p.note`; the document order is headline, controls, note, picks, `#list-heading`, `.sizes`, first `data-model-card`; `.list-pane`'s children are `.list-head`, `.card-grid` and at most `nav`; and the CSS values in this task's notes are pinned.",
+        "THE SYSTEM SHALL style the list as `final-gist-list-fits`: `.list-pane` padding `14px 10px 12px`, and `10px 14px 14px` at 900 px and up; `.list-head` padding `0 6px 8px`; heading 24 px; `.sizes-seg a` min-height 44 px and min-width 52 px; `.list-pane .card-grid` padding 0 (R-091). `#list-heading` SHALL have `scroll-margin-top` of about 96 px at 900 px and up, or the sticky header covers it (README).",
+        "WHEN `#list-heading` has keyboard focus, THE SYSTEM SHALL show the 3 px `--focus` ring through `:focus-visible` and no outline on plain `:focus` (R-077, R-091).",
+        "THE SYSTEM SHALL bump `ASSET_VERSION` in `src/vramsherpa/main.py` to a fresh `YYYYMMDD<letter>` value, later in string order than the one before this task and never `20261028f`, because this task changes a file under `src/vramsherpa/static/` (constitution rule 21, R-084).",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": [
+        "docs/design/mockups/final-gist-list-fits.html",
+        "docs/design/final/gist-list-fits-*.png",
+        "docs/design/mockups/final-gist-list-fits-size10.html",
+        "docs/design/final/gist-list-fits-size10-*.png",
+        "docs/design/mockups/final-gist-list-tight.html",
+        "docs/design/final/gist-list-tight-*.png",
+        "docs/design/mockups/final-gist-list-tight-short.html",
+        "docs/design/final/gist-list-tight-short-*.png",
+        "docs/design/mockups/final-gist-list-tight-size10.html",
+        "docs/design/final/gist-list-tight-size10-*.png",
+        "docs/design/mockups/final-gist-list-wont-fit.html",
+        "docs/design/final/gist-list-wont-fit-*.png",
+        "docs/design/mockups/final-gist-focus-heading.html",
+        "docs/design/final/gist-focus-heading-*.png",
+        "docs/design/mockups/final-gist-focus-size.html",
+        "docs/design/final/gist-focus-size-*.png"
+      ],
+      "model": "sonnet",
+      "dependsOn": [
+        "T-040",
+        "T-041",
+        "T-042"
+      ],
+      "notes": "R-069 LIMIT, 4 PX OF ROOM. At 1280 px, `/results?vram_gb=24&context_tokens=4096&verdict=fits` must end the headline and the first card's model name, verdict and margin within 900 CSS px. The approved mockup `final-gist-list-fits` measures 896 px. The first drawing measured 918; it reached 896 only by tightening the list pane's top padding, the size control and the pick figures. What would eat the 4 px: any element or line added above the first card (a new note, another line in the answer tile, in-flow feedback, the `Results` heading losing `.sr-only`); the list heading or size control wrapping or growing (`.list-head` padding `0 6px 8px`, heading 24 px, `.sizes-seg a` min-height 44 px); `.list-pane` top padding above 10 px at 900 px and up; taller pick tiles (`.pick-fig` margin-top and padding-top 8 px, `.pick-fig .fit-top` margin-bottom 6 px, `.pick .state` min-height 32 px, `.pick .headroom b` 20 px, `.pick .pick-desc` margin-top 4 px, `.pick .scale` margin-top 0); a larger `--gap`; or a taller card head above the verdict row. The form tile has about 100 px of slack at this width, so it is not the constraint while `Filters (N)` is closed. Other limits QA measures: `Tight` 871 and `Won't fit` 871 (limit 900); with a message limit 1000; at 390 px `Fits` 1471 and `Won't fit` 1446 (limit 1688). Markup from README \"What was built to the HLD\" (List): `section.results.list-pane` with `h2#list-heading tabindex=\"-1\"` (the verdict's icon, the label in bold, then the rest) and `Models per page` (`role=\"group\"`, `aria-labelledby`) on the same row, then the card grid. Keep `id=\"results-cards\"` on the section (test_ui_markup freezes it) and `<h2 class=\"sr-only\">Results</h2>` above it (T-039). `scroll-margin-top` is in the README, not in `gist.css`, so it is easy to miss. `.list-pane` and `.results` have equal specificity, and `.results` sets `padding: 12px` at 900 px and up, so the `.list-pane` rules must come after them, or 12 px wins and takes 2 of the 4 px. `lh-<key>` classes need literal names or `composed` in test_styles, as in T-040. The verdict label and figures are protected; the rest of the heading was approved at Gate 2. CSS source of truth: the `<style>` block inlined in every `final-gist-*` mockup (`docs/design/build/gist.css` is a local, untracked copy of the same rules). Copy values exactly. Place rules in the matching `styles.css` section, never after `Utilities and motion`: `tests/test_styles.py` fixes the section order, and the reduced-motion rule must stay last (decisions.md, 2026-10-28). `test_every_class_and_id_in_the_stylesheet_is_used` fails on any class no template or `app.js` names, so leave out the mockups' `.is-focus` stand-ins (`:focus-visible` is the real rule) and remove a rule in the same task that removes its last use. Do not render pages or take screenshots; QA measures and compares (rule 10). Your proof is pytest and the code.",
+      "review": "passed",
+      "passes": true
+    },
+    {
+      "id": "T-044",
+      "title": "Page controls under the cards: Previous, the number window and Next",
+      "requirements": [
+        "R-087",
+        "R-091",
+        "R-067",
+        "R-090"
+      ],
+      "track": "full",
+      "files": [
+        "src/vramsherpa/main.py",
+        "src/vramsherpa/templates/results_list.html",
+        "src/vramsherpa/static/css/styles.css",
+        "tests/test_r087_list.py"
+      ],
+      "acceptance": [
+        "WHILE the list has more than one page, THE SYSTEM SHALL render under the cards, inside the list section, `nav.pager aria-label=\"Pages\"` holding a `ul`: `Previous`, the numbers of `page_window`, `Next`, every link through `view_link` with `data-view-link=\"page\"` (R-087, R-091).",
+        "THE SYSTEM SHALL render each number as a link with `aria-label=\"Page <n>\"`; the current page as `span.pg.pg-cur aria-current=\"page\"`, not a link; each gap as `li.gap aria-hidden=\"true\"` holding `…` (R-087, R-091).",
+        "WHILE on page 1, `Previous` SHALL be `span.pg.pg-off`, and WHILE on the last page, `Next` SHALL be; otherwise they SHALL be links with `rel=\"prev\"` and `rel=\"next\"`. Inert items SHALL NOT be focusable (R-087, R-091).",
+        "WHEN these load, THE SYSTEM SHALL show these windows: reference `&verdict=fits` `1 2 … 15`; `&page=6` `1 … 5 6 7 … 15`; `&page=15` `1 … 14 15`; `&page=99` `1 … 14 15`; `/results?vram_gb=1&verdict=wont-fit&page=10` `1 … 9 10 11 … 19` (R-087, R-091).",
+        "WHEN a page link is built, THE SYSTEM SHALL keep the verdict, a non-default size and every other parameter, omitting `page` for page 1: `Previous` on page 2 at size 10 links `verdict=fits&page_size=10` (R-087, R-088).",
+        "WHILE there is one page, THE SYSTEM SHALL show no page controls: `/results?vram_gb=8&context_tokens=2048&verdict=tight&page_size=10` has the sizes and no `nav` (R-087).",
+        "THE SYSTEM SHALL style the pager as `final-gist-list-fits-middle`: `.pager ul` wrapping and centred, each item `min-height` and `min-width` 44 px, the current page in `--pressed`, inert items dashed, focus ring through `:focus-visible` (R-091).",
+        "THE SYSTEM SHALL bump `ASSET_VERSION` in `src/vramsherpa/main.py` to a fresh `YYYYMMDD<letter>` value, later in string order than the one before this task and never `20261028f`, because this task changes a file under `src/vramsherpa/static/` (constitution rule 21, R-084).",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": [
+        "docs/design/mockups/final-gist-list-fits.html",
+        "docs/design/final/gist-list-fits-*.png",
+        "docs/design/mockups/final-gist-list-fits-middle.html",
+        "docs/design/final/gist-list-fits-middle-*.png",
+        "docs/design/mockups/final-gist-list-fits-last.html",
+        "docs/design/final/gist-list-fits-last-*.png",
+        "docs/design/mockups/final-gist-list-wont-fit-page10.html",
+        "docs/design/final/gist-list-wont-fit-page10-*.png",
+        "docs/design/mockups/final-gist-focus-page.html",
+        "docs/design/final/gist-focus-page-*.png"
+      ],
+      "model": "sonnet",
+      "dependsOn": [
+        "T-043"
+      ],
+      "notes": "Markup from README \"What was built to the HLD\" (List): `nav aria-label=\"Pages\"` holding a `ul`; the current page is a `span aria-current=\"page\"`; `Previous` and `Next` at the ends are `span`s when inert; `…` is `li aria-hidden`; numbers are `aria-label=\"Page <n>\"`. README \"What did not work\" item 6, Gate 2: phone page controls wrap naturally (`…` may start the second row); R-091 allows it, and reordering `Previous` and `Next` would break keyboard order, so do not fix it. `1 2 … 15` and `1 … 14 15` take one row at 390 px, the two wider windows take two. The pager sits below the cards, so it does not affect R-069's limit. `.pager .is-pending` belongs to T-049. CSS source of truth: the `<style>` block inlined in every `final-gist-*` mockup (`docs/design/build/gist.css` is a local, untracked copy of the same rules). Copy values exactly. Place rules in the matching `styles.css` section, never after `Utilities and motion`: `tests/test_styles.py` fixes the section order, and the reduced-motion rule must stay last (decisions.md, 2026-10-28). `test_every_class_and_id_in_the_stylesheet_is_used` fails on any class no template or `app.js` names, so leave out the mockups' `.is-focus` stand-ins (`:focus-visible` is the real rule) and remove a rule in the same task that removes its last use. Do not render pages or take screenshots; QA measures and compares (rule 10). Your proof is pytest and the code.",
+      "review": "passed",
+      "passes": true
+    },
+    {
+      "id": "T-045",
+      "title": "Active filter chips, Try Q4 and Lower context keep the verdict and page size and go to page 1",
+      "requirements": [
+        "R-031",
+        "R-025",
+        "R-089"
+      ],
+      "track": "full",
+      "files": [
+        "src/vramsherpa/main.py",
+        "tests/test_r089_view_links.py"
+      ],
+      "acceptance": [
+        "WHEN a valid verdict is in the query, including one whose count is 0, THE SYSTEM SHALL add it to each chip's `remove_url` and to `Try Q4` and `Lower context`, add `page_size` only when it is 10, and never add `page` (R-031, R-089, ADR-0014 point 6). With no valid verdict the links SHALL be exactly as today.",
+        "WHEN `/results?vram_gb=24&context_tokens=4096&family=qwen&verdict=fits&page=2&page_size=10` loads, THE SYSTEM SHALL link the `Family: qwen` chip with `verdict=fits` and `page_size=10`, no `page` and no `family=qwen` (R-031).",
+        "WHEN `/results?vram_gb=1&context_tokens=4096&quant_bucket=Q8&verdict=tight` loads, THE SYSTEM SHALL link `Try Q4` and `Lower context` with `verdict=tight` and no `page` (R-025, R-089).",
+        "THE SYSTEM SHALL keep these as plain `<a>` links with no `hx-*` attribute, so the form re-renders (ADR-0016 point 7), and SHALL keep `hardware_query_string`, used by model links and breakdowns, free of the view.",
+        "THE SYSTEM SHALL NOT count the selected verdict in `Filters (N)` or show it as a chip: `…&family=qwen&quant_bucket=Q4&verdict=fits` shows `Filters (2)` (R-089).",
+        "THE SYSTEM SHALL apply filters and context before counting: `/results?vram_gb=8&context_tokens=4096&verdict=tight` states `Tight: showing 1-5 of 13 models`; with `context_tokens=2048`, `Tight: showing 1-5 of 9 models`; with `context_tokens=8192`, `No models in Tight with these settings.` (R-089).",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": null,
+      "model": "sonnet",
+      "dependsOn": [
+        "T-043"
+      ],
+      "notes": "UI: no new look; a link target changes. `_query_items` remains for these canonical links; they do not use `view_query` (ADR-0014 point 6). Thread the view through `_active_filter_chips` and `_empty_state_suggestions`, or append after `_results_url`'s items, but keep `_query_items` itself view-free, because `hardware_query_string` is built from it. Depends on T-043 only for the heading text this task's test reads. No file under `static/`, so no `ASSET_VERSION` bump.",
+      "review": "passed",
+      "passes": true
+    },
+    {
+      "id": "T-046",
+      "title": "Without JavaScript, Apply filters keeps the view through apply_view and one relative redirect",
+      "requirements": [
+        "R-089",
+        "R-013",
+        "R-090",
+        "R-080",
+        "R-078"
+      ],
+      "track": "full",
+      "files": [
+        "src/vramsherpa/main.py",
+        "src/vramsherpa/results_view.py",
+        "src/vramsherpa/templates/index.html",
+        "tests/test_r089_apply_view.py",
+        "tests/test_results_view.py"
+      ],
+      "acceptance": [
+        "WHEN a valid verdict is in the query, including one whose count is 0, THE SYSTEM SHALL render the `<noscript>` button as `<button type=\"submit\" name=\"apply_view\" value=\"<verdict>:<size>\">Apply filters</button>`; with none, as today, with no `name` (ADR-0016 point 5). `Check compatibility` SHALL keep no name and stay first in the form, so Enter sends no view (R-013, R-089).",
+        "THE SYSTEM SHALL provide `parse_apply_view(value)` in `results_view.py`, accepting exactly `fits|tight|wont-fit` then `:` then `5|10`, the last value if repeated, else `None`.",
+        "WHEN a request without `HX-Request: true` carries `apply_view`, THE SYSTEM SHALL answer `302` with an empty body, `Cache-Control: no-cache`, the `Vary` header and a relative `Location: /results?<q>`, where `<q>` comes from `view_query` with the parsed verdict and size and no `page`: `…&apply_view=fits:10` goes to `…&verdict=fits&page_size=10`, and `…&apply_view=fits:5` to `…&verdict=fits` (ADR-0016 point 6, rule 8).",
+        "IF `apply_view` is invalid (`green:5`, `fits:7`, empty), THEN THE SYSTEM SHALL drop it and redirect with no view, giving the gist (ADR-0016 point 6).",
+        "THE SYSTEM SHALL make this check after the no-hardware check and before any database work in `results`, so `/results?apply_view=fits:5` with no hardware still goes to `/` and a redirect runs no query; a malformed `context_tokens=abc` SHALL still get the 422 (ADR-0008, ADR-0010).",
+        "WHEN an unknown `Host` sends such a request in production settings, THE SYSTEM SHALL answer the 400 JSON with no `Location` (rule 8, host guard runs first).",
+        "THE SYSTEM SHALL never write `apply_view` into a body or a built link (ADR-0016 point 6).",
+        "THE SYSTEM SHALL set `autocomplete=\"off\"` on `#search-form`, so a reload cannot put values in the form that differ from the address (ADR-0016 point 8, R-081, R-088).",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": null,
+      "model": "opus",
+      "dependsOn": [
+        "T-039"
+      ],
+      "notes": "UI: no; the `<noscript>` button keeps its label and style (ADR-0016). Opus, as T-027 was: a new redirect built from user input, with rule 8's relative `Location` and middleware order to get right. `RedirectResponse` quotes the URL; `%`, `&`, `=`, `+` survive (ADR-0008 fix 4), and a test should show an encoded `gpu_search` passes through unchanged. `tests/test_r083_redirect.py` inspects `results`'s source for the no-hardware check coming first: keep that order. Existing `test_no_javascript_markup` regex for the button must still match. Plain HTML cannot make one button send both `verdict` and `page_size` while another sends neither, which is why this one parameter exists. No file under `static/`, so no `ASSET_VERSION` bump.",
+      "review": "passed",
+      "passes": true
+    },
+    {
+      "id": "T-047",
+      "title": "Turn off htmx's history cache, so Back and Forward always reload from the address",
+      "requirements": [
+        "R-088",
+        "R-081",
+        "R-086",
+        "R-090"
+      ],
+      "track": "full",
+      "files": [
+        "src/vramsherpa/templates/base.html",
+        "tests/test_history.py"
+      ],
+      "acceptance": [
+        "THE SYSTEM SHALL set `base.html`'s meta tag content to exactly `{\"refreshOnHistoryMiss\":true,\"historyCacheSize\":0}`, in `<head>`, before the htmx `<script>` (ADR-0017 point 1).",
+        "THE SYSTEM SHALL change the exact-value assert in `tests/test_history.py` (line 214) to that value, and keep ADR-0008's guards for fixes 1, 3 and 4 passing unchanged (ADR-0017 point 3).",
+        "THE SYSTEM SHALL keep the verdict, page and page size out of cookies and `localStorage`: a test SHALL hold that the only `localStorage` key in `base.html` and `app.js` is `vramsherpa-theme` (R-088, rule 11).",
+        "THE SYSTEM SHALL keep htmx at 1.9.12.",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": null,
+      "model": "sonnet",
+      "dependsOn": [],
+      "notes": "UI: no. Gate 2 decision (2026-11-03): each Back and Forward within results is a full page load; a brief repaint is accepted. ADR-0017 checked this against htmx 1.9.12's source, so do not add `htmx:beforeHistorySave` cleanup; the existing `htmx:historyRestore` listeners in `app.js` become unused but harmless and may stay. `app.js` does not change. The Back and Forward walks, and `localStorage` holding no `htmx-history-cache`, are QA's in a real browser. No file under `static/`, so no `ASSET_VERSION` bump.",
+      "review": "passed",
+      "passes": true
+    },
+    {
+      "id": "T-048",
+      "title": "app.js keeps the verdict and size on filter changes, and the form shares the links' hx-sync",
+      "requirements": [
+        "R-089",
+        "R-032",
+        "R-013",
+        "R-090"
+      ],
+      "track": "full",
+      "files": [
+        "src/vramsherpa/static/js/app.js",
+        "src/vramsherpa/templates/index.html",
+        "src/vramsherpa/main.py",
+        "tests/test_r089_form_view.py"
+      ],
+      "acceptance": [
+        "WHEN `htmx:configRequest` fires on `#search-form` and `detail.triggeringEvent.type` is not `submit`, THE SYSTEM SHALL copy `data-verdict` and `data-page-size` from the current `#summary-banner` into `detail.parameters` as `verdict` and `page_size`; WHEN it is `submit`, it SHALL add nothing, so `Check compatibility` and Enter land on the gist with none of the three in the address (ADR-0016 point 2, R-089).",
+        "THE SYSTEM SHALL read the view only from `#summary-banner`, never from `location.search`, so an invalid value in the address is not forwarded, and after Back the change applies to the view on screen (ADR-0016 point 4, R-089).",
+        "THE SYSTEM SHALL add no `page` to the form's request, so a filter change shows page 1 (R-089).",
+        "THE SYSTEM SHALL set `hx-sync=\"#results-shell:replace\"` on `#search-form`, and SHALL NOT put it on `#results-shell` or any ancestor of the breakdown triggers, so the latest action wins and breakdowns are unaffected (ADR-0018 point 2).",
+        "THE SYSTEM SHALL keep the form's `hx-get`, `hx-target`, `hx-push-url` and `hx-trigger` unchanged (R-078, ADR-0006).",
+        "THE SYSTEM SHALL hold in `tests/test_r089_form_view.py`, by reading `app.js` and rendered HTML, the listener's `submit` branch, the two `dataset` reads, the `hx-sync` placement, and that `test_app_js_has_valid_syntax` still passes.",
+        "THE SYSTEM SHALL bump `ASSET_VERSION` in `src/vramsherpa/main.py` to a fresh `YYYYMMDD<letter>` value, later in string order than the one before this task and never `20261028f`, because this task changes a file under `src/vramsherpa/static/` (constitution rule 21, R-084).",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": null,
+      "model": "opus",
+      "dependsOn": [
+        "T-040",
+        "T-047"
+      ],
+      "notes": "UI: no. Opus: this decides which in-flight request wins and which view a filter change belongs to, and pytest cannot run it; QA drives it in a browser. Checked at plan time against htmx 1.9.12's `dist/htmx.js`: `triggeringEvent` is on the request config, `detail.parameters` is a plain object in this version, so assign keys (`detail.parameters[\"verdict\"] = v`) rather than call `.set`, and values added go into the GET's URL. Enter pressed within 350 ms of typing is safe: any trigger on the form clears its pending delayed trigger (`elementData.delayed`), so a stale `keyup` cannot follow the `submit` and restore the verdict. `HX-Push-Url` already repeats the raw query, so the address carries `verdict=tight` and no `page` with no server change. `data-page-size` is absent at size 5, which is correct: leave `page_size` out then. Example chips only set field values and send nothing. T-037 added the data attributes; a zero-count verdict keeps `data-verdict`, so a later change can bring the list back (R-089). Do not render pages or take screenshots; QA measures and compares (rule 10). Your proof is pytest and the code.",
+      "review": "passed",
+      "passes": true
+    },
+    {
+      "id": "T-049",
+      "title": "Loading and failure feedback outside the swap, driven by request listeners on document.body",
+      "requirements": [
+        "R-090",
+        "R-091",
+        "R-067",
+        "R-069"
+      ],
+      "track": "full",
+      "files": [
+        "src/vramsherpa/templates/index.html",
+        "src/vramsherpa/static/js/app.js",
+        "src/vramsherpa/static/css/styles.css",
+        "src/vramsherpa/main.py",
+        "tests/test_r090_feedback.py"
+      ],
+      "acceptance": [
+        "THE SYSTEM SHALL render in `index.html`, as a sibling of `#results-shell`, `#results-feedback` holding `<p id=\"results-loading\" role=\"status\" data-text=\"Loading models\">` and `<p id=\"results-error\" role=\"alert\" data-text=\"Could not load the models. Try again.\">`, with no visible text until a script fills them, so nothing shows without JavaScript (ADR-0018 point 4, R-090).",
+        "WHEN `htmx:beforeRequest` fires with `detail.target.id` of `results-shell`, THE SYSTEM SHALL set `aria-busy=\"true\"` on `#results-shell`, show `Loading models`, empty `#results-error`, and note the requesting element's `data-view-link` kind for T-050, adding `.is-pending` to it when it has one (ADR-0018 point 6, R-090).",
+        "WHEN `htmx:afterRequest` fires for that target, THE SYSTEM SHALL remove `aria-busy`, empty `#results-loading` and clear `.is-pending` from any element still in the document.",
+        "IF `htmx:responseError` or `htmx:sendError` fires for that target, THEN THE SYSTEM SHALL keep the current view and address and show `Could not load the models. Try again.` in `role=\"alert\"`, with no dismiss or retry control; it SHALL clear when the next request starts (R-090, Gate 2). `htmx:sendAbort` SHALL NOT show it, because an aborted request is not a failure.",
+        "WHEN a breakdown request runs, THE SYSTEM SHALL NOT change `aria-busy` or the feedback, because its target is not `#results-shell` (ADR-0018 point 6).",
+        "THE SYSTEM SHALL show the feedback on every results refresh, including form changes and refreshes that end on the gist (Gate 2, 2026-11-03).",
+        "THE SYSTEM SHALL style `#results-feedback` as `final-gist-loading-from-gist` and `final-gist-failed-next-page`: `position: fixed`, `top: 12px`, `80px` at 900 px and up, `z-index: 60`, `pointer-events: none` for the status and `auto` for the alert, so it never pushes the headline and R-069's limits are not affected (ADR-0018 point 5).",
+        "THE SYSTEM SHALL keep the paragraphs in the accessibility tree while empty, with no box drawn until filled, and the pill look, spinner and icon only when filled.",
+        "THE SYSTEM SHALL hold in `tests/test_r090_feedback.py` the rendered markup, both `data-text` strings word for word, no such text outside `data-text` in the body, the feedback outside `#results-shell`, and the listener names and target filter in `app.js`.",
+        "THE SYSTEM SHALL bump `ASSET_VERSION` in `src/vramsherpa/main.py` to a fresh `YYYYMMDD<letter>` value, later in string order than the one before this task and never `20261028f`, because this task changes a file under `src/vramsherpa/static/` (constitution rule 21, R-084).",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": [
+        "docs/design/mockups/final-gist-loading-from-gist.html",
+        "docs/design/final/gist-loading-from-gist-*.png",
+        "docs/design/mockups/final-gist-loading-next-page.html",
+        "docs/design/final/gist-loading-next-page-*.png",
+        "docs/design/mockups/final-gist-failed-from-gist.html",
+        "docs/design/final/gist-failed-from-gist-*.png",
+        "docs/design/mockups/final-gist-failed-next-page.html",
+        "docs/design/final/gist-failed-next-page-*.png"
+      ],
+      "model": "opus",
+      "dependsOn": [
+        "T-044",
+        "T-048"
+      ],
+      "notes": "Opus: request lifecycle and ordering under `hx-sync` replace. Checked in ADR-0018 against htmx 1.9.12: the aborted request's `afterRequest` fires inside `xhr.abort()`, before the new request's `beforeRequest`, so the order holds; after a swap the link that made the request has left the document, and htmx fires `afterRequest` on the closest ancestor still present, so a listener on `document.body` hears it; a 4xx or 5xx is not swapped or pushed, so the address stays with no extra code. MARKUP CONFLICT, resolved here: the README and mockups show both paragraphs with `hidden`, and ADR-0018 point 4 has them present and empty because a live region must exist before its text changes. Follow the ADR: no `hidden`. The mockups' `#results-feedback p` has padding, border and background, so an empty one would draw an empty pill: put the look on a filled state (for example `.is-on`, toggled by the script with the text in an inner `<span>`) and hide `.fb-spin` and the icon until then. The look when filled is the mockup's. The README places the element after `</main>` and ADR-0018 as a sibling of `#results-shell`; `.results-main` is `display: contents` and nothing on `main` makes a containing block, so either renders alike: follow the ADR. Use `.fb-spin`, `.fb-alert` and `.is-pending` from the mockup CSS, including `.pager .is-pending` and `[aria-busy=\"true\"] .card-grid`. The reduced-motion rule already stops the spinner. CSS source of truth: the `<style>` block inlined in every `final-gist-*` mockup (`docs/design/build/gist.css` is a local, untracked copy of the same rules). Copy values exactly. Place rules in the matching `styles.css` section, never after `Utilities and motion`: `tests/test_styles.py` fixes the section order, and the reduced-motion rule must stay last (decisions.md, 2026-10-28). `test_every_class_and_id_in_the_stylesheet_is_used` fails on any class no template or `app.js` names, so leave out the mockups' `.is-focus` stand-ins (`:focus-visible` is the real rule) and remove a rule in the same task that removes its last use. Do not render pages or take screenshots; QA measures and compares (rule 10). Your proof is pytest and the code.",
+      "review": "passed",
+      "passes": true
+    },
+    {
+      "id": "T-050",
+      "title": "After a view link: focus and scroll to the heading, focus stays on collapse, typed text stays, modified clicks open a tab",
+      "requirements": [
+        "R-091",
+        "R-090",
+        "R-088",
+        "R-067"
+      ],
+      "track": "full",
+      "files": [
+        "src/vramsherpa/static/js/app.js",
+        "src/vramsherpa/main.py",
+        "tests/test_r091_focus.py"
+      ],
+      "acceptance": [
+        "WHEN a `verdict`, `size` or `page` link's refresh settles, THE SYSTEM SHALL focus `#list-heading` with `{preventScroll: true}`, then `scrollIntoView({block: \"start\", behavior: prefersReducedMotion() ? \"auto\" : \"smooth\"})`, once per request (ADR-0018 point 7, R-091).",
+        "WHEN a `collapse` link's refresh settles, THE SYSTEM SHALL focus the link with the same `data-verdict-control` value (R-091).",
+        "WHEN a form-driven refresh settles, a request fails or a request is aborted, THE SYSTEM SHALL move no focus and scroll nothing (ADR-0018 point 7).",
+        "WHEN a response to a `data-view-link` request settles, THE SYSTEM SHALL skip `syncVramInvalid` and `syncBoxVram`, so text typed in the form and not submitted stays (R-090, ADR-0018 point 8). Form-driven refreshes SHALL still run them, as the existing test in `test_r083_box_rule.py` holds.",
+        "WHEN Ctrl, Cmd or Shift is held on a `[data-view-link]` click, THE SYSTEM SHALL `stopPropagation()` in a capture-phase listener, so htmx never sees the click and the browser follows the `href` (ADR-0018 point 9).",
+        "THE SYSTEM SHALL hold in `tests/test_r091_focus.py`, by reading `app.js`, the one-shot flag, the `preventScroll` focus, the reduced-motion branch, the collapse branch, the sync skip and the capture-phase listener; `test_app_js_has_valid_syntax` SHALL still pass.",
+        "THE SYSTEM SHALL bump `ASSET_VERSION` in `src/vramsherpa/main.py` to a fresh `YYYYMMDD<letter>` value, later in string order than the one before this task and never `20261028f`, because this task changes a file under `src/vramsherpa/static/` (constitution rule 21, R-084).",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": [
+        "docs/design/mockups/final-gist-focus-heading.html",
+        "docs/design/final/gist-focus-heading-*.png",
+        "docs/design/mockups/final-gist-focus-verdict.html",
+        "docs/design/final/gist-focus-verdict-*.png",
+        "docs/design/mockups/final-gist-focus-size.html",
+        "docs/design/final/gist-focus-size-*.png",
+        "docs/design/mockups/final-gist-focus-page.html",
+        "docs/design/final/gist-focus-page-*.png"
+      ],
+      "model": "sonnet",
+      "dependsOn": [
+        "T-049"
+      ],
+      "notes": "From ADR-0018's findings in htmx 1.9.12: `htmx:afterSettle` fires once for each new top-level element in the swap, and `#results-shell` swaps two children, so the focus step needs a one-shot flag set at `beforeRequest` (T-049 notes the kind there). `htmx:afterSettle` is shared with breakdown requests: filter on `detail.target.id`. For a non-boosted `<a hx-get>`, htmx calls `preventDefault()` before evaluating any trigger filter, so `click[!ctrlKey]` would leave a modified click doing nothing; that is why this is a capture-phase listener on `document`. Pass `behavior` explicitly: the stylesheet's reduced-motion rule does not cover `scrollIntoView({behavior: \"smooth\"})`. `prefersReducedMotion` already exists in `app.js`. If no `#list-heading` exists after a settle, do nothing. The heading's text is the announcement, so add no live region for it. `scroll-margin-top` is in T-043. Do not render pages or take screenshots; QA measures and compares (rule 10). Your proof is pytest and the code.",
+      "review": "passed",
+      "passes": true
+    },
+    {
+      "id": "T-051",
+      "title": "Release smoke test adds a verdict-list render check that expects exactly 200 and a model card",
+      "requirements": [
+        "R-062"
+      ],
+      "track": "full",
+      "files": [
+        ".github/workflows/release.yml",
+        "tests/test_r082_release_order.py"
+      ],
+      "acceptance": [
+        "THE SYSTEM SHALL add one check to the step \"Smoke test the published image\", directly after ADR-0013's `/results` check and against the same running digest: `GET http://127.0.0.1:8000/results?vram_gb=24&context_tokens=4096&verdict=fits`, read with `curl -sS -m 10 -o <file> -w '%{http_code}'`, with no `-f` and no `-L` (ADR-0019 point 2, R-062).",
+        "IF the status is not exactly 200 or the body does not contain `data-model-card` (`grep -qF`), THEN THE SYSTEM SHALL print an `::error::` naming the status and `exit 1`, before any tag exists (R-062, R-082's order unchanged).",
+        "THE SYSTEM SHALL keep every existing check exactly as it is, including ADR-0013's `summary-banner` and `Manual VRAM (24 GB)` check (rule 18), and SHALL NOT touch the web command (rule 20), the image tags or any other step.",
+        "THE SYSTEM SHALL add `verdict=fits` and `data-model-card` to the needles in `test_smoke_checks_unchanged`, and every `/results` curl line SHALL still pass that test's no-`-f`, no-`-L`, `%{http_code}` checks (ADR-0019 point 4).",
+        "THE SYSTEM SHALL keep the YAML parsing, as `test_workflow_parses_and_has_smoke_step` holds.",
+        "THE SYSTEM SHALL keep `ruff check .`, `ruff format --check .`, catalog validation (`python tools/validate_catalog.py --data-dir data --config tools/catalog_sources.yaml`) and `pytest` passing, with no network access and no real database (rule 19)."
+      ],
+      "mockup": null,
+      "model": "opus",
+      "dependsOn": [
+        "T-037"
+      ],
+      "notes": "UI: no. CI and deploy config, so Opus. Copy the shape of the ADR-0013 block at `release.yml` lines 124 to 134, with its own `mktemp`. Rule 18 lets checks be added, never removed or weakened; the user asked for this one (Gate 1, Q-42). Do not match a model name or a count: the catalog changes weekly, and `data-model-card` is what `app.js` reads (ADR-0019). Nothing here costs money: it runs in the existing free GitHub Actions workflow on a public repo. Merging needs the user's sign-off (rule 6). Do not run the workflow. No file under `static/`, so no `ASSET_VERSION` bump.",
+      "review": "passed",
+      "passes": true
+    },
+    {
+      "id": "T-052",
+      "track": "full",
+      "title": "QA fix: Enter in Min or Max params lands on the gist even when the last key comes up after the submit",
+      "requirements": [
+        "R-089"
+      ],
+      "files": [
+        "src/vramsherpa/static/js/app.js",
+        "src/vramsherpa/main.py (ASSET_VERSION only)",
+        "tests/test_r089_form_view.py"
+      ],
+      "acceptance": [
+        "WHILE a verdict list is shown, WHEN the user types in `#min_params_b` or `#max_params_b` and presses Enter with the last character's key still down, so its keyup arrives after the submit, THE SYSTEM SHALL end on the gist: an address with no `verdict`, `page` or `page_size`, and no card, whether the response takes 100 ms or 1500 ms.",
+        "IF a keyup arrives after a submit and the field values are the ones just submitted, THEN THE SYSTEM SHALL send no request carrying `verdict` or `page_size` from that keyup.",
+        "WHILE a verdict list is shown, WHEN the user types in Min or Max params without pressing Enter, THE SYSTEM SHALL still refresh after the 350 ms delay, keep the verdict and page size, and go to page 1 (R-089, unchanged).",
+        "WHEN the user changes a filter field's value again after a submit has landed, THE SYSTEM SHALL refresh as usual, keeping whatever view is then shown.",
+        "`Check compatibility`, and Enter with the key already up, behave as today; the page without JavaScript is unchanged.",
+        "The fix is in the form's request handling only: no change to `hx-sync`, no new route, no change to view links, and `app.js` still parses (`test_app_js_has_valid_syntax`).",
+        "`ASSET_VERSION` in `src/vramsherpa/main.py` is bumped (constitution rule 21). `pytest` and the lint command in `CLAUDE.md` pass."
+      ],
+      "mockup": "",
+      "notes": "Sent back from QA (first and only fix round before the user is asked). Read `.sdlc/qa/R-089/report.md`, rows 8 and `Probe variant`; the failing step is `.sdlc/qa/R-089/scripts/p5.py`, which QA re-runs. Observed: key down, Enter, key up on `#min_params_b` sends two requests; the first (submit) has no verdict, the second (keyup, `js-auto-filter-text`, `changed delay:350ms`, `src/vramsherpa/templates/index.html:17`) carries `verdict=tight&page_size=10` and the list is shown. In htmx 1.9.12 the `changed` check compares with `lastValue`, which only a keyup updates, so the late keyup passes it. `addFormView` in `app.js` adds the view from the banner on `htmx:configRequest`. One way: remember the values of the last submit and cancel a keyup request whose values match them; `event.preventDefault()` on `htmx:configRequest` cancels a request. Pick what is simplest and holds. pytest cannot run htmx, so test the decision as the existing tests of `app.js` do; QA exercises the real browser.",
+      "model": "opus",
+      "dependsOn": [
+        "T-048",
+        "T-049"
+      ],
+      "passes": true,
+      "review": "passed"
+    },
+    {
+      "id": "T-053",
+      "track": "full",
+      "title": "QA fix: with an input error and a verdict selected, the first card's verdict and margin end within 1000 px at 1280",
+      "requirements": [
+        "R-069"
+      ],
+      "files": [
+        "src/vramsherpa/static/css/styles.css",
+        "src/vramsherpa/templates/results_summary.html (only if a class is needed)",
+        "src/vramsherpa/main.py (ASSET_VERSION only)",
+        "tests/test_r069_acceptance.py"
+      ],
+      "acceptance": [
+        "WHEN `/results?vram_gb=abc&verdict=fits` is shown at 1280 px in light or dark, THE SYSTEM SHALL end the first card's name, verdict and margin figure within 1000 px. Today the verdict ends at 1014 and the margin at 1016; take out at least 16 px, and aim for 20.",
+        "The room comes only from the states that show a message with a verdict selected. These stay as measured: the gist `message-invalid` 788, `message-ambiguous` 748, `message-notfound` 703, reference 644, and reference with `verdict=fits` 896 (margin 897), and no other approved mockup moves.",
+        "No wording changes, no message is removed, and both notices stay readable, in the same order, inside the answer tile, with `role=\"alert\"` and `role=\"status\"` unchanged (R-008, R-071).",
+        "At 390 px the limit of 1688 px still holds and nothing scrolls sideways.",
+        "A test pins the CSS values the fix relies on, as `tests/test_r069_acceptance.py` does for the first-card limit.",
+        "`ASSET_VERSION` in `src/vramsherpa/main.py` is bumped (constitution rule 21). `pytest` and the lint command in `CLAUDE.md` pass."
+      ],
+      "mockup": "docs/design/mockups/final-gist-message-invalid.html (gist, must not move; no mockup draws an input error with a verdict)",
+      "notes": "Sent back from QA (first and only fix round before the user is asked). Read `.sdlc/qa/R-069/report.md` and `.sdlc/qa/R-069/measure_r084.json`, key `invalid+fits|1280|light`; QA re-runs `.sdlc/qa/R-069/measure_r084.py`. This state shows two notices, the input error and the assumed 8 GB note, each with `.notice` padding of 12 px top and bottom (`styles.css:399`), which is why it runs 40 px past the ambiguous GPU state (974). Tightening the notices only while a verdict is selected is one way; do not change `.notice` for every state. T-043's note applies: `.list-pane` comes after `.results` in the stylesheet. Rendering belongs to QA, so work from the CSS values.",
+      "model": "sonnet",
+      "dependsOn": [
+        "T-043",
+        "T-049"
+      ],
+      "passes": true,
+      "review": "passed"
+    }
+  ]
+}
