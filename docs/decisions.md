@@ -65,6 +65,7 @@
 | 2026-11-03 | 2 | Counts and Top Picks may disagree, as drawn: counts use the variant each card opens on, picks can be any variant. A `Tight` pick can sit beside a `Tight` count of 0. R-024 is unchanged. |
 | 2026-11-03 | 2 | Accepted as drawn: feedback at the top of the viewport; failure message with no dismiss or retry, clearing when the next request starts; 3 px ink border on the selected tile; phone page controls wrap naturally. |
 | 2026-11-03 | 2 | Q-41 wording final as written, including `Choose Fits, Tight or Won't fit to see the models.` under two inert tiles at `vram_gb=1`. |
+| 2026-11-04 | 3 | Merge PR #26 now (squash), which deploys. T-051's guard test is a follow-up; the pending page-size spinner at 390 ships as is. |
 
 ## Made during work
 

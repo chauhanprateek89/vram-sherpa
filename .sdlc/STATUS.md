@@ -3,9 +3,9 @@
 | | |
 | --- | --- |
 | Track | Full (results gist first, then paginated by verdict) |
-| Stage | Gate 3 |
+| Stage | Live check (running) |
 | Branch | sdlc/full-results-gist |
-| Gate waiting | Gate 3: merge PR #26 |
+| Gate waiting | none |
 | Updated | 2026-11-03 |
 
 ## Your actions
@@ -14,7 +14,7 @@
 
 ## Next step
 
-PR #26 is open, head f54a8f8, CI `test` passed in 2m12s. Waiting for the user at Gate 3. On "Merge now": squash-merge with `gh pr merge`, then `sdlc:release` mode live-check, then archive the tasks. Follow-ups from this track: T-051's guard test needle (`tests/test_r082_release_order.py:104`) is now a prefix of the new verdict URL; the pending page-size spinner touches the `0` at 390.
+PR #26 merged as 43b7b41; release run 41831691111. `sdlc:release` mode live-check is confirming the deploy. Then archive the tasks to `.sdlc/archive/sdlc-full-results-gist.json` and close the track. New follow-ups from this track: T-051's guard test needle (`tests/test_r082_release_order.py:104`) is now a prefix of the new verdict URL; the pending page-size spinner touches the `0` at 390. Post-merge state on this branch (STATUS, decisions, Gate 3 rows) was not in the squash, so carry it to the next branch.
 
 Other follow-ups still open (not part of this track): theme toggle and GPU input after an htmx cache restore, incl. a stale preset radio on a cache-hit Back; host guard ignores `APP_ENV`/`PUBLIC_HOSTNAME` that docs/RELEASE_AND_DEPLOY.md tells the server to set (tunnel requests would get 400); local compose binds 0.0.0.0:8000 (rule 3); `/docs`, `/redoc`, `/openapi.json` are public; font URL has no `?v` and the font is served as octet-stream; live 302 from `/results` arrives with an absolute https Location although the app sends a relative `/` (proxy rewrite, harmless); on `/results` the open suggestion list covers the submit until Escape; review nits from T-025/027/029/030/032 listed in PR #24; R-083 and the requirements it changed still read `planned` in docs/requirements.md although v0.1.54 shipped them.
 
@@ -24,8 +24,6 @@ Older rows: `.sdlc/log.md`.
 
 | Date | Stage | Agents (model) | Outcome |
 | --- | --- | --- | --- |
-| 2026-10-28 | Merge | orchestrator | PR #24 squash-merged as 410e516; release run 40781009484 started |
-| 2026-10-28 | Live check | sdlc:release (sonnet) | Release run 40781009484 success, v0.1.54; order held (build, smoke incl. new /results check, tag, publish); latest, v0.1.54, sha-410e516 share digest sha256:b358058f…; live `/` shows styles v=20261028f about 14 min after the run; landing box centred with focus at 1280 and 390, `12 GB` gives Manual VRAM (12 GB), empty /results 302 to /, Clear links to /, /healthz ok. Tasks archived; Full track done |
 | 2026-11-02 | Requirements | sdlc:product (inherit) | R-084 to R-092 added (gist first, verdict controls, verdict lists, pages and size, address, filters, in-place loading, accessibility, Top Picks figures); R-013, 014, 016, 019, 022, 023, 024, 025, 031, 032, 067, 069, 078, 080, 081 changed. Open Q-24 to Q-42; rules 16 and 18 need rulings (Q-39, Q-42). Committed 93eca4f |
 | 2026-11-02 | Gate 1 | user | Scope approved; Q-28 sizes 5 and 10, default 5; Q-29 Previous, numbers, Next; Q-31 changed to closest to fitting first; Q-39 and Q-42 yes; other proposals stand |
 | 2026-11-02 | Requirements | sdlc:product (inherit) | Gate 1 answers applied: R-019, R-086 `Won't fit` closest to fitting first (overage, then parameter count descending, then name); R-062 gains the `verdict=fits` smoke check; Q-24 to Q-42 answered. Committed 920bbe0 |
@@ -39,3 +37,5 @@ Older rows: `.sdlc/log.md`.
 | 2026-11-04 | Build | sdlc:builder + sdlc:reviewer (opus, sonnet) | QA fix round: T-052 (opus) and T-053 (sonnet) passed first review. T-052 also made the committed QA scripts pass lint (52b69c5) |
 | 2026-11-04 | QA | sdlc:qa (sonnet) ×2 | Re-test after T-052 and T-053: R-089 passes (gist with one request at 100 and 1500 ms, key held or not; loading clears; typing without Enter still refreshes). R-069 passes (input error with `verdict=fits` 994/996, all other states unchanged). All 19 tasks pass |
 | 2026-11-04 | Release | sdlc:release (sonnet) | PR #26 opened over HTTPS, head f54a8f8, CI `test` passed in 2m12s. Checked against the remote main: `release.yml` only adds 12 lines (rule 18), no change to the formula, schema or `/how-it-works`, no test deleted |
+| 2026-11-04 | Gate 3 | user | Merge now (squash). Guard test is a follow-up; spinner ships as is |
+| 2026-11-04 | Merge | orchestrator | PR #26 squash-merged as 43b7b41; release run 41831691111 started |
