@@ -243,7 +243,131 @@ def test_listener_in_node(
     assert json.loads(result.stdout) == [expected]
 
 
+# Each step is one request htmx is about to issue from the form: it fires htmx:confirm first, and
+# only a request that passes goes on to hx-sync's abort of the one in flight (htmx 1.9.12).
+SUBMIT_HARNESS = """
+const fs = require("fs");
+const vm = require("vm");
+const [appJs, stepsJson] = process.argv.slice(1);
+const listeners = {};
+const sandbox = {
+  window: {},
+  URLSearchParams,
+  FormData: function (form) {
+    return form.fields;
+  },
+  document: {
+    addEventListener() {},
+    body: {
+      addEventListener(type, fn) {
+        (listeners[type] = listeners[type] || []).push(fn);
+      },
+    },
+    getElementById: () => null,
+  },
+};
+vm.createContext(sandbox);
+vm.runInContext(fs.readFileSync(appJs, "utf8"), sandbox);
+sandbox.initFormView();
+const sent = JSON.parse(stepsJson).map((step) => {
+  let cancelled = false;
+  const event = {
+    target: { id: step.target || "search-form", fields: step.fields },
+    detail: { triggeringEvent: { type: step.trigger } },
+    preventDefault() {
+      cancelled = true;
+    },
+  };
+  (listeners["htmx:confirm"] || []).forEach((fn) => fn(event));
+  return !cancelled;
+});
+console.log(JSON.stringify(sent));
+"""
+
+
+def _step(trigger: str, min_params: str = "6", target: str = "search-form") -> dict[str, object]:
+    fields = [["context_tokens", "4096"], ["family", "llama"], ["min_params_b", min_params]]
+    return {"trigger": trigger, "fields": fields, "target": target}
+
+
+@pytest.mark.parametrize(
+    ("steps", "expected"),
+    [
+        pytest.param(
+            [_step("submit"), _step("keyup")],
+            [True, False],
+            id="late-keyup-with-the-submitted-values-is-dropped",
+        ),
+        pytest.param(
+            [_step("submit"), _step("keyup"), _step("keyup")],
+            [True, False, False],
+            id="every-late-keyup-is-dropped",
+        ),
+        pytest.param(
+            [_step("keyup"), _step("keyup", "7")],
+            [True, True],
+            id="typing-without-a-submit-refreshes",
+        ),
+        pytest.param(
+            [_step("submit"), _step("keyup", "7")],
+            [True, True],
+            id="a-new-value-after-a-submit-refreshes",
+        ),
+        pytest.param(
+            [_step("submit"), _step("keyup", "7"), _step("keyup", "6")],
+            [True, True, True],
+            id="going-back-to-the-submitted-value-refreshes",
+        ),
+        pytest.param(
+            [_step("submit"), _step("change", "7"), _step("keyup", "6")],
+            [True, True, True],
+            id="a-filter-change-ends-the-submit",
+        ),
+        pytest.param(
+            [_step("submit"), _step("change")],
+            [True, True],
+            id="only-a-keyup-is-dropped",
+        ),
+        pytest.param(
+            [_step("submit"), _step("submit")],
+            [True, True],
+            id="a-submit-is-never-dropped",
+        ),
+        pytest.param(
+            [_step("submit"), _step("keyup", "7"), _step("submit", "7"), _step("keyup", "7")],
+            [True, True, True, False],
+            id="the-latest-submit-is-the-one-compared",
+        ),
+        pytest.param(
+            [_step("submit"), _step("keyup", target="results-shell")],
+            [True, True],
+            id="other-request-untouched",
+        ),
+    ],
+)
+def test_keyup_after_submit_in_node(steps: list[dict[str, object]], expected: list[bool]) -> None:
+    node = shutil.which("node")
+    if node is None:
+        pytest.skip("node is not available")
+    result = subprocess.run(
+        [node, "-e", SUBMIT_HARNESS, str(APP_JS), json.dumps(steps)],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    assert result.returncode == 0, result.stderr
+    assert json.loads(result.stdout) == expected
+
+
+def test_a_late_keyup_is_dropped_before_hx_sync_can_abort_the_submit() -> None:
+    # htmx aborts the request in flight before htmx:configRequest, so cancelling there would lose a
+    # submit still waiting for its response. htmx:confirm fires before the abort.
+    source = APP_JS.read_text(encoding="utf-8")
+    assert 'addEventListener("htmx:confirm", dropKeyupAfterSubmit)' in source
+    assert "preventDefault" not in _listener_source()
+
+
 def test_asset_version_is_bumped() -> None:
     assert re.fullmatch(r"\d{8}[a-z]", main.ASSET_VERSION)
-    assert main.ASSET_VERSION > "20261103f"
+    assert main.ASSET_VERSION > "20261103i"
     assert main.ASSET_VERSION != "20261028f"

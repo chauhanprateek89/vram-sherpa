@@ -563,7 +563,30 @@ function addFormView(event) {
   }
 }
 
+// Enter with a key still down: that key's keyup comes after the submit, and htmx's `changed` still
+// sees a new value, because only a keyup updates what it compares with. Sent, it would replace the
+// submit and carry the view (R-089). Dropped here and not at htmx:configRequest, which fires after
+// hx-sync has aborted the request in flight, so a submit without its response would be lost.
+// Any other form request ends the match, so typing the submitted value again later still refreshes.
+var submittedValues = null;
+
+function dropKeyupAfterSubmit(event) {
+  if (event.target.id !== "search-form") {
+    return;
+  }
+  var trigger = event.detail.triggeringEvent;
+  var values = new URLSearchParams(new FormData(event.target)).toString();
+  if (trigger && trigger.type === "submit") {
+    submittedValues = values;
+  } else if (trigger && trigger.type === "keyup" && values === submittedValues) {
+    event.preventDefault();
+  } else {
+    submittedValues = null;
+  }
+}
+
 function initFormView() {
+  document.body.addEventListener("htmx:confirm", dropKeyupAfterSubmit);
   document.body.addEventListener("htmx:configRequest", addFormView);
 }
 
